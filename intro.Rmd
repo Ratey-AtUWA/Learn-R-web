@@ -91,7 +91,7 @@ hubbard <- read.csv(file = paste0(git,"hubbard.csv"), stringsAsFactors = TRUE)
 is.data.frame(hubbard) # check that it worked; if so, the result should be TRUE
 ```
 
-These data are from the [Hubbard Brook Experimental Forest](https://hubbardbrook.org/experimental-watersheds-research-sites/){target="_blank"} near Woodstock in New Hampshire, USA (Figure \@ref(fig:hubbard-pix)).
+These data are from the [Hubbard Brook Experimental Forest](https://hubbardbrook.org/experimental-watersheds-research-sites/){target="_blank"} near Woodstock in New Hampshire, USA (Figure 1).
 
 ```{r make map extent object, echo=FALSE, warning=FALSE, error=FALSE, results='hide'}
 library(sf)
@@ -103,7 +103,7 @@ rectHubb <- st_as_sf(data.frame(x=c(-71.792,-71.6935),y=c(43.965,43.9215)),
 rectHubb <- st_transform(rectHubb, crs = st_crs("ESRI:102009"))
 ```
 
-```{r hubbard-pix, echo=FALSE, error=FALSE, fig.height=5, fig.width=13.6, fig.cap="Location of the Hubbard Brook Experimental Forest in New Hampshire, USA. The data used in this workshop were generated at this site.", warning=FALSE, results='hold'}
+```{r hubbard-pix, echo=FALSE, error=FALSE, fig.height=5, fig.width=13.6, fig.cap="Figure 1: Location of the Hubbard Brook Experimental Forest in New Hampshire, USA. The data used in this workshop were generated at this site.", warning=FALSE, results='hold'}
 library(maptiles)
 USAtiles <- get_tiles(extent, provider = "Esri.WorldGrayCanvas",
                       crop = TRUE, zoom = 4)
@@ -220,7 +220,7 @@ with(hubbard,
 
 ...which can just be written on a single line:
 
-```{r with-plot, fig.width=3.5, fig.height=3.5, fig.cap="Plot of exchangeable Al vs. pH using with() to specify the data frame.", message=FALSE, warning=FALSE, results='hold'}
+```{r with-plot, fig.width=3.5, fig.height=3.5, fig.cap="Figure 2: Plot of exchangeable Al vs. pH using with() to specify the data frame.", message=FALSE, warning=FALSE, results='hold'}
 with(hubbard, plot(EXCH_Al ~ PH))
 ```
 
@@ -228,7 +228,7 @@ with(hubbard, plot(EXCH_Al ~ PH))
 
 2. <u>Specifying the data frame using the dollar-sign operator</u>
 
-```{r dollar-plot, fig.width=3.5, fig.height=3.5, fig.cap="Plot of exchangeable Al vs. pH using dollar-sign syntax to specify the data frame. Notice the axis titles!", message=FALSE, warning=FALSE, results='hold'}
+```{r dollar-plot, fig.width=3.5, fig.height=3.5, fig.cap="Figure 3: Plot of exchangeable Al vs. pH using dollar-sign syntax to specify the data frame. Notice the axis titles!", message=FALSE, warning=FALSE, results='hold'}
 plot(hubbard$EXCH_Al ~ hubbard$PH) # look at axis titles!
 ```
 
@@ -242,7 +242,7 @@ plot(EXCH_Al ~ PH)
 detach(hubbard)
 ```
 
-```{r plot-attach, fig.width=3.5, fig.height=3.5, fig.cap="Plot of exchangeable Al vs. pH using `attach()` to specify the data frame.", message=FALSE, warning=FALSE, echo=FALSE}
+```{r plot-attach, fig.width=3.5, fig.height=3.5, fig.cap="Figure 4: Plot of exchangeable Al vs. pH using `attach()` to specify the data frame.", message=FALSE, warning=FALSE, echo=FALSE}
 attach(hubbard)
 plot(EXCH_Al ~ PH)
 detach(hubbard)
@@ -263,7 +263,7 @@ before plotting; `par()` sets graphics **par**ameters. Let's try some variations
 * `font.lab=` sets font style for axis titles: 2=**bold**, 3=*italic*, *etc*.<br>
     - and within the `plot()` function itself, `xlab=` and `ylab=` set axis titles
 
-```{r plot-with-options, fig.width=4, fig.height=4, fig.cap="Plot of exchangeable Al vs. pH improved by changing graphics parameters and including custom axis titles.", message=FALSE, warning=FALSE, results='hold'}
+```{r plot-with-options, fig.width=4, fig.height=4, fig.cap="Figure 5: Plot of exchangeable Al vs. pH improved by changing graphics parameters and including custom axis titles.", message=FALSE, warning=FALSE, results='hold'}
 par(mar=c(4,4,1,1), mgp=c(2,0.6,0), font.lab=2)
 # We'll also include some better axis title text using xlab, ylab
 with(hubbard,
@@ -287,7 +287,7 @@ or just run the R function `colors()` for a list of all 657 names!
 
 - `pch =` plot character(s) - numbers from 0 to 24 (run `help(points)` or see <a href="https://bookdown.org/ndphillips/YaRrr/scatterplot-plot.html#symbol-types-pch" target="_blank">this page from YaRrr</a>).
  
-```{r plot-by-groups, fig.width=4, fig.height=4, fig.cap="Plot of exchangeable Al vs. pH with custom graphics parameters and axis titles, improved by separating points by a Factor.", message=FALSE, warning=FALSE, results='hold'}
+```{r plot-by-groups, fig.width=4, fig.height=4, fig.cap="Figure 6: Plot of exchangeable Al vs. pH with custom graphics parameters and axis titles, improved by separating points by a Factor.", message=FALSE, warning=FALSE, results='hold'}
 par(mar=c(4,4,1,1), mgp=c(2,0.6,0), font.lab=2)
 with(hubbard,
      plot(EXCH_Al ~ PH, xlab="Soil pH",
@@ -314,7 +314,7 @@ the `legend()` function. We will use the following options:
 - `col =` plot colours - should be exactly the same vector as in the plot function
 - `title =` a title for the legend - optional
 
-```{r plot-add-legend, fig.width=4, fig.height=4, fig.cap="Plot of exchangeable Al vs. pH by sample location, with custom graphics parameters and axis titles, and a legend to explain the plot symbols.", message=FALSE, warning=FALSE, results='hold'}
+```{r plot-add-legend, fig.width=4, fig.height=4, fig.cap="Figure 7: Plot of exchangeable Al vs. pH by sample location, with custom graphics parameters and axis titles, and a legend to explain the plot symbols.", message=FALSE, warning=FALSE, results='hold'}
 par(mar=c(4,4,1,1), mgp=c(2,0.6,0), font.lab=2)
 with(hubbard,
        plot(EXCH_Al ~ PH, xlab="Soil pH", 
@@ -335,7 +335,7 @@ additional functions that extend the capability of **R**.
 The next two examples produce nearly the same plot as in the previous examples, 
 using the `scatterplot()` function in the `car` package.
 
-```{r car-sp-1, fig.height=3.5, fig.width=3.5, fig.cap="Plot of exchangeable Al vs. pH made using the car::scatterplot() function.", message=FALSE, warning=FALSE, results='hold'}
+```{r car-sp-1, fig.height=3.5, fig.width=3.5, fig.cap="Figure 8: Plot of exchangeable Al vs. pH made using the car::scatterplot() function.", message=FALSE, warning=FALSE, results='hold'}
 # load required package(s)
 library(car)
 # par() used to set overall plot appearance using options within 
@@ -368,7 +368,7 @@ Also, we separately specify the dataset to be used as a function argument,
 
 ### Scatterplot (`car`) with groups, Hubbard Brook soil data
 
-```{r car-sp-2, fig.width=3.5, fig.height=3.5, fig.cap="Plot of exchangeable Al vs. pH with points grouped by location, made using the car::scatterplot() function.", message=FALSE, warning=FALSE, results='hold'}
+```{r car-sp-2, fig.width=3.5, fig.height=3.5, fig.cap="Figure 9: Plot of exchangeable Al vs. pH with points grouped by location, made using the car::scatterplot() function.", message=FALSE, warning=FALSE, results='hold'}
 # 'require()' loads package(s) if they haven't already been loaded
 require(car)
 # adjust overall plot appearance using options within par()
@@ -409,7 +409,7 @@ symmetrical and bell-shaped (*normal*), left- or right-skewed, bimodal (two
 'peaks') or even multimodal. As with any check of a distribution, the 'shape'
 will be clearer if we have more observations.
 
-```{r basic-hist, fig.width=3.5, fig.height=3.5, fig.cap="Histogram of percent soil moisture content at Hubbard Brook.", message=FALSE, warning=FALSE, results='hold'}
+```{r basic-hist, fig.width=3.5, fig.height=3.5, fig.cap="Figure 10: Histogram of percent soil moisture content at Hubbard Brook.", message=FALSE, warning=FALSE, results='hold'}
 with(hubbard, hist(MOISTURE.pct))
 ```
 
@@ -448,7 +448,7 @@ plotted separately and represent **potential outliers**.
 boxplot(MOISTURE.pct ~ Rel.To.Brook, data=hubbard)
 ```
 
-```{r basic-boxplot, fig.width=5.5, fig.height=4, fig.cap="Box plot of percent soil moisture content at Hubbard Brook. Only default `boxplot()` arguments have been used (except for the annotations explaining the boxplot features).", message=FALSE, warning=FALSE, echo=FALSE, results='hold'}
+```{r basic-boxplot, fig.width=5.5, fig.height=4, fig.cap="Figure 11: Box plot of percent soil moisture content at Hubbard Brook. Only default `boxplot()` arguments have been used (except for the annotations explaining the boxplot features).", message=FALSE, warning=FALSE, echo=FALSE, results='hold'}
 par(mar=c(4,4,1,1))
 boxplot(MOISTURE.pct ~ Rel.To.Brook, data=hubbard, xlim=c(0.4,3.8))
 bps <- with(hubbard[which(hubbard$Rel.To.Brook=="South"),], 
@@ -477,7 +477,7 @@ Strip charts, or one-dimensional scatter plots, can be a useful companion (or
 alternative) to box plots, especially when we don't have many observations of a 
 variable.
 
-```{r basic-mfrow, fig.width=5, fig.height=3, fig.cap="Soil organic matter content (%) at Hubbard Brook: as a one-dimensional scatterplot (`stripchart()`).", message=FALSE, warning=FALSE, results='hold'}
+```{r basic-mfrow, fig.width=5, fig.height=3, fig.cap="Figure 12: Soil organic matter content (%) at Hubbard Brook: as a one-dimensional scatterplot (`stripchart()`).", message=FALSE, warning=FALSE, results='hold'}
 stripchart(hubbard$OM.pct)
 ```
  
@@ -578,14 +578,14 @@ useful functions which might be new to you like: `row.names()`, `cbind()`,
 If you want to take this further, we can start making really nice Tables for
 reports with various **R** packages. I use the `flextable` package (Gohel &
 Skintzos, 2022) and sometimes the `kable()` function from the `knitr` package.
-Here's an example (Table \@ref(tab:flextable-demo)) using `flextable` and the
+Here's an example (Table 1) using `flextable` and the
 table object `mytable` made above:
 
 ```{r flextable-demo, message=FALSE, warning=FALSE, paged.print=FALSE}
 library(flextable)
 flextable(data.frame(Statistic=row.names(mytable),signif(mytable,3))) |>
   bold(bold=TRUE, part="header") |>
-  set_caption(caption="Table created by the `flextable` R package. Many more table formatting, text formatting, and number formatting options are available in this package.")
+  set_caption(caption="Table 1: Table created by the `flextable` R package. Many more table formatting, text formatting, and number formatting options are available in this package.")
 ```
 
 <p>&nbsp;</p>
