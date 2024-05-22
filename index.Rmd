@@ -1,6 +1,16 @@
 ---
-title: "My Website"
+title: "R for in Environmental Science"
+subtitle: "Data analysis and visualization"
+output: 
+  html_document:
+    highlight: kate
 ---
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
 
 <div style="border: 2px solid #039; padding: 8px;">
 # Contents
@@ -14,3 +24,5 @@ title: "My Website"
 4. [Plots](plots.html)
 
 </div>
+
+<p style="text-align:center"><a href="https://www.r-project.org/" target="_blank">![](https://www.r-project.org/Rlogo.png)</a></p>
