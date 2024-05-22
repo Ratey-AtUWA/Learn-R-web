@@ -191,9 +191,9 @@ into R. [NOTE that other variable types are possible such as character
 
 <hr style="height: 1px; background-color: #5560A4;" />
 
-<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+<div style="border: 2px solid #039; background-color:#ffb; padding: 8px;">
 The following section describes how to make graphs and plots in base-**R** and 
-in the `ggplot2` package. [Go to this page](Learn_R-2023-Week_1_basics.html) if
+in the `ggplot2` package. [Go to this page](intro.html) if
 you want base-R only, without the `ggplot2` material. 
 </div>
 
