@@ -8,6 +8,14 @@ navbar:
     - text: "For beginners"
       href: about.html
     - text: "Intro"
-      href: intro.html
+      menu:
+        - text: "Intro"
+          href: intro.html
+        - text: "Intro+ggplot"
+          href: intro-GG.html
     - text: "Plots"
-      href: plots.html
+      menu:
+        - text: "Plots-baseR"
+          href: plots.html
+        - text: "Plots-ggplot"
+          href: plots-GG.html

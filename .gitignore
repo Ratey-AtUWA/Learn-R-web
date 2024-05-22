@@ -18,6 +18,7 @@
 .gitignore
 .nojekyll
 *.Rproj
+render-them.R
 
 # Output files from R CMD check
 /*.Rcheck/
