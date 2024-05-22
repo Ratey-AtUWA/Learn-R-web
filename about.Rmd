@@ -1,0 +1,9 @@
+---
+title: "About This Website"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    highlight: kate
+---
+
+This website will host html pages for use in teaching at UWA in the units ENVT3361, ENVT4461, and ENVT5503 (so far).

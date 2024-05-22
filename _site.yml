@@ -1,0 +1,9 @@
+name: "Learn-R-web"
+output_dir: docs
+navbar:
+  title: "Chapters"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
