@@ -3,7 +3,11 @@ output_dir: docs
 navbar:
   title: "Chapters"
   left:
-    - text: "Home"
+    - text: "Contents"
       href: index.html
-    - text: "About"
+    - text: "For beginners"
       href: about.html
+    - text: "Intro"
+      href: intro.html
+    - text: "Plots"
+      href: plots.html
