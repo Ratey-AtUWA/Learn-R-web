@@ -289,9 +289,9 @@ aftiles <- maptiles::get_tiles(extent, provider = "OpenStreetMap.HOT", crop = TR
 
 The `aftiles` object we created is a `SpatRaster` object which needs the
 `maptiles` (or `terra`) package loaded to be able to plot it &ndash; see 
-Figure \@ref(fig:plot-map1-axes).
+Figure 1.
 
-```{r plot-map1-axes, fig.align='center', fig.cap="Map of Ashfield Flats in the UTM projection, generated using the maptiles R package, with OpenStreetMap tiles.", fig.width=6.8, fig.height=5.1, message=FALSE, warning=FALSE, out.width='70%', results='hold'}
+```{r plot-map1-axes, fig.align='center', fig.cap="Figure 1: Map of Ashfield Flats in the UTM projection, generated using the maptiles R package, with OpenStreetMap tiles.", fig.width=6.8, fig.height=5.1, message=FALSE, warning=FALSE, out.width='70%', results='hold'}
 aftiles <- maptiles::get_tiles(extent, provider = "OpenStreetMap.HOT", 
                                crop = TRUE, zoom=16)
 par(oma=c(0,0,0,0), lend="square", xpd=TRUE)
@@ -343,7 +343,7 @@ adjust your settings; here are some tips:
   - The positions of the north arrow and scale bar are adjusted with the `padin=` option in the `addnortharrow()` and `addscalebar()` functions.
 </td></tr></table>
 
-```{r map-north-scale, fig.align='center', fig.cap="Map of Ashfield Flats (UTM), with added North arrow and scale bar from prettymapr, over OpenStreetMap tiles acquired using maptiles.", fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, out.width='70%', results='hold',echo=FALSE}
+```{r map-north-scale, fig.align='center', fig.cap="Figure 2: Map of Ashfield Flats (UTM), with added North arrow and scale bar from prettymapr, over OpenStreetMap tiles acquired using maptiles.", fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, out.width='70%', results='hold',echo=FALSE}
 par(oma=c(0,0,0,0), lend="square", xpd=TRUE)
 plot_tiles(aftiles, adjust=F, axes=TRUE, mar=c(3,3,0.5,0.5)) # use axes = TRUE
 
@@ -360,11 +360,11 @@ Very often we would like to **add our own information to a map**, such
 as the location of samples, often with different sizes, shapes, or
 colours of symbols to represent numerical information.
 
-Since we have a map in UTM coordinates, we can now add plots of our data
-based on UTM locations (with a legend, of course -- see Figure 
-\@ref(fig:add-data)). We can plot the points from the non-spatial data frame
-`afs19`, but here we `plot` the points from `afs19utm`, with the `add=TRUE`
-option. We add a legend to the plot in the usual way.
+Since we have a map in UTM coordinates, we can now add plots of our data based
+on UTM locations (with a legend, of course &ndash; see Figure 3). We can plot
+the points from the non-spatial data frame `afs19`, but here we `plot` the
+points from `afs19utm`, with the `add=TRUE` option. We add a legend to the plot
+in the usual way.
 
 ```{r add-data-pretend, eval=FALSE, message=FALSE, warning=FALSE}
 # . . . continuing from previous code . . .
@@ -377,7 +377,7 @@ legend("bottomright", legend=levels(as.factor(afs19$Group)),
        title = "Group", inset = 0.02, ncol = 2)
 ```
 
-```{r add-data, eval=TRUE, message=FALSE, warning=FALSE, out.width='70%',echo=FALSE, fig.height=5.1, fig.width=6.8, fig.cap = "Map of Ashfield Flats (UTM), with added North arrow, scale bar, and user data, over OpenStreetMap tiles acquired using maptiles.", fig.align='center', results='hold'}
+```{r add-data, eval=TRUE, message=FALSE, warning=FALSE, out.width='70%',echo=FALSE, fig.height=5.1, fig.width=6.8, fig.cap = "Figure 3: Map of Ashfield Flats (UTM), with added North arrow, scale bar, and user data, over OpenStreetMap tiles acquired using maptiles.", fig.align='center', results='hold'}
 par(oma=c(0,0,0,0), lend="square", xpd=TRUE)
 plot_tiles(aftiles, adjust=F, axes=TRUE, mar=c(3,3,0.5,0.5)) # use axes = TRUE
 
@@ -398,7 +398,7 @@ legend("bottomright", legend=levels(as.factor(afs19$Group)),
 We can also add digitized map features such as wetland ponds, drains,
 *etc*., if these are not on the map tiles already. Ideally we would add
 these **before** plotting the data, to avoid the type of overplotting
-shown in Figure \@ref(fig:map-annot).
+shown in Figure 4.
 
 ```{r annot-pretend, eval=FALSE, error=FALSE, warning=FALSE}
 # . . . continuing from previous code . . .
@@ -406,7 +406,7 @@ with(afr_map, lines(drain_E, drain_N, col = "cadetblue", lwd = 2))
 with(afr_map, lines(wetland_E, wetland_N, col = "cadetblue", lwd = 1, lty = 2))
 ```
 
-```{r map-annot, error=FALSE, warning=FALSE, echo=FALSE, fig.height=5.1, fig.width=6.8, fig.align='center', out.width="70%", fig.cap="Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items, over OpenStreetMap tiles acquired using maptiles.", results='hold'}
+```{r map-annot, error=FALSE, warning=FALSE, echo=FALSE, fig.height=5.1, fig.width=6.8, fig.align='center', out.width="70%", fig.cap="Figure 4: Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items, over OpenStreetMap tiles acquired using maptiles.", results='hold'}
 # everything we did above in the first line
 par(oma=c(0,0,0,0), lend="square", xpd=TRUE)
 plot_tiles(aftiles, adjust=F, axes=TRUE, mar=c(3,3,0.5,0.5)) # use axes = TRUE
@@ -431,7 +431,7 @@ with(afr_map, lines(wetland_E, wetland_N, col = "cadetblue",
 
 Finally, we would most likely want to add some text. Text labels should
 also be added *before* plotting the data. The final map is shown in
-Figure \@ref(fig:map-text-labels).
+Figure 5.
 
 ```{r map-text-labels-pretend, error=FALSE, warning=FALSE, eval=FALSE}
 # . . . continuing from previous code . . .
@@ -440,7 +440,7 @@ text(c(400263, 399962, 400047), c(6468174, 6468083, 6468237),
      pos = c(2,2,4), cex = 0.8, font = 3, col = "cadetblue")
 ```
 
-```{r map-text-labels, error=FALSE, warning=FALSE, echo=FALSE, fig.height=5.1, fig.width=6.8, fig.align='center', out.width="70%", fig.cap="Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items plus text labels, over OpenStreetMap tiles acquired using maptiles.", results='hold'}
+```{r map-text-labels, error=FALSE, warning=FALSE, echo=FALSE, fig.height=5.1, fig.width=6.8, fig.align='center', out.width="70%", fig.cap="Figure 5: Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items plus text labels, over OpenStreetMap tiles acquired using maptiles.", results='hold'}
 # everything we did above in the first line
 par(oma=c(0,0,0,0), lend="square", xpd=TRUE)
 plot_tiles(aftiles, adjust=F, axes=TRUE, mar=c(3,3,0.5,0.5)) # use axes = TRUE
@@ -473,11 +473,11 @@ function to make the 'bubbles', making sure that we include the options
 `add = TRUE` so we overplot the map, and `inches = FALSE` so we can manually
 scale the bubbles. The factor `s0` used to scale the circles in the code for
 bubbles and legend is found using a simple algorithm to estimate a scaling
-factor from the data). A map like that shown in Figure \@ref(fig:map-bubbles) is
-a good exploratory data analysis tool, as even without the legend it shows any
-unevenness in concentrations, including where high concentrations are located.
+factor from the data). A map like that shown in Figure 6 is a good exploratory
+data analysis tool, as even without the legend it shows any unevenness in
+concentrations, including where high concentrations are located.
 
-```{r map-bubbles, fig.align='center', fig.cap="\\label{bubbles}Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using maptiles.", fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, out.width='70%', results='hold'}
+```{r map-bubbles, fig.align='center', fig.cap="Figure 6: Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using maptiles.", fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, out.width='70%', results='hold'}
 par(oma=c(0,0,0,0), lend="square", xpd=TRUE)
 plot_tiles(aftiles, adjust=F, axes=TRUE, mar=c(3,3,0.5,0.5)) # use axes = TRUE
 
@@ -520,9 +520,12 @@ When reporting on an environmental assessment process such as a
 we should also identify any samples where environmental guideline values are
 exceeded. The additional code below shows how to do this for Zn in sediments;
 the relevant guideline values are DGV&nbsp;=&nbsp;200&nbsp;mg/kg,
-DGV-high&nbsp;=&nbsp;410&nbsp;mg/kg. The re-drawn map (Figure \@ref(fig:map-bubbles-DGV)) 
-shows samples above the 410&nbsp;mg/kg DGV-high threshold, and could also be
-adapted to show concentrations greater than the DGV, or both.
+DGV-high&nbsp;=&nbsp;410&nbsp;mg/kg. The re-drawn map (Figure 7) shows samples
+above the 410&nbsp;mg/kg DGV-high threshold, and could also be adapted to show
+concentrations greater than the DGV, or both.
+
+Note the double plotting of points, first with a thicker line (`lwd=4`) to 
+provide a border around the symbols for better visual contrast.
 
 ```{r fake-bubbles-DGV, message=FALSE, warning=FALSE, eval=FALSE}
 # ... continuing most of previous code ...
@@ -540,7 +543,7 @@ text(c(400500,400530,400530,400510),c(6468100,6468040,6467980,6467920),
      labels=c("Zn (mg/kg)",bublo,bubhi,"\u2265 DGV-high"), cex=0.85, pos = c(1,4,4,4))
 ```
 
-```{r map-bubbles-DGV, fig.align='center', fig.cap="Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using maptiles. Locations where Zn concentration exceeds the DGV-high threshold are shown.", fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, out.width='70%', echo=FALSE}
+```{r map-bubbles-DGV, fig.align='center', fig.cap="Figure 7: Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using maptiles. Locations where Zn concentration exceeds the DGV-high threshold are shown.", fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, out.width='70%', echo=FALSE}
 par(oma=c(0,0,0,0), lend="square", xpd=TRUE)
 plot_tiles(aftiles, adjust=F, axes=TRUE, mar=c(3,3,0.5,0.5)) # use axes = TRUE
 
@@ -588,7 +591,7 @@ is a factor which identifies which percentile of Zn concentration each sample is
 in. We then use this factor to define symbols, sizes, and colours for each
 sample location. We add a line break to text labels using $\backslash$`n`.
 
-```{r PctBubb, fig.align='center', fig.cap="Map showing percentile ranges of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using maptiles.", out.width='70%', fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, results='hold'}
+```{r PctBubb, fig.align='center', fig.cap="Figure 8: Map showing percentile ranges of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using maptiles.", out.width='70%', fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, results='hold'}
 par(oma=c(0,0,0,0), lend="square", xpd=TRUE)
 plot_tiles(aftiles, adjust=F, axes=TRUE, mar=c(3,3,0.5,0.5)) # use axes = TRUE
 
@@ -627,12 +630,12 @@ palette(pal4lite) # change back to non-transparent palette (optional)
 afs19$QZn <- NULL # to delete quantile column (optional; you can leave it in)
 ```
 
-The resulting percentile bubble map (Figure \@ref(fig:PctBubb)) adds value to
-the 'standard' bubble map (Figure \@ref(fig:map-bubbles)), as it adds some 
-statistical meaning to the bubble sizes. A similar map could be created by using
-the Tukey boxplot thresholds instead of percentiles which could show potential
-outliers (*i.e*. using the `boxplot.stats()` function to generate categories
-instead of the `quantile()` function.)
+The resulting percentile bubble map (Figure 8) adds value to the 'standard'
+bubble map (Figure 6), as it adds some statistical meaning to the bubble sizes.
+A similar map could be created by using the Tukey boxplot thresholds instead of
+percentiles which could show potential outliers (*i.e*. using the
+`boxplot.stats()` function to generate categories instead of the `quantile()`
+function.)
 
 <p>&nbsp;</p>
 
@@ -665,24 +668,23 @@ udubua.gg <- get_googlemap(center=c(115.8213,-31.98165),
 rm(secret)
 ```
 
-This always gives a **square** map (Figure \@ref(fig:ggmap1)) &ndash; which we
-might not always want. In theory, the map aspect ratio can be changed using the
-`size` argument in the `get_googlemap` function, but this does not work
-reliably. We recommend leaving the map dimensions and aspect ratio at their
-default values.
+This always gives a **square** map (Figure 9) &ndash; which we might not always
+want. In theory, the map aspect ratio can be changed using the `size` argument
+in the `get_googlemap` function, but this does not work reliably. We recommend
+leaving the map dimensions and aspect ratio at their default values.
 
 Next we plot the ggmap object using ggplot grammar. It's possible to just plot
 the object (*i.e*. run `ggmap(udubua.gg)`), but it's good to have more control
 over plot options **and** to plot some data over the base map. In the example in
-Figure \@ref(fig:ggmap1), we use the aesthetic in `geom_point()` to plot
-different categories with different shapes and colours, with the categories
-defined by the factor `Type`. A range of map styles is available by selecting a
-combination of one of `maptype = "terrain", "satellite", "roadmap"`, or
-`"hybrid"`, together with `color = "color"` or `"bw"`. **Note**: the `ggsm`
-package is designed to add scale bar and north arrow to ggmaps, but it seems
-buggy and we currently don't recommend it - the north arrow seems OK though.
+Figure 9, we use the aesthetic in `geom_point()` to plot different categories
+with different shapes and colours, with the categories defined by the factor
+`Type`. A range of map styles is available by selecting a combination of one of
+`maptype = "terrain", "satellite", "roadmap"`, or `"hybrid"`, together with
+`color = "color"` or `"bw"`. **Note**: the `ggsm` package is designed to add
+scale bar and north arrow to ggmaps, but it seems buggy and we currently don't
+recommend it - the north arrow seems OK though.
 
-```{r ggmap1, fig.height=4.5, fig.width=6, fig.align='center', fig.cap="Map of the University of Western Australia campus at Crawley, showing the location of libraries and cafés, plotted over Google maps tiles acquired using the R package ggmap.", out.width='75%', message=FALSE, warning=FALSE, results='hold'}
+```{r ggmap1, fig.height=4.5, fig.width=6, fig.align='center', fig.cap="Figure 9: Map of the University of Western Australia campus at Crawley, showing the location of libraries and cafés, plotted over Google maps tiles acquired using the R package ggmap.", out.width='75%', message=FALSE, warning=FALSE, results='hold'}
 ggmap(udubua.gg) + 
   labs(y="Latitude (\u00B0S)", x = "Longitude (\u00B0E)") + 
   geom_text(aes(x = 115.825, y = -31.98, label = "Swan\nRiver",
@@ -695,9 +697,9 @@ ggmap(udubua.gg) +
 ```
 
 There are numerous possibilities with `ggmap` and the features made possible by
-`ggplot2` that are not illustrated by Figure \@ref(fig:ggmap1). For example, we
-could use `size` as an aesthetic (*i.e*. include within `aes(...)` with `size =
-variableName`), to generate something like a bubble map. 
+`ggplot2` that are not illustrated by Figure 9. For example, we could use `size`
+as an aesthetic (*i.e*. include within `aes(...)` with `size = variableName`),
+to generate something like a bubble map.
 
 ### Other map types using ggmap
 
@@ -706,13 +708,13 @@ tiles, accessible with the `get_stamenmap()` function. **However**, the Stamen
 URLs have been updated, and this function is no longer able to download Stamen 
 map tiles.
 
-[**The next example**]{style="size: 14pt"} (Figure \@ref(fig:ggAF)) uses
-the simple features information in one of the data frames we made at the
-beginning. The `sf` package introduces a new 'geom', `geom_sf()` for plotting in
-`ggmap.` We need to use the option `inherit.aes = FALSE` in `geom_sf()`, to
-override the default aesthetics from the `ggmap` object. We also add `coord_sf`
-to ensure that all layers use a common CRS (<u>C</u>oordinate <u>R</u>eference
-<u>S</u>ystem). <br> Run `help(geom_sf)` for more information.
+[**The next example**]{style="size: 14pt"} (Figure 10) uses the simple features
+information in one of the data frames we made at the beginning. The `sf` package
+introduces a new 'geom', `geom_sf()` for plotting in `ggmap.` We need to use the
+option `inherit.aes = FALSE` in `geom_sf()`, to override the default aesthetics
+from the `ggmap` object. We also add `coord_sf` to ensure that all layers use a
+common CRS (<u>C</u>oordinate <u>R</u>eference <u>S</u>ystem). <br> Run
+`help(geom_sf)` for more information.
 
 Plotting using `geom_sf()` when the CRS is in degrees adds, by default, a
 &deg;S/&deg;W/&deg;N/&deg;E suffix to the axis values. In the code below we
@@ -720,7 +722,7 @@ suppress this using `scale_x_continuous(label = I)` (same for the y axis; the
 `limits` and `expand` options stop the manual scale adding space around the map
 tiles). We include the information on units and hemisphere in the axis titles.
 
-```{r ggAF, fig.height=4.5, fig.width=7, fig.align='center', fig.cap="Zinc concentration (mg/kg) in sediment sampled in Semester 1, 2021 at Ashfield Flats, Western Australia, plotted over greyscale Google terrain map tiles acquired using the R package ggmap, with data in a simple features data frame, and with manually added wetland pond locations.", out.width='70%', message=FALSE, warning=FALSE, results='hold'}
+```{r ggAF, fig.height=4.5, fig.width=7, fig.align='center', fig.cap="Figure 10: Zinc concentration (mg/kg) in sediment sampled in Semester 1, 2021 at Ashfield Flats, Western Australia, plotted over greyscale Google terrain map tiles acquired using the R package ggmap, with data in a simple features data frame, and with manually added wetland pond locations.", out.width='70%', message=FALSE, warning=FALSE, results='hold'}
 afr.gg <- get_googlemap(center=c(lon=115.9445, lat = -31.918), 
                         zoom=17, col = "bw", maptype = "terrain")
 bb <- as.numeric(unlist(as.vector(attr(afr.gg, "bb"))))

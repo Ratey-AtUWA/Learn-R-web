@@ -342,7 +342,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -357,7 +357,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -372,7 +372,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -390,7 +390,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     EDA
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -404,7 +404,7 @@ $(document).ready(function () {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -740,7 +740,7 @@ target="_blank">Humanitarian OpenStreetMap Team</a> in France.</p>
 <p>The <code>aftiles</code> object we created is a
 <code>SpatRaster</code> object which needs the <code>maptiles</code> (or
 <code>terra</code>) package loaded to be able to plot it – see Figure
-@ref(fig:plot-map1-axes).</p>
+1.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>aftiles <span class="ot">&lt;-</span> maptiles<span class="sc">::</span><span class="fu">get_tiles</span>(extent, <span class="at">provider =</span> <span class="st">&quot;OpenStreetMap.HOT&quot;</span>, </span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>                               <span class="at">crop =</span> <span class="cn">TRUE</span>, <span class="at">zoom=</span><span class="dv">16</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">lend=</span><span class="st">&quot;square&quot;</span>, <span class="at">xpd=</span><span class="cn">TRUE</span>)</span>
@@ -750,10 +750,10 @@ target="_blank">Humanitarian OpenStreetMap Team</a> in France.</p>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Longitude \u00B0E&quot;</span>, <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="fl">3.2</span>, <span class="at">font=</span><span class="dv">2</span>)</span>
 <span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Latitude \u00B0N&quot;</span>, <span class="at">side =</span> <span class="dv">2</span>, <span class="at">line =</span> <span class="fl">2.3</span>, <span class="at">font=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/plot-map1-axes-1.png" alt="Map of Ashfield Flats in the UTM projection, generated using the maptiles R package, with OpenStreetMap tiles." width="70%" />
+<img src="maps_files/figure-html/plot-map1-axes-1.png" alt="Figure 1: Map of Ashfield Flats in the UTM projection, generated using the maptiles R package, with OpenStreetMap tiles." width="70%" />
 <p class="caption">
-Map of Ashfield Flats in the UTM projection, generated using the
-maptiles R package, with OpenStreetMap tiles.
+Figure 1: Map of Ashfield Flats in the UTM projection, generated using
+the maptiles R package, with OpenStreetMap tiles.
 </p>
 </div>
 <p>The next chunk of code adds the <code>prettymapr</code> features
@@ -809,10 +809,10 @@ axis titles, north arrow, and scale bar.
 </tr>
 </table>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/map-north-scale-1.png" alt="Map of Ashfield Flats (UTM), with added North arrow and scale bar from prettymapr, over OpenStreetMap tiles acquired using maptiles." width="70%" />
+<img src="maps_files/figure-html/map-north-scale-1.png" alt="Figure 2: Map of Ashfield Flats (UTM), with added North arrow and scale bar from prettymapr, over OpenStreetMap tiles acquired using maptiles." width="70%" />
 <p class="caption">
-Map of Ashfield Flats (UTM), with added North arrow and scale bar from
-prettymapr, over OpenStreetMap tiles acquired using maptiles.
+Figure 2: Map of Ashfield Flats (UTM), with added North arrow and scale
+bar from prettymapr, over OpenStreetMap tiles acquired using maptiles.
 </p>
 </div>
 </div>
@@ -823,9 +823,9 @@ map</strong>, such as the location of samples, often with different
 sizes, shapes, or colours of symbols to represent numerical
 information.</p>
 <p>Since we have a map in UTM coordinates, we can now add plots of our
-data based on UTM locations (with a legend, of course -- see Figure
-@ref(fig:add-data)). We can plot the points from the non-spatial data
-frame <code>afs19</code>, but here we <code>plot</code> the points from
+data based on UTM locations (with a legend, of course – see Figure 3).
+We can plot the points from the non-spatial data frame
+<code>afs19</code>, but here we <code>plot</code> the points from
 <code>afs19utm</code>, with the <code>add=TRUE</code> option. We add a
 legend to the plot in the usual way.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># . . . continuing from previous code . . .</span></span>
@@ -837,40 +837,40 @@ legend to the plot in the usual way.</p>
 <span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">rep</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">2</span>), <span class="at">pt.bg =</span> clrz,</span>
 <span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Group&quot;</span>, <span class="at">inset =</span> <span class="fl">0.02</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/add-data-1.png" alt="Map of Ashfield Flats (UTM), with added North arrow, scale bar, and user data, over OpenStreetMap tiles acquired using maptiles." width="70%" />
+<img src="maps_files/figure-html/add-data-1.png" alt="Figure 3: Map of Ashfield Flats (UTM), with added North arrow, scale bar, and user data, over OpenStreetMap tiles acquired using maptiles." width="70%" />
 <p class="caption">
-Map of Ashfield Flats (UTM), with added North arrow, scale bar, and user
-data, over OpenStreetMap tiles acquired using maptiles.
+Figure 3: Map of Ashfield Flats (UTM), with added North arrow, scale
+bar, and user data, over OpenStreetMap tiles acquired using maptiles.
 </p>
 </div>
 <p>We can also add digitized map features such as wetland ponds, drains,
 <em>etc</em>., if these are not on the map tiles already. Ideally we
 would add these <strong>before</strong> plotting the data, to avoid the
-type of overplotting shown in Figure @ref(fig:map-annot).</p>
+type of overplotting shown in Figure 4.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># . . . continuing from previous code . . .</span></span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">with</span>(afr_map, <span class="fu">lines</span>(drain_E, drain_N, <span class="at">col =</span> <span class="st">&quot;cadetblue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>))</span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">with</span>(afr_map, <span class="fu">lines</span>(wetland_E, wetland_N, <span class="at">col =</span> <span class="st">&quot;cadetblue&quot;</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/map-annot-1.png" alt="Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items, over OpenStreetMap tiles acquired using maptiles." width="70%" />
+<img src="maps_files/figure-html/map-annot-1.png" alt="Figure 4: Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items, over OpenStreetMap tiles acquired using maptiles." width="70%" />
 <p class="caption">
-Map of Ashfield Flats (UTM), with added North arrow, scale bar, user
-data, and additional map items, over OpenStreetMap tiles acquired using
-maptiles.
+Figure 4: Map of Ashfield Flats (UTM), with added North arrow, scale
+bar, user data, and additional map items, over OpenStreetMap tiles
+acquired using maptiles.
 </p>
 </div>
 <p>Finally, we would most likely want to add some text. Text labels
 should also be added <em>before</em> plotting the data. The final map is
-shown in Figure @ref(fig:map-text-labels).</p>
+shown in Figure 5.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># . . . continuing from previous code . . .</span></span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">c</span>(<span class="dv">400263</span>, <span class="dv">399962</span>, <span class="dv">400047</span>), <span class="fu">c</span>(<span class="dv">6468174</span>, <span class="dv">6468083</span>, <span class="dv">6468237</span>),</span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Chapman Drain&quot;</span>,<span class="st">&quot;Kitchener Drain&quot;</span>, <span class="st">&quot;Woolcock Drain&quot;</span>),</span>
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>     <span class="at">pos =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>), <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">font =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;cadetblue&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/map-text-labels-1.png" alt="Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items plus text labels, over OpenStreetMap tiles acquired using maptiles." width="70%" />
+<img src="maps_files/figure-html/map-text-labels-1.png" alt="Figure 5: Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items plus text labels, over OpenStreetMap tiles acquired using maptiles." width="70%" />
 <p class="caption">
-Map of Ashfield Flats (UTM), with added North arrow, scale bar, user
-data, and additional map items plus text labels, over OpenStreetMap
-tiles acquired using maptiles.
+Figure 5: Map of Ashfield Flats (UTM), with added North arrow, scale
+bar, user data, and additional map items plus text labels, over
+OpenStreetMap tiles acquired using maptiles.
 </p>
 </div>
 </div>
@@ -884,9 +884,9 @@ map, and <code>inches = FALSE</code> so we can manually scale the
 bubbles. The factor <code>s0</code> used to scale the circles in the
 code for bubbles and legend is found using a simple algorithm to
 estimate a scaling factor from the data). A map like that shown in
-Figure @ref(fig:map-bubbles) is a good exploratory data analysis tool,
-as even without the legend it shows any unevenness in concentrations,
-including where high concentrations are located.</p>
+Figure 6 is a good exploratory data analysis tool, as even without the
+legend it shows any unevenness in concentrations, including where high
+concentrations are located.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">lend=</span><span class="st">&quot;square&quot;</span>, <span class="at">xpd=</span><span class="cn">TRUE</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">plot_tiles</span>(aftiles, <span class="at">adjust=</span>F, <span class="at">axes=</span><span class="cn">TRUE</span>, <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>)) <span class="co"># use axes = TRUE</span></span>
 <span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a></span>
@@ -921,10 +921,11 @@ including where high concentrations are located.</p>
 <span id="cb14-32"><a href="#cb14-32" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">c</span>(<span class="dv">400520</span>,<span class="dv">400550</span>,<span class="dv">400550</span>),<span class="fu">c</span>(<span class="dv">6468100</span>,<span class="dv">6468040</span>,<span class="dv">6467980</span>), </span>
 <span id="cb14-33"><a href="#cb14-33" tabindex="-1"></a>     <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Zn (mg/kg)&quot;</span>,bublo,bubhi), <span class="at">cex=</span><span class="fl">0.85</span>, <span class="at">pos =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/map-bubbles-1.png" alt="\label{bubbles}Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using maptiles." width="70%" />
+<img src="maps_files/figure-html/map-bubbles-1.png" alt="Figure 6: Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using maptiles." width="70%" />
 <p class="caption">
-Bubble map of zinc concentrations in sediment and soil at Ashfield Flats
-in 2019, over OpenStreetMap tiles acquired using maptiles.
+Figure 6: Bubble map of zinc concentrations in sediment and soil at
+Ashfield Flats in 2019, over OpenStreetMap tiles acquired using
+maptiles.
 </p>
 </div>
 <p>
@@ -936,9 +937,12 @@ target="_blank">Detailed Site Investigation</a>, we should also identify
 any samples where environmental guideline values are exceeded. The
 additional code below shows how to do this for Zn in sediments; the
 relevant guideline values are DGV = 200 mg/kg, DGV-high = 410 mg/kg. The
-re-drawn map (Figure @ref(fig:map-bubbles-DGV)) shows samples above the
-410 mg/kg DGV-high threshold, and could also be adapted to show
-concentrations greater than the DGV, or both.</p>
+re-drawn map (Figure 7) shows samples above the 410 mg/kg DGV-high
+threshold, and could also be adapted to show concentrations greater than
+the DGV, or both.</p>
+<p>Note the double plotting of points, first with a thicker line
+(<code>lwd=4</code>) to provide a border around the symbols for better
+visual contrast.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># ... continuing most of previous code ...</span></span>
 <span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="co"># plot points exceeding guideline value...</span></span>
@@ -953,11 +957,12 @@ concentrations greater than the DGV, or both.</p>
 <span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">c</span>(<span class="dv">400500</span>,<span class="dv">400530</span>,<span class="dv">400530</span>,<span class="dv">400510</span>),<span class="fu">c</span>(<span class="dv">6468100</span>,<span class="dv">6468040</span>,<span class="dv">6467980</span>,<span class="dv">6467920</span>), </span>
 <span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>     <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Zn (mg/kg)&quot;</span>,bublo,bubhi,<span class="st">&quot;\u2265 DGV-high&quot;</span>), <span class="at">cex=</span><span class="fl">0.85</span>, <span class="at">pos =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/map-bubbles-DGV-1.png" alt="Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using maptiles. Locations where Zn concentration exceeds the DGV-high threshold are shown." width="70%" />
+<img src="maps_files/figure-html/map-bubbles-DGV-1.png" alt="Figure 7: Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using maptiles. Locations where Zn concentration exceeds the DGV-high threshold are shown." width="70%" />
 <p class="caption">
-Bubble map of zinc concentrations in sediment and soil at Ashfield Flats
-in 2019, over OpenStreetMap tiles acquired using maptiles. Locations
-where Zn concentration exceeds the DGV-high threshold are shown.
+Figure 7: Bubble map of zinc concentrations in sediment and soil at
+Ashfield Flats in 2019, over OpenStreetMap tiles acquired using
+maptiles. Locations where Zn concentration exceeds the DGV-high
+threshold are shown.
 </p>
 </div>
 </div>
@@ -1005,22 +1010,22 @@ class="math inline">\(\backslash\)</span><code>n</code>.</p>
 <span id="cb16-33"><a href="#cb16-33" tabindex="-1"></a>       <span class="at">pt.cex =</span> <span class="fu">c</span>(<span class="fl">0.7</span>,<span class="fl">0.9</span>,<span class="fl">1.1</span>,<span class="fl">1.3</span>,<span class="fl">1.3</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>),</span>
 <span id="cb16-34"><a href="#cb16-34" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.01</span>), <span class="at">cex =</span> <span class="fl">0.85</span>, <span class="at">y.intersp =</span> <span class="fl">1.2</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/PctBubb-1.png" alt="Map showing percentile ranges of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using maptiles." width="70%" />
+<img src="maps_files/figure-html/PctBubb-1.png" alt="Figure 8: Map showing percentile ranges of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using maptiles." width="70%" />
 <p class="caption">
-Map showing percentile ranges of zinc concentrations in sediment and
-soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using
-maptiles.
+Figure 8: Map showing percentile ranges of zinc concentrations in
+sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles
+acquired using maptiles.
 </p>
 </div>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">palette</span>(pal4lite) <span class="co"># change back to non-transparent palette (optional)</span></span>
 <span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>afs19<span class="sc">$</span>QZn <span class="ot">&lt;-</span> <span class="cn">NULL</span> <span class="co"># to delete quantile column (optional; you can leave it in)</span></span></code></pre></div>
-<p>The resulting percentile bubble map (Figure @ref(fig:PctBubb)) adds
-value to the 'standard' bubble map (Figure @ref(fig:map-bubbles)), as it
-adds some statistical meaning to the bubble sizes. A similar map could
-be created by using the Tukey boxplot thresholds instead of percentiles
-which could show potential outliers (<em>i.e</em>. using the
-<code>boxplot.stats()</code> function to generate categories instead of
-the <code>quantile()</code> function.)</p>
+<p>The resulting percentile bubble map (Figure 8) adds value to the
+'standard' bubble map (Figure 6), as it adds some statistical meaning to
+the bubble sizes. A similar map could be created by using the Tukey
+boxplot thresholds instead of percentiles which could show potential
+outliers (<em>i.e</em>. using the <code>boxplot.stats()</code> function
+to generate categories instead of the <code>quantile()</code>
+function.)</p>
 <p>
  
 </p>
@@ -1054,21 +1059,19 @@ option:</p>
 <span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="fu">register_google</span>(<span class="at">key =</span> secret[<span class="dv">1</span>,<span class="dv">1</span>]) <span class="co"># you would replace secret[1,1] with your API key</span></span>
 <span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>udubua.gg <span class="ot">&lt;-</span> <span class="fu">get_googlemap</span>(<span class="at">center=</span><span class="fu">c</span>(<span class="fl">115.8213</span>,<span class="sc">-</span><span class="fl">31.98165</span>), </span>
 <span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>                           <span class="at">zoom =</span> <span class="dv">16</span>, <span class="at">maptype =</span> <span class="st">&quot;roadmap&quot;</span>, <span class="at">color =</span> <span class="st">&quot;bw&quot;</span>)</span></code></pre></div>
-<p>This always gives a <strong>square</strong> map (Figure
-@ref(fig:ggmap1)) – which we might not always want. In theory, the map
-aspect ratio can be changed using the <code>size</code> argument in the
-<code>get_googlemap</code> function, but this does not work reliably. We
-recommend leaving the map dimensions and aspect ratio at their default
-values.</p>
+<p>This always gives a <strong>square</strong> map (Figure 9) – which we
+might not always want. In theory, the map aspect ratio can be changed
+using the <code>size</code> argument in the <code>get_googlemap</code>
+function, but this does not work reliably. We recommend leaving the map
+dimensions and aspect ratio at their default values.</p>
 <p>Next we plot the ggmap object using ggplot grammar. It's possible to
 just plot the object (<em>i.e</em>. run <code>ggmap(udubua.gg)</code>),
 but it's good to have more control over plot options
 <strong>and</strong> to plot some data over the base map. In the example
-in Figure @ref(fig:ggmap1), we use the aesthetic in
-<code>geom_point()</code> to plot different categories with different
-shapes and colours, with the categories defined by the factor
-<code>Type</code>. A range of map styles is available by selecting a
-combination of one of
+in Figure 9, we use the aesthetic in <code>geom_point()</code> to plot
+different categories with different shapes and colours, with the
+categories defined by the factor <code>Type</code>. A range of map
+styles is available by selecting a combination of one of
 <code>maptype = "terrain", "satellite", "roadmap"</code>, or
 <code>"hybrid"</code>, together with <code>color = "color"</code> or
 <code>"bw"</code>. <strong>Note</strong>: the <code>ggsm</code> package
@@ -1085,17 +1088,17 @@ though.</p>
 <span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>),</span>
 <span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>        <span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">11</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/ggmap1-1.png" alt="Map of the University of Western Australia campus at Crawley, showing the location of libraries and cafés, plotted over Google maps tiles acquired using the R package ggmap." width="75%" />
+<img src="maps_files/figure-html/ggmap1-1.png" alt="Figure 9: Map of the University of Western Australia campus at Crawley, showing the location of libraries and cafés, plotted over Google maps tiles acquired using the R package ggmap." width="75%" />
 <p class="caption">
-Map of the University of Western Australia campus at Crawley, showing
-the location of libraries and cafés, plotted over Google maps tiles
-acquired using the R package ggmap.
+Figure 9: Map of the University of Western Australia campus at Crawley,
+showing the location of libraries and cafés, plotted over Google maps
+tiles acquired using the R package ggmap.
 </p>
 </div>
 <p>There are numerous possibilities with <code>ggmap</code> and the
 features made possible by <code>ggplot2</code> that are not illustrated
-by Figure @ref(fig:ggmap1). For example, we could use <code>size</code>
-as an aesthetic (<em>i.e</em>. include within <code>aes(...)</code> with
+by Figure 9. For example, we could use <code>size</code> as an aesthetic
+(<em>i.e</em>. include within <code>aes(...)</code> with
 <code>size = variableName</code>), to generate something like a bubble
 map.</p>
 <div id="other-map-types-using-ggmap" class="section level3">
@@ -1106,15 +1109,15 @@ the <em>Stamen</em> map tiles, accessible with the
 Stamen URLs have been updated, and this function is no longer able to
 download Stamen map tiles.</p>
 <p><span style="size: 14pt"><strong>The next example</strong></span>
-(Figure @ref(fig:ggAF)) uses the simple features information in one of
-the data frames we made at the beginning. The <code>sf</code> package
-introduces a new 'geom', <code>geom_sf()</code> for plotting in
-<code>ggmap.</code> We need to use the option
-<code>inherit.aes = FALSE</code> in <code>geom_sf()</code>, to override
-the default aesthetics from the <code>ggmap</code> object. We also add
-<code>coord_sf</code> to ensure that all layers use a common CRS
-(<u>C</u>oordinate <u>R</u>eference <u>S</u>ystem). <br> Run
-<code>help(geom_sf)</code> for more information.</p>
+(Figure 10) uses the simple features information in one of the data
+frames we made at the beginning. The <code>sf</code> package introduces
+a new 'geom', <code>geom_sf()</code> for plotting in <code>ggmap.</code>
+We need to use the option <code>inherit.aes = FALSE</code> in
+<code>geom_sf()</code>, to override the default aesthetics from the
+<code>ggmap</code> object. We also add <code>coord_sf</code> to ensure
+that all layers use a common CRS (<u>C</u>oordinate <u>R</u>eference
+<u>S</u>ystem). <br> Run <code>help(geom_sf)</code> for more
+information.</p>
 <p>Plotting using <code>geom_sf()</code> when the CRS is in degrees
 adds, by default, a °S/°W/°N/°E suffix to the axis values. In the code
 below we suppress this using <code>scale_x_continuous(label = I)</code>
@@ -1147,12 +1150,13 @@ include the information on units and hemisphere in the axis titles.</p>
 <span id="cb20-24"><a href="#cb20-24" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)) <span class="sc">+</span></span>
 <span id="cb20-25"><a href="#cb20-25" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">4326</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/ggAF-1.png" alt="Zinc concentration (mg/kg) in sediment sampled in Semester 1, 2021 at Ashfield Flats, Western Australia, plotted over greyscale Google terrain map tiles acquired using the R package ggmap, with data in a simple features data frame, and with manually added wetland pond locations." width="70%" />
+<img src="maps_files/figure-html/ggAF-1.png" alt="Figure 10: Zinc concentration (mg/kg) in sediment sampled in Semester 1, 2021 at Ashfield Flats, Western Australia, plotted over greyscale Google terrain map tiles acquired using the R package ggmap, with data in a simple features data frame, and with manually added wetland pond locations." width="70%" />
 <p class="caption">
-Zinc concentration (mg/kg) in sediment sampled in Semester 1, 2021 at
-Ashfield Flats, Western Australia, plotted over greyscale Google terrain
-map tiles acquired using the R package ggmap, with data in a simple
-features data frame, and with manually added wetland pond locations.
+Figure 10: Zinc concentration (mg/kg) in sediment sampled in Semester 1,
+2021 at Ashfield Flats, Western Australia, plotted over greyscale Google
+terrain map tiles acquired using the R package ggmap, with data in a
+simple features data frame, and with manually added wetland pond
+locations.
 </p>
 </div>
 <hr style="height: 2px; background-color: #5560A4;" />
