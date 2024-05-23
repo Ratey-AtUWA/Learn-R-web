@@ -871,4 +871,4 @@ in R. *R News* **5** (2), [https://cran.r-project.org/doc/Rnews/](https://cran.r
 
 <hr style="height: 2px; background-color: #5560A4;" />
 
-<p style="text-align:center;">![](./docs/images/Lemi.png)</p>
+<p style="text-align:center;">![](./images/Lemi.png)</p>
