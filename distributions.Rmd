@@ -1,6 +1,8 @@
 ---
-title: "R for Environmental Science"
-subtitle: "Data analysis and visualization"
+title: "Check normality of distributions"
+subtitle: "Many variables at once using a programming loop"
+author: "Andrew Rate"
+date: "`r Sys.Date()`"
 output: 
   html_document:
     highlight: kate
@@ -12,11 +14,120 @@ output:
 }
 </style>
 
-<div style="border: 2px solid #039; padding: 8px;">
-# Contents
+```{r preliminaries, warning=FALSE, message=FALSE, include=FALSE}
+library(car)  ### for powerTransform() function
+library(flextable)
+  set_flextable_defaults(font.family = "Arial", font.size = 11, 
+                       theme_fun = "theme_booktabs", padding = 1)
+library(officer)
+git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+sv2017 <- read.csv(paste0(git, "sv2017_original.csv"))
+```
 
-<span style="font-size: 20pt; color:gray;">Distributions Page<br />Under Construction</span>
+We need to load the **R** package `car`, as it's needed for the `powerTransform()`
+function. For this session we load and use the `sv2017` data from Smith's Lake
+and Charles Veryard Reserves in 2017.
 
-</div>
+```{r prelim-notrun, warning=FALSE, message=FALSE, eval=FALSE}
+library(car)
+git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+sv2017 <- read.csv(paste0(git, "sv2017_original.csv"))
+```
 
-<p style="text-align:center"><a href="https://www.r-project.org/" target="_blank">![](https://www.r-project.org/Rlogo.png){width="100" height="73" alt="R logo"}</a></p>
+It's often a good idea to make a copy of the data, so we don't lose any
+information from the original if something goes horribly wrong. We then check 
+our data using the `summary()` function:
+
+```{r copy-data, message=FALSE, warning=FALSE, results='hold'}
+data0 <- sv2017
+summary(data0)
+```
+
+The `summary()` shows us that the first numeric variable we want to check the 
+distribution for is `pH`. There are other numeric columns before this (`Group`, 
+`Easting`, `Northing`,`Longitude`,`Latitude`) but we don't usually tend to check
+the distribution for this type of numeric or integer variable, as they are
+really sample identifiers.
+
+If you use this code for your own data, change the value of `v0` to your first
+numeric variable of interest (*i.e*. the first you want to check the 
+distribution of).
+
+```{r}
+v0 <- "pH"
+```
+
+### Subset the input data from first relevant nueric coumn to end
+```{r subset-input-data, message=FALSE, warning=FALSE}
+data0 <- data0[,which(colnames(data0)==v0):ncol(data0)]
+```
+
+We then create a temporary object `names.of.cols` storing the names of variables 
+to be transformed, and a vector `colz` of the column indices which are numeric:
+
+```{r}
+names.of.cols <- names(data0)
+colzTF <- unlist(lapply(data0, is.numeric), use.names = FALSE)
+colz <- which(colzTF==TRUE)
+```
+
+We make an empty output data frame `transf_results` to hold the results of our
+distribution checks:
+
+```{r}
+transf_results <- data.frame("Variable"=rep(NA,length(colz)),
+              "W_orig"=rep(NA,length(colz)),
+              "p_orig"=rep(NA,length(colz)), "W_log_tr"=rep(NA,length(colz)),
+              "p_log_tr"=rep(NA,length(colz)), "W_pow_tr"=rep(NA,length(colz)),
+              "p_pow_tr"=rep(NA,length(colz)), "Pow_term"=rep(NA,length(colz)))
+```
+
+We then start a programming loop using `for(...)` that assesses variable
+distributions and writes the statistical output to the data frame
+`transf_results` we created earlier.
+
+Note that we create R objects to hold the results of statistical tests &ndash; 
+this stores them temporarily so that we can write them to the results data frame.
+<br />
+The object `pt1` that hold the results of the `powerTansform()` function 
+contains an item `pt1$lambda` which is the relevant power term for each
+variable. Each time we cycle through the `for()` loop, we write a row of the
+output data frame `transf_results`. We use `signif()` to round to a specified
+number (`4`) of significant digits.
+
+```{r transformations-loop, message=FALSE, warning=FALSE, paged.print=FALSE}
+for (i in colz) {
+  pt1 <- powerTransform(data0[, i])
+  sw0 <- shapiro.test(data0[, i])
+  sw1 <- shapiro.test(log10(data0[, i]))
+  sw2 <- shapiro.test((data0[, i]) ^ as.numeric(pt1$lambda))
+  transf_results[i-(colz[1]-1),] <- c(names.of.cols[i], signif(sw0$statistic, 4),
+                                 signif(sw0$p.value, 4), signif(sw1$statistic, 4),
+                                 signif(sw1$p.value, 4), signif(sw2$statistic, 4),
+                                 signif(sw2$p.value, 4), signif(as.vector(pt1$lambda), 4))
+}
+# output to console (screen)
+{cat("Table 1: Shapiro-Wilk statistics and p-values for untransformed (_orig) and transformed
+(_log, _pow) variables from soil and sediemnt analysis at Smith's Lake Reserve.\n\n")
+print(transf_results, row.names = FALSE)}
+```
+
+We can export our results to a csv file for Excel (if desired):
+```{r expot, eval=FALSE}
+write.csv(transf_results, file = "transformations.csv", row.names = FALSE)
+```
+
+Alternatively, we can make a publication-quality table using the `flextable`
+**R** package (Table 1).
+
+```{r}
+flextable(transf_results) |> bold(part="header") |>
+  set_caption(caption="Table 1: Table summarising normality tests for distributions of variables when untransformed, log10-transformed, or power-transformed. [W_orig = Shapiro-Wilk statistic (W) for the untransfomed variable; p_orig = Shapiro-Wilk p-value for the untransfomed variable; W_log_tr = W for log10-transformed; p_log_tr = p-value for log10-transformed; W_pow_tr = W for power-transformed; p_pow_tr = p-value for power-transformed; Pow_term = exponent for power transformation.]", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
+```
+
+### to keep R workspace tidy
+```{r remove temporary objects, message=FALSE, warning=FALSE}
+rm(list=c("c1","cn","S_W_raw","names.of.cols","pt1","sw0","sw1","sw2","i"))
+```
+
+<p>&nbsp;</p>
