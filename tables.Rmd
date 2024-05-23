@@ -44,7 +44,7 @@ The first code chunk (above) shows that we will use the `RcmdrMisc` package, as
 it contains the useful `numSummary()` function, and the `flextable` package for 
 producing nicely-formatted tables. We also load the `officer` package to 
 make use of some formatting options in `flextable`. The rest of the code just 
-makes use of function in base R.
+makes use of some functions in base R.
 
 ## Importing environmental threshold data
 
