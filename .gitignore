@@ -19,6 +19,7 @@
 .nojekyll
 *.Rproj
 render-them.R
+*.docx
 
 # Output files from R CMD check
 /*.Rcheck/
