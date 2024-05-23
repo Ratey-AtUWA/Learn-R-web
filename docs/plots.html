@@ -332,14 +332,11 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Chapters</a>
+      <a class="navbar-brand" href="index.html">Sessions</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Contents</a>
-</li>
-<li>
   <a href="about.html">For beginners</a>
 </li>
 <li class="dropdown">
@@ -369,6 +366,39 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="plots-GG.html">Plots-ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Maps
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="maps.html">Map data with tile backgrounds</a>
+    </li>
+    <li>
+      <a href="spatial.html">spatial stats</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">spatial interpolation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    EDA
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tables.html">Tables + trigger value counts</a>
+    </li>
+    <li>
+      <a href="distributions.html">Distribution checking</a>
     </li>
   </ul>
 </li>
@@ -423,9 +453,9 @@ style="font-family: consolas, courier new, courier;">qqPlot()</span>
 from <b><i>car</i></b> package<br />• 23m19s Histograms - additional
 customisations<br />• 25m35s Boxplots - additional
 customisations<br />• 27m27s Scatter Plots - more
-customisation…<br />• 31m27s Scatter plot matrices<br />• 35m20s Maps (a
-preliminary look, including use of the <code>text()</code> function in
-graphs
+customisation...<br />• 31m27s Scatter plot matrices<br />• 35m20s Maps
+(a preliminary look, including use of the <code>text()</code> function
+in graphs
 </p>
 </div>
 <p>
@@ -500,7 +530,7 @@ style="border: 2px solid #039; background-color: #fec; padding: 8px;">
 <ul>
 <li>Increase the default text and symbol sizes</li>
 <li>Remove unnecessary lines (smooth, spread)</li>
-<li>In R Studio, click on <br />Export/Copy to clipboard…<br />and
+<li>In R Studio, click on <br />Export/Copy to clipboard...<br />and
 select ◉ Metafile, then click [Copy plot] <br />(best pasting into Word,
 etc.)</li>
 <li>Graph plus caption should be self-contained</li>
@@ -529,19 +559,19 @@ style="border: 2px solid #039; background-color: #e8e8e8; padding: 8px;">
 <h2>Graphical Excellence</h2>
 <p><span style="font-size: 14pt; background-color:#FFFF80;">In
 Environmental Science at UWA we try to promote the principles of
-“<strong>graphical excellence</strong>”. This means:</span></p>
+"<strong>graphical excellence</strong>". This means:</span></p>
 <ul>
 <li><strong>Show the data</strong> – <span
 style="font-size:10pt; color:#404040;">that is, the data are the
-important thing we want to communicate in graphics; “looking good” is
+important thing we want to communicate in graphics; "looking good" is
 only useful if it shows the data better!</span>.</li>
 <li>Give your viewer the <strong>greatest number of ideas</strong> in
 the <strong>shortest time</strong> with the <strong>least ink</strong>
 in the <strong>smallest space</strong> (Tufte, 1983)<sup>1</sup></li>
 <li>Graphical excellence is
 <ul>
-<li>almost always <strong>multivariate</strong>…</li>
-<li>…requires <strong>telling the truth</strong> about the data <span
+<li>almost always <strong>multivariate</strong>...</li>
+<li>...requires <strong>telling the truth</strong> about the data <span
 style="font-size:10pt; color:#404040;">(no distortions, fair
 comparisons, <em>etc</em>.)</span>.</li>
 </ul></li>
@@ -553,11 +583,11 @@ comparisons, <em>etc</em>.)</span>.</li>
 <code>spread</code> in <code>car::scatterplot()</code>)</li>
 <li>In RStudio, use the Export▾ button » Copy to clipboard » select
 ◉Metafile (best pasting into Word, <em>etc.</em>)</li>
-<li><strong>Don’t</strong> use screen shots, and avoid <code>.jpg</code>
+<li><strong>Don't</strong> use screen shots, and avoid <code>.jpg</code>
 files, as both can be blurry or grainy</li>
 <li>Graph plus caption should be self-contained – we should only need to
 refer to these to fully understand the graph</li>
-<li><strong>Don’t</strong> include a title above the plot (in many
+<li><strong>Don't</strong> include a title above the plot (in many
 <strong>R</strong> plots, use the option <code>main=""</code>) – any
 information describing the plot should be in the caption</li>
 <li>Transform axes if necessary (using arguments in <strong>R</strong>
@@ -628,7 +658,7 @@ supported by metafiles in R. To use semi-transparent colours, save as
 <h2>Getting started</h2>
 <p>Before we start we load some <strong>packages</strong> (which we need
 to have installed previously). We also need to load a
-<strong>dataset</strong> that we may have seen before (the Smith’s Lake
+<strong>dataset</strong> that we may have seen before (the Smith's Lake
 &amp; Charles Veryard Reserves data from 20217 – we use it a lot for
 illustrating environmental statistics and plotting).</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(car)      <span class="co"># scatterplot() and scatterplotMatrix() functions</span></span>
@@ -658,7 +688,7 @@ making a custom palette with <code>palette()</code>.</p>
 <div class="figure">
 <img src="plots_files/figure-html/sp-1-1.png" alt="Figure 1: Scatterplot of Ca vs. pH from the sv2017 dataset, made using `car::scatterplot()` after setting graphics parameters and colour palette." width="480" />
 <p class="caption">
-Figure 1: Scatterplot of Ca vs. pH from the sv2017 dataset, made using
+Figure 1: Scatterplot of Ca vs. pH from the sv2017 dataset, made using
 <code>car::scatterplot()</code> after setting graphics parameters and
 colour palette.
 </p>
@@ -741,7 +771,7 @@ Figure 3: Boxplot of Cu by Type, showing means, in the sv2017 data.
 <div id="scatterplot-of-water-sample-points-by-group"
 class="section level3">
 <h3>Scatterplot of water sample points by group</h3>
-<p>First read the water data (from Smith’s Lake, North Perth, sampled in
+<p>First read the water data (from Smith's Lake, North Perth, sampled in
 2018):</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>SL_water <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;SL18.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>SL_water<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(SL_water<span class="sc">$</span>Group)</span></code></pre></div>
@@ -797,7 +827,7 @@ explicitly loading packages.)</p>
 <div class="figure">
 <img src="plots_files/figure-html/water-scatterplot-1.png" alt="Figure 4: Plot of water sample locations in Smith's Lake in 2018 made using `car::scatterplot()`." width="576" />
 <p class="caption">
-Figure 4: Plot of water sample locations in Smith’s Lake in 2018 made
+Figure 4: Plot of water sample locations in Smith's Lake in 2018 made
 using <code>car::scatterplot()</code>.
 </p>
 </div>
@@ -805,7 +835,7 @@ using <code>car::scatterplot()</code>.
 </div>
 <div id="base-r-plot-of-water-sample-points-by-group"
 class="section level3">
-<h3>‘base <strong>R</strong>’ plot of water sample points by group</h3>
+<h3>'base <strong>R</strong>' plot of water sample points by group</h3>
 <p>We can reproduce Figure 4 made using <code>car::scatterplot()</code>
 in base-<strong>R</strong> graphics as well:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># set up overall plot parameters with par()</span></span>
@@ -866,7 +896,7 @@ in base-<strong>R</strong> graphics as well:</p>
 <div class="figure">
 <img src="plots_files/figure-html/baseR-water-plot-1.png" alt="Figure 5: Plot of water sample locations in Smith's Lake in 2018 made using base-R graphics." width="576" />
 <p class="caption">
-Figure 5: Plot of water sample locations in Smith’s Lake in 2018 made
+Figure 5: Plot of water sample locations in Smith's Lake in 2018 made
 using base-R graphics.
 </p>
 </div>
@@ -875,7 +905,7 @@ using base-R graphics.
 </p>
 <p>The code to make Figure 5 is somewhat more intricate than that for
 Figure 4, but base-<strong>R</strong> plotting can give us more control
-over plot appearance. (Note that we don’t need to have each function
+over plot appearance. (Note that we don't need to have each function
 argument on a separate line, as we have done in the previous code
 block.)</p>
 <p>One aspect of this plot, which is probably an advantage, is the use
@@ -885,13 +915,13 @@ lighter colours in gradational palettes such as those generated by the
 <code>viridis</code> or <code>scico</code> packages.</p>
 <hr />
 <blockquote>
-<p>“…when we look at the <strong>graphs of rising ocean
+<p>"...when we look at the <strong>graphs of rising ocean
 temperatures</strong>, rising carbon dioxide in the atmosphere and so
 on, we know that they are climbing far more steeply than can be
-accounted for by the natural oscillation of the weather … What people
-(must) do is to change their behavior and their attitudes … If we do
+accounted for by the natural oscillation of the weather ... What people
+(must) do is to change their behavior and their attitudes ... If we do
 care about our grandchildren then we have to do something, and we have
-to demand that our governments do something.”</p>
+to demand that our governments do something."</p>
 <p>— David Attenborough</p>
 </blockquote>
 <hr />
@@ -911,7 +941,7 @@ class="section level3">
 change graphics parameters like plot margins. After using
 <code>par()</code> these stay changed until changed again by running
 <code>par()</code> with different arguments.</p>
-<p>For example let’s plot an <em>x-y</em> plot using the default
+<p>For example let's plot an <em>x-y</em> plot using the default
 settings in <code>par()</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">plot</span>(sv18<span class="sc">$</span>Ca <span class="sc">~</span> sv18<span class="sc">$</span>pH, <span class="at">log=</span><span class="st">&quot;y&quot;</span>)</span></code></pre></div>
 <div class="figure">
@@ -931,7 +961,7 @@ function and re-running the simple plot</p>
 <div class="figure">
 <img src="plots_files/figure-html/big-labels-1.png" alt="Figure 7: Plot of Ca vs. pH with plot margins, symbol sizes, and font size and style changed using `par()`." width="576" />
 <p class="caption">
-Figure 7: Plot of Ca vs. pH with plot margins, symbol sizes, and font
+Figure 7: Plot of Ca vs. pH with plot margins, symbol sizes, and font
 size and style changed using <code>par()</code>.
 </p>
 </div>
@@ -951,7 +981,7 @@ needs a two-value vector <code>c(rows,columns)</code>.</p>
 <div class="figure">
 <img src="plots_files/figure-html/plot-2x2-1.png" alt="Figure 8: Plot of Ca, Mg, Na, and Sr vs. pH with multiple plots specified using `par()` and different sub-plot appearances set using arguments in `plot()`." width="576" />
 <p class="caption">
-Figure 8: Plot of Ca, Mg, Na, and Sr vs. pH with multiple plots
+Figure 8: Plot of Ca, Mg, Na, and Sr vs. pH with multiple plots
 specified using <code>par()</code> and different sub-plot appearances
 set using arguments in <code>plot()</code>.
 </p>
@@ -965,7 +995,7 @@ set using arguments in <code>plot()</code>.
 <p>Cumulative Distribution Function using <code>plot.ecdf()</code>. The
 custom <em>y</em>-axis label explains the plot! <br> (note use of
 <code>\u</code> to insert a Unicode character by its 4-digit code
-[Unicode character 2264 is ‘less than or equal to’ (≤)] )</p>
+[Unicode character 2264 is 'less than or equal to' (≤)] )</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">plot.ecdf</span>(sv18<span class="sc">$</span>pH, <span class="at">xlab=</span><span class="st">&quot;x = pH&quot;</span>, </span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>          <span class="at">ylab=</span><span class="st">&quot;Proportion of samples with pH \u2264 x&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>) </span></code></pre></div>
 <div class="figure">
@@ -977,7 +1007,7 @@ Figure 9: Cumulative distribution of pH in the sv18 dataset.
 <p>
  
 </p>
-<p>A better cumulative plot is the normal quantile or ‘q-q’ plot
+<p>A better cumulative plot is the normal quantile or 'q-q' plot
 specially transformed axes mean that a normally distributed variable
 will plot as a straight line. <code>qqPlot()</code> from the
 <code>car</code> package is best; the plot shows the theoretical line
@@ -1007,7 +1037,7 @@ observations, which also appear on the plot.
 <p>
  
 </p>
-<p>Here’s another customization of <strong>histograms</strong> – we’ve
+<p>Here's another customization of <strong>histograms</strong> – we've
 seen these in a previous Workshop. Adding a reference concentration
 shows what proportion of samples have concentrations exceeding this
 value (or not).</p>
@@ -1027,7 +1057,7 @@ concentration added using <code>abline()</code> and <code>text()</code>.
 <p>
  
 </p>
-<p>Here’s a similar customization of <strong>box plots</strong> – we’ve
+<p>Here's a similar customization of <strong>box plots</strong> – we've
 also seen these in a previous Workshop (the only way to get
 <strong>complex formatting</strong> in plot axis labels is to use
 <code>expression()</code> – this code has an example for a
@@ -1045,7 +1075,7 @@ formatting in the y-axis label using an R <code>expression()</code>.
 <p>
  
 </p>
-<p>Let’s plot it again with better font size to copy-paste into a
+<p>Let's plot it again with better font size to copy-paste into a
 report. We use a large text size so the plot can be reduced in overall
 size (<em>e.g</em>. to put plots side-by-side, or to suit 2-column
 document formats).</p>
@@ -1085,15 +1115,15 @@ world.</p>
 <div class="figure">
 <img src="plots_files/figure-html/lower-upper-depth-1.png" alt="Figure 14: Plots of Fe vs. depth measurements in the sv18 data." width="672" />
 <p class="caption">
-Figure 14: Plots of Fe vs. depth measurements in the sv18 data.
+Figure 14: Plots of Fe vs. depth measurements in the sv18 data.
 </p>
 </div>
 <p>
 <br>Ideally we would like to plot concentration against <em>mean
-depth</em>, but we can’t use a formula (<em>i.e</em>. anything in
-<strong>R</strong> that uses <code>~</code>) in another formula! …<br>
-…so we change the syntax for the variables in <code>plot()</code> to use
-comma instead of <code>~</code> to allow us to put a calculation in:
+depth</em>, but we can't use a formula (<em>i.e</em>. anything in
+<strong>R</strong> that uses <code>~</code>) in another formula! ...<br>
+...so we change the syntax for the variables in <code>plot()</code> to
+use comma instead of <code>~</code> to allow us to put a calculation in:
 </p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">plot</span>(((sv18<span class="sc">$</span>Depth_upper<span class="sc">+</span>sv18<span class="sc">$</span>Depth_lower)<span class="sc">/</span><span class="dv">2</span>), sv18<span class="sc">$</span>Fe)</span></code></pre></div>
 <p><img src="plots_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
@@ -1111,8 +1141,8 @@ intuitive] vertical axis</p>
 <div class="figure">
 <img src="plots_files/figure-html/switch-axes-1.png" alt="Figure 15: Plot of Fe vs. depth with x- and y-axis positions switched (so really it's depth vs. Fe, but we have our reasons)." width="384" />
 <p class="caption">
-Figure 15: Plot of Fe vs. depth with x- and y-axis positions switched
-(so really it’s depth vs. Fe, but we have our reasons).
+Figure 15: Plot of Fe vs. depth with x- and y-axis positions switched
+(so really it's depth vs. Fe, but we have our reasons).
 </p>
 </div>
 <p>
@@ -1125,7 +1155,7 @@ Figure 15: Plot of Fe vs. depth with x- and y-axis positions switched
 <div class="figure">
 <img src="plots_files/figure-html/reverse-y-1.png" alt="Figure 16: Plot of Fe vs. depth with x- and y-axis positions switched and the vertical axis (depth) scale reversed." width="384" />
 <p class="caption">
-Figure 16: Plot of Fe vs. depth with x- and y-axis positions switched
+Figure 16: Plot of Fe vs. depth with x- and y-axis positions switched
 and the vertical axis (depth) scale reversed.
 </p>
 </div>
@@ -1134,7 +1164,7 @@ and the vertical axis (depth) scale reversed.
 </p>
 <p>Now tidy up plot margins, axis labels, <em>etc</em>. – use
 <code>help()</code> to understand the function arguments for
-<code>par()</code> and <code>plot()</code>…</p>
+<code>par()</code> and <code>plot()</code>...</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
 <span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>    <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.5</span>,<span class="dv">0</span>),</span>
 <span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>)</span>
@@ -1144,18 +1174,18 @@ and the vertical axis (depth) scale reversed.
 <div class="figure">
 <img src="plots_files/figure-html/best-par-and-labels-1.png" alt="Figure 17: Plot of Fe vs. depth with x- and y-axis positions switched, y axis scale reversed, and tidy axis labels." width="384" />
 <p class="caption">
-Figure 17: Plot of Fe vs. depth with x- and y-axis positions switched, y
+Figure 17: Plot of Fe vs. depth with x- and y-axis positions switched, y
 axis scale reversed, and tidy axis labels.
 </p>
 </div>
 <p>
  
 </p>
-<p>What if we want the horizontal axis ‘on top’? We do this by omitting
+<p>What if we want the horizontal axis 'on top'? We do this by omitting
 axis plotting (<em>i.e</em>. <code>xaxt="n"</code>) and axis label
-(<code>xlab=""</code>)…<br> … then plot the <em>x</em>-axis manually,
-first adjusting plot margins so that there is more space at the top of
-the plot and less at the bottom.</p>
+(<code>xlab=""</code>)...<br> ... then plot the <em>x</em>-axis
+manually, first adjusting plot margins so that there is more space at
+the top of the plot and less at the bottom.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>)) <span class="co"># won&#39;t change anything except margins</span></span>
 <span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">plot</span>(sv18<span class="sc">$</span>Fe, ((sv18<span class="sc">$</span>Depth_upper<span class="sc">+</span>sv18<span class="sc">$</span>Depth_lower)<span class="sc">/</span><span class="dv">2</span>),</span>
 <span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">xaxt=</span><span class="st">&quot;n&quot;</span>,</span>
@@ -1167,7 +1197,7 @@ the plot and less at the bottom.</p>
 <div class="figure">
 <img src="plots_files/figure-html/x-axis-to-top-1.png" alt="Figure 18: Plot of Fe vs. depth with x- and y-axis positions switched, y axis scale reversed, tidy axis labels, and x-axis label and ticks at the top." width="384" />
 <p class="caption">
-Figure 18: Plot of Fe vs. depth with x- and y-axis positions switched, y
+Figure 18: Plot of Fe vs. depth with x- and y-axis positions switched, y
 axis scale reversed, tidy axis labels, and x-axis label and ticks at the
 top.
 </p>
@@ -1205,7 +1235,7 @@ frame (<code>data=</code>) are specified.<br />
 The smoothed trend through the points can be included by changing the
 <code>smooth=</code> argument to <code>smooth=TRUE</code>.</p>
 <p>A very useful feature of scatter plot matrices is the display of each
-variable’s <em>distribution along the diagonal</em> of the plot matrix.
+variable's <em>distribution along the diagonal</em> of the plot matrix.
 In the example in Figure 19, we can see that all variables have a
 positively skewed distribution (which might be made more symmetrical by
 log-transformation).</p>
@@ -1215,7 +1245,7 @@ log-transformation).</p>
 <img src="plots_files/figure-html/spm-ungrouped-1.png" alt="Figure 19: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in sediment + soil + street dust samples from Smith's Lake and Charles Veryard Reserves, North Perth, WA, sampled in 2018." width="576" />
 <p class="caption">
 Figure 19: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in
-sediment + soil + street dust samples from Smith’s Lake and Charles
+sediment + soil + street dust samples from Smith's Lake and Charles
 Veryard Reserves, North Perth, WA, sampled in 2018.
 </p>
 </div>
@@ -1228,7 +1258,7 @@ using the <code>|</code> operator. We also see the distributions
 separated by group along the diagonal.</p>
 <p>Separating the plots by a factor allows us to see if trends are
 consistent between groups, or if groups behave very differently. [If you
-don’t want to bother with the <code>scico</code> package, use
+don't want to bother with the <code>scico</code> package, use
 <code>col = c("#EDB256", "#AC4A44", "#191900")</code> for the same
 result.]</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">scatterplotMatrix</span>(<span class="sc">~</span>Al <span class="sc">+</span> Ca <span class="sc">+</span> Fe <span class="sc">+</span> Na <span class="sc">|</span> Type, <span class="at">data=</span>sv18, <span class="at">smooth=</span><span class="cn">FALSE</span>,</span>
@@ -1238,7 +1268,7 @@ result.]</p>
 <img src="plots_files/figure-html/spm-by-group-1.png" alt="Figure 20: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in samples from Smith's Lake and Charles Veryard Reserves, North Perth, WA, sampled in 2018 and grouped by sample type (sediment, soil, or street dust)." width="576" />
 <p class="caption">
 Figure 20: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in
-samples from Smith’s Lake and Charles Veryard Reserves, North Perth, WA,
+samples from Smith's Lake and Charles Veryard Reserves, North Perth, WA,
 sampled in 2018 and grouped by sample type (sediment, soil, or street
 dust).
 </p>
@@ -1248,7 +1278,7 @@ dust).
 </p>
 <p>Often we can get a better idea of the trends and differences between
 variables by transforming variables (log<sub>10</sub>-transformation
-usually is OK). [If you don’t want to bother with the <code>scico</code>
+usually is OK). [If you don't want to bother with the <code>scico</code>
 package, use <code>col = c("#001959","#426F51","#E09651")</code> for the
 same result.]</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">scatterplotMatrix</span>(<span class="sc">~</span><span class="fu">log10</span>(Al) <span class="sc">+</span> <span class="fu">log10</span>(Ca) <span class="sc">+</span> <span class="fu">log10</span>(Fe) <span class="sc">+</span> <span class="fu">log10</span>(Na) <span class="sc">|</span> Type, </span>
@@ -1260,7 +1290,7 @@ same result.]</p>
 <img src="plots_files/figure-html/spm-by-group-log-1.png" alt="Figure 21: Scatter plot matrix of log-transformed Al, Ca, Fe, and Na concentrations in samples from Smith's Lake and Charles Veryard Reserves, North Perth, WA, sampled in 2018 and grouped by sample type (sediment, soil, or street dust)." width="576" />
 <p class="caption">
 Figure 21: Scatter plot matrix of log-transformed Al, Ca, Fe, and Na
-concentrations in samples from Smith’s Lake and Charles Veryard
+concentrations in samples from Smith's Lake and Charles Veryard
 Reserves, North Perth, WA, sampled in 2018 and grouped by sample type
 (sediment, soil, or street dust).
 </p>
@@ -1346,6 +1376,15 @@ target="_blank">https://CRAN.R-project.org/package=scico</a>.</p>
 </div>
 </div>
 
+<!DOCTYPE html>
+
+<html>
+<body>
+<hr style="height: 2px; background-color: #003087;" />
+<p><span style="font-size:9pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <span style="font-family: monospace;">rmarkdown</span> in <a href="https://www.rstudio.com/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>.</span></p>
+</body>
+</html>
 
 
 

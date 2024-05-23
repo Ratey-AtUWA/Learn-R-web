@@ -15,17 +15,7 @@ output:
 <div style="border: 2px solid #039; padding: 8px;">
 # Contents
 
-1. [Contents](index.html)
-
-2. [For beginners](about.html)
-
-3. [Intro](intro.html)
-
-4. [Plots](plots.html)
-
-5. [Maps](maps.html)
-
-6. [EDA](tables.html)
+<span style="font-size: 20pt; color:gray;">Maps Page Under<br />Construction</span>
 
 </div>
 

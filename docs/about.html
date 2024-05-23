@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2024-05-22" />
+<meta name="date" content="2024-05-23" />
 
 <title>RStudio for absolute beginners</title>
 
@@ -332,14 +332,11 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Chapters</a>
+      <a class="navbar-brand" href="index.html">Sessions</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Contents</a>
-</li>
-<li>
   <a href="about.html">For beginners</a>
 </li>
 <li class="dropdown">
@@ -372,6 +369,39 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Maps
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="maps.html">Map data with tile backgrounds</a>
+    </li>
+    <li>
+      <a href="spatial.html">spatial stats</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">spatial interpolation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    EDA
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tables.html">Tables + trigger value counts</a>
+    </li>
+    <li>
+      <a href="distributions.html">Distribution checking</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -385,7 +415,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">RStudio for absolute beginners</h1>
-<h4 class="date">2024-05-22</h4>
+<h4 class="date">2024-05-23</h4>
 
 </div>
 
@@ -398,8 +428,8 @@ $(document).ready(function () {
 <p><img src="about_files/figure-html/page%201%20header%20hide%20code-1.png" width="100%" style="display: block; margin: auto 0 auto auto;" /></p>
 <div id="what-is-r" class="section level1">
 <h1>What is R?</h1>
-<p><strong>R</strong> is called a “<strong>statistical computing
-environment</strong>”. This means two things:</p>
+<p><strong>R</strong> is called a "<strong>statistical computing
+environment</strong>". This means two things:</p>
 <ol style="list-style-type: decimal">
 <li><strong>R</strong> is software that allows us to perform statistical
 analysis of data;</li>
@@ -418,16 +448,16 @@ perform the tasks we need to by writing instructions in
 <p>By using <strong>R</strong> code to do this, we can easily
 <em>reproduce</em> our analyses, that is, use <em>exactly</em> the same
 procedures again on additional data, or simply re-create what we have
-done. We can save our <strong>R</strong> code in simple ‘text’ files, or
+done. We can save our <strong>R</strong> code in simple 'text' files, or
 even in a document called an <strong>R Notebook</strong> which uses a
-few additional coding features (called ‘R markdown’) to let us save our
+few additional coding features (called 'R markdown') to let us save our
 code and the results of our analysis in the same document. We use R
 markdown to produce documents such as reports (this document is created
 using R markdown).</p>
 <hr style="height: 2px; background-color: #660F00;" />
 <blockquote>
-<p>“…R has developed into a powerful and much used open source tool …
-for advanced statistical data analysis…”</p>
+<p>"...R has developed into a powerful and much used open source tool
+... for advanced statistical data analysis..."</p>
 <p>— <a
 href="https://onesearch.library.uwa.edu.au/permalink/61UWA_INST/1vk1d8f/alma99584168302101"
 target="_blank">Reimann <em>et al</em>. (2008) – <em>Statistical Data
@@ -437,13 +467,13 @@ p.3.</p>
 <hr style="height: 2px; background-color: #660F00;" />
 <div id="r-and-rstudio" class="section level2">
 <h2>R and RStudio</h2>
-<p>To make our job of using <strong>R</strong> easier, we’ll be using
-the <strong>RStudio</strong> program. RStudio is an IDE or ‘integrated
-development environment’ which puts everything we need for R coding in
+<p>To make our job of using <strong>R</strong> easier, we'll be using
+the <strong>RStudio</strong> program. RStudio is an IDE or 'integrated
+development environment' which puts everything we need for R coding in
 one place, and has some helpful tools (such as predictive text for code,
 and some menu-driven functions) to make coding easier. In this document,
-when we say ‘<strong>R</strong>’, we really mean ‘R in the RStudio
-environment’.</p>
+when we say '<strong>R</strong>', we really mean 'R in the RStudio
+environment'.</p>
 <div class="figure" style="text-align: center">
 <img src="about_files/figure-html/fig-RStudio-1.png" alt="Figure 1: The RStudio window with a very brief explanation of some different sub-panes." width="691.2" />
 <p class="caption">
@@ -470,7 +500,7 @@ For example, in <strong>R</strong> we can sort a table of data by
 writing the instructions in <strong>R</strong> code:</p></li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>data_sorted <span class="ot">&lt;-</span> data[<span class="fu">order</span>(data<span class="sc">$</span>column1, data<span class="sc">$</span>column2),] </span></code></pre></div>
-<p>You don’t have to remember this (yet). The code here is also to
+<p>You don't have to remember this (yet). The code here is also to
 illustrate that, in this document, <strong>R</strong> code will be shown
 in blocks like the one above having a
 <code>shaded background and fixed-space font</code>.</p>
@@ -482,14 +512,14 @@ point-and-click operations, such as that shown below:</p>
 <li>clicking on the Sort button;</li>
 <li>choosing the column we want to sort by in the dialog box that
 appears;</li>
-<li>clicking ‘OK’.</li>
+<li>clicking 'OK'.</li>
 </ol>
 <ol start="3" style="list-style-type: decimal">
 <li>(We did say three things.) <strong>R</strong> is
 <strong>very</strong> literal, and needs precise instructions to do
 everything. A small error in our code will mean we get wrong, or no,
 results. For example, all <strong>R</strong> code is case-sensitive.
-Also, if we don’t tell R where to look for things, it won’t try anywhere
+Also, if we don't tell R where to look for things, it won't try anywhere
 else just in case we might have intended another location!<br /><a
 href="https://statsandr.com/blog/top-10-errors-in-r/" target="_blank">Go
 here for a great page on common errors in <strong>R</strong> and how to
@@ -502,7 +532,7 @@ fix them</a></li>
 <h3>Single numbers</h3>
 <p><strong>R</strong> can work with single numbers, much like a complex
 calculator.</p>
-<p>To “run” <strong>R</strong> code, we can type it into the RStudio
+<p>To "run" <strong>R</strong> code, we can type it into the RStudio
 Console and press the <code>enter</code> key. We will see the results of
 running the code also in the Console, below the code we just
 entered.</p>
@@ -516,29 +546,29 @@ entered.</p>
 Figure 2: Understanding simple R functions and output.
 </p>
 </div>
-<p>We don’t usually use R like this, but it’s handy to know that we have
+<p>We don't usually use R like this, but it's handy to know that we have
 a calculator handy if we need in in the <strong>R</strong> Console!</p>
 <table border=2 width="100%" cellpadding="5" style="border-collapse: collapse; width: 100%; border-color: #3F57B8;">
 <tr>
 <td>
 <p><strong>R functions</strong></p>
 <p>This is also the place to introduce Functions in <strong>R</strong>.
-We just used a function – to calculate a square root:
+We just used a function -- to calculate a square root:
 <code>sqrt(731)</code>.</p>
 <p>An R function is identified by a <strong>name</strong> such as
 <code>sqrt</code>, <code>t.test</code> or <code>plot</code>, followed by
 <strong>arguments</strong> in parentheses <code>( )</code> (the
-parentheses can be empty, for example <code>help.start()</code> – try
+parentheses can be empty, for example <code>help.start()</code> -- try
 it!). We used the argument <code>731</code> in the <code>sqrt()</code>
-function – some functions require several arguments, as you will see.
-Some arguments have default ‘built-in’ values.</p>
+function -- some functions require several arguments, as you will see.
+Some arguments have default 'built-in' values.</p>
 <p>There are huge numbers of built-in functions in <strong>R</strong>
-which we can use after first installing <strong>R</strong>, “straight
-out of the box” (we call this “<strong>base R</strong>”). For instance,
+which we can use after first installing <strong>R</strong>, "straight
+out of the box" (we call this "<strong>base R</strong>"). For instance,
 see the <a
 href="https://cran.r-project.org/doc/contrib/Baggott-refcard-v2.pdf"
 target="_blank">R reference card v2 by Matt Baggott</a>.</p>
-<p>If we can’t find the functions we need, they may be available in
+<p>If we can't find the functions we need, they may be available in
 <strong>R packages</strong> which are additional libraries of functions
 that we can install from within the <strong>R</strong> environment. A
 commonly used package is <code>car</code>, the <u>c</u>ompanion to
@@ -564,7 +594,7 @@ row of values in a spreadsheet. We use the simple function
 <code>c()</code> to <strong>c</strong>ombine, or put together, a set of
 values. The code below shows how we can make a vector
 <strong>object</strong> using the assign code <code>&lt;-</code> to give
-our vector a name of our choice. Just by entering the vector object’s
+our vector a name of our choice. Just by entering the vector object's
 name, we can then see its contents:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">10</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>a</span></code></pre></div>
@@ -598,8 +628,8 @@ time.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># make a vector with a sequence of numbers from 2 to 80 in steps of 2</span></span>
 <span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">2</span>,<span class="dv">80</span>,<span class="dv">2</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>b</span></code></pre></div>
-<pre><code>##  [1]  2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54
-## [28] 56 58 60 62 64 66 68 70 72 74 76 78 80</code></pre>
+<pre><code>##  [1]  2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64 66 68 70 72
+## [37] 74 76 78 80</code></pre>
 <p>Notice that if we have a long vector, the number in square brackets
 at the beginning of each line tells us which item the line starts
 with.</p>
@@ -660,9 +690,9 @@ that we <em>always</em> need the comma):</p>
 and columns, but the columns can contain different types of data such as
 numbers (integer or numeric), text (character), or categories (factor),
 <em>etc</em>..</p>
-<p>Data frame are one of the best ways to store “real” data which can
+<p>Data frame are one of the best ways to store "real" data which can
 contain information such as sample IDs, treatments, replicates,
-coordinates, categories, measurements, dates/times, <em>etc</em>. Let’s
+coordinates, categories, measurements, dates/times, <em>etc</em>. Let's
 make one and look at its properties.</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Name =</span> <span class="fu">c</span>(<span class="st">&quot;Sample 1&quot;</span>,<span class="st">&quot;Sample 2&quot;</span>,<span class="st">&quot;Sample 3&quot;</span>,<span class="st">&quot;Sample 4&quot;</span>,<span class="st">&quot;Sample 5&quot;</span>),</span>
 <span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>                 <span class="at">Group =</span> <span class="fu">as.factor</span>(<span class="fu">c</span>(<span class="st">&quot;New&quot;</span>,<span class="st">&quot;New&quot;</span>,<span class="st">&quot;Old&quot;</span>,<span class="st">&quot;Old&quot;</span>,<span class="st">&quot;Old&quot;</span>)),</span>
@@ -675,9 +705,9 @@ make one and look at its properties.</p>
 ## 3 Sample 3   Old  3.45    19
 ## 4 Sample 4   Old  5.67    18
 ## 5 Sample 5   Old  6.54    27</code></pre>
-<p>We can see that we made a data frame ‘<code>df</code>’ with 4 columns
+<p>We can see that we made a data frame '<code>df</code>' with 4 columns
 and 5 rows (the first column of output is the row number, not part of
-the data frame’s column count). All the columns contain a different type
+the data frame's column count). All the columns contain a different type
 of information which we can see using the <code>str()</code>
 (<strong>str</strong>ucture) function:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">str</span>(df)</span></code></pre></div>
@@ -694,8 +724,8 @@ information) with two <code>levels</code> or categories,
 <code>Count</code> is <code>int</code> (integer).</p>
 <p><strong>Data frames</strong> are a very common way of storing our
 data in the <strong>R</strong> environment. The rows of our data frame
-represent our <strong>observations</strong> or ‘samples’. The columns of
-a data frame are the <strong>variables</strong> – information about the
+represent our <strong>observations</strong> or 'samples'. The columns of
+a data frame are the <strong>variables</strong> -- information about the
 samples which may be identifying information (character or categorical
 information), or measurements (usually numeric information such as
 counts or concentrations).</p>
@@ -714,7 +744,7 @@ data frame:</p>
 Many of these are specialised to handle specific types of data, such as
 time series, spatial data, or raster images. One of the more common
 <strong>R</strong> objects is the <strong>list</strong>, which is a
-collection of different object types – often if we save the output of a
+collection of different object types -- often if we save the output of a
 function, it will be as an object of class <code>list</code>.</p>
 </div>
 </div>
@@ -723,12 +753,12 @@ function, it will be as an object of class <code>list</code>.</p>
 <div id="telling-rstudio-where-to-find-our-files"
 class="section level3">
 <h3>Telling RStudio where to find our files</h3>
-<p>We’ve just seen how we can create data in R by typing it in, and some
+<p>We've just seen how we can create data in R by typing it in, and some
 of our examples in class will do this, but the most common way of
 getting our data into <strong>R</strong> is to <strong>read (input) from
 a file</strong>.</p>
 <p>Before we read any files, though, we need to tell <strong>R</strong>
-where to find the files we’ve saved, downloaded, or created. There are 2
+where to find the files we've saved, downloaded, or created. There are 2
 ways to do this in RStudio:</p>
 <ol style="list-style-type: decimal">
 <li><p>In the top level menu, click Session » Set Working Directory »
@@ -747,16 +777,16 @@ Directory </span>.</p></li>
 </div>
 <div id="opening-and-saving-a-code-file" class="section level3">
 <h3>Opening (and saving) a code file</h3>
-<p>If we write some code that works, it’s good to save it so we can use
+<p>If we write some code that works, it's good to save it so we can use
 it again or adapt it for a similar task. In classes, we will provide you
 with code files (having the extension <code>.R</code>) to help you learn
 what <strong>R</strong> code does.</p>
 <p>To open a code file we have a few options:</p>
 <ol style="list-style-type: decimal">
-<li>just type <code>ctrl-O</code>, and choose the file from the ‘Open
-file’ window that appears</li>
+<li>just type <code>ctrl-O</code>, and choose the file from the 'Open
+file' window that appears</li>
 <li>click on the open file <img src="./images/openfile32.png" width="24"
-height="24" /> icon, and choose the file from the ‘Open file’ window
+height="24" /> icon, and choose the file from the 'Open file' window
 that appears</li>
 <li>click on the file shown in the <code>Files</code> pane (lower right,
 see Figures 1 and 3) in the RStudio screen.</li>
@@ -800,7 +830,7 @@ the whole path. We can also read directly from an internet address:</p>
 <span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a>               <span class="at">stringsAsFactors =</span> T)</span>
 <span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/Ratey-AtUWA/learningR/main/df.csv&quot;</span>,</span>
 <span id="cb42-4"><a href="#cb42-4" tabindex="-1"></a>               <span class="at">stringsAsFactors =</span> T)</span></code></pre></div>
-<p>You might notice that we didn’t include <code>file = </code> in the
+<p>You might notice that we didn't include <code>file = </code> in the
 second example above. We can do this because <code>file = </code> is the
 option <strong>R</strong> expects first in the <code>read.csv()</code>
 function.</p>
@@ -812,12 +842,12 @@ typing lines of code into the <strong>R</strong> Console.
 <strong>R</strong> code files that we provide for you to use will
 usually have the extension <code>.R</code>. We can:</p>
 <ul>
-<li><strong>Open</strong> files by clicking File/Open File… (or typing
+<li><strong>Open</strong> files by clicking File/Open File... (or typing
 <code>ctrl-O</code> on the keyboard), then choosing from our computer or
 network file system</li>
 <li><strong>Create</strong> new <code>.R</code> code files by clicking
 File/New File/R Script (or typing <code>ctrl-shift-N</code> on the
-keyboard), then typing in code. <em>Don’t forget to save the
+keyboard), then typing in code. <em>Don't forget to save the
 file!</em></li>
 </ul>
 <div class="figure" style="text-align: center">
@@ -856,11 +886,11 @@ utilities. For example, if we run the code <code>help("read.csv")</code>
 or just <code>?read.csv</code> in the RStudio Console (usually the
 bottom-left pane), this will open the relevant help page in the Help
 pane at (lower) right. We can also search directly in the help pane.</p>
-<p>If we’re unsure about anything in R, especially, we may be able to
+<p>If we're unsure about anything in R, especially, we may be able to
 find it in the Help system. A very useful place to start is by running
 the code below to get to the general help page:</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="fu">help.start</span>()</span></code></pre></div>
-<p>Hopefully we don’t need to manually open the <a
+<p>Hopefully we don't need to manually open the <a
 href="http://127.0.0.1:30394/doc/html/index.html"
 class="uri">http://127.0.0.1:30394/doc/html/index.html</a> link; either
 way we will see a page like that below in our RStudio help pane, or in
@@ -988,6 +1018,15 @@ papers</a>
 </div>
 </div>
 
+<!DOCTYPE html>
+
+<html>
+<body>
+<hr style="height: 2px; background-color: #003087;" />
+<p><span style="font-size:9pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <span style="font-family: monospace;">rmarkdown</span> in <a href="https://www.rstudio.com/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>.</span></p>
+</body>
+</html>
 
 
 
