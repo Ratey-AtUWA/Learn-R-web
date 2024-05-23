@@ -9,9 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Andrew Rate" />
 
+<meta name="date" content="2024-05-23" />
 
-<title>R for Environmental Science</title>
+<title>Spatial statistics in R</title>
 
 <script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -30,6 +32,8 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/tabwid-1.1.0/tabwid.css" rel="stylesheet" />
+<link href="site_libs/tabwid-1.1.0/scrool.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -42,6 +46,111 @@
 
 
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -308,8 +417,10 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">R for Environmental Science</h1>
-<h3 class="subtitle">Data analysis and visualization</h3>
+<h1 class="title toc-ignore">Spatial statistics in R</h1>
+<h3 class="subtitle">Global and local spatial autocorrelation</h3>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2024-05-23</h4>
 
 </div>
 
@@ -319,25 +430,676 @@ $(document).ready(function () {
   font-size: 12pt;
 }
 </style>
-<div id="contents" class="section level1"
-style="border: 2px solid #039; padding: 8px;">
-<h1>Contents</h1>
-<p><span style="font-size: 20pt; color:gray;">Spatial Page
-Under<br />Construction</span></p>
-</div>
-<p style="text-align:center">
-<a href="https://www.r-project.org/" target="_blank"><img
-src="https://www.r-project.org/Rlogo.png" alt="R logo" width="100"
-height="73" /></a>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p><img src="./images/spatial-art.png" align="right" alt="decorative"
+width="302" height="271" /></p>
+<p>When we have data with a spatial component, which environmental data
+usually do, an important spatial analysis is to investigate the effect
+of sample distance on environmental variables. This could be considered
+a test of “Tobler’s first law of geography” (Tobler, 2004), stating:</p>
+<blockquote>
+<p>Everything is related to everything else,<br />
+but near things are more related than distant things.</p>
+</blockquote>
+<p>Whether the values of an environmental variable are spatially related
+(or not) is expressed by the spatial autocorrelation or Moran’s I (Zhang
+<em>et al</em>. 2008). The Moran’s I statistic is based on comparison of
+the values of a variable at one point with neighbouring point – either a
+specified number of neighbours, or the neighbours within a specified
+distance. A positive Moran’s I autocorrelation suggests that locations
+with similar values of the variable considered tend to cluster together.
+A Moran’s I close to zero (no autocorrelation) suggests values of the
+variable considered are randomly located, and a larger negative Moran’s
+I suggests that similar values of the variable considered tend to be
+further apart than expected from a random spatial distribution. The null
+hypothesis for the Moran’s I statistic is that there is no spatial
+autocorrelation. Moran's I will vary with the number of neighbouring
+points in the calculation, with more points giving Moran's I values
+closer to zero (Kalogirou 2019).</p>
+<p>Moran’s I is a global autocorrelation, across the whole spatial
+dataset being analysed. A <em>local Moran’s I</em> shows the extent of
+significant spatial clustering of similar values (of the variable
+considered) around each observation. We will look at both Global and
+Local Moran's I.</p>
+<p>This Chapter will make simple maps with added data (see <a
+href="mapData.html">mapData.html</a> if you haven't already), and help
+you to understand and analyse <strong>spatial autocorrelation</strong>
+using <strong>R</strong>.</p>
+<p>We will use a subset of the National Geochemical Survey of Australia
+(NGSA) data documented by <a
+href="https://www.ga.gov.au/about/projects/resources/national-geochemical-survey"
+target="_blank">Caritat and Cooper (2011)</a> to illustrate the various
+concepts and procedures involved. We supply data in <code>.csv</code>
+files for importing into <strong>R</strong>.</p>
+<p>In this Chapter we use a range of R packages for different functions,
+shown in Table 1.</p>
+<template id="374acd76-a05e-4b1e-a4f5-9d88a8eb2ae4"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  border-color: transparent;
+  caption-side: top;
+}
+.tabwid-caption-bottom table{
+  caption-side: bottom;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+</style><div class="tabwid"><style>.cl-a4ac2ab4{}.cl-a4a29ec2{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-a4a29ed6{font-family:'Courier New';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-a4a29ed7{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-a4a66340{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-a4a67808{width:1.2in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4a67812{width:4.5in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4a6781c{width:2.5in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4a67826{width:1.2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4a67827{width:4.5in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4a67830{width:2.5in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4a67831{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4a6783a{width:4.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4a6783b{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4a6783c{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4a67844{width:4.5in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4a67845{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a49b62a6{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-a4ac2ab4'><caption><span class="cl-a49b62a6">Table 1: R packages used for spatial data analysis and visualisation.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-a4a67808"><p class="cl-a4a66340"><span class="cl-a4a29ec2">Package</span></p></td><td class="cl-a4a67812"><p class="cl-a4a66340"><span class="cl-a4a29ec2">Purpose</span></p></td><td class="cl-a4a6781c"><p class="cl-a4a66340"><span class="cl-a4a29ec2">Reference</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-a4a67826"><p class="cl-a4a66340"><span class="cl-a4a29ed6">sf</span></p></td><td class="cl-a4a67827"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Spatial data handling, formatting, and storing spatial data</span></p></td><td class="cl-a4a67830"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Pebesma (2018)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4a67831"><p class="cl-a4a66340"><span class="cl-a4a29ed6">gstat</span></p></td><td class="cl-a4a6783a"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Geostatistics (variograms and variogram models, kriging)</span></p></td><td class="cl-a4a6783b"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Pebesma (2004)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4a67826"><p class="cl-a4a66340"><span class="cl-a4a29ed6">maps</span></p></td><td class="cl-a4a67827"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Simple map outlines</span></p></td><td class="cl-a4a67830"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Becker et al. (2021)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4a67831"><p class="cl-a4a66340"><span class="cl-a4a29ed6">spdep</span></p></td><td class="cl-a4a6783a"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Spatial autocorrelation, LISA</span></p></td><td class="cl-a4a6783b"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Pebesma and Bivand (2023)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4a67826"><p class="cl-a4a66340"><span class="cl-a4a29ed6">lctools</span></p></td><td class="cl-a4a67827"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Spatial autocorrelation</span></p></td><td class="cl-a4a67830"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Kalogirou (2020)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4a67831"><p class="cl-a4a66340"><span class="cl-a4a29ed6">maptiles</span></p></td><td class="cl-a4a6783a"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Retrieving and plotting tile-based map data</span></p></td><td class="cl-a4a6783b"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Giraud (2021)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4a67826"><p class="cl-a4a66340"><span class="cl-a4a29ed6">prettymapr</span></p></td><td class="cl-a4a67827"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Map annotations</span></p></td><td class="cl-a4a67830"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Dunnington (2022)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4a6783c"><p class="cl-a4a66340"><span class="cl-a4a29ed6">viridis</span></p></td><td class="cl-a4a67844"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Colourblind-friendly colour palettes for maps</span></p></td><td class="cl-a4a67845"><p class="cl-a4a66340"><span class="cl-a4a29ed7">Garnier et al. (2021)</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="ad66e2eb-1c66-4381-9249-3400889c834d"></div>
+<script>
+var dest = document.getElementById("ad66e2eb-1c66-4381-9249-3400889c834d");
+var template = document.getElementById("374acd76-a05e-4b1e-a4f5-9d88a8eb2ae4");
+var caption = template.content.querySelector("caption");
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+<p>
+ 
 </p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(maptiles)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(prettymapr)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(spdep)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(gstat)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">library</span>(lctools)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">library</span>(viridis)</span></code></pre></div>
+</div>
+<div id="making-a-base-map" class="section level2">
+<h2>Making a base map</h2>
+<p>We saw how to do this in <a href="mapData.html">mapData.html</a>. The
+comments in the code below should help to remind us what the purpose of
+the code is.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># define coordinate reference systems</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>LongLat <span class="ot">&lt;-</span> <span class="fu">st_crs</span>(<span class="dv">4326</span>) <span class="co"># uses Earth ellipsis specs from WGS84 datum</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>UTM50S <span class="ot">&lt;-</span> <span class="fu">st_crs</span>(<span class="dv">32750</span>) <span class="co"># just for Zone 50, S hemisphere!</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co"># import the data</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>ngsaWA <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;bookChapters/main/ngsaWA.csv&quot;</span>), </span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>                   <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>NGSAWA_border <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;bookChapters/main/NGSAWA_border.csv&quot;</span>))</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co"># make spatial data objects</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>ngsaWAsf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(<span class="at">x =</span> ngsaWA, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;LONGITUDE&quot;</span>,<span class="st">&quot;LATITUDE&quot;</span>),</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>                     <span class="at">crs =</span> LongLat)</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>ngsaWAbord_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(NGSAWA_border, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;Long.est&quot;</span>,<span class="st">&quot;Lat.est&quot;</span>),</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>                          <span class="at">crs =</span> LongLat)</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co"># define map extent</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>WA_extent <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(<span class="fu">data.frame</span>(<span class="at">Longitude =</span> <span class="fu">c</span>(<span class="dv">108</span>, <span class="dv">129</span>),</span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>                                 <span class="at">Latitude =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">38</span>, <span class="sc">-</span><span class="dv">13</span>)),</span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>                      <span class="at">coords=</span><span class="fu">c</span>(<span class="st">&quot;Longitude&quot;</span>,<span class="st">&quot;Latitude&quot;</span>), <span class="at">crs=</span>LongLat) </span></code></pre></div>
+</div>
+<div id="getting-and-plotting-the-map-tile-data" class="section level2">
+<h2>Getting and plotting the map tile data</h2>
+<p>We now need some functions from the <code>maptiles</code> package
+(Giraud 2021). The <code>get_tiles</code> function downloads map tiles
+from the provider selected into an object of class
+<code>SpatRaster</code>. Then we plot using the <code>plot_tiles</code>
+function, specifying <code>axes=TRUE</code> and setting margins using
+<code>mar=</code> (Figure 1).</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>WAtiles <span class="ot">&lt;-</span> <span class="fu">get_tiles</span>(WA_extent, <span class="at">provider =</span> <span class="st">&quot;OpenTopoMap&quot;</span>, </span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>                     <span class="at">crop =</span> <span class="cn">TRUE</span>, <span class="at">zoom =</span> <span class="dv">5</span>) <span class="co"># make map object</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">par</span>(<span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.4</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), </span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>    <span class="at">lend=</span><span class="dv">2</span>, <span class="at">ljoin=</span><span class="dv">1</span>, <span class="at">tcl=</span><span class="fl">0.3</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">plot_tiles</span>(WAtiles, <span class="at">axes=</span><span class="cn">TRUE</span>, <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">side=</span><span class="dv">1</span>, <span class="at">line=</span><span class="fl">1.6</span>, <span class="at">text=</span><span class="st">&quot;Longitude (\u00B0 E)&quot;</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>      <span class="at">font=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">side=</span><span class="dv">2</span>, <span class="at">line=</span><span class="fl">1.6</span>, <span class="at">text=</span><span class="st">&quot;Latitude (\u00B0 S)&quot;</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>      <span class="at">font=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="spatial_files/figure-html/base-WA-map-1.png" alt="Figure 1: Map of Western Australia (rectangular Long-Lat projection) used subsequently as the base map for spatial analyses. Generated using the `maptiles` R package, with OpenTopoMap tiles." width="55%" />
+<p class="caption">
+Figure 1: Map of Western Australia (rectangular Long-Lat projection)
+used subsequently as the base map for spatial analyses. Generated using
+the <code>maptiles</code> R package, with OpenTopoMap tiles.
+</p>
+</div>
+<p>
+ 
+</p>
+<div id="simple-line-based-base-map" class="section level3">
+<h3>Simple line-based base map</h3>
+<p>We can also make a very simple base map at country scales using the
+<code>maps</code> package (Figure 2). The code makes use of the native
+<strong>R</strong> pipe operator <code>|&gt;</code> to sequence R
+functions without nesting. Map objects made using the <code>sf</code>
+package also work well with <code>ggplot2</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>wa_sf <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="at">regions =</span> <span class="st">&quot;Australia&quot;</span>, <span class="at">plot=</span>F) <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>), <span class="at">crs =</span> LongLat) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">st_crop</span>(<span class="at">xmin=</span><span class="dv">108</span>,<span class="at">ymin=</span><span class="sc">-</span><span class="dv">38</span>,<span class="at">xmax=</span><span class="dv">129</span>,<span class="at">ymax=</span><span class="sc">-</span><span class="dv">13</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>wa_sf) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Latitude (\u00B0S)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Longitude (\u00B0E)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="spatial_files/figure-html/simple-wa-map-1.png" alt="Figure 2: Map of Western Australia (rectangular Long-Lat projection) as a simple alternative base map for spatial analyses. Generated using the `maps`, `sf`, and `ggplot2` R packages." width="40%" />
+<p class="caption">
+Figure 2: Map of Western Australia (rectangular Long-Lat projection) as
+a simple alternative base map for spatial analyses. Generated using the
+<code>maps</code>, <code>sf</code>, and <code>ggplot2</code> R packages.
+</p>
+</div>
+<p>
+ 
+</p>
+</div>
+</div>
+<div id="a-first-look-at-the-data" class="section level2">
+<h2>A first look at the data</h2>
+<p>plot the locations of samples in the NGSA data (Figure 3):</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.4</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), </span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>    <span class="at">lend=</span><span class="dv">2</span>, <span class="at">ljoin=</span><span class="dv">1</span>, <span class="at">tcl=</span><span class="fl">0.3</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">plot_tiles</span>(WAtiles, <span class="at">axes=</span><span class="cn">TRUE</span>, <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">side=</span><span class="dv">1</span>, <span class="at">line=</span><span class="fl">1.6</span>, <span class="at">text=</span><span class="st">&quot;Longitude (\u00B0 E)&quot;</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>      <span class="at">font=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">side=</span><span class="dv">2</span>, <span class="at">line=</span><span class="fl">1.6</span>, <span class="at">text=</span><span class="st">&quot;Latitude (\u00B0 S)&quot;</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>      <span class="at">font=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">st_coordinates</span>(ngsaWAsf)[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">pch=</span><span class="dv">3</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">legend=</span><span class="st">&quot;Sample locations for</span><span class="sc">\n</span><span class="st">NGSA data in WA&quot;</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">3</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="fu">addnortharrow</span>(<span class="at">pos=</span><span class="st">&quot;topright&quot;</span>, <span class="at">border=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">text.col=</span><span class="dv">1</span>, <span class="at">padin=</span><span class="fu">c</span>(<span class="fl">0.2</span>,<span class="fl">0.2</span>))</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottom&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, </span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Omitting scale bar, as scale on map varies by</span><span class="sc">\n</span><span class="st">more than 5%, so scale bar may be inaccurate</span><span class="sc">\n</span><span class="st"> </span><span class="sc">\n</span><span class="st"> &quot;</span>),</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>       <span class="at">y.intersp=</span><span class="fl">0.9</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="spatial_files/figure-html/ngsa-points-map-1.png" alt="Figure 3: Sample locations for the Western Australia subset of the NGSA data plotted over a `maptiles` raster background." width="55%" />
+<p class="caption">
+Figure 3: Sample locations for the Western Australia subset of the NGSA
+data plotted over a <code>maptiles</code> raster background.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>We can also use <code>ggplot</code>/<code>ggmap</code> to plot the
+data using <code>geom_sf()</code>. In the example in Figure 4, we also
+add information on soil pH by including <code>aes(col=pH)</code> and
+<code>scale_colour_viridis_c()</code> in the code.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>xlabs <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">115</span>,<span class="dv">125</span>, <span class="dv">5</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>ylabs <span class="ot">=</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">35</span>, <span class="sc">-</span><span class="dv">15</span>, <span class="dv">5</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>wa_sf, <span class="at">fill=</span><span class="st">&quot;grey80&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>ngsaWAsf, <span class="fu">aes</span>(<span class="at">col=</span>pH, <span class="at">size=</span><span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Latitude&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Longitude&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="fu">scale_colour_viridis_c</span>(<span class="at">option=</span><span class="st">&quot;H&quot;</span>, <span class="at">direction=</span><span class="sc">-</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> xlabs, <span class="at">labels =</span> <span class="fu">paste0</span>(xlabs,<span class="st">&#39;°E&#39;</span>)) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> ylabs, <span class="at">labels =</span> <span class="fu">paste0</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>ylabs,<span class="st">&#39;°S&#39;</span>)) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>        <span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">16</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>        <span class="at">legend.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">16</span>),</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>        <span class="at">legend.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>),</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>        <span class="at">legend.key.height=</span><span class="fu">unit</span>(<span class="fl">2.4</span>, <span class="at">units=</span><span class="st">&quot;cm&quot;</span>)) <span class="sc">+</span> </span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">col=</span><span class="fu">guide_colourbar</span>(<span class="at">title=</span><span class="st">&quot;Soil</span><span class="sc">\n</span><span class="st">pH&quot;</span>), <span class="at">size=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="spatial_files/figure-html/ggmap-ngsa-points-1.png" alt="Figure 4: Sample locations and soil pH for the Western Australia subset of the NGSA data plotted usiing `ggmap` over a simple background." width="40%" />
+<p class="caption">
+Figure 4: Sample locations and soil pH for the Western Australia subset
+of the NGSA data plotted usiing <code>ggmap</code> over a simple
+background.
+</p>
+</div>
+<p>
+ 
+</p>
+<div id="plot-a-map-with-range-class-symbols" class="section level3">
+<h3>Plot a map with range-class symbols</h3>
+<p>First we make a simple features spatial data object:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>As.AR_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(ngsaWA[,<span class="fu">c</span>(<span class="st">&quot;LONGITUDE&quot;</span>,<span class="st">&quot;LATITUDE&quot;</span>,<span class="st">&quot;As.AR&quot;</span>)], </span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                     <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;LONGITUDE&quot;</span>,<span class="st">&quot;LATITUDE&quot;</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                     <span class="at">crs =</span> LongLat)</span></code></pre></div>
+<p>Identifying each point as belonging to a range, <em>if</em> suitable
+ranges are chosen, is a convenient and relatively simple way to explore
+the spatial distribution of values of a variable. In this example we use
+the Tukey boxplot thresholds as these are specifically designed for
+exploratory data analysis and can easily identify potentially unusual
+values (outliers). Percentile classes can also be used, and there is a
+good discussion of the options in Chapter 5 of Reimann <em>et</em>
+<em>al</em>. (2008). In this example we log<sub>10</sub>-transform As
+concentration, as its untransformed distribution has a substantial
+positive skew.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.4</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), </span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>    <span class="at">lend=</span><span class="dv">2</span>, <span class="at">ljoin=</span><span class="dv">1</span>, <span class="at">tcl=</span><span class="fl">0.3</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">plot_tiles</span>(WAtiles, <span class="at">axes=</span><span class="cn">TRUE</span>, <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">side=</span><span class="dv">1</span>, <span class="at">line=</span><span class="fl">1.6</span>, <span class="at">text=</span><span class="st">&quot;Longitude (\u00B0 E)&quot;</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>      <span class="at">font=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">side=</span><span class="dv">2</span>, <span class="at">line=</span><span class="fl">1.6</span>, <span class="at">text=</span><span class="st">&quot;Latitude (\u00B0 S)&quot;</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>      <span class="at">font=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="fu">addnortharrow</span>(<span class="at">pos=</span><span class="st">&quot;topleft&quot;</span>, <span class="at">border=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">text.col=</span><span class="dv">1</span>,  </span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>              <span class="at">padin=</span><span class="fu">c</span>(<span class="fl">0.2</span>,<span class="fl">0.2</span>), <span class="at">scale=</span><span class="fl">1.2</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, </span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Omitting scale bar, as scale&quot;</span>,<span class="st">&quot;on map varies by more than 5%&quot;</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>                  <span class="st">&quot;so scalebar may be inaccurate&quot;</span>),</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>       <span class="at">y.intersp=</span><span class="fl">0.9</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co"># construct and plot range classes in Tukey boxplot thresholds</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>As.AR_sf<span class="sc">$</span>As.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(As.AR_sf<span class="sc">$</span>As.AR)</span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>As.AR_sf<span class="sc">$</span>tukey <span class="ot">&lt;-</span> <span class="fu">cut</span>(As.AR_sf<span class="sc">$</span>As.log, </span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">999999</span>,<span class="fu">boxplot.stats</span>(As.AR_sf<span class="sc">$</span>As.log)<span class="sc">$</span>stats,<span class="dv">999999</span>),</span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;lo-outliers&quot;</span>,<span class="st">&quot;loWx-LQR&quot;</span>,<span class="st">&quot;LQR-med&quot;</span>,<span class="st">&quot;med-UQR&quot;</span>,<span class="st">&quot;UQR-upWx&quot;</span>,<span class="st">&quot;hi+outliers&quot;</span>))</span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="fu">polygon</span>(NGSAWA_border<span class="sc">$</span>Long.est, NGSAWA_border<span class="sc">$</span>Lat.est, <span class="at">lty=</span><span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>,</span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>        <span class="at">border=</span><span class="st">&quot;gray&quot;</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">st_coordinates</span>(As.AR_sf), <span class="at">pch =</span> <span class="dv">21</span>,</span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a>       <span class="at">cex=</span>(<span class="fu">c</span>(.<span class="dv">5</span>,.<span class="dv">65</span>,.<span class="dv">85</span>,<span class="dv">1</span>,<span class="fl">1.4</span>,<span class="fl">1.8</span>)<span class="sc">*</span><span class="dv">2</span>)[As.AR_sf<span class="sc">$</span>tukey], </span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a>       <span class="at">bg=</span><span class="fu">seq</span>(<span class="dv">2</span>,<span class="dv">7</span>)[As.AR_sf<span class="sc">$</span>tukey])</span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a>     </span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> <span class="fu">rev</span>(<span class="fu">c</span>(<span class="st">&quot;lo-outliers&quot;</span>,<span class="st">&quot;loWx-LQR&quot;</span>,<span class="st">&quot;LQR-med&quot;</span>,</span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a>                                <span class="st">&quot;med-UQR&quot;</span>,<span class="st">&quot;UQR-upWx&quot;</span>,<span class="st">&quot;hi+outliers&quot;</span>)), </span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">pt.cex=</span><span class="fu">rev</span>(<span class="fu">c</span>(.<span class="dv">5</span>,.<span class="dv">65</span>,.<span class="dv">85</span>,<span class="dv">1</span>,<span class="fl">1.4</span>,<span class="fl">1.8</span>))<span class="sc">*</span><span class="dv">2</span>, <span class="at">inset =</span> <span class="fl">0.07</span>, </span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a>       <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">y.intersp=</span><span class="fl">1.2</span>, <span class="at">pt.bg=</span><span class="fu">seq</span>(<span class="dv">7</span>,<span class="dv">2</span>,<span class="sc">-</span><span class="dv">1</span>), <span class="at">x.intersp =</span> <span class="fl">1.</span>)</span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">1</span>], <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">3</span>]<span class="sc">+</span>(<span class="fl">0.38</span><span class="sc">*</span>(<span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">4</span>]<span class="sc">-</span><span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">3</span>])), </span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a>     <span class="at">labels=</span><span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;TOS -2mm</span><span class="sc">\n</span><span class="st">As.AR ranges&quot;</span>)), <span class="at">pos =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="dv">1</span>)</span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="fu">par</span>(<span class="at">new=</span><span class="cn">TRUE</span>, <span class="at">fig=</span><span class="fu">c</span>(<span class="fl">0.08</span>,<span class="fl">0.18</span>,<span class="fl">0.19</span>,<span class="fl">0.36</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)<span class="sc">+</span><span class="fl">0.1</span>,</span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a>    <span class="at">col.lab=</span><span class="dv">1</span>, <span class="at">col.axis=</span><span class="dv">1</span>, <span class="at">mgp=</span><span class="fu">c</span>(.<span class="dv">9</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="at">yaxt=</span><span class="st">&quot;n&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">ann=</span>F) </span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">log10</span>(As.AR_sf<span class="sc">$</span>As.log), <span class="at">col =</span> <span class="st">&quot;#A0A0A080&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="spatial_files/figure-html/map-range-classes-1.png" alt="Figure 5: Map of arsenic (As) concentrations expressed as symbols for concentration ranges (UQR is 75th percentile, upWx is upper whisker, med is median, LQR is 25th percentile, loWx is lower whisker). Data are from from the WA subset of the NGSA data, -2mm tosoil fraction." width="55%" />
+<p class="caption">
+Figure 5: Map of arsenic (As) concentrations expressed as symbols for
+concentration ranges (UQR is 75th percentile, upWx is upper whisker, med
+is median, LQR is 25th percentile, loWx is lower whisker). Data are from
+from the WA subset of the NGSA data, -2mm tosoil fraction.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>The map's symbol classes in Figure 5 are separated by the standard
+Tukey box plot thresholds (minimum, lower-hinge, median, upper-hinge,
+maximum) – the legend is roughly aligned with the relevant box plot. We
+see a wide range of As concentration, with greater As probably
+associated with iron-rich rocks in the Pilbara (northwest WA) and
+central Yilgarn (central south WA).</p>
+<p>
+ 
+</p>
+</div>
+</div>
+<div id="spatial-autocorrelation" class="section level2">
+<h2>Spatial Autocorrelation</h2>
+<p>Whether samples are spatially related or not, in terms of a
+particular measured variable, is expressed by the <em>spatial
+autocorrelation</em> or <strong>Moran's I</strong> (Zhang <em>et
+al</em>., 2008). The Moran's I statistic is based on comparison of the
+values of a variable at one point with a specified number (or within a
+specified distance) of neighbouring points. A positive Moran I
+autocorrelation suggests that locations with similar values of the
+variable considered tend to cluster together. A Moran's I close to zero
+suggests no autocorrelation (values of the variable considered are
+randomly located), and a larger negative Moran's I suggests that similar
+values of the variable considered tend to be further apart than expected
+from a random spatial distribution. The Moran's I statistic is tested
+against the null hypothesis of no spatial autocorrelation, and will vary
+with the number of neighbouring points in the calculation, with more
+points giving weaker autocorrelations (Kalogirou, 2019).</p>
+<p>The basic Moran's I is a <em>global</em> autocorrelation, across the
+whole spatial dataset being analysed. The <em>Local</em> Moran's I can
+also be calculated, and shows the extent of significant spatial
+clustering of similar values (of the variable considered) around each
+observation.</p>
+<p>Spatial autocorrelation statistics, usually Moran's I, can be
+calculated using various GIS and statistical software, including several
+packages which add functionality to R (we use the <code>spdep</code>
+package).</p>
+<div id="calculate-global-morans-i" class="section level3">
+<h3>Calculate Global Moran's I</h3>
+<p>The subset of the National Geochemical Survey of Australia (NGSA)
+data we are using is in the object <code>ngsaWAsf</code>.</p>
+<p>We first use the <code>knearneigh()</code> function from the
+<code>spdep</code> R package to create a matrix with the row numbers of
+points belonging to the set of the k nearest neighbours of each other.
+We don't actually save the output but use the native <strong>R</strong>
+pipe operator <code>|&gt;</code> to run the output through (1) the
+<code>knn2nb()</code> function to convert to an object of class
+<code>nb</code> which includes neighbour region numbers, then (2) the
+<code>nb2listw</code> to create a list of weights (we can see what these
+look like by running <code>str(ngsaWA_nbwt)</code>, or
+<code>print(ngsaWA_nbwt)</code> for a summary).</p>
+<p>Next we use the <code>moran.test()</code> function to generate our
+Moran's I statistic. The null hypothesis is that the observations are
+random with no spatial correlation.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>ngsaWA_nbwt <span class="ot">&lt;-</span> <span class="fu">knearneigh</span>(<span class="at">x=</span>ngsaWAsf, <span class="at">k=</span><span class="dv">8</span>) <span class="sc">|&gt;</span> <span class="fu">knn2nb</span>() <span class="sc">|&gt;</span> <span class="fu">nb2listw</span>()</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>ngsaWAsf<span class="sc">$</span>As.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(ngsaWAsf<span class="sc">$</span>As.AR)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>(mI <span class="ot">&lt;-</span> <span class="fu">moran.test</span>(ngsaWAsf<span class="sc">$</span>As.log, ngsaWA_nbwt)) <span class="co"># ; str(mI) # if needed</span></span></code></pre></div>
+<pre><code>## 
+##  Moran I test under randomisation
+## 
+## data:  ngsaWAsf$As.log  
+## weights: ngsaWA_nbwt    
+## 
+## Moran I statistic standard deviate = 17.055, p-value &lt; 2.2e-16
+## alternative hypothesis: greater
+## sample estimates:
+## Moran I statistic       Expectation          Variance 
+##      0.4604199496     -0.0032894737      0.0007392565</code></pre>
+<p>The <code>Expectation</code> in the output is the estimated value of
+Moran's I if the null hypothesis is correct. We can try running the test
+with different numbers of neighbour points, or use a distance-based
+criterion for defining neighbours.</p>
+</div>
+<div id="calculate-local-morans-i" class="section level3">
+<h3>Calculate local Moran's I</h3>
+<p>In this example we use the <code>localmoran()</code> function from
+the <code>spdep</code> R package. Once again we use the
+<code>knearneigh()</code> function to define which points are neighbours
+(with <code>k=4</code> this time), and convert these to weights.</p>
+<p>It's easy to modify the code to calculate Local Moran's I for another
+variable, by editing the text string which is assigned to
+<code>var0</code>. For a list of variables in the original data subset
+we could run <code>names(ngsaWA)</code>.</p>
+<p>To make it easier to extract and map the output, we combine our data
+coordinates <code>st_coordinates(ngsaWAsf)</code> with two extracts of
+our local Moran's I output object <code>lmi_As</code>:</p>
+<ol style="list-style-type: decimal">
+<li><code>as.data.frame(lmi_As)</code>, which contains the values of
+local Moran's I (<code>Ii</code>), expected <code>Ii</code> if
+H<sub>0</sub> is true (<code>E.Ii</code>), variance in Ii
+(<code>Var.Ii</code>), the standard normal score for <code>Ii</code>
+(<code>Z,Ii</code>), and the p-value
+(<code>Pr(z != E(Ii))</code>);<br />
+</li>
+<li><code>attributes(lmi_As)$quadr</code>, which contains the Local
+Indicators of Spatial Association (LISA) categories ('quadrants') for
+each observation.</li>
+</ol>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>var0 <span class="ot">&lt;-</span> <span class="st">&quot;As.log&quot;</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>lmi_data <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(ngsaWAsf[,var0])</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co"># lmi_data$As.log &lt;- log10(lmi_data$As.AR)</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>lmi_wts <span class="ot">&lt;-</span> <span class="fu">knearneigh</span>(ngsaWAsf,<span class="at">k=</span><span class="dv">4</span>) <span class="sc">|&gt;</span> <span class="fu">knn2nb</span>() <span class="sc">|&gt;</span> <span class="fu">nb2listw</span>()</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>lmi_As <span class="ot">&lt;-</span> <span class="fu">localmoran</span>(lmi_data<span class="sc">$</span>As.log, lmi_wts)</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>lmiDF_As <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">st_coordinates</span>(ngsaWAsf),<span class="fu">as.data.frame</span>(lmi_As), <span class="fu">attributes</span>(lmi_As)<span class="sc">$</span>quadr)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="fu">colnames</span>(lmiDF_As) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Longitude&quot;</span>,<span class="st">&quot;Latitude&quot;</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>                        <span class="st">&quot;Ii&quot;</span>, <span class="st">&quot;E.Ii&quot;</span>, <span class="st">&quot;Var.Ii&quot;</span>, <span class="st">&quot;Z.Ii&quot;</span>, <span class="st">&quot;Pvalue&quot;</span>, </span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>                        <span class="st">&quot;mean&quot;</span>, <span class="st">&quot;median&quot;</span>, <span class="st">&quot;pysal&quot;</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(lmiDF_As[,<span class="dv">3</span><span class="sc">:</span><span class="dv">10</span>]), <span class="at">digits=</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##        Ii      E.Ii  Var.Ii   Z.Ii Pvalue      mean    median     pysal
+## 1  0.0478 -2.43e-05 0.00183  1.116 0.2646 High-High  Low-High High-High
+## 2  1.1874 -5.32e-03 0.39918  1.888 0.0591 High-High High-High High-High
+## 3  1.0937 -3.13e-03 0.23538  2.261 0.0238 High-High High-High High-High
+## 4 -0.2016 -3.50e-04 0.02641 -1.238 0.2156  High-Low  High-Low  High-Low
+## 5 -0.2630 -3.99e-04 0.03008 -1.514 0.1300  Low-High  Low-High  Low-High
+## 6  0.7082 -2.10e-02 1.55425  0.585 0.5586   Low-Low   Low-Low   Low-Low</code></pre>
+</div>
+<div id="plot-local-morans-i" class="section level3">
+<h3>Plot local Moran's I</h3>
+<p>We only want to display points having significant local Moran's I, so
+we subset the results data frame from above using the
+<code>which()</code> function. We subset these data further into
+positive and negative values of local Moran's I (using the
+<code>subset()</code> function), since the <code>symbols()</code>
+function cannot input negative values. Symbols are plotted with
+<code>sqrt()</code> values since human perception compares areas better
+than diameters.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>lmi_signif <span class="ot">&lt;-</span> lmiDF_As[<span class="fu">which</span>(lmiDF_As<span class="sc">$</span>Pvalue <span class="sc">&lt;=</span> <span class="fl">0.05</span>),<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">9</span>)]</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.4</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), </span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>    <span class="at">lend=</span><span class="dv">2</span>, <span class="at">ljoin=</span><span class="dv">1</span>, <span class="at">tcl=</span><span class="fl">0.3</span>, <span class="at">tcl =</span> <span class="fl">0.5</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>wa_outline <span class="ot">&lt;-</span> <span class="fu">subset</span>(<span class="fu">st_coordinates</span>(wa_sf)[,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)], </span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>                     <span class="fu">st_coordinates</span>(wa_sf)[,<span class="dv">4</span>]<span class="sc">==</span><span class="dv">5</span>) <span class="co"># subset omits islands</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="fu">plot</span>(wa_outline, <span class="at">asp=</span><span class="fl">1.05</span>, <span class="at">pch=</span><span class="st">&quot;.&quot;</span>, <span class="at">col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">110</span>,<span class="dv">129</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">38</span>,<span class="sc">-</span><span class="dv">13</span>), </span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Longitude (\u00b0E)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Latitude (\u00b0S)&quot;</span>,<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">rbind</span>(wa_outline,wa_outline[<span class="dv">1</span>,]), <span class="at">col=</span><span class="st">&quot;grey88&quot;</span>, <span class="at">border =</span> <span class="st">&quot;grey&quot;</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">st_coordinates</span>(ngsaWAsf),<span class="at">pch=</span><span class="dv">3</span>,<span class="at">col=</span><span class="st">&quot;grey60&quot;</span>,<span class="at">cex=</span><span class="fl">0.6</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>neg_lmi <span class="ot">&lt;-</span> <span class="fu">subset</span>(lmi_signif, lmi_signif<span class="sc">$</span>Ii<span class="sc">&lt;</span><span class="dv">0</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>pos_lmi <span class="ot">&lt;-</span> <span class="fu">subset</span>(lmi_signif, lmi_signif<span class="sc">$</span>Ii<span class="sc">&gt;=</span><span class="dv">0</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="fu">symbols</span>(pos_lmi[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">inches=</span>F, <span class="at">circles=</span><span class="fu">sqrt</span>(pos_lmi<span class="sc">$</span>Ii<span class="sc">*</span><span class="fl">0.4</span>), <span class="at">add=</span>T, </span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>        <span class="at">fg=</span><span class="st">&quot;blue3&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#0000FF40&quot;</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a><span class="fu">symbols</span>(neg_lmi[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">inches=</span>F, <span class="at">squares=</span><span class="fu">sqrt</span>(neg_lmi<span class="sc">$</span>Ii<span class="sc">*-</span><span class="fl">0.4</span>), <span class="at">add=</span>T, </span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>        <span class="at">fg=</span><span class="st">&quot;lightgoldenrod1&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#FFE00080&quot;</span>)</span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a><span class="fu">addnortharrow</span>(<span class="at">pos=</span><span class="st">&quot;topright&quot;</span>, <span class="at">border=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">text.col=</span><span class="dv">1</span>,  </span>
+<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a>              <span class="at">padin=</span><span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.1</span>), <span class="at">scale=</span><span class="fl">0.5</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a>textMI<span class="ot">=</span><span class="fu">paste0</span>(<span class="st">&quot;Global Moran&#39;s I = &quot;</span>,<span class="fu">signif</span>(mI<span class="sc">$</span>estimate[<span class="dv">1</span>],<span class="dv">4</span>))</span>
+<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">cex=</span><span class="fl">0.9</span>, <span class="at">bg=</span><span class="st">&quot;grey88&quot;</span>, <span class="at">box.col =</span> <span class="st">&quot;grey&quot;</span>, <span class="at">inset=</span><span class="fl">0.02</span>,</span>
+<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Local Moran&#39;s I \u2265 0&quot;</span>,<span class="st">&quot;Local Moran&#39;s I &lt; 0&quot;</span>,</span>
+<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a>                <span class="st">&quot;Sample locations&quot;</span>), </span>
+<span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">3</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;blue3&quot;</span>,<span class="st">&quot;lightgoldenrod1&quot;</span>,<span class="st">&quot;grey60&quot;</span>), </span>
+<span id="cb13-24"><a href="#cb13-24" tabindex="-1"></a>       <span class="at">pt.bg=</span><span class="fu">c</span>(<span class="st">&quot;#0000FF40&quot;</span>,<span class="st">&quot;#FFE00080&quot;</span>,<span class="cn">NA</span>),</span>
+<span id="cb13-25"><a href="#cb13-25" tabindex="-1"></a>       <span class="at">pt.cex=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>), <span class="at">title =</span> textMI)</span>
+<span id="cb13-26"><a href="#cb13-26" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fl">0.01</span>, </span>
+<span id="cb13-27"><a href="#cb13-27" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Not plotting scale bar as scale&quot;</span>,</span>
+<span id="cb13-28"><a href="#cb13-28" tabindex="-1"></a>                  <span class="st">&quot;on map varies by more than 5%,&quot;</span>,</span>
+<span id="cb13-29"><a href="#cb13-29" tabindex="-1"></a>                  <span class="st">&quot;so scalebar may be inaccurate&quot;</span>),</span>
+<span id="cb13-30"><a href="#cb13-30" tabindex="-1"></a>       <span class="at">y.intersp=</span><span class="fl">0.9</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">text.col =</span> <span class="st">&quot;grey60&quot;</span>)</span>
+<span id="cb13-31"><a href="#cb13-31" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="spatial_files/figure-html/map-local-moransI-1.png" alt="Figure 6: Map of Local Moran's I for arsenic (As) concentrations in the WA subset of the NGSA data, -2mm tosoil fraction. The Global Moran's I parameter is also shown above the legend." width="50%" />
+<p class="caption">
+Figure 6: Map of Local Moran's I for arsenic (As) concentrations in the
+WA subset of the NGSA data, -2mm tosoil fraction. The Global Moran's I
+parameter is also shown above the legend.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>The map in Figure 6 shows numerous sample locations having positive
+Local Moran's I for the selected variable, and a significant global
+spatial autocorrelation (Moran's I ≅ 0.46, with a very low p-value).</p>
+<p>We can also use the information stored in our local Moran's I data
+frame to plot a map of <strong>l</strong>ocal
+<strong>i</strong>ndicators of <strong>s</strong>patial
+<strong>a</strong>ssociation (LISA; see Table 2).</p>
+<p>
+ 
+</p>
+<template id="7b5c387a-b198-4d02-81e7-a725c4de4284"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  border-color: transparent;
+  caption-side: top;
+}
+.tabwid-caption-bottom table{
+  caption-side: bottom;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+</style><div class="tabwid"><style>.cl-af3f41b4{}.cl-af301626{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-af301644{font-family:'Arial';font-size:6pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3pt;}.cl-af30164e{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-af301658{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 255, 1.00);background-color:transparent;}.cl-af301662{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(255, 0, 0, 1.00);background-color:transparent;}.cl-af30166c{font-family:'Arial';font-size:6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3pt;}.cl-af36a6c6{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-af36c994{width:2.4in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-af36c99e{width:2.4in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-af36c9a8{width:2.4in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-af36c9a9{width:2.4in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-af36c9b2{width:2.4in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-af36c9bc{width:2.4in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-af36c9c6{width:2.4in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-af36c9d0{width:2.4in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-af36c9da{width:2.4in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-af36c9db{width:2.4in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-af36c9e4{width:2.4in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-af36c9ee{width:2.4in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-af36c9ef{width:2.4in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-af1f852c{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-af3f41b4'><caption><span class="cl-af1f852c">Table 2: Explanation of LISA (Local Indicators of Spatial Association) categories.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-af36c994"><p class="cl-af36a6c6"><span class="cl-af301626">LISA quadrant</span></p></td><td class="cl-af36c99e"><p class="cl-af36a6c6"><span class="cl-af301626">Variable value</span><span class="cl-af301644">a</span></p></td><td class="cl-af36c9a8"><p class="cl-af36a6c6"><span class="cl-af301626">Local Moran's I</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-af36c9a9"><p class="cl-af36a6c6"><span class="cl-af30164e">Low-Low</span></p></td><td class="cl-af36c9b2"><p class="cl-af36a6c6"><span class="cl-af301658">&lt; median</span></p></td><td class="cl-af36c9bc"><p class="cl-af36a6c6"><span class="cl-af301662">positive</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-af36c9c6"><p class="cl-af36a6c6"><span class="cl-af30164e">High-Low</span></p></td><td class="cl-af36c9d0"><p class="cl-af36a6c6"><span class="cl-af301662">&gt; median</span></p></td><td class="cl-af36c9da"><p class="cl-af36a6c6"><span class="cl-af301658">negative</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-af36c9a9"><p class="cl-af36a6c6"><span class="cl-af30164e">Low-High</span></p></td><td class="cl-af36c9b2"><p class="cl-af36a6c6"><span class="cl-af301658">&lt; median</span></p></td><td class="cl-af36c9bc"><p class="cl-af36a6c6"><span class="cl-af301658">negative</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-af36c9db"><p class="cl-af36a6c6"><span class="cl-af30164e">High-High</span></p></td><td class="cl-af36c9e4"><p class="cl-af36a6c6"><span class="cl-af301662">&gt; median</span></p></td><td class="cl-af36c9ee"><p class="cl-af36a6c6"><span class="cl-af301662">positive</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td  colspan="3"class="cl-af36c9ef"><p class="cl-af36a6c6"><span class="cl-af30166c">a</span><span class="cl-af30164e">LISA quadrants can also be defined relative to the mean.</span></p></td></tr></tfoot></table></div></template>
+<div class="flextable-shadow-host" id="072ce036-c0ac-479c-a710-43dbf14da402"></div>
+<script>
+var dest = document.getElementById("072ce036-c0ac-479c-a710-43dbf14da402");
+var template = document.getElementById("7b5c387a-b198-4d02-81e7-a725c4de4284");
+var caption = template.content.querySelector("caption");
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+<p>
+ 
+</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>lmi_signif <span class="ot">&lt;-</span> lmiDF_As[<span class="fu">which</span>(lmiDF_As<span class="sc">$</span>Pvalue <span class="sc">&lt;=</span> <span class="fl">0.05</span>),]</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">7</span>,<span class="st">&quot;RdBu&quot;</span>)))</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.4</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), </span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>    <span class="at">lend=</span><span class="dv">1</span>, <span class="at">ljoin=</span><span class="dv">0</span>, <span class="at">tcl=</span><span class="fl">0.3</span>, <span class="at">tcl =</span> <span class="fl">0.5</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>wa_outline <span class="ot">&lt;-</span> <span class="fu">subset</span>(<span class="fu">st_coordinates</span>(wa_sf)[,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)], </span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>                     <span class="fu">st_coordinates</span>(wa_sf)[,<span class="dv">4</span>]<span class="sc">==</span><span class="dv">5</span>) <span class="co"># subset omits islands</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="fu">plot</span>(wa_outline, <span class="at">asp=</span><span class="fl">1.05</span>, <span class="at">pch=</span><span class="st">&quot;.&quot;</span>, <span class="at">col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">110</span>,<span class="dv">129</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">38</span>,<span class="sc">-</span><span class="dv">13</span>), </span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Longitude (\u00b0E)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Latitude (\u00b0S)&quot;</span>,<span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">rbind</span>(wa_outline,wa_outline[<span class="dv">1</span>,]), <span class="at">col=</span><span class="st">&quot;grey88&quot;</span>, <span class="at">border =</span> <span class="st">&quot;grey&quot;</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">st_coordinates</span>(ngsaWAsf),<span class="at">pch=</span><span class="dv">3</span>,<span class="at">col=</span><span class="st">&quot;grey60&quot;</span>,<span class="at">cex=</span><span class="fl">0.6</span>)</span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="fu">with</span>(lmi_signif, </span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a>     <span class="fu">points</span>(Longitude, Latitude, <span class="at">lwd=</span><span class="dv">2</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a>            <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">25</span>,<span class="dv">24</span>,<span class="dv">22</span>)[median], </span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a>            <span class="at">col=</span><span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">8</span>,<span class="dv">2</span>,<span class="dv">2</span>)[median], </span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a>            <span class="at">bg=</span><span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">3</span>)[median],</span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a>            <span class="at">cex =</span> <span class="fu">c</span>(<span class="fl">1.2</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="fl">1.2</span>)[median])</span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a>     )</span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a><span class="fu">addnortharrow</span>(<span class="at">pos=</span><span class="st">&quot;topright&quot;</span>, <span class="at">border=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">text.col=</span><span class="dv">1</span>,  </span>
+<span id="cb14-19"><a href="#cb14-19" tabindex="-1"></a>              <span class="at">padin=</span><span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.1</span>), <span class="at">scale=</span><span class="fl">0.5</span>)</span>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">cex=</span><span class="fl">0.9</span>, <span class="at">bg=</span><span class="st">&quot;grey88&quot;</span>, <span class="at">box.col =</span> <span class="st">&quot;grey&quot;</span>, <span class="at">inset=</span><span class="fl">0.02</span>,</span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">levels</span>(lmi_signif<span class="sc">$</span>median), <span class="at">title=</span><span class="st">&quot;LISA Quadrants&quot;</span>,</span>
+<span id="cb14-22"><a href="#cb14-22" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">25</span>,<span class="dv">24</span>,<span class="dv">22</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">8</span>,<span class="dv">2</span>,<span class="dv">2</span>),</span>
+<span id="cb14-23"><a href="#cb14-23" tabindex="-1"></a>       <span class="at">pt.bg=</span><span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">3</span>), <span class="at">pt.cex =</span> <span class="fu">c</span>(<span class="fl">1.2</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="fl">1.2</span>))</span>
+<span id="cb14-24"><a href="#cb14-24" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fl">0.01</span>, </span>
+<span id="cb14-25"><a href="#cb14-25" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Not plotting scale bar as scale&quot;</span>,</span>
+<span id="cb14-26"><a href="#cb14-26" tabindex="-1"></a>                  <span class="st">&quot;on map varies by more than 5%,&quot;</span>,</span>
+<span id="cb14-27"><a href="#cb14-27" tabindex="-1"></a>                  <span class="st">&quot;so scalebar may be inaccurate&quot;</span>),</span>
+<span id="cb14-28"><a href="#cb14-28" tabindex="-1"></a>       <span class="at">y.intersp=</span><span class="fl">0.9</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">text.col =</span> <span class="st">&quot;grey60&quot;</span>)</span>
+<span id="cb14-29"><a href="#cb14-29" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="spatial_files/figure-html/map-lisa-1.png" alt="Figure 7: Map of Local Indicators of Spatial Association (LISA) relative to median for arsenic (As) concentrations in the WA subset of the NGSA data, –2 mm topsoil fraction." width="50%" />
+<p class="caption">
+Figure 7: Map of Local Indicators of Spatial Association (LISA) relative
+to median for arsenic (As) concentrations in the WA subset of the NGSA
+data, –2 mm topsoil fraction.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>The LISA map enables us to identify localized map regions where
+values of the chosen variable in or data are strongly positively or
+negatively associated with one another, that is, different spatial
+clusters. Usually locations having significant Low-High or High-Low
+association are isolated and less common, as we see in Figure 7.</p>
+</div>
+</div>
+<div id="whats-next" class="section level2"
+style="border: 2px solid #039; background-color:#fec; padding: 8px;">
+<h2>What's next?</h2>
+<p>In the <a href="spat-interp.html">next Session</a>, we build on the
+understanding of spatial autocorrelation to introduce spatial
+interpolation, in particular the concepts of variograms and kriging.</p>
+</div>
+<p>
+ 
+</p>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>Caritat, P., Cooper, M., 2011. <em>National Geochemical Survey of
+Australia: The Geochemical Atlas of Australia</em>. GA Record 2011/20 (2
+Volumes). Geoscience Australia, Canberra, 557 pp. <a
+href="https://www.ga.gov.au/about/projects/resources/national-geochemical-survey/atlas"
+target="_blank">https://www.ga.gov.au/about/projects/resources/national-geochemical-survey/atlas</a></p>
+<p>Dunnington, D. 2017. <em>prettymapr: Scale Bar, North Arrow, and
+Pretty Margins in R</em>. R package version 0.2.2. <a
+href="https://CRAN.R-project.org/package=prettymapr"
+target="_blank">https://CRAN.R-project.org/package=prettymapr</a></p>
+<p>Garnier, Simon, Noam Ross, Robert Rudis, Antônio P. Camargo, Marco
+Sciaini, and Cédric Scherer (2021). <em>viridis - Colorblind-Friendly
+Color Maps for R</em>. R package version 0.6.2. <a
+href="https://sjmgarnier.github.io/viridis/"
+target="_blank">https://sjmgarnier.github.io/viridis/</a></p>
+<p>Giraud T (2021). <em>maptiles: Download and Display Map Tiles</em>. R
+package version 0.3.0, <a
+href="https://CRAN.R-project.org/package=maptiles"
+target="_blank">https://CRAN.R-project.org/package=maptiles</a>.</p>
+<p>Kalogirou, S., 2019. <em>Spatial Autocorrelation, Vignette for R
+package 'lctools'</em>, <a
+href="https://cran.r-project.org/web/packages/lctools/vignettes/SpatialAutocorrelation.pdf"
+target="_blank">https://cran.r-project.org/web/packages/lctools/vignettes/SpatialAutocorrelation.pdf</a>.</p>
+<p>Kalogirou, S. 2020. <em>lctools: Local Correlation, Spatial
+Inequalities, Geographically Weighted Regression and Other Tools</em>. R
+package version 0.2-8. <a
+href="https://CRAN.R-project.org/package=lctools"
+target="_blank">https://CRAN.R-project.org/package=lctools</a>.</p>
+<p>Nychka D., Furrer R., Paige J., Sain S. (2021). <em>fields: Tools for
+spatial data.</em> R package version 13.3, <a
+href="https://github.com/dnychka/fieldsRPackage"
+target="_blank">https://github.com/dnychka/fieldsRPackage</a>.</p>
+<p>Pebesma, E., 2018. Simple Features for R: Standardized Support for
+Spatial Vector Data. <em>The R Journal</em> <strong>10</strong> (1),
+439-446, <a href="https://doi.org/10.32614/RJ-2018-009"
+target="_blank">https://doi.org/10.32614/RJ-2018-009</a>. (package
+<code>sf</code>)</p>
+<p>Pebesma E, Bivand R (2023). <em>Spatial Data Science With
+Applications in R</em>. Chapman &amp; Hall. <a
+href="https://r-spatial.org/book/"
+target="_blank">https://r-spatial.org/book/</a>. (package
+<code>spdep</code>)</p>
+<p>Reimann, C., Filzmoser, P., Garrett, R.G., Dutter, R., 2008.
+<em>Statistical Data Analysis Explained: Applied Environmental
+Statistics with R</em>. John Wiley &amp; Sons, Chichester, England, 343
+pp.</p>
+<p>Tobler, W., 2004. On the First Law of Geography: A Reply. <em>Annals
+of the Association of American Geographers</em>, <strong>94</strong>(2):
+304-310. <a href="https://doi.org/10.1111/j.1467-8306.2004.09402009.x"
+target="_blank">doi:10.1111/j.1467-8306.2004.09402009.x</a></p>
+<p>Zhang, C., Luo, L., Xu, W., Ledwith, V., 2008. Use of local Moran's I
+and GIS to identify pollution hotspots of Pb in urban soils of Galway,
+Ireland. <em>Science of the Total Environment</em>,
+<strong>398</strong>: 212-221, <a
+href="https://doi.org/10.1016/j.scitotenv.2008.03.011"
+target="_blank">https://doi.org/10.1016/j.scitotenv.2008.03.011</a>.</p>
+<p>
+ 
+</p>
+</div>
 
 <!DOCTYPE html>
 
 <html>
 <body>
 <hr style="height: 2px; background-color: #003087;" />
-<p><span style="font-size:9pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
-<span style="font-size:9pt">Created with <span style="font-family: monospace;">rmarkdown</span> in <a href="https://www.rstudio.com/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>.</span></p>
+<p><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>.</span></p>
 </body>
 </html>
 

@@ -1,6 +1,8 @@
 ---
-title: "R for Environmental Science"
-subtitle: "Data analysis and visualization"
+title: "Spatial statistics in R"
+subtitle: "Global and local spatial autocorrelation"
+author: "Andrew Rate"
+date: "`r Sys.Date()`"
 output: 
   html_document:
     highlight: kate
@@ -12,11 +14,558 @@ output:
 }
 </style>
 
-<div style="border: 2px solid #039; padding: 8px;">
-# Contents
+## Introduction 
+![](./images/spatial-art.png){align="right" alt="decorative" width="302" height="271"}
 
-<span style="font-size: 20pt; color:gray;">Spatial Page Under<br />Construction</span>
+When we have data with a spatial component, which environmental data usually do,
+an important spatial analysis is to investigate the effect of sample distance on
+environmental variables. This could be considered a test of &ldquo;Tobler’s
+first law of geography&rdquo; (Tobler, 2004), stating:
 
+> Everything is related to everything else,  
+> but near things are more related than distant things.
+
+Whether the values of an environmental variable are spatially related (or not)
+is expressed by the spatial autocorrelation or Moran’s I (Zhang
+*et al*. 2008). The Moran’s I statistic is based on comparison of the values of
+a variable at one point with neighbouring point &ndash; either a specified
+number of neighbours, or the neighbours within a specified distance. A positive
+Moran’s I autocorrelation suggests that locations with similar values of the
+variable considered tend to cluster together. A Moran’s I close to zero (no
+autocorrelation) suggests values of the variable considered are randomly
+located, and a larger negative Moran’s I suggests that similar values of the
+variable considered tend to be further apart than expected from a random spatial
+distribution. The null hypothesis for the Moran’s I statistic is that there is
+no spatial autocorrelation. Moran's I will vary with the number of neighbouring
+points in the calculation, with more points giving Moran's I values closer to
+zero (Kalogirou 2019).
+
+Moran’s I is a global autocorrelation, across the whole spatial dataset being
+analysed. A *local Moran’s I* shows the extent of significant spatial clustering
+of similar values (of the variable considered) around each observation. We will
+look at both Global and Local Moran's I.
+
+This Chapter will make simple maps with added data (see
+[mapData.html](mapData.html) if you haven't already), and help you to
+understand and analyse **spatial autocorrelation** using **R**.
+
+We will use a subset of the National Geochemical Survey of Australia (NGSA) data
+documented by [Caritat and Cooper
+(2011)](https://www.ga.gov.au/about/projects/resources/national-geochemical-survey){target="_blank"} 
+to illustrate the various concepts and procedures involved. We supply data in 
+`.csv` files for importing into **R**.
+
+In this Chapter we use a range of R packages for different functions, shown in
+Table 1.
+
+```{r load-packages+environment-invisibly, message=FALSE, warning=FALSE, echo=FALSE, include=FALSE}
+library(lctools)
+library(spdep)
+library(gstat)
+library(sf)
+library(maps)
+library(maptiles)
+library(prettymapr)
+library(viridis)
+library(flextable)
+
+set_flextable_defaults(theme_fun = "theme_zebra", 
+                       font.size = 10, fonts_ignore = TRUE)
+BorderDk <- officer::fp_border(color = "#B5C3DF", style = "solid", width = 1)
+BorderLt <- officer::fp_border(color = "#FFFFFF", style = "solid", width = 1)
+
+git <- "https://raw.githubusercontent.com/Ratey-AtUWA/"
+```
+
+```{r tabulate-packages, echo=FALSE}
+pklist <- 
+  data.frame(Package=c("sf","gstat","maps","spdep","lctools","maptiles",
+                               "prettymapr","viridis"),
+        Purpose=c("Spatial data handling, formatting, and storing spatial data",
+                   "Geostatistics (variograms and variogram models, kriging)",
+      "Simple map outlines","Spatial autocorrelation, LISA",
+      "Spatial autocorrelation",
+      "Retrieving and plotting tile-based map data",
+      "Map annotations",
+      "Colourblind-friendly colour palettes for maps"),
+      Reference=c("Pebesma (2018)", "Pebesma (2004)", 
+                  "Becker et al. (2021)",
+                  "Pebesma and Bivand (2023)", "Kalogirou (2020)",
+                  "Giraud (2021)", "Dunnington (2022)",
+                  "Garnier et al. (2021)"))
+flextable(pklist,cwidth=c(1.2,4.5,2.5)) |> 
+  border_outer(border=BorderDk, part = "all") |>
+  font(j=1,fontname="Courier New" ,part="body") |>
+  set_caption(caption="Table 1: R packages used for spatial data analysis and visualisation.")
+```
+
+<p>&nbsp;</p>
+
+```{r load-packages-but-dont-run, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+library(sf)
+library(maptiles)
+library(prettymapr)
+library(spdep)
+library(gstat)
+library(lctools)
+library(maps)
+library(viridis)
+```
+
+## Making a base map
+
+We saw how to do this in [mapData.html](mapData.html). The comments in the code
+below should help to remind us what the purpose of the code is.
+
+```{r make-basemap, warning=FALSE, error=FALSE, results='hold'}
+
+# define coordinate reference systems
+
+LongLat <- st_crs(4326) # uses Earth ellipsis specs from WGS84 datum
+UTM50S <- st_crs(32750) # just for Zone 50, S hemisphere!
+
+# import the data
+
+ngsaWA <- read.csv(file=paste0(git,"bookChapters/main/ngsaWA.csv"), 
+                   stringsAsFactors = TRUE)
+NGSAWA_border <- read.csv(paste0(git,"bookChapters/main/NGSAWA_border.csv"))
+
+# make spatial data objects
+
+ngsaWAsf <- st_as_sf(x = ngsaWA, coords = c("LONGITUDE","LATITUDE"),
+                     crs = LongLat)
+ngsaWAbord_sf <- st_as_sf(NGSAWA_border, coords = c("Long.est","Lat.est"),
+                          crs = LongLat)
+
+# define map extent
+
+WA_extent <- st_as_sf(data.frame(Longitude = c(108, 129),
+                                 Latitude = c(-38, -13)),
+                      coords=c("Longitude","Latitude"), crs=LongLat) 
+
+```
+
+## Getting and plotting the map tile data
+
+We now need some functions from the `maptiles` package (Giraud 2021). The 
+`get_tiles` function downloads map tiles from the provider selected into an 
+object of class `SpatRaster`. Then we plot using the `plot_tiles` function, 
+specifying `axes=TRUE` and setting margins using `mar=` 
+(Figure 1).
+
+```{r base-WA-map, fig.height=7.6, fig.width=6, fig.align='center', fig.cap="Figure 1: Map of Western Australia (rectangular Long-Lat projection) used subsequently as the base map for spatial analyses. Generated using the `maptiles` R package, with OpenTopoMap tiles.", out.width="55%", warning=FALSE, message=FALSE, results='hide'}
+WAtiles <- get_tiles(WA_extent, provider = "OpenTopoMap", 
+                     crop = TRUE, zoom = 5) # make map object
+
+par(oma=c(0,0,0,0), mar=c(3,3,0.5,0.5), mgp=c(1.4,0.3,0), 
+    lend=2, ljoin=1, tcl=0.3)
+plot_tiles(WAtiles, axes=TRUE, mar=c(3,3,0.5,0.5))
+mtext(side=1, line=1.6, text="Longitude (\u00B0 E)",
+      font=2, cex=1.2)
+mtext(side=2, line=1.6, text="Latitude (\u00B0 S)",
+      font=2, cex=1.2)
+```
+
+<p>&nbsp;</p>
+
+### Simple line-based base map
+
+We can also make a very simple base map at country scales using the `maps`
+package (Figure 2). The code makes use of the native
+**R** pipe operator `|>` to sequence R functions without nesting. Map objects
+made using the `sf` package also work well with `ggplot2`.
+
+```{r simple-wa-map0, eval=FALSE, message=FALSE, warning=FALSE, results='hide'}
+wa_sf <- map(regions = "Australia", plot=F) |> 
+  st_as_sf(coords = c("x","y"), crs = LongLat) |> 
+  st_crop(xmin=108,ymin=-38,xmax=129,ymax=-13)
+library(ggplot2)
+ggplot() +
+  geom_sf(data=wa_sf) +
+  labs(y="Latitude (\u00B0S)", x = "Longitude (\u00B0E)") + 
+  theme_bw()
+```
+
+```{r simple-wa-map, fig.height=5.7, fig.width=4.5, fig.align='center', fig.cap="Figure 2: Map of Western Australia (rectangular Long-Lat projection) as a simple alternative base map for spatial analyses. Generated using the `maps`, `sf`, and `ggplot2` R packages.", out.width="40%", warning=FALSE, message=FALSE, results='hold', echo=FALSE}
+wa_sf <- map(regions = "Australia", plot=F) |> 
+  st_as_sf(coords = c("x","y"), crs = LongLat) |> 
+  st_crop(xmin=108,ymin=-38,xmax=129,ymax=-13)
+library(ggplot2)
+xlabs = seq(115,125, 5)
+ylabs = seq(-35, -15, 5)
+ggplot() +
+  geom_sf(data=wa_sf) +
+  labs(y="Latitude (\u00B0S)", x = "Longitude (\u00B0E)") + 
+  scale_x_continuous(breaks = xlabs, labels = paste0(xlabs,'°E')) +
+  scale_y_continuous(breaks = ylabs, labels = paste0(ylabs,'°S')) +
+  theme_bw()
+```
+
+<p>&nbsp;</p>
+
+## A first look at the data
+
+plot the locations of samples in 
+the NGSA data (Figure 3):
+
+```{r ngsa-points-map, fig.height=7.6, fig.width=6, fig.align='center', fig.cap="Figure 3: Sample locations for the Western Australia subset of the NGSA data plotted over a `maptiles` raster background.", out.width="55%"}
+par(oma=c(0,0,0,0), mar=c(3,3,0.5,0.5), mgp=c(1.4,0.3,0), 
+    lend=2, ljoin=1, tcl=0.3)
+plot_tiles(WAtiles, axes=TRUE, mar=c(3,3,0.5,0.5))
+mtext(side=1, line=1.6, text="Longitude (\u00B0 E)",
+      font=2, cex=1.2)
+mtext(side=2, line=1.6, text="Latitude (\u00B0 S)",
+      font=2, cex=1.2)
+
+points(st_coordinates(ngsaWAsf)[,1:2], pch=3)
+legend("topleft", bty="n", legend="Sample locations for\nNGSA data in WA",
+       pch = 3)
+addnortharrow(pos="topright", border=1, lwd=1, text.col=1, padin=c(0.2,0.2))
+legend("bottom", bty="n", 
+       legend = c("Omitting scale bar, as scale on map varies by\nmore than 5%, so scale bar may be inaccurate\n \n "),
+       y.intersp=0.9)
+```
+
+<p>&nbsp;</p>
+
+We can also use `ggplot`/`ggmap` to plot the data using `geom_sf()`. In the
+example in Figure 4, we also add information on soil pH by including
+`aes(col=pH)` and `scale_colour_viridis_c()` in the code.
+
+```{r ggmap-ngsa-points, fig.height=7.6, fig.width=6, fig.align='center', fig.cap="Figure 4: Sample locations and soil pH for the Western Australia subset of the NGSA data plotted usiing `ggmap` over a simple background.", out.width="40%"}
+xlabs = seq(115,125, 5)
+ylabs = seq(-35, -15, 5)
+ggplot() +
+  geom_sf(data=wa_sf, fill="grey80") +
+  geom_sf(data=ngsaWAsf, aes(col=pH, size=2)) +
+  labs(y="Latitude", x = "Longitude") + 
+  scale_colour_viridis_c(option="H", direction=-1) +
+  scale_x_continuous(breaks = xlabs, labels = paste0(xlabs,'°E')) +
+  scale_y_continuous(breaks = ylabs, labels = paste0(-1*ylabs,'°S')) +
+  theme_bw() +
+  theme(axis.text=element_text(size=14, color="black"),
+        axis.title=element_text(size=16,face="bold"),
+        legend.title=element_text(size=16),
+        legend.text=element_text(size=14),
+        legend.key.height=unit(2.4, units="cm")) + 
+  guides(col=guide_colourbar(title="Soil\npH"), size="none")
+```
+
+<p>&nbsp;</p>
+
+### Plot a map with range-class symbols
+
+First we make a simple features spatial data object:
+
+```{r}
+As.AR_sf <- st_as_sf(ngsaWA[,c("LONGITUDE","LATITUDE","As.AR")], 
+                     coords = c("LONGITUDE","LATITUDE"),
+                     crs = LongLat)
+```
+
+Identifying each point as belonging to a range, *if* suitable ranges are chosen,
+is a convenient and relatively simple way to explore the spatial distribution of
+values of a variable. In this example we use the Tukey boxplot thresholds as
+these are specifically designed for exploratory data analysis and can easily
+identify potentially unusual values (outliers). Percentile classes can also be
+used, and there is a good discussion of the options in Chapter 5 of Reimann *et*
+*al*. (2008). In this example we log~10~-transform As concentration, as its 
+untransformed distribution has a substantial positive skew.
+
+```{r map-range-classes, echo=2:19, fig.align='center', fig.cap="Figure 5: Map of arsenic (As) concentrations expressed as symbols for concentration ranges (UQR is 75th percentile, upWx is upper whisker, med is median, LQR is 25th percentile, loWx is lower whisker). Data are from from the WA subset of the NGSA data, -2mm tosoil fraction.", fig.height=7.5, out.width="55%", fig.width=6, message=FALSE, warning=FALSE}
+palette(c("black",turbo(6, alp=0.7, end=0.9),"grey92", "white"))
+par(oma=c(0,0,0,0), mar=c(3,3,0.5,0.5), mgp=c(1.4,0.3,0), 
+    lend=2, ljoin=1, tcl=0.3)
+plot_tiles(WAtiles, axes=TRUE, mar=c(3,3,0.5,0.5))
+mtext(side=1, line=1.6, text="Longitude (\u00B0 E)",
+      font=2, cex=1.2)
+mtext(side=2, line=1.6, text="Latitude (\u00B0 S)",
+      font=2, cex=1.2)
+addnortharrow(pos="topleft", border=1, lwd=1, text.col=1,  
+              padin=c(0.2,0.2), scale=1.2)
+legend("bottomright", bty="n", 
+       legend = c("Omitting scale bar, as scale","on map varies by more than 5%",
+                  "so scalebar may be inaccurate"),
+       y.intersp=0.9)
+# construct and plot range classes in Tukey boxplot thresholds
+As.AR_sf$As.log <- log10(As.AR_sf$As.AR)
+As.AR_sf$tukey <- cut(As.AR_sf$As.log, 
+    breaks = c(-999999,boxplot.stats(As.AR_sf$As.log)$stats,999999),
+    labels = c("lo-outliers","loWx-LQR","LQR-med","med-UQR","UQR-upWx","hi+outliers"))
+polygon(NGSAWA_border$Long.est, NGSAWA_border$Lat.est, lty=3, lwd=2,
+        border="gray")
+points(st_coordinates(As.AR_sf), pch = 21,
+       cex=(c(.5,.65,.85,1,1.4,1.8)*2)[As.AR_sf$tukey], 
+       bg=seq(2,7)[As.AR_sf$tukey])
+     
+legend("bottomleft", legend = rev(c("lo-outliers","loWx-LQR","LQR-med",
+                                "med-UQR","UQR-upWx","hi+outliers")), 
+       cex = 1.2, pch=21, pt.cex=rev(c(.5,.65,.85,1,1.4,1.8))*2, inset = 0.07, 
+       bty="n", y.intersp=1.2, pt.bg=seq(7,2,-1), x.intersp = 1.)
+text(par("usr")[1], par("usr")[3]+(0.38*(par("usr")[4]-par("usr")[3])), 
+     labels=expression(bold("TOS -2mm\nAs.AR ranges")), pos = 4, cex = 1)
+par(new=TRUE, fig=c(0.08,0.18,0.19,0.36), mar=c(0,0,0,0)+0.1,
+    col.lab=1, col.axis=1, mgp=c(.9,0.2,0), xaxt="n", yaxt="n", bty="n", ann=F) 
+boxplot(log10(As.AR_sf$As.log), col = "#A0A0A080")
+```
+
+<p>&nbsp;</p>
+
+The map's symbol classes in Figure 5 are separated by
+the standard Tukey box plot thresholds (minimum, lower-hinge, median,
+upper-hinge, maximum) &ndash; the legend is roughly aligned with the relevant
+box plot. We see a wide range of As concentration, with greater As probably
+associated with iron-rich rocks in the Pilbara (northwest WA) and central
+Yilgarn (central south WA).
+
+<p>&nbsp;</p>
+
+## Spatial Autocorrelation
+
+Whether samples are spatially related or not, in terms of a particular measured
+variable, is expressed by the *spatial autocorrelation* or **Moran's I**
+(Zhang *et al*., 2008). The Moran's I statistic is based on comparison of the
+values of a variable at one point with a specified number (or within a specified
+distance) of neighbouring points. A positive Moran I autocorrelation suggests
+that locations with similar values of the variable considered tend to cluster
+together. A Moran's I close to zero suggests no autocorrelation (values of the
+variable considered are randomly located), and a larger negative Moran's I
+suggests that similar values of the variable considered tend to be further apart
+than expected from a random spatial distribution. The Moran's I statistic is
+tested against the null hypothesis of no spatial autocorrelation, and will vary
+with the number of neighbouring points in the calculation, with more points
+giving weaker autocorrelations (Kalogirou, 2019).
+
+The basic Moran's I is a *global* autocorrelation, across the whole spatial
+dataset being analysed. The *Local* Moran's I can also be calculated, and shows
+the extent of significant spatial clustering of similar values (of the variable
+considered) around each observation.
+
+Spatial autocorrelation statistics, usually Moran's I, can be calculated using
+various GIS and statistical software, including several packages which add
+functionality to R (we use the `spdep` package).
+
+### Calculate Global Moran's I
+
+The subset of the National Geochemical Survey of Australia (NGSA) data we are
+using is in the object `ngsaWAsf`.
+
+We first use the `knearneigh()` function from the `spdep` R package to create a
+matrix with the row numbers of points belonging to the set of the k nearest
+neighbours of each other. We don't actually save the output but use the native
+**R** pipe operator `|>` to run the output through (1) the `knn2nb()` function 
+to convert to an object of class `nb` which includes neighbour region numbers, 
+then (2) the `nb2listw` to create a list of weights (we can see what these look 
+like by running `str(ngsaWA_nbwt)`, or `print(ngsaWA_nbwt)` for a summary).
+
+Next we use the `moran.test()` function to generate our Moran's I statistic. The 
+null hypothesis is that the observations are random with no spatial correlation.
+
+```{r global-Moran, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE, results='hold'}
+ngsaWA_nbwt <- knearneigh(x=ngsaWAsf, k=8) |> knn2nb() |> nb2listw()
+ngsaWAsf$As.log <- log10(ngsaWAsf$As.AR)
+(mI <- moran.test(ngsaWAsf$As.log, ngsaWA_nbwt)) # ; str(mI) # if needed
+```
+
+The `Expectation` in the output is the estimated value of Moran's I if the null
+hypothesis is correct. We can try running the test with different numbers of
+neighbour points, or use a distance-based criterion for defining neighbours.
+
+### Calculate local Moran's I
+
+In this example we use the `localmoran()` function from the `spdep` R package.
+Once again we use the `knearneigh()` function to define which points are
+neighbours (with `k=4` this time), and convert these to weights.
+
+It's easy to modify the code to calculate Local Moran's I for another variable,
+by editing the text string which is assigned to `var0`. For a list of
+variables in the original data subset we could run `names(ngsaWA)`.
+
+To make it easier to extract and map the output, we combine our data coordinates
+`st_coordinates(ngsaWAsf)` with two extracts of our local Moran's I output 
+object `lmi_As`: 
+
+1.    `as.data.frame(lmi_As)`, which contains the values of local Moran's I 
+(`Ii`), expected `Ii` if H~0~ is true (`E.Ii`), variance in Ii (`Var.Ii`), the 
+standard normal score for `Ii` (`Z,Ii`), and the p-value (`Pr(z != E(Ii))`);  
+2. `attributes(lmi_As)$quadr`, which contains the Local Indicators of Spatial 
+Association (LISA) categories ('quadrants') for each observation.
+
+```{r calc-local-mI, paged.print=FALSE}
+var0 <- "As.log"
+lmi_data <- na.omit(ngsaWAsf[,var0])
+# lmi_data$As.log <- log10(lmi_data$As.AR)
+lmi_wts <- knearneigh(ngsaWAsf,k=4) |> knn2nb() |> nb2listw()
+
+lmi_As <- localmoran(lmi_data$As.log, lmi_wts)
+lmiDF_As <- cbind(st_coordinates(ngsaWAsf),as.data.frame(lmi_As), attributes(lmi_As)$quadr)
+colnames(lmiDF_As) <- c("Longitude","Latitude",
+                        "Ii", "E.Ii", "Var.Ii", "Z.Ii", "Pvalue", 
+                        "mean", "median", "pysal")
+print(head(lmiDF_As[,3:10]), digits=3)
+```
+
+```{r rm-temp-lmi-objs, include=FALSE}
+rm(list=c("var0", "lmi_data", "lmi_wts","lmi_As")) 
+```
+
+### Plot local Moran's I
+
+We only want to display points having significant local Moran's I, so we subset
+the results data frame from above using the `which()` function. We subset these
+data further into positive and negative values of local Moran's I (using the
+`subset()` function), since the `symbols()` function cannot input negative
+values. Symbols are plotted with `sqrt()` values since human perception compares
+areas better than diameters. 
+
+```{r map-local-moransI, fig.align='center', out.width="50%", fig.cap="Figure 6: Map of Local Moran's I for arsenic (As) concentrations in the WA subset of the NGSA data, -2mm tosoil fraction. The Global Moran's I parameter is also shown above the legend.", message=FALSE, warning=FALSE, fig.height=6.4, fig.width=5, results='hold'}
+lmi_signif <- lmiDF_As[which(lmiDF_As$Pvalue <= 0.05),c(1:3,7,9)]
+
+par(oma=c(0,0,0,0), mar=c(4,4,1.5,1.5), mgp=c(1.4,0.3,0), 
+    lend=2, ljoin=1, tcl=0.3, tcl = 0.5, lwd = 1, font.lab=2)
+wa_outline <- subset(st_coordinates(wa_sf)[,c(1:2)], 
+                     st_coordinates(wa_sf)[,4]==5) # subset omits islands
+plot(wa_outline, asp=1.05, pch=".", col="grey", xlim=c(110,129), ylim=c(-38,-13), 
+     xlab="Longitude (\u00b0E)", ylab="Latitude (\u00b0S)",xaxs="i")
+polygon(rbind(wa_outline,wa_outline[1,]), col="grey88", border = "grey")
+points(st_coordinates(ngsaWAsf),pch=3,col="grey60",cex=0.6)
+neg_lmi <- subset(lmi_signif, lmi_signif$Ii<0)
+pos_lmi <- subset(lmi_signif, lmi_signif$Ii>=0)
+symbols(pos_lmi[,1:2], inches=F, circles=sqrt(pos_lmi$Ii*0.4), add=T, 
+        fg="blue3", bg="#0000FF40")
+symbols(neg_lmi[,1:2], inches=F, squares=sqrt(neg_lmi$Ii*-0.4), add=T, 
+        fg="lightgoldenrod1", bg="#FFE00080")
+addnortharrow(pos="topright", border=1, lwd=1, text.col=1,  
+              padin=c(0.1,0.1), scale=0.5)
+textMI=paste0("Global Moran's I = ",signif(mI$estimate[1],4))
+legend("topleft", cex=0.9, bg="grey88", box.col = "grey", inset=0.02,
+       legend=c("Local Moran's I \u2265 0","Local Moran's I < 0",
+                "Sample locations"), 
+       pch=c(21,22,3), col=c("blue3","lightgoldenrod1","grey60"), 
+       pt.bg=c("#0000FF40","#FFE00080",NA),
+       pt.cex=c(3,3,0.5), title = textMI)
+legend("bottomright", bty="n", inset = 0.01, 
+       legend = c("Not plotting scale bar as scale",
+                  "on map varies by more than 5%,",
+                  "so scalebar may be inaccurate"),
+       y.intersp=0.9, cex = 0.8, text.col = "grey60")
+box()
+```
+
+```{r tidy-up-mI, include=FALSE}
+rm(list=c("neg_lmi","pos_lmi")) # tidy up
+```
+
+<p>&nbsp;</p>
+
+The map in Figure 6 shows numerous sample locations
+having positive Local Moran's I for the selected variable, and a significant
+global spatial autocorrelation (Moran's I &cong; 0.46, with a very low p-value).
+
+We can also use the information stored in our local Moran's I data frame to plot
+a map of **l**ocal **i**ndicators of **s**patial **a**ssociation (LISA; see
+Table 2).
+
+<p>&nbsp;</p>
+
+```{r tabulate-lisa, echo=FALSE}
+lisalist<-data.frame(LISAQ=c("Low-Low","High-Low","Low-High","High-High"),
+        Variable=c("< median","> median","< median","> median"),
+      lmi=c("positive", "negative", "negative", "positive"))
+flextable(lisalist,cwidth=c(2.4,2.4,2.4)) |> 
+  border_outer(border=BorderDk, part = "all") |>
+  set_header_labels(LISAQ = "LISA quadrant", 
+    Variable = "Variable value", lmi = "Local Moran's I" ) |>
+  footnote(i=1, j=2, value = as_paragraph("LISA quadrants can also be defined relative to the mean."), ref_symbols = "a", part="header") |>
+  style(i=c(2,4), j=2, pr_t = fp_text_default(color="red")) |>
+  style(i=c(1,3), j=2, pr_t = fp_text_default(color="blue")) |>
+  style(i=c(1,4), j=3, pr_t = fp_text_default(color="red")) |>
+  style(i=c(2,3), j=3, pr_t = fp_text_default(color="blue")) |>
+  set_caption(caption="Table 2: Explanation of LISA (Local Indicators of Spatial Association) categories.")
+```
+
+<p>&nbsp;</p>
+
+```{r map-lisa, fig.align='center', out.width="50%", fig.cap="Figure 7: Map of Local Indicators of Spatial Association (LISA) relative to median for arsenic (As) concentrations in the WA subset of the NGSA data, –2 mm topsoil fraction.", message=FALSE, warning=FALSE, fig.height=6.4, fig.width=5, results='hold'}
+lmi_signif <- lmiDF_As[which(lmiDF_As$Pvalue <= 0.05),]
+palette(c("black",RColorBrewer::brewer.pal(7,"RdBu")))
+par(oma=c(0,0,0,0), mar=c(4,4,1.5,1.5), mgp=c(1.4,0.3,0), 
+    lend=1, ljoin=0, tcl=0.3, tcl = 0.5, lwd = 1, font.lab=2)
+wa_outline <- subset(st_coordinates(wa_sf)[,c(1:2)], 
+                     st_coordinates(wa_sf)[,4]==5) # subset omits islands
+plot(wa_outline, asp=1.05, pch=".", col="grey", xlim=c(110,129), ylim=c(-38,-13), 
+     xlab="Longitude (\u00b0E)", ylab="Latitude (\u00b0S)",xaxs="i")
+polygon(rbind(wa_outline,wa_outline[1,]), col="grey88", border = "grey")
+points(st_coordinates(ngsaWAsf),pch=3,col="grey60",cex=0.6)
+with(lmi_signif, 
+     points(Longitude, Latitude, lwd=2,
+            pch=c(21,25,24,22)[median], 
+            col=c(8,8,2,2)[median], 
+            bg=c(7,3,7,3)[median],
+            cex = c(1.2,1,1,1.2)[median])
+     )
+addnortharrow(pos="topright", border=1, lwd=1, text.col=1,  
+              padin=c(0.1,0.1), scale=0.5)
+legend("topleft", cex=0.9, bg="grey88", box.col = "grey", inset=0.02,
+       legend=levels(lmi_signif$median), title="LISA Quadrants",
+       pch=c(21,25,24,22), col=c(8,8,2,2),
+       pt.bg=c(7,3,7,3), pt.cex = c(1.2,1,1,1.2))
+legend("bottomright", bty="n", inset = 0.01, 
+       legend = c("Not plotting scale bar as scale",
+                  "on map varies by more than 5%,",
+                  "so scalebar may be inaccurate"),
+       y.intersp=0.9, cex = 0.8, text.col = "grey60")
+box()
+```
+
+```{r tidy-up-lmi, include=FALSE}
+rm(list=c("mI", "ngsaWA_nbwt","lmi_signif")) # tidy up
+```
+
+<p>&nbsp;</p>
+
+The LISA map enables us to identify localized map regions where values of the
+chosen variable in or data are strongly positively or negatively associated with
+one another, that is, different spatial clusters. Usually locations having
+significant Low-High or High-Low association are isolated and less common, as we
+see in Figure 7.
+
+<div style="border: 2px solid #039; background-color:#fec; padding: 8px;"> 
+## What's next?
+
+In the [next Session](spat-interp.html), we build on the understanding of 
+spatial autocorrelation to introduce spatial interpolation, in particular the
+concepts of variograms and kriging.
 </div>
 
-<p style="text-align:center"><a href="https://www.r-project.org/" target="_blank">![](https://www.r-project.org/Rlogo.png){width="100" height="73" alt="R logo"}</a></p>
+<p>&nbsp;</p>
+
+
+## References
+
+Caritat, P., Cooper, M., 2011. *National Geochemical Survey of Australia: The Geochemical Atlas of Australia*. GA Record 2011/20 (2 Volumes). Geoscience Australia, Canberra, 557 pp. [https://www.ga.gov.au/about/projects/resources/national-geochemical-survey/atlas](https://www.ga.gov.au/about/projects/resources/national-geochemical-survey/atlas){target="_blank"}
+
+Dunnington, D. 2017. *prettymapr: Scale Bar, North Arrow, and Pretty Margins in R*. R package version 0.2.2. [https://CRAN.R-project.org/package=prettymapr](https://CRAN.R-project.org/package=prettymapr){target="_blank"}
+
+Garnier, Simon, Noam Ross, Robert Rudis, Antônio P. Camargo, Marco Sciaini, and Cédric Scherer (2021). *viridis - Colorblind-Friendly Color Maps for R*. R package version 0.6.2. [https://sjmgarnier.github.io/viridis/](https://sjmgarnier.github.io/viridis/){target="_blank"}
+
+Giraud T (2021). _maptiles: Download and Display Map Tiles_. R package version
+0.3.0, [https://CRAN.R-project.org/package=maptiles](https://CRAN.R-project.org/package=maptiles){target="_blank"}.
+
+Kalogirou, S., 2019. *Spatial Autocorrelation, Vignette for R package 'lctools'*, [https://cran.r-project.org/web/packages/lctools/vignettes/SpatialAutocorrelation.pdf](https://cran.r-project.org/web/packages/lctools/vignettes/SpatialAutocorrelation.pdf){target="_blank"}. 
+
+Kalogirou, S. 2020. *lctools: Local Correlation, Spatial Inequalities, Geographically Weighted Regression and Other Tools*. R package version 0.2-8. [https://CRAN.R-project.org/package=lctools](https://CRAN.R-project.org/package=lctools){target="_blank"}.
+
+Nychka D., Furrer R., Paige J., Sain S. (2021). *fields: Tools for spatial data.* R package version 13.3, [https://github.com/dnychka/fieldsRPackage](https://github.com/dnychka/fieldsRPackage){target="_blank"}.
+
+Pebesma, E., 2018. Simple Features for R: Standardized Support for Spatial Vector Data. *The R Journal* **10** (1), 439-446, [https://doi.org/10.32614/RJ-2018-009](https://doi.org/10.32614/RJ-2018-009){target="_blank"}. (package `sf`)
+
+Pebesma E, Bivand R (2023). *Spatial Data Science With Applications in R*. Chapman & Hall.   [https://r-spatial.org/book/](https://r-spatial.org/book/){target="_blank"}. (package `spdep`)
+
+Reimann, C., Filzmoser, P., Garrett, R.G., Dutter, R., 2008. *Statistical Data Analysis Explained: Applied Environmental Statistics with R*. John Wiley & Sons, Chichester, England, 343 pp.
+
+Tobler, W., 2004. On the First Law of Geography: A Reply. *Annals of the Association of American Geographers*, **94**(2): 304-310. [doi:10.1111/j.1467-8306.2004.09402009.x](https://doi.org/10.1111/j.1467-8306.2004.09402009.x){target="_blank"}
+
+Zhang, C., Luo, L., Xu, W., Ledwith, V., 2008. Use of local Moran's I and GIS to identify pollution hotspots of Pb in urban soils of Galway, Ireland. *Science of the Total Environment*, **398**: 212-221, [https://doi.org/10.1016/j.scitotenv.2008.03.011](https://doi.org/10.1016/j.scitotenv.2008.03.011){target="_blank"}.
+
+<p>&nbsp;</p>

@@ -9,9 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Andrew Rate" />
 
+<meta name="date" content="2024-05-23" />
 
-<title>R for Environmental Science</title>
+<title>Spatial interpolation in R</title>
 
 <script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -30,6 +32,8 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/tabwid-1.1.0/tabwid.css" rel="stylesheet" />
+<link href="site_libs/tabwid-1.1.0/scrool.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -42,6 +46,111 @@
 
 
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -298,7 +407,7 @@ $(document).ready(function () {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li class="dropdown-header">UWA School of Agriculture and Environment</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -308,8 +417,10 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">R for Environmental Science</h1>
+<h1 class="title toc-ignore">Spatial interpolation in R</h1>
 <h3 class="subtitle">Data analysis and visualization</h3>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2024-05-23</h4>
 
 </div>
 
@@ -319,25 +430,620 @@ $(document).ready(function () {
   font-size: 12pt;
 }
 </style>
-<div id="contents" class="section level1"
-style="border: 2px solid #039; padding: 8px;">
-<h1>Contents</h1>
-<p><span style="font-size: 20pt; color:gray;">Kriging Page
-Under<br />Construction</span></p>
-</div>
-<p style="text-align:center">
-<a href="https://www.r-project.org/" target="_blank"><img
-src="https://www.r-project.org/Rlogo.png" alt="R logo" width="100"
-height="73" /></a>
+<p>
+ 
 </p>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>For many assessments of environmental data, it is desirable to
+predict an environmental measurement at locations where samples have not
+been taken. To do this we need some sort of model which represents how
+the measurement we're interested in varies with distance. Such a model
+is actually provided by the <em>variogram</em>. In simple terms a
+variogram is the relationship between the variance in our variable of
+interest between sample points, and the distance separating those sample
+points. In many cases a mathematical function can describe the variogram
+relationship quite well. The variogram function can then be used to
+interpolate between points – a process known as kriging (named after the
+pioneer of geostatistics and inventor of the kriging method, Professor
+Danie Krige). Excellent summaries of spatial interpolation using
+variograms and kriging are presented by Oliver and Webster (2014) and
+Reimann <em>et al</em>. (2008). According to Webster and Oliver (1993),
+at least 100 observations (and preferably more) are needed for kriging
+interpolation.</p>
+<p>We will again use a subset of the National Geochemical Survey of
+Australia (NGSA) data (<a
+href="https://www.ga.gov.au/about/projects/resources/national-geochemical-survey"
+target="_blank">Caritat and Cooper (2011)</a>) as an example to show the
+various concepts and methods involved. Any data we need will be
+available in <code>.csv</code> files which we can read into
+<strong>R</strong>.</p>
+<p>In this Chapter we use a range of R packages for different functions,
+shown in Table 1.</p>
+<template id="3c82c555-088c-41be-ad41-39ca76810f82"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  border-color: transparent;
+  caption-side: top;
+}
+.tabwid-caption-bottom table{
+  caption-side: bottom;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+</style><div class="tabwid"><style>.cl-3f12cbd4{}.cl-3f098a24{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3f098a2e{font-family:'Courier New';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3f098a38{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3f0d4146{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3f0d544c{width:1.2in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f0d5456{width:4.5in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f0d5457{width:2.5in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f0d5460{width:1.2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f0d5461{width:4.5in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f0d546a{width:2.5in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f0d546b{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f0d546c{width:4.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f0d5474{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f0d5475{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f0d5476{width:4.5in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f0d547e{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f056f02{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-3f12cbd4'><caption><span class="cl-3f056f02">Table 1: R packages used for spatial data analysis and visualisation.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-3f0d544c"><p class="cl-3f0d4146"><span class="cl-3f098a24">Package</span></p></td><td class="cl-3f0d5456"><p class="cl-3f0d4146"><span class="cl-3f098a24">Purpose</span></p></td><td class="cl-3f0d5457"><p class="cl-3f0d4146"><span class="cl-3f098a24">Reference</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-3f0d5460"><p class="cl-3f0d4146"><span class="cl-3f098a2e">sf</span></p></td><td class="cl-3f0d5461"><p class="cl-3f0d4146"><span class="cl-3f098a38">Spatial data handling, formatting, and storing spatial data</span></p></td><td class="cl-3f0d546a"><p class="cl-3f0d4146"><span class="cl-3f098a38">Pebesma (2018)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3f0d546b"><p class="cl-3f0d4146"><span class="cl-3f098a2e">gstat</span></p></td><td class="cl-3f0d546c"><p class="cl-3f0d4146"><span class="cl-3f098a38">Geostatistics (variograms and variogram models, kriging)</span></p></td><td class="cl-3f0d5474"><p class="cl-3f0d4146"><span class="cl-3f098a38">Pebesma (2004)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3f0d5460"><p class="cl-3f0d4146"><span class="cl-3f098a2e">maps</span></p></td><td class="cl-3f0d5461"><p class="cl-3f0d4146"><span class="cl-3f098a38">Simple map outlines</span></p></td><td class="cl-3f0d546a"><p class="cl-3f0d4146"><span class="cl-3f098a38">Becker et al. (2021)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3f0d546b"><p class="cl-3f0d4146"><span class="cl-3f098a2e">spdep</span></p></td><td class="cl-3f0d546c"><p class="cl-3f0d4146"><span class="cl-3f098a38">Spatial autocorrelation, LISA</span></p></td><td class="cl-3f0d5474"><p class="cl-3f0d4146"><span class="cl-3f098a38">Pebesma and Bivand (2023)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3f0d5460"><p class="cl-3f0d4146"><span class="cl-3f098a2e">sp</span></p></td><td class="cl-3f0d5461"><p class="cl-3f0d4146"><span class="cl-3f098a38">Older spatial package needed by spdep</span></p></td><td class="cl-3f0d546a"><p class="cl-3f0d4146"><span class="cl-3f098a38">Pebesma and Bivand (2005)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3f0d546b"><p class="cl-3f0d4146"><span class="cl-3f098a2e">lctools</span></p></td><td class="cl-3f0d546c"><p class="cl-3f0d4146"><span class="cl-3f098a38">Spatial autocorrelation</span></p></td><td class="cl-3f0d5474"><p class="cl-3f0d4146"><span class="cl-3f098a38">Kalogirou (2020)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3f0d5460"><p class="cl-3f0d4146"><span class="cl-3f098a2e">maptiles</span></p></td><td class="cl-3f0d5461"><p class="cl-3f0d4146"><span class="cl-3f098a38">Retrieving and plotting tile-based map data</span></p></td><td class="cl-3f0d546a"><p class="cl-3f0d4146"><span class="cl-3f098a38">Giraud (2021)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3f0d546b"><p class="cl-3f0d4146"><span class="cl-3f098a2e">prettymapr</span></p></td><td class="cl-3f0d546c"><p class="cl-3f0d4146"><span class="cl-3f098a38">Map annotations</span></p></td><td class="cl-3f0d5474"><p class="cl-3f0d4146"><span class="cl-3f098a38">Dunnington (2022)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3f0d5460"><p class="cl-3f0d4146"><span class="cl-3f098a2e">fields</span></p></td><td class="cl-3f0d5461"><p class="cl-3f0d4146"><span class="cl-3f098a38">Visualizing spatial data with irregular grids</span></p></td><td class="cl-3f0d546a"><p class="cl-3f0d4146"><span class="cl-3f098a38">Nychka et al. (2021)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3f0d5475"><p class="cl-3f0d4146"><span class="cl-3f098a2e">viridis</span></p></td><td class="cl-3f0d5476"><p class="cl-3f0d4146"><span class="cl-3f098a38">Colourblind-friendly colour palettes for maps</span></p></td><td class="cl-3f0d547e"><p class="cl-3f0d4146"><span class="cl-3f098a38">Garnier et al. (2021)</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="467d1a61-8ae9-4db5-bee9-53d2e9857d3e"></div>
+<script>
+var dest = document.getElementById("467d1a61-8ae9-4db5-bee9-53d2e9857d3e");
+var template = document.getElementById("3c82c555-088c-41be-ad41-39ca76810f82");
+var caption = template.content.querySelector("caption");
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+<p>
+ 
+</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(maptiles)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(prettymapr)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(spdep)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(gstat)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">library</span>(lctools)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">library</span>(fields)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="fu">library</span>(viridis)</span></code></pre></div>
+</div>
+<div id="read-data-and-set-up-base-map" class="section level2">
+<h2>Read data and set up base map</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># define coordinate reference systems</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>LongLat <span class="ot">&lt;-</span> <span class="fu">st_crs</span>(<span class="dv">4326</span>) <span class="co"># uses Earth ellipsis specs from WGS84 datum</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>UTM50S <span class="ot">&lt;-</span> <span class="fu">st_crs</span>(<span class="dv">32750</span>) <span class="co"># just for Zone 50, S hemisphere!</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co"># import the data</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>ngsaWA <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;bookChapters/main/ngsaWA.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>NGSAWA_border <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git, <span class="st">&quot;bookChapters/main/NGSAWA_border.csv&quot;</span>))</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># make spatial data objects</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>ngsaWAsf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(<span class="at">x =</span> ngsaWA, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;LONGITUDE&quot;</span>,<span class="st">&quot;LATITUDE&quot;</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>                     <span class="at">crs =</span> LongLat)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>ngsaWAbord_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(NGSAWA_border, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;Long.est&quot;</span>,<span class="st">&quot;Lat.est&quot;</span>),</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>                          <span class="at">crs =</span> LongLat)</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co"># define map extent</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>WA_extent <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(<span class="fu">data.frame</span>(<span class="at">Longitude =</span> <span class="fu">c</span>(<span class="dv">108</span>, <span class="dv">129</span>),</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>                                 <span class="at">Latitude =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">38</span>, <span class="sc">-</span><span class="dv">13</span>)),</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>                      <span class="at">coords=</span><span class="fu">c</span>(<span class="st">&quot;Longitude&quot;</span>,<span class="st">&quot;Latitude&quot;</span>), <span class="at">crs=</span>LongLat) </span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>WAtiles <span class="ot">&lt;-</span> <span class="fu">get_tiles</span>(WA_extent, <span class="at">provider =</span> <span class="st">&quot;OpenStreetMap.HOT&quot;</span>, </span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>                     <span class="at">crop =</span> <span class="cn">TRUE</span>, <span class="at">zoom =</span> <span class="dv">5</span>) <span class="co"># make map object</span></span></code></pre></div>
+<p>
+ 
+</p>
+</div>
+<div
+id="using-the-gstat-package-for-geostatistics-variograms-kriging-and-visualization"
+class="section level2">
+<h2>Using the gstat package for Geostatistics: variograms, kriging, and
+visualization</h2>
+<div id="make-a-simple-features-spatial-data-object-from-a-data-frame"
+class="section level3">
+<h3>Make a 'Simple Features' spatial data object from a data frame</h3>
+<p>In this example (as for Moran's I) we log<sub>10</sub>-transform our
+variable as its distribution is highly positively skewed. (Using the
+untransformed variable would result in too many apparent upper
+outliers.)</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>As.AR_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(ngsaWA[,<span class="fu">c</span>(<span class="st">&quot;LONGITUDE&quot;</span>,<span class="st">&quot;LATITUDE&quot;</span>,<span class="st">&quot;As.AR&quot;</span>)], </span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>                     <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;LONGITUDE&quot;</span>,<span class="st">&quot;LATITUDE&quot;</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                     <span class="at">crs =</span> LongLat)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>As.AR_sf<span class="sc">$</span>As.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(As.AR_sf<span class="sc">$</span>As.AR)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">summary</span>(As.AR_sf)</span></code></pre></div>
+<pre><code>##      As.AR                 geometry       As.log        
+##  Min.   : 0.050   POINT        :305   Min.   :-1.30103  
+##  1st Qu.: 0.800   epsg:4326    :  0   1st Qu.:-0.09691  
+##  Median : 1.600   +proj=long...:  0   Median : 0.20412  
+##  Mean   : 2.869                       Mean   : 0.15464  
+##  3rd Qu.: 3.300                       3rd Qu.: 0.51851  
+##  Max.   :50.200                       Max.   : 1.70070</code></pre>
+<p>
+ 
+</p>
+</div>
+<div id="plot-the-spatial-object-for-checking" class="section level3">
+<h3>Plot the spatial object for checking</h3>
+<p>To quickly check our data, we use the function <code>bubble()</code>
+from the <code>sp</code> package to make a <em>bubble map</em> (Figure
+1) of our variable, where the symbol <em>area</em> is proportional to
+the variable value (in this case, log<sub>10</sub> arsenic
+concentration). We use the <code>as_Spatial()</code> function to convert
+our <code>sf</code> object to an <code>sp</code> object, so we can use
+<code>sp::bubble()</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>As.AR_sp <span class="ot">&lt;-</span> <span class="fu">as_Spatial</span>(As.AR_sf)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>sp<span class="sc">::</span><span class="fu">bubble</span>(As.AR_sp, <span class="st">&quot;As.log&quot;</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#ff000088&quot;</span>, <span class="st">&quot;#0000ff88&quot;</span>), <span class="at">main =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>       <span class="at">scales =</span> <span class="fu">list</span>(<span class="at">draw =</span> <span class="cn">TRUE</span>), <span class="at">xlab =</span> <span class="st">&quot;Longitude&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Latitude&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="spat-interp_files/figure-html/inspect-spatial-object-1.png" alt="Figure 1: Visualization of spatial point data object for log~10~-transformed arsenic (As) concentrations in the WA subset of the NGSA data. Negative log~10~-values are red, positive blue." width="40%" />
+<p class="caption">
+Figure 1: Visualization of spatial point data object for
+log<sub>10</sub>-transformed arsenic (As) concentrations in the WA
+subset of the NGSA data. Negative log<sub>10</sub>-values are red,
+positive blue.
+</p>
+</div>
+<p>
+ 
+</p>
+</div>
+<div id="variograms-and-kriging" class="section level3">
+<h3>Variograms and Kriging</h3>
+<p>Figure 2 shows some of the key concepts of variogram analysis. In
+practice, the large number of points representing all possible distances
+between pairs of locations are 'binned' into distance ranges, and the
+mean square variance in each 'bin' is used as the estimated semivariance
+for each bin distance. There is some semivariance that exists even for
+samples which are very closely-spaced (tending to zero distance), and
+this is called the <em>nugget</em>. This semivariance increases with
+increasing distance between samples to a limiting value called the
+<em>sill</em>. At some distance there is no increase in semivariance
+(which then approaches the variance of the complete dataset), and this
+distance is called the <em>range</em>, the value of which depends on the
+mathematical model used to describe the semivariance-distance
+relationship. The <em>practical range</em>, the distance at which
+samples are independent, is related to the model range by a factor
+dependent on the model equation.</p>
+<div style="border: 2px solid #039; padding: 8px;">
+<p>The <em>practical range</em>, <em>r</em><sub>ε</sub>, is defined as
+the distance at which semivariance is 95% of the sill. It is related to
+the model range <em>a</em> by:</p>
+<ul>
+<li>For an <strong>exponential</strong> model, <em>r</em><sub>ε</sub> =
+3 × <em>a</em></li>
+<li>For a <strong>Gaussian</strong> model, <em>r</em><sub>ε</sub> = √3 ×
+<em>a</em></li>
+<li>For a <strong>spherical</strong> model, <em>r</em><sub>ε</sub> ≅ 0.8
+× <em>a</em></li>
+</ul>
+</div>
+<p>
+ 
+</p>
+<div class="figure" style="text-align: center">
+<img src="spat-interp_files/figure-html/variogram-params-1.png" alt="Figure 2: Some of the key concepts of variogram analysis (see text for definitions)." width="75%" />
+<p class="caption">
+Figure 2: Some of the key concepts of variogram analysis (see text for
+definitions).
+</p>
+</div>
+<p>
+ 
+</p>
+</div>
+<div id="make-a-binned-simple-variogram-object" class="section level3">
+<h3>Make a binned simple variogram object</h3>
+<p>We calculate the semivariance within <em>bins</em> (distance
+intervals) which combine the mean square difference within a set of
+intervals of sample separation distances (Figure 3). This allows both
+visualization of the trend in semivariance with distance, and fitting of
+a model variogram equation to the semivariance–distance relationship.
+The number of bins can be determined "automatically" by an algorithm, or
+can be specified by the user. We usually constrain the maximum
+separation distance (<code>max.dist</code>) to be less than the maximum
+spatial extent of the data – Reimann <em>et al.</em> (2008) suggest that
+the maximum distance for the variogram should be ≈ 40% of the maximum
+dataset distance, which for these data is 19.66 ° longitude or
+latitude.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">tcl=</span><span class="fl">0.3</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>variog_As.log <span class="ot">&lt;-</span> <span class="fu">variogram</span>(As.log<span class="sc">~</span><span class="dv">1</span>, As.AR_sf) <span class="co"># , cressie = TRUE</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">plot</span>(variog_As.log, <span class="at">xlab =</span> <span class="st">&quot;Distance (km)&quot;</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">col=</span><span class="st">&quot;blue2&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="spat-interp_files/figure-html/make-variogram-object-1.png" alt="Figure 3: Plot of experimental binned variogram for arsenic (As) in the WA subset of the NGSA data, -2mm tosoil fraction." width="50%" />
+<p class="caption">
+Figure 3: Plot of experimental binned variogram for arsenic (As) in the
+WA subset of the NGSA data, -2mm tosoil fraction.
+</p>
+</div>
+<p>
+ 
+</p>
+</div>
+<div id="the-experimental-variogram-and-variogram-models"
+class="section level3">
+<h3>The experimental variogram and variogram models</h3>
+<p>From the experimental (or 'empirical') variogram, we can generate a
+<strong>variogram model</strong> by fitting a function to the binned
+semivariance-distance relationship.<br />
+Common variogram model functions include exponential, spherical, and
+Gaussian, and there are numerous others (run <code>vgm()</code> for a
+list).</p>
+</div>
+<div id="fit-a-variogram-model-using-weighted-least-squares"
+class="section level3">
+<h3>Fit a variogram model using weighted least squares</h3>
+<p>We need to choose the type of model (<em>e.g</em>. exponential,
+spherical, <em>etc</em>.), and make decisions about whether to include a
+nugget. In Figure 4 we show a model with a fitted value for the nugget
+semivariance.</p>
+<p>The exponential model we use is defined by: <br /> <em><span
+style="font-family: serif;">γ</span> = b + C<sub>0</sub></em> × (<em>1 −
+e<sup>−x/a</sup></em>), where:</p>
+<ul>
+<li><span style="font-family: serif;"><em>γ</em></span> =
+semivariance</li>
+<li><em>x</em> = distance (<em>as defined by the binned
+values</em>)</li>
+<li><em>b</em> = nugget (<strong>Nug</strong> in gstat; also called
+<span style="font-family: serif;"><em>τ</em></span><sup>2</sup> (tau
+squared))</li>
+<li><em>C<sub>0</sub></em> = partial sill (<strong>psill</strong> in
+gstat; also called <em>σ</em><sup>2</sup> (sigma squared))</li>
+<li><em>a</em> = range (also called <em>φ</em> (phi); <em>a</em> is NOT
+the ‘practical range’)</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>vmodel_As.log <span class="ot">&lt;-</span> <span class="fu">fit.variogram</span>(variog_As.log, </span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                              <span class="at">model =</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="cn">NA</span>, <span class="at">model =</span> <span class="st">&quot;Exp&quot;</span>, </span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                                          <span class="at">nugget =</span> <span class="fl">0.1</span>, </span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>                                          <span class="at">cutoff =</span> <span class="fu">max</span>(variog_As.log<span class="sc">$</span>dist)))</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>vmodel_As.log</span></code></pre></div>
+<pre><code>##   model     psill   range
+## 1   Nug 0.1299945   0.000
+## 2   Exp 0.2480348 407.132</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">with</span>(variog_As.log, <span class="fu">plot</span>(dist, gamma, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(gamma)), <span class="at">cex.lab=</span><span class="fl">1.2</span>, </span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>                   <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">xlab =</span> <span class="st">&quot;Distance (km)&quot;</span>, </span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>                   <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="fu">bold</span>(<span class="fu">paste</span>(<span class="st">&quot;Semivariance (&quot;</span>,gamma,<span class="st">&quot;)&quot;</span>)))))</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co"># plot model</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>x0 <span class="ot">&lt;-</span> variog_As.log<span class="sc">$</span>dist</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>y0 <span class="ot">&lt;-</span> vmodel_As.log<span class="sc">$</span>psill[<span class="dv">1</span>] <span class="sc">+</span> </span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  vmodel_As.log<span class="sc">$</span>psill[<span class="dv">2</span>]<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>x0<span class="sc">/</span>vmodel_As.log<span class="sc">$</span>range[<span class="dv">2</span>]))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="spat-interp_files/figure-html/plot-obs-model-variograms-1.png" alt="Figure 4: Plot of experimental binned variogram, and exponential variogram model, for arsenic (As) in the WA subset of the NGSA data, -2mm topsoil fraction." width="50%" />
+<p class="caption">
+Figure 4: Plot of experimental binned variogram, and exponential
+variogram model, for arsenic (As) in the WA subset of the NGSA data,
+-2mm topsoil fraction.
+</p>
+</div>
+<p>
+ 
+</p>
+</div>
+<div id="perform-kriging-interpolation" class="section level3">
+<h3>Perform kriging interpolation</h3>
+<p>Now that we have a variogram model, we can use it in the kriging
+interpolation process to make a map of predicted values of our variable,
+as shown later in Figure 7. To perform an interpolation, we need to
+provide a grid of locations that we want to predict values at. This is
+done using the <code>expand.grid()</code> function from base
+<strong>R</strong> – we are using ≈ 0.2 degree increments, but these can
+be changed (<em>e.g</em>., larger increments for a coarser grid).</p>
+<p>So, the first step is to make the grid of locations at which to make
+our kriging predictions. Starting with a rectangular grid using the
+<code>st_make_grid()</code> function from the <code>sf</code> package,
+we restrict this grid to only the points in the NGSA sampling area,
+using the <code>st_intersection()</code> function from
+<code>sf</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>ngsa_poly <span class="ot">&lt;-</span> <span class="fu">st_polygon</span>(<span class="fu">list</span>(<span class="fu">as.matrix</span>(NGSAWA_border[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">91</span>,<span class="dv">1</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])))</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>ngsaWA_poly <span class="ot">&lt;-</span> <span class="fu">st_multipolygon</span>(<span class="fu">list</span>(ngsa_poly)) <span class="sc">|&gt;</span> <span class="fu">st_sfc</span>()</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">st_crs</span>(ngsaWA_poly) <span class="ot">&lt;-</span> LongLat</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>grid_big <span class="ot">&lt;-</span> <span class="fu">st_make_grid</span>(ngsaWA_poly,</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>                         <span class="at">cellsize =</span> <span class="fu">c</span>(<span class="fl">0.2</span>,<span class="fl">0.2</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>                         <span class="at">offset =</span> <span class="fu">st_bbox</span>(ngsaWA_poly)[<span class="fu">c</span>(<span class="st">&quot;xmin&quot;</span>, <span class="st">&quot;ymin&quot;</span>)],</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>                         <span class="at">what =</span> <span class="st">&quot;centers&quot;</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co"># # use `st_intersection()` function from `sf` package to mask initial grid</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>NGSAgrid <span class="ot">&lt;-</span> <span class="fu">st_intersection</span>(ngsaWA_poly, grid_big)</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Prediction grid:</span><span class="sc">\n</span><span class="st">&quot;</span>); NGSAgrid</span></code></pre></div>
+<pre><code>## Prediction grid:
+## Geometry set for 3500 features 
+## Geometry type: POINT
+## Dimension:     XY
+## Bounding box:  xmin: 113.4034 ymin: -34.96724 xmax: 128.8034 ymax: -16.76724
+## Geodetic CRS:  WGS 84
+## First 5 geometries:</code></pre>
+<p>We then use the <code>krige()</code> function from <code>gstat</code>
+to make predictions of our variable and its variance at the grid
+locations, based on our variogram model. (Note: if we do not specify a
+model, <code>krige()</code> will make predictions using <em>inverse
+distance interpolation</em>, which does not allow estimation of
+variance.) Here we use the <code>idw()</code> function so we can specify
+the inverse distance weighting parameter <code>idp =</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>kriged_As.log <span class="ot">&lt;-</span> <span class="fu">krige</span>(<span class="at">formula =</span> As.log<span class="sc">~</span><span class="dv">1</span>, <span class="at">locations =</span> As.AR_sf, </span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>                      <span class="at">newdata =</span> NGSAgrid, <span class="at">model =</span> vmodel_As.log)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">summary</span>(kriged_As.log)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;_____________________________________________________________________</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>idpower <span class="ot">&lt;-</span> <span class="fl">2.5</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>idw_As.log <span class="ot">&lt;-</span> <span class="fu">idw</span>(<span class="at">formula =</span> As.log<span class="sc">~</span><span class="dv">1</span>, <span class="at">locations =</span> As.AR_sf, </span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>                  <span class="at">newdata =</span> NGSAgrid, <span class="at">idp =</span> idpower) <span class="co"># idp = 2 is the default</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="fu">summary</span>(idw_As.log)</span></code></pre></div>
+<pre><code>## [using ordinary kriging]
+##    var1.pred           var1.var               geometry   
+##  Min.   :-0.95613   Min.   :0.1575   POINT        :3500  
+##  1st Qu.:-0.04899   1st Qu.:0.1720   epsg:4326    :   0  
+##  Median : 0.23887   Median :0.1763   +proj=long...:   0  
+##  Mean   : 0.20047   Mean   :0.1777                       
+##  3rd Qu.: 0.48836   3rd Qu.:0.1816                       
+##  Max.   : 1.01392   Max.   :0.2311                       
+## _____________________________________________________________________
+## 
+## [inverse distance weighted interpolation]
+##    var1.pred           var1.var             geometry   
+##  Min.   :-1.30072   Min.   : NA    POINT        :3500  
+##  1st Qu.:-0.03455   1st Qu.: NA    epsg:4326    :   0  
+##  Median : 0.23292   Median : NA    +proj=long...:   0  
+##  Mean   : 0.19244   Mean   :NaN                        
+##  3rd Qu.: 0.47952   3rd Qu.: NA                        
+##  Max.   : 1.63438   Max.   : NA                        
+##                     NA&#39;s   :3500</code></pre>
+</div>
+<div id="simple-plot-of-kriging-output" class="section level3">
+<h3>Simple plot of kriging output</h3>
+<p>We can then us the <code>spplot()</code> function from
+<code>sp</code> to visualise the kriging predictions and variance, but
+without a background map (Figure 5).</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">png</span>(<span class="at">file=</span><span class="st">&quot;krigpred.png&quot;</span>, <span class="at">width =</span> <span class="dv">600</span>, <span class="at">height=</span><span class="dv">600</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">plot</span>(kriged_As.log[<span class="dv">1</span>], <span class="at">pch=</span><span class="dv">15</span>, <span class="at">cex=</span><span class="fl">1.2</span>, <span class="at">main=</span><span class="st">&quot;Kriging predictions&quot;</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">pretty</span>(kriged_As.log<span class="sc">$</span>var1.pred,<span class="dv">10</span>), </span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>     <span class="at">pal =</span> <span class="fu">viridis</span>(<span class="fu">length</span>(<span class="fu">pretty</span>(kriged_As.log<span class="sc">$</span>var1.pred,<span class="dv">10</span>))<span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>     <span class="at">cex.main=</span><span class="dv">2</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="fu">png</span>(<span class="at">file=</span><span class="st">&quot;krigvar.png&quot;</span>, <span class="at">width =</span> <span class="dv">600</span>, <span class="at">height=</span><span class="dv">600</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="fu">plot</span>(kriged_As.log[<span class="dv">2</span>], <span class="at">pch=</span><span class="dv">15</span>,<span class="at">cex=</span><span class="fl">1.1</span>, <span class="at">main=</span><span class="st">&quot;Kriging variance&quot;</span>, </span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">pretty</span>(kriged_As.log<span class="sc">$</span>var1.var,<span class="dv">10</span>), </span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>     <span class="at">pal =</span> <span class="fu">cividis</span>(<span class="fu">length</span>(<span class="fu">pretty</span>(kriged_As.log<span class="sc">$</span>var1.var,<span class="dv">10</span>))<span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a>     <span class="at">cex.main=</span><span class="dv">2</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">readPNG</span>(<span class="st">&quot;krigpred.png&quot;</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">axes=</span>F, <span class="at">type=</span><span class="st">&quot;n&quot;</span>,<span class="at">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="at">yaxt=</span><span class="st">&quot;n&quot;</span>,<span class="at">ann=</span>F)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="fu">addImg</span>(p1, <span class="at">x =</span> <span class="fl">0.25</span>, <span class="at">y =</span> <span class="fl">0.5</span>, <span class="at">width =</span> <span class="fl">0.5</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">readPNG</span>(<span class="st">&quot;krigvar.png&quot;</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="fu">addImg</span>(p2, <span class="at">x =</span> <span class="fl">0.75</span>, <span class="at">y =</span> <span class="fl">0.5</span>, <span class="at">width =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="spat-interp_files/figure-html/spplot-kriging-output-1.png" alt="Figure 5: Plots of simple kriging predictions (left) and variance (right) for log-transformed arsenic (As) in the WA subset of the NGSA data, -2mm topsoil fraction." width="75%" />
+<p class="caption">
+Figure 5: Plots of simple kriging predictions (left) and variance
+(right) for log-transformed arsenic (As) in the WA subset of the NGSA
+data, -2mm topsoil fraction.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>Compare Figure 5 with the output from inverse distance weighted (IDW)
+interpolation (Figure 6). The kriged prediction shows a 'smoother'
+spatial pattern, but note that the IDW interpolation can be smoothed
+differently by changing the weighting parameter <code>idp = ...</code>
+in the <code>idw()</code> function (see relevant code above).</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">plot</span>(idw_As.log[<span class="dv">1</span>], <span class="at">pch=</span><span class="dv">15</span>, </span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>     <span class="co"># pal = viridis(7),</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>     <span class="at">pal =</span> <span class="fu">viridis</span>(<span class="fu">length</span>(<span class="fu">pretty</span>(idw_As.log<span class="sc">$</span>var1.pred))<span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Inverse Distance Weighting (IDW) power =&quot;</span>, idpower),</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>     <span class="at">font.main=</span><span class="dv">1</span>, <span class="at">cex.main=</span><span class="fl">0.85</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="spat-interp_files/figure-html/spplot-idw-output-1.png" alt="Figure 6: Plots of inverse distance weighted (IDW) interpolation predictions for log-transformed arsenic (As) in the WA subset of the NGSA data, -2mm topsoil fraction." width="40%" />
+<p class="caption">
+Figure 6: Plots of inverse distance weighted (IDW) interpolation
+predictions for log-transformed arsenic (As) in the WA subset of the
+NGSA data, -2mm topsoil fraction.
+</p>
+</div>
+<p>
+ 
+</p>
+</div>
+<div id="plot-a-map-with-overlay-of-the-kriging-predictions"
+class="section level3">
+<h3>Plot a map with overlay of the kriging predictions</h3>
+<p>We use the base map created before, and plot the kriging predictions
+over this (Figure 7a). Since the locations for kriged predictions are no
+longer a rectangular grid (we trimmed off locations not in the NGSA
+sampling area), we need to use the <code>quilt.plot()</code> function
+from the <code>fields</code> package to plot from an irregular grid. We
+set the options for the colour-scale legend based on the options in the
+<code>image.plot()</code> function, also from <code>fields</code>.</p>
+<p>[The <code>fields</code> package also contains the function
+<code>bubblePlot()</code>, which is also useful for mapping data from
+irregular grids with a smooth colour gradient, such as that used here
+from the <code>viridis</code> package.]</p>
+<p>The second part of the code creates a map of the estimated variance
+at each point on our interpolation grid (Figure 7b), so the code is very
+similar, except that we specify …<code>data[,2]</code> instead of
+…<code>data[,1]</code>.</p>
+<p><strong>Note</strong>: The output of the <code>krige()</code>
+function is an object of classes <code>sf</code> and
+<code>data.frame</code>, essentially a list which includes vectors
+<code>$var1.pred</code>, containing the interpolated predictions, and
+<code>$var1.var</code> which contains the estimated variance, at each
+interpolated point on the grid (the grid is saved in the
+<code>$geometry</code> column of the output object).</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.4</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), </span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>    <span class="at">lend=</span><span class="dv">2</span>, <span class="at">ljoin=</span><span class="dv">1</span>, <span class="at">tcl=</span><span class="fl">0.3</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="fu">plot_tiles</span>(WAtiles, <span class="at">axes=</span><span class="cn">TRUE</span>, <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">side=</span><span class="dv">1</span>, <span class="at">line=</span><span class="fl">1.4</span>, <span class="at">text=</span><span class="st">&quot;Longitude (\u00B0 E)&quot;</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>      <span class="at">font=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">1.6</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">side=</span><span class="dv">2</span>, <span class="at">line=</span><span class="fl">1.6</span>, <span class="at">text=</span><span class="st">&quot;Latitude (\u00B0 S)&quot;</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>      <span class="at">font=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">1.6</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>axtx <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.02</span>,<span class="fl">0.05</span>,<span class="fl">0.1</span>,<span class="fl">0.2</span>,<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">50</span>,<span class="dv">100</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="fu">quilt.plot</span>(<span class="fu">st_coordinates</span>(NGSAgrid)[,<span class="dv">1</span>], </span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>           <span class="fu">st_coordinates</span>(NGSAgrid)[,<span class="dv">2</span>], </span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>           kriged_As.log<span class="sc">$</span>var1.pred,</span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a>           <span class="at">add =</span> T, <span class="at">horizontal=</span>T, <span class="at">col =</span> viridis<span class="sc">::</span><span class="fu">cividis</span>(<span class="dv">64</span>),</span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a>           <span class="at">legend.lab =</span> <span class="fu">expression</span>(<span class="fu">bold</span>(<span class="fu">paste</span>(log[<span class="dv">10</span>],<span class="st">&quot;(As.AR)&quot;</span>))), </span>
+<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a>           <span class="at">legend.mar =</span> <span class="dv">7</span>, <span class="at">legend.cex =</span> <span class="fl">1.2</span>, <span class="at">legend.line =</span> <span class="fl">1.5</span>,</span>
+<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a>           <span class="at">axis.args =</span> <span class="fu">list</span>(<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>)))</span>
+<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a><span class="fu">addnortharrow</span>(<span class="at">pos=</span><span class="st">&quot;topleft&quot;</span>, <span class="at">border=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">text.col=</span><span class="dv">1</span>,</span>
+<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a>              <span class="at">padin=</span><span class="fu">c</span>(<span class="fl">0.4</span>,<span class="fl">0.4</span>), <span class="at">scale=</span><span class="dv">1</span>)</span>
+<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(a)&quot;</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="fl">2.8</span>,<span class="at">font=</span><span class="dv">2</span>,<span class="at">cex=</span><span class="fl">1.5</span>)</span>
+<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a><span class="co"># start plot of kriging variance</span></span>
+<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a><span class="fu">plot_tiles</span>(WAtiles, <span class="at">axes=</span><span class="cn">TRUE</span>, <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">side=</span><span class="dv">1</span>, <span class="at">line=</span><span class="fl">1.4</span>, <span class="at">text=</span><span class="st">&quot;Longitude (\u00B0 E)&quot;</span>, <span class="at">font=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">1.6</span>)</span>
+<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a><span class="fu">quilt.plot</span>(<span class="fu">st_coordinates</span>(NGSAgrid)[,<span class="dv">1</span>], </span>
+<span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a>           <span class="fu">st_coordinates</span>(NGSAgrid)[,<span class="dv">2</span>], </span>
+<span id="cb17-24"><a href="#cb17-24" tabindex="-1"></a>           kriged_As.log<span class="sc">$</span>var1.var,</span>
+<span id="cb17-25"><a href="#cb17-25" tabindex="-1"></a>           <span class="at">add =</span> T, <span class="at">horizontal=</span>T, <span class="at">col =</span> viridis<span class="sc">::</span><span class="fu">cividis</span>(<span class="dv">64</span>,<span class="at">alpha =</span> <span class="fl">0.75</span>),</span>
+<span id="cb17-26"><a href="#cb17-26" tabindex="-1"></a>           <span class="at">legend.lab =</span> <span class="fu">expression</span>(<span class="fu">bold</span>(<span class="fu">paste</span>(<span class="st">&quot;Variance in &quot;</span>,log[<span class="dv">10</span>],<span class="st">&quot;(As.AR)&quot;</span>))), </span>
+<span id="cb17-27"><a href="#cb17-27" tabindex="-1"></a>           <span class="at">legend.mar =</span> <span class="dv">7</span>, <span class="at">legend.cex =</span> <span class="fl">1.2</span>, <span class="at">legend.line =</span> <span class="fl">1.5</span>,</span>
+<span id="cb17-28"><a href="#cb17-28" tabindex="-1"></a>           <span class="at">axis.args =</span> <span class="fu">list</span>(<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>)))</span>
+<span id="cb17-29"><a href="#cb17-29" tabindex="-1"></a><span class="fu">addnortharrow</span>(<span class="at">pos=</span><span class="st">&quot;topleft&quot;</span>, <span class="at">border=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">text.col=</span><span class="dv">1</span>,</span>
+<span id="cb17-30"><a href="#cb17-30" tabindex="-1"></a>              <span class="at">padin=</span><span class="fu">c</span>(<span class="fl">0.4</span>,<span class="fl">0.4</span>), <span class="at">scale=</span><span class="dv">1</span>)</span>
+<span id="cb17-31"><a href="#cb17-31" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">st_coordinates</span>(As.AR_sf), <span class="at">pch=</span><span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;white&quot;</span>, <span class="at">cex =</span> <span class="fl">0.7</span>)</span>
+<span id="cb17-32"><a href="#cb17-32" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(b)&quot;</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="fl">2.8</span>,<span class="at">font=</span><span class="dv">2</span>,<span class="at">cex=</span><span class="fl">1.5</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="spat-interp_files/figure-html/krig-pred-1.png" alt="Figure 7: Map showing kriging predictions for arsenic (As) in the WA subset of the NGSA data, -2mm topsoil fraction." width="1152" height="49%" />
+<p class="caption">
+Figure 7: Map showing kriging predictions for arsenic (As) in the WA
+subset of the NGSA data, -2mm topsoil fraction.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>It's also useful to map the estimated variance at each point on our
+prediction grid, and we can see the output of such a map in Figure 7b.
+You should notice that the low variance (darker colours) is close to the
+actual sample points, and greater variance (lighter colours) is in
+locations further from sample points. As we would expect, predictions
+are more precise the closer we are to locations having actual
+measurements!</p>
+<p>We can perform a similar set of procedures for a variable which does
+<strong>not</strong> show significant spatial autocorrelation (example
+in Figure 8 at the end of this page). In this case, we have (i) an
+experimental variogram which has high intrisic variance (<em>i.e</em>.,
+a high <em>nugget</em>) with low spatial variance (partial
+<em>sill</em>), and (ii) greater kriging relative to kriging
+predictions. <strong>Try it!</strong></p>
+<p>
+ 
+</p>
+</div>
+<div id="additional-issues-for-variograms-and-kriging"
+class="section level3" style="border: 2px solid #039; padding: 8px;">
+<h3>Additional Issues for Variograms and Kriging</h3>
+<ul>
+<li><p>the semivariance distance relationship may not be the same in all
+directions (<em>anisotropic</em>). In such cases we need a directional
+variogram – in <code>gstat</code> this can be done with parameters in
+the <code>variog()</code> function (see also <a
+href="http://www.leg.ufpr.br/geoR/geoRdoc/geoRintro.html#exploratory"
+class="uri">http://www.leg.ufpr.br/geoR/geoRdoc/geoRintro.html#exploratory</a>).</p></li>
+<li><p>The mean value of our mapping variable may show a systematic
+variation across our sampling area, such as a linear trend. This is a
+lack of "stationarity", and such a trend should be incorporated into a
+variogram model to apply <em>universal</em> kriging (see <a
+href="http://www.leg.ufpr.br/geoR/geoRdoc/geoRintro.html#estimation"
+class="uri">http://www.leg.ufpr.br/geoR/geoRdoc/geoRintro.html#estimation</a>).</p></li>
+<li><p>In most natural systems, the variable of interest will not just
+change from place to place, but will also be dependent on on or more
+other variables. In these cases, we need to use more advanced
+interpolation methods such as <em>co-kriging</em> (see <a
+href="http://chris35wills.github.io/geostats/"
+class="uri">http://chris35wills.github.io/geostats/</a> for some good
+explanations).</p></li>
+</ul>
+</div>
+<p>
+ 
+</p>
+</div>
+<div id="references-and-r-package-citations" class="section level2">
+<h2>References and R Package Citations</h2>
+<p>Caritat, P., Cooper, M., 2011. <em>National Geochemical Survey of
+Australia: The Geochemical Atlas of Australia</em>. GA Record 2011/20 (2
+Volumes). Geoscience Australia, Canberra, 557 pp.</p>
+<p>Dunnington, D. 2017. <em>prettymapr: Scale Bar, North Arrow, and
+Pretty Margins in R</em>. R package version 0.2.2. <a
+href="https://CRAN.R-project.org/package=prettymapr"
+class="uri">https://CRAN.R-project.org/package=prettymapr</a></p>
+<p>Garnier, Simon, Noam Ross, Robert Rudis, Antônio P. Camargo, Marco
+Sciaini, and Cédric Scherer (2021). <em>viridis - Colorblind-Friendly
+Color Maps for R</em>. R package version 0.6.2.</p>
+<p>Giraud T (2021). <em>maptiles: Download and Display Map Tiles</em>. R
+package version 0.3.0, <a
+href="https://CRAN.R-project.org/package=maptiles"
+class="uri">https://CRAN.R-project.org/package=maptiles</a>.</p>
+<p>Gräler B., Pebesma E., Heuvelink G., 2016. Spatio-Temporal
+Interpolation using <strong>gstat</strong>. <em>The R Journal</em>
+<strong>8</strong>(1), 204-218.</p>
+<p>Nychka D., Furrer R., Paige J., Sain S. (2021). <em>fields: Tools for
+spatial data.</em> R package version 13.3, <a
+href="https://github.com/dnychka/fieldsRPackage"
+class="uri">https://github.com/dnychka/fieldsRPackage</a>.</p>
+<p>Oliver, M.A., Webster, R., 2014. A tutorial guide to geostatistics:
+Computing and modelling variograms and kriging. <em>Catena</em>,
+<strong>113</strong>: 56-69, <a
+href="https://doi.org/10.1016/j.catena.2013.09.006"
+class="uri">https://doi.org/10.1016/j.catena.2013.09.006</a>.</p>
+<p>Pebesma, E., 2018. Simple Features for R: Standardized Support for
+Spatial Vector Data. <em>The R Journal</em> <strong>10</strong> (1),
+439-446, <a href="https://doi.org/10.32614/RJ-2018-009"
+class="uri">https://doi.org/10.32614/RJ-2018-009</a>. (package
+<strong>sf</strong>)</p>
+<p>Pebesma, E.J., R.S. Bivand, 2005. Classes and methods for spatial
+data in R. <em>R News</em> <strong>5</strong> (2), <a
+href="https://cran.r-project.org/doc/Rnews/"
+class="uri">https://cran.r-project.org/doc/Rnews/</a>. (package
+<strong>sp</strong>)</p>
+<p>Pebesma E, Bivand R (2023). <em>Spatial Data Science With
+Applications in R</em>. Chapman &amp; Hall. <a
+href="https://r-spatial.org/book/"
+class="uri">https://r-spatial.org/book/</a>. (package
+<strong>spdep</strong>)</p>
+<p>Reimann, C., Filzmoser, P., Garrett, R.G., Dutter, R., 2008.
+<em>Statistical Data Analysis Explained: Applied Environmental
+Statistics with R</em>. John Wiley &amp; Sons, Chichester, England, 343
+pp.</p>
+<p>Webster, R., Oliver, M.A., 1993. How large a sample is needed to
+estimate the regional variogram adequately? <em>Geostatistics Troia
+'92</em>. <strong>Vol. 1</strong>: 155-166.</p>
+<p>
+ 
+</p>
+<hr style="height: 2px; background-color: #5560A4;" />
+<div class="figure" style="text-align: center">
+<img src="spat-interp_files/figure-html/Hg-4-plots-1.png" alt="Figure 8: Geostatistics for Hg (mercury) in the WA subset of the NGSA data: (a) spatial autocorrelation, (b) experimental (binned) and model variograms, (c) kriging predictions, and (d) kriging uncertainties." width="768" />
+<p class="caption">
+Figure 8: Geostatistics for Hg (mercury) in the WA subset of the NGSA
+data: (a) spatial autocorrelation, (b) experimental (binned) and model
+variograms, (c) kriging predictions, and (d) kriging uncertainties.
+</p>
+</div>
+<p>
+ 
+</p>
+</div>
 
 <!DOCTYPE html>
 
 <html>
 <body>
 <hr style="height: 2px; background-color: #003087;" />
-<p><span style="font-size:9pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
-<span style="font-size:9pt">Created with <span style="font-family: monospace;">rmarkdown</span> in <a href="https://www.rstudio.com/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>.</span></p>
+<p><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>.</span></p>
 </body>
 </html>
 
