@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2024-05-23" />
+
+<title>RStudio graphics and plotting</title>
+
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Chapters</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Contents</a>
+</li>
+<li>
+  <a href="about.html">For beginners</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Intro</a>
+    </li>
+    <li>
+      <a href="intro-GG.html">Intro+ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plots.html">Plots-baseR</a>
+    </li>
+    <li>
+      <a href="plots-GG.html">Plots-ggplot</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">RStudio graphics and plotting</h1>
+<h4 class="date">2024-05-23</h4>
+
+</div>
+
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+<p><img src="plots_files/figure-html/page%201%20header%20hide%20code-1.png" width="100%" style="display: block; margin: auto 0 auto auto;" /></p>
+<div id="video-presentations---r-graphics" class="section level3"
+style="border: 2px solid #039; background-color: #fec; padding: 8px;">
+<h3>Video presentations - R graphics</h3>
+<p><a href="https://echo360.net.au/media/19219e47-b5fb-44d9-b4f5-8572f9cfc021/public" target="_blank" rel="noopener"> 
+<img src="images/video.png" style="border: 0px solid #000000;"
+align="left" alt="Video link icon" width="48"
+height="38" /> <strong style="font-family: 'Source Sans Pro'; text-shadow: none !important; letter-spacing: normal; margin: 0px; padding: 0px; border: 0px; outline: 0px; font-weight: bold; font-style: normal; font-size: 13px; color: #000080; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><span
+style="font-size: 12pt;">Video 1 - basic R/RStudio graphics
+functions</span></strong></a><br />  Duration: 18m48s</p>
+<p>
+<span style="color: #000080;"><strong><span
+style="font-size: 12pt;"> <a href="https://echo360.net.au/media/84f872ea-6859-4a3c-a689-4bca0b94a247/public" target="_blank" rel="noopener"><img
+src="images/video.png" style="border: 0px solid #000000;" align="left"
+alt="Video link icon" width="48" height="38" /> Video 2 - additional
+R/RStudio graphics functions</a></span></strong></span>
+</p>
+<p>
+• 0.00s - 8m47s PowerPoint Presentation<br />• 8m59s Setting R graphics
+parameters using <span
+style="font-family: consolas, courier new, courier;">par()</span><br />• 19m30s
+Cumulative Distribution Function plots <span
+style="font-family: consolas, courier new, courier;">plot.ecdf()</span><br />• 21m48s
+Normal quantile (Q-Q) plots using <span
+style="font-family: consolas, courier new, courier;">qqPlot()</span>
+from <b><i>car</i></b> package<br />• 23m19s Histograms - additional
+customisations<br />• 25m35s Boxplots - additional
+customisations<br />• 27m27s Scatter Plots - more
+customisation…<br />• 31m27s Scatter plot matrices<br />• 35m20s Maps (a
+preliminary look, including use of the <code>text()</code> function in
+graphs
+</p>
+</div>
+<p>
+ 
+</p>
+<div id="files-to-download-for-r-graphics" class="section level3"
+style="border: 2px solid #039; background-color: #fec; padding: 8px;">
+<h3>Files to download for R Graphics</h3>
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-24053058_1/xid-24053058_1"><span
+style="font-size: 12pt;"><img src="images/rcode.png"
+style="border: 0px solid #000000;" alt="R code icon" width="32"
+height="32" /> R code (script) file for R Graphics video 1</span></a>  
+ 
+<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-23693508_1/xid-23693508_1" target="_blank" rel="noreferrer noopener"><span
+style="font-size: 12pt;"><img src="images/csv.png"
+style="border: 0px solid #000000;" alt="CSV icon" width="32"
+height="32" /> Hubbard Book soil dataset (required in code for video 1
+and  pdf)</span></a></p>
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-23693660_1/xid-23693660_1" target="_blank" rel="noreferrer noopener"><span
+style="font-size: 12pt;"><img src="images/csv.png"
+style="border: 0px solid #000000;" alt="CSV icon" width="32"
+height="32" /> sv18 dataset (required in code for video 2)</span></a>  
+  <span
+style="font-size: 12pt;"><a alt="" href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035953_1/xid-45035953_1" target="_blank" rel="noopener"><img
+src="images/csv.png" style="border: 0px solid #000000;" alt="CSV icon"
+width="32" height="32" /> SL18.csv</a><br />used in Annotated
+code</span></p>
+<p><span
+style="font-size: 12pt;"><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035961_1/xid-45035961_1" target="_blank" rel="noopener"><img
+src="images/csv.png" style="border: 0px solid #000000;" alt="CSV icon"
+width="32" height="32" /> sv2017_original.csv</a>     <span
+style="font-size: 12pt;"><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035966_1/xid-45035966_1" target="_blank" rel="noreferrer noopener">
+<span style="font-size: 12pt;"><img src="images/rcode.png"
+style="border: 0px solid #000000;" alt="R code icon" width="32"
+height="32" /> Complete R code (script) used in
+video</span> 2</a></span><br />(just in case!)</span></p>
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035853_1/xid-45035853_1" target="_blank"><img
+src="images/rcode.png" style="border: 0px solid #000000;"
+alt="R code icon" width="32" height="32" /> R code for adding mean
+symbols to boxplots</a> <span
+style="color: #ff0000; font-size:10pt">(worth trying!)</span></p>
+</div>
+<p>
+ 
+</p>
+<div
+style="border: 2px solid #039; background-color: #fec; padding: 8px;">
+<div id="suggested-activities" class="section level3">
+<h3>Suggested Activities</h3>
+<p><span style="color: #800000;"><strong>Using data previously provided
+(on LMS), produce presentation quality graphs of</strong></span>:</p>
+<ul>
+<li>Different probability distributions</span>
+<ul>
+<li>Cumulative distribution function, histogram, Q-Q plot</li>
+</ul></li>
+<li>Scatterplots
+<ul>
+<li>Grouped by one or more factors</li>
+</ul></li>
+<li>Histogram, Q-Q plot, Boxplot</li>
+<li>A scatterplot matrix <br /><code>require(car)</code> then
+<code>scatterplotMatrix()</code>
+<ul>
+<li>(grouped by one or more factors)</li>
+</ul></li>
+<li>Apply principles of graphical excellence</li>
+</ul>
+</div>
+<div id="useful-tips-for-excellent-graphs" class="section level3">
+<h3>Useful tips for excellent graphs:</h3>
+<ul>
+<li>Increase the default text and symbol sizes</li>
+<li>Remove unnecessary lines (smooth, spread)</li>
+<li>In R Studio, click on <br />Export/Copy to clipboard…<br />and
+select ◉ Metafile, then click [Copy plot] <br />(best pasting into Word,
+etc.)</li>
+<li>Graph plus caption should be self-contained</li>
+<li>Transform axes if necessary</li>
+<li>Use appropriate proportions</li>
+</ul>
+</div>
+</div>
+<p>
+ 
+</p>
+<div id="more-basic-information-on-plots-in-r" class="section level1">
+<h1>More basic information on plots in <strong>R</strong></h1>
+<p>This is a supplement to the other preliminary material on
+<strong>R</strong> graphics. We have tried to avoid too much overlap
+with other sessions. <span
+style="background-color: #ff0; font-size: 14pt;">If you want
+instructions on making the same plots using the <code>ggplot2</code>
+<strong>R</strong> package, <a
+href="Learn-R-2024-Week1a-graphs-GG.html">go to <strong>this
+page</strong></a></span>.</p>
+<iframe height="420" width="640" allowfullscreen frameborder="0" src="https://echo360.net.au/media/84f872ea-6859-4a3c-a689-4bca0b94a247/public?autoplay=false&amp;automute=false">
+</iframe>
+<div id="graphical-excellence" class="section level2"
+style="border: 2px solid #039; background-color: #e8e8e8; padding: 8px;">
+<h2>Graphical Excellence</h2>
+<p><span style="font-size: 14pt; background-color:#FFFF80;">In
+Environmental Science at UWA we try to promote the principles of
+“<strong>graphical excellence</strong>”. This means:</span></p>
+<ul>
+<li><strong>Show the data</strong> – <span
+style="font-size:10pt; color:#404040;">that is, the data are the
+important thing we want to communicate in graphics; “looking good” is
+only useful if it shows the data better!</span>.</li>
+<li>Give your viewer the <strong>greatest number of ideas</strong> in
+the <strong>shortest time</strong> with the <strong>least ink</strong>
+in the <strong>smallest space</strong> (Tufte, 1983)<sup>1</sup></li>
+<li>Graphical excellence is
+<ul>
+<li>almost always <strong>multivariate</strong>…</li>
+<li>…requires <strong>telling the truth</strong> about the data <span
+style="font-size:10pt; color:#404040;">(no distortions, fair
+comparisons, <em>etc</em>.)</span>.</li>
+</ul></li>
+</ul>
+<p><strong>Some practical tips</strong>:</p>
+<ul>
+<li>Increase the default text and symbol sizes</li>
+<li>Remove unnecessary lines (<em>e.g</em>. <code>smooth</code>,
+<code>spread</code> in <code>car::scatterplot()</code>)</li>
+<li>In RStudio, use the Export▾ button » Copy to clipboard » select
+◉Metafile (best pasting into Word, <em>etc.</em>)</li>
+<li><strong>Don’t</strong> use screen shots, and avoid <code>.jpg</code>
+files, as both can be blurry or grainy</li>
+<li>Graph plus caption should be self-contained – we should only need to
+refer to these to fully understand the graph</li>
+<li><strong>Don’t</strong> include a title above the plot (in many
+<strong>R</strong> plots, use the option <code>main=""</code>) – any
+information describing the plot should be in the caption</li>
+<li>Transform axes if necessary (using arguments in <strong>R</strong>
+plotting functions)</li>
+<li>Use appropriate proportions (width/height) for the plot you are
+creating</li>
+<li>Change the default colour palette to a colourblind-friendly palette,
+<em>e.g</em>. from the <strong>R</strong> packages <code>viridis</code>
+or <code>scico</code> (see examples <a
+href="https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html#the-color-scales"
+target="_blank">for viridis here</a> and <a
+href="https://repec.sowi.unibe.ch/stata/palettes/colors.html#scico"
+target="_blank">for scico here</a>)</li>
+</ul>
+<p><span style="font-size:10pt"><sup>1</sup> Tufte, E.R., 1983. <em>The
+visual display of quantitative information</em>. Graphics Press,
+Cheshire, Connecticut, USA. </span></p>
+</div>
+<p>
+ 
+</p>
+<div id="colours-in-r" class="section level2"
+style="border: 2px solid #039; padding: 8px;">
+<h2>Colours in R</h2>
+<p>The <code>palette()</code> function needs a vector of colour names or
+codes, which we can then refer to by numbers in subsequent functions.
+<strong>R</strong> has over 600 built-in colours, some with nifty names
+like <span
+style="font-family:monospace; background-color:#deb887;">"burlywood"</span>,
+<span
+style="font-family:monospace; background-color:#1e90ff; color:white;">"dodgerblue"</span>,
+and <span
+style="font-family:monospace; background-color:#d8bfd8;">"thistle"</span>
+– to see these, run the function <code>colors()</code> or run
+<code>demo("colors")</code>.</p>
+<p>Colour codes are a character string with 6 or 8 digits or letters
+after the <code>#</code> symbol, like <code>"#A1B2C3"</code>. In the
+6-digit version (the most common), the first 2 characters after
+<code>#</code> are a hexadecimal number specifying the intensity of the
+<span style="color:white; background-color:red;"> red </span> component
+of the colour, the next 2 specify <span
+style="background-color:#00FF00;"> green </span>, and the next 2 <span
+style="color:white; background-color:blue;"> blue </span>. <strong><span
+style="font-family:monospace; background-color:#E8E8E8;">#<span
+style="color:red;">rr</span><span style="color:#00C000;">gg</span><span
+style="color:blue;">bb</span></span></strong></p>
+<p>The greatest 2-digit hexadecimal number is <code>FF</code>, equal to
+the decimal number 255. Since we can include zero, this means there will
+be 256<sup>3</sup> = 16,777,216 unique colours in
+<strong>R</strong>.</p>
+<p>Optionally we can use an 8-character colour code, such as
+<code>"#A1B2C399"</code>, where the last 2 characters define the
+<strong>alpha</strong> value, or colour transparency.
+<code>"#rrggbb00"</code> would be fully transparent, and
+<code>"#rrggbbFF"</code> would be fully opaque. We can also use the
+colour name <code>"transparent"</code> in <strong>R</strong> which can
+sometimes be useful.</p>
+<p><span style="font-size: 14pt;"><strong>Warning</strong></span>:
+semi-transparent colours (<em>i.e</em>. alpha &lt; 1; anything other
+than <code>"#rrggbb"</code> or <code>"#rrggbbFF"</code>) are not
+supported by metafiles in R. To use semi-transparent colours, save as
+<code>.png</code> or <code>.tiff</code>, or copy as a bitmap.</p>
+</div>
+<p>
+ 
+</p>
+<div id="getting-started" class="section level2">
+<h2>Getting started</h2>
+<p>Before we start we load some <strong>packages</strong> (which we need
+to have installed previously). We also need to load a
+<strong>dataset</strong> that we may have seen before (the Smith’s Lake
+&amp; Charles Veryard Reserves data from 20217 – we use it a lot for
+illustrating environmental statistics and plotting).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(car)      <span class="co"># scatterplot() and scatterplotMatrix() functions</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(viridis)  <span class="co"># colourblind-friendly colour palettes</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(scico)    <span class="co"># &#39;scientific&#39; colour palettes</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R/raw/main/&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>sv2017 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;sv2017_original.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>sv2017<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sv2017<span class="sc">$</span>Group)</span></code></pre></div>
+<p>We then make an <em>xy</em>-plot (Figure 1) using the
+<code>scatterplot()</code> function from the <code>car</code> package,
+first setting graphics output parameters with <code>par()</code> and
+making a custom palette with <code>palette()</code>.</p>
+<p>
+ 
+</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">require</span>(car)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># adjust overall plot appearance using options within par()</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co"># mar sets plot margins, mgp sets distance of axis details from axis</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">par</span>(<span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">2.2</span>,<span class="fl">0.7</span>,<span class="fl">0.0</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># create custom palette with nice colours :)</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,viridis<span class="sc">::</span><span class="fu">plasma</span>(<span class="dv">4</span>)))</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># draw scatterplot with customised options</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co"># pch sets plot character (symbol); cex sets symbol/font sizes</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="fu">scatterplot</span>(Ca<span class="sc">~</span>pH <span class="sc">|</span> Type, <span class="at">data=</span>sv2017, <span class="at">log=</span><span class="st">&quot;y&quot;</span>, <span class="at">smooth=</span><span class="cn">FALSE</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>            <span class="at">legend =</span> <span class="fu">list</span>(<span class="at">coords=</span><span class="st">&quot;topleft&quot;</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>), </span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>            <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">16</span>,<span class="dv">0</span>,<span class="dv">17</span>), <span class="at">cex=</span><span class="fl">1.5</span>, <span class="at">cex.lab=</span><span class="fl">1.5</span>, <span class="at">cex.axis=</span><span class="fl">1.2</span>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/sp-1-1.png" alt="Figure 1: Scatterplot of Ca vs. pH from the sv2017 dataset, made using `car::scatterplot()` after setting graphics parameters and colour palette." width="480" />
+<p class="caption">
+Figure 1: Scatterplot of Ca vs. pH from the sv2017 dataset, made using
+<code>car::scatterplot()</code> after setting graphics parameters and
+colour palette.
+</p>
+</div>
+<p>
+ 
+</p>
+<div id="plot-symbols" class="section level3"
+style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+<h3>Plot symbols</h3>
+<p><strong>R</strong> has a set of 26 built-in plotting symbols which
+can be specified using the <code>pch =</code> argument in many plotting
+functions. For symbols 0-20 the colour is set using the argument
+<code>col =</code>. For symbols 21-25 <code>col =</code> sets the border
+colour, and the fill colour is set with <code>bg =</code>.</p>
+<img src="plots_files/figure-html/pch-map-png-1.png" width="1843.2" />
+<center>
+For all symbols above, <code>col="navy"</code> and for pch 21-25
+<code>bg="gold"</code>.
+</center>
+</div>
+<p>
+ 
+</p>
+<div id="histogram-with-density-line" class="section level3">
+<h3>histogram with density line</h3>
+<p>We have seen a modified boxplot similar to that in Figure 2 before.
+Adding a density line to a histogram can help us identify <em>bimodal
+distributions</em>, or see more easily if the distribution is
+symmetrical or not.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># plot histogram with custom scale and y-axis limits</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">with</span>(sv2017, <span class="fu">hist</span>(<span class="fu">log10</span>(EC), <span class="at">freq=</span>F, <span class="at">breaks=</span><span class="dv">15</span>, <span class="at">col=</span><span class="st">&quot;gray&quot;</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>), <span class="at">main=</span><span class="cn">NA</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># add density plot overlay onto histogram</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(<span class="fu">log10</span>(sv2017<span class="sc">$</span>EC), <span class="at">na.rm=</span><span class="cn">TRUE</span>), <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/histogram-density-1.png" alt="Figure 2: Histogram of EC from the sv2017 data with density line plot added." width="576" />
+<p class="caption">
+Figure 2: Histogram of EC from the sv2017 data with density line plot
+added.
+</p>
+</div>
+<hr style="height: 1px; background-color: #5560A4;" />
+</div>
+<div id="boxplot-by-groups" class="section level3">
+<h3>Boxplot by groups</h3>
+<p>We also made a grouped box plot like the one in Figure 3 in a
+previous session.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># set up overall plot parameters with par()</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">2.2</span>,<span class="fl">0.7</span>,<span class="dv">0</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">lend=</span><span class="st">&quot;square&quot;</span>, <span class="at">ljoin=</span><span class="st">&quot;mitre&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># make an object containing a table of means</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>Cu_means<span class="ot">&lt;-</span><span class="fu">tapply</span>(<span class="fu">log10</span>(sv2017<span class="sc">$</span>Cu), sv2017<span class="sc">$</span>Type, mean, <span class="at">na.rm=</span>T)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co"># plot the boxplot with nice axis titles etc.</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">log10</span>(sv2017<span class="sc">$</span>Cu) <span class="sc">~</span> sv2017<span class="sc">$</span>Type, <span class="at">id.method=</span><span class="st">&quot;y&quot;</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>        <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;skyblue&quot;</span>,<span class="st">&quot;tan&quot;</span>,<span class="st">&quot;grey&quot;</span>), <span class="at">id.n=</span><span class="dv">0</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Sample Type&quot;</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">cex.lab=</span><span class="fl">1.4</span>, <span class="at">cex.axis=</span><span class="fl">1.3</span>, </span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>        <span class="at">ylab=</span><span class="fu">expression</span>(<span class="fu">bold</span>(<span class="fu">paste</span>(log[<span class="dv">10</span>],<span class="st">&quot;(Cu, mg/kg)&quot;</span>))))</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co"># plot the means as a symbol </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="fu">points</span>(Cu_means, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>, <span class="at">pch=</span><span class="dv">3</span>, <span class="at">cex=</span><span class="fl">1.5</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co"># optionally add a horizontal line to represent some </span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co"># threshold or guideline value(s)</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="fu">log10</span>(<span class="dv">65</span>), <span class="at">col=</span><span class="st">&quot;red&quot;</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co"># add a legend (especially if a threshold line was added!)</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co"># Note use of \n to add a line break</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>,<span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Mean&quot;</span>,<span class="st">&quot;ISQG-Low:</span><span class="sc">\n</span><span class="st">Cu 65 mg/kg&quot;</span>),</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>), <span class="at">pt.cex=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="dv">0</span>), <span class="at">pt.lwd=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="sc">-</span><span class="dv">1</span>), <span class="at">cex=</span><span class="fl">1.</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;red&quot;</span>),<span class="at">lty=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">2</span>),<span class="at">lwd=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">2</span>), <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, </span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>       <span class="at">seg.len=</span><span class="fl">2.5</span>, <span class="at">inset=</span><span class="fl">0.03</span>, <span class="at">x.intersp =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/boxplot-by-groups-1.png" alt="Figure 3: Boxplot of Cu by Type, showing means, in the sv2017 data." width="672" />
+<p class="caption">
+Figure 3: Boxplot of Cu by Type, showing means, in the sv2017 data.
+</p>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># delete the object containing the table of means</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># (to keep your R workspace tidy)</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">rm</span>(Cu_means)</span></code></pre></div>
+<hr style="height: 1px; background-color: #5560A4;" />
+</div>
+<div id="scatterplot-of-water-sample-points-by-group"
+class="section level3">
+<h3>Scatterplot of water sample points by group</h3>
+<p>First read the water data (from Smith’s Lake, North Perth, sampled in
+2018):</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>SL_water <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;SL18.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>SL_water<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(SL_water<span class="sc">$</span>Group)</span></code></pre></div>
+<p>We can then use <code>scatterplot()</code> from the <code>car</code>
+package to plot the points. Important arguments in the
+<code>scatterplot()</code> function in this example are:</p>
+<ul>
+<li><code>regLine = FALSE</code> to <em>not</em> plot regression lines
+for the points</li>
+<li><code>smooth = FALSE</code> to <em>not</em> plot smoothed curves for
+the points</li>
+<li><code>asp = 1</code> sets the plot aspect ratio to 1 so the geometry
+is not distorted (this is important for anything resembling maps!)</li>
+<li><code>legend = list(...)</code> to set legend position, size,
+<em>etc</em>.</li>
+<li><code>pch = c(...)</code> to select specific symbols for each group
+of points</li>
+</ul>
+<p>We also define the colour palette to be used; <code>viridis::</code>
+specifies the package to use without actually loading it, so we can use
+the function <code>viridis(n)</code>, which gives a palette of
+<code>n</code> <strong>colourblind-friendly</strong> colours<br> (In
+general we can run <code>packageName::function()</code> without
+explicitly loading packages.)</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># define the colour palette to choose plot colours from</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, viridis<span class="sc">::</span><span class="fu">viridis</span>(<span class="dv">9</span>)))</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">carPalette</span>(<span class="fu">palette</span>())</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># note the asp=1 option constrains the height/width ratio</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">scatterplot</span>(Northing <span class="sc">~</span> Easting <span class="sc">|</span> Group,</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>            <span class="at">regLine =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>            <span class="at">smooth =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>            <span class="at">boxplots =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>            <span class="at">cex =</span> <span class="fl">1.25</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>            <span class="at">cex.axis =</span> <span class="fl">1.2</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>            <span class="at">cex.lab =</span> <span class="fl">1.3</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>            <span class="at">data =</span> SL_water,</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>            <span class="at">asp =</span> <span class="dv">1</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>            <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>            <span class="at">legend =</span> <span class="fu">list</span>(<span class="at">coords=</span><span class="st">&quot;topright&quot;</span>, <span class="at">cex=</span><span class="fl">1.25</span>),</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>            <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">18</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">10</span>),</span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>            <span class="at">xlab =</span> <span class="st">&quot;Easting UTM Zone 50 (m)&quot;</span>,</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>            <span class="at">ylab =</span> <span class="st">&quot;Northing UTM Zone 50 (m)&quot;</span>,</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>            <span class="at">main =</span> <span class="st">&quot;Smith&#39;s Lake Water Sample Locations 2017&quot;</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>            <span class="at">cex.main =</span> <span class="fl">0.7</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>)</span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="fu">text</span>(</span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">391380</span>, <span class="dv">391390</span>),</span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">6466498</span>, <span class="dv">6466405</span>),</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Inlet&quot;</span>, <span class="st">&quot;Outlet&quot;</span>),</span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>  <span class="at">pos =</span> <span class="dv">2</span>,</span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/water-scatterplot-1.png" alt="Figure 4: Plot of water sample locations in Smith's Lake in 2018 made using `car::scatterplot()`." width="576" />
+<p class="caption">
+Figure 4: Plot of water sample locations in Smith’s Lake in 2018 made
+using <code>car::scatterplot()</code>.
+</p>
+</div>
+<hr style="height: 1px; background-color: #5560A4;" />
+</div>
+<div id="base-r-plot-of-water-sample-points-by-group"
+class="section level3">
+<h3>‘base <strong>R</strong>’ plot of water sample points by group</h3>
+<p>We can reproduce Figure 4 made using <code>car::scatterplot()</code>
+in base-<strong>R</strong> graphics as well:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># set up overall plot parameters with par()</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co"># font.lab=2 makes axis titles bold</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co"># &#39;lend&#39; sets line end style, &#39;ljoin&#39; sets line join style</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">par</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">2.2</span>,<span class="fl">0.7</span>,<span class="dv">0</span>),</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="at">font.lab=</span><span class="dv">2</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="at">lend=</span><span class="st">&quot;square&quot;</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  <span class="at">ljoin=</span><span class="st">&quot;mitre&quot;</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>)</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co"># define the colour palette to be used</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co"># viridis:: specifies the package to use without actually loading it, so</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co"># we can use viridis(n) which gives a palette of n colourblind-friendly colours</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, viridis<span class="sc">::</span><span class="fu">viridis</span>(<span class="dv">8</span>)))</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co"># plot the points, separating by the factor &#39;Group&#39;</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co"># note the asp=1 option constrains the height/width ratio</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="fu">plot</span>(SL_water<span class="sc">$</span>Northing <span class="sc">~</span> SL_water<span class="sc">$</span>Easting,</span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>     <span class="at">cex =</span> <span class="fl">1.3</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>     <span class="at">cex.axis =</span> <span class="fl">1.2</span>,</span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>     <span class="at">cex.lab =</span> <span class="fl">1.3</span>,</span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a>     <span class="at">asp =</span> <span class="dv">1</span>,</span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a>     <span class="at">lwd =</span> <span class="dv">1</span>,</span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a>     <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">21</span><span class="sc">:</span><span class="dv">24</span>)[SL_water<span class="sc">$</span>Group], <span class="co"># better plot symbols!</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a>     <span class="at">bg =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)[SL_water<span class="sc">$</span>Group],          <span class="co"># fill colour for pch 21-25</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Easting UTM Zone 50 (m)&quot;</span>,</span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Northing UTM Zone 50 (m)&quot;</span>,</span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Smith&#39;s Lake Water Sample Locations 2017&quot;</span>,</span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a>     <span class="at">cex.main =</span> <span class="fl">0.7</span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a>)</span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co"># add a grid (optional)</span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="fu">grid</span>()</span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a><span class="co"># draw the legend to identify groups by symbol/colour</span></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a><span class="co"># note similar usage of cex, pch, etc.</span></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="fu">legend</span>(</span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a>  <span class="st">&quot;topright&quot;</span>,</span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a>  <span class="at">title=</span><span class="st">&quot;Group&quot;</span>,</span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a>  <span class="at">legend=</span><span class="fu">levels</span>(SL_water<span class="sc">$</span>Group),</span>
+<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a>  <span class="at">cex=</span><span class="fl">1.2</span>,</span>
+<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a>  <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">21</span><span class="sc">:</span><span class="dv">24</span>), <span class="co"># vector for pch= same as for plot</span></span>
+<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a>  <span class="at">pt.bg =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,          <span class="co"># fill colour for pch 21-25</span></span>
+<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a>  <span class="at">pt.cex=</span><span class="fl">1.3</span>,</span>
+<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a>  <span class="at">pt.lwd=</span><span class="dv">1</span>,</span>
+<span id="cb8-43"><a href="#cb8-43" tabindex="-1"></a>  <span class="at">box.col=</span><span class="st">&quot;grey&quot;</span>,</span>
+<span id="cb8-44"><a href="#cb8-44" tabindex="-1"></a>  <span class="at">box.lwd=</span><span class="dv">2</span>,</span>
+<span id="cb8-45"><a href="#cb8-45" tabindex="-1"></a>  <span class="at">inset=</span><span class="fl">0.02</span></span>
+<span id="cb8-46"><a href="#cb8-46" tabindex="-1"></a>)</span>
+<span id="cb8-47"><a href="#cb8-47" tabindex="-1"></a><span class="co"># add some text at appropriate coordinates</span></span>
+<span id="cb8-48"><a href="#cb8-48" tabindex="-1"></a><span class="co">#  vector of x&#39;s, vector of y&#39;s, vector of text labels, etc.</span></span>
+<span id="cb8-49"><a href="#cb8-49" tabindex="-1"></a><span class="fu">text</span>(</span>
+<span id="cb8-50"><a href="#cb8-50" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">391380</span>, <span class="dv">391390</span>),</span>
+<span id="cb8-51"><a href="#cb8-51" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">6466498</span>, <span class="dv">6466405</span>),</span>
+<span id="cb8-52"><a href="#cb8-52" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Inlet&quot;</span>, <span class="st">&quot;Outlet&quot;</span>),</span>
+<span id="cb8-53"><a href="#cb8-53" tabindex="-1"></a>  <span class="at">pos =</span> <span class="dv">2</span>,</span>
+<span id="cb8-54"><a href="#cb8-54" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">3</span>)</span>
+<span id="cb8-55"><a href="#cb8-55" tabindex="-1"></a>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/baseR-water-plot-1.png" alt="Figure 5: Plot of water sample locations in Smith's Lake in 2018 made using base-R graphics." width="576" />
+<p class="caption">
+Figure 5: Plot of water sample locations in Smith’s Lake in 2018 made
+using base-R graphics.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>The code to make Figure 5 is somewhat more intricate than that for
+Figure 4, but base-<strong>R</strong> plotting can give us more control
+over plot appearance. (Note that we don’t need to have each function
+argument on a separate line, as we have done in the previous code
+block.)</p>
+<p>One aspect of this plot, which is probably an advantage, is the use
+of symbols with different colour fill and outline
+(<code>pch = 21:25</code>). This means we can make better use of the
+lighter colours in gradational palettes such as those generated by the
+<code>viridis</code> or <code>scico</code> packages.</p>
+<hr />
+<blockquote>
+<p>“…when we look at the <strong>graphs of rising ocean
+temperatures</strong>, rising carbon dioxide in the atmosphere and so
+on, we know that they are climbing far more steeply than can be
+accounted for by the natural oscillation of the weather … What people
+(must) do is to change their behavior and their attitudes … If we do
+care about our grandchildren then we have to do something, and we have
+to demand that our governments do something.”</p>
+<p>— David Attenborough</p>
+</blockquote>
+<hr />
+<h2>
+Setting up graphics parameters before plotting
+</h2>
+<p>First we read some more data to illustrate some ideas:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>sv18 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git, <span class="st">&quot;sv18.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>sv18<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sv18<span class="sc">$</span>Group)</span></code></pre></div>
+</div>
+<div
+id="using-xy-plots-to-look-at-the-effect-of-changing-par-function-arguments"
+class="section level3">
+<h3>1. Using <em>xy</em>-plots to look at the effect of changing
+<code>par()</code> function arguments</h3>
+<p>We use the base-<strong>R</strong> function <code>par()</code> to
+change graphics parameters like plot margins. After using
+<code>par()</code> these stay changed until changed again by running
+<code>par()</code> with different arguments.</p>
+<p>For example let’s plot an <em>x-y</em> plot using the default
+settings in <code>par()</code>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">plot</span>(sv18<span class="sc">$</span>Ca <span class="sc">~</span> sv18<span class="sc">$</span>pH, <span class="at">log=</span><span class="st">&quot;y&quot;</span>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/Ca-pH-baseR-1.png" alt="Figure 6: Default plot of Ca *vs*. pH." width="576" />
+<p class="caption">
+Figure 6: Default plot of Ca <em>vs</em>. pH.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>Now, try changing some graphics options using the <code>par()</code>
+function and re-running the simple plot</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.8</span>,<span class="fl">0.7</span>,<span class="dv">0</span>), <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">1.5</span>, <span class="at">cex.axis=</span><span class="fl">1.25</span>, </span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>    <span class="at">cex.lab=</span><span class="fl">1.5</span>, <span class="at">tcl=</span><span class="fl">0.2</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">plot</span>(sv18<span class="sc">$</span>Ca <span class="sc">~</span> sv18<span class="sc">$</span>pH, <span class="at">log=</span><span class="st">&quot;y&quot;</span>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/big-labels-1.png" alt="Figure 7: Plot of Ca vs. pH with plot margins, symbol sizes, and font size and style changed using `par()`." width="576" />
+<p class="caption">
+Figure 7: Plot of Ca vs. pH with plot margins, symbol sizes, and font
+size and style changed using <code>par()</code>.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>This time we adjust the settings in <code>par()</code> to plot
+multiple plots on a page using the <code>mfrow</code> argument, which
+needs a two-value vector <code>c(rows,columns)</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), </span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">1.</span>, <span class="at">cex.axis=</span>.<span class="dv">8</span>, <span class="at">cex.lab=</span><span class="fl">1.</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>    <span class="at">tcl=</span><span class="fl">0.2</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">with</span>(sv18, <span class="fu">plot</span>(Ca <span class="sc">~</span> pH, <span class="at">log=</span><span class="st">&quot;y&quot;</span>, <span class="at">pch=</span><span class="dv">0</span>))</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="fu">with</span>(sv18, <span class="fu">plot</span>(Mg <span class="sc">~</span> pH, <span class="at">log=</span><span class="st">&quot;y&quot;</span>, <span class="at">pch=</span><span class="dv">1</span>, <span class="at">col =</span> <span class="st">&quot;red3&quot;</span>))</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="fu">with</span>(sv18, <span class="fu">plot</span>(Na <span class="sc">~</span> pH, <span class="at">log=</span><span class="st">&quot;y&quot;</span>, <span class="at">pch=</span><span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;purple&quot;</span>))</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="fu">with</span>(sv18, <span class="fu">plot</span>(Sr <span class="sc">~</span> pH, <span class="at">log=</span><span class="st">&quot;y&quot;</span>, <span class="at">pch=</span><span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;blue2&quot;</span>))</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/plot-2x2-1.png" alt="Figure 8: Plot of Ca, Mg, Na, and Sr vs. pH with multiple plots specified using `par()` and different sub-plot appearances set using arguments in `plot()`." width="576" />
+<p class="caption">
+Figure 8: Plot of Ca, Mg, Na, and Sr vs. pH with multiple plots
+specified using <code>par()</code> and different sub-plot appearances
+set using arguments in <code>plot()</code>.
+</p>
+</div>
+<p>
+ 
+</p>
+</div>
+<div id="plots-of-variable-distributions" class="section level3">
+<h3>2. Plots of variable distributions</h3>
+<p>Cumulative Distribution Function using <code>plot.ecdf()</code>. The
+custom <em>y</em>-axis label explains the plot! <br> (note use of
+<code>\u</code> to insert a Unicode character by its 4-digit code
+[Unicode character 2264 is ‘less than or equal to’ (≤)] )</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">plot.ecdf</span>(sv18<span class="sc">$</span>pH, <span class="at">xlab=</span><span class="st">&quot;x = pH&quot;</span>, </span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>          <span class="at">ylab=</span><span class="st">&quot;Proportion of samples with pH \u2264 x&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>) </span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/ecdfPlot-pH-1.png" alt="Figure 9: Cumulative distribution of pH in the sv18 dataset." width="576" />
+<p class="caption">
+Figure 9: Cumulative distribution of pH in the sv18 dataset.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>A better cumulative plot is the normal quantile or ‘q-q’ plot
+specially transformed axes mean that a normally distributed variable
+will plot as a straight line. <code>qqPlot()</code> from the
+<code>car</code> package is best; the plot shows the theoretical line
+and the 95% confidence range.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">require</span>(car)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">qqPlot</span>(sv18<span class="sc">$</span>pH, </span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>       <span class="at">xlab=</span><span class="st">&quot;Theoretical normal distribution quantiles&quot;</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>       <span class="at">ylab=</span><span class="st">&quot;Soil pH&quot;</span>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/qqplot-pH-1.png" alt="Figure 10: Normal quantile (QQ) plot of soil pH in the sv18 dataset. The values in the output block below are the row numbers for unusual observations, which also appear on the plot." width="576" />
+<p class="caption">
+Figure 10: Normal quantile (QQ) plot of soil pH in the sv18 dataset. The
+values in the output block below are the row numbers for unusual
+observations, which also appear on the plot.
+</p>
+</div>
+<pre><code>## [1] 59 58</code></pre>
+<p>
+ 
+</p>
+<p>We can group q-q–plots by a factor:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">oma=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">with</span>(sv18, <span class="fu">qqPlot</span>(Na <span class="sc">~</span> Type, </span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>       <span class="at">xlab=</span><span class="st">&quot;Theoretical normal distribution quantiles&quot;</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>       <span class="at">ylab=</span><span class="st">&quot;Soil pH&quot;</span>))</span></code></pre></div>
+<p><img src="plots_files/figure-html/qq-byfactor-1.png" width="672" /></p>
+<p>
+ 
+</p>
+<p>Here’s another customization of <strong>histograms</strong> – we’ve
+seen these in a previous Workshop. Adding a reference concentration
+shows what proportion of samples have concentrations exceeding this
+value (or not).</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">with</span>(sv18, <span class="fu">hist</span>(<span class="fu">log10</span>(Zn), <span class="at">breaks=</span><span class="fu">seq</span>(<span class="fl">0.4</span>,<span class="fl">3.2</span>,<span class="fl">0.2</span>),</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;log10(Zn, mg/kg)&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>    <span class="co"># add a vertical line at a threshold value (e.g guideline)</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">log10</span>(<span class="dv">300</span>), <span class="at">lty=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">log10</span>(<span class="dv">300</span>),<span class="dv">12</span>, <span class="at">labels =</span> <span class="st">&quot;Zn guideline</span><span class="sc">\n</span><span class="st">300 mg/kg&quot;</span>, </span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>     <span class="at">pos=</span><span class="dv">4</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/hist-abline-1.png" alt="Figure 11: Histogram of Zn in the sv18 data, showing a reference concentration added using `abline()` and `text()`." width="672" />
+<p class="caption">
+Figure 11: Histogram of Zn in the sv18 data, showing a reference
+concentration added using <code>abline()</code> and <code>text()</code>.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>Here’s a similar customization of <strong>box plots</strong> – we’ve
+also seen these in a previous Workshop (the only way to get
+<strong>complex formatting</strong> in plot axis labels is to use
+<code>expression()</code> – this code has an example for a
+<strong><sub>sub</sub>script</strong> in the <em>y</em>-axis label):</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">log10</span>(sv18<span class="sc">$</span>Zn) <span class="sc">~</span> sv18<span class="sc">$</span>Type, </span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Sample Type&quot;</span>, </span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>     <span class="at">ylab=</span><span class="fu">expression</span>(<span class="fu">bold</span>(<span class="fu">paste</span>(log[<span class="dv">10</span>],<span class="st">&quot;(Zn, mg/kg)&quot;</span>))), <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/plain-boxplot-1.png" alt="Figure 12: Boxplot of Zn by sample type in the sv18 data, with complex formatting in the y-axis label using an R `expression()`." width="672" />
+<p class="caption">
+Figure 12: Boxplot of Zn by sample type in the sv18 data, with complex
+formatting in the y-axis label using an R <code>expression()</code>.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>Let’s plot it again with better font size to copy-paste into a
+report. We use a large text size so the plot can be reduced in overall
+size (<em>e.g</em>. to put plots side-by-side, or to suit 2-column
+document formats).</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="fl">0.6</span>,<span class="dv">0</span>), <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">log10</span>(sv18<span class="sc">$</span>Zn) <span class="sc">~</span> sv18<span class="sc">$</span>Type, </span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Sample Type&quot;</span>, </span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>        <span class="at">ylab=</span><span class="fu">expression</span>(<span class="fu">bold</span>(<span class="fu">paste</span>(log[<span class="dv">10</span>],<span class="st">&quot;(Zn, mg/kg)&quot;</span>))), </span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>        <span class="at">main=</span><span class="st">&quot;&quot;</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>        <span class="at">cex.axis=</span><span class="fl">1.5</span>, <span class="at">cex.lab=</span><span class="fl">1.5</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>        <span class="at">col=</span><span class="st">&quot;moccasin&quot;</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>    <span class="co"># add a HORIZONTAL line at a threshold value (e.g guideline)</span></span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>    <span class="fu">abline</span>(<span class="at">h=</span><span class="fu">log10</span>(<span class="dv">300</span>), <span class="at">lty=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>    <span class="co"># label it using text()</span></span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>    <span class="fu">text</span>(<span class="dv">1</span>,<span class="fu">log10</span>(<span class="dv">300</span>), <span class="at">labels=</span><span class="st">&quot;Zn limit 300 mg/kg&quot;</span>, </span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a>         <span class="at">cex=</span><span class="fl">1.25</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>, <span class="at">pos=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/better-boxplot-1.png" alt="Figure 13: Modified boxplot of Zn by sample type in the sv18 data, with complex formatting in the y-axis label using an R `expression()`." width="672" />
+<p class="caption">
+Figure 13: Modified boxplot of Zn by sample type in the sv18 data, with
+complex formatting in the y-axis label using an R
+<code>expression()</code>.
+</p>
+</div>
+<p>
+ 
+</p>
+</div>
+<div id="variations-on-scatter-plots" class="section level3">
+<h3>3. Variations on scatter plots</h3>
+<p>In this sequence of plots we show one way to informatively plot a
+concentration <em>vs</em>. sediment/soil depth, with depth displayed
+vertically, and increasing downwards, as we would expect in the real
+world.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="fu">plot</span>(sv18<span class="sc">$</span>Fe <span class="sc">~</span> sv18<span class="sc">$</span>Depth_lower, <span class="at">pch=</span><span class="st">&quot;-&quot;</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="fu">plot</span>(sv18<span class="sc">$</span>Fe <span class="sc">~</span> sv18<span class="sc">$</span>Depth_upper, <span class="at">pch=</span><span class="st">&quot;+&quot;</span>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/lower-upper-depth-1.png" alt="Figure 14: Plots of Fe vs. depth measurements in the sv18 data." width="672" />
+<p class="caption">
+Figure 14: Plots of Fe vs. depth measurements in the sv18 data.
+</p>
+</div>
+<p>
+<br>Ideally we would like to plot concentration against <em>mean
+depth</em>, but we can’t use a formula (<em>i.e</em>. anything in
+<strong>R</strong> that uses <code>~</code>) in another formula! …<br>
+…so we change the syntax for the variables in <code>plot()</code> to use
+comma instead of <code>~</code> to allow us to put a calculation in:
+</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">plot</span>(((sv18<span class="sc">$</span>Depth_upper<span class="sc">+</span>sv18<span class="sc">$</span>Depth_lower)<span class="sc">/</span><span class="dv">2</span>), sv18<span class="sc">$</span>Fe)</span></code></pre></div>
+<p><img src="plots_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>
+ 
+</p>
+<p>We could also do this by calculating a new variable,
+<em>e.g</em>.:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>sv18<span class="sc">$</span>Depth.mean <span class="ot">&lt;-</span> (sv18<span class="sc">$</span>Depth_upper<span class="sc">+</span>sv18<span class="sc">$</span>Depth_lower)<span class="sc">/</span><span class="dv">2</span></span></code></pre></div>
+<p>We would then use the newly-calculated <code>sv18$Depth.mean</code>
+as the variable.</p>
+<p>For this type of plot, we would prefer to plot depth on the [more
+intuitive] vertical axis</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">plot</span>(sv18<span class="sc">$</span>Fe, ((sv18<span class="sc">$</span>Depth_upper<span class="sc">+</span>sv18<span class="sc">$</span>Depth_lower)<span class="sc">/</span><span class="dv">2</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>))</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/switch-axes-1.png" alt="Figure 15: Plot of Fe vs. depth with x- and y-axis positions switched (so really it's depth vs. Fe, but we have our reasons)." width="384" />
+<p class="caption">
+Figure 15: Plot of Fe vs. depth with x- and y-axis positions switched
+(so really it’s depth vs. Fe, but we have our reasons).
+</p>
+</div>
+<p>
+ 
+</p>
+<p>This puts depth in the wrong direction, though, so we use
+<code>ylim =</code> to reverse direction of y axis, by swapping
+<code>ylim=c(0,100)</code> for <code>ylim=c(100,0)</code>.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">plot</span>(sv18<span class="sc">$</span>Fe, ((sv18<span class="sc">$</span>Depth_upper<span class="sc">+</span>sv18<span class="sc">$</span>Depth_lower)<span class="sc">/</span><span class="dv">2</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">0</span>))</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/reverse-y-1.png" alt="Figure 16: Plot of Fe vs. depth with x- and y-axis positions switched and the vertical axis (depth) scale reversed." width="384" />
+<p class="caption">
+Figure 16: Plot of Fe vs. depth with x- and y-axis positions switched
+and the vertical axis (depth) scale reversed.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>Now tidy up plot margins, axis labels, <em>etc</em>. – use
+<code>help()</code> to understand the function arguments for
+<code>par()</code> and <code>plot()</code>…</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>    <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.5</span>,<span class="dv">0</span>),</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="co">#... and plot it again with nice axis labels</span></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a><span class="fu">plot</span>(sv18<span class="sc">$</span>Fe, ((sv18<span class="sc">$</span>Depth_upper<span class="sc">+</span>sv18<span class="sc">$</span>Depth_lower)<span class="sc">/</span><span class="dv">2</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">0</span>), </span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Fe (mg/kg)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Mean depth (cm)&quot;</span>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/best-par-and-labels-1.png" alt="Figure 17: Plot of Fe vs. depth with x- and y-axis positions switched, y axis scale reversed, and tidy axis labels." width="384" />
+<p class="caption">
+Figure 17: Plot of Fe vs. depth with x- and y-axis positions switched, y
+axis scale reversed, and tidy axis labels.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>What if we want the horizontal axis ‘on top’? We do this by omitting
+axis plotting (<em>i.e</em>. <code>xaxt="n"</code>) and axis label
+(<code>xlab=""</code>)…<br> … then plot the <em>x</em>-axis manually,
+first adjusting plot margins so that there is more space at the top of
+the plot and less at the bottom.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>)) <span class="co"># won&#39;t change anything except margins</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">plot</span>(sv18<span class="sc">$</span>Fe, ((sv18<span class="sc">$</span>Depth_upper<span class="sc">+</span>sv18<span class="sc">$</span>Depth_lower)<span class="sc">/</span><span class="dv">2</span>),</span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">xaxt=</span><span class="st">&quot;n&quot;</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>     <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">0</span>), </span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Mean depth (cm)&quot;</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a><span class="co"># two code lines for manual axis plus label</span></span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>)</span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">side=</span><span class="dv">3</span>, <span class="at">line=</span><span class="fl">2.5</span>, <span class="at">font=</span><span class="dv">2</span>, <span class="at">text=</span><span class="st">&quot;Fe (mg/kg)&quot;</span>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/x-axis-to-top-1.png" alt="Figure 18: Plot of Fe vs. depth with x- and y-axis positions switched, y axis scale reversed, tidy axis labels, and x-axis label and ticks at the top." width="384" />
+<p class="caption">
+Figure 18: Plot of Fe vs. depth with x- and y-axis positions switched, y
+axis scale reversed, tidy axis labels, and x-axis label and ticks at the
+top.
+</p>
+</div>
+<p>
+ 
+</p>
+<table width="100%" border="1">
+<tr>
+<td>
+<strong>Axis values in R</strong><br> In <strong>R</strong> the plot
+axes have a specific order. For example in the <code>par()</code>
+function when setting margins, <em>e.g</em>.
+<code>mar=c(4,4,1,1)</code>, the margins are set with a four-value
+vector. The values of this vector are always in the same order:
+<code>c(bottom, left, top, right)</code>, that is, clockwise starting
+from the bottom axis = 1.
+</td>
+</tr>
+</table>
+<p><img src="plots_files/figure-html/axis-positions-1.png" width="288" /></p>
+</div>
+<div id="scatterplot-matrices" class="section level3">
+<h3>4. Scatterplot matrices</h3>
+<p>A scatterplot matrix can be a very useful data exploration tool (for
+the most effective visualization, you might need to change the default
+colours).</p>
+<p>Scatterplot matrices are available using the
+<code>scatterplotMatrix()</code> function (which can be shortened to
+<code>spm()</code>) from the <code>car</code> package.</p>
+<p>The most basic implementation is plotting without grouping by a
+Factor variable. Note the different way in which the variables (a list
+starting with <code>~</code> and separated by <code>+</code>) and data
+frame (<code>data=</code>) are specified.<br />
+The smoothed trend through the points can be included by changing the
+<code>smooth=</code> argument to <code>smooth=TRUE</code>.</p>
+<p>A very useful feature of scatter plot matrices is the display of each
+variable’s <em>distribution along the diagonal</em> of the plot matrix.
+In the example in Figure 19, we can see that all variables have a
+positively skewed distribution (which might be made more symmetrical by
+log-transformation).</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">require</span>(car)</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="fu">scatterplotMatrix</span>(<span class="sc">~</span>Al <span class="sc">+</span> Ca <span class="sc">+</span> Fe <span class="sc">+</span> Na, <span class="at">data=</span>sv18, <span class="at">smooth=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/spm-ungrouped-1.png" alt="Figure 19: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in sediment + soil + street dust samples from Smith's Lake and Charles Veryard Reserves, North Perth, WA, sampled in 2018." width="576" />
+<p class="caption">
+Figure 19: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in
+sediment + soil + street dust samples from Smith’s Lake and Charles
+Veryard Reserves, North Perth, WA, sampled in 2018.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>To distinguish the points according to the categories in a Factor
+variable, the Factor is included after the list of plotted variables
+using the <code>|</code> operator. We also see the distributions
+separated by group along the diagonal.</p>
+<p>Separating the plots by a factor allows us to see if trends are
+consistent between groups, or if groups behave very differently. [If you
+don’t want to bother with the <code>scico</code> package, use
+<code>col = c("#EDB256", "#AC4A44", "#191900")</code> for the same
+result.]</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">scatterplotMatrix</span>(<span class="sc">~</span>Al <span class="sc">+</span> Ca <span class="sc">+</span> Fe <span class="sc">+</span> Na <span class="sc">|</span> Type, <span class="at">data=</span>sv18, <span class="at">smooth=</span><span class="cn">FALSE</span>,</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>                  <span class="at">col=</span>scico<span class="sc">::</span><span class="fu">scico</span>(<span class="dv">3</span>,<span class="at">palette =</span> <span class="st">&quot;lajolla&quot;</span>, <span class="at">begin=</span><span class="fl">0.3</span>), </span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>                  <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">3</span>), <span class="at">cex=</span><span class="fl">1.4</span>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/spm-by-group-1.png" alt="Figure 20: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in samples from Smith's Lake and Charles Veryard Reserves, North Perth, WA, sampled in 2018 and grouped by sample type (sediment, soil, or street dust)." width="576" />
+<p class="caption">
+Figure 20: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in
+samples from Smith’s Lake and Charles Veryard Reserves, North Perth, WA,
+sampled in 2018 and grouped by sample type (sediment, soil, or street
+dust).
+</p>
+</div>
+<p>
+ 
+</p>
+<p>Often we can get a better idea of the trends and differences between
+variables by transforming variables (log<sub>10</sub>-transformation
+usually is OK). [If you don’t want to bother with the <code>scico</code>
+package, use <code>col = c("#001959","#426F51","#E09651")</code> for the
+same result.]</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">scatterplotMatrix</span>(<span class="sc">~</span><span class="fu">log10</span>(Al) <span class="sc">+</span> <span class="fu">log10</span>(Ca) <span class="sc">+</span> <span class="fu">log10</span>(Fe) <span class="sc">+</span> <span class="fu">log10</span>(Na) <span class="sc">|</span> Type, </span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>                  <span class="at">data=</span>sv18, </span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>                  <span class="at">smooth=</span><span class="cn">FALSE</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>                  <span class="at">col=</span>scico<span class="sc">::</span><span class="fu">scico</span>(<span class="dv">3</span>,<span class="at">palette =</span> <span class="st">&quot;batlow&quot;</span>, <span class="at">end=</span><span class="fl">0.7</span>), </span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>                  <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">1</span>,<span class="dv">3</span>), <span class="at">cex=</span><span class="fl">1.4</span>)</span></code></pre></div>
+<div class="figure">
+<img src="plots_files/figure-html/spm-by-group-log-1.png" alt="Figure 21: Scatter plot matrix of log-transformed Al, Ca, Fe, and Na concentrations in samples from Smith's Lake and Charles Veryard Reserves, North Perth, WA, sampled in 2018 and grouped by sample type (sediment, soil, or street dust)." width="576" />
+<p class="caption">
+Figure 21: Scatter plot matrix of log-transformed Al, Ca, Fe, and Na
+concentrations in samples from Smith’s Lake and Charles Veryard
+Reserves, North Perth, WA, sampled in 2018 and grouped by sample type
+(sediment, soil, or street dust).
+</p>
+</div>
+<p>
+ 
+</p>
+</div>
+<div id="simple-maps" class="section level3">
+<h3>5. Simple maps</h3>
+<p>Maps are [mostly] just scatterplots with a map background – we will
+spend a separate session on maps in R later.</p>
+<center>
+<img src="images/rottnest.png" />
+</center>
+<hr style="height: 1px; background-color: #5560A4;" />
+</div>
+<div id="pretty-palettes" class="section level3">
+<h3>Pretty palettes</h3>
+<p>(See the code at the end)</p>
+<p><img src="images/pretty-palettes.png" align="center" /></p>
+<p>
+ 
+</p>
+<blockquote>
+<p>Go to the <a
+href="Learn-R-2024-Week1a-graphs-GG.html"><code>ggplot2</code> graphics
+page here</a>.</p>
+</blockquote>
+<p>
+ 
+</p>
+</div>
+</div>
+<div id="references-and-r-packages" class="section level2">
+<h2>References and R Packages</h2>
+<p>Fox J (2022). <em>RcmdrMisc: R Commander Miscellaneous
+Functions</em>. R package version 2.7-2, <a
+href="https://CRAN.R-project.org/package=RcmdrMisc"
+target="_blank">https://CRAN.R-project.org/package=RcmdrMisc</a>.</p>
+<p>Fox J, Weisberg S (2019). <em>An {R} Companion to Applied Regression,
+Third Edition</em>. Thousand Oaks CA: Sage. <a
+href="https://socialsciences.mcmaster.ca/jfox/Books/Companion/"
+target="_blank">https://socialsciences.mcmaster.ca/jfox/Books/Companion/</a>
+(<strong>car</strong> package).</p>
+<p>Garnier S, Ross N, Rudis R, Camargo AP, Sciaini M, Scherer C (2021).
+<em>Rvision - Colorblind-Friendly Color Maps for R</em>. R package
+version 0.6.2. <a href="https://sjmgarnier.github.io/viridis/"
+target="_blank">https://sjmgarnier.github.io/viridis/</a>
+(<strong>viridis</strong> package).</p>
+<p>Pedersen T, Crameri F (2023). <em>scico: Colour Palettes Based on the
+Scientific Colour-Maps</em>. R package version 1.4.0, <a
+href="https://CRAN.R-project.org/package=scico"
+target="_blank">https://CRAN.R-project.org/package=scico</a>.</p>
+<p>
+ 
+</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="co"># first load and run code to make UWAcolgrad() function</span></span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a><span class="co"># for help download the UWAcolgrad.R file itself and look inside!</span></span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R/raw/main/UWAcolgrad.R&quot;</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="dv">32</span></span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">rep</span>(<span class="fl">0.5</span>,<span class="dv">4</span>), <span class="at">xpd=</span><span class="cn">TRUE</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">ann=</span>F, <span class="at">axes =</span> F, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.1</span>,<span class="dv">1</span>))</span>
+<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="dv">1</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">viridis</span>(np),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.98</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;viridis::viridis(&quot;</span>,np,<span class="st">&quot;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.85</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">plasma</span>(np),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb30-10"><a href="#cb30-10" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.83</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;viridis::plasma(&quot;</span>,np,<span class="st">&quot;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb30-11"><a href="#cb30-11" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.7</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">cividis</span>(np),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb30-12"><a href="#cb30-12" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.68</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;viridis::cividis(&quot;</span>,np,<span class="st">&quot;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb30-13"><a href="#cb30-13" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.55</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">scico</span>(np, <span class="at">palette =</span> <span class="st">&quot;hawaii&quot;</span>),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb30-14"><a href="#cb30-14" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.53</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;scico(&quot;</span>,np,<span class="st">&quot;, palette=&#39;hawaii&#39;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb30-15"><a href="#cb30-15" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.4</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">scico</span>(np, <span class="at">palette =</span> <span class="st">&quot;lajolla&quot;</span>),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb30-16"><a href="#cb30-16" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.38</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;scico(&quot;</span>,np,<span class="st">&quot;, palette=&#39;lajolla&#39;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb30-17"><a href="#cb30-17" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.25</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">scico</span>(np, <span class="at">palette =</span> <span class="st">&quot;batlow&quot;</span>),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb30-18"><a href="#cb30-18" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.23</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;scico(&quot;</span>,np,<span class="st">&quot;, palette=&#39;batlow&#39;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb30-19"><a href="#cb30-19" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.1</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">UWAcolgrad</span>(np),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb30-20"><a href="#cb30-20" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.08</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;UWAcolgrad(&quot;</span>,np,<span class="st">&quot;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb30-21"><a href="#cb30-21" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="sc">-</span><span class="fl">0.05</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">UWAcolgrad</span>(np, <span class="at">saturated =</span> <span class="cn">TRUE</span>),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb30-22"><a href="#cb30-22" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="sc">-</span><span class="fl">0.07</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;UWAcolgrad(&quot;</span>,np,<span class="st">&quot;, saturated=TRUE)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span></code></pre></div>
+<p>
+ 
+</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
