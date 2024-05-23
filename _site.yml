@@ -31,3 +31,10 @@ navbar:
           href: tables.html
         - text: "Distribution checking"
           href: distributions.html
+output:
+  html_document:
+    highlight: kate
+    md_extensions: -smart
+    self_contained: no
+    include:
+      after_body: footer.html
