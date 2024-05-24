@@ -105,7 +105,7 @@ This is a supplement to the other preliminary material on **R** graphics. We
 have tried to avoid too much overlap with other sessions.
 <span style="background-color: #ff0; font-size: 14pt;">If you want instructions
 on making the same plots using the `ggplot2` **R** package, 
-[go to **this page**](Learn-R-2024-Week1a-graphs-GG.html)</span>.
+[go to **this page**](plots-GG.html)</span>.
 
 <iframe height="420" width="640" allowfullscreen frameborder=0 src="https://echo360.net.au/media/84f872ea-6859-4a3c-a689-4bca0b94a247/public?autoplay=false&automute=false"></iframe>
 
@@ -763,7 +763,7 @@ a separate session on maps in R later.
 
 <p>&nbsp;</p>
 
-> Go to the [`ggplot2` graphics page here](Learn-R-2024-Week1a-graphs-GG.html).
+> Go to the [`ggplot2` graphics page here](plots-GG.html).
 
 <p>&nbsp;</p>
 
@@ -771,9 +771,9 @@ a separate session on maps in R later.
 
 Fox J (2022). *RcmdrMisc: R Commander Miscellaneous Functions*. R package version 2.7-2, [https://CRAN.R-project.org/package=RcmdrMisc](https://CRAN.R-project.org/package=RcmdrMisc){target="_blank"}.
 
-Fox J, Weisberg S (2019). *An {R} Companion to Applied Regression, Third Edition*. Thousand Oaks CA: Sage. [https://socialsciences.mcmaster.ca/jfox/Books/Companion/](https://socialsciences.mcmaster.ca/jfox/Books/Companion/){target="_blank"} (**car** package).
+Fox J, Weisberg S (2019). *An {R} Companion to Applied Regression, Third Edition*. Thousand Oaks CA: Sage. [https://socialsciences.mcmaster.ca/jfox/Books/Companion/](https://socialsciences.mcmaster.ca/jfox/Books/Companion/){target="_blank"} (`car` package).
 
-Garnier S, Ross N, Rudis R, Camargo AP, Sciaini M, Scherer C (2021). *Rvision - Colorblind-Friendly Color Maps for R*. R package version 0.6.2. [https://sjmgarnier.github.io/viridis/](https://sjmgarnier.github.io/viridis/){target="_blank"} (**viridis** package).
+Garnier S, Ross N, Rudis R, Camargo AP, Sciaini M, Scherer C (2021). *Rvision - Colorblind-Friendly Color Maps for R*. R package version 0.6.2. [https://sjmgarnier.github.io/viridis/](https://sjmgarnier.github.io/viridis/){target="_blank"} (`viridis` package).
 
 Pedersen T, Crameri F (2023). *scico: Colour Palettes Based on the Scientific Colour-Maps*. R package version 1.4.0, [https://CRAN.R-project.org/package=scico](https://CRAN.R-project.org/package=scico){target="_blank"}.
 

@@ -98,7 +98,7 @@ overlap with other sessions.
 For the **videos and other materials**, you can visit the 
 <a href="https://lms.uwa.edu.au/bbcswebdav/pid-3355656-dt-content-rid-42740881_1/xid-42740881_1">
 base-R graphics page</a>. Or, go to the 
-[base-R graphics page](Learn_R-2023-Week_1a_graphs.html) if you're not 
+[base-R graphics page](plots.html) if you're not 
 interested in using `ggplot2`.
 
 <p>&nbsp;</p>
@@ -667,7 +667,7 @@ including use of `geom_sf()`.
 
 <p>&nbsp;</p>
 
-> Go to the [base-R graphics page here](Learn_R-2023-Week_1a_graphs.html).
+> Go to the [base-R graphics page here](plots.html).
 
 <p>&nbsp;</p>
 
@@ -687,7 +687,7 @@ Pedersen T, Crameri F (2023). *scico: Colour Palettes Based on the Scientific Co
 
 Schloerke B, Cook D, Larmarange J, Briatte F, Marbach M, Thoen E, Elberg A, Crowley J (2021). *GGally: Extension to `ggplot2`*. R package version 2.1.2, [https://CRAN.R-project.org/package=GGally](https://CRAN.R-project.org/package=GGally){target="_blank"}.
 
-Wickham, H. *`ggplot2`: Elegant Graphics for Data Analysis*. Springer-Verlag New York, 2016. [https://ggplot2.tidyverse.org](https://ggplot2.tidyverse.org){target="_blank"}.
+Wickham, H. (2016). *`ggplot2`: Elegant Graphics for Data Analysis*. Springer-Verlag New York. [https://ggplot2.tidyverse.org](https://ggplot2.tidyverse.org){target="_blank"}.
 
 <p>&nbsp;</p>
 

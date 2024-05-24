@@ -17,7 +17,7 @@ output:
 ```{r preliminaries, warning=FALSE, message=FALSE, include=FALSE}
 library(car)  ### for powerTransform() function
 library(flextable)
-  set_flextable_defaults(font.family = "Arial", font.size = 11, 
+  set_flextable_defaults(font.family = "Arial", font.size = 10, 
                        theme_fun = "theme_booktabs", padding = 1)
 library(officer)
 git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
@@ -57,7 +57,7 @@ distribution of).
 v0 <- "pH"
 ```
 
-### Subset the input data from first relevant nueric coumn to end
+### Subset the input data from first relevant numeric column to end
 ```{r subset-input-data, message=FALSE, warning=FALSE}
 data0 <- data0[,which(colnames(data0)==v0):ncol(data0)]
 ```
@@ -121,12 +121,12 @@ Alternatively, we can make a publication-quality table using the `flextable`
 **R** package (Table 1).
 
 ```{r}
-flextable(transf_results) |> bold(part="header") |>
-  set_caption(caption="Table 1: Table summarising normality tests for distributions of variables when untransformed, log10-transformed, or power-transformed. [W_orig = Shapiro-Wilk statistic (W) for the untransfomed variable; p_orig = Shapiro-Wilk p-value for the untransfomed variable; W_log_tr = W for log10-transformed; p_log_tr = p-value for log10-transformed; W_pow_tr = W for power-transformed; p_pow_tr = p-value for power-transformed; Pow_term = exponent for power transformation.]", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
+flextable(transf_results) |> bold(part="header") |> width(width=2, unit="cm") |>
+  set_caption(caption="Table 1: Table summarising normality tests for distributions of variables when untransformed, log10-transformed, or power-transformed. [W_orig = Shapiro-Wilk statistic (W) for the untransfomed variable; p_orig = Shapiro-Wilk p-value for the untransfomed variable; W_log_tr = W for log10-transformed; p_log_tr = p-value for log10-transformed; W_pow_tr = W for power-transformed; p_pow_tr = p-value for power-transformed; Pow_term = exponent for power transformation.] Data from Smiths-Veryard 2017.", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
 ```
 
+```{r remove temporary objects, message=FALSE, warning=FALSE, include=FALSE}
 ### to keep R workspace tidy
-```{r remove temporary objects, message=FALSE, warning=FALSE}
 rm(list=c("c1","cn","S_W_raw","names.of.cols","pt1","sw0","sw1","sw2","i"))
 ```
 
