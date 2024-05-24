@@ -41,7 +41,7 @@ navbar:
           href: spatial.html
         - text: "Spatial interpolation"
           href: spat-interp.html
-    - text: "EDA"
+    - text: "Util"
       menu:
         - text: "Tables & trigger value counts"
           href: tables.html
@@ -57,4 +57,5 @@ output:
     md_extensions: -smart
     self_contained: no
     include:
+      before_body: header.html
       after_body: footer.html
