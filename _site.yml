@@ -17,17 +17,33 @@ navbar:
           href: plots.html
         - text: "Plots-ggplot"
           href: plots-GG.html
+    - text: "Compare"
+      menu:
+        - text: "Compare means (parametric)"
+          href: means.html
+        - text: "Non-parametric comparisons"
+          href: nonparam.html
+    - text: "Relate"
+      menu:
+        - text: "Correlation"
+          href: correl.html
+        - text: "Simple linear regression"
+          href: regression.html
+        - text: "Grouped linear regression"
+          href: reg-group.html
+        - text: "Multiple linear regression"
+          href: reg-multi.html
     - text: "Maps"
       menu:
         - text: "Map data with tile backgrounds"
           href: maps.html
-        - text: "spatial stats"
+        - text: "Spatial statistics"
           href: spatial.html
-        - text: "spatial interpolation"
+        - text: "Spatial interpolation"
           href: spat-interp.html
     - text: "EDA"
       menu:
-        - text: "Tables + trigger value counts"
+        - text: "Tables & trigger value counts"
           href: tables.html
         - text: "Distribution checking"
           href: distributions.html
