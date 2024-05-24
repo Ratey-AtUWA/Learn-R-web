@@ -1,0 +1,617 @@
+---
+title: "Statistics for Comparisons"
+subtitle: "Parametric tests"
+author: "Andrew Rate, School of Agriculture and Environment, UWA"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    highlight: kate
+---
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+
+```{r load addImg fxn and palettes, include=FALSE}
+library(png)
+addImg <- function(obj, x = NULL, y = NULL, width = NULL, interpolate = TRUE){
+  if(is.null(x) | is.null(y) | is.null(width)){stop("Must provide args 'x', 'y', and 'width'")}
+  USR <- par()$usr ; PIN <- par()$pin ; DIM <- dim(obj) ; ARp <- DIM[1]/DIM[2]
+  WIDi <- width/(USR[2]-USR[1])*PIN[1] ;   HEIi <- WIDi * ARp 
+  HEIu <- HEIi/PIN[2]*(USR[4]-USR[3]) 
+  rasterImage(image = obj, xleft = x-(width/2), xright = x+(width/2),
+            ybottom = y-(HEIu/2), ytop = y+(HEIu/2), interpolate = interpolate)
+}
+palette(c("black", "#003087", "#DAAA00", "#8F92C4", "#E5CF7E", 
+          "#001D51", "#B7A99F", "#A51890", "#C5003E", "#FDC596", 
+          "#AD5D1E", "gray40", "gray85", "#FFFFFF", "transparent"))
+```
+
+<div style="border: 2px solid #039; background-color:#ffc; padding: 8px;">
+## Activities for this Workshop
+
+1. Use a single-sided t- test to compare the mean of a variable with a fixed value (*e.g*. an environmental guideline)
+2. Use a two -sided Welch's t-test to compare the means of 2 groups of a variable (*i.e*. categorised with a two-two-level factor)
+3. Calculate a Cohen's d effect size for a 2-group mean comparison
+4. Make a new factor using the `cut()` function in **R** or the `Recode()` function (in the `car` package)
+5. Make *relevant high-quality graphics* to illustrate means comparisons: *e.g*. box plots with means, and plots-of-means [`plotMeans()`]<br>&nbsp;
+6. Repeat 1, 2, 3, & 5 above using *analysis of variance* (ANOVA) *via* the Welch's f test `oneway.test()`, to compare means for 3 or more groups<br>&nbsp;
+7. Generate a pairwise comparison of means from the analysis in step 6 (if there's time – we can leave this until the next session).
+</div>
+
+<p>&nbsp;</p>
+
+<div style="border: 2px solid #039; background-color:#ffc; padding: 8px;">
+### Videos
+
+<iframe height="240" width="320" allowfullscreen frameborder=0 src="https://echo360.net.au/media/53bcb4bc-bc82-4227-9134-ae5a2b2e91c8/public?autoplay=false&automute=false"></iframe>
+<p>&nbsp;</p>
+<iframe height="240" width="320" allowfullscreen frameborder=0 src="https://echo360.net.au/media/b92bf5fa-bbbb-42dd-9567-697591b2e6c9/public?autoplay=false&automute=false"></iframe>
+<p>&nbsp;</p>
+<iframe height="240" width="320" allowfullscreen frameborder=0 src="https://echo360.net.au/media/3a49397c-92c6-47a9-86e7-2c840fd19d81/public?autoplay=false&automute=false"></iframe>
+</div>
+
+<p>&nbsp;</p>
+
+<div style="border: 2px solid #039; background-color:#ffc; padding: 8px;">
+### Code and Data
+
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091993-dt-content-rid-40243070_1/xid-40243070_1"><span style="font-size: 12pt;">🔣&nbsp;R code file for this workshop session</span></a></p>
+<hr />
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091993-dt-content-rid-40243007_1/xid-40243007_1"><span style="font-size: 12pt;">📊&nbsp;Ashfield flats water data (afw19) in CSV format</span></a></p>
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091993-dt-content-rid-40243097_1/xid-40243097_1"><span style="font-size: 12pt;">📊&nbsp;Smith's Lake / Veryard Reserve data (sv2017) in CSV format</span></a></p>
+</div>
+
+<p>&nbsp;</p>
+
+```{r load workspace and packages, echo=FALSE, include=FALSE}
+# load("//uniwa.uwa.edu.au/userhome/staff8/00028958/My Documents/_R Projects/Learning R/.RData")
+git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+sv2017 <- read.csv(paste0(git,"sv2017_original.csv"), stringsAsFactors = TRUE)
+library(png)
+library(ggplot2)
+library(car)
+library(RcmdrMisc)
+library(rcompanion)
+library(multcompView)
+library(effsize)
+library(multcomp)
+library(PMCMRplus)
+```
+
+## Intro: Comparisons of means between groups
+
+**Comparison of means** tests help you determine whether or not your groups of 
+observations have similar means. The groups are defined by the value of a 
+**factor** (a categorical variable) for each row (observation) of our dataset.
+
+There are many cases in statistics where you'll want to compare means for two or
+more populations, samples, or sample types. The **parametric** tests like
+t-tests or ANOVA compare the variance **between** groups with the variance
+**within** groups, and use the relative sizes of these 2 variances to estimate
+the probability that means are different.
+
+The parametric mean comparison tests require the variables to have normal
+distributions. We also often assume that all groups of observations have  
+equal variance in the variable being compared. If the variances in each group 
+are not similar enough (*i.e*. the variable is **heteroskedastic**), we need to 
+modify or change the statistical test we use.
+
+**Means comparisons** based on **N**ull **H**ypothesis **S**tatistical 
+**T**esting (NHST) compare the variance *between groups* with the variance 
+*within groups*, and generate a statistic which, if large/unlikely enough 
+(*i.e*. p &le; 0.05), allows rejection of the null hypothesis (H~0~ = no 
+difference between means in each/any groups).
+
+<div style="border: 2px solid #039; padding: 8px;">
+<em>In another session, we'll look at 'non-parametric' ways of comparing means, to 
+be used when our variable(s) don't meet all of the requirements of conventional 
+(parametric) statistical tests.</em>
+</div>
+
+In this session we're going to use the 2017 Smith's Lake &ndash; Charles Veryard 
+Reserves dataset (see Figure \@ref(fig:SLCVR-map)) to compare means between
+groups for factors having:
+
+1.    only two groups (using only the soil data);
+2.    more than two groups (using the whole dataset).
+
+```{r load map packages, include=FALSE}
+library(sf)            # Simple Features spatial data in R
+library(maptiles)      # get open-source map tiles for background maps
+library(TeachingDemos) # for shadowtext() function
+```
+
+```{r SLCVR-map, echo=FALSE, fig.width=5, fig.height=4.7, fig.cap="Map showing locations of Charles Veryard and Smiths Lake Reserves, North Perth, Western Australia (location sampled for the sv2017 dataset).", fig.align='center', results='hold',warning=FALSE}
+extent <- st_as_sf(data.frame(x=c(390910,391550),y=c(6466220,6466800)),
+                   coords = c("x","y"), crs = st_crs(32750))
+SLtiles <- get_tiles(extent, provider = "OpenTopoMap", 
+                     zoom=16, crop = TRUE)
+par(oma=c(0,0,0,0), mgp=c(1.6,0.3,0), tcl=-0.25, lend="square", xpd=TRUE)
+plot_tiles(SLtiles, axes=TRUE, mar=c(3,3,0.1,0.1))
+mtext("Easting (UTM Zone 50, m)", side = 1, line = 3, font=2)
+mtext("Northing (UTM Zone 50, m)", side = 2, line = 2.4, font=2)
+shadowtext(c(391365,391260), c(6466370,6466660),
+     labels=c("Smith's\nLake\nReserve","Charles Veryard\nReserve"),
+     col="darkgreen", bg="white", font=3)
+lines(st_bbox(SLtiles)[c(1,3)],rep(6466530,2), lty=1, lwd=8, col="#FFFFFFC0")
+lines(st_bbox(SLtiles)[c(1,3)],rep(6466530,2), lty="23", lwd=4, col="purple3")
+shadowtext(391480,6466532,label="Northing\n6466530", 
+           col="purple3", bg="white")
+par(xpd=FALSE)
+```
+
+### Create a factor separating the two Reserves into groups AND limit the data to only soil
+
+We split the dataset at Northing = 6466530 m, which represents Bourke Street.
+
+```{r create Reserves factor}
+require(car)
+sv2017$Reserve <- cut(sv2017$Northing,
+                      breaks = c(0,6466530,9999999),
+                      labels = c("Smiths","Veryard"))
+sv17_soil <- subset(sv2017, subset=sv2017$Type=="Soil")
+cat("Number of soil samples in each reserve\n"); summary(sv17_soil$Reserve)
+```
+
+### Check the newly-created factor with a plot
+
+Note that:
+
+- we include the option `asp=1` in the plot function, so that distances
+are the same for the x- and y-coordinates
+- the plot symbols, colours, and sizes are controlled by vectors of length 2: `pch = c(1,2)`, `col = c(2,4)`, and `cex = c(1.25,1)`, followed by `[Reserve]` in square brackets, so that the value in each vector depends on the value of the factor `Reserve` for each sample (row).
+
+```{r xyMap, fig.height=5, fig.width=4, out.width='40%', fig.align='center', results='hold', fig.cap="Location map of soil samples at Charles Veryard and Smiths Lake Reserves."}
+par(mfrow=c(1,1), mar=c(3.5,3.5,1.5,1.5), mgp=c(1.6,0.25,0),
+    font.lab=2, font.main=3, cex.main=1, tcl=0.3)
+with(sv17_soil, plot(Northing ~ Easting, asp=1,
+     pch = c(1,2)[Reserve],
+     col = c(2,4)[Reserve],
+     cex = c(1.25,1)[Reserve],
+     lwd = 2, xlab="Easting (UTM Zone 50, m)",
+     ylab="Northing (UTM Zone 50, m)", cex.axis=0.85, cex.lab=0.9,
+     main = "Samples by reserve"))
+abline(h = 6466530, lty=2, col="gray")
+legend("bottomleft", legend = c("Smiths Lake","Charles Veryard"),
+       cex = 1, pch = c(1,2), col = c(2,4),
+       pt.lwd = 2, pt.cex = c(1.25, 1), title = "Reserve",
+       bty = "n", inset = 0.02)
+```
+
+The plot in Figure \@ref(fig:xyMap) looks OK! You may have just made your first 
+**R** map!
+
+We can also draw the plot using the `ggplot2` package:
+
+```{r xyMap-GG, fig.height=4, fig.width=4.4, out.width='40%', fig.align='center', results='hold', fig.cap="Location map of soil samples at Charles Veryard and Smiths Lake Reserves made with `ggplot`."}
+library(ggplot2)
+ggplot(sv17_soil, aes(x=Easting, y=Northing, shape=Reserve, color=Reserve)) +
+  geom_point(size=2) +
+  scale_colour_manual(values=c("darkgreen","olivedrab"))
+```
+
+<hr style="height: 2px; background-color: #008060   ;" />
+
+>   "...we have our work to do<br>
+    Just think about the average..."
+>   
+>   --- [Rush](https://www.rush.com){target="_blank"}, 
+    from the song *2112 (The Temples of Syrinx)*
+
+<hr style="height: 2px; background-color: #008060;" />
+
+## Means comparisons for exactly two groups
+
+For variables which are normally distributed, we can use conventional,
+parametric statistics. The following example applies a t-test to compare mean
+values between Reserve. By default the R function `t.test()` uses the 
+**Welch t-test**, which doesn't require the variance in each group to be equal
+(*i.e*., the Welch t-test is OK for heteroskedastic variables, but we should check anyway!). <br>
+Of course, we still need to use **appropriately transformed variables**!
+
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+### Homogeneity of variance using the variance ratio test or Bartlett's Test
+
+We can actually check if the variances are equal in each group using Bartlett's 
+Test (`bartlett.test()`), or for this example with *exactly two groups* we can
+use the `var.test()` function (do they both give the same conclusion?):
+
+```{r variance tests 2 groups, results='hold'}
+require(car)
+powerTransform(sv17_soil$Na)
+sv17_soil$Na.pow <- (sv17_soil$Na)^0.127 # from results of powerTransform()
+
+with(sv17_soil, shapiro.test(Na.pow))
+with(sv17_soil, var.test(Na.pow ~ Reserve))
+with(sv17_soil, bartlett.test(Na.pow ~ Reserve))
+```
+
+Both the variance-ratio and Bartlett tests show that H~0~ (that variances are
+equal) can **not** be rejected. We can visualise this with (for instance) a
+boxplot or density plot (Figure \@ref(fig:vis-variance-2group); we need the 
+`car` package for the `densityPlot()` function):
+
+```{r vis-variance-2group, fig.height=4.5, fig.width=8, fig.cap="Graphical visulaization of variance (the 'spread' of the distribution) in each group using (left) a box plot and (right) a density plot."}
+require(car)
+par(mfrow=c(1,2), mar=c(3.5,3.5,1.5,1.5), mgp=c(1.6,0.5,0),
+    font.lab=2, font.main=3, cex.main=0.8, tcl=-0.2,
+    cex.lab = 1, cex.axis = 1)
+boxplot(sv17_soil$Na.pow ~ sv17_soil$Reserve, 
+        notch=FALSE, col="grey92",
+        xlab="Reserve", ylab="Na (power-transformed)")
+densityPlot(Na.pow ~ Reserve, data=sv17_soil, 
+            xlab="Na (power transformed)", adjust=1.5, ylim=c(0,5))
+par(mfrow=c(1,1)) # reset multiple graphics panes
+```
+
+<p>&nbsp;</p>
+
+TIn each case it's apparent that the variance in Na in the Veryard soil is 
+similar to that at Smith's Lake, illustrating the conclusion from the 
+statistical tests.
+</div>
+
+he power term from `powerTransform()` is &sime;&nbsp;0.127, so we make a new
+power-transformed column `Na.pow` using this value. The `shapiro.test()` shows
+that `Na.pow` is normally distributed, and `var.test()` shows that the variances 
+are approximately equal, as do the boxplot and density plot. So we can apply the
+`t.test()` with the option `var.equal=TRUE` (*i.e*. a 'standard' two-sample
+t-test).
+
+```{r Welch-t-test}
+t.test(sv17_soil$Na.pow ~ sv17_soil$Reserve, var.equal=TRUE)
+```
+
+We can visualize means comparisons in a few different ways &ndash; see Figure 
+\@ref(fig:meancomp-plots-2-groups). My favourite is the boxplot with means
+included as extra information - with a bit of additional coding we can include
+the 95% confidence intervals as well! (but this is not shown in this document).
+
+### Visualising differences in means - 2 groups
+```{r meancomp-plots-2-groups, fig.height=3, fig.width=6, message=FALSE, warning=FALSE, fig.cap="Graphical comparison of means between groups using: (a) a standard box plot; (b) a box plot also showing mean values in each group. You would not include both options in a report!"}
+par(mfrow=c(1,2), mar=c(3.5,3.5,1.5,1.5), mgp=c(1.7,0.3,0),
+    font.lab=2, font.main=3, cex.main=1, tcl=0.3)
+boxplot(sv17_soil$Na.pow ~ sv17_soil$Reserve, 
+        notch=F, col="gainsboro",
+        xlab="Reserve", ylab="Na (power-transformed)")
+mtext("(a)", 3, -1.25, adj=0.05, font=2)
+#
+# the second plot is a box plot with the means overplotted
+boxplot(sv17_soil$Na.pow ~ sv17_soil$Reserve, 
+        notch=F, col="bisque", ylim=c(1.4,2.2),
+        xlab="Reserve", ylab="Na (power-transformed)")
+# make a temporary object 'meanz' containing the means
+meanz <- tapply(sv17_soil$Na.pow, sv17_soil$Reserve, mean, na.rm=T)
+# plot means as points (boxplot boxes are centered on whole numbers)
+points(seq(1, nlevels(sv17_soil$Reserve)), meanz, 
+       col = "royalblue", pch = 3, lwd = 2)
+legend("bottomright", "Mean values", 
+       pch = 3, pt.lwd = 2, col = "royalblue",
+       bty = "n", inset = 0.01)
+mtext("(b)", 3, -1.25, adj=0.05, font=2)
+rm(meanz) # tidy up
+```
+
+[skip to Figure \@ref(fig:meancomp-plots-3groups) for a 3-group comparison]
+
+<p>&nbsp;</p>
+
+The `ggplot` connoisseurs can also draw such a boxplot:
+
+```{r 2way-box-gg, fig.height=3, fig.width=4, fig.align='center', fig.cap="Boxplot for 2-group comparison, showing means, and drawn with `ggplot2`.", message=FALSE, warning=FALSE}
+meanz <- data.frame(x1=levels(sv17_soil$Reserve),
+                    y1=tapply(sv17_soil$Na.pow, sv17_soil$Reserve, mean, na.rm=T),
+                    x2=rep("Mean",2))
+shapes <- c("Mean" = 3, "Outliers" = 1)
+ggplot(sv17_soil, aes(x=Reserve, y=Na.pow)) +
+  labs(y="Na (power-transformed)") +
+  geom_boxplot(fill="mistyrose", outlier.shape=1) + theme_bw() +
+  geom_point(data = meanz, aes(x=x1, y=y1, shape=x2), size=2, 
+             stroke=1.2, col="firebrick") +
+  scale_shape_manual(name="Legend", values=3) +
+  theme(axis.title = element_text(face="bold"))
+# there's probably a more efficient way to do this in ggplot!
+```
+
+<p>&nbsp;</p>
+
+## Effect size for means comparisons: Cohens d
+
+Statistical tests which compare means only estimate if there is a difference or
+not. We would also usually like to know how big the difference (or '**effect**')
+is! The Cohen's *d* statistic is a standardised measure of effect size available
+in the `effsize`h R package.
+
+```{r get-cohens-d, message=FALSE, warning=FALSE, results='hold'}
+require(effsize)
+cohen.d(sv17_soil$Na.pow ~ sv17_soil$Reserve)
+```
+
+The calculated value of Cohen's *d* is 0.5 &le; *d* &lt; 0.8, which is medium. The
+95% CI for the estimate of Cohen's *d* (*i.e*. between `lower` and `upper`) does
+not include zero, so we can probably rely on it.
+
+**More recently than Cohen, Sawilowsky (2009) proposed that for Cohen's d:**
+
+```{r cohens-flextable, echo=FALSE, warning=FALSE, message=FALSE}
+cohens <- data.frame(lower=c("0.01 ≤","0.2 ≤","0.5 ≤","0.8 ≤","1.2 ≤",NA), 
+            d=rep("d",6), upper=c("< 0.2","< 0.5","< 0.8","< 1.2","< 2.0","> 2.0"),
+            size=c("very small","small","medium","large","very large","huge"))
+flextable(cohens) |> theme_zebra(odd_body = "lightcyan") |> delete_part(part="header") |> 
+  width(width=c(1.2,0.5,1.5,2), unit="cm") |>
+  align(j=1, align="right", part="all") |> align(j=2, align="c") |> align(j=3, align="left") |> 
+  border_outer(border=fp_border(),part="all") |> border(i=1,border.top = fp_border())
+```
+
+<p>&nbsp;</p>
+
+## Means comparisons for 3 or more groups
+
+If we have a factor with 3 or more levels (*a.k.a*. groups, or categories), we
+can use analysis of variance (ANOVA) to compare means of a normally distributed
+variable. In this example we'll use the factor `Type` (= sample type) from the
+complete 2017 Smith's &ndash; Veryard data (not just soil!). <br>
+We still need to use **appropriately transformed variables**, and we need to 
+know if **group variances are equal**!
+
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+### Check homogeneity of variances, 3 or more groups
+
+ANOVA also requires variance for each group to be (approximately) equal. Since
+there are more than 2 groups, we need to use the Bartlett test.
+
+```{r test variance for groups in Type, echo=2, results='hold'}
+sv2017$Ca.pow <- sv2017$Ca^(powerTransform(sv2017$Ca)$lambda)
+shapiro.test(sv2017$Ca.pow)
+bartlett.test(sv2017$Ca.pow ~ sv2017$Type)
+```
+
+The `shapiro.test()` p-value is &gt;&nbsp;0.05, so we can accept H~0~ that 
+`Ca.pow` is normally distributed. In contrast, the `bartlett.test()` p-value is 
+&le;&nbsp;0.05, so we reject H~0~ of equal variances (*i.e*. `Ca.pow` is 
+heteroscedastic).
+
+```{r vis-var-3groups, fig.height=3.5, fig.width=7, fig.align='center', fig.cap="Graphical visualization of variance (the spread of the distribution) in 3 groups using (left) a box plot and (right) a density plot.", out.width="65%", echo=-5}
+require(car)
+par(mfrow=c(1,2), mar=c(3,3,0.5,0.5), mgp=c(1.6,0.5,0),
+    font.lab=2, font.main=3, cex.main=0.8, tcl=-0.2,
+    cex.lab = 1, cex.axis = 1)
+boxplot(sv2017$Ca.pow ~ sv2017$Type, 
+        notch=FALSE, col="gainsboro",
+        xlab="Reserve", ylab="Ca (power-transformed")
+densityPlot(sv2017$Ca.pow ~ sv2017$Type, adjust=2, 
+            xlab="Ca (power transformed)", ylim=c(0,18))
+par(mfrow=c(1,1)) # reset multiple graphics panes
+```
+
+In each case it seems that the variance in power-transformed Ca is Sediment >
+Soil > Street dust (Figure \@ref(fig:vis-var-3groups)). We can check the actual
+variance values using `tapply()`, and this confirms our interpretation:
+
+```{r variance by Type, results='hold'}
+cat("--- Variances for each factor level ---\n")
+with(sv2017, tapply(Ca.pow, Type, var, na.rm=TRUE))
+```
+
+<div>
+
+<p>&nbsp;</p>
+
+We now know that we can use a parametric test (based on `Ca.pow` being normally 
+distributed) which corrects for unequal variance (since we found that `Ca.pow` 
+is heteroscedastic).
+
+```{r one-way analysis of variance, results='hold'}
+oneway.test(sv2017$Ca.pow ~ sv2017$Type, var.equal = FALSE)
+cat("\nMeans for transformed variable\n");
+meansAl <- tapply(sv2017$Ca.pow, sv2017$Type, mean, na.rm=TRUE);
+print(signif(meansAl,3)) # output means with appropriate significant digits
+cat("\nMeans for original (untransformed) variable\n");
+meansCa <- tapply(sv2017$Ca, sv2017$Type, mean, na.rm=TRUE);
+print(signif(meansAl,4)) # output means with appropriate significant digits
+rm(meansCa) # tidy up
+```
+
+In the output above, the p-value from our `oneway.test()` is less than 0.05
+based on the large value for the `F` statistic. This allows us to reject the
+null hypothesis of equal means. As for a two-group comparison, we can visualize
+the differences in means in different ways (Figure
+\@ref(fig:meancomp-plots-3groups))
+
+### Visualising differences in means - 3 or more groups
+
+```{r meancomp-plots-3groups, fig.height=3, fig.width=6, fig.cap="Graphical comparison of means between 3 or more groups, in three ways: (a) a notched box plot (notches are approximate 95% confidence intervals around the median); (b) a box plot also showing mean values in each group.", message=FALSE, warning=FALSE}
+par(mfrow=c(1,2), mar=c(3.5,3.5,1.5,1.5), mgp=c(1.7,0.3,0),
+    font.lab=2, font.main=3, cex.main=1, tcl=0.2,
+    cex.axis=0.9, lend = "square", ljoin = "mitre")
+boxplot(sv2017$Ca.pow ~ sv2017$Type, notch=T, 
+        cex = 1.2, col="grey92", ylim=c(0.08,0.35), 
+        xlab="Sample type", ylab="Ca (power-transformed)")
+mtext("(a)", 3, -1.5, adj=0.97, font=2) # label each sub-plot
+boxplot(sv2017$Ca.pow ~ sv2017$Type, notch=F, 
+        col=c("cadetblue","moccasin","thistle"), 
+        cex = 1.2, ylim=c(0.08,0.35), 
+        xlab="Reserve", ylab="Ca (power-transformed)")
+mtext("(b)", 3, -1.5, adj=0.97, font=2) # label each sub-plot
+meanz <- tapply(sv2017$Ca.pow, sv2017$Type, mean, na.rm=T)
+points(seq(1, nlevels(sv2017$Type)), meanz, 
+       col = "white", pch = 3, lwd = 4, cex = 1.3)
+points(seq(1, nlevels(sv2017$Type)), meanz, 
+       col = "firebrick", pch = 3, lwd = 2, cex = 1.2)
+legend("bottomright", legend="Mean values", cex=0.9, y.int=0.2, 
+       pch = 3, pt.lwd = 2, col = "firebrick", pt.cex = 1.2,
+       bty = "o", inset = 0.03, box.col="#00000000", bg="#d0d0d040")
+rm(meanz) # tidy up
+```
+
+Look back at Figure \@ref(fig:meancomp-plots-2-groups). Why is Figure 
+\@ref(fig:meancomp-plots-3groups) better?
+
+### Visualsing 3-group differences with `ggplot2`
+
+```{r 3way-box-gg, fig.height=3, fig.width=4.5, fig.align='center', fig.cap="Boxplot for 3-group comparison, showing means, and drawn with `ggplot2`.", message=FALSE, warning=FALSE}
+meanz <- data.frame(x1=levels(sv2017$Type),
+                    y1=tapply(sv2017$Ca.pow, sv2017$Type, mean, na.rm=T),
+                    x2=rep("Mean",nlevels(sv2017$Type)))
+ggplot(sv2017, aes(x=Type, y=Ca.pow)) +
+  labs(y="Ca (power-transformed)") +
+  geom_boxplot(fill="papayawhip", outlier.shape=1) + theme_bw() +
+  geom_point(data = meanz, aes(x=x1, y=y1, shape=x2), size=2.2, 
+             stroke=0.8, col="slateblue") +
+  scale_shape_manual(name="Key", values=10) +
+  theme(axis.title = element_text(face="bold"))
+# there's probably a more efficient way to do this in ggplot!
+```
+
+<hr style="height: 2px; background-color: #008060   ;" />
+
+>   "The analysis of variance is not a mathematical theorem, but rather a 
+    convenient method of arranging the arithmetic."
+>   
+>   --- [Ronald Fisher](https://en.wikipedia.org/wiki/Ronald_Fisher){target="_blank"}, 
+    the developer of ANOVA
+
+<hr style="height: 2px; background-color: #008060;" />
+
+<p>&nbsp;</p>
+
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+
+### Effect sizes for 3 or more groups
+
+**It's not possible to calculate Effect sizes for 3 or more groups directly. We would need to create subsets of our dataset which include only two groups** (*e.g*., **with only Soil and Sediment), and then run** `cohen.d()` **from the 'effsize' R package.** Or we could do some custom coding...
+</div>
+
+<p>&nbsp;</p>
+
+## Pairwise comparisons
+
+If our analysis of variance allows rejection of H~0~, we still don't necessarily
+know **which** means are different. The test may return a p-value &le; 0.05 even
+if only one mean is different from all the others. If the p-value &le; 0.05, we
+can compute **Pairwise Comparisons** (there's no point if the 'overall' p-value
+from the initial test is &gt;&nbsp;0.05). The examples below show pairwise
+comparisons in an analysis of variance for Ba, in groups defined by the factor
+`Type`.
+
+The most straightforward way to conduct pairwise comparisons is with the
+`pairwise.t.test()` function &ndash; this is what we *recommend.* We can
+generate the convenient '*compact letter display*' using the **R** packages
+`rcompanion` and `multcompView`. With the compact letter display, factor levels
+(categories) having the same letter are **not** significantly different
+(pairwise p &gt; 0.05).
+
+Note that pairwise comparisons [should] always adjust p-values to greater
+values, to account for the increased likelihood of Type 1 Error (false
+positives) with multiple comparisons. There are several ways of making this
+correction, such as Holm's method.
+
+First, we know we can apply a *post-hoc* pairwise test, since the overall effect 
+of `Type` on `Ba` is significant (p &asymp; 0.002):
+
+```{r aov Ba by Type, echo=-1, results='hold'}
+sv2017$Ba.log <- log10(sv2017$Ba)
+with(sv2017, shapiro.test(Ba.log))
+with(sv2017, bartlett.test(Ba.log ~ Type))
+with(sv2017, oneway.test(Ba.log ~ Type, var.equal = TRUE))
+```
+
+How did we get `Ba.log`? (*You need to calculate it yourself with a line of* 
+**R** *code*!). Also, what do the Shapiro-Wilk and Bartlett tests tell us about 
+our choice of means comparison test?
+
+Next we generate the compact letters using the `fullPTable()` function from the
+`rcompanion` package and `multcompLetters()` from the `multcompView` package as
+below. **Note** that since `Ba.log` has equal variance across `Type` groups (see
+above), we can use the default `pairwise.t.test()` options. If `Ba.log` was
+heteroscedastic, we would have used 
+`pairwise.t.test(Ba.log, Type, pool.sd = FALSE)` instead.
+
+```{r pairwise t test and compact letters, results='hold'}
+library(rcompanion)
+library(multcompView)
+(pwBa <- with(sv2017, pairwise.t.test(Ba.log, Type)))
+cat("\n==== Compact letters ====\n") 
+pwBa_pv <- fullPTable(pwBa$p.value)                 # from rcompanion
+multcompLetters(pwBa_pv)                            # from multcompView
+```
+
+In the output above, the table of p-values shows a significant difference (p <
+0.05) between Sediment and Soil, and Sediment and Street dust (*note* the use of
+Holm's p-value adjustment, which is the default method). We get the same
+interpretation from the compact letters; Sediment (`"a"`) is different from Soil
+and Street dust (both `"b"`). Since Soil and Street dust have the same letter
+(`"b"`), they are not significantly different, which matches the p-value
+(`0.3634`).
+
+### OPTIONAL: Pairwise compact letters alternative
+
+This method using the `cld()` function is way harder to make sense of... it's
+probably more rigorous, but leads to the same conclusion. We need to load the
+`multcomp` package.
+
+```{r pairwise compact letter display, message=FALSE, warning=FALSE}
+anovaBa <- aov(Ba.log ~ Type, data=sv2017)
+require(multcomp)
+pwise0 <- glht(anovaBa, linfct = mcp(Type="Tukey")) # anovaBa from above
+cld(pwise0)
+```
+
+Groups assigned a different letter are significantly different at the specified
+probability level (p &le; 0.05 by default). In this example, Ba concentration
+in sediment (`a`) is significantly different from both Soil and Street dust
+(both `b`, so not different from each other).
+
+We can get the confidence intervals and p-values for each pairwise comparison
+using the `TukeyHSD()` function (HSD='Honestly Significant Difference'):
+
+### OPTIONAL: Pairwise Tukey multiple comparisons of means
+
+Also more complicated to understand and, like the code above, we need to have a 
+normally-distributed, homoscedastic, variable. Usually we don't.
+
+```{r Tukey multiple comparisons of means, results='hold'}
+TukeyHSD(anovaBa)
+
+rm(list=c("anovaBa","pwise0"))    # tidy up
+```
+
+The table of output from `TukeyHSD()` (after `$Type`) shows the
+differences between mean values for each pairwise comparison (`diff`), and the
+lower (`lwr`) and upper (`upr`) limits of the 95% confidence interval for the
+difference in means. If the 95% CI includes zero (*e.g*. for the Street
+dust-Soil comparison above), there is no significant difference.
+
+This conclusion is supported by the last column of output, showing an adjusted
+p-value of 0.633 (*i.e*. > 0.05) for the Street dust-Soil comparison. Also, as
+indicated by the 'compact letter display' from `cld()` above, any comparison
+including Sediment has p &le; 0.05.
+
+<hr style="height: 2px; background-color: #5560A4;" />
+
+<center>![](./images/distributions-clique.png){width=500 height=240}</center>
+
+## References and R Packages
+
+Cohen, J. (1988). *Statistical power analysis for the behavioral sciences (2nd ed.)*. 
+New York:Academic Press.
+
+Sawilowsky, S.S. (2009). New Effect Size Rules of Thumb. *Journal of Modern Applied Statistical Methods* **8**:597-599.
+
+**Run the R code below to get citation information for the R packages used in** 
+**this document**.
+
+```{r R package citations, eval=FALSE}
+citation("car", auto = TRUE)
+citation("ggplot2", auto = TRUE)
+citation("effsize", auto = TRUE)
+citation("multcomp", auto = TRUE)
+citation("rcompanion", auto = TRUE)
+citation("multcompView", auto = TRUE)
+```
+
+
+<p>&nbsp;</p>

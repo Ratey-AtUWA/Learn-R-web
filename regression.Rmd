@@ -1,0 +1,23 @@
+---
+title: "Statistical Relationships"
+subtitle: "Simple linear regression"
+author: "Andrew Rate"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<div style="border: 2px solid #039; background-color:#eee; padding: 8px;">
+<p style="font-size:24pt; color:gray;">Simple linear regression placeholder</p>
+</div>
+
+<p>&nbsp;</p>
