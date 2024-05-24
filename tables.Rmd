@@ -1,5 +1,6 @@
 ---
 title: "Counting samples with R"
+subtitle: "Informative summary tables for environmental investigations"
 author: "Andrew Rate"
 date: "`r Sys.Date()`"
 output: 

@@ -94,7 +94,7 @@ pklist <-
                   "Nychka et al. (2021)", "Garnier et al. (2021)"))
 flextable(pklist,cwidth=c(1.2,4.5,2.5)) |> 
   border_outer(border=BorderDk, part = "all") |>
-  font(j=1,fontname="Courier New" ,part="body") |>
+  bold(j=1, bold=TRUE) |>
   set_caption(caption="Table 1: R packages used for spatial data analysis and visualisation.")
 git <- "https://raw.githubusercontent.com/Ratey-AtUWA/"
 ```

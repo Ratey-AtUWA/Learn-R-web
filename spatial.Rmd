@@ -93,9 +93,9 @@ pklist <-
                   "Pebesma and Bivand (2023)", "Kalogirou (2020)",
                   "Giraud (2021)", "Dunnington (2022)",
                   "Garnier et al. (2021)"))
-flextable(pklist,cwidth=c(1.2,4.5,2.5)) |> 
+flextable(pklist) |> width(width=c(1.2,4.5,2.5)) |>
   border_outer(border=BorderDk, part = "all") |>
-  font(j=1,fontname="Courier New" ,part="body") |>
+  bold(j=1, bold = TRUE) |> 
   set_caption(caption="Table 1: R packages used for spatial data analysis and visualisation.")
 ```
 

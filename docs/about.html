@@ -9,8 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-05-23" />
+<meta name="date" content="2024-05-24" />
 
 <title>RStudio for absolute beginners</title>
 
@@ -371,6 +372,42 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Compare
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="means.html">Compare means (parametric)</a>
+    </li>
+    <li>
+      <a href="nonparam.html">Non-parametric comparisons</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="correl.html">Correlation</a>
+    </li>
+    <li>
+      <a href="regression.html">Simple linear regression</a>
+    </li>
+    <li>
+      <a href="reg-group.html">Grouped linear regression</a>
+    </li>
+    <li>
+      <a href="reg-multi.html">Multiple linear regression</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
      
     <span class="caret"></span>
@@ -380,22 +417,22 @@ $(document).ready(function () {
       <a href="maps.html">Map data with tile backgrounds</a>
     </li>
     <li>
-      <a href="spatial.html">spatial stats</a>
+      <a href="spatial.html">Spatial statistics</a>
     </li>
     <li>
-      <a href="spat-interp.html">spatial interpolation</a>
+      <a href="spat-interp.html">Spatial interpolation</a>
     </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    EDA
+    Util
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="tables.html">Tables + trigger value counts</a>
+      <a href="tables.html">Tables &amp; trigger value counts</a>
     </li>
     <li>
       <a href="distributions.html">Distribution checking</a>
@@ -411,13 +448,23 @@ $(document).ready(function () {
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
+<!DOCTYPE html>
+
+<html>
+<body>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
+</body>
+</html>
 
 <div id="header">
 
 
 
 <h1 class="title toc-ignore">RStudio for absolute beginners</h1>
-<h4 class="date">2024-05-23</h4>
+<h3 class="subtitle">...or maybe just as a reminder</h3>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2024-05-24</h4>
 
 </div>
 
@@ -427,7 +474,6 @@ $(document).ready(function () {
   font-size: 12pt;
 }
 </style>
-<p><img src="about_files/figure-html/page%201%20header%20hide%20code-1.png" width="100%" style="display: block; margin: auto 0 auto auto;" /></p>
 <div id="what-is-r" class="section level1">
 <h1>What is R?</h1>
 <p><strong>R</strong> is called a "<strong>statistical computing
@@ -630,8 +676,8 @@ time.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># make a vector with a sequence of numbers from 2 to 80 in steps of 2</span></span>
 <span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">2</span>,<span class="dv">80</span>,<span class="dv">2</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>b</span></code></pre></div>
-<pre><code>##  [1]  2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64 66 68 70 72
-## [37] 74 76 78 80</code></pre>
+<pre><code>##  [1]  2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64 66 68 70 72 74
+## [38] 76 78 80</code></pre>
 <p>Notice that if we have a long vector, the number in square brackets
 at the beginning of each line tells us which item the line starts
 with.</p>
@@ -1025,7 +1071,7 @@ papers</a>
 <html>
 <body>
 <hr style="height: 2px; background-color: #003087;" />
-<p><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<p><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
 <span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>.</span></p>
 </body>
 </html>

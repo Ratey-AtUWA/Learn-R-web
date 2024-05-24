@@ -1,7 +1,7 @@
 ---
 title: "Statistics for Comparisons"
 subtitle: "Parametric tests"
-author: "Andrew Rate, School of Agriculture and Environment, UWA"
+author: "Andrew Rate"
 date: "`r Sys.Date()`"
 output: 
   html_document:
@@ -184,12 +184,13 @@ legend("bottomleft", legend = c("Smiths Lake","Charles Veryard"),
 The plot in Figure \@ref(fig:xyMap) looks OK! You may have just made your first 
 **R** map!
 
-We can also draw the plot using the `ggplot2` package:
+We can also draw the plot using the `ggplot2` package (make sure to include 
+`coord-equal()` to preserve a map-like aspect ratio):
 
 ```{r xyMap-GG, fig.height=4, fig.width=4.4, out.width='40%', fig.align='center', results='hold', fig.cap="Location map of soil samples at Charles Veryard and Smiths Lake Reserves made with `ggplot`."}
 library(ggplot2)
 ggplot(sv17_soil, aes(x=Easting, y=Northing, shape=Reserve, color=Reserve)) +
-  geom_point(size=2) +
+  geom_point(size=2) + coord_equal() +
   scale_colour_manual(values=c("darkgreen","olivedrab"))
 ```
 
@@ -340,10 +341,10 @@ not include zero, so we can probably rely on it.
 cohens <- data.frame(lower=c("0.01 ≤","0.2 ≤","0.5 ≤","0.8 ≤","1.2 ≤",NA), 
             d=rep("d",6), upper=c("< 0.2","< 0.5","< 0.8","< 1.2","< 2.0","> 2.0"),
             size=c("very small","small","medium","large","very large","huge"))
-flextable(cohens) |> theme_zebra(odd_body = "lightcyan") |> delete_part(part="header") |> 
+flextable(cohens) |> theme_zebra(odd_body = "#CCD6E7", even_body = "#f0dd99") |> delete_part(part="header") |> 
   width(width=c(1.2,0.5,1.5,2), unit="cm") |>
   align(j=1, align="right", part="all") |> align(j=2, align="c") |> align(j=3, align="left") |> 
-  border_outer(border=fp_border(),part="all") |> border(i=1,border.top = fp_border())
+  border_outer(border=fp_border(),part="all")
 ```
 
 <p>&nbsp;</p>

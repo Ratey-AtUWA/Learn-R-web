@@ -1,5 +1,7 @@
 ---
 title: "RStudio introduction"
+subtitle: "Reading files, checking data, and making plots"
+author: "Andrew Rate"
 date: "`r Sys.Date()`"
 output: 
   html_document:

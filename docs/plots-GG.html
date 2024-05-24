@@ -9,10 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-05-23" />
+<meta name="date" content="2024-05-24" />
 
-<title>RStudio graphics and plotting with ggplot</title>
+<title>RStudio graphics and plotting</title>
 
 <script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -371,6 +372,42 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Compare
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="means.html">Compare means (parametric)</a>
+    </li>
+    <li>
+      <a href="nonparam.html">Non-parametric comparisons</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="correl.html">Correlation</a>
+    </li>
+    <li>
+      <a href="regression.html">Simple linear regression</a>
+    </li>
+    <li>
+      <a href="reg-group.html">Grouped linear regression</a>
+    </li>
+    <li>
+      <a href="reg-multi.html">Multiple linear regression</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
      
     <span class="caret"></span>
@@ -380,22 +417,22 @@ $(document).ready(function () {
       <a href="maps.html">Map data with tile backgrounds</a>
     </li>
     <li>
-      <a href="spatial.html">spatial stats</a>
+      <a href="spatial.html">Spatial statistics</a>
     </li>
     <li>
-      <a href="spat-interp.html">spatial interpolation</a>
+      <a href="spat-interp.html">Spatial interpolation</a>
     </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    EDA
+    Util
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="tables.html">Tables + trigger value counts</a>
+      <a href="tables.html">Tables &amp; trigger value counts</a>
     </li>
     <li>
       <a href="distributions.html">Distribution checking</a>
@@ -411,14 +448,23 @@ $(document).ready(function () {
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
+<!DOCTYPE html>
+
+<html>
+<body>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
+</body>
+</html>
 
 <div id="header">
 
 
 
-<h1 class="title toc-ignore">RStudio graphics and plotting with
-ggplot</h1>
-<h4 class="date">2024-05-23</h4>
+<h1 class="title toc-ignore">RStudio graphics and plotting</h1>
+<h3 class="subtitle">The ggplot version</h3>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2024-05-24</h4>
 
 </div>
 
@@ -428,7 +474,6 @@ ggplot</h1>
   font-size: 12pt;
 }
 </style>
-<p><img src="plots-GG_files/figure-html/page%201%20header%20hide%20code-1.png" width="100%" style="display: block; margin: auto 0 auto auto;" /></p>
 <div id="files-to-use-or-refer-to-during-the-workshop-class"
 class="section level3">
 <h3>Files to use or refer to during the Workshop class</h3>
@@ -548,9 +593,9 @@ too much overlap with other sessions.</p>
 <p>For the <strong>videos and other materials</strong>, you can visit
 the
 <a href="https://lms.uwa.edu.au/bbcswebdav/pid-3355656-dt-content-rid-42740881_1/xid-42740881_1">
-base-R graphics page</a>. Or, go to the <a
-href="Learn_R-2023-Week_1a_graphs.html">base-R graphics page</a> if
-you're not interested in using <code>ggplot2</code>.</p>
+base-R graphics page</a>. Or, go to the <a href="plots.html">base-R
+graphics page</a> if you're not interested in using
+<code>ggplot2</code>.</p>
 <p>
  
 </p>
@@ -1245,8 +1290,7 @@ common with <code>ggplot2</code> including use of
  
 </p>
 <blockquote>
-<p>Go to the <a href="Learn_R-2023-Week_1a_graphs.html">base-R graphics
-page here</a>.</p>
+<p>Go to the <a href="plots.html">base-R graphics page here</a>.</p>
 </blockquote>
 <p>
  
@@ -1283,8 +1327,8 @@ Elberg A, Crowley J (2021). <em>GGally: Extension to
 <code>ggplot2</code></em>. R package version 2.1.2, <a
 href="https://CRAN.R-project.org/package=GGally"
 target="_blank">https://CRAN.R-project.org/package=GGally</a>.</p>
-<p>Wickham, H. <em><code>ggplot2</code>: Elegant Graphics for Data
-Analysis</em>. Springer-Verlag New York, 2016. <a
+<p>Wickham, H. (2016). <em><code>ggplot2</code>: Elegant Graphics for
+Data Analysis</em>. Springer-Verlag New York. <a
 href="https://ggplot2.tidyverse.org"
 target="_blank">https://ggplot2.tidyverse.org</a>.</p>
 <p>
@@ -1323,7 +1367,7 @@ target="_blank">https://ggplot2.tidyverse.org</a>.</p>
 <html>
 <body>
 <hr style="height: 2px; background-color: #003087;" />
-<p><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<p><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
 <span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>.</span></p>
 </body>
 </html>
