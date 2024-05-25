@@ -272,8 +272,8 @@ used, and there is a good discussion of the options in Chapter 5 of Reimann *et*
 *al*. (2008). In this example we log~10~-transform As concentration, as its 
 untransformed distribution has a substantial positive skew.
 
-```{r map-range-classes, echo=2:19, fig.align='center', fig.cap="Figure 5: Map of arsenic (As) concentrations expressed as symbols for concentration ranges (UQR is 75th percentile, upWx is upper whisker, med is median, LQR is 25th percentile, loWx is lower whisker). Data are from from the WA subset of the NGSA data, -2mm tosoil fraction.", fig.height=7.5, out.width="55%", fig.width=6, message=FALSE, warning=FALSE}
-palette(c("black",turbo(6, alp=0.7, end=0.9),"grey92", "white"))
+```{r map-range-classes, echo=1:19, fig.align='center', fig.cap="Figure 5: Map of arsenic (As) concentrations expressed as symbols for concentration ranges (UQR is 75th percentile, upWx is upper whisker, med is median, LQR is 25th percentile, loWx is lower whisker). Data are from from the WA subset of the NGSA data, -2mm tosoil fraction.", fig.height=7.5, out.width="55%", fig.width=6, message=FALSE, warning=FALSE}
+palette(c("black",viridis::turbo(6, alp=0.7, end=0.9),"grey92", "white"))
 par(oma=c(0,0,0,0), mar=c(3,3,0.5,0.5), mgp=c(1.4,0.3,0), 
     lend=2, ljoin=1, tcl=0.3)
 plot_tiles(WAtiles, axes=TRUE, mar=c(3,3,0.5,0.5))
