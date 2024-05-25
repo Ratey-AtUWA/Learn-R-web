@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-05-24" />
+<meta name="date" content="2024-05-25" />
 
 <title>Statistics for Comparisons</title>
 
@@ -454,7 +454,7 @@ $(document).ready(function () {
 
 <html>
 <body>
-<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science<br />at The University of Western Australia</span></h3>
 <h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
 </body>
 </html>
@@ -464,9 +464,9 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Statistics for Comparisons</h1>
-<h3 class="subtitle">Parametric tests</h3>
+<h3 class="subtitle">Parametric mean comparison tests</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-05-24</h4>
+<h4 class="date">2024-05-25</h4>
 
 </div>
 
@@ -558,11 +558,10 @@ variance <strong>between</strong> groups with the variance
 variances to estimate the probability that means are different.</p>
 <p>The parametric mean comparison tests require the variables to have
 normal distributions. We also often assume that all groups of
-observations have<br />
-equal variance in the variable being compared. If the variances in each
-group are not similar enough (<em>i.e</em>. the variable is
-<strong>heteroskedastic</strong>), we need to modify or change the
-statistical test we use.</p>
+observations have equal variance in the variable being compared. If the
+variances in each group are not similar enough (<em>i.e</em>. the
+variable is <strong>heteroskedastic</strong>), we need to modify or
+change the statistical test we use.</p>
 <p><strong>Means comparisons</strong> based on <strong>N</strong>ull
 <strong>H</strong>ypothesis <strong>S</strong>tatistical
 <strong>T</strong>esting (NHST) compare the variance <em>between
@@ -575,20 +574,27 @@ between means in each/any groups).</p>
 comparing means, to be used when our variable(s) don't meet all of the
 requirements of conventional (parametric) statistical tests.</em></p>
 </div>
+<p>
+ 
+</p>
 <p>In this session we're going to use the 2017 Smith's Lake – Charles
-Veryard Reserves dataset (see Figure @ref(fig:SLCVR-map)) to compare
-means between groups for factors having:</p>
+Veryard Reserves dataset (see Figure 1) to compare means between groups
+for factors having:</p>
 <ol style="list-style-type: decimal">
 <li>only two groups (using only the soil data);</li>
 <li>more than two groups (using the whole dataset).</li>
 </ol>
 <div class="figure" style="text-align: center">
-<img src="means_files/figure-html/SLCVR-map-1.png" alt="Map showing locations of Charles Veryard and Smiths Lake Reserves, North Perth, Western Australia (location sampled for the sv2017 dataset)." width="480" />
+<img src="means_files/figure-html/SLCVR-map-1.png" alt="Figure 1: Map showing locations of the adjacent Charles Veryard Reserve and Smiths Lake Reserve, North Perth, Western Australia (these were the locations sampled for the sv2017 dataset)." width="480" />
 <p class="caption">
-Map showing locations of Charles Veryard and Smiths Lake Reserves, North
-Perth, Western Australia (location sampled for the sv2017 dataset).
+Figure 1: Map showing locations of the adjacent Charles Veryard Reserve
+and Smiths Lake Reserve, North Perth, Western Australia (these were the
+locations sampled for the sv2017 dataset).
 </p>
 </div>
+<p>
+ 
+</p>
 <div
 id="create-a-factor-separating-the-two-reserves-into-groups-and-limit-the-data-to-only-soil"
 class="section level3">
@@ -605,6 +611,9 @@ Street.</p>
 <pre><code>## Number of soil samples in each reserve</code></pre>
 <pre><code>##  Smiths Veryard 
 ##      21      52</code></pre>
+<p>
+ 
+</p>
 </div>
 <div id="check-the-newly-created-factor-with-a-plot"
 class="section level3">
@@ -634,14 +643,14 @@ of the factor <code>Reserve</code> for each sample (row).</li>
 <span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>       <span class="at">pt.lwd =</span> <span class="dv">2</span>, <span class="at">pt.cex =</span> <span class="fu">c</span>(<span class="fl">1.25</span>, <span class="dv">1</span>), <span class="at">title =</span> <span class="st">&quot;Reserve&quot;</span>,</span>
 <span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fl">0.02</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="means_files/figure-html/xyMap-1.png" alt="Location map of soil samples at Charles Veryard and Smiths Lake Reserves." width="40%" />
+<img src="means_files/figure-html/xyMap-1.png" alt="Figure 2: Map-style plot showing locations of soil samples at Charles Veryard and Smiths Lake Reserves." width="40%" />
 <p class="caption">
-Location map of soil samples at Charles Veryard and Smiths Lake
-Reserves.
+Figure 2: Map-style plot showing locations of soil samples at Charles
+Veryard and Smiths Lake Reserves.
 </p>
 </div>
-<p>The plot in Figure @ref(fig:xyMap) looks OK! You may have just made
-your first <strong>R</strong> map!</p>
+<p>The plot in Figure 2 looks OK! You may have just made your first
+<strong>R</strong> map!</p>
 <p>We can also draw the plot using the <code>ggplot2</code> package
 (make sure to include <code>coord-equal()</code> to preserve a map-like
 aspect ratio):</p>
@@ -650,10 +659,10 @@ aspect ratio):</p>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;darkgreen&quot;</span>,<span class="st">&quot;olivedrab&quot;</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="means_files/figure-html/xyMap-GG-1.png" alt="Location map of soil samples at Charles Veryard and Smiths Lake Reserves made with `ggplot`." width="40%" />
+<img src="means_files/figure-html/xyMap-GG-1.png" alt="Figure 3: Map-like scatterplot made with `ggplot`, showing locations of soil samples at Charles Veryard and Smiths Lake Reserves." width="40%" />
 <p class="caption">
-Location map of soil samples at Charles Veryard and Smiths Lake Reserves
-made with <code>ggplot</code>.
+Figure 3: Map-like scatterplot made with <code>ggplot</code>, showing
+locations of soil samples at Charles Veryard and Smiths Lake Reserves.
 </p>
 </div>
 <hr style="height: 2px; background-color: #008060   ;" />
@@ -663,6 +672,9 @@ made with <code>ggplot</code>.
 song <em>2112 (The Temples of Syrinx)</em></p>
 </blockquote>
 <hr style="height: 2px; background-color: #008060;" />
+<p>
+ 
+</p>
 </div>
 </div>
 <div id="means-comparisons-for-exactly-two-groups"
@@ -679,7 +691,7 @@ check anyway!). <br> Of course, we still need to use
 <div
 id="homogeneity-of-variance-using-the-variance-ratio-test-or-bartletts-test"
 class="section level3"
-style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+style="border: 2px solid #A9A9A9; background-color:#e8e8e8; padding: 8px;">
 <h3>Homogeneity of variance using the variance ratio test or Bartlett's
 Test</h3>
 <p>We can actually check if the variances are equal in each group using
@@ -721,34 +733,36 @@ function (do they both give the same conclusion?):</p>
 ## Bartlett&#39;s K-squared = 1.6001, df = 1, p-value = 0.2059</code></pre>
 <p>Both the variance-ratio and Bartlett tests show that H<sub>0</sub>
 (that variances are equal) can <strong>not</strong> be rejected. We can
-visualise this with (for instance) a boxplot or density plot (Figure
-@ref(fig:vis-variance-2group); we need the <code>car</code> package for
-the <code>densityPlot()</code> function):</p>
+visualise this with (for instance) a boxplot or density plot (Figure 4;
+we need the <code>car</code> package for the <code>densityPlot()</code>
+function):</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">require</span>(car)</span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="fl">3.5</span>,<span class="fl">3.5</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.5</span>,<span class="dv">0</span>),</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">font.main=</span><span class="dv">3</span>, <span class="at">cex.main=</span><span class="fl">0.8</span>, <span class="at">tcl=</span><span class="sc">-</span><span class="fl">0.2</span>,</span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>    <span class="at">cex.lab =</span> <span class="dv">1</span>, <span class="at">cex.axis =</span> <span class="dv">1</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">boxplot</span>(sv17_soil<span class="sc">$</span>Na.pow <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve, </span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>        <span class="at">notch=</span><span class="cn">FALSE</span>, <span class="at">col=</span><span class="st">&quot;grey92&quot;</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">stripchart</span>(sv17_soil<span class="sc">$</span>Na.pow <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve, <span class="at">vertical=</span><span class="cn">TRUE</span>, <span class="at">method=</span><span class="st">&quot;jitter&quot;</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>           <span class="at">pch=</span><span class="dv">15</span>, <span class="at">cex=</span><span class="fl">1.3</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#00008080&quot;</span>,<span class="st">&quot;#a0600080&quot;</span>),</span>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Reserve&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Na (power-transformed)&quot;</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="fu">densityPlot</span>(Na.pow <span class="sc">~</span> Reserve, <span class="at">data=</span>sv17_soil, </span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>            <span class="at">xlab=</span><span class="st">&quot;Na (power transformed)&quot;</span>, <span class="at">adjust=</span><span class="fl">1.5</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">5</span>))</span></code></pre></div>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(a)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.3</span>, <span class="at">adj=</span><span class="fl">0.05</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="fu">densityPlot</span>(Na.pow <span class="sc">~</span> Reserve, <span class="at">data=</span>sv17_soil, <span class="at">adjust=</span><span class="fl">1.5</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">5</span>), </span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>            <span class="at">xlab=</span><span class="st">&quot;Na (power transformed)&quot;</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#000080&quot;</span>,<span class="st">&quot;#a06000&quot;</span>))</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(b)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.3</span>, <span class="at">adj=</span><span class="fl">0.05</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span></code></pre></div>
 <div class="figure">
-<img src="means_files/figure-html/vis-variance-2group-1.png" alt="Graphical visulaization of variance (the 'spread' of the distribution) in each group using (left) a box plot and (right) a density plot." width="768" />
+<img src="means_files/figure-html/vis-variance-2group-1.png" alt="Figure 4: Graphical visulaization of variance (the 'spread' of the distribution) in each group using (a) a strip chart and (b) a density plot." width="65%" />
 <p class="caption">
-Graphical visulaization of variance (the 'spread' of the distribution)
-in each group using (left) a box plot and (right) a density plot.
+Figure 4: Graphical visulaization of variance (the 'spread' of the
+distribution) in each group using (a) a strip chart and (b) a density
+plot.
 </p>
 </div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) <span class="co"># reset multiple graphics panes</span></span></code></pre></div>
-<p>
- 
-</p>
-<p>TIn each case it's apparent that the variance in Na in the Veryard
+<p>In each case it's apparent that the variance in Na in the Veryard
 soil is similar to that at Smith's Lake, illustrating the conclusion
 from the statistical tests.</p>
 </div>
-<p>he power term from <code>powerTransform()</code> is ≃ 0.127, so we
+<p>
+ 
+</p>
+<p>The power term from <code>powerTransform()</code> is ≃ 0.127, so we
 make a new power-transformed column <code>Na.pow</code> using this
 value. The <code>shapiro.test()</code> shows that <code>Na.pow</code> is
 normally distributed, and <code>var.test()</code> shows that the
@@ -756,7 +770,7 @@ variances are approximately equal, as do the boxplot and density plot.
 So we can apply the <code>t.test()</code> with the option
 <code>var.equal=TRUE</code> (<em>i.e</em>. a 'standard' two-sample
 t-test).</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">t.test</span>(sv17_soil<span class="sc">$</span>Na.pow <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve, <span class="at">var.equal=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">t.test</span>(sv17_soil<span class="sc">$</span>Na.pow <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve, <span class="at">var.equal=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Two Sample t-test
 ## 
@@ -769,72 +783,73 @@ t-test).</p>
 ##  mean in group Smiths mean in group Veryard 
 ##              1.762519              1.849657</code></pre>
 <p>We can visualize means comparisons in a few different ways – see
-Figure @ref(fig:meancomp-plots-2-groups). My favourite is the boxplot
-with means included as extra information - with a bit of additional
-coding we can include the 95% confidence intervals as well! (but this is
-not shown in this document).</p>
-<div id="visualising-differences-in-means---2-groups"
-class="section level3">
-<h3>Visualising differences in means - 2 groups</h3>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="fl">3.5</span>,<span class="fl">3.5</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>),</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">font.main=</span><span class="dv">3</span>, <span class="at">cex.main=</span><span class="dv">1</span>, <span class="at">tcl=</span><span class="fl">0.3</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">boxplot</span>(sv17_soil<span class="sc">$</span>Na.pow <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve, </span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>        <span class="at">notch=</span>F, <span class="at">col=</span><span class="st">&quot;gainsboro&quot;</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Reserve&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Na (power-transformed)&quot;</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(a)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.25</span>, <span class="at">adj=</span><span class="fl">0.05</span>, <span class="at">font=</span><span class="dv">2</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co"># the second plot is a box plot with the means overplotted</span></span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="fu">boxplot</span>(sv17_soil<span class="sc">$</span>Na.pow <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve, </span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>        <span class="at">notch=</span>F, <span class="at">col=</span><span class="st">&quot;bisque&quot;</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="fl">1.4</span>,<span class="fl">2.2</span>),</span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Reserve&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Na (power-transformed)&quot;</span>)</span>
-<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co"># make a temporary object &#39;meanz&#39; containing the means</span></span>
-<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>meanz <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sv17_soil<span class="sc">$</span>Na.pow, sv17_soil<span class="sc">$</span>Reserve, mean, <span class="at">na.rm=</span>T)</span>
-<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co"># plot means as points (boxplot boxes are centered on whole numbers)</span></span>
-<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nlevels</span>(sv17_soil<span class="sc">$</span>Reserve)), meanz, </span>
-<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">&quot;royalblue&quot;</span>, <span class="at">pch =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="st">&quot;Mean values&quot;</span>, </span>
-<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">3</span>, <span class="at">pt.lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;royalblue&quot;</span>,</span>
-<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fl">0.01</span>)</span>
-<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(b)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.25</span>, <span class="at">adj=</span><span class="fl">0.05</span>, <span class="at">font=</span><span class="dv">2</span>)</span></code></pre></div>
-<div class="figure">
-<img src="means_files/figure-html/meancomp-plots-2-groups-1.png" alt="Graphical comparison of means between groups using: (a) a standard box plot; (b) a box plot also showing mean values in each group. You would not include both options in a report!" width="576" />
-<p class="caption">
-Graphical comparison of means between groups using: (a) a standard box
-plot; (b) a box plot also showing mean values in each group. You would
-not include both options in a report!
-</p>
-</div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">rm</span>(meanz) <span class="co"># tidy up</span></span></code></pre></div>
-<p>[skip to Figure @ref(fig:meancomp-plots-3groups) for a 3-group
-comparison]</p>
+Figure 5. My favourite is the boxplot with <em>means included</em> as
+extra information - with a bit of additional coding we can include the
+95% confidence intervals as well! (but this is not shown in this
+document).</p>
 <p>
  
 </p>
-<p>The <code>ggplot</code> connoisseurs can also draw such a
-boxplot:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>meanz <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x1=</span><span class="fu">levels</span>(sv17_soil<span class="sc">$</span>Reserve),</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>                    <span class="at">y1=</span><span class="fu">tapply</span>(sv17_soil<span class="sc">$</span>Na.pow, sv17_soil<span class="sc">$</span>Reserve, mean, <span class="at">na.rm=</span>T),</span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>                    <span class="at">x2=</span><span class="fu">rep</span>(<span class="st">&quot;Mean&quot;</span>,<span class="dv">2</span>))</span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>shapes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Mean&quot;</span> <span class="ot">=</span> <span class="dv">3</span>, <span class="st">&quot;Outliers&quot;</span> <span class="ot">=</span> <span class="dv">1</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="fu">ggplot</span>(sv17_soil, <span class="fu">aes</span>(<span class="at">x=</span>Reserve, <span class="at">y=</span>Na.pow)) <span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Na (power-transformed)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">&quot;mistyrose&quot;</span>, <span class="at">outlier.shape=</span><span class="dv">1</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> meanz, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1, <span class="at">shape=</span>x2), <span class="at">size=</span><span class="dv">2</span>, </span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>             <span class="at">stroke=</span><span class="fl">1.2</span>, <span class="at">col=</span><span class="st">&quot;firebrick&quot;</span>) <span class="sc">+</span></span>
-<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">name=</span><span class="st">&quot;Legend&quot;</span>, <span class="at">values=</span><span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<div class="figure" style="text-align: center">
-<img src="means_files/figure-html/2way-box-gg-1.png" alt="Boxplot for 2-group comparison, showing means, and drawn with `ggplot2`." width="384" />
+<h3 id="Fig5">
+Visualising differences in means - 2 groups
+</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="fl">3.5</span>,<span class="fl">3.5</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>),</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">font.main=</span><span class="dv">3</span>, <span class="at">cex.main=</span><span class="dv">1</span>, <span class="at">tcl=</span><span class="fl">0.3</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">boxplot</span>(sv17_soil<span class="sc">$</span>Na.pow <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve, </span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>        <span class="at">notch=</span>F, <span class="at">col=</span><span class="st">&quot;gainsboro&quot;</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Reserve&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Na (power-transformed)&quot;</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(a)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.25</span>, <span class="at">adj=</span><span class="fl">0.05</span>, <span class="at">font=</span><span class="dv">2</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co"># the second plot is a box plot with the means overplotted</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="fu">boxplot</span>(sv17_soil<span class="sc">$</span>Na.pow <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve, </span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>        <span class="at">notch=</span>F, <span class="at">col=</span><span class="st">&quot;bisque&quot;</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="fl">1.4</span>,<span class="fl">2.2</span>),</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Reserve&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Na (power-transformed)&quot;</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co"># make a temporary object &#39;meanz&#39; containing the means</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a>meanz <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sv17_soil<span class="sc">$</span>Na.pow, sv17_soil<span class="sc">$</span>Reserve, mean, <span class="at">na.rm=</span>T)</span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co"># plot means as points (boxplot boxes are centered on whole numbers)</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nlevels</span>(sv17_soil<span class="sc">$</span>Reserve)), meanz, </span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">&quot;royalblue&quot;</span>, <span class="at">pch =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="st">&quot;Mean values&quot;</span>, </span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">3</span>, <span class="at">pt.lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;royalblue&quot;</span>,</span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fl">0.01</span>)</span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(b)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.25</span>, <span class="at">adj=</span><span class="fl">0.05</span>, <span class="at">font=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="figure">
+<img src="means_files/figure-html/meancomp-plots-2-groups-1.png" alt="Figure 5: Graphical comparison of means between groups using: (a) a standard box plot; (b) a box plot also showing mean values in each group. You would not include both options in a report!" width="576" />
 <p class="caption">
-Boxplot for 2-group comparison, showing means, and drawn with
+Figure 5: Graphical comparison of means between groups using: (a) a
+standard box plot; (b) a box plot also showing mean values in each
+group. You would not include both options in a report!
+</p>
+</div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">rm</span>(meanz) <span class="co"># tidy up</span></span></code></pre></div>
+<p>[skip to <a href="#Fig8">Figure 8</a> for a 3-group comparison]</p>
+<p>
+ 
+</p>
+<p>The <code>ggplot</code> connoisseurs can also draw such a boxplot
+(Figure 6):</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># there&#39;s probably a more efficient way to do this in ggplot!</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>meanz <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x1=</span><span class="fu">levels</span>(sv17_soil<span class="sc">$</span>Reserve),</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>                    <span class="at">y1=</span><span class="fu">tapply</span>(sv17_soil<span class="sc">$</span>Na.pow, sv17_soil<span class="sc">$</span>Reserve, mean, <span class="at">na.rm=</span>T),</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>                    <span class="at">x2=</span><span class="fu">rep</span>(<span class="st">&quot;Mean&quot;</span>,<span class="dv">2</span>))</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>shapes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Mean&quot;</span> <span class="ot">=</span> <span class="dv">3</span>, <span class="st">&quot;Outliers&quot;</span> <span class="ot">=</span> <span class="dv">1</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="fu">ggplot</span>(sv17_soil, <span class="fu">aes</span>(<span class="at">x=</span>Reserve, <span class="at">y=</span>Na.pow)) <span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Na (power-transformed)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">&quot;mistyrose&quot;</span>, <span class="at">outlier.shape=</span><span class="dv">1</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> meanz, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1, <span class="at">shape=</span>x2), <span class="at">size=</span><span class="dv">2</span>, </span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>             <span class="at">stroke=</span><span class="fl">1.2</span>, <span class="at">col=</span><span class="st">&quot;firebrick&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">name=</span><span class="st">&quot;Legend&quot;</span>, <span class="at">values=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="means_files/figure-html/2way-box-gg-1.png" alt="Figure 6 Boxplot for 2-group comparison, showing means, and drawn with `ggplot2`." width="384" />
+<p class="caption">
+Figure 6 Boxplot for 2-group comparison, showing means, and drawn with
 <code>ggplot2</code>.
 </p>
 </div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># there&#39;s probably a more efficient way to do this in ggplot!</span></span></code></pre></div>
 <p>
  
 </p>
-</div>
 </div>
 <div id="effect-size-for-means-comparisons-cohens-d"
 class="section level2">
@@ -844,8 +859,8 @@ difference or not. We would also usually like to know how big the
 difference (or '<strong>effect</strong>') is! The Cohen's <em>d</em>
 statistic is a standardised measure of effect size available in the
 <code>effsize</code>h R package.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">require</span>(effsize)</span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">cohen.d</span>(sv17_soil<span class="sc">$</span>Na.pow <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">require</span>(effsize)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">cohen.d</span>(sv17_soil<span class="sc">$</span>Na.pow <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve)</span></code></pre></div>
 <pre><code>## 
 ## Cohen&#39;s d
 ## 
@@ -857,9 +872,11 @@ statistic is a standardised measure of effect size available in the
 0.8, which is medium. The 95% CI for the estimate of Cohen's <em>d</em>
 (<em>i.e</em>. between <code>lower</code> and <code>upper</code>) does
 not include zero, so we can probably rely on it.</p>
-<p><strong>More recently than Cohen, Sawilowsky (2009) proposed that for
-Cohen's d:</strong></p>
-<template id="32e92108-146a-44e6-bb8c-e4da24623525"><style>
+<p style="text-align:center;">
+More recently than Cohen, <strong>Sawilowsky (2009) proposed that for
+Cohen's d:</strong>
+</p>
+<template id="15cafbff-f14a-4fb0-9a5c-b418b95fd7b5"><style>
 .tabwid table{
   border-spacing:0px !important;
   border-collapse:collapse;
@@ -898,11 +915,11 @@ background-color: transparent;
 .katex-display {
     margin: 0 0 !important;
 }
-</style><div class="tabwid"><style>.cl-92e5c410{}.cl-92da247a{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-92df37e4{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-92df37f8{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-92df37f9{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-92df4d88{width:0.472in;background-color:rgba(204, 214, 231, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92df4d92{width:0.197in;background-color:rgba(204, 214, 231, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92df4d9c{width:0.591in;background-color:rgba(204, 214, 231, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92df4da6{width:0.787in;background-color:rgba(204, 214, 231, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92df4db0{width:0.472in;background-color:rgba(240, 221, 153, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92df4db1{width:0.197in;background-color:rgba(240, 221, 153, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92df4dba{width:0.591in;background-color:rgba(240, 221, 153, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92df4dc4{width:0.787in;background-color:rgba(240, 221, 153, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92df4dc5{width:0.472in;background-color:rgba(204, 214, 231, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92df4dce{width:0.197in;background-color:rgba(204, 214, 231, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92df4dcf{width:0.591in;background-color:rgba(204, 214, 231, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92df4dd8{width:0.787in;background-color:rgba(204, 214, 231, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92df4dd9{width:0.472in;background-color:rgba(240, 221, 153, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92df4de2{width:0.197in;background-color:rgba(240, 221, 153, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92df4dec{width:0.591in;background-color:rgba(240, 221, 153, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-92df4ded{width:0.787in;background-color:rgba(240, 221, 153, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class='cl-92e5c410'><tbody><tr style="overflow-wrap:break-word;"><td class="cl-92df4d88"><p class="cl-92df37e4"><span class="cl-92da247a">0.01 ≤</span></p></td><td class="cl-92df4d92"><p class="cl-92df37f8"><span class="cl-92da247a">d</span></p></td><td class="cl-92df4d9c"><p class="cl-92df37f9"><span class="cl-92da247a">&lt; 0.2</span></p></td><td class="cl-92df4da6"><p class="cl-92df37f9"><span class="cl-92da247a">very small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-92df4db0"><p class="cl-92df37e4"><span class="cl-92da247a">0.2 ≤</span></p></td><td class="cl-92df4db1"><p class="cl-92df37f8"><span class="cl-92da247a">d</span></p></td><td class="cl-92df4dba"><p class="cl-92df37f9"><span class="cl-92da247a">&lt; 0.5</span></p></td><td class="cl-92df4dc4"><p class="cl-92df37f9"><span class="cl-92da247a">small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-92df4dc5"><p class="cl-92df37e4"><span class="cl-92da247a">0.5 ≤</span></p></td><td class="cl-92df4dce"><p class="cl-92df37f8"><span class="cl-92da247a">d</span></p></td><td class="cl-92df4dcf"><p class="cl-92df37f9"><span class="cl-92da247a">&lt; 0.8</span></p></td><td class="cl-92df4dd8"><p class="cl-92df37f9"><span class="cl-92da247a">medium</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-92df4db0"><p class="cl-92df37e4"><span class="cl-92da247a">0.8 ≤</span></p></td><td class="cl-92df4db1"><p class="cl-92df37f8"><span class="cl-92da247a">d</span></p></td><td class="cl-92df4dba"><p class="cl-92df37f9"><span class="cl-92da247a">&lt; 1.2</span></p></td><td class="cl-92df4dc4"><p class="cl-92df37f9"><span class="cl-92da247a">large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-92df4dc5"><p class="cl-92df37e4"><span class="cl-92da247a">1.2 ≤</span></p></td><td class="cl-92df4dce"><p class="cl-92df37f8"><span class="cl-92da247a">d</span></p></td><td class="cl-92df4dcf"><p class="cl-92df37f9"><span class="cl-92da247a">&lt; 2.0</span></p></td><td class="cl-92df4dd8"><p class="cl-92df37f9"><span class="cl-92da247a">very large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-92df4dd9"><p class="cl-92df37e4"><span class="cl-92da247a"></span></p></td><td class="cl-92df4de2"><p class="cl-92df37f8"><span class="cl-92da247a">d</span></p></td><td class="cl-92df4dec"><p class="cl-92df37f9"><span class="cl-92da247a">&gt; 2.0</span></p></td><td class="cl-92df4ded"><p class="cl-92df37f9"><span class="cl-92da247a">huge</span></p></td></tr></tbody></table></div></template>
-<div class="flextable-shadow-host" id="847951b8-1aaf-432f-8076-0f994681d0c0"></div>
+</style><div class="tabwid"><style>.cl-8b81d53a{}.cl-8b678e82{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-8b6bb214{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-8b6bb228{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-8b6bb232{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-8b6bca92{width:0.472in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8b6bca9c{width:0.197in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8b6bca9d{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8b6bcaa6{width:0.787in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8b6bcab0{width:0.472in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8b6bcab1{width:0.197in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8b6bcaba{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8b6bcabb{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8b6bcac4{width:0.472in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8b6bcac5{width:0.197in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8b6bcac6{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8b6bcace{width:0.787in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8b6bcad8{width:0.472in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8b6bcae2{width:0.197in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8b6bcae3{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8b6bcae4{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class='cl-8b81d53a'><tbody><tr style="overflow-wrap:break-word;"><td class="cl-8b6bca92"><p class="cl-8b6bb214"><span class="cl-8b678e82">0.01 ≤</span></p></td><td class="cl-8b6bca9c"><p class="cl-8b6bb228"><span class="cl-8b678e82">d</span></p></td><td class="cl-8b6bca9d"><p class="cl-8b6bb232"><span class="cl-8b678e82">&lt; 0.2</span></p></td><td class="cl-8b6bcaa6"><p class="cl-8b6bb232"><span class="cl-8b678e82">very small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8b6bcab0"><p class="cl-8b6bb214"><span class="cl-8b678e82">0.2 ≤</span></p></td><td class="cl-8b6bcab1"><p class="cl-8b6bb228"><span class="cl-8b678e82">d</span></p></td><td class="cl-8b6bcaba"><p class="cl-8b6bb232"><span class="cl-8b678e82">&lt; 0.5</span></p></td><td class="cl-8b6bcabb"><p class="cl-8b6bb232"><span class="cl-8b678e82">small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8b6bcac4"><p class="cl-8b6bb214"><span class="cl-8b678e82">0.5 ≤</span></p></td><td class="cl-8b6bcac5"><p class="cl-8b6bb228"><span class="cl-8b678e82">d</span></p></td><td class="cl-8b6bcac6"><p class="cl-8b6bb232"><span class="cl-8b678e82">&lt; 0.8</span></p></td><td class="cl-8b6bcace"><p class="cl-8b6bb232"><span class="cl-8b678e82">medium</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8b6bcab0"><p class="cl-8b6bb214"><span class="cl-8b678e82">0.8 ≤</span></p></td><td class="cl-8b6bcab1"><p class="cl-8b6bb228"><span class="cl-8b678e82">d</span></p></td><td class="cl-8b6bcaba"><p class="cl-8b6bb232"><span class="cl-8b678e82">&lt; 1.2</span></p></td><td class="cl-8b6bcabb"><p class="cl-8b6bb232"><span class="cl-8b678e82">large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8b6bcac4"><p class="cl-8b6bb214"><span class="cl-8b678e82">1.2 ≤</span></p></td><td class="cl-8b6bcac5"><p class="cl-8b6bb228"><span class="cl-8b678e82">d</span></p></td><td class="cl-8b6bcac6"><p class="cl-8b6bb232"><span class="cl-8b678e82">&lt; 2.0</span></p></td><td class="cl-8b6bcace"><p class="cl-8b6bb232"><span class="cl-8b678e82">very large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-8b6bcad8"><p class="cl-8b6bb214"><span class="cl-8b678e82"></span></p></td><td class="cl-8b6bcae2"><p class="cl-8b6bb228"><span class="cl-8b678e82">d</span></p></td><td class="cl-8b6bcae3"><p class="cl-8b6bb232"><span class="cl-8b678e82">&gt; 2.0</span></p></td><td class="cl-8b6bcae4"><p class="cl-8b6bb232"><span class="cl-8b678e82">huge</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="60648216-1829-4e7f-ac67-0280a4d1a575"></div>
 <script>
-var dest = document.getElementById("847951b8-1aaf-432f-8076-0f994681d0c0");
-var template = document.getElementById("32e92108-146a-44e6-bb8c-e4da24623525");
+var dest = document.getElementById("60648216-1829-4e7f-ac67-0280a4d1a575");
+var template = document.getElementById("15cafbff-f14a-4fb0-9a5c-b418b95fd7b5");
 var caption = template.content.querySelector("caption");
 var fantome = dest.attachShadow({mode: 'open'});
 var templateContent = template.content;
@@ -922,14 +939,15 @@ a normally distributed variable. In this example we'll use the factor
 Veryard data (not just soil!). <br> We still need to use
 <strong>appropriately transformed variables</strong>, and we need to
 know if <strong>group variances are equal</strong>!</p>
-<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
 <div id="check-homogeneity-of-variances-3-or-more-groups"
-class="section level3">
+class="section level3"
+style="border: 2px solid #A9A9A9; background-color:#e8e8e8; padding: 8px;">
 <h3>Check homogeneity of variances, 3 or more groups</h3>
 <p>ANOVA also requires variance for each group to be (approximately)
 equal. Since there are more than 2 groups, we need to use the Bartlett
 test.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(sv2017<span class="sc">$</span>Ca.pow)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(sv2017<span class="sc">$</span>Ca.pow)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">bartlett.test</span>(sv2017<span class="sc">$</span>Ca.pow <span class="sc">~</span> sv2017<span class="sc">$</span>Type)</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
@@ -946,33 +964,35 @@ accept H<sub>0</sub> that <code>Ca.pow</code> is normally distributed.
 In contrast, the <code>bartlett.test()</code> p-value is ≤ 0.05, so we
 reject H<sub>0</sub> of equal variances (<em>i.e</em>.
 <code>Ca.pow</code> is heteroscedastic).</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">require</span>(car)</span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.5</span>,<span class="dv">0</span>),</span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">font.main=</span><span class="dv">3</span>, <span class="at">cex.main=</span><span class="fl">0.8</span>, <span class="at">tcl=</span><span class="sc">-</span><span class="fl">0.2</span>,</span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>    <span class="at">cex.lab =</span> <span class="dv">1</span>, <span class="at">cex.axis =</span> <span class="dv">1</span>)</span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="fu">boxplot</span>(sv2017<span class="sc">$</span>Ca.pow <span class="sc">~</span> sv2017<span class="sc">$</span>Type, </span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>        <span class="at">notch=</span><span class="cn">FALSE</span>, <span class="at">col=</span><span class="st">&quot;gainsboro&quot;</span>,</span>
-<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Reserve&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Ca (power-transformed&quot;</span>)</span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="fu">densityPlot</span>(sv2017<span class="sc">$</span>Ca.pow <span class="sc">~</span> sv2017<span class="sc">$</span>Type, <span class="at">adjust=</span><span class="dv">2</span>, </span>
-<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>            <span class="at">xlab=</span><span class="st">&quot;Ca (power transformed)&quot;</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">18</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">require</span>(car)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.5</span>,<span class="dv">0</span>),</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">font.main=</span><span class="dv">3</span>, <span class="at">cex.main=</span><span class="fl">0.8</span>, <span class="at">tcl=</span><span class="sc">-</span><span class="fl">0.2</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>    <span class="at">cex.lab =</span> <span class="dv">1</span>, <span class="at">cex.axis =</span> <span class="dv">1</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="fu">stripchart</span>(sv2017<span class="sc">$</span>Ca.pow <span class="sc">~</span> sv2017<span class="sc">$</span>Type, <span class="at">method=</span><span class="st">&quot;jitter&quot;</span>, </span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>        <span class="at">pch=</span><span class="dv">15</span>, <span class="at">cex=</span><span class="fl">1.3</span>, <span class="at">vertical=</span>T, <span class="at">col=</span><span class="fu">plasma</span>(<span class="dv">3</span>, <span class="at">alpha=</span><span class="fl">0.5</span>, <span class="at">end=</span><span class="fl">0.5</span>),</span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Reserve&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Ca (power-transformed)&quot;</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(a)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.3</span>, <span class="at">adj=</span><span class="fl">0.95</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="fu">densityPlot</span>(sv2017<span class="sc">$</span>Ca.pow <span class="sc">~</span> sv2017<span class="sc">$</span>Type, <span class="at">adjust=</span><span class="dv">2</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.1</span>,<span class="fl">0.6</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">16</span>), </span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a>            <span class="at">xlab=</span><span class="st">&quot;Ca (power transformed)&quot;</span>, <span class="at">legend=</span><span class="fu">list</span>(<span class="at">title=</span><span class="st">&quot;Type&quot;</span>), </span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>            <span class="at">col=</span><span class="fu">plasma</span>(<span class="dv">3</span>, <span class="at">end=</span><span class="fl">0.5</span>)) ; <span class="fu">mtext</span>(<span class="st">&quot;(a)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.3</span>, <span class="at">adj=</span><span class="fl">0.95</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="means_files/figure-html/vis-var-3groups-1.png" alt="Graphical visualization of variance (the spread of the distribution) in 3 groups using (left) a box plot and (right) a density plot." width="65%" />
+<img src="means_files/figure-html/vis-var-3groups-1.png" alt="Figure 7: Graphical visualization of variance (the spread of the distribution) in 3 groups using (a) a strip chart and (b) a density plot." width="65%" />
 <p class="caption">
-Graphical visualization of variance (the spread of the distribution) in
-3 groups using (left) a box plot and (right) a density plot.
+Figure 7: Graphical visualization of variance (the spread of the
+distribution) in 3 groups using (a) a strip chart and (b) a density
+plot.
 </p>
 </div>
 <p>In each case it seems that the variance in power-transformed Ca is
-Sediment &gt; Soil &gt; Street dust (Figure @ref(fig:vis-var-3groups)).
-We can check the actual variance values using <code>tapply()</code>, and
-this confirms our interpretation:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;--- Variances for each factor level ---</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">with</span>(sv2017, <span class="fu">tapply</span>(Ca.pow, Type, var, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code></pre></div>
+Sediment &gt; Soil &gt; Street dust (Figure 7). We can check the actual
+variance values using <code>tapply()</code>, and this confirms our
+interpretation:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;--- Variances for each factor level ---</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">with</span>(sv2017, <span class="fu">tapply</span>(Ca.pow, Type, var, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## --- Variances for each factor level ---
 ##     Sediment         Soil  Street dust 
 ## 0.0047080391 0.0018348117 0.0005551313</code></pre>
-<div>
-
+</div>
 <p>
  
 </p>
@@ -980,14 +1000,14 @@ this confirms our interpretation:</p>
 <code>Ca.pow</code> being normally distributed) which corrects for
 unequal variance (since we found that <code>Ca.pow</code> is
 heteroscedastic).</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">oneway.test</span>(sv2017<span class="sc">$</span>Ca.pow <span class="sc">~</span> sv2017<span class="sc">$</span>Type, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Means for transformed variable</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>meansAl <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sv2017<span class="sc">$</span>Ca.pow, sv2017<span class="sc">$</span>Type, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>);</span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">signif</span>(meansAl,<span class="dv">3</span>)) <span class="co"># output means with appropriate significant digits</span></span>
-<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Means for original (untransformed) variable</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
-<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>meansCa <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sv2017<span class="sc">$</span>Ca, sv2017<span class="sc">$</span>Type, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>);</span>
-<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">signif</span>(meansAl,<span class="dv">4</span>)) <span class="co"># output means with appropriate significant digits</span></span>
-<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a><span class="fu">rm</span>(meansCa) <span class="co"># tidy up</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">oneway.test</span>(sv2017<span class="sc">$</span>Ca.pow <span class="sc">~</span> sv2017<span class="sc">$</span>Type, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Means for transformed variable</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>meansAl <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sv2017<span class="sc">$</span>Ca.pow, sv2017<span class="sc">$</span>Type, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>);</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">signif</span>(meansAl,<span class="dv">3</span>)) <span class="co"># output means with appropriate significant digits</span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Means for original (untransformed) variable</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>meansCa <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sv2017<span class="sc">$</span>Ca, sv2017<span class="sc">$</span>Type, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>);</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">signif</span>(meansAl,<span class="dv">4</span>)) <span class="co"># output means with appropriate significant digits</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="fu">rm</span>(meansCa) <span class="co"># tidy up</span></span></code></pre></div>
 <pre><code>## 
 ##  One-way analysis of means (not assuming equal variances)
 ## 
@@ -1007,64 +1027,71 @@ is less than 0.05 based on the large value for the <code>F</code>
 statistic. This allows us to reject the null hypothesis of equal means.
 As for a two-group comparison, we can visualize the differences in means
 in different ways (Figure @ref(fig:meancomp-plots-3groups))</p>
-</div>
-<div id="visualising-differences-in-means---3-or-more-groups"
-class="section level3">
-<h3>Visualising differences in means - 3 or more groups</h3>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="fl">3.5</span>,<span class="fl">3.5</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>),</span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">font.main=</span><span class="dv">3</span>, <span class="at">cex.main=</span><span class="dv">1</span>, <span class="at">tcl=</span><span class="fl">0.2</span>,</span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>    <span class="at">cex.axis=</span><span class="fl">0.9</span>, <span class="at">lend =</span> <span class="st">&quot;square&quot;</span>, <span class="at">ljoin =</span> <span class="st">&quot;mitre&quot;</span>)</span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="fu">boxplot</span>(sv2017<span class="sc">$</span>Ca.pow <span class="sc">~</span> sv2017<span class="sc">$</span>Type, <span class="at">notch=</span>T, </span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>        <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">col=</span><span class="st">&quot;grey92&quot;</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="fl">0.08</span>,<span class="fl">0.35</span>), </span>
-<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Sample type&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Ca (power-transformed)&quot;</span>)</span>
-<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(a)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.5</span>, <span class="at">adj=</span><span class="fl">0.97</span>, <span class="at">font=</span><span class="dv">2</span>) <span class="co"># label each sub-plot</span></span>
-<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="fu">boxplot</span>(sv2017<span class="sc">$</span>Ca.pow <span class="sc">~</span> sv2017<span class="sc">$</span>Type, <span class="at">notch=</span>F, </span>
-<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>        <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;cadetblue&quot;</span>,<span class="st">&quot;moccasin&quot;</span>,<span class="st">&quot;thistle&quot;</span>), </span>
-<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a>        <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="fl">0.08</span>,<span class="fl">0.35</span>), </span>
-<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Reserve&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Ca (power-transformed)&quot;</span>)</span>
-<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(b)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.5</span>, <span class="at">adj=</span><span class="fl">0.97</span>, <span class="at">font=</span><span class="dv">2</span>) <span class="co"># label each sub-plot</span></span>
-<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a>meanz <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sv2017<span class="sc">$</span>Ca.pow, sv2017<span class="sc">$</span>Type, mean, <span class="at">na.rm=</span>T)</span>
-<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nlevels</span>(sv2017<span class="sc">$</span>Type)), meanz, </span>
-<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">&quot;white&quot;</span>, <span class="at">pch =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">1.3</span>)</span>
-<span id="cb25-16"><a href="#cb25-16" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nlevels</span>(sv2017<span class="sc">$</span>Type)), meanz, </span>
-<span id="cb25-17"><a href="#cb25-17" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">&quot;firebrick&quot;</span>, <span class="at">pch =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">1.2</span>)</span>
-<span id="cb25-18"><a href="#cb25-18" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">legend=</span><span class="st">&quot;Mean values&quot;</span>, <span class="at">cex=</span><span class="fl">0.9</span>, <span class="at">y.int=</span><span class="fl">0.2</span>, </span>
-<span id="cb25-19"><a href="#cb25-19" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">3</span>, <span class="at">pt.lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;firebrick&quot;</span>, <span class="at">pt.cex =</span> <span class="fl">1.2</span>,</span>
-<span id="cb25-20"><a href="#cb25-20" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">&quot;o&quot;</span>, <span class="at">inset =</span> <span class="fl">0.03</span>, <span class="at">box.col=</span><span class="st">&quot;#00000000&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#d0d0d040&quot;</span>)</span></code></pre></div>
+<p>
+ 
+</p>
+<h3 id="Fig8">
+Visualising differences in means - 3 or more groups
+</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="fl">3.5</span>,<span class="fl">3.5</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>),</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">font.main=</span><span class="dv">3</span>, <span class="at">cex.main=</span><span class="dv">1</span>, <span class="at">tcl=</span><span class="fl">0.2</span>,</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>    <span class="at">cex.axis=</span><span class="fl">0.9</span>, <span class="at">lend =</span> <span class="st">&quot;square&quot;</span>, <span class="at">ljoin =</span> <span class="st">&quot;mitre&quot;</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="fu">boxplot</span>(sv2017<span class="sc">$</span>Ca.pow <span class="sc">~</span> sv2017<span class="sc">$</span>Type, <span class="at">notch=</span><span class="cn">TRUE</span>, </span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>        <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">col=</span><span class="st">&quot;grey92&quot;</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="fl">0.08</span>,<span class="fl">0.35</span>), </span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Sample type&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Ca (power-transformed)&quot;</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(a)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.5</span>, <span class="at">adj=</span><span class="fl">0.97</span>, <span class="at">font=</span><span class="dv">2</span>) <span class="co"># label each sub-plot</span></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a><span class="fu">boxplot</span>(sv2017<span class="sc">$</span>Ca.pow <span class="sc">~</span> sv2017<span class="sc">$</span>Type, <span class="at">notch=</span>F, </span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>        <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;cadetblue&quot;</span>,<span class="st">&quot;moccasin&quot;</span>,<span class="st">&quot;thistle&quot;</span>), </span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>        <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="fl">0.08</span>,<span class="fl">0.35</span>), </span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">&quot;Reserve&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Ca (power-transformed)&quot;</span>)</span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(b)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.5</span>, <span class="at">adj=</span><span class="fl">0.97</span>, <span class="at">font=</span><span class="dv">2</span>) <span class="co"># label each sub-plot</span></span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>meanz <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sv2017<span class="sc">$</span>Ca.pow, sv2017<span class="sc">$</span>Type, mean, <span class="at">na.rm=</span>T)</span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nlevels</span>(sv2017<span class="sc">$</span>Type)), meanz, </span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">&quot;white&quot;</span>, <span class="at">pch =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">1.3</span>)</span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nlevels</span>(sv2017<span class="sc">$</span>Type)), meanz, </span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">&quot;firebrick&quot;</span>, <span class="at">pch =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">1.2</span>)</span>
+<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">legend=</span><span class="st">&quot;Mean values&quot;</span>, <span class="at">cex=</span><span class="fl">0.9</span>, <span class="at">y.int=</span><span class="fl">0.2</span>, </span>
+<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">3</span>, <span class="at">pt.lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;firebrick&quot;</span>, <span class="at">pt.cex =</span> <span class="fl">1.2</span>,</span>
+<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">&quot;o&quot;</span>, <span class="at">inset =</span> <span class="fl">0.03</span>, <span class="at">box.col=</span><span class="st">&quot;#00000000&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#d0d0d040&quot;</span>)</span></code></pre></div>
 <div class="figure">
-<img src="means_files/figure-html/meancomp-plots-3groups-1.png" alt="Graphical comparison of means between 3 or more groups, in three ways: (a) a notched box plot (notches are approximate 95% confidence intervals around the median); (b) a box plot also showing mean values in each group." width="576" />
+<img src="means_files/figure-html/meancomp-plots-3groups-1.png" alt="Figure 8: Graphical comparisons of means between 3 or more groups: (a) a notched box plot (notches are approximate 95% confidence intervals around the median); (b) a box plot also showing mean values in each group. You would not include both options in a report!" width="576" />
 <p class="caption">
-Graphical comparison of means between 3 or more groups, in three ways:
-(a) a notched box plot (notches are approximate 95% confidence intervals
+Figure 8: Graphical comparisons of means between 3 or more groups: (a) a
+notched box plot (notches are approximate 95% confidence intervals
 around the median); (b) a box plot also showing mean values in each
-group.
+group. You would not include both options in a report!
 </p>
 </div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">rm</span>(meanz) <span class="co"># tidy up</span></span></code></pre></div>
-<p>Look back at Figure @ref(fig:meancomp-plots-2-groups). Why is Figure
-@ref(fig:meancomp-plots-3groups) better?</p>
-</div>
-<div id="visualsing-3-group-differences-with-ggplot2"
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">rm</span>(meanz) <span class="co"># tidy up</span></span></code></pre></div>
+<p>Look back at <a href="#Fig5">Figure 5</a>. Why is Figure 8 better?
+(<em>Hint</em>: it's <em>not</em> the notches in Figure 8a – these are
+larger than the interquartile range boxes for 2 groups, so they look
+kind of weird. If this happens, it's best to leave them out using
+<code>notch=FALSE</code>.)</p>
+<p>
+ 
+</p>
+<div id="visualising-3-group-differences-with-ggplot2"
 class="section level3">
-<h3>Visualsing 3-group differences with <code>ggplot2</code></h3>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>meanz <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x1=</span><span class="fu">levels</span>(sv2017<span class="sc">$</span>Type),</span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>                    <span class="at">y1=</span><span class="fu">tapply</span>(sv2017<span class="sc">$</span>Ca.pow, sv2017<span class="sc">$</span>Type, mean, <span class="at">na.rm=</span>T),</span>
-<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>                    <span class="at">x2=</span><span class="fu">rep</span>(<span class="st">&quot;Mean&quot;</span>,<span class="fu">nlevels</span>(sv2017<span class="sc">$</span>Type)))</span>
-<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a><span class="fu">ggplot</span>(sv2017, <span class="fu">aes</span>(<span class="at">x=</span>Type, <span class="at">y=</span>Ca.pow)) <span class="sc">+</span></span>
-<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Ca (power-transformed)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">&quot;papayawhip&quot;</span>, <span class="at">outlier.shape=</span><span class="dv">1</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> meanz, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1, <span class="at">shape=</span>x2), <span class="at">size=</span><span class="fl">2.2</span>, </span>
-<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a>             <span class="at">stroke=</span><span class="fl">0.8</span>, <span class="at">col=</span><span class="st">&quot;slateblue&quot;</span>) <span class="sc">+</span></span>
-<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">name=</span><span class="st">&quot;Key&quot;</span>, <span class="at">values=</span><span class="dv">10</span>) <span class="sc">+</span></span>
-<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<h3>Visualising 3-group differences with <code>ggplot2</code></h3>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co"># there&#39;s probably a more efficient way to do this in ggplot!</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>meanz <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x1=</span><span class="fu">levels</span>(sv2017<span class="sc">$</span>Type),</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>                    <span class="at">y1=</span><span class="fu">tapply</span>(sv2017<span class="sc">$</span>Ca.pow, sv2017<span class="sc">$</span>Type, mean, <span class="at">na.rm=</span>T),</span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>                    <span class="at">x2=</span><span class="fu">rep</span>(<span class="st">&quot;Mean&quot;</span>,<span class="fu">nlevels</span>(sv2017<span class="sc">$</span>Type)))</span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a><span class="fu">ggplot</span>(sv2017, <span class="fu">aes</span>(<span class="at">x=</span>Type, <span class="at">y=</span>Ca.pow)) <span class="sc">+</span></span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Ca (power-transformed)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">&quot;papayawhip&quot;</span>, <span class="at">outlier.shape=</span><span class="dv">1</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> meanz, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1, <span class="at">shape=</span>x2), <span class="at">size=</span><span class="fl">2.2</span>, </span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>             <span class="at">stroke=</span><span class="fl">0.8</span>, <span class="at">col=</span><span class="st">&quot;slateblue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">name=</span><span class="st">&quot;Key&quot;</span>, <span class="at">values=</span><span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="means_files/figure-html/3way-box-gg-1.png" alt="Boxplot for 3-group comparison, showing means, and drawn with `ggplot2`." width="432" />
+<img src="means_files/figure-html/3way-box-gg-1.png" alt="Figure 9: Boxplot for 3-group comparison, showing means, and drawn with `ggplot2`." width="432" />
 <p class="caption">
-Boxplot for 3-group comparison, showing means, and drawn with
+Figure 9: Boxplot for 3-group comparison, showing means, and drawn with
 <code>ggplot2</code>.
 </p>
 </div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="co"># there&#39;s probably a more efficient way to do this in ggplot!</span></span></code></pre></div>
 <hr style="height: 2px; background-color: #008060   ;" />
 <blockquote>
 <p>"The analysis of variance is not a mathematical theorem, but rather a
@@ -1081,11 +1108,10 @@ target="_blank">Ronald Fisher</a>, the developer of ANOVA</p>
 style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
 <h3>Effect sizes for 3 or more groups</h3>
 <p><strong>It's not possible to calculate Effect sizes for 3 or more
-groups directly. We would need to create subsets of our dataset which
-include only two groups</strong> (<em>e.g</em>., <strong>with only Soil
-and Sediment), and then run</strong> <code>cohen.d()</code> <strong>from
-the 'effsize' R package.</strong> Or we could do some custom
-coding...</p>
+groups directly</strong>. We would need to create subsets of our dataset
+which include only two groups** (<em>e.g</em>., with only Soil and
+Sediment), and then run <code>cohen.d()</code> from the 'effsize' R
+package. <em>Or we could do some custom coding</em>...</p>
 </div>
 <p>
  
@@ -1115,9 +1141,9 @@ making this correction, such as Holm's method.</p>
 <p>First, we know we can apply a <em>post-hoc</em> pairwise test, since
 the overall effect of <code>Type</code> on <code>Ba</code> is
 significant (p ≈ 0.002):</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">with</span>(sv2017, <span class="fu">shapiro.test</span>(Ba.log))</span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="fu">with</span>(sv2017, <span class="fu">bartlett.test</span>(Ba.log <span class="sc">~</span> Type))</span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="fu">with</span>(sv2017, <span class="fu">oneway.test</span>(Ba.log <span class="sc">~</span> Type, <span class="at">var.equal =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">with</span>(sv2017, <span class="fu">shapiro.test</span>(Ba.log))</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">with</span>(sv2017, <span class="fu">bartlett.test</span>(Ba.log <span class="sc">~</span> Type))</span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a><span class="fu">with</span>(sv2017, <span class="fu">oneway.test</span>(Ba.log <span class="sc">~</span> Type, <span class="at">var.equal =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
@@ -1148,12 +1174,12 @@ groups (see above), we can use the default
 <code>pairwise.t.test()</code> options. If <code>Ba.log</code> was
 heteroscedastic, we would have used
 <code>pairwise.t.test(Ba.log, Type, pool.sd = FALSE)</code> instead.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="fu">library</span>(rcompanion)</span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="fu">library</span>(multcompView)</span>
-<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>(pwBa <span class="ot">&lt;-</span> <span class="fu">with</span>(sv2017, <span class="fu">pairwise.t.test</span>(Ba.log, Type)))</span>
-<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">==== Compact letters ====</span><span class="sc">\n</span><span class="st">&quot;</span>) </span>
-<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>pwBa_pv <span class="ot">&lt;-</span> <span class="fu">fullPTable</span>(pwBa<span class="sc">$</span>p.value)                 <span class="co"># from rcompanion</span></span>
-<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a><span class="fu">multcompLetters</span>(pwBa_pv)                            <span class="co"># from multcompView</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">library</span>(rcompanion)</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="fu">library</span>(multcompView)</span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>(pwBa <span class="ot">&lt;-</span> <span class="fu">with</span>(sv2017, <span class="fu">pairwise.t.test</span>(Ba.log, Type)))</span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">==== Compact letters ====</span><span class="sc">\n</span><span class="st">&quot;</span>) </span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>pwBa_pv <span class="ot">&lt;-</span> <span class="fu">fullPTable</span>(pwBa<span class="sc">$</span>p.value)                 <span class="co"># from rcompanion</span></span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a><span class="fu">multcompLetters</span>(pwBa_pv)                            <span class="co"># from multcompView</span></span></code></pre></div>
 <pre><code>## 
 ##  Pairwise comparisons using t tests with pooled SD 
 ## 
@@ -1176,16 +1202,19 @@ letters; Sediment (<code>"a"</code>) is different from Soil and Street
 dust (both <code>"b"</code>). Since Soil and Street dust have the same
 letter (<code>"b"</code>), they are not significantly different, which
 matches the p-value (<code>0.3634</code>).</p>
+<p>
+ 
+</p>
 <div id="optional-pairwise-compact-letters-alternative"
 class="section level3">
 <h3>OPTIONAL: Pairwise compact letters alternative</h3>
 <p>This method using the <code>cld()</code> function is way harder to
 make sense of... it's probably more rigorous, but leads to the same
 conclusion. We need to load the <code>multcomp</code> package.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>anovaBa <span class="ot">&lt;-</span> <span class="fu">aov</span>(Ba.log <span class="sc">~</span> Type, <span class="at">data=</span>sv2017)</span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="fu">require</span>(multcomp)</span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>pwise0 <span class="ot">&lt;-</span> <span class="fu">glht</span>(anovaBa, <span class="at">linfct =</span> <span class="fu">mcp</span>(<span class="at">Type=</span><span class="st">&quot;Tukey&quot;</span>)) <span class="co"># anovaBa from above</span></span>
-<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="fu">cld</span>(pwise0)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>anovaBa <span class="ot">&lt;-</span> <span class="fu">aov</span>(Ba.log <span class="sc">~</span> Type, <span class="at">data=</span>sv2017)</span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a><span class="fu">require</span>(multcomp)</span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>pwise0 <span class="ot">&lt;-</span> <span class="fu">glht</span>(anovaBa, <span class="at">linfct =</span> <span class="fu">mcp</span>(<span class="at">Type=</span><span class="st">&quot;Tukey&quot;</span>)) <span class="co"># anovaBa from above</span></span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a><span class="fu">cld</span>(pwise0)</span></code></pre></div>
 <pre><code>##    Sediment        Soil Street dust 
 ##         &quot;a&quot;         &quot;b&quot;         &quot;b&quot;</code></pre>
 <p>Groups assigned a different letter are significantly different at the
@@ -1196,6 +1225,9 @@ from each other).</p>
 <p>We can get the confidence intervals and p-values for each pairwise
 comparison using the <code>TukeyHSD()</code> function (HSD='Honestly
 Significant Difference'):</p>
+<p>
+ 
+</p>
 </div>
 <div id="optional-pairwise-tukey-multiple-comparisons-of-means"
 class="section level3">
@@ -1203,9 +1235,9 @@ class="section level3">
 <p>Also more complicated to understand and, like the code above, we need
 to have a normally-distributed, homoscedastic, variable. Usually we
 don't.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">TukeyHSD</span>(anovaBa)</span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">c</span>(<span class="st">&quot;anovaBa&quot;</span>,<span class="st">&quot;pwise0&quot;</span>))    <span class="co"># tidy up</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">TukeyHSD</span>(anovaBa)</span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">c</span>(<span class="st">&quot;anovaBa&quot;</span>,<span class="st">&quot;pwise0&quot;</span>))    <span class="co"># tidy up</span></span></code></pre></div>
 <pre><code>##   Tukey multiple comparisons of means
 ##     95% family-wise confidence level
 ## 
@@ -1228,7 +1260,6 @@ adjusted p-value of 0.633 (<em>i.e</em>. &gt; 0.05) for the Street
 dust-Soil comparison. Also, as indicated by the 'compact letter display'
 from <code>cld()</code> above, any comparison including Sediment has p ≤
 0.05.</p>
-<hr style="height: 2px; background-color: #5560A4;" />
 <center>
 <img src="./images/distributions-clique.png" width="500" height="240" />
 </center>
@@ -1241,17 +1272,21 @@ sciences (2nd ed.)</em>. New York:Academic Press.</p>
 <p>Sawilowsky, S.S. (2009). New Effect Size Rules of Thumb. <em>Journal
 of Modern Applied Statistical Methods</em>
 <strong>8</strong>:597-599.</p>
-<p><strong>Run the R code below to get citation information for the R
-packages used in</strong> <strong>this document</strong>.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;car&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;ggplot2&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;effsize&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb37-4"><a href="#cb37-4" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;multcomp&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb37-5"><a href="#cb37-5" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;rcompanion&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb37-6"><a href="#cb37-6" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;multcompView&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div
+id="run-the-r-code-below-to-get-citation-information-for-the-r-packages-used-in-this-document."
+class="section level3">
+<h3>Run the R code below to get citation information for the R packages
+used in this document.</h3>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;car&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;ggplot2&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;effsize&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;multcomp&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;rcompanion&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;multcompView&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>
  
 </p>
+</div>
 </div>
 
 <!DOCTYPE html>

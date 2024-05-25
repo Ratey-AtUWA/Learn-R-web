@@ -1,6 +1,6 @@
 ---
 title: "Statistics for Comparisons"
-subtitle: "Parametric tests"
+subtitle: "Parametric mean comparison tests"
 author: "Andrew Rate"
 date: "`r Sys.Date()`"
 output: 
@@ -94,7 +94,7 @@ t-tests or ANOVA compare the variance **between** groups with the variance
 the probability that means are different.
 
 The parametric mean comparison tests require the variables to have normal
-distributions. We also often assume that all groups of observations have  
+distributions. We also often assume that all groups of observations have
 equal variance in the variable being compared. If the variances in each group 
 are not similar enough (*i.e*. the variable is **heteroskedastic**), we need to 
 modify or change the statistical test we use.
@@ -111,9 +111,11 @@ be used when our variable(s) don't meet all of the requirements of conventional
 (parametric) statistical tests.</em>
 </div>
 
-In this session we're going to use the 2017 Smith's Lake &ndash; Charles Veryard 
-Reserves dataset (see Figure \@ref(fig:SLCVR-map)) to compare means between
-groups for factors having:
+<p>&nbsp;</p>
+
+In this session we're going to use the 2017 Smith's Lake &ndash; Charles Veryard
+Reserves dataset (see Figure 1) to compare means between groups for factors
+having:
 
 1.    only two groups (using only the soil data);
 2.    more than two groups (using the whole dataset).
@@ -124,7 +126,7 @@ library(maptiles)      # get open-source map tiles for background maps
 library(TeachingDemos) # for shadowtext() function
 ```
 
-```{r SLCVR-map, echo=FALSE, fig.width=5, fig.height=4.7, fig.cap="Map showing locations of Charles Veryard and Smiths Lake Reserves, North Perth, Western Australia (location sampled for the sv2017 dataset).", fig.align='center', results='hold',warning=FALSE}
+```{r SLCVR-map, echo=FALSE, fig.width=5, fig.height=4.7, fig.cap="Figure 1: Map showing locations of the adjacent Charles Veryard Reserve and Smiths Lake Reserve, North Perth, Western Australia (these were the locations sampled for the sv2017 dataset).", fig.align='center', results='hold',warning=FALSE}
 extent <- st_as_sf(data.frame(x=c(390910,391550),y=c(6466220,6466800)),
                    coords = c("x","y"), crs = st_crs(32750))
 SLtiles <- get_tiles(extent, provider = "OpenTopoMap", 
@@ -143,6 +145,8 @@ shadowtext(391480,6466532,label="Northing\n6466530",
 par(xpd=FALSE)
 ```
 
+<p>&nbsp;</p>
+
 ### Create a factor separating the two Reserves into groups AND limit the data to only soil
 
 We split the dataset at Northing = 6466530 m, which represents Bourke Street.
@@ -156,6 +160,8 @@ sv17_soil <- subset(sv2017, subset=sv2017$Type=="Soil")
 cat("Number of soil samples in each reserve\n"); summary(sv17_soil$Reserve)
 ```
 
+<p>&nbsp;</p>
+
 ### Check the newly-created factor with a plot
 
 Note that:
@@ -164,7 +170,7 @@ Note that:
 are the same for the x- and y-coordinates
 - the plot symbols, colours, and sizes are controlled by vectors of length 2: `pch = c(1,2)`, `col = c(2,4)`, and `cex = c(1.25,1)`, followed by `[Reserve]` in square brackets, so that the value in each vector depends on the value of the factor `Reserve` for each sample (row).
 
-```{r xyMap, fig.height=5, fig.width=4, out.width='40%', fig.align='center', results='hold', fig.cap="Location map of soil samples at Charles Veryard and Smiths Lake Reserves."}
+```{r xyMap, fig.height=5, fig.width=4, out.width='40%', fig.align='center', results='hold', fig.cap="Figure 2: Map-style plot showing locations of soil samples at Charles Veryard and Smiths Lake Reserves."}
 par(mfrow=c(1,1), mar=c(3.5,3.5,1.5,1.5), mgp=c(1.6,0.25,0),
     font.lab=2, font.main=3, cex.main=1, tcl=0.3)
 with(sv17_soil, plot(Northing ~ Easting, asp=1,
@@ -181,13 +187,13 @@ legend("bottomleft", legend = c("Smiths Lake","Charles Veryard"),
        bty = "n", inset = 0.02)
 ```
 
-The plot in Figure \@ref(fig:xyMap) looks OK! You may have just made your first 
+The plot in Figure 2 looks OK! You may have just made your first 
 **R** map!
 
 We can also draw the plot using the `ggplot2` package (make sure to include 
 `coord-equal()` to preserve a map-like aspect ratio):
 
-```{r xyMap-GG, fig.height=4, fig.width=4.4, out.width='40%', fig.align='center', results='hold', fig.cap="Location map of soil samples at Charles Veryard and Smiths Lake Reserves made with `ggplot`."}
+```{r xyMap-GG, fig.height=4, fig.width=4.4, out.width='40%', fig.align='center', results='hold', fig.cap="Figure 3: Map-like scatterplot made with `ggplot`, showing locations of soil samples at Charles Veryard and Smiths Lake Reserves."}
 library(ggplot2)
 ggplot(sv17_soil, aes(x=Easting, y=Northing, shape=Reserve, color=Reserve)) +
   geom_point(size=2) + coord_equal() +
@@ -204,6 +210,8 @@ ggplot(sv17_soil, aes(x=Easting, y=Northing, shape=Reserve, color=Reserve)) +
 
 <hr style="height: 2px; background-color: #008060;" />
 
+<p>&nbsp;</p>
+
 ## Means comparisons for exactly two groups
 
 For variables which are normally distributed, we can use conventional,
@@ -213,7 +221,7 @@ values between Reserve. By default the R function `t.test()` uses the
 (*i.e*., the Welch t-test is OK for heteroskedastic variables, but we should check anyway!). <br>
 Of course, we still need to use **appropriately transformed variables**!
 
-<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+<div style="border: 2px solid #A9A9A9; background-color:#e8e8e8; padding: 8px;">
 ### Homogeneity of variance using the variance ratio test or Bartlett's Test
 
 We can actually check if the variances are equal in each group using Bartlett's 
@@ -232,30 +240,34 @@ with(sv17_soil, bartlett.test(Na.pow ~ Reserve))
 
 Both the variance-ratio and Bartlett tests show that H~0~ (that variances are
 equal) can **not** be rejected. We can visualise this with (for instance) a
-boxplot or density plot (Figure \@ref(fig:vis-variance-2group); we need the 
-`car` package for the `densityPlot()` function):
+boxplot or density plot (Figure 4; we need the `car` package for the
+`densityPlot()` function):
 
-```{r vis-variance-2group, fig.height=4.5, fig.width=8, fig.cap="Graphical visulaization of variance (the 'spread' of the distribution) in each group using (left) a box plot and (right) a density plot."}
+```{r vis-variance-2group, fig.height=4, fig.width=8, fig.cap="Figure 4: Graphical visulaization of variance (the 'spread' of the distribution) in each group using (a) a strip chart and (b) a density plot.", out.width="65%", results='hold'}
 require(car)
 par(mfrow=c(1,2), mar=c(3.5,3.5,1.5,1.5), mgp=c(1.6,0.5,0),
     font.lab=2, font.main=3, cex.main=0.8, tcl=-0.2,
     cex.lab = 1, cex.axis = 1)
-boxplot(sv17_soil$Na.pow ~ sv17_soil$Reserve, 
-        notch=FALSE, col="grey92",
+stripchart(sv17_soil$Na.pow ~ sv17_soil$Reserve, vertical=TRUE, method="jitter",
+           pch=15, cex=1.3, col=c("#00008080","#a0600080"),
         xlab="Reserve", ylab="Na (power-transformed)")
-densityPlot(Na.pow ~ Reserve, data=sv17_soil, 
-            xlab="Na (power transformed)", adjust=1.5, ylim=c(0,5))
+mtext("(a)", 3, -1.3, adj=0.05, cex=1.2)
+densityPlot(Na.pow ~ Reserve, data=sv17_soil, adjust=1.5, ylim=c(0,5), 
+            xlab="Na (power transformed)", col=c("#000080","#a06000"))
+mtext("(b)", 3, -1.3, adj=0.05, cex=1.2)
+```
+```{r reset-vis-var-2group, include=FALSE}
 par(mfrow=c(1,1)) # reset multiple graphics panes
 ```
 
-<p>&nbsp;</p>
-
-TIn each case it's apparent that the variance in Na in the Veryard soil is 
+In each case it's apparent that the variance in Na in the Veryard soil is 
 similar to that at Smith's Lake, illustrating the conclusion from the 
 statistical tests.
 </div>
 
-he power term from `powerTransform()` is &sime;&nbsp;0.127, so we make a new
+<p>&nbsp;</p>
+
+The power term from `powerTransform()` is &sime;&nbsp;0.127, so we make a new
 power-transformed column `Na.pow` using this value. The `shapiro.test()` shows
 that `Na.pow` is normally distributed, and `var.test()` shows that the variances 
 are approximately equal, as do the boxplot and density plot. So we can apply the
@@ -266,13 +278,15 @@ t-test).
 t.test(sv17_soil$Na.pow ~ sv17_soil$Reserve, var.equal=TRUE)
 ```
 
-We can visualize means comparisons in a few different ways &ndash; see Figure 
-\@ref(fig:meancomp-plots-2-groups). My favourite is the boxplot with means
-included as extra information - with a bit of additional coding we can include
-the 95% confidence intervals as well! (but this is not shown in this document).
+We can visualize means comparisons in a few different ways &ndash; see Figure 5.
+My favourite is the boxplot with *means included* as extra information - with a
+bit of additional coding we can include the 95% confidence intervals as well!
+(but this is not shown in this document).
 
-### Visualising differences in means - 2 groups
-```{r meancomp-plots-2-groups, fig.height=3, fig.width=6, message=FALSE, warning=FALSE, fig.cap="Graphical comparison of means between groups using: (a) a standard box plot; (b) a box plot also showing mean values in each group. You would not include both options in a report!"}
+<p>&nbsp;</p>
+
+<h3 id="Fig5">Visualising differences in means - 2 groups</h3>
+```{r meancomp-plots-2-groups, fig.height=3, fig.width=6, message=FALSE, warning=FALSE, fig.cap="Figure 5: Graphical comparison of means between groups using: (a) a standard box plot; (b) a box plot also showing mean values in each group. You would not include both options in a report!"}
 par(mfrow=c(1,2), mar=c(3.5,3.5,1.5,1.5), mgp=c(1.7,0.3,0),
     font.lab=2, font.main=3, cex.main=1, tcl=0.3)
 boxplot(sv17_soil$Na.pow ~ sv17_soil$Reserve, 
@@ -296,13 +310,14 @@ mtext("(b)", 3, -1.25, adj=0.05, font=2)
 rm(meanz) # tidy up
 ```
 
-[skip to Figure \@ref(fig:meancomp-plots-3groups) for a 3-group comparison]
+[skip to <a href="#Fig8">Figure 8</a> for a 3-group comparison]
 
 <p>&nbsp;</p>
 
-The `ggplot` connoisseurs can also draw such a boxplot:
+The `ggplot` connoisseurs can also draw such a boxplot (Figure 6):
 
-```{r 2way-box-gg, fig.height=3, fig.width=4, fig.align='center', fig.cap="Boxplot for 2-group comparison, showing means, and drawn with `ggplot2`.", message=FALSE, warning=FALSE}
+```{r 2way-box-gg, fig.height=3, fig.width=4, fig.align='center', fig.cap="Figure 6 Boxplot for 2-group comparison, showing means, and drawn with `ggplot2`.", message=FALSE, warning=FALSE}
+# there's probably a more efficient way to do this in ggplot!
 meanz <- data.frame(x1=levels(sv17_soil$Reserve),
                     y1=tapply(sv17_soil$Na.pow, sv17_soil$Reserve, mean, na.rm=T),
                     x2=rep("Mean",2))
@@ -314,7 +329,6 @@ ggplot(sv17_soil, aes(x=Reserve, y=Na.pow)) +
              stroke=1.2, col="firebrick") +
   scale_shape_manual(name="Legend", values=3) +
   theme(axis.title = element_text(face="bold"))
-# there's probably a more efficient way to do this in ggplot!
 ```
 
 <p>&nbsp;</p>
@@ -335,16 +349,16 @@ The calculated value of Cohen's *d* is 0.5 &le; *d* &lt; 0.8, which is medium. T
 95% CI for the estimate of Cohen's *d* (*i.e*. between `lower` and `upper`) does
 not include zero, so we can probably rely on it.
 
-**More recently than Cohen, Sawilowsky (2009) proposed that for Cohen's d:**
+<p style="text-align:center;">More recently than Cohen, **Sawilowsky (2009) proposed that for Cohen's d:**</p>
 
 ```{r cohens-flextable, echo=FALSE, warning=FALSE, message=FALSE}
 cohens <- data.frame(lower=c("0.01 ≤","0.2 ≤","0.5 ≤","0.8 ≤","1.2 ≤",NA), 
             d=rep("d",6), upper=c("< 0.2","< 0.5","< 0.8","< 1.2","< 2.0","> 2.0"),
             size=c("very small","small","medium","large","very large","huge"))
-flextable(cohens) |> theme_zebra(odd_body = "#CCD6E7", even_body = "#f0dd99") |> delete_part(part="header") |> 
-  width(width=c(1.2,0.5,1.5,2), unit="cm") |>
+flextable(cohens) |> theme_zebra(odd_body = "#e8e8e8") |> delete_part(part="header") |> 
+  width(width=c(1.2,0.5,1.5,2), unit="cm") |> fontsize(size=11, part="all") |> 
   align(j=1, align="right", part="all") |> align(j=2, align="c") |> align(j=3, align="left") |> 
-  border_outer(border=fp_border(),part="all")
+  border_outer(border=fp_border(color="#e0e0e0", width=2),part="all")
 ```
 
 <p>&nbsp;</p>
@@ -358,13 +372,13 @@ complete 2017 Smith's &ndash; Veryard data (not just soil!). <br>
 We still need to use **appropriately transformed variables**, and we need to 
 know if **group variances are equal**!
 
-<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+<div style="border: 2px solid #A9A9A9; background-color:#e8e8e8; padding: 8px;">
 ### Check homogeneity of variances, 3 or more groups
 
 ANOVA also requires variance for each group to be (approximately) equal. Since
 there are more than 2 groups, we need to use the Bartlett test.
 
-```{r test variance for groups in Type, echo=2, results='hold'}
+```{r test variance for groups in Type, echo=2:3, results='hold'}
 sv2017$Ca.pow <- sv2017$Ca^(powerTransform(sv2017$Ca)$lambda)
 shapiro.test(sv2017$Ca.pow)
 bartlett.test(sv2017$Ca.pow ~ sv2017$Type)
@@ -375,29 +389,33 @@ The `shapiro.test()` p-value is &gt;&nbsp;0.05, so we can accept H~0~ that
 &le;&nbsp;0.05, so we reject H~0~ of equal variances (*i.e*. `Ca.pow` is 
 heteroscedastic).
 
-```{r vis-var-3groups, fig.height=3.5, fig.width=7, fig.align='center', fig.cap="Graphical visualization of variance (the spread of the distribution) in 3 groups using (left) a box plot and (right) a density plot.", out.width="65%", echo=-5}
+```{r vis-var-3groups, fig.height=3.5, fig.width=7, fig.align='center', fig.cap="Figure 7: Graphical visualization of variance (the spread of the distribution) in 3 groups using (a) a strip chart and (b) a density plot.", out.width="65%"}
 require(car)
 par(mfrow=c(1,2), mar=c(3,3,0.5,0.5), mgp=c(1.6,0.5,0),
     font.lab=2, font.main=3, cex.main=0.8, tcl=-0.2,
     cex.lab = 1, cex.axis = 1)
-boxplot(sv2017$Ca.pow ~ sv2017$Type, 
-        notch=FALSE, col="gainsboro",
-        xlab="Reserve", ylab="Ca (power-transformed")
-densityPlot(sv2017$Ca.pow ~ sv2017$Type, adjust=2, 
-            xlab="Ca (power transformed)", ylim=c(0,18))
+stripchart(sv2017$Ca.pow ~ sv2017$Type, method="jitter", 
+        pch=15, cex=1.3, vertical=T, col=plasma(3, alpha=0.5, end=0.5),
+        xlab="Reserve", ylab="Ca (power-transformed)")
+mtext("(a)", 3, -1.3, adj=0.95)
+densityPlot(sv2017$Ca.pow ~ sv2017$Type, adjust=2, xlim=c(-0.1,0.6), ylim=c(0,16), 
+            xlab="Ca (power transformed)", legend=list(title="Type"), 
+            col=plasma(3, end=0.5)) ; mtext("(a)", 3, -1.3, adj=0.95)
+```
+
+```{r reset-vis-var-3groups, message=FALSE, warning=FALSE, include=FALSE}
 par(mfrow=c(1,1)) # reset multiple graphics panes
 ```
 
 In each case it seems that the variance in power-transformed Ca is Sediment >
-Soil > Street dust (Figure \@ref(fig:vis-var-3groups)). We can check the actual
-variance values using `tapply()`, and this confirms our interpretation:
+Soil > Street dust (Figure 7). We can check the actual variance values using
+`tapply()`, and this confirms our interpretation:
 
 ```{r variance by Type, results='hold'}
 cat("--- Variances for each factor level ---\n")
 with(sv2017, tapply(Ca.pow, Type, var, na.rm=TRUE))
 ```
-
-<div>
+</div>
 
 <p>&nbsp;</p>
 
@@ -422,13 +440,15 @@ null hypothesis of equal means. As for a two-group comparison, we can visualize
 the differences in means in different ways (Figure
 \@ref(fig:meancomp-plots-3groups))
 
-### Visualising differences in means - 3 or more groups
+<p>&nbsp;</p>
 
-```{r meancomp-plots-3groups, fig.height=3, fig.width=6, fig.cap="Graphical comparison of means between 3 or more groups, in three ways: (a) a notched box plot (notches are approximate 95% confidence intervals around the median); (b) a box plot also showing mean values in each group.", message=FALSE, warning=FALSE}
+<h3 id="Fig8">Visualising differences in means - 3 or more groups</h3>
+
+```{r meancomp-plots-3groups, fig.height=3, fig.width=6, fig.cap="Figure 8: Graphical comparisons of means between 3 or more groups: (a) a notched box plot (notches are approximate 95% confidence intervals around the median); (b) a box plot also showing mean values in each group. You would not include both options in a report!", message=FALSE, warning=FALSE, results='hold'}
 par(mfrow=c(1,2), mar=c(3.5,3.5,1.5,1.5), mgp=c(1.7,0.3,0),
     font.lab=2, font.main=3, cex.main=1, tcl=0.2,
     cex.axis=0.9, lend = "square", ljoin = "mitre")
-boxplot(sv2017$Ca.pow ~ sv2017$Type, notch=T, 
+boxplot(sv2017$Ca.pow ~ sv2017$Type, notch=TRUE, 
         cex = 1.2, col="grey92", ylim=c(0.08,0.35), 
         xlab="Sample type", ylab="Ca (power-transformed)")
 mtext("(a)", 3, -1.5, adj=0.97, font=2) # label each sub-plot
@@ -448,12 +468,17 @@ legend("bottomright", legend="Mean values", cex=0.9, y.int=0.2,
 rm(meanz) # tidy up
 ```
 
-Look back at Figure \@ref(fig:meancomp-plots-2-groups). Why is Figure 
-\@ref(fig:meancomp-plots-3groups) better?
+Look back at <a href="#Fig5">Figure 5</a>. Why is Figure 8 better? (*Hint*: it's
+*not* the notches in Figure 8a &ndash; these are larger than the interquartile
+range boxes for 2 groups, so they look kind of weird. If this happens, it's best
+to leave them out using `notch=FALSE`.)
 
-### Visualsing 3-group differences with `ggplot2`
+<p>&nbsp;</p>
 
-```{r 3way-box-gg, fig.height=3, fig.width=4.5, fig.align='center', fig.cap="Boxplot for 3-group comparison, showing means, and drawn with `ggplot2`.", message=FALSE, warning=FALSE}
+### Visualising 3-group differences with `ggplot2`
+
+```{r 3way-box-gg, fig.height=3, fig.width=4.5, fig.align='center', fig.cap="Figure 9: Boxplot for 3-group comparison, showing means, and drawn with `ggplot2`.", message=FALSE, warning=FALSE}
+# there's probably a more efficient way to do this in ggplot!
 meanz <- data.frame(x1=levels(sv2017$Type),
                     y1=tapply(sv2017$Ca.pow, sv2017$Type, mean, na.rm=T),
                     x2=rep("Mean",nlevels(sv2017$Type)))
@@ -464,7 +489,6 @@ ggplot(sv2017, aes(x=Type, y=Ca.pow)) +
              stroke=0.8, col="slateblue") +
   scale_shape_manual(name="Key", values=10) +
   theme(axis.title = element_text(face="bold"))
-# there's probably a more efficient way to do this in ggplot!
 ```
 
 <hr style="height: 2px; background-color: #008060   ;" />
@@ -483,7 +507,7 @@ ggplot(sv2017, aes(x=Type, y=Ca.pow)) +
 
 ### Effect sizes for 3 or more groups
 
-**It's not possible to calculate Effect sizes for 3 or more groups directly. We would need to create subsets of our dataset which include only two groups** (*e.g*., **with only Soil and Sediment), and then run** `cohen.d()` **from the 'effsize' R package.** Or we could do some custom coding...
+**It's not possible to calculate Effect sizes for 3 or more groups directly**. We would need to create subsets of our dataset which include only two groups** (*e.g*., with only Soil and Sediment), and then run `cohen.d()` from the 'effsize' R package. *Or we could do some custom coding*...
 </div>
 
 <p>&nbsp;</p>
@@ -548,6 +572,8 @@ and Street dust (both `"b"`). Since Soil and Street dust have the same letter
 (`"b"`), they are not significantly different, which matches the p-value
 (`0.3634`).
 
+<p>&nbsp;</p>
+
 ### OPTIONAL: Pairwise compact letters alternative
 
 This method using the `cld()` function is way harder to make sense of... it's
@@ -568,6 +594,8 @@ in sediment (`a`) is significantly different from both Soil and Street dust
 
 We can get the confidence intervals and p-values for each pairwise comparison
 using the `TukeyHSD()` function (HSD='Honestly Significant Difference'):
+
+<p>&nbsp;</p>
 
 ### OPTIONAL: Pairwise Tukey multiple comparisons of means
 
@@ -591,8 +619,6 @@ p-value of 0.633 (*i.e*. > 0.05) for the Street dust-Soil comparison. Also, as
 indicated by the 'compact letter display' from `cld()` above, any comparison
 including Sediment has p &le; 0.05.
 
-<hr style="height: 2px; background-color: #5560A4;" />
-
 <center>![](./images/distributions-clique.png){width=500 height=240}</center>
 
 ## References and R Packages
@@ -602,8 +628,7 @@ New York:Academic Press.
 
 Sawilowsky, S.S. (2009). New Effect Size Rules of Thumb. *Journal of Modern Applied Statistical Methods* **8**:597-599.
 
-**Run the R code below to get citation information for the R packages used in** 
-**this document**.
+### Run the R code below to get citation information for the R packages used in this document.
 
 ```{r R package citations, eval=FALSE}
 citation("car", auto = TRUE)
@@ -613,6 +638,5 @@ citation("multcomp", auto = TRUE)
 citation("rcompanion", auto = TRUE)
 citation("multcompView", auto = TRUE)
 ```
-
 
 <p>&nbsp;</p>
