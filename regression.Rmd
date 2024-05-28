@@ -81,7 +81,7 @@ afs1923$Type2 <-
 ```
 
 Using the `afs1923` dataset, we will make a **simple linear regression** model
-predicting cerium from aluminium.
+predicting chromium from aluminium.
 
 Before we investigate a regression model, we inspect the scatterplot (Figure 1).
 
