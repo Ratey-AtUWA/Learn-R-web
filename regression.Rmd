@@ -134,7 +134,7 @@ The output from a linear model summary in R is quite extensive:
 <p>&nbsp;</p>
 
 <div style="border: 2px solid #039; padding: 8px;">
-## Requirements and Assumptions of [linear] regression
+<h2 id="assumptions"> Requirements and Assumptions of [linear] regression</h2>
 
 Ideally, any regression model that we create should fulfil certain assumptions.
 There are four main assumptions based on the **residuals** of the regression 
@@ -201,7 +201,7 @@ Finally the **bottom left** plot in Figure 3 tests whether any observations have
 an unusual influence on the regression statistics (the assumption is that they
 *do not*).
 
-## Formal statistical tests of regression assumptions
+<h2 id="diagtests">Formal statistical tests of regression assumptions</h2>
 
 We can test all of the assumptions with formal statistical tests using the 
 `car` and `lmtest` **R** packages.

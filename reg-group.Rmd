@@ -19,15 +19,15 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-packages-etc, include=FALSE}
 library(car)
 library(flextable)
+library(officer)
 library(viridis)
 library(png)
 library(car)
-library(psych)
 library(lmtest)
 library(effects)
 
 set_flextable_defaults(theme_fun = "theme_zebra", 
-                       font.size = 9, fonts_ignore = TRUE)
+                       font.size = 10, fonts_ignore = TRUE)
 BorderDk <- officer::fp_border(color = "#B5C3DF", style = "solid", width = 1)
 BorderLt <- officer::fp_border(color = "#FFFFFF", style = "solid", width = 1)
 
@@ -65,9 +65,11 @@ Using the R code file provided and the `afs1923` dataset:
 
 <span style="font-size: 12pt;"><iframe width="360" height="240" src="https://echo360.net.au/media/f444fd3e-9d67-468b-aeb2-c2b27ca26c5e/public?autoplay=false&amp;automute=false" title="E3361+Correl+Regr.mp4" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen"></iframe></span>
 
-<p><a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/afs1923.csv"><span style="font-size: 12pt;">💾&nbsp;The afs1923 dataset in csv (comma-separated) format</span></a></p>
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3088955-dt-content-rid-40243114_1/xid-40243114_1"><span style="font-size: 12pt;">🔣&nbsp;R code file for this and related workshop sessions</span></a></p>
+<p><a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/afs1923.csv" target="_blank"><span style="font-size: 12pt;">💾&nbsp;The afs1923 dataset in csv (comma-separated) format</span></a></p>
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3088955-dt-content-rid-40243114_1/xid-40243114_1" target="_blank"><span style="font-size: 12pt;">🔣&nbsp;R code file for this and related workshop sessions</span></a></p>
 </div>
+
+<p>&nbsp;</p> 
 
 As previously, our first step is to read the data, and change anything we need to:
 
@@ -82,9 +84,9 @@ afs1923$Type2 <-
 ```
 
 Next, we inspect a scatterplot of the variables which matches the kind of 
-regression model we intend to apply:
+regression model we intend to apply (Figure 1):
 
-```{r sp-Cr-Al-byType, warning=FALSE, message=FALSE, results='hold', fig.width=5, fig.height=4}
+```{r sp-Cr-Al-byType, warning=FALSE, message=FALSE, results='hold', fig.width=5, fig.height=4, fig.cap="Figure 1: Different relationships predicting Cr from Al depending on the sample type (data from analysis of sediments from Ashfield Flats, 2019-2023."}
 library(car)
 par(mar=c(3,3,0.5,0.5), mgp=c(1.3,0.2,0), tcl=0.2, font.lab=2)
 scatterplot(Cr ~ Al | Type2, data=afs1923, smooth=FALSE,
@@ -96,17 +98,166 @@ scatterplot(Cr ~ Al | Type2, data=afs1923, smooth=FALSE,
 
 Note the syntax used to separate by factor categories:
 
-```{r grouped 1predictor regmodel, results='hold'}
+```{r grouped-1predictor-regmodel, results='hold'}
 lmCrAl_byType <- lm(Cr ~ Al * Type2, data=afs1923)
 summary(lmCrAl_byType)
 ```
 
-This is similar output to simple linear regression in the previous example, but the `Coefficients:` table is much more complicated.
+This is similar output to simple linear regression in the previous example, but
+the `Coefficients:` table is much more complicated.
 
-The first two rows of the `Coefficients:` table under the headings give the intercept and slope for the 'base case', which by default is the first group in the factor separating the groups. In this example the first level of the factor `Type` is `Drain_Sed` (frustratingly, the output does not show this). <br>
-The next 4 rows, starting with the factor name (*i.e*. `Type2Lake_Sed`, *etc*.), show the *difference* between the **intercepts** for 'Soil' and 'Street dust' groups compared with the base case. <br>
-Similarly, the final rows, beginning with the predictor variable name (`Al.log:TypeSoil` and `Al.log:TypeStreet dust`), show the *difference* between the **slopes** for 'Soil' and 'Street dust' groups compared with the base case.
+- The first two rows of the `Coefficients:` table under the headings give the
+intercept and slope for the 'base case', which by default is the first group in
+the factor separating the groups. In this example the first level of the factor
+`Type` is `Drain_Sed` (frustratingly, the output does not show this). 
+- The next 4 rows, starting with the factor name (*i.e*. `Type2Lake_Sed`, *etc*.),
+show the *difference* between the **intercepts** for `Lake_Sed`, `Saltmarsh W`,
+`Saltmarsh E`, and `Other` groups compared with the base case. 
+- Similarly, the final rows, beginning with the predictor variable name
+(`Al:Type2Lake_Sed`, `Al:Type2Saltmarsh W`, `Al:Type2Saltmarsh E`, and
+`Al:Type2Other`), show the *difference* between the **slopes** for `Lake_Sed`,
+`Saltmarsh W`, `Saltmarsh E`, and `Other` groups compared with the base case
+(shown as `Al` but actually the slope for the `Drain_Sed` group).
 
 ## Compare the two models 
 
-Sometimes models can have greater R^2^ but only because we've made them more complex by grouping our observations or by adding more predictors. **We want the simplest model possible**. We compare the models using an analysis of variance with the `anova()` function (where the null hypothesis is equal predictive ability). The models compared need to be **nested**, that is, one is a subset of the other.
+Sometimes models can have greater R^2^ but only because we've made them more
+complex by grouping our observations or by adding more predictors. 
+**We want the simplest model possible**. We compare the models using an analysis 
+of variance with the `anova()` function (where the null hypothesis is equal
+predictive ability). The models compared need to be **nested**, that is, one is
+a subset of the other.
+
+Before we do this, we need to re-create the simple model from a 
+[previous session](regression.html):
+
+```{r}
+lmCrAlsimple <- lm(Cr ~ Al, data=afs1923)
+summary(lmCrAlsimple)
+```
+
+So our more complex (grouped) linear model has greater R^2^ (0.836) than the 
+simple linear model (R^2^&nbsp;=&nbsp;0.791). We now perform the `anova` test to 
+see whether this improvement is significant:
+
+```{r}
+anova(lmCrAlsimple, lmCrAl_byType)
+```
+
+The p-value (`Pr(>F)`) is &sime;&nbsp;4.4&times;10^&minus;14^, *i.e*. below 0.05, 
+so we reject H~0~ that the models have equivalent predictive ability. In that 
+case the model which explains more variance in the dependent variable `Cr` is 
+best; that is, the *grouped linear model* with R^2^&nbsp;=&nbsp;0.836 (*i.e*.,
+explaining 83.6% of the variance in `Cr` based on the variance in `Al` divided 
+into groups by the factor `Type2`).
+
+We can see a little more detail about the individual group-wise relationships or 
+&lsquo;effects&rsquo; by plotting an effects plot using functions from the 
+`effects` package (Figure 2):
+
+```{r plot-grouped-effects, message=FALSE, warning=FALSE, fig.height=5, fig.width=6, fig.cap="Figure 2: Effect plots showing the effects of interacting predictors `Al * Type2` on Cr, using data from sediments at Ashfield Flats 2019-2023.", results='hold'}
+library(effects)
+plot(allEffects(lmCrAl_byType))
+```
+
+So even though the plots in Figure 1 and Figure 2 suggest that each group has a 
+similar `Cr ~ Al` relationship, the slopes and intercepts differ enough between
+groups to give an improved prediction over the simple model.
+
+## Regression assumptions
+
+The assumptions implicit in linear regression were presented in the 
+[session on simple linear regression models](regression.html#assumptions). We run the same 
+set of diagnostic tests on more complex regression models as well.
+
+### Diagnostic plots for Grouped linear regression, `Cr ~ Al * Type2`
+
+```{r diag-plots-lm-grouped, fig.height=5, fig.width=5, fig.cap="Diagnostic plots for a grouped linear model predicting Cr from Al with obervations grouped by sample type.", message=FALSE, warning=FALSE, echo=1:2}
+par(mfrow=c(2,2), mar=c(3,3,2,1), mgp=c(1.3,0.2,0), tcl=0.2, font.lab=2)
+plot(lmCrAl_byType, col="#003087")
+par(mfrow=c(1,1))
+```
+
+## Formal statistical tests of regression assumptions
+
+As with simple linear regression, we can test all of the assumptions with formal
+statistical tests (see the [simple linear regression session](regression.html#diagtests)
+for explanations and null hypotheses).
+
+```{r shapiro-test-resids, results='hold'}
+shapiro.test(lmCrAl_byType$residuals) # normality
+```
+
+```{r bgtest, results='hold'}
+require(lmtest)
+bgtest(lmCrAl_byType) # autocorrelation (independence)
+```
+
+```{r bptest, results='hold'}
+bptest(lmCrAl_byType) # homoscedasticity
+```
+
+```{r rainbow-test, results='hold'}
+raintest(lmCrAl_byType) # linearity
+```
+
+```{r outlier-test, results='hold', paged.print=FALSE}
+require(car)
+outlierTest(lmCrAl_byType) # influential observations (outliers)
+```
+
+```{r cokks-dist, results='hold', paged.print=FALSE}
+summary(cooks.distance(lmCrAl_byType)) # influential observations
+```
+
+```{r influence-measures, results='hide'}
+infl.lmCrAl <- influence.measures(lmCrAl_byType)
+ninf <- nrow(summary(infl.lmCrAl)) # number of possibly influential observations
+modform <- deparse(lmCrAl_byType$call)
+rninf <- row.names(summary(infl.lmCrAl)) # IDs of possibly influential observations
+# if you run this code chunk yourself you will see the whole summary(infl.lmCrAl) output
+
+```
+```{r summary-infl-meas, results='hold'}
+cat(paste0("For the model '", modform, "' there are ", ninf, 
+           " potentially influential observations.\n\n"))
+cat("The", ninf, "rows containing potentially influential obervations are:\n"); as.integer(rninf)
+```
+
+To summarise:
+
+```{r diagnost-summ, echo=FALSE}
+diagsumm <- data.frame(Test=c("Shapiro-Wilk", "Breusch-Godfrey","Breusch-Pagan","Rainbow","Outlier","Cook's Distance","Infuence Measures"),
+                       Assessing=c("Are residuals normally distributed?", "Are residuals independent?","Are residuals homoscedastic?","Is the relationship linear?","Are there significant outliers (Bonferroni)?","Are there any potentially influential observations?","Are there any potentially influential observations?"),
+                       Results=c("No (qq-plot suggests long tails)", "No, there is autocorrelation","No (p<0.05)","Yes (p>0.05)","2 points are possible outliers","No (no values > 0.5)","Yes (36 out of 335 observations)"))
+flextable(diagsumm) |> width(width=c(4,8,7), unit = "cm") |> valign(valign = "top") |> padding(padding=2) |> fontsize(size=10, part="all") |> 
+  set_caption(caption="Table 1: Summary of regression diagnostic tests for a grouped linear model predicting Cr from Al (grouped by Type) in sediments from Ashfield Flats Reserve, based on data from samples collected from 2019-2023.", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
+```
+
+<p>&nbsp;</p>
+
+The summary of the diagnostic tests in Table 1 shows that not all the formal
+assumptions of regression are fulfilled by our model. Even though the model
+may not be strictly statistically valid, the regression output showed that 
+&sime;&nbsp;84% of the variance in Cr could be explained by Al when observations
+were grouped by sample type. So, from a practical perspective, this grouped
+regression model could also be used for prediction, and the greater R^2^ makes 
+it a better prediction option than the simple model discussed in 
+[another session](regression.html).
+
+The next option would be a model which has more than one predictor variable for our dependent variable &ndash; [multiple regression](reg-multi.html).
+</div>
+
+<p>&nbsp;</p>
+
+# References
+
+Fox, J. and Weisberg, S. (2019). *An {R} Companion to Applied Regression, Third Edition*. Thousand Oaks CA: Sage. [https://socialsciences.mcmaster.ca/jfox/Books/Companion/](https://socialsciences.mcmaster.ca/jfox/Books/Companion/){target="_blank"} (**R** package `car`)
+
+Garnier S, Ross N, Rudis R, Camargo AP, Sciaini M, Scherer C (2021). *Rvision &ndash; Colorblind-Friendly Color Maps for R*. R package version 0.6.2. (**R** package `viridis`)
+
+Reimann, C., Filzmoser, P., Garrett, R.G., Dutter, R., (2008). *Statistical Data Analysis Explained: Applied Environmental Statistics with R*. John Wiley & Sons, Chichester, England (see Chapter 16).
+
+Zeileis, A. and Hothorn, T. (2002). Diagnostic Checking in Regression Relationships. *R News* **2**(3), 7-10. [https://CRAN.R-project.org/doc/Rnews/](https://CRAN.R-project.org/doc/Rnews/){target="_blank"} (**R** package `lmtest`)
+
+<p>&nbsp;</p>

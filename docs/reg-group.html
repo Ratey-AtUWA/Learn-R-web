@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-05-24" />
+<meta name="date" content="2024-05-28" />
 
 <title>Statistical Relationships</title>
 
@@ -32,6 +32,8 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/tabwid-1.1.0/tabwid.css" rel="stylesheet" />
+<link href="site_libs/tabwid-1.1.0/scrool.css" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -44,6 +46,111 @@
 
 
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -238,7 +345,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -253,7 +360,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -268,7 +375,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -283,7 +390,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -304,7 +411,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -322,7 +429,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -347,7 +454,7 @@ $(document).ready(function () {
 
 <html>
 <body>
-<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science<br />at The University of Western Australia</span></h3>
 <h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
 </body>
 </html>
@@ -359,7 +466,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistical Relationships</h1>
 <h3 class="subtitle">Grouped linear regression</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-05-24</h4>
+<h4 class="date">2024-05-28</h4>
 
 </div>
 
@@ -369,15 +476,373 @@ $(document).ready(function () {
   font-size: 12pt;
 }
 </style>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>In a <a href="regression.html">previous session on simple
+regression</a>, we finished by suggesting that one way we could make
+regression prediction more accurate was by</p>
+<blockquote>
+<p>allowing regression relationships to differ for different groups in
+our data (defined by a factor variable) – <em>regression by
+groups</em></p>
+</blockquote>
+<p>This session will continue or efforts to predict Cr from Al, but we
+know the data were derived from analysis of samples from diverse types
+of environment. For that reason, it seems reasonable to evaluate a
+regression model which allows the regression coefficients (intercept and
+slope) to differ for different sample types.</p>
 <div
-style="border: 2px solid #039; background-color:#eee; padding: 8px;">
-<p style="font-size:24pt; color:gray;">
-Grouped linear regression placeholder
+style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+<p>Using the R code file provided and the <code>afs1923</code>
+dataset:</p>
+<ul>
+<li>Run a grouped regression model,</li>
+<li>Assess whether or not the grouped regression model meets the
+statistical assumptions,</li>
+<li>Evaluate whether a grouped regression model is a statistically
+significant improvement on the comparable ungrouped model, and</li>
+<li>Make sure you understand the concepts for all the statistical
+methods you use, and can interpret all the output!</li>
+</ul>
+<p><span
+style="font-size: 12pt;"><iframe width="360" height="240" src="https://echo360.net.au/media/f444fd3e-9d67-468b-aeb2-c2b27ca26c5e/public?autoplay=false&amp;automute=false" title="E3361+Correl+Regr.mp4" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen"></iframe></span></p>
+<p>
+<a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/afs1923.csv" target="_blank"><span
+style="font-size: 12pt;">💾 The afs1923 dataset in csv (comma-separated)
+format</span></a>
+</p>
+<p>
+<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3088955-dt-content-rid-40243114_1/xid-40243114_1" target="_blank"><span
+style="font-size: 12pt;">🔣 R code file for this and related workshop
+sessions</span></a>
 </p>
 </div>
 <p>
  
 </p>
+<p>As previously, our first step is to read the data, and change
+anything we need to:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R/raw/main/&quot;</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>afs1923 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;afs1923.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># re-order the factor levels</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>afs1923<span class="sc">$</span>Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(afs1923<span class="sc">$</span>Type, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Drain_Sed&quot;</span>,<span class="st">&quot;Lake_Sed&quot;</span>,<span class="st">&quot;Saltmarsh&quot;</span>,<span class="st">&quot;Other&quot;</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>afs1923<span class="sc">$</span>Type2 <span class="ot">&lt;-</span> </span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="fu">factor</span>(afs1923<span class="sc">$</span>Type2, </span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>         <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Drain_Sed&quot;</span>,<span class="st">&quot;Lake_Sed&quot;</span>,<span class="st">&quot;Saltmarsh W&quot;</span>,<span class="st">&quot;Saltmarsh E&quot;</span>,<span class="st">&quot;Other&quot;</span>))</span></code></pre></div>
+<p>Next, we inspect a scatterplot of the variables which matches the
+kind of regression model we intend to apply (Figure 1):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.3</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">scatterplot</span>(Cr <span class="sc">~</span> Al <span class="sc">|</span> Type2, <span class="at">data=</span>afs1923, <span class="at">smooth=</span><span class="cn">FALSE</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>            <span class="at">col=</span><span class="fu">inferno</span>(<span class="fu">nlevels</span>(afs1923<span class="sc">$</span>Type2), <span class="at">end=</span><span class="fl">0.75</span>), <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">17</span>,<span class="dv">15</span>,<span class="dv">19</span>,<span class="dv">10</span>), </span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>            <span class="at">legend=</span><span class="fu">list</span>(<span class="at">coords=</span><span class="st">&quot;bottomright&quot;</span>, <span class="at">title=</span><span class="st">&quot;Sample type&quot;</span>))</span></code></pre></div>
+<div class="figure">
+<img src="reg-group_files/figure-html/sp-Cr-Al-byType-1.png" alt="Figure 1: Different relationships predicting Cr from Al depending on the sample type (data from analysis of sediments from Ashfield Flats, 2019-2023." width="480" />
+<p class="caption">
+Figure 1: Different relationships predicting Cr from Al depending on the
+sample type (data from analysis of sediments from Ashfield Flats,
+2019-2023.
+</p>
+</div>
+</div>
+<div
+id="predicting-chromium-from-aluminium-using-a-regression-model-which-varies-by-groups"
+class="section level2">
+<h2>Predicting chromium from aluminium using a regression model which
+varies by groups</h2>
+<p>Note the syntax used to separate by factor categories:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>lmCrAl_byType <span class="ot">&lt;-</span> <span class="fu">lm</span>(Cr <span class="sc">~</span> Al <span class="sc">*</span> Type2, <span class="at">data=</span>afs1923)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">summary</span>(lmCrAl_byType)</span></code></pre></div>
+<pre><code>##
+## Call:
+## lm(formula = Cr ~ Al * Type2, data = afs1923)
+##
+## Residuals:
+##     Min      1Q  Median      3Q     Max
+## -33.644  -5.039  -0.195   4.637  47.183
+##
+## Coefficients:
+##                       Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)          4.069e+00  1.845e+00   2.205  0.02813 *
+## Al                   1.268e-03  7.872e-05  16.114  &lt; 2e-16 ***
+## Type2Lake_Sed        1.264e+01  3.166e+00   3.994 8.04e-05 ***
+## Type2Saltmarsh W     8.628e+00  3.507e+00   2.460  0.01440 *
+## Type2Saltmarsh E    -2.367e+00  3.366e+00  -0.703  0.48231
+## Type2Other           4.806e+00  6.162e+00   0.780  0.43600
+## Al:Type2Lake_Sed    -1.928e-04  1.036e-04  -1.861  0.06362 .
+## Al:Type2Saltmarsh W  1.056e-04  1.209e-04   0.873  0.38318
+## Al:Type2Saltmarsh E  3.282e-04  1.140e-04   2.880  0.00424 **
+## Al:Type2Other       -3.437e-05  2.091e-04  -0.164  0.86954
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+##
+## Residual standard error: 8.444 on 325 degrees of freedom
+## Multiple R-squared:  0.8362, Adjusted R-squared:  0.8317
+## F-statistic: 184.4 on 9 and 325 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>This is similar output to simple linear regression in the previous
+example, but the <code>Coefficients:</code> table is much more
+complicated.</p>
+<ul>
+<li>The first two rows of the <code>Coefficients:</code> table under the
+headings give the intercept and slope for the 'base case', which by
+default is the first group in the factor separating the groups. In this
+example the first level of the factor <code>Type</code> is
+<code>Drain_Sed</code> (frustratingly, the output does not show
+this).</li>
+<li>The next 4 rows, starting with the factor name (<em>i.e</em>.
+<code>Type2Lake_Sed</code>, <em>etc</em>.), show the <em>difference</em>
+between the <strong>intercepts</strong> for <code>Lake_Sed</code>,
+<code>Saltmarsh W</code>, <code>Saltmarsh E</code>, and
+<code>Other</code> groups compared with the base case.</li>
+<li>Similarly, the final rows, beginning with the predictor variable
+name (<code>Al:Type2Lake_Sed</code>, <code>Al:Type2Saltmarsh W</code>,
+<code>Al:Type2Saltmarsh E</code>, and <code>Al:Type2Other</code>), show
+the <em>difference</em> between the <strong>slopes</strong> for
+<code>Lake_Sed</code>, <code>Saltmarsh W</code>,
+<code>Saltmarsh E</code>, and <code>Other</code> groups compared with
+the base case (shown as <code>Al</code> but actually the slope for the
+<code>Drain_Sed</code> group).</li>
+</ul>
+</div>
+<div id="compare-the-two-models" class="section level2">
+<h2>Compare the two models</h2>
+<p>Sometimes models can have greater R<sup>2</sup> but only because
+we've made them more complex by grouping our observations or by adding
+more predictors. <strong>We want the simplest model possible</strong>.
+We compare the models using an analysis of variance with the
+<code>anova()</code> function (where the null hypothesis is equal
+predictive ability). The models compared need to be
+<strong>nested</strong>, that is, one is a subset of the other.</p>
+<p>Before we do this, we need to re-create the simple model from a <a
+href="regression.html">previous session</a>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>lmCrAlsimple <span class="ot">&lt;-</span> <span class="fu">lm</span>(Cr <span class="sc">~</span> Al, <span class="at">data=</span>afs1923)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">summary</span>(lmCrAlsimple)</span></code></pre></div>
+<pre><code>##
+## Call:
+## lm(formula = Cr ~ Al, data = afs1923)
+##
+## Residuals:
+##     Min      1Q  Median      3Q     Max
+## -40.751  -5.349  -0.251   5.774  52.250
+##
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) 7.672e+00  1.284e+00   5.976 5.89e-09 ***
+## Al          1.359e-03  3.829e-05  35.480  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+##
+## Residual standard error: 9.428 on 333 degrees of freedom
+## Multiple R-squared:  0.7908, Adjusted R-squared:  0.7902
+## F-statistic:  1259 on 1 and 333 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>So our more complex (grouped) linear model has greater R<sup>2</sup>
+(0.836) than the simple linear model (R<sup>2</sup> = 0.791). We now
+perform the <code>anova</code> test to see whether this improvement is
+significant:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">anova</span>(lmCrAlsimple, lmCrAl_byType)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+##
+## Model 1: Cr ~ Al
+## Model 2: Cr ~ Al * Type2
+##   Res.Df   RSS Df Sum of Sq      F    Pr(&gt;F)
+## 1    333 29599
+## 2    325 23174  8    6424.7 11.263 4.366e-14 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>The p-value (<code>Pr(&gt;F)</code>) is ≃ 4.4×10<sup>−14</sup>,
+<em>i.e</em>. below 0.05, so we reject H<sub>0</sub> that the models
+have equivalent predictive ability. In that case the model which
+explains more variance in the dependent variable <code>Cr</code> is
+best; that is, the <em>grouped linear model</em> with
+R<sup>2</sup> = 0.836 (<em>i.e</em>., explaining 83.6% of the variance
+in <code>Cr</code> based on the variance in <code>Al</code> divided into
+groups by the factor <code>Type2</code>).</p>
+<p>We can see a little more detail about the individual group-wise
+relationships or ‘effects’ by plotting an effects plot using functions
+from the <code>effects</code> package (Figure 2):</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">library</span>(effects)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">allEffects</span>(lmCrAl_byType))</span></code></pre></div>
+<div class="figure">
+<img src="reg-group_files/figure-html/plot-grouped-effects-1.png" alt="Figure 2: Effect plots showing the effects of interacting predictors `Al * Type2` on Cr, using data from sediments at Ashfield Flats 2019-2023." width="576" />
+<p class="caption">
+Figure 2: Effect plots showing the effects of interacting predictors
+<code>Al * Type2</code> on Cr, using data from sediments at Ashfield
+Flats 2019-2023.
+</p>
+</div>
+<p>So even though the plots in Figure 1 and Figure 2 suggest that each
+group has a similar <code>Cr ~ Al</code> relationship, the slopes and
+intercepts differ enough between groups to give an improved prediction
+over the simple model.</p>
+</div>
+<div id="regression-assumptions" class="section level2">
+<h2>Regression assumptions</h2>
+<p>The assumptions implicit in linear regression were presented in the
+<a href="regression.html#assumptions">session on simple linear
+regression models</a>. We run the same set of diagnostic tests on more
+complex regression models as well.</p>
+<div id="diagnostic-plots-for-grouped-linear-regression-cr-al-type2"
+class="section level3">
+<h3>Diagnostic plots for Grouped linear regression,
+<code>Cr ~ Al * Type2</code></h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.3</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">plot</span>(lmCrAl_byType, <span class="at">col=</span><span class="st">&quot;#003087&quot;</span>)</span></code></pre></div>
+<div class="figure">
+<img src="reg-group_files/figure-html/diag-plots-lm-grouped-1.png" alt="Diagnostic plots for a grouped linear model predicting Cr from Al with obervations grouped by sample type." width="480" />
+<p class="caption">
+Diagnostic plots for a grouped linear model predicting Cr from Al with
+obervations grouped by sample type.
+</p>
+</div>
+</div>
+</div>
+<div id="formal-statistical-tests-of-regression-assumptions"
+class="section level2">
+<h2>Formal statistical tests of regression assumptions</h2>
+<p>As with simple linear regression, we can test all of the assumptions
+with formal statistical tests (see the <a
+href="regression.html#diagtests">simple linear regression session</a>
+for explanations and null hypotheses).</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(lmCrAl_byType<span class="sc">$</span>residuals) <span class="co"># normality</span></span></code></pre></div>
+<pre><code>##
+##  Shapiro-Wilk normality test
+##
+## data:  lmCrAl_byType$residuals
+## W = 0.95798, p-value = 3.26e-08</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">require</span>(lmtest)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">bgtest</span>(lmCrAl_byType) <span class="co"># autocorrelation (independence)</span></span></code></pre></div>
+<pre><code>##
+##  Breusch-Godfrey test for serial correlation of order up to 1
+##
+## data:  lmCrAl_byType
+## LM test = 52.363, df = 1, p-value = 4.613e-13</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">bptest</span>(lmCrAl_byType) <span class="co"># homoscedasticity</span></span></code></pre></div>
+<pre><code>##
+##  studentized Breusch-Pagan test
+##
+## data:  lmCrAl_byType
+## BP = 36.366, df = 9, p-value = 3.413e-05</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">raintest</span>(lmCrAl_byType) <span class="co"># linearity</span></span></code></pre></div>
+<pre><code>##
+##  Rainbow test
+##
+## data:  lmCrAl_byType
+## Rain = 0.51147, df1 = 168, df2 = 157, p-value = 1</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">require</span>(car)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">outlierTest</span>(lmCrAl_byType) <span class="co"># influential observations (outliers)</span></span></code></pre></div>
+<pre><code>##      rstudent unadjusted p-value Bonferroni p
+## 177  6.003042         5.1884e-09   1.7381e-06
+## 227 -4.192086         3.5701e-05   1.1960e-02</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">cooks.distance</span>(lmCrAl_byType)) <span class="co"># influential observations</span></span></code></pre></div>
+<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+## 0.0000000 0.0001556 0.0007584 0.0036023 0.0022228 0.1662896</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>infl.lmCrAl <span class="ot">&lt;-</span> <span class="fu">influence.measures</span>(lmCrAl_byType)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>ninf <span class="ot">&lt;-</span> <span class="fu">nrow</span>(<span class="fu">summary</span>(infl.lmCrAl)) <span class="co"># number of possibly influential observations</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>modform <span class="ot">&lt;-</span> <span class="fu">deparse</span>(lmCrAl_byType<span class="sc">$</span>call)</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>rninf <span class="ot">&lt;-</span> <span class="fu">row.names</span>(<span class="fu">summary</span>(infl.lmCrAl)) <span class="co"># IDs of possibly influential observations</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="co"># if you run this code chunk yourself you will see the whole summary(infl.lmCrAl) output</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">&quot;For the model &#39;&quot;</span>, modform, <span class="st">&quot;&#39; there are &quot;</span>, ninf, </span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>           <span class="st">&quot; potentially influential observations.</span><span class="sc">\n\n</span><span class="st">&quot;</span>))</span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;The&quot;</span>, ninf, <span class="st">&quot;rows containing potentially influential obervations are:</span><span class="sc">\n</span><span class="st">&quot;</span>); <span class="fu">as.integer</span>(rninf)</span></code></pre></div>
+<pre><code>## For the model &#39;lm(formula = Cr ~ Al * Type2, data = afs1923)&#39; there are 36 potentially influential observations.
+##
+## The 36 rows containing potentially influential obervations are:
+##  [1]   2  56  92 134 137 138 139 168 177 190 196 218 219 220 227 236 245 250 251 252 273 290
+## [23] 291 296 297 298 316 317 318 319 320 321 322 323 324 325</code></pre>
+<p>To summarise:</p>
+<template id="a092dd14-e6f6-4697-96f6-ebb889752bf4"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  border-color: transparent;
+  caption-side: top;
+}
+.tabwid-caption-bottom table{
+  caption-side: bottom;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+</style><div class="tabwid"><style>.cl-51a36022{}.cl-5198f998{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-5198f9a2{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-519d13e8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-519d13f2{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-519d2a68{width:1.575in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-519d2a72{width:3.15in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-519d2a7c{width:2.756in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-519d2a86{width:1.575in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-519d2a87{width:3.15in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-519d2a90{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-519d2a9a{width:1.575in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-519d2a9b{width:3.15in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-519d2a9c{width:2.756in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-5193c07c{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-51a36022'><caption style="margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span class="cl-5193c07c">Table 1: Summary of regression diagnostic tests for a grouped linear model predicting Cr from Al (grouped by Type) in sediments from Ashfield Flats Reserve, based on data from samples collected from 2019-2023.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-519d2a68"><p class="cl-519d13e8"><span class="cl-5198f998">Test</span></p></td><td class="cl-519d2a72"><p class="cl-519d13e8"><span class="cl-5198f998">Assessing</span></p></td><td class="cl-519d2a7c"><p class="cl-519d13e8"><span class="cl-5198f998">Results</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-519d2a86"><p class="cl-519d13f2"><span class="cl-5198f9a2">Shapiro-Wilk</span></p></td><td class="cl-519d2a87"><p class="cl-519d13f2"><span class="cl-5198f9a2">Are residuals normally distributed?</span></p></td><td class="cl-519d2a90"><p class="cl-519d13f2"><span class="cl-5198f9a2">No (qq-plot suggests long tails)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-519d2a9a"><p class="cl-519d13f2"><span class="cl-5198f9a2">Breusch-Godfrey</span></p></td><td class="cl-519d2a9b"><p class="cl-519d13f2"><span class="cl-5198f9a2">Are residuals independent?</span></p></td><td class="cl-519d2a9c"><p class="cl-519d13f2"><span class="cl-5198f9a2">No, there is autocorrelation</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-519d2a86"><p class="cl-519d13f2"><span class="cl-5198f9a2">Breusch-Pagan</span></p></td><td class="cl-519d2a87"><p class="cl-519d13f2"><span class="cl-5198f9a2">Are residuals homoscedastic?</span></p></td><td class="cl-519d2a90"><p class="cl-519d13f2"><span class="cl-5198f9a2">No (p&lt;0.05)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-519d2a9a"><p class="cl-519d13f2"><span class="cl-5198f9a2">Rainbow</span></p></td><td class="cl-519d2a9b"><p class="cl-519d13f2"><span class="cl-5198f9a2">Is the relationship linear?</span></p></td><td class="cl-519d2a9c"><p class="cl-519d13f2"><span class="cl-5198f9a2">Yes (p&gt;0.05)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-519d2a86"><p class="cl-519d13f2"><span class="cl-5198f9a2">Outlier</span></p></td><td class="cl-519d2a87"><p class="cl-519d13f2"><span class="cl-5198f9a2">Are there significant outliers (Bonferroni)?</span></p></td><td class="cl-519d2a90"><p class="cl-519d13f2"><span class="cl-5198f9a2">2 points are possible outliers</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-519d2a9a"><p class="cl-519d13f2"><span class="cl-5198f9a2">Cook's Distance</span></p></td><td class="cl-519d2a9b"><p class="cl-519d13f2"><span class="cl-5198f9a2">Are there any potentially influential observations?</span></p></td><td class="cl-519d2a9c"><p class="cl-519d13f2"><span class="cl-5198f9a2">No (no values &gt; 0.5)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-519d2a86"><p class="cl-519d13f2"><span class="cl-5198f9a2">Infuence Measures</span></p></td><td class="cl-519d2a87"><p class="cl-519d13f2"><span class="cl-5198f9a2">Are there any potentially influential observations?</span></p></td><td class="cl-519d2a90"><p class="cl-519d13f2"><span class="cl-5198f9a2">Yes (36 out of 335 observations)</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="edafd4c6-1ce8-4794-93d7-201ac3ae301c"></div>
+<script>
+var dest = document.getElementById("edafd4c6-1ce8-4794-93d7-201ac3ae301c");
+var template = document.getElementById("a092dd14-e6f6-4697-96f6-ebb889752bf4");
+var caption = template.content.querySelector("caption");
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+<p>
+ 
+</p>
+<p>The summary of the diagnostic tests in Table 1 shows that not all the
+formal assumptions of regression are fulfilled by our model. Even though
+the model may not be strictly statistically valid, the regression output
+showed that ≃ 84% of the variance in Cr could be explained by Al when
+observations were grouped by sample type. So, from a practical
+perspective, this grouped regression model could also be used for
+prediction, and the greater R<sup>2</sup> makes it a better prediction
+option than the simple model discussed in <a
+href="regression.html">another session</a>.</p>
+The next option would be a model which has more than one predictor
+variable for our dependent variable – <a href="reg-multi.html">multiple
+regression</a>.
+</div>
+<p>
+ 
+</p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<p>Fox, J. and Weisberg, S. (2019). <em>An {R} Companion to Applied
+Regression, Third Edition</em>. Thousand Oaks CA: Sage. <a
+href="https://socialsciences.mcmaster.ca/jfox/Books/Companion/"
+target="_blank">https://socialsciences.mcmaster.ca/jfox/Books/Companion/</a>
+(<strong>R</strong> package <code>car</code>)</p>
+<p>Garnier S, Ross N, Rudis R, Camargo AP, Sciaini M, Scherer C (2021).
+<em>Rvision – Colorblind-Friendly Color Maps for R</em>. R package
+version 0.6.2. (<strong>R</strong> package <code>viridis</code>)</p>
+<p>Reimann, C., Filzmoser, P., Garrett, R.G., Dutter, R., (2008).
+<em>Statistical Data Analysis Explained: Applied Environmental
+Statistics with R</em>. John Wiley &amp; Sons, Chichester, England (see
+Chapter 16).</p>
+<p>Zeileis, A. and Hothorn, T. (2002). Diagnostic Checking in Regression
+Relationships. <em>R News</em> <strong>2</strong>(3), 7-10. <a
+href="https://CRAN.R-project.org/doc/Rnews/"
+target="_blank">https://CRAN.R-project.org/doc/Rnews/</a>
+(<strong>R</strong> package <code>lmtest</code>)</p>
+<p>
+ 
+</p>
+</div>
 
 <!DOCTYPE html>
 
