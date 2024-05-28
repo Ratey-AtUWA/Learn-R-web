@@ -16,8 +16,97 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-<div style="border: 2px solid #039; background-color:#eee; padding: 8px;">
-<p style="font-size:24pt; color:gray;">Grouped linear regression placeholder</p>
+```{r load-packages-etc, include=FALSE}
+library(car)
+library(flextable)
+library(viridis)
+library(png)
+library(car)
+library(psych)
+library(lmtest)
+library(effects)
+
+set_flextable_defaults(theme_fun = "theme_zebra", 
+                       font.size = 9, fonts_ignore = TRUE)
+BorderDk <- officer::fp_border(color = "#B5C3DF", style = "solid", width = 1)
+BorderLt <- officer::fp_border(color = "#FFFFFF", style = "solid", width = 1)
+
+addImg <- function(obj, x = NULL, y = NULL, width = NULL, interpolate = TRUE){
+  if(is.null(x) | is.null(y) | is.null(width)){stop("Must provide args 'x', 'y', and 'width'")}
+  USR <- par()$usr ; PIN <- par()$pin ; DIM <- dim(obj) ; ARp <- DIM[1]/DIM[2]
+  WIDi <- width/(USR[2]-USR[1])*PIN[1] ;   HEIi <- WIDi * ARp 
+  HEIu <- HEIi/PIN[2]*(USR[4]-USR[3]) 
+  rasterImage(image = obj, xleft = x-(width/2), xright = x+(width/2),
+            ybottom = y-(HEIu/2), ytop = y+(HEIu/2), interpolate = interpolate)
+}
+```
+
+## Introduction
+
+In a [previous session on simple regression](regression.html), we finished by 
+suggesting that one way we could make regression prediction more accurate was by 
+
+> allowing regression relationships to differ for different groups in our data 
+> (defined by a factor variable) &ndash; *regression by groups*
+
+This session will continue or efforts to predict Cr from Al, but we know the
+data were derived from analysis of samples from diverse types of environment.
+For that reason, it seems reasonable to evaluate a regression model which allows
+the regression coefficients (intercept and slope) to differ for different sample
+types.
+
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+Using the R code file provided and the `afs1923` dataset:
+
+- Run a grouped regression model,
+- Assess whether or not the grouped regression model meets the statistical assumptions,
+- Evaluate whether a grouped regression model is a statistically significant improvement on the comparable ungrouped model, and
+- Make sure you understand the concepts for all the statistical methods you use, and can interpret all the output!
+
+<span style="font-size: 12pt;"><iframe width="360" height="240" src="https://echo360.net.au/media/f444fd3e-9d67-468b-aeb2-c2b27ca26c5e/public?autoplay=false&amp;automute=false" title="E3361+Correl+Regr.mp4" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen"></iframe></span>
+
+<p><a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/afs1923.csv"><span style="font-size: 12pt;">💾&nbsp;The afs1923 dataset in csv (comma-separated) format</span></a></p>
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3088955-dt-content-rid-40243114_1/xid-40243114_1"><span style="font-size: 12pt;">🔣&nbsp;R code file for this and related workshop sessions</span></a></p>
 </div>
 
-<p>&nbsp;</p>
+As previously, our first step is to read the data, and change anything we need to:
+
+```{r read-data, message=FALSE, warning=FALSE}
+git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+afs1923 <- read.csv(paste0(git,"afs1923.csv"), stringsAsFactors = TRUE)
+# re-order the factor levels
+afs1923$Type <- factor(afs1923$Type, levels=c("Drain_Sed","Lake_Sed","Saltmarsh","Other"))
+afs1923$Type2 <- 
+  factor(afs1923$Type2, 
+         levels=c("Drain_Sed","Lake_Sed","Saltmarsh W","Saltmarsh E","Other"))
+```
+
+Next, we inspect a scatterplot of the variables which matches the kind of 
+regression model we intend to apply:
+
+```{r sp-Cr-Al-byType, warning=FALSE, message=FALSE, results='hold', fig.width=5, fig.height=4}
+library(car)
+par(mar=c(3,3,0.5,0.5), mgp=c(1.3,0.2,0), tcl=0.2, font.lab=2)
+scatterplot(Cr ~ Al | Type2, data=afs1923, smooth=FALSE,
+            col=inferno(nlevels(afs1923$Type2), end=0.75), pch=c(5,17,15,19,10), 
+            legend=list(coords="bottomright", title="Sample type"))
+```
+
+## Predicting chromium from aluminium using a regression model which varies by groups 
+
+Note the syntax used to separate by factor categories:
+
+```{r grouped 1predictor regmodel, results='hold'}
+lmCrAl_byType <- lm(Cr ~ Al * Type2, data=afs1923)
+summary(lmCrAl_byType)
+```
+
+This is similar output to simple linear regression in the previous example, but the `Coefficients:` table is much more complicated.
+
+The first two rows of the `Coefficients:` table under the headings give the intercept and slope for the 'base case', which by default is the first group in the factor separating the groups. In this example the first level of the factor `Type` is `Drain_Sed` (frustratingly, the output does not show this). <br>
+The next 4 rows, starting with the factor name (*i.e*. `Type2Lake_Sed`, *etc*.), show the *difference* between the **intercepts** for 'Soil' and 'Street dust' groups compared with the base case. <br>
+Similarly, the final rows, beginning with the predictor variable name (`Al.log:TypeSoil` and `Al.log:TypeStreet dust`), show the *difference* between the **slopes** for 'Soil' and 'Street dust' groups compared with the base case.
+
+## Compare the two models 
+
+Sometimes models can have greater R^2^ but only because we've made them more complex by grouping our observations or by adding more predictors. **We want the simplest model possible**. We compare the models using an analysis of variance with the `anova()` function (where the null hypothesis is equal predictive ability). The models compared need to be **nested**, that is, one is a subset of the other.
