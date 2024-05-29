@@ -13,7 +13,7 @@ output:
 </style>
 
 <div style="border: 2px solid #039; padding: 8px;">
-# Contents
+# ![](./images/indexPic.jpg){align="right" width="300" height="300"}Contents
 
 1. [Contents](index.html)
 
@@ -23,11 +23,15 @@ output:
 
 4. [Plots](plots.html)
 
-5. [Maps](maps.html)
+5. [Comparisons](means.html)
 
-6. [EDA](tables.html)
+6. [Relationships](correl.html)
 
-7. [UWA School of Agriculture and Environment](https://www.uwa.edu.au/schools/agriculture-and-environment){target="_blank"}
+7. [Maps](maps.html)
+
+8. [EDA](tables.html)
+
+9. [UWA School of Agriculture and Environment](https://www.uwa.edu.au/schools/agriculture-and-environment){target="_blank"}
 
 </div>
 
