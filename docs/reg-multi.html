@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-05-24" />
+<meta name="date" content="2024-05-29" />
 
 <title>Statistical Relationships</title>
 
@@ -44,6 +44,111 @@
 
 
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -347,7 +452,7 @@ $(document).ready(function () {
 
 <html>
 <body>
-<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science<br />at The University of Western Australia</span></h3>
 <h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
 </body>
 </html>
@@ -359,7 +464,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistical Relationships</h1>
 <h3 class="subtitle">Multiple linear regression</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-05-24</h4>
+<h4 class="date">2024-05-29</h4>
 
 </div>
 
@@ -369,15 +474,571 @@ $(document).ready(function () {
   font-size: 12pt;
 }
 </style>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Another way we can improve the ability of a linear regression model,
+as compared with a <a href="regression.html">simple regression
+model</a>, is to allow prediction of our dependent variable with more
+than one independent variable $ndash; the idea of multiple predictors,
+or <em>multiple regression</em>. (We have already examined the use of <a
+href="reg-group.html">grouped linear regression</a> to improve
+prediction relative to <a href="regression.html">simple linear
+regression</a>.)</p>
+</div>
+<div id="developing-a-multiple-linear-regression-model"
+class="section level2">
+<h2>Developing a multiple linear regression model</h2>
 <div
-style="border: 2px solid #039; background-color:#eee; padding: 8px;">
-<p style="font-size:24pt; color:gray;">
-Multiple linear regression placeholder
-</p>
+style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+<p><strong>NOTE: This section on multiple regression is
+optional</strong> – it is more advanced material which we will not cover
+in class, but which may be useful for analysing data from the class
+project.</p>
 </div>
 <p>
  
 </p>
+<p>Sometimes the unexplained variation in our dependent variable
+(<em>i.e</em>. the residuals) may be able to be explained in part by one
+or more additional predictors in our data. If we suspect this to be
+true, we can add predictors in a <em>multiple</em> linear regression
+model.</p>
+<p><strong>Multiple regression models</strong> predict the value of one
+variable (the <em>dependent variable</em>) from two or more
+<em>predictor variables</em> (or just 'predictors'). They can be very
+useful in environmental science, but there are several steps we need to
+take to make sure<br />
+that we have a valid model.</p>
+<p>In this example we're going to develop a regression model to
+<strong>predict gadolinium (Gd) concentrations</strong> in sediment from
+several predictors. It makes sense to choose predictors that represent
+bulk sediment properties that could <em>plausibly</em> control trace
+element concentrations. So, we choose variables like <strong>pH, EC,
+organic carbon, cation exchange capacity, and some major
+elements</strong> as predictors (<span
+style="color: #B04030;"><strong>but NOT other trace
+elements</strong></span>; different trace elements may be highly
+correlated (due to common sources &amp; sinks), but their concentrations
+are most likely too low to control the concentration of anything
+else!)</p>
+<p>Since we don't have organic carbon or cation exchange capacity in
+this dataset, and there are many missing values for EC, our initial
+predictors will be <strong>Al, Ca, Fe, K, Mg, Na, pH, and S</strong>.
+Both the predictors and dependent variable need to be
+<strong>appropriately transformed</strong> before we start! (Remember
+that linear regression assumptions are based on the residuals, but we
+are less likely to fulfil these assumptions if our variables are very
+skewed. A good option is often to log<sub>10</sub>-transform variables
+if necessary.)</p>
+<p>Also, some of our initial predictors may be highly correlated
+(co-linear) with each other. In multiple regression, we don't want to
+include co-linear predictors, since then we'll have two (or more)
+predictors which effectively contain the same information – see
+below.</p>
+<p>For practical purposes, we prefer [linear] regression models which
+are:</p>
+<ol style="list-style-type: decimal">
+<li>good at prediction (<em>i.e</em>. having the greatest possible
+R<sup>2</sup> value);</li>
+<li>as simple as possible (<em>i.e</em>. not having predictors which a
+co-linear, and only accepting a more complex model if it significantly
+improves prediction, <em>e.g</em>., by <code>anova()</code>);</li>
+<li>meet the assumptions of linear regression (although we have argued
+previously that even if some assumptions are not met, a regression model
+can still be used for prediction).</li>
+</ol>
+</div>
+<div id="read-input-data" class="section level2">
+<h2>Read input data</h2>
+<p>As previously, our first step is to read the data, and change
+anything we need to:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R/raw/main/&quot;</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>afs1923 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;afs1923.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># re-order the factor levels</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>afs1923<span class="sc">$</span>Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(afs1923<span class="sc">$</span>Type, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Drain_Sed&quot;</span>,<span class="st">&quot;Lake_Sed&quot;</span>,<span class="st">&quot;Saltmarsh&quot;</span>,<span class="st">&quot;Other&quot;</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>afs1923<span class="sc">$</span>Type2 <span class="ot">&lt;-</span> </span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="fu">factor</span>(afs1923<span class="sc">$</span>Type2, </span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>         <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Drain_Sed&quot;</span>,<span class="st">&quot;Lake_Sed&quot;</span>,<span class="st">&quot;Saltmarsh W&quot;</span>,<span class="st">&quot;Saltmarsh E&quot;</span>,<span class="st">&quot;Other&quot;</span>))</span></code></pre></div>
+</div>
+<div id="assess-collinearity-between-initial-set-of-predictors"
+class="section level2">
+<h2>Assess collinearity between initial set of predictors</h2>
+<p>First we inspect the correlation matrix. It's useful to include the
+dependent variable as well, just to see which predictors are most
+closely correlated.</p>
+<p>(We try to generate a 'tidier' table by restricting numbers to 3
+significant digits, and making the values = 1 on the diagonal
+<code>NA</code>. We don't need to use <code>corTest()</code> from the
+<code>psych</code> package, since we're not so interested in P-values
+for this purpose.)</p>
+<p id="cormat">
+<p>Note that all variables are <strong>appropriately
+transformed</strong>!<br> <em>You will need to do this
+yourself...</em></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>cor0 <span class="ot">&lt;-</span> </span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">cor</span>(afs1923[,<span class="fu">c</span>(<span class="st">&quot;Al&quot;</span>,<span class="st">&quot;Ca.log&quot;</span>,<span class="st">&quot;Fe&quot;</span>,<span class="st">&quot;K&quot;</span>,<span class="st">&quot;Mg.pow&quot;</span>,<span class="st">&quot;Na.pow&quot;</span>,<span class="st">&quot;pH&quot;</span>,<span class="st">&quot;S.log&quot;</span>,<span class="st">&quot;Gd.pow&quot;</span>)],</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>   <span class="at">use=</span><span class="st">&quot;pairwise.complete&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>cor0[<span class="fu">which</span>(cor0<span class="sc">==</span><span class="dv">1</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span>         <span class="co"># change diagonal to NA</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(cor0,<span class="dv">3</span>), <span class="at">na.print=</span><span class="st">&quot;&quot;</span>)  <span class="co"># round to 3 decimal places and print nothing for NAs</span></span></code></pre></div>
+<pre><code>##            Al Ca.log    Fe      K Mg.pow Na.pow     pH  S.log Gd.pow
+## Al             0.075 0.217  0.747  0.498  0.350 -0.126 -0.005  0.787
+## Ca.log  0.075        0.235  0.173  0.447  0.315  0.288  0.382 -0.013
+## Fe      0.217  0.235        0.321  0.486  0.458  0.062  0.368  0.286
+## K       0.747  0.173 0.321         0.794  0.738 -0.122  0.281  0.657
+## Mg.pow  0.498  0.447 0.486  0.794         0.939  0.020  0.527  0.427
+## Na.pow  0.350  0.315 0.458  0.738  0.939        -0.095  0.566  0.339
+## pH     -0.126  0.288 0.062 -0.122  0.020 -0.095         0.068 -0.221
+## S.log  -0.005  0.382 0.368  0.281  0.527  0.566  0.068        -0.014
+## Gd.pow  0.787 -0.013 0.286  0.657  0.427  0.339 -0.221 -0.014</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">rm</span>(cor0)                           <span class="co"># tidy up</span></span></code></pre></div>
+<div
+style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+<p>The rule of thumb we use is that:</p>
+<blockquote>
+<p>If predictor variables are correlated with Pearson's r ≥ 0.8 or r ≤
+-0.8, then the collinearity is too large and one of the correlated
+predictors should be omitted</p>
+</blockquote>
+</div>
+<p>
+ 
+</p>
+<p>In the correlation table above this doesn't apply to the correlation
+between [transformed] Na and Mg, with <strong>r=0.94</strong>. In this
+example we will run two versions of the model, one keeping both Na and
+Mg, and one omitting Mg.</p>
+<div
+style="border: 2px solid #039; background-color:#fec; padding: 8px;">
+<p>We have just added a fifth assumption for linear regression models
+specifically for multiple regression:</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Independent variables (predictors) should not show significant
+covariance</li>
+</ol>
+</div>
+<p>
+ 
+</p>
+<p>In either case, whether we run the model with or without omitting
+predictors, it's a good idea to calculate <em>Variance Inflation
+Factors</em> on the predictor variables in the model (see below) which
+can tell us if collinearity is a problem.</p>
+</div>
+<div
+id="generate-multiple-regression-model-for-gd-co-linear-predictors-not-omitted"
+class="section level2">
+<h2>Generate multiple regression model for Gd (co-linear predictors NOT
+omitted)</h2>
+<p>We first delete any observations (rows) with missing
+(<code>NA</code>) values, otherwise when we change the number of
+predictors later, we may not have the same number of observations for
+all models, in which case we can't compare them.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># make new data object containing relevant variables with no missing values</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>afs1923_multreg <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(afs1923[<span class="fu">c</span>(<span class="st">&quot;Gd.pow&quot;</span>,<span class="st">&quot;Al&quot;</span>,<span class="st">&quot;Ca.log&quot;</span>,<span class="st">&quot;Fe&quot;</span>,<span class="st">&quot;K&quot;</span>,<span class="st">&quot;Mg.pow&quot;</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                                     <span class="st">&quot;Na.pow&quot;</span>,<span class="st">&quot;pH&quot;</span>,<span class="st">&quot;S.log&quot;</span>)])</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">row.names</span>(afs1923_multreg) <span class="ot">&lt;-</span> <span class="cn">NULL</span>  <span class="co"># reset row indices</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co"># run model using correctly transformed variables</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>lm_multi <span class="ot">&lt;-</span> <span class="fu">lm</span>(Gd.pow <span class="sc">~</span> pH <span class="sc">+</span> Al <span class="sc">+</span> Ca.log <span class="sc">+</span> Fe <span class="sc">+</span> K <span class="sc">+</span> Mg.pow <span class="sc">+</span> </span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>               Na.pow <span class="sc">+</span> S.log, <span class="at">data=</span>afs1923_multreg)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">summary</span>(lm_multi)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Gd.pow ~ pH + Al + Ca.log + Fe + K + Mg.pow + Na.pow + 
+##     S.log, data = afs1923_multreg)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.29003 -0.27205 -0.03327  0.25159  1.35793 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  9.574e-01  3.441e-01   2.783  0.00576 ** 
+## pH          -1.904e-02  3.248e-02  -0.586  0.55809    
+## Al           4.044e-05  3.494e-06  11.574  &lt; 2e-16 ***
+## Ca.log       6.936e-02  9.514e-02   0.729  0.46662    
+## Fe           7.415e-06  1.405e-06   5.277 2.63e-07 ***
+## K            1.031e-04  4.078e-05   2.529  0.01200 *  
+## Mg.pow      -1.529e-02  5.364e-03  -2.850  0.00469 ** 
+## Na.pow       3.311e-02  1.195e-02   2.772  0.00595 ** 
+## S.log       -7.455e-02  6.588e-02  -1.132  0.25875    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.3996 on 281 degrees of freedom
+## Multiple R-squared:  0.6976, Adjusted R-squared:  0.6889 
+## F-statistic: 81.01 on 8 and 281 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Note that the null hypothesis probability <code>Pr(&gt;|t|)</code>
+for some predictors (<code>pH</code>, <code>Ca.log</code> and
+<code>S.log</code>) is ≥ 0.05, so we can't reject the null hypothesis –
+that this predictor has no effect on the dependent variable.</p>
+</div>
+<div
+id="calculate-variance-inflation-factors-vif-for-the-predictors-in-the-maximal-model"
+class="section level2">
+<h2>Calculate variance inflation factors (VIF) for the predictors in the
+'maximal' model</h2>
+<p>To calculate variance inflation factors we use the function
+<code>vif()</code> from the <code>car</code> package. The input for
+<code>vif()</code> is a <code>lm</code> object (in this case
+<code>lm_multi</code>).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">require</span>(car)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;Variance Inflation Factors</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">vif</span>(lm_multi)}</span></code></pre></div>
+<pre><code>## Variance Inflation Factors
+##        pH        Al    Ca.log        Fe         K    Mg.pow    Na.pow     S.log 
+##  1.352595  3.484229  1.709828  1.250150  5.115344 17.110451 13.467308  1.613731</code></pre>
+<p>The VIF could be considered the "penalty" from having 2 or more
+predictors which (since they contain the same information) don't
+decrease the unexplained variance of the model, but add unnecessary
+complexity. A general rule of thumb is that if <strong>VIF &gt;
+4</strong> we need to do some further investigation, while serious
+multi-collinearity exists <strong>requiring correction if VIF &gt;
+10</strong> (Hebbali, 2018). As we probably expected from the
+correlation coefficient (above), VIFs for both Na and Mg are &gt;10 in
+this model, which is too high, so we need to try a model which omits Na
+or Mg (we'll choose Mg), since <code>vif</code> ≥ 10 suggests we remove
+one . . .</p>
+</div>
+<div
+id="generate-multiple-regression-model-for-gd-omitting-co-linear-predictors"
+class="section level2">
+<h2>Generate multiple regression model for Gd, omitting co-linear
+predictors</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># make new data object containing relevant variables with no missing values</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co"># run model using correctly transformed variables (omitting co-linear predictors)</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>lm_multi2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Gd.pow <span class="sc">~</span> pH <span class="sc">+</span> Al <span class="sc">+</span> Ca.log <span class="sc">+</span> Fe <span class="sc">+</span> K <span class="sc">+</span> </span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>               Na.pow <span class="sc">+</span> S.log, <span class="at">data=</span>afs1923_multreg)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">summary</span>(lm_multi2)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Gd.pow ~ pH + Al + Ca.log + Fe + K + Na.pow + S.log, 
+##     data = afs1923_multreg)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.19739 -0.25259 -0.01869  0.23688  1.42385 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  1.411e+00  3.089e-01   4.569 7.34e-06 ***
+## pH          -4.798e-02  3.124e-02  -1.536   0.1257    
+## Al           3.603e-05  3.171e-06  11.359  &lt; 2e-16 ***
+## Ca.log      -5.353e-02  8.588e-02  -0.623   0.5336    
+## Fe           6.754e-06  1.403e-06   4.813 2.43e-06 ***
+## K            8.635e-05  4.086e-05   2.113   0.0354 *  
+## Na.pow       3.623e-03  6.050e-03   0.599   0.5497    
+## S.log       -6.518e-02  6.662e-02  -0.978   0.3288    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.4046 on 282 degrees of freedom
+## Multiple R-squared:  0.6888, Adjusted R-squared:  0.6811 
+## F-statistic: 89.17 on 7 and 282 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Note that again the null hypothesis probability
+<code>Pr(&gt;|t|)</code> for some predictors (<code>pH</code>,
+<code>Ca.log</code> and <code>S.log</code>) is ≥ 0.05, so we can't
+reject the null hypothesis – that these predictors have no effect on the
+dependent variable.</p>
+</div>
+<div
+id="calculate-variance-inflation-factors-vif-for-the-model-omitting-co-linear-predictors"
+class="section level2">
+<h2>Calculate variance inflation factors (VIF) for the model omitting
+co-linear predictors</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">require</span>(car)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;Variance Inflation Factors</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">vif</span>(lm_multi2)}</span></code></pre></div>
+<pre><code>## Variance Inflation Factors
+##       pH       Al   Ca.log       Fe        K   Na.pow    S.log 
+## 1.220446 2.799425 1.358736 1.216093 5.008973 3.368022 1.609711</code></pre>
+<p><strong>With the co-linear variable(s) omitted (on the basis of
+|Pearson's r| &gt; 0.8 and <code>vif</code> &gt; 10), we now have no
+VIFs &gt; 10</strong>. We do have one <code>vif</code> &gt; 4 for
+<code>K</code>, but we'll retain this predictor as it may represent
+illite-type clay minerals which can be reactive to trace elements like
+Gd in sediment. We now move on to stepwise refinement of our [new]
+'maximal' model...<br></p>
+</div>
+<div
+id="stepwise-refinement-of-maximal-multiple-regression-model-omitting-co-linear-predictors"
+class="section level2">
+<h2>Stepwise refinement of maximal multiple regression model (omitting
+co-linear predictors)</h2>
+<p>We don't want to have too many predictors in our model – just the
+predictors which explain significant proportions of the variance in our
+dependent variable. The simplest possible model is best! In addition,
+our data may be insufficient to generate a very complex model; one
+rule-of-thumb suggests 10-20 observations are needed to calculate
+coefficients for each predictor. Reimann <em>et al</em>. (2008)
+recommend that the number of observations should be at least 5 times the
+number of predictors. So, we use a systematic stepwise procedure to test
+variations of the model, which omits unnecessary predictors.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>lm_stepwise <span class="ot">&lt;-</span> <span class="fu">step</span>(lm_multi2, <span class="at">direction=</span><span class="st">&quot;both&quot;</span>, <span class="at">trace=</span><span class="dv">0</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">summary</span>(lm_stepwise)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Gd.pow ~ pH + Al + Fe + K, data = afs1923_multreg)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.19924 -0.25712 -0.02805  0.23895  1.43567 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  1.133e+00  2.016e-01   5.619 4.57e-08 ***
+## pH          -5.898e-02  2.888e-02  -2.043 0.042007 *  
+## Al           3.626e-05  2.787e-06  13.010  &lt; 2e-16 ***
+## Fe           6.491e-06  1.318e-06   4.926 1.42e-06 ***
+## K            9.172e-05  2.742e-05   3.345 0.000932 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.4038 on 285 degrees of freedom
+## Multiple R-squared:  0.6868, Adjusted R-squared:  0.6824 
+## F-statistic: 156.2 on 4 and 285 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">require</span>(car)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;==== Variance Inflation Factors ====</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">vif</span>(lm_stepwise)}</span></code></pre></div>
+<pre><code>## ==== Variance Inflation Factors ====</code></pre>
+<pre><code>##       pH       Al       Fe        K 
+## 1.047243 2.171232 1.076866 2.264963</code></pre>
+<p>In the optimised model, we find that the stepwise procedure has
+generated a new model with fewer predictor variables. You should notice
+that the p-values (<code>Pr(&gt;|t|)</code>) for intercept and
+predictors are all now ≤ 0.05, so we can reject the null hypothesis for
+all predictors (<em>i.e</em>. none of them have 'no effect' on Gd). Our
+VIFs are now all close to 1, meaning negligible collinearity between
+predictors.</p>
+<p>It's always a good idea to run diagnostic plots (see Figure 1 below)
+on a regression model (simple or multiple), to check for (i) any
+systematic trends in residuals, (ii) normally distributed residuals (or
+not), and (iii) any unusually influential observations.</p>
+</div>
+<div id="regression-diagnostic-plots" class="section level2">
+<h2>Regression diagnostic plots</h2>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="fl">3.5</span>,<span class="fl">3.5</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.5</span>,<span class="dv">0</span>), <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">font.main=</span><span class="dv">3</span>, </span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>    <span class="at">cex.main=</span><span class="fl">0.8</span>, <span class="at">tcl=</span><span class="sc">-</span><span class="fl">0.2</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="fu">plot</span>(lm_stepwise, <span class="at">col=</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="figure">
+<img src="reg-multi_files/figure-html/diagnostic-plots-1.png" alt="Figure 1: Diagnostic plots for the optimal multiple regression model following backward-forward stepwise refinement." width="576" />
+<p class="caption">
+Figure 1: Diagnostic plots for the optimal multiple regression model
+following backward-forward stepwise refinement.
+</p>
+</div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p>The optimal model is
+<code>Gd.pow ~ Al.pow + Ca.pow + Fe.pow + S.pow</code>, where suffixes
+<code>.pow</code> and <code>.log</code> represent power- and
+log<sub>10</sub>-transformed variables respectively. The point labelled
+<code>78</code> does look problematic...</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">require</span>(lmtest)</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="fu">require</span>(car)</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;------- Residual autocorrelation (independence assumption):&quot;</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="fu">bgtest</span>(lm_stepwise) <span class="co"># Breusch-Godfrey test for autocorrelation (independence)</span></span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Test of homoscedasticity assumption:&quot;</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a><span class="fu">bptest</span>(lm_stepwise) <span class="co"># Breusch-Pagan test for homoscedasticity</span></span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Test of linearity assumption:&quot;</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="fu">raintest</span>(lm_stepwise) <span class="co"># Rainbow test for linearity</span></span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Bonferroni Outlier test for influential observations:</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a><span class="fu">outlierTest</span>(lm_stepwise) <span class="co"># Bonferroni outlier test for influential observations</span></span>
+<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Test distribution of residuals:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a><span class="fu">shapiro.test</span>(lm_stepwise<span class="sc">$</span>residuals) <span class="co"># Shapiro-Wilk test for normality</span></span>
+<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Cook&#39;s Distance for any observations which are possibly too influential:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">cooks.distance</span>(lm_stepwise)) <span class="co"># Cook&#39;s Distance</span></span>
+<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Influence Measures for any observations which are possibly too influential:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb20-16"><a href="#cb20-16" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">influence.measures</span>(lm_stepwise))</span></code></pre></div>
+<pre><code>## ------- Residual autocorrelation (independence assumption):
+##  Breusch-Godfrey test for serial correlation of order up to 1
+## 
+## data:  lm_stepwise
+## LM test = 62.536, df = 1, p-value = 2.616e-15
+## 
+## 
+## ------- Test of homoscedasticity assumption:
+##  studentized Breusch-Pagan test
+## 
+## data:  lm_stepwise
+## BP = 15.786, df = 4, p-value = 0.003321
+## 
+## 
+## ------- Test of linearity assumption:
+##  Rainbow test
+## 
+## data:  lm_stepwise
+## Rain = 1.0326, df1 = 145, df2 = 140, p-value = 0.4245
+## 
+## 
+## ------- Bonferroni Outlier test for influential observations:
+## 
+## No Studentized residuals with Bonferroni p &lt; 0.05
+## Largest |rstudent|:
+##     rstudent unadjusted p-value Bonferroni p
+## 172 3.650077         0.00031196     0.090468
+## 
+## ------- Test distribution of residuals:
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  lm_stepwise$residuals
+## W = 0.98593, p-value = 0.006173
+## 
+## 
+## ------- Cook&#39;s Distance for any observations which are possibly too influential:
+##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## 2.800e-07 2.798e-04 1.115e-03 3.166e-03 2.955e-03 6.105e-02 
+## 
+## ------- Influence Measures for any observations which are possibly too influential:
+## Potentially influential observations of
+##   lm(formula = Gd.pow ~ pH + Al + Fe + K, data = afs1923_multreg) :
+## 
+##     dfb.1_ dfb.pH dfb.Al dfb.Fe dfb.K dffit   cov.r   cook.d hat    
+## 5   -0.05   0.06   0.01  -0.04   0.00 -0.07    1.05_*  0.00   0.04  
+## 15  -0.17   0.14   0.05   0.05   0.02 -0.18    1.08_*  0.01   0.06_*
+## 49   0.00   0.00   0.01   0.03  -0.02  0.04    1.05_*  0.00   0.04  
+## 95  -0.07   0.06   0.16  -0.10   0.02  0.30    0.89_*  0.02   0.01  
+## 129  0.17  -0.15  -0.38   0.01   0.29 -0.43_*  0.95_*  0.04   0.03  
+## 146 -0.05   0.01  -0.06   0.28  -0.01  0.30    1.08_*  0.02   0.07_*
+## 147 -0.05   0.03  -0.06   0.20   0.01  0.22    1.08_*  0.01   0.07_*
+## 148 -0.02   0.01  -0.03   0.08   0.01  0.09    1.06_*  0.00   0.05  
+## 150 -0.08   0.05  -0.05   0.25  -0.02  0.28    1.11_*  0.02   0.10_*
+## 154  0.03  -0.05  -0.07   0.19   0.01  0.21    1.08_*  0.01   0.07_*
+## 161  0.10  -0.10  -0.01  -0.05   0.04  0.20    0.91_*  0.01   0.01  
+## 172  0.12  -0.10  -0.19  -0.09   0.27  0.37    0.82_*  0.03   0.01  
+## 173  0.05  -0.08   0.05   0.13  -0.08  0.22    0.92_*  0.01   0.01  
+## 176  0.07  -0.04   0.01  -0.06  -0.03  0.17    0.92_*  0.01   0.00  
+## 187  0.22  -0.23  -0.06  -0.05   0.13  0.35    0.85_*  0.02   0.01  
+## 197  0.08  -0.02  -0.18  -0.11   0.16  0.24    0.95_*  0.01   0.01  
+## 212  0.03   0.03  -0.24  -0.27   0.32 -0.39    1.06_*  0.03   0.07_*
+## 215  0.01  -0.01  -0.01   0.00   0.00  0.01    1.09_*  0.00   0.07_*
+## 217 -0.19   0.20   0.12  -0.01  -0.17 -0.33    0.89_*  0.02   0.01  
+## 219  0.10  -0.07   0.16  -0.26  -0.16 -0.40    0.88_*  0.03   0.02  
+## 220  0.07  -0.09   0.15   0.14  -0.31 -0.37    0.92_*  0.03   0.02  
+## 221  0.06  -0.08   0.14  -0.01  -0.17 -0.25    0.92_*  0.01   0.01  
+## 233  0.06  -0.07   0.07   0.04  -0.12 -0.14    1.08_*  0.00   0.06_*
+## 257  0.01  -0.01   0.05  -0.04  -0.03 -0.07    1.12_*  0.00   0.09_*
+## 258  0.13  -0.14   0.42  -0.21  -0.39 -0.55_*  1.12_*  0.06   0.12_*
+## 259  0.05  -0.07   0.13  -0.01  -0.12 -0.17    1.07_*  0.01   0.06_*</code></pre>
+</div>
+<div id="multiple-regression-effect-plots" class="section level2">
+<h2>Multiple regression effect plots</h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">require</span>(effects)</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">allEffects</span>(lm_stepwise, <span class="at">confidence.level=</span><span class="fl">0.95</span>))</span></code></pre></div>
+<div class="figure">
+<img src="reg-multi_files/figure-html/effect-plots-1.png" alt="Figure 2: Effect plots for individual predictors in the optimal multiple regression model following backward-forward stepwise refinement. Light blue shaded areas on plots represent 95% confidence limits." width="576" />
+<p class="caption">
+Figure 2: Effect plots for individual predictors in the optimal multiple
+regression model following backward-forward stepwise refinement. Light
+blue shaded areas on plots represent 95% confidence limits.
+</p>
+</div>
+</div>
+<div id="scatterplot-of-observed-vs.-fitted-values"
+class="section level2">
+<h2>Scatterplot of observed <em>vs</em>. fitted values</h2>
+<p>An 'observed <em>vs</em>. fitted' plot (Figure 3) is a way around
+trying to plot a function with multiple predictors (<em>i.e</em>.
+multiple dimensions)! We can get the fitted values since these are
+stored in the <code>lm</code> object, in our case
+<code>lm_stepwise</code> in an item called
+<code>lm_stepwise$fitted.values</code>. We also make use of other
+information stored in the <code>lm</code> object, by calling
+<code>summary(lm_stepwise)$adj.r.squared</code>. Finally we use the
+<code>predict()</code> function with synthetic data in a dataframe
+<code>newPreds</code> to generate confidence and prediction intervals
+for out plot.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>newPreds <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Al=</span><span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">max</span>(afs1923_multreg<span class="sc">$</span>Al), <span class="at">l=</span><span class="dv">100</span>),</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>             <span class="at">Fe=</span><span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">max</span>(afs1923_multreg<span class="sc">$</span>Fe), <span class="at">l=</span><span class="dv">100</span>),</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>             <span class="at">K=</span><span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">max</span>(afs1923_multreg<span class="sc">$</span>K), <span class="at">l=</span><span class="dv">100</span>),</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>             <span class="at">pH=</span><span class="fu">seq</span>(<span class="fu">min</span>(afs1923_multreg<span class="sc">$</span>pH)<span class="sc">*</span><span class="fl">0.9</span>, <span class="fu">max</span>(afs1923_multreg<span class="sc">$</span>pH), <span class="at">l=</span><span class="dv">100</span>))</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>conf1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm_stepwise, newPreds, <span class="at">interval =</span> <span class="st">&quot;conf&quot;</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>conf1 <span class="ot">&lt;-</span> conf1[<span class="fu">order</span>(conf1[,<span class="dv">1</span>]),]</span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>pred1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm_stepwise, newPreds, <span class="at">interval=</span><span class="st">&quot;prediction&quot;</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>pred1 <span class="ot">&lt;-</span> pred1[<span class="fu">order</span>(pred1[,<span class="dv">1</span>]),]</span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="fl">0.5</span>,<span class="dv">0</span>), <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex.lab=</span><span class="dv">1</span>, </span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>    <span class="at">lend=</span><span class="st">&quot;square&quot;</span>, <span class="at">ljoin=</span><span class="st">&quot;mitre&quot;</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a><span class="fu">plot</span>(afs1923_multreg<span class="sc">$</span>Gd.pow <span class="sc">~</span> lm_stepwise<span class="sc">$</span>fitted.values,</span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Gd.pow predicted from regression model&quot;</span>,</span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Gd.pow measured values&quot;</span>, <span class="at">type=</span><span class="st">&quot;n&quot;</span>)</span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">side=</span><span class="dv">3</span>, <span class="at">line=</span><span class="sc">-</span><span class="fl">5.5</span>, <span class="at">adj=</span><span class="fl">0.05</span>, <span class="at">col=</span><span class="st">&quot;blue3&quot;</span>,</span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a>      <span class="at">text=</span><span class="fu">paste</span>(<span class="st">&quot;Adjusted Rsq =&quot;</span>,<span class="fu">signif</span>(<span class="fu">summary</span>(lm_stepwise)<span class="sc">$</span>adj.r.squared,<span class="dv">3</span>)))</span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a><span class="co"># lines(conf1[,1], conf1[,2], lty=2, col=&quot;red&quot;)</span></span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a><span class="co"># lines(conf1[,1], conf1[,3], lty=2, col=&quot;red&quot;)</span></span>
+<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(pred1[,<span class="dv">1</span>],<span class="fu">rev</span>(pred1[,<span class="dv">1</span>])), <span class="fu">c</span>(pred1[,<span class="dv">2</span>],<span class="fu">rev</span>(pred1[,<span class="dv">3</span>])), </span>
+<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a>        <span class="at">col=</span><span class="st">&quot;#2000e040&quot;</span>, <span class="at">border =</span> <span class="st">&quot;transparent&quot;</span>)</span>
+<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(conf1[,<span class="dv">1</span>],<span class="fu">rev</span>(conf1[,<span class="dv">1</span>])), <span class="fu">c</span>(conf1[,<span class="dv">2</span>],<span class="fu">rev</span>(conf1[,<span class="dv">3</span>])), </span>
+<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a>        <span class="at">col=</span><span class="st">&quot;#ff000040&quot;</span>, <span class="at">border =</span> <span class="st">&quot;transparent&quot;</span>)</span>
+<span id="cb23-22"><a href="#cb23-22" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="at">col=</span><span class="st">&quot;gold4&quot;</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb23-23"><a href="#cb23-23" tabindex="-1"></a><span class="fu">points</span>(afs1923_multreg<span class="sc">$</span>Gd.pow <span class="sc">~</span> lm_stepwise<span class="sc">$</span>fitted.values,</span>
+<span id="cb23-24"><a href="#cb23-24" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">0.8</span>, <span class="at">col=</span><span class="st">&quot;blue3&quot;</span>)</span>
+<span id="cb23-25"><a href="#cb23-25" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Observations&quot;</span>,<span class="st">&quot;1:1 line&quot;</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;blue3&quot;</span>,<span class="st">&quot;gold4&quot;</span>), </span>
+<span id="cb23-26"><a href="#cb23-26" tabindex="-1"></a>       <span class="at">text.col=</span><span class="fu">c</span>(<span class="st">&quot;blue3&quot;</span>,<span class="st">&quot;gold4&quot;</span>), <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="cn">NA</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">2</span>), <span class="at">pt.lwd=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>, </span>
+<span id="cb23-27"><a href="#cb23-27" tabindex="-1"></a>       <span class="at">box.col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">box.lwd=</span><span class="dv">2</span>, <span class="at">inset=</span><span class="fl">0.02</span>, <span class="at">seg.len=</span><span class="fl">2.7</span>, <span class="at">y.intersp=</span><span class="fl">1.2</span>)</span>
+<span id="cb23-28"><a href="#cb23-28" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">title=</span><span class="st">&quot;Intervals&quot;</span>, <span class="at">pch=</span><span class="dv">15</span>, <span class="at">pt.cex=</span><span class="dv">2</span>, </span>
+<span id="cb23-29"><a href="#cb23-29" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;95% confidence&quot;</span>, <span class="st">&quot;95% prediction&quot;</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#ff000040&quot;</span>, <span class="st">&quot;#2000e040&quot;</span>))</span></code></pre></div>
+<div class="figure">
+<img src="reg-multi_files/figure-html/obs-vs-fitted-1.png" alt="Figure 3: Measured (observed) vs. predicted values in the optimal multiple regression model, showing uncertainty intervals." width="480" />
+<p class="caption">
+Figure 3: Measured (observed) vs. predicted values in the optimal
+multiple regression model, showing uncertainty intervals.
+</p>
+</div>
+</div>
+<div id="some-brief-interpretation" class="section level2">
+<h2>Some brief interpretation</h2>
+<ul>
+<li><p>The adjusted R-squared value of the final model is 0.682, meaning
+that 68.2%, about two-thirds, of the variance in Gd is explained by
+variance in the model's predictors. (The remaining 31.8% of variance
+must therefore be due to random variations, or 'unknown' variables not
+included in our model.)</p></li>
+<li><p>From the model coefficients and the effect plots we can see that
+Gd increases as Al, Fe, and K increase, but Gd decreases as pH
+increases. This agrees with the relationships determined by correlation
+(<a href="reg-multi.html#cormat">see above</a>); Gd <strong>is</strong>
+positively correlated with Ca, Fe, and S, and negatively correlated with
+pH.<br /> (Note that this is not always the case - sometimes a predictor
+can be significant in a multiple regression model, but not individually
+correlated with the dependent variable!)</p></li>
+<li><p>Although we can't attribute a causal relationship to correlation
+or regression relationships, the observed effects in our model
+<strong>are</strong> consistent with real phenomena. For example,
+gadolinium and other rare earth elements are positively related to iron
+(Fe) in other estuarine sediments; see Morgan <em>et al</em>. (2012). We
+also know that rare-earth elements in estuarine sediments are often
+associated with clays (Marmolejo-Rodríguez <em>et al</em>., 2007; clays
+are measured by Al in our data, since clays are aluminosilicate
+minerals).</p></li>
+</ul>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<p>Cohen, J. 1988. <em>Statistical Power Analysis for the Behavioral
+Sciences</em>, Second Edition. Erlbaum Associates, Hillsdale, NJ,
+USA.</p>
+<p>Marmolejo-Rodríguez, A. J., Prego, R., Meyer-Willerer, A., Shumilin,
+E., &amp; Sapozhnikov, D. (2007). Rare earth elements in iron
+oxy-hydroxide rich sediments from the Marabasco River-Estuary System
+(pacific coast of Mexico). REE affinity with iron and aluminium.
+<em>Journal of Geochemical Exploration</em>, <strong>94</strong>(1-3),
+43-51. <a href="https://doi.org/10.1016/j.gexplo.2007.05.003"
+target="_blank">https://doi.org/10.1016/j.gexplo.2007.05.003</a></p>
+<p>Morgan, B., Rate, A. W., Burton, E. D., &amp; Smirk, M. (2012).
+Enrichment and fractionation of rare earth elements in FeS-rich
+eutrophic estuarine sediments receiving acid sulfate soil drainage.
+<em>Chemical Geology</em>, <strong>308-309</strong>, 60-73. <a
+href="https://doi.org/10.1016/j.chemgeo.2012.03.012"
+target="_blank">https://doi.org/10.1016/j.chemgeo.2012.03.012</a></p>
+<p>Hebbali, A. (2018). Collinearity Diagnostics, Model Fit and Variable
+Gdntribution. Vignette for R Package 'olsrr'. Retrieved 2018.04.05, from
+<a
+href="https://cran.r-project.org/web/packages/olsrr/vignettes/regression_diagnostics.html"
+target="_blank">https://cran.r-project.org/web/packages/olsrr/vignettes/regression_diagnostics.html</a>.</p>
+<p>Reimann, C., Filzmoser, P., Garrett, R.G., Dutter, R., (2008).
+<em>Statistical Data Analysis Explained: Applied Environmental
+Statistics with R</em>. John Wiley &amp; Sons, Chichester, England (see
+Chapter 16).</p>
+</div>
 
 <!DOCTYPE html>
 

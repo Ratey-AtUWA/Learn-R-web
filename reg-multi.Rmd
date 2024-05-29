@@ -16,8 +16,358 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-<div style="border: 2px solid #039; background-color:#eee; padding: 8px;">
-<p style="font-size:24pt; color:gray;">Multiple linear regression placeholder</p>
+```{r load-packages-etc, include=FALSE}
+library(car)
+library(flextable)
+library(officer)
+library(viridis)
+library(png)
+library(car)
+library(lmtest)
+library(effects)
+
+set_flextable_defaults(theme_fun = "theme_zebra", 
+                       font.size = 10, fonts_ignore = TRUE)
+BorderDk <- officer::fp_border(color = "#B5C3DF", style = "solid", width = 1)
+BorderLt <- officer::fp_border(color = "#FFFFFF", style = "solid", width = 1)
+
+addImg <- function(obj, x = NULL, y = NULL, width = NULL, interpolate = TRUE){
+  if(is.null(x) | is.null(y) | is.null(width)){stop("Must provide args 'x', 'y', and 'width'")}
+  USR <- par()$usr ; PIN <- par()$pin ; DIM <- dim(obj) ; ARp <- DIM[1]/DIM[2]
+  WIDi <- width/(USR[2]-USR[1])*PIN[1] ;   HEIi <- WIDi * ARp 
+  HEIu <- HEIi/PIN[2]*(USR[4]-USR[3]) 
+  rasterImage(image = obj, xleft = x-(width/2), xright = x+(width/2),
+            ybottom = y-(HEIu/2), ytop = y+(HEIu/2), interpolate = interpolate)
+}
+```
+
+## Introduction
+
+Another way we can improve the ability of a linear regression model, as compared 
+with a [simple regression model](regression.html), is to allow prediction of our 
+dependent variable with more than one independent variable $ndash; the idea of 
+multiple predictors, or *multiple regression*. (We have already examined the use 
+of [grouped linear regression](reg-group.html) to improve prediction relative to 
+[simple linear regression](regression.html).)
+
+## Developing a multiple linear regression model
+
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+**NOTE: This section on multiple regression is optional** &ndash; it is more advanced material which we will not cover in class, but which may be useful for analysing data from the class project.
 </div>
 
 <p>&nbsp;</p>
+
+Sometimes the unexplained variation in our dependent variable (*i.e*. the
+residuals) may be able to be explained in part by one or more additional
+predictors in our data. If we suspect this to be true, we can add predictors in
+a *multiple* linear regression model.
+
+**Multiple regression models** predict the value of one variable 
+(the *dependent variable*) from two or more *predictor variables* 
+(or just 'predictors'). They can be very useful in environmental 
+science, but there are several steps we need to take to make sure  
+that we have a valid model.
+
+In this example we're going to develop a regression model to 
+**predict gadolinium (Gd) concentrations** in sediment from several predictors. 
+It makes sense to choose predictors that represent bulk sediment properties 
+that could *plausibly* control trace element concentrations. So, 
+we choose variables like **pH, EC, organic carbon, cation exchange capacity, and some major elements** as predictors 
+(<span style="color: #B04030;">**but NOT other trace elements**</span>;
+different trace elements may be highly correlated (due to common sources &
+sinks), but their concentrations are most likely too low to control the
+concentration of anything else!)
+
+Since we don't have organic carbon or cation exchange capacity 
+in this dataset, and there are many missing values for EC, our initial 
+predictors will be **Al, Ca, Fe, K, Mg, Na, pH, and S**. 
+Both the predictors and dependent variable need to be 
+**appropriately transformed** before we start! (Remember that linear regression assumptions are based on the residuals, but we are less likely to fulfil these assumptions if our variables are very skewed. A good option is often to 
+log~10~-transform variables if necessary.)
+
+Also, some of our initial predictors may be highly correlated 
+(co-linear) with each other. In multiple regression, we don't want to 
+include co-linear predictors, since then we'll have two (or more) 
+predictors which effectively contain the same information &ndash; see below.
+
+For practical purposes, we prefer [linear] regression models which are:
+
+1. good at prediction (*i.e*. having the greatest possible R^2^ value);
+2. as simple as possible (*i.e*. not having predictors which a co-linear, and only accepting a more complex model if it significantly improves prediction, *e.g*., by `anova()`);
+3. meet the assumptions of linear regression (although we have argued previously that even if some assumptions are not met, a regression model can still be used for prediction).
+
+## Read input data
+As previously, our first step is to read the data, and change anything we need to:
+
+```{r read-data, message=FALSE, warning=FALSE}
+git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+afs1923 <- read.csv(paste0(git,"afs1923.csv"), stringsAsFactors = TRUE)
+# re-order the factor levels
+afs1923$Type <- factor(afs1923$Type, levels=c("Drain_Sed","Lake_Sed","Saltmarsh","Other"))
+afs1923$Type2 <- 
+  factor(afs1923$Type2, 
+         levels=c("Drain_Sed","Lake_Sed","Saltmarsh W","Saltmarsh E","Other"))
+```
+
+## Assess collinearity between initial set of predictors
+
+First we inspect the correlation matrix. It's useful to include the 
+dependent variable as well, just to see which predictors are 
+most closely correlated.
+
+(We try to generate a 'tidier' table by restricting numbers to 3 significant 
+digits, and making the values = 1 on the diagonal `NA`. We don't need to use
+`corTest()` from the  `psych` package, since we're not so interested in P-values
+for this purpose.)
+
+<p id="cormat">Note that all variables are **appropriately transformed**!<br>
+*You will need to do this yourself...*
+
+```{r invisibly transform variables, echo=FALSE, results='hide'}
+afs1923$Ca.log <- log10(afs1923$Ca)
+afs1923$Mg.pow <- afs1923$Mg^0.5
+afs1923$Na.pow <- afs1923$Na^0.333
+afs1923$S.log <- log10(afs1923$S)
+afs1923$Gd.pow <- afs1923$Gd^0.5
+```
+
+```{r correlation matrix}
+cor0 <- 
+  cor(afs1923[,c("Al","Ca.log","Fe","K","Mg.pow","Na.pow","pH","S.log","Gd.pow")],
+   use="pairwise.complete")
+cor0[which(cor0==1)] <- NA         # change diagonal to NA
+print(round(cor0,3), na.print="")  # round to 3 decimal places and print nothing for NAs
+rm(cor0)                           # tidy up
+```
+
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+
+The rule of thumb we use is that:
+
+> If predictor variables are correlated with Pearson's r &ge; 0.8 or r &le; -0.8, then the collinearity is too large and one of the correlated predictors should be omitted
+
+</div>
+
+<p>&nbsp;</p>
+
+In the correlation table above this doesn't apply to the correlation between
+[transformed] Na and Mg, with **r=0.94**. In this example we will run two
+versions of the model, one keeping both Na and Mg, and one omitting Mg.
+
+<div style="border: 2px solid #039; background-color:#fec; padding: 8px;">
+
+We have just added a fifth assumption for linear regression models specifically
+for multiple regression:
+
+5. Independent variables (predictors) should not show significant covariance
+
+</div>
+
+<p>&nbsp;</p>
+
+In either case, whether we run the model with or without omitting predictors, 
+it's a good idea to calculate *Variance Inflation Factors* on the predictor 
+variables in the model (see below) which can tell us if collinearity is a 
+problem.
+
+## Generate multiple regression model for Gd (co-linear predictors NOT omitted)
+
+We first delete any observations (rows) with missing (`NA`) values, otherwise
+when we change the number of predictors later,  we may not have the same number
+of observations for all models, in which case we can't compare them.
+
+```{r lm all variables, results='hold'}
+# make new data object containing relevant variables with no missing values
+afs1923_multreg <- na.omit(afs1923[c("Gd.pow","Al","Ca.log","Fe","K","Mg.pow",
+                                     "Na.pow","pH","S.log")])
+row.names(afs1923_multreg) <- NULL  # reset row indices
+# run model using correctly transformed variables
+lm_multi <- lm(Gd.pow ~ pH + Al + Ca.log + Fe + K + Mg.pow + 
+               Na.pow + S.log, data=afs1923_multreg)
+summary(lm_multi)
+```
+
+Note that the null hypothesis probability `Pr(>|t|)` for some predictors (`pH`,
+`Ca.log` and `S.log`) is &ge;&nbsp;0.05, so we can't reject the null hypothesis
+&ndash; that this predictor has no effect on the dependent variable.
+
+## Calculate variance inflation factors (VIF) for the predictors in the 'maximal' model 
+
+To calculate variance inflation factors we use the function `vif()` from the 
+`car` package. The input for `vif()` is a `lm` object (in this case `lm_multi`).
+
+```{r VIFs for maximal model, results='hold'}
+require(car)
+{cat("Variance Inflation Factors\n")
+vif(lm_multi)}
+```
+
+The VIF could be considered the "penalty" from having 2 or more predictors which
+(since they contain the same information) don't decrease the unexplained variance
+of the model, but add unnecessary complexity. A general rule of thumb is that if
+**VIF > 4** we need to do some further investigation, while serious
+multi-collinearity exists **requiring correction if VIF > 10** (Hebbali, 2018).
+As we probably expected from the correlation coefficient (above), VIFs for both
+Na and Mg are >10 in this model, which is too high, so we need to try a model
+which omits Na or Mg (we'll choose Mg), since `vif`&nbsp;&ge;&nbsp;10 suggests 
+we remove one . . .
+
+## Generate multiple regression model for Gd, omitting co-linear predictors
+
+```{r multi lm omitting collinear, results='hold'}
+# make new data object containing relevant variables with no missing values
+# run model using correctly transformed variables (omitting co-linear predictors)
+lm_multi2 <- lm(Gd.pow ~ pH + Al + Ca.log + Fe + K + 
+               Na.pow + S.log, data=afs1923_multreg)
+summary(lm_multi2)
+```
+
+Note that again the null hypothesis probability `Pr(>|t|)` for some predictors 
+(`pH`, `Ca.log` and `S.log`) is &ge;&nbsp;0.05, so we can't reject the null
+hypothesis &ndash; that these predictors have no effect on the dependent
+variable.
+
+## Calculate variance inflation factors (VIF) for the model omitting co-linear predictors
+
+```{r VIFs for maximal model omitting co-linear predictors, results='hold'}
+require(car)
+{cat("Variance Inflation Factors\n")
+vif(lm_multi2)}
+```
+
+**With the co-linear variable(s) omitted (on the basis of |Pearson's r| > 0.8 and `vif`&nbsp;>&nbsp;10), we now have no VIFs > 10**. We do have one 
+`vif`&nbsp;>&nbsp;4 for `K`, but we'll retain this predictor as it may represent 
+illite-type clay minerals which can be reactive to trace elements like Gd in sediment. We now move on to stepwise refinement of our [new] 'maximal' model...<br>
+
+## Stepwise refinement of maximal multiple regression model (omitting co-linear predictors)
+
+We don't want to have too many predictors in our model &ndash; just the
+predictors which explain significant proportions of the variance in our
+dependent variable. The simplest possible model is best! In addition, our data
+may be insufficient to generate a very complex model; one rule-of-thumb suggests
+10-20 observations are needed to calculate coefficients for each predictor.
+Reimann *et al*. (2008) recommend that the number of observations should be at
+least 5 times the number of predictors. So, we use a systematic stepwise
+procedure to test variations of the model, which omits unnecessary predictors.
+
+```{r stepwise refinement of multiple regression model}
+lm_stepwise <- step(lm_multi2, direction="both", trace=0)
+summary(lm_stepwise)
+require(car)
+{cat("==== Variance Inflation Factors ====\n")
+vif(lm_stepwise)}
+```
+In the optimised model, we find that the stepwise procedure has generated a new
+model with fewer predictor variables. You should notice that the p-values
+(`Pr(>|t|)`) for intercept and predictors are all now &le;&nbsp;0.05, so we can
+reject the null hypothesis for all predictors (*i.e*. none of them have 'no
+effect' on Gd). Our VIFs are now all close to 1, meaning negligible collinearity
+between predictors.
+
+It's always a good idea to run diagnostic plots (see Figure 1 below) on a
+regression model (simple or multiple), to check for (i) any systematic trends in
+residuals, (ii) normally distributed residuals (or not), and (iii) any unusually
+influential observations.
+
+## Regression diagnostic plots
+
+```{r diagnostic-plots, fig.height=6, fig.width=6, fig.cap="Figure 1: Diagnostic plots for the optimal multiple regression model following backward-forward stepwise refinement."}
+par(mfrow=c(2,2), mar=c(3.5,3.5,1.5,1.5), mgp=c(1.6,0.5,0), font.lab=2, font.main=3, 
+    cex.main=0.8, tcl=-0.2)
+plot(lm_stepwise, col=4)
+par(mfrow=c(1,1))
+```
+
+The optimal model is `Gd.pow ~ Al.pow + Ca.pow + Fe.pow + S.pow`, where suffixes 
+`.pow` and `.log` represent power- and log~10~-transformed variables 
+respectively. The point labelled `78` does look problematic... 
+
+```{r testing regression assumptions, paged.print=FALSE, results="hold"}
+require(lmtest)
+require(car)
+cat("------- Residual autocorrelation (independence assumption):")
+bgtest(lm_stepwise) # Breusch-Godfrey test for autocorrelation (independence)
+cat("\n------- Test of homoscedasticity assumption:")
+bptest(lm_stepwise) # Breusch-Pagan test for homoscedasticity
+cat("\n------- Test of linearity assumption:")
+raintest(lm_stepwise) # Rainbow test for linearity
+cat("\n------- Bonferroni Outlier test for influential observations:\n\n")
+outlierTest(lm_stepwise) # Bonferroni outlier test for influential observations
+cat("\n------- Test distribution of residuals:\n")
+shapiro.test(lm_stepwise$residuals) # Shapiro-Wilk test for normality
+cat("\n------- Cook's Distance for any observations which are possibly too influential:\n")
+summary(cooks.distance(lm_stepwise)) # Cook's Distance
+cat("\n------- Influence Measures for any observations which are possibly too influential:\n")
+summary(influence.measures(lm_stepwise))
+```
+
+## Multiple regression effect plots
+```{r effect-plots, fig.height=6, fig.width=6, fig.cap="Figure 2: Effect plots for individual predictors in the optimal multiple regression model following backward-forward stepwise refinement. Light blue shaded areas on plots represent 95% confidence limits."}
+require(effects)
+plot(allEffects(lm_stepwise, confidence.level=0.95))
+```
+
+## Scatterplot of observed *vs*. fitted values
+
+An 'observed *vs*. fitted' plot (Figure 3) is a way 
+around trying to plot a function with multiple predictors (*i.e*. multiple 
+dimensions)! We can get the fitted values since these are stored in the `lm` 
+object, in our case `lm_stepwise` in an item called `lm_stepwise$fitted.values`.
+We also make use of other information stored in the `lm` object, by calling 
+`summary(lm_stepwise)$adj.r.squared`. Finally we use the `predict()` function 
+with synthetic data in a dataframe `newPreds` to generate confidence and prediction intervals for out plot.
+
+```{r obs-vs-fitted, fig.height=5, fig.width=5, fig.cap="Figure 3: Measured (observed) vs. predicted values in the optimal multiple regression model, showing uncertainty intervals."}
+newPreds <- data.frame(Al=seq(0, max(afs1923_multreg$Al), l=100),
+             Fe=seq(0, max(afs1923_multreg$Fe), l=100),
+             K=seq(0, max(afs1923_multreg$K), l=100),
+             pH=seq(min(afs1923_multreg$pH)*0.9, max(afs1923_multreg$pH), l=100))
+conf1 <- predict(lm_stepwise, newPreds, interval = "conf")
+conf1 <- conf1[order(conf1[,1]),]
+pred1 <- predict(lm_stepwise, newPreds, interval="prediction")
+pred1 <- pred1[order(pred1[,1]),]
+par(mar=c(4,4,1,1), mgp=c(2,0.5,0), font.lab=2, cex.lab=1, 
+    lend="square", ljoin="mitre")
+plot(afs1923_multreg$Gd.pow ~ lm_stepwise$fitted.values,
+     xlab="Gd.pow predicted from regression model",
+     ylab="Gd.pow measured values", type="n")
+mtext(side=3, line=-5.5, adj=0.05, col="blue3",
+      text=paste("Adjusted Rsq =",signif(summary(lm_stepwise)$adj.r.squared,3)))
+# lines(conf1[,1], conf1[,2], lty=2, col="red")
+# lines(conf1[,1], conf1[,3], lty=2, col="red")
+polygon(c(pred1[,1],rev(pred1[,1])), c(pred1[,2],rev(pred1[,3])), 
+        col="#2000e040", border = "transparent")
+polygon(c(conf1[,1],rev(conf1[,1])), c(conf1[,2],rev(conf1[,3])), 
+        col="#ff000040", border = "transparent")
+abline(0,1, col="gold4", lty=2, lwd=2)
+points(afs1923_multreg$Gd.pow ~ lm_stepwise$fitted.values,
+       pch=3, lwd=2, cex=0.8, col="blue3")
+legend("topleft", legend=c("Observations","1:1 line"), col=c("blue3","gold4"), 
+       text.col=c("blue3","gold4"), pch=c(3,NA), lty=c(NA,2), pt.lwd=2, lwd=2, 
+       box.col="grey", box.lwd=2, inset=0.02, seg.len=2.7, y.intersp=1.2)
+legend("bottomright", bty="n", title="Intervals", pch=15, pt.cex=2, 
+       legend=c("95% confidence", "95% prediction"), col=c("#ff000040", "#2000e040"))
+```
+
+## Some brief interpretation
+
+- The adjusted R-squared value of the final model is 0.682, meaning that 68.2%, about two-thirds, of the variance in Gd is explained by variance in the model's predictors. (The remaining 31.8% of variance must therefore be due to random variations, or 'unknown' variables not included in our model.)
+
+- From the model coefficients and the effect plots we can see that Gd increases as Al, Fe, and K increase, but Gd decreases as pH increases. This agrees with the relationships determined by correlation ([see above](reg-multi.html#cormat)); Gd **is** positively correlated with Ca, Fe, and S, and negatively correlated with pH.<br />
+(Note that this is not always the case - sometimes a predictor can be significant in a multiple regression model, but not individually correlated with the dependent variable!)
+
+- Although we can't attribute a causal relationship to correlation or regression relationships, the observed effects in our model **are** consistent with real phenomena. For example, gadolinium and other rare earth elements are positively related to iron (Fe) in other estuarine sediments; see Morgan *et al*. (2012). We also know that rare-earth elements in estuarine sediments are often associated with clays (Marmolejo-Rodríguez *et al*., 2007; clays are measured by Al in our data, since clays are aluminosilicate minerals).
+
+# References
+
+Cohen, J. 1988. *Statistical Power Analysis for the Behavioral Sciences*, Second Edition. Erlbaum Associates, Hillsdale, NJ, USA.
+
+Marmolejo-Rodríguez, A. J., Prego, R., Meyer-Willerer, A., Shumilin, E., & Sapozhnikov, D. (2007). Rare earth elements in iron oxy-hydroxide rich sediments from the Marabasco River-Estuary System (pacific coast of Mexico). REE affinity with iron and aluminium. *Journal of Geochemical Exploration*, **94**(1-3), 43-51. [https://doi.org/10.1016/j.gexplo.2007.05.003](https://doi.org/10.1016/j.gexplo.2007.05.003){target="_blank"}
+
+Morgan, B., Rate, A. W., Burton, E. D., & Smirk, M. (2012). Enrichment and fractionation of rare earth elements in FeS-rich eutrophic estuarine sediments receiving acid sulfate soil drainage. *Chemical Geology*, **308-309**, 60-73. [https://doi.org/10.1016/j.chemgeo.2012.03.012](https://doi.org/10.1016/j.chemgeo.2012.03.012){target="_blank"}
+
+Hebbali, A. (2018). Collinearity Diagnostics, Model Fit and Variable Gdntribution. Vignette for R Package 'olsrr'. Retrieved 2018.04.05, from [https://cran.r-project.org/web/packages/olsrr/vignettes/regression_diagnostics.html](https://cran.r-project.org/web/packages/olsrr/vignettes/regression_diagnostics.html){target="_blank"}.
+
+Reimann, C., Filzmoser, P., Garrett, R.G., Dutter, R., (2008). *Statistical Data Analysis Explained: Applied Environmental Statistics with R*. John Wiley & Sons, Chichester, England (see Chapter 16).
+
