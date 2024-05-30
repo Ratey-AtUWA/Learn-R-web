@@ -29,7 +29,7 @@ output:
 
 7. [Maps](maps.html)
 
-8. [EDA](tables.html)
+8. [Utilities and other R goodies](tables.html)
 
 9. [UWA School of Agriculture and Environment](https://www.uwa.edu.au/schools/agriculture-and-environment){target="_blank"}
 
