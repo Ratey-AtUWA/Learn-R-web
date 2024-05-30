@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-05-24" />
+<meta name="date" content="2024-05-30" />
 
 <title>Statistics for Comparisons</title>
 
@@ -44,6 +44,111 @@
 
 
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -347,7 +452,7 @@ $(document).ready(function () {
 
 <html>
 <body>
-<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science<br />at The University of Western Australia</span></h3>
 <h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
 </body>
 </html>
@@ -359,7 +464,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistics for Comparisons</h1>
 <h3 class="subtitle">Non-parametric tests</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-05-24</h4>
+<h4 class="date">2024-05-30</h4>
 
 </div>
 
@@ -369,15 +474,329 @@ $(document).ready(function () {
   font-size: 12pt;
 }
 </style>
-<div
-style="border: 2px solid #039; background-color:#eee; padding: 8px;">
-<p style="font-size:24pt; color:gray;">
-Non-parametric tests placeholder
+<div id="activities-for-this-workshop" class="section level2"
+style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+<h2>Activities for this Workshop</h2>
+<blockquote>
+<p><strong>Before you leave this week’s lab, make sure you know <span
+style="text-decoration: underline;">how</span> and <span
+style="text-decoration: underline;">when</span> to:</strong></p>
+</blockquote>
+<ol style="list-style-type: lower-alpha">
+<li>Use a non-parametric <em>Wilcoxon test</em> to compare the means of
+2 groups of a variable <br />(<em>i.e</em>. categorised with a 2-level
+factor)</li>
+</ol>
+<ul>
+<li>estimate effect size<br /> </li>
+</ul>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Use a non-parametric <em>Kruskal-Wallis test</em> to compare the
+means of 3 or more groups of a variable <br />(<em>i.e</em>. categorised
+with a ≥3-level factor)</li>
+</ol>
+<ul>
+<li>conduct relevant pairwise comparisons<br /></li>
+</ul>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Make <em>relevant high-quality graphics</em> to illustrate means
+comparisons (<em>e.g</em>. box plots with means)</li>
+</ol>
+<div id="for-parametric-means-comparisons-we-asked-you-to-learn"
+class="section level3">
+<h3>For parametric means comparisons we asked you to learn:</h3>
+<ol style="list-style-type: decimal">
+<li>Use a <em>single-sided t- test</em> to compare the mean of a
+variable with a fixed value (<em>e.g</em>. an environmental
+guideline)</li>
+<li>Use a <em>two -sided Welch's t-test</em> to compare the means of 2
+groups of a variable (<em>i.e</em>. categorised with a two-two-level
+factor)</li>
+<li>Calculate a C<em>ohen's d effect size for a 2-group mean
+comparison</em></li>
+<li><em>Make a new factor</em> using the <code>cut()</code> function in
+R</li>
+<li>Repeat 1 &amp; 2 above using <em>analysis of variance</em> (ANOVA)
+to compare means for 3 or more groups.</li>
+<li>Generate a <em>pairwise comparison of means</em> from the analysis
+in step 5.</li>
+</ol>
+</div>
+</div>
+<p>
+ 
+</p>
+<div id="videos-and-other-learning-materials" class="section level2"
+style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+<h2>Videos and other learning materials</h2>
+<div id="videos" class="section level3">
+<h3>Videos</h3>
+<p><a href="https://echo360.net.au/media/b92bf5fa-bbbb-42dd-9567-697591b2e6c9/public" target="_blank" rel="noopener">🎬 Video
+- <strong>Means Comparisons 2 – Pairwise comparisons</strong></a>.</p>
+<p><a href="https://echo360.net.au/media/2eb6c92b-8b13-4c0c-a575-1de857a31166/public" target="_blank" rel="noopener">🎬 Video
+- <strong>Means Comparisons 3 – Non-parametric tests</strong></a>.</p>
+<p><a href="https://echo360.net.au/media/3a49397c-92c6-47a9-86e7-2c840fd19d81/public" target="_blank" rel="noopener">🎬 Video
+- <strong>Means Comparisons 4 – How to make a Factor from a
+Variable</strong></a>.</p>
+</div>
+<div id="supporting-information" class="section level3">
+<h3>Supporting Information</h3>
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243037_1/xid-40243037_1" target="_blank" rel="noopener">📰<strong>Decision
+tree for means comparisons methods</strong></a><br />(as used in
+ENVT3361)</p>
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243821_1/xid-40243821_1" target="_blank" rel="noopener"><strong>📰 Means
+comparisons: Null hypothesis testing and Effect
+size</strong></a><br />(PDF of slides from 2017, still ~OK)
+<strong>NB</strong> based on using R
+Commander*<span style="font-size: 9pt;"><sup>¶</sup>, but the code shown
+on screen should still work!<br />
+<span style="font-size: 10pt;"><sup>¶</sup> a package which allows some
+point-and-click operation of R</p>
+</div>
+<div id="code-and-data-files" class="section level3">
+<h3>Code and Data files</h3>
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243070_1/xid-40243070_1" target="_blank" rel="noopener">🔣
+R code file for <strong>Workshop: Advanced Means
+Comparisons</strong></a> – for Week 6, start
+at<strong><span style="font-family: 'courier new', courier, monospace;">
+Non-parametric tests (line 409)</strong></p>
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243016_1/xid-40243016_1" target="_blank" rel="noreferrer noopener">🔣
+R code for means on boxplots</a></p>
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243019_1/xid-40243019_1" target="_blank" rel="noreferrer noopener">🔣
+R code for means and confidence intervals on boxplots</a> <br />(more
+complex)</p>
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243084_1/xid-40243084_1" target="_blank" rel="noreferrer noopener">🔣
+R code for calculating pairwise Cohen's d effect sizes</a> 
+(advanced)</p>
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243097_1/xid-40243097_1">📊Smith's
+Lake / Veryard Reserve data (sv2017) in CSV format</a></p>
+</div>
+</div>
+<p>
+ 
+</p>
+<p>As usual, we first need to read the data and load the necessary
+packages:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>sv2017 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;sv2017_original.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>sv2017<span class="sc">$</span>Reserve <span class="ot">&lt;-</span> <span class="fu">cut</span>(sv2017<span class="sc">$</span>Northing,</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>                      <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">6466530</span>,<span class="dv">9999999</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>                      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Smiths&quot;</span>,<span class="st">&quot;Veryard&quot;</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>sv17_soil <span class="ot">&lt;-</span> <span class="fu">subset</span>(sv2017, <span class="at">subset=</span>sv2017<span class="sc">$</span>Type<span class="sc">==</span><span class="st">&quot;Soil&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">library</span>(effsize)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="fu">library</span>(rcompanion)</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="fu">library</span>(multcompView)</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="fu">library</span>(RcmdrMisc)</span></code></pre></div>
+<div id="non-parametric-comparisons" class="section level2">
+<h2>Non-Parametric Comparisons</h2>
+<p>We need to use a different type of statistical test if our
+variable(s) do not have a normal distribution (even when
+log<sub>10</sub>- or power-transformed). The <em>non-parametric</em>
+tests are not based on the actual values of our variable, but are
+calculated using the <em>ranking</em> (numerical ordering) of each
+observation.</p>
+<center>
+<img src="./images/distributions-clique.png" width="500" height="240" />
+</center>
+<div id="wilcoxon-test" class="section level3">
+<h3>1. Wilcoxon test</h3>
+<p>From previous sessions we know that most untransformed variables are
+not normally distributed. For comparison between exactly 2 groups we use
+the <strong>Wilcoxon test</strong> (via the <code>wilcox.test()</code>
+function). The Wilcoxon test is based on ranking of observations, so
+should be independent of transformation – as in the example below:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">wilcox.test</span>(sv17_soil<span class="sc">$</span>Na <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;Means for original (untransformed) variable</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>meansNa <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sv17_soil<span class="sc">$</span>Na, sv17_soil<span class="sc">$</span>Reserve, mean,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>                  <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">signif</span>(meansNa, <span class="dv">3</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">--------------------------------------------</span><span class="sc">\n</span><span class="st">&quot;</span>)}</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">wilcox.test</span>(sv17_soil<span class="sc">$</span>Na.pow <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;Means for transformed variable</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>meansNa <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sv17_soil<span class="sc">$</span>Na.pow, sv17_soil<span class="sc">$</span>Reserve, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">signif</span>(meansNa, <span class="dv">3</span>))}</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="fu">rm</span>(meansNa) <span class="co"># remove temporary object(s)</span></span></code></pre></div>
+<pre><code>
+    Wilcoxon rank sum test with continuity correction
+
+data:  sv17_soil$Na by sv17_soil$Reserve
+W = 246, p-value = 0.01426
+alternative hypothesis: true location shift is not equal to 0
+
+Means for original (untransformed) variable
+ Smiths Veryard 
+    102     139 
+
+--------------------------------------------
+
+    Wilcoxon rank sum test with continuity correction
+
+data:  sv17_soil$Na.pow by sv17_soil$Reserve
+W = 246, p-value = 0.01426
+alternative hypothesis: true location shift is not equal to 0
+
+Means for transformed variable
+ Smiths Veryard 
+   1.76    1.85 </code></pre>
+<p>
+ 
+</p>
+<div class="figure">
+<img src="nonparam_files/figure-html/Na-as-ranks-1.png" alt="Figure 1: Na concentration ranks in soil in each reserve area, sampled at Smith's Lake and Charles Veryard Reserves in 2017." width="75%" />
+<p class="caption">
+Figure 1: Na concentration ranks in soil in each reserve area, sampled
+at Smith's Lake and Charles Veryard Reserves in 2017.
 </p>
 </div>
 <p>
  
 </p>
+<div id="effect-size" class="section level4">
+<h4>Effect size</h4>
+<p>The test we need to use for effect size to accompany rank-based tests
+like <code>wilcox.test()</code> is not Cohen's d as we use to follow <a
+href="means.html">parametric tests</a>. Non-parametric effect size tests
+are available in the <code>effectsize</code> R package – we need the
+<code>rank_biserial()</code> test (also called
+<code>cliffs_delta()</code>) for a 2-level comparison.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">require</span>(effectsize)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>(rbsNa <span class="ot">&lt;-</span> <span class="fu">rank_biserial</span>(sv17_soil<span class="sc">$</span>Na <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve, <span class="at">verbose=</span>F)); <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">interpret_rank_biserial</span>(rbsNa<span class="sc">$</span>r_rank_biserial)</span></code></pre></div>
+<pre><code>r (rank biserial) |         95% CI
+----------------------------------
+-0.41             | [-0.64, -0.11]
+
+[1] &quot;very large&quot;
+(Rules: funder2019)</code></pre>
+<p>
+ 
+</p>
+</div>
+</div>
+<div id="kruskal-wallis-test" class="section level3">
+<h3>2. Kruskal-Wallis test</h3>
+<p>We use the Kruskal-Wallis test (via the <code>kruskal.test()</code>
+function) for non-parametric comparisons between three or more groups
+defined by a factor.</p>
+<p>This example is testing differences in Fe between sample Types in the
+complete Smith's – Veryard 2017 dataset.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">kruskal.test</span>(sv2017<span class="sc">$</span>Fe <span class="sc">~</span> sv2017<span class="sc">$</span>Type)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>meansFe <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sv2017<span class="sc">$</span>Fe, sv2017<span class="sc">$</span>Type, mean,</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>                  <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Means for untransformed variable</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">signif</span>(meansFe),<span class="dv">4</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="fu">rm</span>(meansFe)</span></code></pre></div>
+<pre><code>
+    Kruskal-Wallis rank sum test
+
+data:  sv2017$Fe by sv2017$Type
+Kruskal-Wallis chi-squared = 8.222, df = 2, p-value = 0.01639
+
+Means for untransformed variable
+   Sediment        Soil Street dust 
+       5111        2695        3694 </code></pre>
+<p>
+ 
+</p>
+<p>With a p-value of ≈ 0.016, H<sub>0</sub> can be rejected. We still
+have the problem of not knowing which means are significantly different
+from each other. There are several options for pairwise comparisons of
+means following statistically significant Kruskal-Wallis results; we
+will use the pairwise Wilcoxon test
+(<code>pairwise.wilcox.test()</code>), for consistency with the 2-level
+comparisons in the previous section. Also, we should still be using a
+non-parametric test to match the original Kruskal-Wallis test. (More
+rigorous tests, such as Conover's non-parametric all-pairs comparison
+test, are available in the R package <code>PMCMRplus</code>).</p>
+<p>
+ 
+</p>
+<div class="figure">
+<img src="nonparam_files/figure-html/Fe-as-ranks-1.png" alt="Figure 2: Fe concentration ranks in sediment, soil, and street dust sampled at Smith's Lake and Charles Veryard Reserves in 2017." width="75%" />
+<p class="caption">
+Figure 2: Fe concentration ranks in sediment, soil, and street dust
+sampled at Smith's Lake and Charles Veryard Reserves in 2017.
+</p>
+</div>
+<p>
+ 
+</p>
+</div>
+<div id="pairwise-comparisons-following-a-kruskal-wallis-test"
+class="section level3">
+<h3>Pairwise comparisons following a Kruskal-Wallis test</h3>
+<pre><code>
+    Pairwise comparisons using Wilcoxon rank sum test with continuity correction 
+
+data:  Fe and Type 
+
+            Sediment Soil 
+Soil        0.743    -    
+Street dust 0.091    0.012
+
+P value adjustment method: holm </code></pre>
+<p>The pairwise comparisons show that only Soil and Street dust have
+significantly different Fe concentration. <em>Note</em> the p-value
+adjustment – we still use Holm's for multiple non-parametric
+comparisons.</p>
+<p>We can also get a pairwise compact letter display based on the
+results of non-parametric tests. As before, we need the
+<strong>R</strong> packages <code>rcompanion</code> and
+<code>multcompView</code> to do this easily.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">require</span>(rcompanion)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">require</span>(multcompView)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>pwFe_Type <span class="ot">&lt;-</span> <span class="fu">with</span>(sv2017, <span class="fu">pairwise.wilcox.test</span>(Fe, Type)) </span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>pwFe_Type_pv <span class="ot">&lt;-</span> <span class="fu">fullPTable</span>(pwFe_Type<span class="sc">$</span>p.value)               <span class="co"># from rcompanion</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">multcompLetters</span>(pwFe_Type_pv)                               <span class="co"># from multcompView</span></span></code></pre></div>
+<pre><code>   Sediment        Soil Street dust 
+       &quot;ab&quot;         &quot;a&quot;         &quot;b&quot; </code></pre>
+<p>The output from <code>kwAllPairsConoverTest()</code> shows that p ≤
+0.05 only for the Soil-Street dust comparison (<code>"ab"</code> matches
+<code>"a"</code> OR <code>"b"</code>). We can't reject H<sub>0</sub> for
+any other pairwise comparisons.</p>
+<p>
+ 
+</p>
+</div>
+<div id="pairwise-effect-sizes" class="section level3">
+<h3>Pairwise effect sizes</h3>
+<p>The effect size test to accompany a kruskal-Wallis test is the
+<code>rank_epsilon_squared()</code> test in the <code>effectsize</code>
+R package</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>(resFe <span class="ot">&lt;-</span> <span class="fu">rank_epsilon_squared</span>(sv2017<span class="sc">$</span>Fe, sv2017<span class="sc">$</span>Type, <span class="at">verbose =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">&quot;</span>) <span class="co"># blank output line</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">interpret_epsilon_squared</span>(resFe<span class="sc">$</span>r)</span></code></pre></div>
+<pre><code>Epsilon2 (rank) |       95% CI
+------------------------------
+0.09            | [0.05, 1.00]
+
+- One-sided CIs: upper bound fixed at [1.00].
+
+[1] &quot;medium&quot;
+(Rules: field2013)</code></pre>
+<p>
+ 
+</p>
+</div>
+</div>
+<div id="references-and-r-packages" class="section level2">
+<h2>References and R Packages</h2>
+<p>Cohen, J. (1988). <em>Statistical power analysis for the behavioral
+sciences (2<sup>nd</sup> ed.)</em>. New York:Academic Press.</p>
+<p>Sawilowsky, S.S. (2009). New Effect Size Rules of Thumb. <em>Journal
+of Modern Applied Statistical Methods</em>
+<strong>8</strong>:597-599.</p>
+<p><strong>Run the R code below to get citation information for the R
+packages used in</strong> <strong>this document</strong>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;car&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;RcmdrMisc&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;effectsize&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;multcomp&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;PMCMRplus&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;rcompanion&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;multcompView&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+</div>
 
 <!DOCTYPE html>
 
