@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-06-01" />
+<meta name="date" content="2024-06-02" />
 
 <title>Statistics for Comparisons</title>
 
@@ -464,7 +464,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistics for Comparisons</h1>
 <h3 class="subtitle">Non-parametric tests</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-06-01</h4>
+<h4 class="date">2024-06-02</h4>
 
 </div>
 
@@ -600,6 +600,32 @@ observation.</p>
 <center>
 <img src="./images/distributions-clique.png" width="500" height="240" />
 </center>
+<div id="note-on-parametric-vs.-non-parametric-tests"
+class="section level3">
+<h3>Note on parametric <em>vs</em>. non-parametric tests</h3>
+<p>There are arguments that the parametric tests (<em>e.g</em>. the
+t-test and analysis of variance we covered in <a href="means.html">an
+earlier session on means comparisons</a>) can be used even if the
+distributions of variables are not normal. Some authors, however,
+recommend the use of parametric tests in most cases, based on</p>
+<ol style="list-style-type: lower-roman">
+<li>The tendency for the means subsamples of populations from non-normal
+distributions to be nornally distributed, regardless of the shape of the
+underlying distribution. This is the <em>Central Limit Theorem</em> -
+see <a href="https://saestatsteaching.tech/nonparametric-methods"
+target="_blank">this discussion by James Fogarty of UWA</a>. Prof
+Fogarty <em>et al</em>. (2021) also mention that parametric tests have
+greater ability to detect differences if their assumptions are met.</li>
+<li>The robustness of parametric methods in practice – see <a
+href="https://www.biostathandbook.com/kruskalwallis.html"
+target="_blank">this page by John McDonald from the University of
+Delaware</a>. Prof. McDonald states that “...<em>one-way anova is not
+very sensitive to deviations from normality</em>.”</li>
+</ol>
+<p>We will continue to cover non-parametric comparison tests, but you
+can make up your own mind after doing your own research on the pros and
+cons.</p>
+</div>
 <div id="wilcoxon-test" class="section level3">
 <h3>1. Wilcoxon test</h3>
 <p>From previous sessions we know that most untransformed variables are
@@ -832,7 +858,7 @@ R package</p>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">interpret_epsilon_squared</span>(resFe<span class="sc">$</span>r)</span></code></pre></div>
 <pre><code>Epsilon2 (rank) |       95% CI
 ------------------------------
-0.09            | [0.05, 1.00]
+0.09            | [0.06, 1.00]
 
 - One-sided CIs: upper bound fixed at [1.00].
 
@@ -847,6 +873,15 @@ R package</p>
 <h2>References and R Packages</h2>
 <p>Cohen, J. (1988). <em>Statistical power analysis for the behavioral
 sciences (2<sup>nd</sup> ed.)</em>. New York:Academic Press.</p>
+<p>Fogarty, J.J., Rensing, K., &amp; Stuckey, A. (2021). Introduction to
+R and Statistics: UWA School of Agriculture and Environment. <a
+href="https://saestatsteaching.tech/"
+target="_blank">https://saestatsteaching.tech/</a></p>
+<p>McDonald, J.H. (2014). Kruskal–Wallis test. In <em>Handbook of
+Biological Statistics (3<sup>rd</sup> ed.)</em>. Sparky House
+Publishing, Baltimore, Maryland. <a
+href="https://www.biostathandbook.com/kruskalwallis.html"
+target="_blank">https://www.biostathandbook.com/kruskalwallis.html</a></p>
 <p>Sawilowsky, S.S. (2009). New Effect Size Rules of Thumb. <em>Journal
 of Modern Applied Statistical Methods</em>
 <strong>8</strong>:597-599.</p>

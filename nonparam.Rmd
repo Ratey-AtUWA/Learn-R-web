@@ -127,6 +127,26 @@ are calculated using the *ranking* (numerical ordering) of each observation.
 
 <center>![](./images/distributions-clique.png){width=500 height=240}</center>
 
+### Note on parametric *vs*. non-parametric tests
+
+There are arguments that the parametric tests (*e.g*. the t-test and analysis of 
+variance we covered in [an earlier session on means comparisons](means.html)) 
+can be used even if the distributions of variables are not normal. Some authors, 
+however, recommend the use of parametric tests in most cases, based on 
+
+i. The tendency for the means subsamples of populations from non-normal
+distributions to be nornally distributed, regardless of the shape of the
+underlying distribution. This is the *Central Limit Theorem* - see 
+[this discussion by James Fogarty of UWA](https://saestatsteaching.tech/nonparametric-methods){target="_blank"}.
+Prof Fogarty *et al*. (2021) also mention that parametric tests have greater 
+ability to detect differences if their assumptions are met.
+ii. The robustness of parametric methods in practice &ndash; see 
+[this page by John McDonald from the University of Delaware](https://www.biostathandbook.com/kruskalwallis.html){target="_blank"}.
+Prof. McDonald states that &ldquo;...*one-way anova is not very sensitive to deviations from normality*.&rdquo;
+
+We will continue to cover non-parametric comparison tests, but you can make up
+your own mind after doing your own research on the pros and cons.
+
 ### 1. Wilcoxon test
 
 From previous sessions we know that most untransformed variables are not
@@ -343,6 +363,11 @@ interpret_epsilon_squared(resFe$r)
 
 Cohen, J. (1988). *Statistical power analysis for the behavioral sciences (2^nd^ ed.)*. 
 New York:Academic Press.
+
+Fogarty, J.J., Rensing, K., & Stuckey, A. (2021). Introduction to R and Statistics: 
+UWA School of Agriculture and Environment. [https://saestatsteaching.tech/](https://saestatsteaching.tech/){target="_blank"}
+
+McDonald, J.H. (2014). Kruskal–Wallis test. In *Handbook of Biological Statistics (3^rd^ ed.)*. Sparky House Publishing, Baltimore, Maryland. [https://www.biostathandbook.com/kruskalwallis.html](https://www.biostathandbook.com/kruskalwallis.html){target="_blank"}
 
 Sawilowsky, S.S. (2009). New Effect Size Rules of Thumb. *Journal of Modern Applied Statistical Methods* **8**:597-599.
 
