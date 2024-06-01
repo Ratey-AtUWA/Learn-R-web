@@ -131,9 +131,9 @@ are calculated using the *ranking* (numerical ordering) of each observation.
 
 From previous sessions we know that most untransformed variables are not
 normally distributed. For comparison between exactly 2 groups we use the
-**Wilcoxon test** (via the `wilcox.test()` function). The Wilcoxon test is based 
-on ranking of observations, so should be independent of transformation &ndash; as in 
-the example below:
+**Wilcoxon rank-sum test** (via the `wilcox.test()` function). The Wilcoxon 
+test is based on ranking of observations, so should be independent of
+transformation &ndash; as in the example below:
 
 ```{r transform-Na, include=FALSE}
 sv17_soil$Na.pow <- sv17_soil$Na^(powerTransform(sv17_soil$Na)$lambda)
@@ -155,20 +155,52 @@ rm(meansNa) # remove temporary object(s)
 
 <p>&nbsp;</p>
 
-```{r Na-as-ranks, fig.height=2, fig.width=10, message=FALSE, warning=FALSE, out.width="75%", fig.cap="Figure 1: Na concentration ranks in soil in each reserve area, sampled at Smith's Lake and Charles Veryard Reserves in 2017.", echo=FALSE}
+The output of `wilcox.test()` above shows a `p-value`&nbsp;<&nbsp;0.05, so we
+reject H~0~ (that the rank sum of each group is not different from a case where
+the ranks of each group are randomly ordered). In rejecting H~0~ we can accept
+the alternative hypothesis, that the distribution of one group is shifted
+relative to the other.
+
+It's somewhat important to recognise that the Wilcoxon rank-sum test **does** 
+**not compare means** (or even medians). Based on the rank sums of the variable
+tested, the Wilcoxon rank-sum test simply tests whether or not the distribution
+in one group is shifted relative to the other group. If the distributions in
+each group have identical shapes, than we can say that the Wilcoxon test
+compares *medians*, but since the distributions are not often identical, our
+only conclusions should be about the *'location shift'* of one group's
+distribution relative to the other.
+
+The quantity compared in the Wilcoxon test is the *mean rank sum* &ndash; the
+sum of the ranks for all observations in a group, divided by the number of
+observations in that group.
+
+```{r boxplot-2groups, fig.height=3, fig.width=4, fig.cap="Figure 1: Boxplot showing differences in `Na` between groups defined by `Reserve`, with overplotted individual observations.", message=FALSE, warning=FALSE, results='hold'}
+data0 <- na.omit(sv17_soil[,c("Reserve","Na")])
+data0 <- data0[order(data0$Na),] ; row.names(data0) <- NULL
+par(mar=c(3,3,.5,.5), mgp=c(1.5,0.2,0),tcl=0.2,font.lab=2,las=0)
+with(data0, boxplot(Na ~ Reserve))
+with(data0, stripchart(Na ~ Reserve, vertical=TRUE, add=TRUE, method="jitter",
+                        pch = 19, cex=0.5, col=c("#00308780","#faaa0080")))
+```
+
+<p>&nbsp;</p>
+
+```{r Na-as-ranks, fig.height=2, fig.width=10, message=FALSE, warning=FALSE, out.width="75%", fig.cap="Figure 2: Na concentration ranks, the basis for the Wilcoxon rank-sum test, in soil in each reserve area, sampled at Smith's Lake and Charles Veryard Reserves in 2017.", echo=FALSE}
 par(mar=c(3,6,1,1), mgp=c(1.3,0.2,0),tcl=0.2,font.lab=2,las=1)
-with(sv17_soil[which(sv17_soil$Reserve=="Smiths"),],
-     plot(which(sv17_soil$Reserve=="Smiths"),
-          rep(1.02, length(which(sv17_soil$Reserve=="Smiths"))), 
-          xlim=c(2,76), ylim=c(0.95,1.15), cex.lab=1.4,
-          pch="|", col="#008080", cex=3, xlab="Na rank", ylab="", yaxt="n"))
-with(sv17_soil[which(sv17_soil$Reserve=="Veryard"),],
-     points(which(sv17_soil$Reserve=="Veryard"),
-            rep(1.08, length(which(sv17_soil$Reserve=="Veryard"))), ylim=c(0.8,1.4),
+with(data0[which(data0$Reserve=="Smiths"),],
+     plot(which(data0$Reserve=="Smiths"),
+          rep(1.02, length(which(data0$Reserve=="Smiths"))), 
+          xlim=c(2,76), ylim=c(0.95,1.15), cex.lab=1.4, pch="|", 
+          col="#008080", cex=3, xlab="Na rank", ylab="", xaxt="n", yaxt="n"))
+axis(1, at=seq(0,70,10), labels=seq(0,70,10), tcl=0.3)
+axis(1, at=seq(0,80,1), labels=NA)
+with(data0[which(data0$Reserve=="Veryard"),],
+     points(which(data0$Reserve=="Veryard"),
+            rep(1.08, length(which(data0$Reserve=="Veryard"))), ylim=c(0.8,1.4),
             pch="|", col="sienna", cex=3))
-axis(2, at=1.02, labels=levels(sv17_soil$Reserve)[1], 
+axis(2, at=1.02, labels=levels(data0$Reserve)[1], 
      col.axis="cyan4", las=1, cex.axis=1.4)
-axis(2, at=1.08, labels=levels(sv17_soil$Reserve)[2], 
+axis(2, at=1.08, labels=levels(data0$Reserve)[2], 
      col.axis="sienna", las=1, cex.axis=1.4)
 ```
 
@@ -209,6 +241,24 @@ rm(meansFe)
 
 <p>&nbsp;</p>
 
+The output from `kruskal.test()` shows that H~0~ can be rejected, so we can say 
+the mean rank sums of each group defined by `Type` are significantly different.
+
+We should note that the Kruskal-Wallis test does **not** compare means, and
+would only compare medians if the distributions in each group were the same
+shape. The Kruskal-Wallis test is based on the actual and expected values of the
+*mean rank sum* in each group, *i.e*., the sum of the ranks in a group divided 
+by the number of observations in that group (as for the Wilcoxon test).
+
+```{r boxlot-3groups, fig.height=3, fig.width=4, fig.cap="Figure 3: Boxplot showing differences in `Fe` between groups defined by `Type`, with overplotted individual observations.", message=FALSE, warning=FALSE, results='hold'}
+par(mar=c(3,3,.5,.5), mgp=c(1.5,0.2,0),tcl=0.2,font.lab=2,las=0)
+with(sv2017, boxplot(Fe ~ Type, log="y", xlab="Sample Type", ylab = "Fe (mg/kg)"))
+with(sv2017, stripchart(Fe ~ Type, vertical=TRUE, add=TRUE, method="jitter",
+                        pch = 19, cex=0.5, col=c("#00308780","#faaa0080","#60008080")))
+```
+
+<p>&nbsp;</p>
+
 With a p-value of &asymp; 0.016, H~0~ can be rejected. We still have the
 problem of not knowing which means are significantly different from each other.
 There are several options for pairwise comparisons of means following
@@ -216,31 +266,33 @@ statistically significant Kruskal-Wallis results; we will use the pairwise
 Wilcoxon test (`pairwise.wilcox.test()`), for consistency with the 2-level
 comparisons in the previous section. Also, we should still be using a
 non-parametric test to match the original Kruskal-Wallis test. (More rigorous
-tests, such as Conover's non-parametric all-pairs comparison test, are available
+tests, such as Dunn's non-parametric all-pairs comparison test, are available
 in the R package `PMCMRplus`).
 
 <p>&nbsp;</p>
 
-```{r Fe-as-ranks, fig.height=2, fig.width=10, message=FALSE, warning=FALSE, out.width="75%", fig.cap="Figure 2: Fe concentration ranks in sediment, soil, and street dust sampled at Smith's Lake and Charles Veryard Reserves in 2017.", echo=FALSE}
+```{r Fe-as-ranks, fig.height=2, fig.width=10, message=FALSE, warning=FALSE, out.width="75%", fig.cap="Figure 4: Fe concentration ranks (the basis for the Kruskal-Wallis test) in sediment, soil, and street dust sampled at Smith's Lake and Charles Veryard Reserves in 2017.", echo=FALSE}
+data0 <- na.omit(sv2017[,c("Fe","Type")])
+data0 <- data0[order(data0$Fe),] ; row.names(data0) <- NULL
 par(mar=c(3,6,1,1), mgp=c(1.3,0.2,0),tcl=0.2,font.lab=2,las=1)
-with(sv2017[which(sv2017$Type=="Sediment"),],
-     plot(which(sv2017$Type=="Sediment"),
-          rep(1, length(which(sv2017$Type=="Sediment"))), 
+with(data0[which(data0$Type=="Sediment"),],
+     plot(which(data0$Type=="Sediment"),
+          rep(1, length(which(data0$Type=="Sediment"))), 
           xlim=c(2,96), ylim=c(0.95,1.15), cex.lab=1.4,
           pch="|", col="#008080", cex=3, xlab="Fe rank", ylab="", yaxt="n"))
-with(sv2017[which(sv2017$Type=="Soil"),],
-     points(which(sv2017$Type=="Soil"),
-            rep(1.05, length(which(sv2017$Type=="Soil"))), ylim=c(0.8,1.4),
+with(data0[which(data0$Type=="Soil"),],
+     points(which(data0$Type=="Soil"),
+            rep(1.05, length(which(data0$Type=="Soil"))), ylim=c(0.8,1.4),
             pch="|", col="sienna", cex=3))
-with(sv2017[which(sv2017$Type=="Street dust"),],
-     points(which(sv2017$Type=="Street dust"),
-        rep(1.1, length(which(sv2017$Type=="Street dust"))), ylim=c(0.8,1.4),
+with(data0[which(data0$Type=="Street dust"),],
+     points(which(data0$Type=="Street dust"),
+        rep(1.1, length(which(data0$Type=="Street dust"))), ylim=c(0.8,1.4),
             pch="|", col="gray10", cex=3))
-axis(2, at=1, labels=levels(sv2017$Type)[1], 
+axis(2, at=1, labels=levels(data0$Type)[1], 
      col.axis="cyan4", las=1, cex.axis=1.4)
-axis(2, at=1.05, labels=levels(sv2017$Type)[2], 
+axis(2, at=1.05, labels=levels(data0$Type)[2], 
      col.axis="sienna", las=1, cex.axis=1.4)
-axis(2, at=1.1, labels=levels(sv2017$Type)[3], 
+axis(2, at=1.1, labels=levels(data0$Type)[3], 
      col.axis="gray10", las=1, cex.axis=1.4)
 ```
 
@@ -274,9 +326,9 @@ H~0~ for any other pairwise comparisons.
 
 <p>&nbsp;</p>
 
-### Pairwise effect sizes
+### Effect sizes for the Kruskal-Wallis test
 
-The effect size test to accompany a kruskal-Wallis test is the 
+The effect size test to accompany a Kruskal-Wallis test is the 
 `rank_epsilon_squared()` test in the `effectsize` R package
 
 ```{r rank-epsilon-sq, results='hold'}

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-05-30" />
+<meta name="date" content="2024-06-01" />
 
 <title>Statistics for Comparisons</title>
 
@@ -464,7 +464,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistics for Comparisons</h1>
 <h3 class="subtitle">Non-parametric tests</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-05-30</h4>
+<h4 class="date">2024-06-01</h4>
 
 </div>
 
@@ -504,7 +504,8 @@ comparisons (<em>e.g</em>. box plots with means)</li>
 </ol>
 <div id="for-parametric-means-comparisons-we-asked-you-to-learn"
 class="section level3">
-<h3>For parametric means comparisons we asked you to learn:</h3>
+<h3>For <a href="means.html">parametric means comparisons</a> we asked
+you to learn:</h3>
 <ol style="list-style-type: decimal">
 <li>Use a <em>single-sided t- test</em> to compare the mean of a
 variable with a fixed value (<em>e.g</em>. an environmental
@@ -558,12 +559,12 @@ point-and-click operation of R</p>
 <p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243070_1/xid-40243070_1" target="_blank" rel="noopener">🔣
 R code file for <strong>Workshop: Advanced Means
 Comparisons</strong></a> – for Week 6, start
-at<strong><span style="font-family: 'courier new', courier, monospace;">
+at<strong><span style="font-size:9pt; font-family: 'courier new', courier, monospace;">
 Non-parametric tests (line 409)</strong></p>
 <p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243016_1/xid-40243016_1" target="_blank" rel="noreferrer noopener">🔣
-R code for means on boxplots</a></p>
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243019_1/xid-40243019_1" target="_blank" rel="noreferrer noopener">🔣
-R code for means and confidence intervals on boxplots</a> <br />(more
+R code for means on boxplots</a>    
+<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243019_1/xid-40243019_1" target="_blank" rel="noreferrer noopener">🔣
+R code for means and confidence intervals on boxplots</a>  (more
 complex)</p>
 <p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243084_1/xid-40243084_1" target="_blank" rel="noreferrer noopener">🔣
 R code for calculating pairwise Cohen's d effect sizes</a> 
@@ -603,9 +604,10 @@ observation.</p>
 <h3>1. Wilcoxon test</h3>
 <p>From previous sessions we know that most untransformed variables are
 not normally distributed. For comparison between exactly 2 groups we use
-the <strong>Wilcoxon test</strong> (via the <code>wilcox.test()</code>
-function). The Wilcoxon test is based on ranking of observations, so
-should be independent of transformation – as in the example below:</p>
+the <strong>Wilcoxon rank-sum test</strong> (via the
+<code>wilcox.test()</code> function). The Wilcoxon test is based on
+ranking of observations, so should be independent of transformation – as
+in the example below:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">wilcox.test</span>(sv17_soil<span class="sc">$</span>Na <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;Means for original (untransformed) variable</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>meansNa <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sv17_soil<span class="sc">$</span>Na, sv17_soil<span class="sc">$</span>Reserve, mean,</span>
@@ -642,11 +644,47 @@ Means for transformed variable
 <p>
  
 </p>
+<p>The output of <code>wilcox.test()</code> above shows a
+<code>p-value</code> &lt; 0.05, so we reject H<sub>0</sub> (that the
+rank sum of each group is not different from a case where the ranks of
+each group are randomly ordered). In rejecting H<sub>0</sub> we can
+accept the alternative hypothesis, that the distribution of one group is
+shifted relative to the other.</p>
+<p>It's somewhat important to recognise that the Wilcoxon rank-sum test
+<strong>does</strong> <strong>not compare means</strong> (or even
+medians). Based on the rank sums of the variable tested, the Wilcoxon
+rank-sum test simply tests whether or not the distribution in one group
+is shifted relative to the other group. If the distributions in each
+group have identical shapes, than we can say that the Wilcoxon test
+compares <em>medians</em>, but since the distributions are not often
+identical, our only conclusions should be about the <em>'location
+shift'</em> of one group's distribution relative to the other.</p>
+<p>The quantity compared in the Wilcoxon test is the <em>mean rank
+sum</em> – the sum of the ranks for all observations in a group, divided
+by the number of observations in that group.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(sv17_soil[,<span class="fu">c</span>(<span class="st">&quot;Reserve&quot;</span>,<span class="st">&quot;Na&quot;</span>)])</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> data0[<span class="fu">order</span>(data0<span class="sc">$</span>Na),] ; <span class="fu">row.names</span>(data0) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,.<span class="dv">5</span>,.<span class="dv">5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.2</span>,<span class="at">font.lab=</span><span class="dv">2</span>,<span class="at">las=</span><span class="dv">0</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">with</span>(data0, <span class="fu">boxplot</span>(Na <span class="sc">~</span> Reserve))</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">with</span>(data0, <span class="fu">stripchart</span>(Na <span class="sc">~</span> Reserve, <span class="at">vertical=</span><span class="cn">TRUE</span>, <span class="at">add=</span><span class="cn">TRUE</span>, <span class="at">method=</span><span class="st">&quot;jitter&quot;</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>                        <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex=</span><span class="fl">0.5</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#00308780&quot;</span>,<span class="st">&quot;#faaa0080&quot;</span>)))</span></code></pre></div>
 <div class="figure">
-<img src="nonparam_files/figure-html/Na-as-ranks-1.png" alt="Figure 1: Na concentration ranks in soil in each reserve area, sampled at Smith's Lake and Charles Veryard Reserves in 2017." width="75%" />
+<img src="nonparam_files/figure-html/boxplot-2groups-1.png" alt="Figure 1: Boxplot showing differences in `Na` between groups defined by `Reserve`, with overplotted individual observations." width="384" />
 <p class="caption">
-Figure 1: Na concentration ranks in soil in each reserve area, sampled
-at Smith's Lake and Charles Veryard Reserves in 2017.
+Figure 1: Boxplot showing differences in <code>Na</code> between groups
+defined by <code>Reserve</code>, with overplotted individual
+observations.
+</p>
+</div>
+<p>
+ 
+</p>
+<div class="figure">
+<img src="nonparam_files/figure-html/Na-as-ranks-1.png" alt="Figure 2: Na concentration ranks, the basis for the Wilcoxon rank-sum test, in soil in each reserve area, sampled at Smith's Lake and Charles Veryard Reserves in 2017." width="75%" />
+<p class="caption">
+Figure 2: Na concentration ranks, the basis for the Wilcoxon rank-sum
+test, in soil in each reserve area, sampled at Smith's Lake and Charles
+Veryard Reserves in 2017.
 </p>
 </div>
 <p>
@@ -660,9 +698,9 @@ href="means.html">parametric tests</a>. Non-parametric effect size tests
 are available in the <code>effectsize</code> R package – we need the
 <code>rank_biserial()</code> test (also called
 <code>cliffs_delta()</code>) for a 2-level comparison.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">require</span>(effectsize)</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>(rbsNa <span class="ot">&lt;-</span> <span class="fu">rank_biserial</span>(sv17_soil<span class="sc">$</span>Na <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve, <span class="at">verbose=</span>F)); <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">interpret_rank_biserial</span>(rbsNa<span class="sc">$</span>r_rank_biserial)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">require</span>(effectsize)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>(rbsNa <span class="ot">&lt;-</span> <span class="fu">rank_biserial</span>(sv17_soil<span class="sc">$</span>Na <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve, <span class="at">verbose=</span>F)); <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">interpret_rank_biserial</span>(rbsNa<span class="sc">$</span>r_rank_biserial)</span></code></pre></div>
 <pre><code>r (rank biserial) |         95% CI
 ----------------------------------
 -0.41             | [-0.64, -0.11]
@@ -681,12 +719,12 @@ function) for non-parametric comparisons between three or more groups
 defined by a factor.</p>
 <p>This example is testing differences in Fe between sample Types in the
 complete Smith's – Veryard 2017 dataset.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">kruskal.test</span>(sv2017<span class="sc">$</span>Fe <span class="sc">~</span> sv2017<span class="sc">$</span>Type)</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>meansFe <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sv2017<span class="sc">$</span>Fe, sv2017<span class="sc">$</span>Type, mean,</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>                  <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Means for untransformed variable</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">signif</span>(meansFe),<span class="dv">4</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="fu">rm</span>(meansFe)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">kruskal.test</span>(sv2017<span class="sc">$</span>Fe <span class="sc">~</span> sv2017<span class="sc">$</span>Type)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>meansFe <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sv2017<span class="sc">$</span>Fe, sv2017<span class="sc">$</span>Type, mean,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                  <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Means for untransformed variable</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">signif</span>(meansFe),<span class="dv">4</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">rm</span>(meansFe)</span></code></pre></div>
 <pre><code>
     Kruskal-Wallis rank sum test
 
@@ -699,6 +737,29 @@ Means for untransformed variable
 <p>
  
 </p>
+<p>The output from <code>kruskal.test()</code> shows that H<sub>0</sub>
+can be rejected, so we can say the mean rank sums of each group defined
+by <code>Type</code> are significantly different.</p>
+<p>We should note that the Kruskal-Wallis test does <strong>not</strong>
+compare means, and would only compare medians if the distributions in
+each group were the same shape. The Kruskal-Wallis test is based on the
+actual and expected values of the <em>mean rank sum</em> in each group,
+<em>i.e</em>., the sum of the ranks in a group divided by the number of
+observations in that group (as for the Wilcoxon test).</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,.<span class="dv">5</span>,.<span class="dv">5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>),<span class="at">tcl=</span><span class="fl">0.2</span>,<span class="at">font.lab=</span><span class="dv">2</span>,<span class="at">las=</span><span class="dv">0</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">with</span>(sv2017, <span class="fu">boxplot</span>(Fe <span class="sc">~</span> Type, <span class="at">log=</span><span class="st">&quot;y&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Sample Type&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Fe (mg/kg)&quot;</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">with</span>(sv2017, <span class="fu">stripchart</span>(Fe <span class="sc">~</span> Type, <span class="at">vertical=</span><span class="cn">TRUE</span>, <span class="at">add=</span><span class="cn">TRUE</span>, <span class="at">method=</span><span class="st">&quot;jitter&quot;</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>                        <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex=</span><span class="fl">0.5</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#00308780&quot;</span>,<span class="st">&quot;#faaa0080&quot;</span>,<span class="st">&quot;#60008080&quot;</span>)))</span></code></pre></div>
+<div class="figure">
+<img src="nonparam_files/figure-html/boxlot-3groups-1.png" alt="Figure 3: Boxplot showing differences in `Fe` between groups defined by `Type`, with overplotted individual observations." width="384" />
+<p class="caption">
+Figure 3: Boxplot showing differences in <code>Fe</code> between groups
+defined by <code>Type</code>, with overplotted individual observations.
+</p>
+</div>
+<p>
+ 
+</p>
 <p>With a p-value of ≈ 0.016, H<sub>0</sub> can be rejected. We still
 have the problem of not knowing which means are significantly different
 from each other. There are several options for pairwise comparisons of
@@ -707,16 +768,17 @@ will use the pairwise Wilcoxon test
 (<code>pairwise.wilcox.test()</code>), for consistency with the 2-level
 comparisons in the previous section. Also, we should still be using a
 non-parametric test to match the original Kruskal-Wallis test. (More
-rigorous tests, such as Conover's non-parametric all-pairs comparison
-test, are available in the R package <code>PMCMRplus</code>).</p>
+rigorous tests, such as Dunn's non-parametric all-pairs comparison test,
+are available in the R package <code>PMCMRplus</code>).</p>
 <p>
  
 </p>
 <div class="figure">
-<img src="nonparam_files/figure-html/Fe-as-ranks-1.png" alt="Figure 2: Fe concentration ranks in sediment, soil, and street dust sampled at Smith's Lake and Charles Veryard Reserves in 2017." width="75%" />
+<img src="nonparam_files/figure-html/Fe-as-ranks-1.png" alt="Figure 4: Fe concentration ranks (the basis for the Kruskal-Wallis test) in sediment, soil, and street dust sampled at Smith's Lake and Charles Veryard Reserves in 2017." width="75%" />
 <p class="caption">
-Figure 2: Fe concentration ranks in sediment, soil, and street dust
-sampled at Smith's Lake and Charles Veryard Reserves in 2017.
+Figure 4: Fe concentration ranks (the basis for the Kruskal-Wallis test)
+in sediment, soil, and street dust sampled at Smith's Lake and Charles
+Veryard Reserves in 2017.
 </p>
 </div>
 <p>
@@ -744,14 +806,14 @@ comparisons.</p>
 results of non-parametric tests. As before, we need the
 <strong>R</strong> packages <code>rcompanion</code> and
 <code>multcompView</code> to do this easily.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">require</span>(rcompanion)</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">require</span>(multcompView)</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>pwFe_Type <span class="ot">&lt;-</span> <span class="fu">with</span>(sv2017, <span class="fu">pairwise.wilcox.test</span>(Fe, Type)) </span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>pwFe_Type_pv <span class="ot">&lt;-</span> <span class="fu">fullPTable</span>(pwFe_Type<span class="sc">$</span>p.value)               <span class="co"># from rcompanion</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">multcompLetters</span>(pwFe_Type_pv)                               <span class="co"># from multcompView</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">require</span>(rcompanion)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">require</span>(multcompView)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>pwFe_Type <span class="ot">&lt;-</span> <span class="fu">with</span>(sv2017, <span class="fu">pairwise.wilcox.test</span>(Fe, Type)) </span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>pwFe_Type_pv <span class="ot">&lt;-</span> <span class="fu">fullPTable</span>(pwFe_Type<span class="sc">$</span>p.value)               <span class="co"># from rcompanion</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">multcompLetters</span>(pwFe_Type_pv)                               <span class="co"># from multcompView</span></span></code></pre></div>
 <pre><code>   Sediment        Soil Street dust 
        &quot;ab&quot;         &quot;a&quot;         &quot;b&quot; </code></pre>
-<p>The output from <code>kwAllPairsConoverTest()</code> shows that p ≤
+<p>The output from <code>pairwise.wilcox.test()</code> shows that p ≤
 0.05 only for the Soil-Street dust comparison (<code>"ab"</code> matches
 <code>"a"</code> OR <code>"b"</code>). We can't reject H<sub>0</sub> for
 any other pairwise comparisons.</p>
@@ -759,14 +821,15 @@ any other pairwise comparisons.</p>
  
 </p>
 </div>
-<div id="pairwise-effect-sizes" class="section level3">
-<h3>Pairwise effect sizes</h3>
-<p>The effect size test to accompany a kruskal-Wallis test is the
+<div id="effect-sizes-for-the-kruskal-wallis-test"
+class="section level3">
+<h3>Effect sizes for the Kruskal-Wallis test</h3>
+<p>The effect size test to accompany a Kruskal-Wallis test is the
 <code>rank_epsilon_squared()</code> test in the <code>effectsize</code>
 R package</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>(resFe <span class="ot">&lt;-</span> <span class="fu">rank_epsilon_squared</span>(sv2017<span class="sc">$</span>Fe, sv2017<span class="sc">$</span>Type, <span class="at">verbose =</span> <span class="cn">FALSE</span>))</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">&quot;</span>) <span class="co"># blank output line</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">interpret_epsilon_squared</span>(resFe<span class="sc">$</span>r)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>(resFe <span class="ot">&lt;-</span> <span class="fu">rank_epsilon_squared</span>(sv2017<span class="sc">$</span>Fe, sv2017<span class="sc">$</span>Type, <span class="at">verbose =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">&quot;</span>) <span class="co"># blank output line</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">interpret_epsilon_squared</span>(resFe<span class="sc">$</span>r)</span></code></pre></div>
 <pre><code>Epsilon2 (rank) |       95% CI
 ------------------------------
 0.09            | [0.05, 1.00]
@@ -789,13 +852,13 @@ of Modern Applied Statistical Methods</em>
 <strong>8</strong>:597-599.</p>
 <p><strong>Run the R code below to get citation information for the R
 packages used in</strong> <strong>this document</strong>.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;car&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;RcmdrMisc&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;effectsize&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;multcomp&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;PMCMRplus&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;rcompanion&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;multcompView&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;car&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;RcmdrMisc&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;effectsize&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;multcomp&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;PMCMRplus&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;rcompanion&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;multcompView&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 
 <!DOCTYPE html>
