@@ -634,10 +634,9 @@ ggmap(slmap) +
 <p>&nbsp;</p>
 
 Maps are [mostly] just scatterplots with a map background &ndash; we will spend 
-a [separate session on maps in R
-later](https://lms.uwa.edu.au/bbcswebdav/xid-45554160_1){target="_blank"} making
-use of the `ggmap` **R** package, which has a lot in common with `ggplot2`
-including use of `geom_sf()`.
+a [separate session on maps in R later](maps.html) making use of the `ggmap`
+**R** package, which has a lot in common with `ggplot2` including use of
+`geom_sf()`.
 
 <p>&nbsp;</p>
 
