@@ -716,7 +716,7 @@ scatterplotMatrix(~log10(Al) + log10(Ca) + log10(Fe) + log10(Na) | Type,
 ### 5. Simple maps
 
 Maps are [mostly] just scatterplots with a map background &ndash; we will spend 
-a separate session on maps in R later.
+a [separate session on maps in R](maps.html) later.
 
 <center>![](images/rottnest.png)</center>
 
