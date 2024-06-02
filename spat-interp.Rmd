@@ -28,6 +28,15 @@ addImg <- function(obj, x = NULL, y = NULL, width = NULL, interpolate = TRUE){
 
 <p>&nbsp;</p>
 
+<div style="border: 2px solid #039; padding: 8px;">
+<p style="text-align:center; font-size:12pt;">
+<em>Maps / spatial pages</em>: [Maps](maps.html){style="color:#04b;"} | 
+[Spatial statistics](spatial.html){style="color:#04b;"} | 
+[Spatial interpolation](spat-interp.html){style="color:#04b;"}</p>
+</div>
+
+&nbsp;
+
 ## Introduction
 
 For many assessments of environmental data, it is desirable to predict an

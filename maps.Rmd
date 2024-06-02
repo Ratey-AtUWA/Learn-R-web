@@ -26,6 +26,15 @@ addImg <- function(obj, x = NULL, y = NULL, width = NULL, interpolate = TRUE){
 }
 ```
 
+<div style="border: 2px solid #039; padding: 8px;">
+<p style="text-align:center; font-size:12pt;">
+<em>Maps / spatial pages</em>: [Maps](maps.html){style="color:#04b;"} | 
+[Spatial statistics](spatial.html){style="color:#04b;"} | 
+[Spatial interpolation](spat-interp.html){style="color:#04b;"}</p>
+</div>
+
+&nbsp;
+
 <div style="border: 2px solid #039; background-color:#fec; padding: 8px;"> 
 # Activities for this Workshop class
 
