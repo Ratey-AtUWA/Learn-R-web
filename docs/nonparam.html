@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-06-02" />
+<meta name="date" content="2024-06-03" />
 
 <title>Statistics for Comparisons</title>
 
@@ -343,7 +343,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -358,7 +358,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -373,7 +373,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -388,7 +388,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -409,7 +409,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -427,7 +427,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -464,7 +464,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistics for Comparisons</h1>
 <h3 class="subtitle">Non-parametric tests</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-06-02</h4>
+<h4 class="date">2024-06-03</h4>
 
 </div>
 
@@ -474,6 +474,12 @@ $(document).ready(function () {
   font-size: 12pt;
 }
 </style>
+<div style="border: 2px solid #039; padding: 8px;">
+<p style="text-align:center; font-size:14pt;">
+<em>Comparisons pages</em>: <a href="means.html" style="color:#04b;">Parametric tests</a> | <a
+href="nonparam.html" style="color:#04b;">Non-parametric tests</a></p>
+</div>
+<p> </p>
 <div id="activities-for-this-workshop" class="section level2"
 style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
 <h2>Activities for this Workshop</h2>
@@ -653,8 +659,8 @@ W = 246, p-value = 0.01426
 alternative hypothesis: true location shift is not equal to 0
 
 Means for original (untransformed) variable
- Smiths Veryard 
-    102     139 
+ Smiths Veryard
+    102     139
 
 --------------------------------------------
 
@@ -665,7 +671,7 @@ W = 246, p-value = 0.01426
 alternative hypothesis: true location shift is not equal to 0
 
 Means for transformed variable
- Smiths Veryard 
+ Smiths Veryard
    1.76    1.85 </code></pre>
 <p>
  
@@ -758,7 +764,7 @@ data:  sv2017$Fe by sv2017$Type
 Kruskal-Wallis chi-squared = 8.222, df = 2, p-value = 0.01639
 
 Means for untransformed variable
-   Sediment        Soil Street dust 
+   Sediment        Soil Street dust
        5111        2695        3694 </code></pre>
 <p>
  
@@ -815,12 +821,12 @@ Veryard Reserves in 2017.
 class="section level3">
 <h3>Pairwise comparisons following a Kruskal-Wallis test</h3>
 <pre><code>
-    Pairwise comparisons using Wilcoxon rank sum test with continuity correction 
+    Pairwise comparisons using Wilcoxon rank sum test with continuity correction
 
-data:  Fe and Type 
+data:  Fe and Type
 
-            Sediment Soil 
-Soil        0.743    -    
+            Sediment Soil
+Soil        0.743    -
 Street dust 0.091    0.012
 
 P value adjustment method: holm </code></pre>
@@ -837,7 +843,7 @@ results of non-parametric tests. As before, we need the
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>pwFe_Type <span class="ot">&lt;-</span> <span class="fu">with</span>(sv2017, <span class="fu">pairwise.wilcox.test</span>(Fe, Type)) </span>
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>pwFe_Type_pv <span class="ot">&lt;-</span> <span class="fu">fullPTable</span>(pwFe_Type<span class="sc">$</span>p.value)               <span class="co"># from rcompanion</span></span>
 <span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">multcompLetters</span>(pwFe_Type_pv)                               <span class="co"># from multcompView</span></span></code></pre></div>
-<pre><code>   Sediment        Soil Street dust 
+<pre><code>   Sediment        Soil Street dust
        &quot;ab&quot;         &quot;a&quot;         &quot;b&quot; </code></pre>
 <p>The output from <code>pairwise.wilcox.test()</code> shows that p ≤
 0.05 only for the Soil-Street dust comparison (<code>"ab"</code> matches
@@ -858,7 +864,7 @@ R package</p>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">interpret_epsilon_squared</span>(resFe<span class="sc">$</span>r)</span></code></pre></div>
 <pre><code>Epsilon2 (rank) |       95% CI
 ------------------------------
-0.09            | [0.06, 1.00]
+0.09            | [0.05, 1.00]
 
 - One-sided CIs: upper bound fixed at [1.00].
 

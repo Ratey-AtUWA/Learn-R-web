@@ -31,6 +31,14 @@ palette(c("black", "#003087", "#DAAA00", "#8F92C4", "#E5CF7E",
           "#AD5D1E", "gray40", "gray85", "#FFFFFF", "transparent"))
 ```
 
+<div style="border: 2px solid #039; padding: 8px;">
+<p style="text-align:center; font-size:14pt;">
+<em>Comparisons pages</em>: <a href="means.html" style="color:#04b;">Parametric tests</a> | <a
+href="nonparam.html" style="color:#04b;">Non-parametric tests</a></p>
+</div>
+
+&nbsp;
+
 <div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
 
 ## Activities for this Workshop
