@@ -40,6 +40,16 @@ addImg <- function(obj, x = NULL, y = NULL, width = NULL, interpolate = TRUE){
 }
 ```
 
+<div style="border: 2px solid #039; padding: 8px;">
+<p style="text-align:center; font-size:12pt;">
+<em>Relationships pages</em>: [Correlations](correl.html){style="color:#04b;"} | 
+[Simple linear regression](regression.html){style="color:#04b;"} | 
+[Grouped linear regression](reg-group.html){style="color:#04b;"} | 
+[Multiple linear regression](reg-multi.html){style="color:#04b;"}</p>
+</div>
+
+&nbsp;
+
 <div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
 Using the R code file provided and the `afs1923` dataset:
 

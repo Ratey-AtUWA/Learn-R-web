@@ -41,6 +41,16 @@ addImg <- function(obj, x = NULL, y = NULL, width = NULL, interpolate = TRUE){
 }
 ```
 
+<div style="border: 2px solid #039; padding: 8px;">
+<p style="text-align:center; font-size:12pt;">
+<em>Relationships pages</em>: [Correlations](correl.html){style="color:#04b;"} | 
+[Simple linear regression](regression.html){style="color:#04b;"} | 
+[Grouped linear regression](reg-group.html){style="color:#04b;"} | 
+[Multiple linear regression](reg-multi.html){style="color:#04b;"}</p>
+</div>
+
+&nbsp;
+
 ## Introduction
 
 In a [previous session on simple regression](regression.html), we finished by 

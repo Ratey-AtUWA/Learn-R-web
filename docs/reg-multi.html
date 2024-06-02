@@ -343,7 +343,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -358,7 +358,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -373,7 +373,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -388,7 +388,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -409,7 +409,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -427,7 +427,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -474,12 +474,23 @@ $(document).ready(function () {
   font-size: 12pt;
 }
 </style>
+<div style="border: 2px solid #039; padding: 8px;">
+<p style="text-align:center; font-size:12pt;">
+<em>Relationships pages</em>:
+<a href="correl.html" style="color:#04b;">Correlations</a> | <a
+href="regression.html" style="color:#04b;">Simple linear regression</a>
+| <a href="reg-group.html" style="color:#04b;">Grouped linear
+regression</a> | <a href="reg-multi.html" style="color:#04b;">Multiple
+linear regression</a>
+</p>
+</div>
+<p> </p>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>Another way we can improve the ability of a linear regression model,
 as compared with a <a href="regression.html">simple regression
 model</a>, is to allow prediction of our dependent variable with more
-than one independent variable $ndash; the idea of multiple predictors,
+than one independent variable &ndash; the idea of multiple predictors,
 or <em>multiple regression</em>. (We have already examined the use of <a
 href="reg-group.html">grouped linear regression</a> to improve
 prediction relative to <a href="regression.html">simple linear
@@ -641,31 +652,31 @@ all models, in which case we can't compare them.</p>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>lm_multi <span class="ot">&lt;-</span> <span class="fu">lm</span>(Gd.pow <span class="sc">~</span> pH <span class="sc">+</span> Al <span class="sc">+</span> Ca.log <span class="sc">+</span> Fe <span class="sc">+</span> K <span class="sc">+</span> Mg.pow <span class="sc">+</span> </span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>               Na.pow <span class="sc">+</span> S.log, <span class="at">data=</span>afs1923_multreg)</span>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">summary</span>(lm_multi)</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## Call:
-## lm(formula = Gd.pow ~ pH + Al + Ca.log + Fe + K + Mg.pow + Na.pow + 
+## lm(formula = Gd.pow ~ pH + Al + Ca.log + Fe + K + Mg.pow + Na.pow +
 ##     S.log, data = afs1923_multreg)
-## 
+##
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.29003 -0.27205 -0.03327  0.25159  1.35793 
-## 
+##      Min       1Q   Median       3Q      Max
+## -1.29003 -0.27205 -0.03327  0.25159  1.35793
+##
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  9.574e-01  3.441e-01   2.783  0.00576 ** 
-## pH          -1.904e-02  3.248e-02  -0.586  0.55809    
+##               Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)  9.574e-01  3.441e-01   2.783  0.00576 **
+## pH          -1.904e-02  3.248e-02  -0.586  0.55809
 ## Al           4.044e-05  3.494e-06  11.574  &lt; 2e-16 ***
-## Ca.log       6.936e-02  9.514e-02   0.729  0.46662    
+## Ca.log       6.936e-02  9.514e-02   0.729  0.46662
 ## Fe           7.415e-06  1.405e-06   5.277 2.63e-07 ***
-## K            1.031e-04  4.078e-05   2.529  0.01200 *  
-## Mg.pow      -1.529e-02  5.364e-03  -2.850  0.00469 ** 
-## Na.pow       3.311e-02  1.195e-02   2.772  0.00595 ** 
-## S.log       -7.455e-02  6.588e-02  -1.132  0.25875    
+## K            1.031e-04  4.078e-05   2.529  0.01200 *
+## Mg.pow      -1.529e-02  5.364e-03  -2.850  0.00469 **
+## Na.pow       3.311e-02  1.195e-02   2.772  0.00595 **
+## S.log       -7.455e-02  6.588e-02  -1.132  0.25875
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
+##
 ## Residual standard error: 0.3996 on 281 degrees of freedom
-## Multiple R-squared:  0.6976, Adjusted R-squared:  0.6889 
+## Multiple R-squared:  0.6976, Adjusted R-squared:  0.6889
 ## F-statistic: 81.01 on 8 and 281 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Note that the null hypothesis probability <code>Pr(&gt;|t|)</code>
 for some predictors (<code>pH</code>, <code>Ca.log</code> and
@@ -685,7 +696,7 @@ class="section level2">
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;Variance Inflation Factors</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">vif</span>(lm_multi)}</span></code></pre></div>
 <pre><code>## Variance Inflation Factors
-##        pH        Al    Ca.log        Fe         K    Mg.pow    Na.pow     S.log 
+##        pH        Al    Ca.log        Fe         K    Mg.pow    Na.pow     S.log
 ##  1.352595  3.484229  1.709828  1.250150  5.115344 17.110451 13.467308  1.613731</code></pre>
 <p>The VIF could be considered the "penalty" from having 2 or more
 predictors which (since they contain the same information) don't
@@ -709,30 +720,30 @@ predictors</h2>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>lm_multi2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Gd.pow <span class="sc">~</span> pH <span class="sc">+</span> Al <span class="sc">+</span> Ca.log <span class="sc">+</span> Fe <span class="sc">+</span> K <span class="sc">+</span> </span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>               Na.pow <span class="sc">+</span> S.log, <span class="at">data=</span>afs1923_multreg)</span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">summary</span>(lm_multi2)</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## Call:
-## lm(formula = Gd.pow ~ pH + Al + Ca.log + Fe + K + Na.pow + S.log, 
+## lm(formula = Gd.pow ~ pH + Al + Ca.log + Fe + K + Na.pow + S.log,
 ##     data = afs1923_multreg)
-## 
+##
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.19739 -0.25259 -0.01869  0.23688  1.42385 
-## 
+##      Min       1Q   Median       3Q      Max
+## -1.19739 -0.25259 -0.01869  0.23688  1.42385
+##
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
+##               Estimate Std. Error t value Pr(&gt;|t|)
 ## (Intercept)  1.411e+00  3.089e-01   4.569 7.34e-06 ***
-## pH          -4.798e-02  3.124e-02  -1.536   0.1257    
+## pH          -4.798e-02  3.124e-02  -1.536   0.1257
 ## Al           3.603e-05  3.171e-06  11.359  &lt; 2e-16 ***
-## Ca.log      -5.353e-02  8.588e-02  -0.623   0.5336    
+## Ca.log      -5.353e-02  8.588e-02  -0.623   0.5336
 ## Fe           6.754e-06  1.403e-06   4.813 2.43e-06 ***
-## K            8.635e-05  4.086e-05   2.113   0.0354 *  
-## Na.pow       3.623e-03  6.050e-03   0.599   0.5497    
-## S.log       -6.518e-02  6.662e-02  -0.978   0.3288    
+## K            8.635e-05  4.086e-05   2.113   0.0354 *
+## Na.pow       3.623e-03  6.050e-03   0.599   0.5497
+## S.log       -6.518e-02  6.662e-02  -0.978   0.3288
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
+##
 ## Residual standard error: 0.4046 on 282 degrees of freedom
-## Multiple R-squared:  0.6888, Adjusted R-squared:  0.6811 
+## Multiple R-squared:  0.6888, Adjusted R-squared:  0.6811
 ## F-statistic: 89.17 on 7 and 282 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Note that again the null hypothesis probability
 <code>Pr(&gt;|t|)</code> for some predictors (<code>pH</code>,
@@ -749,7 +760,7 @@ co-linear predictors</h2>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;Variance Inflation Factors</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">vif</span>(lm_multi2)}</span></code></pre></div>
 <pre><code>## Variance Inflation Factors
-##       pH       Al   Ca.log       Fe        K   Na.pow    S.log 
+##       pH       Al   Ca.log       Fe        K   Na.pow    S.log
 ## 1.220446 2.799425 1.358736 1.216093 5.008973 3.368022 1.609711</code></pre>
 <p><strong>With the co-linear variable(s) omitted (on the basis of
 |Pearson's r| &gt; 0.8 and <code>vif</code> &gt; 10), we now have no
@@ -775,32 +786,32 @@ number of predictors. So, we use a systematic stepwise procedure to test
 variations of the model, which omits unnecessary predictors.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>lm_stepwise <span class="ot">&lt;-</span> <span class="fu">step</span>(lm_multi2, <span class="at">direction=</span><span class="st">&quot;both&quot;</span>, <span class="at">trace=</span><span class="dv">0</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">summary</span>(lm_stepwise)</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## Call:
 ## lm(formula = Gd.pow ~ pH + Al + Fe + K, data = afs1923_multreg)
-## 
+##
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.19924 -0.25712 -0.02805  0.23895  1.43567 
-## 
+##      Min       1Q   Median       3Q      Max
+## -1.19924 -0.25712 -0.02805  0.23895  1.43567
+##
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
+##               Estimate Std. Error t value Pr(&gt;|t|)
 ## (Intercept)  1.133e+00  2.016e-01   5.619 4.57e-08 ***
-## pH          -5.898e-02  2.888e-02  -2.043 0.042007 *  
+## pH          -5.898e-02  2.888e-02  -2.043 0.042007 *
 ## Al           3.626e-05  2.787e-06  13.010  &lt; 2e-16 ***
 ## Fe           6.491e-06  1.318e-06   4.926 1.42e-06 ***
 ## K            9.172e-05  2.742e-05   3.345 0.000932 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
+##
 ## Residual standard error: 0.4038 on 285 degrees of freedom
-## Multiple R-squared:  0.6868, Adjusted R-squared:  0.6824 
+## Multiple R-squared:  0.6868, Adjusted R-squared:  0.6824
 ## F-statistic: 156.2 on 4 and 285 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">require</span>(car)</span>
 <span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="st">&quot;==== Variance Inflation Factors ====</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">vif</span>(lm_stepwise)}</span></code></pre></div>
 <pre><code>## ==== Variance Inflation Factors ====</code></pre>
-<pre><code>##       pH       Al       Fe        K 
+<pre><code>##       pH       Al       Fe        K
 ## 1.047243 2.171232 1.076866 2.264963</code></pre>
 <p>In the optimised model, we find that the stepwise procedure has
 generated a new model with fewer predictor variables. You should notice
@@ -850,71 +861,71 @@ log<sub>10</sub>-transformed variables respectively. The point labelled
 <span id="cb20-16"><a href="#cb20-16" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">influence.measures</span>(lm_stepwise))</span></code></pre></div>
 <pre><code>## ------- Residual autocorrelation (independence assumption):
 ##  Breusch-Godfrey test for serial correlation of order up to 1
-## 
+##
 ## data:  lm_stepwise
 ## LM test = 62.536, df = 1, p-value = 2.616e-15
-## 
-## 
+##
+##
 ## ------- Test of homoscedasticity assumption:
 ##  studentized Breusch-Pagan test
-## 
+##
 ## data:  lm_stepwise
 ## BP = 15.786, df = 4, p-value = 0.003321
-## 
-## 
+##
+##
 ## ------- Test of linearity assumption:
 ##  Rainbow test
-## 
+##
 ## data:  lm_stepwise
 ## Rain = 1.0326, df1 = 145, df2 = 140, p-value = 0.4245
-## 
-## 
+##
+##
 ## ------- Bonferroni Outlier test for influential observations:
-## 
+##
 ## No Studentized residuals with Bonferroni p &lt; 0.05
 ## Largest |rstudent|:
 ##     rstudent unadjusted p-value Bonferroni p
 ## 172 3.650077         0.00031196     0.090468
-## 
+##
 ## ------- Test distribution of residuals:
-## 
+##
 ##  Shapiro-Wilk normality test
-## 
+##
 ## data:  lm_stepwise$residuals
 ## W = 0.98593, p-value = 0.006173
-## 
-## 
+##
+##
 ## ------- Cook&#39;s Distance for any observations which are possibly too influential:
-##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-## 2.800e-07 2.798e-04 1.115e-03 3.166e-03 2.955e-03 6.105e-02 
-## 
+##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
+## 2.800e-07 2.798e-04 1.115e-03 3.166e-03 2.955e-03 6.105e-02
+##
 ## ------- Influence Measures for any observations which are possibly too influential:
 ## Potentially influential observations of
 ##   lm(formula = Gd.pow ~ pH + Al + Fe + K, data = afs1923_multreg) :
-## 
-##     dfb.1_ dfb.pH dfb.Al dfb.Fe dfb.K dffit   cov.r   cook.d hat    
-## 5   -0.05   0.06   0.01  -0.04   0.00 -0.07    1.05_*  0.00   0.04  
+##
+##     dfb.1_ dfb.pH dfb.Al dfb.Fe dfb.K dffit   cov.r   cook.d hat
+## 5   -0.05   0.06   0.01  -0.04   0.00 -0.07    1.05_*  0.00   0.04
 ## 15  -0.17   0.14   0.05   0.05   0.02 -0.18    1.08_*  0.01   0.06_*
-## 49   0.00   0.00   0.01   0.03  -0.02  0.04    1.05_*  0.00   0.04  
-## 95  -0.07   0.06   0.16  -0.10   0.02  0.30    0.89_*  0.02   0.01  
-## 129  0.17  -0.15  -0.38   0.01   0.29 -0.43_*  0.95_*  0.04   0.03  
+## 49   0.00   0.00   0.01   0.03  -0.02  0.04    1.05_*  0.00   0.04
+## 95  -0.07   0.06   0.16  -0.10   0.02  0.30    0.89_*  0.02   0.01
+## 129  0.17  -0.15  -0.38   0.01   0.29 -0.43_*  0.95_*  0.04   0.03
 ## 146 -0.05   0.01  -0.06   0.28  -0.01  0.30    1.08_*  0.02   0.07_*
 ## 147 -0.05   0.03  -0.06   0.20   0.01  0.22    1.08_*  0.01   0.07_*
-## 148 -0.02   0.01  -0.03   0.08   0.01  0.09    1.06_*  0.00   0.05  
+## 148 -0.02   0.01  -0.03   0.08   0.01  0.09    1.06_*  0.00   0.05
 ## 150 -0.08   0.05  -0.05   0.25  -0.02  0.28    1.11_*  0.02   0.10_*
 ## 154  0.03  -0.05  -0.07   0.19   0.01  0.21    1.08_*  0.01   0.07_*
-## 161  0.10  -0.10  -0.01  -0.05   0.04  0.20    0.91_*  0.01   0.01  
-## 172  0.12  -0.10  -0.19  -0.09   0.27  0.37    0.82_*  0.03   0.01  
-## 173  0.05  -0.08   0.05   0.13  -0.08  0.22    0.92_*  0.01   0.01  
-## 176  0.07  -0.04   0.01  -0.06  -0.03  0.17    0.92_*  0.01   0.00  
-## 187  0.22  -0.23  -0.06  -0.05   0.13  0.35    0.85_*  0.02   0.01  
-## 197  0.08  -0.02  -0.18  -0.11   0.16  0.24    0.95_*  0.01   0.01  
+## 161  0.10  -0.10  -0.01  -0.05   0.04  0.20    0.91_*  0.01   0.01
+## 172  0.12  -0.10  -0.19  -0.09   0.27  0.37    0.82_*  0.03   0.01
+## 173  0.05  -0.08   0.05   0.13  -0.08  0.22    0.92_*  0.01   0.01
+## 176  0.07  -0.04   0.01  -0.06  -0.03  0.17    0.92_*  0.01   0.00
+## 187  0.22  -0.23  -0.06  -0.05   0.13  0.35    0.85_*  0.02   0.01
+## 197  0.08  -0.02  -0.18  -0.11   0.16  0.24    0.95_*  0.01   0.01
 ## 212  0.03   0.03  -0.24  -0.27   0.32 -0.39    1.06_*  0.03   0.07_*
 ## 215  0.01  -0.01  -0.01   0.00   0.00  0.01    1.09_*  0.00   0.07_*
-## 217 -0.19   0.20   0.12  -0.01  -0.17 -0.33    0.89_*  0.02   0.01  
-## 219  0.10  -0.07   0.16  -0.26  -0.16 -0.40    0.88_*  0.03   0.02  
-## 220  0.07  -0.09   0.15   0.14  -0.31 -0.37    0.92_*  0.03   0.02  
-## 221  0.06  -0.08   0.14  -0.01  -0.17 -0.25    0.92_*  0.01   0.01  
+## 217 -0.19   0.20   0.12  -0.01  -0.17 -0.33    0.89_*  0.02   0.01
+## 219  0.10  -0.07   0.16  -0.26  -0.16 -0.40    0.88_*  0.03   0.02
+## 220  0.07  -0.09   0.15   0.14  -0.31 -0.37    0.92_*  0.03   0.02
+## 221  0.06  -0.08   0.14  -0.01  -0.17 -0.25    0.92_*  0.01   0.01
 ## 233  0.06  -0.07   0.07   0.04  -0.12 -0.14    1.08_*  0.00   0.06_*
 ## 257  0.01  -0.01   0.05  -0.04  -0.03 -0.07    1.12_*  0.00   0.09_*
 ## 258  0.13  -0.14   0.42  -0.21  -0.39 -0.55_*  1.12_*  0.06   0.12_*

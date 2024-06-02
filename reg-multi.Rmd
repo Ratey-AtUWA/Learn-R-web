@@ -41,11 +41,21 @@ addImg <- function(obj, x = NULL, y = NULL, width = NULL, interpolate = TRUE){
 }
 ```
 
+<div style="border: 2px solid #039; padding: 8px;">
+<p style="text-align:center; font-size:12pt;">
+<em>Relationships pages</em>: [Correlations](correl.html){style="color:#04b;"} | 
+[Simple linear regression](regression.html){style="color:#04b;"} | 
+[Grouped linear regression](reg-group.html){style="color:#04b;"} | 
+[Multiple linear regression](reg-multi.html){style="color:#04b;"}</p>
+</div>
+
+&nbsp;
+
 ## Introduction
 
 Another way we can improve the ability of a linear regression model, as compared 
 with a [simple regression model](regression.html), is to allow prediction of our 
-dependent variable with more than one independent variable $ndash; the idea of 
+dependent variable with more than one independent variable &ndash; the idea of 
 multiple predictors, or *multiple regression*. (We have already examined the use 
 of [grouped linear regression](reg-group.html) to improve prediction relative to 
 [simple linear regression](regression.html).)
