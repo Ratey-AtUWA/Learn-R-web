@@ -161,6 +161,33 @@ best; that is, the *grouped linear model* with R^2^&nbsp;=&nbsp;0.836 (*i.e*.,
 explaining 83.6% of the variance in `Cr` based on the variance in `Al` divided 
 into groups by the factor `Type2`).
 
+<p id="Occam">The choice of models should be based on an interpretation of 
+&ldquo;*Occam's Razor*&rdquo; a.k.a. the &ldquo;*Principle of Parsimony*&rdquo;:</p>
+
+>  &ldquo;Plurality must never be posited without necessity.&rdquo;  
+> &mdash; *William of Ockham (also spelled Occam) (1285 - 1348), English theologian, logician, and Franciscan friar*
+
+In practice this means that if more than one hypothesis or model explains our 
+data equally well, we should always choose the simplest one.
+
+Another way we can test for the most appropriate model is by using the AIC or
+*Aikake Information Criterion*, which &lsquo;penalises&rsquo; a model having 
+more parameters. A better model will have a lower value of AIC, and the built-in
+penalty means that for equivalent models (i.e. non-significant ANOVA) the model
+with more parameters will have greater AIC, and so we should select the simpler
+model with the least AIC value. For our two models, AIC shoud still be lower for
+the more complex model (otherwise we are in trouble, since the ANOVA and AIC
+would disagree, and then which one would we choose?). Anyway, let's find out:
+
+```{r compare-simple-grouped-AIC, message=FALSE, warning=FALSE, paged.print=FALSE}
+AIC(lmCrAlsimple, lmCrAl_byType)
+```
+
+The output from the `AIC()` function shows that even though the degrees of
+freedom `df` for the grouped model (11) is much greater than for the simple
+model (3), the grouped model still has a lower AIC value (&sime;2392) than the
+simple model (&sime;2456). So, the ANOVA and AIC do agree after all 😌.
+
 We can see a little more detail about the individual group-wise relationships or 
 &lsquo;effects&rsquo; by plotting an effects plot using functions from the 
 `effects` package (Figure 2):

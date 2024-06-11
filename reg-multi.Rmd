@@ -275,6 +275,31 @@ reject the null hypothesis for all predictors (*i.e*. none of them have 'no
 effect' on Gd). Our VIFs are now all close to 1, meaning negligible collinearity
 between predictors.
 
+From the correlation matrix we made near the beginning, we see that Gd was most
+strongly correlated with Al (r = 0.787).
+In the [interests of parsimony](reg-group.html#Occam), it would be sensible to
+check whether our multiple regression model is actually better than a simple
+model just predicting Gd from Al:
+
+```{r Gd-Al-simple-lm, warning=FALSE, message=FALSE, results='hold'}
+lmGdAl <- lm(Gd.pow ~ Al, data = afs1923_multreg)
+summary(lmGdAl)
+```
+
+Our simple model has R^2^ &sime;&nbsp;63%, which is quite close to the
+&sime;&nbsp;68% from the multiple linear regression, so we should check if
+multiple regression really does give an improvement. Since the simple and
+multiple models are nested we can use both `AIC()` and `anova()`:
+
+```{r aic-simple-multi, message=FALSE, warning=FALSE, paged.print=FALSE, results='hold'}
+AIC(lmGdAl, lm_stepwise)
+cat("\n-------------------------------------\n")
+anova(lmGdAl, lm_stepwise)
+```
+
+In this example, the lower AIC and anova p-value &le; 0.05 support the idea that
+the multiple regression model (`lm_stepwise`) describes our data better.
+
 It's always a good idea to run diagnostic plots (see Figure 1 below) on a
 regression model (simple or multiple), to check for (i) any systematic trends in
 residuals, (ii) normally distributed residuals (or not), and (iii) any unusually
@@ -377,7 +402,7 @@ Marmolejo-Rodríguez, A. J., Prego, R., Meyer-Willerer, A., Shumilin, E., & Sapo
 
 Morgan, B., Rate, A. W., Burton, E. D., & Smirk, M. (2012). Enrichment and fractionation of rare earth elements in FeS-rich eutrophic estuarine sediments receiving acid sulfate soil drainage. *Chemical Geology*, **308-309**, 60-73. [https://doi.org/10.1016/j.chemgeo.2012.03.012](https://doi.org/10.1016/j.chemgeo.2012.03.012){target="_blank"}
 
-Hebbali, A. (2018). Collinearity Diagnostics, Model Fit and Variable Gdntribution. Vignette for R Package 'olsrr'. Retrieved 2018.04.05, from [https://cran.r-project.org/web/packages/olsrr/vignettes/regression_diagnostics.html](https://cran.r-project.org/web/packages/olsrr/vignettes/regression_diagnostics.html){target="_blank"}.
+Hebbali, A. (2018). Collinearity Diagnostics, Model Fit and Variable Contribution. Vignette for R Package 'olsrr'. Retrieved 2018.04.05, from [https://cran.r-project.org/web/packages/olsrr/vignettes/regression_diagnostics.html](https://cran.r-project.org/web/packages/olsrr/vignettes/regression_diagnostics.html){target="_blank"}.
 
 Reimann, C., Filzmoser, P., Garrett, R.G., Dutter, R., (2008). *Statistical Data Analysis Explained: Applied Environmental Statistics with R*. John Wiley & Sons, Chichester, England (see Chapter 16).
 

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-05-29" />
+<meta name="date" content="2024-06-11" />
 
 <title>Statistical Relationships</title>
 
@@ -464,7 +464,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistical Relationships</h1>
 <h3 class="subtitle">Multiple linear regression</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-05-29</h4>
+<h4 class="date">2024-06-11</h4>
 
 </div>
 
@@ -476,12 +476,12 @@ $(document).ready(function () {
 </style>
 <div style="border: 2px solid #039; padding: 8px;">
 <p style="text-align:center; font-size:12pt;">
-<em>Relationships pages</em>:
-<a href="correl.html" style="color:#04b;">Correlations</a> | <a
-href="regression.html" style="color:#04b;">Simple linear regression</a>
-| <a href="reg-group.html" style="color:#04b;">Grouped linear
-regression</a> | <a href="reg-multi.html" style="color:#04b;">Multiple
-linear regression</a>
+<em>Relationships pages</em>: <a href="correl.html"
+style="color:#04b;">Correlations</a> | <a href="regression.html"
+style="color:#04b;">Simple linear regression</a> | <a
+href="reg-group.html" style="color:#04b;">Grouped linear regression</a>
+| <a href="reg-multi.html" style="color:#04b;">Multiple linear
+regression</a>
 </p>
 </div>
 <p> </p>
@@ -490,8 +490,8 @@ linear regression</a>
 <p>Another way we can improve the ability of a linear regression model,
 as compared with a <a href="regression.html">simple regression
 model</a>, is to allow prediction of our dependent variable with more
-than one independent variable &ndash; the idea of multiple predictors,
-or <em>multiple regression</em>. (We have already examined the use of <a
+than one independent variable – the idea of multiple predictors, or
+<em>multiple regression</em>. (We have already examined the use of <a
 href="reg-group.html">grouped linear regression</a> to improve
 prediction relative to <a href="regression.html">simple linear
 regression</a>.)</p>
@@ -820,6 +820,56 @@ predictors are all now ≤ 0.05, so we can reject the null hypothesis for
 all predictors (<em>i.e</em>. none of them have 'no effect' on Gd). Our
 VIFs are now all close to 1, meaning negligible collinearity between
 predictors.</p>
+<p>From the correlation matrix we made near the beginning, we see that
+Gd was most strongly correlated with Al (r = 0.787). In the <a
+href="reg-group.html#Occam">interests of parsimony</a>, it would be
+sensible to check whether our multiple regression model is actually
+better than a simple model just predicting Gd from Al:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>lmGdAl <span class="ot">&lt;-</span> <span class="fu">lm</span>(Gd.pow <span class="sc">~</span> Al, <span class="at">data =</span> afs1923_multreg)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="fu">summary</span>(lmGdAl)</span></code></pre></div>
+<pre><code>##
+## Call:
+## lm(formula = Gd.pow ~ Al, data = afs1923_multreg)
+##
+## Residuals:
+##      Min       1Q   Median       3Q      Max
+## -1.25175 -0.29628 -0.07589  0.28599  1.54474
+##
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) 1.005e+00  6.920e-02   14.52   &lt;2e-16 ***
+## Al          4.539e-05  2.037e-06   22.28   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+##
+## Residual standard error: 0.4349 on 288 degrees of freedom
+## Multiple R-squared:  0.6329, Adjusted R-squared:  0.6317
+## F-statistic: 496.6 on 1 and 288 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Our simple model has R<sup>2</sup> ≃ 63%, which is quite close to the
+≃ 68% from the multiple linear regression, so we should check if
+multiple regression really does give an improvement. Since the simple
+and multiple models are nested we can use both <code>AIC()</code> and
+<code>anova()</code>:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">AIC</span>(lmGdAl, lm_stepwise)</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">-------------------------------------</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="fu">anova</span>(lmGdAl, lm_stepwise)</span></code></pre></div>
+<pre><code>##             df      AIC
+## lmGdAl       3 344.0136
+## lm_stepwise  6 303.9756
+##
+## -------------------------------------
+## Analysis of Variance Table
+##
+## Model 1: Gd.pow ~ Al
+## Model 2: Gd.pow ~ pH + Al + Fe + K
+##   Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)
+## 1    288 54.466
+## 2    285 46.470  3    7.9951 16.344 7.902e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>In this example, the lower AIC and anova p-value ≤ 0.05 support the
+idea that the multiple regression model (<code>lm_stepwise</code>)
+describes our data better.</p>
 <p>It's always a good idea to run diagnostic plots (see Figure 1 below)
 on a regression model (simple or multiple), to check for (i) any
 systematic trends in residuals, (ii) normally distributed residuals (or
@@ -827,9 +877,9 @@ not), and (iii) any unusually influential observations.</p>
 </div>
 <div id="regression-diagnostic-plots" class="section level2">
 <h2>Regression diagnostic plots</h2>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="fl">3.5</span>,<span class="fl">3.5</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.5</span>,<span class="dv">0</span>), <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">font.main=</span><span class="dv">3</span>, </span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>    <span class="at">cex.main=</span><span class="fl">0.8</span>, <span class="at">tcl=</span><span class="sc">-</span><span class="fl">0.2</span>)</span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="fu">plot</span>(lm_stepwise, <span class="at">col=</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="fl">3.5</span>,<span class="fl">3.5</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.5</span>,<span class="dv">0</span>), <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">font.main=</span><span class="dv">3</span>, </span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>    <span class="at">cex.main=</span><span class="fl">0.8</span>, <span class="at">tcl=</span><span class="sc">-</span><span class="fl">0.2</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="fu">plot</span>(lm_stepwise, <span class="at">col=</span><span class="dv">4</span>)</span></code></pre></div>
 <div class="figure">
 <img src="reg-multi_files/figure-html/diagnostic-plots-1.png" alt="Figure 1: Diagnostic plots for the optimal multiple regression model following backward-forward stepwise refinement." width="576" />
 <p class="caption">
@@ -837,28 +887,28 @@ Figure 1: Diagnostic plots for the optimal multiple regression model
 following backward-forward stepwise refinement.
 </p>
 </div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
 <p>The optimal model is
 <code>Gd.pow ~ Al.pow + Ca.pow + Fe.pow + S.pow</code>, where suffixes
 <code>.pow</code> and <code>.log</code> represent power- and
 log<sub>10</sub>-transformed variables respectively. The point labelled
 <code>78</code> does look problematic...</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">require</span>(lmtest)</span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="fu">require</span>(car)</span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;------- Residual autocorrelation (independence assumption):&quot;</span>)</span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="fu">bgtest</span>(lm_stepwise) <span class="co"># Breusch-Godfrey test for autocorrelation (independence)</span></span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Test of homoscedasticity assumption:&quot;</span>)</span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a><span class="fu">bptest</span>(lm_stepwise) <span class="co"># Breusch-Pagan test for homoscedasticity</span></span>
-<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Test of linearity assumption:&quot;</span>)</span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="fu">raintest</span>(lm_stepwise) <span class="co"># Rainbow test for linearity</span></span>
-<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Bonferroni Outlier test for influential observations:</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span>
-<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a><span class="fu">outlierTest</span>(lm_stepwise) <span class="co"># Bonferroni outlier test for influential observations</span></span>
-<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Test distribution of residuals:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a><span class="fu">shapiro.test</span>(lm_stepwise<span class="sc">$</span>residuals) <span class="co"># Shapiro-Wilk test for normality</span></span>
-<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Cook&#39;s Distance for any observations which are possibly too influential:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">cooks.distance</span>(lm_stepwise)) <span class="co"># Cook&#39;s Distance</span></span>
-<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Influence Measures for any observations which are possibly too influential:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb20-16"><a href="#cb20-16" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">influence.measures</span>(lm_stepwise))</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">require</span>(lmtest)</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="fu">require</span>(car)</span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;------- Residual autocorrelation (independence assumption):&quot;</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a><span class="fu">bgtest</span>(lm_stepwise) <span class="co"># Breusch-Godfrey test for autocorrelation (independence)</span></span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Test of homoscedasticity assumption:&quot;</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a><span class="fu">bptest</span>(lm_stepwise) <span class="co"># Breusch-Pagan test for homoscedasticity</span></span>
+<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Test of linearity assumption:&quot;</span>)</span>
+<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a><span class="fu">raintest</span>(lm_stepwise) <span class="co"># Rainbow test for linearity</span></span>
+<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Bonferroni Outlier test for influential observations:</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span>
+<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a><span class="fu">outlierTest</span>(lm_stepwise) <span class="co"># Bonferroni outlier test for influential observations</span></span>
+<span id="cb24-11"><a href="#cb24-11" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Test distribution of residuals:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb24-12"><a href="#cb24-12" tabindex="-1"></a><span class="fu">shapiro.test</span>(lm_stepwise<span class="sc">$</span>residuals) <span class="co"># Shapiro-Wilk test for normality</span></span>
+<span id="cb24-13"><a href="#cb24-13" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Cook&#39;s Distance for any observations which are possibly too influential:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb24-14"><a href="#cb24-14" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">cooks.distance</span>(lm_stepwise)) <span class="co"># Cook&#39;s Distance</span></span>
+<span id="cb24-15"><a href="#cb24-15" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">------- Influence Measures for any observations which are possibly too influential:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb24-16"><a href="#cb24-16" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">influence.measures</span>(lm_stepwise))</span></code></pre></div>
 <pre><code>## ------- Residual autocorrelation (independence assumption):
 ##  Breusch-Godfrey test for serial correlation of order up to 1
 ##
@@ -933,8 +983,8 @@ log<sub>10</sub>-transformed variables respectively. The point labelled
 </div>
 <div id="multiple-regression-effect-plots" class="section level2">
 <h2>Multiple regression effect plots</h2>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">require</span>(effects)</span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">allEffects</span>(lm_stepwise, <span class="at">confidence.level=</span><span class="fl">0.95</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">require</span>(effects)</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">allEffects</span>(lm_stepwise, <span class="at">confidence.level=</span><span class="fl">0.95</span>))</span></code></pre></div>
 <div class="figure">
 <img src="reg-multi_files/figure-html/effect-plots-1.png" alt="Figure 2: Effect plots for individual predictors in the optimal multiple regression model following backward-forward stepwise refinement. Light blue shaded areas on plots represent 95% confidence limits." width="576" />
 <p class="caption">
@@ -958,35 +1008,35 @@ information stored in the <code>lm</code> object, by calling
 <code>predict()</code> function with synthetic data in a dataframe
 <code>newPreds</code> to generate confidence and prediction intervals
 for out plot.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>newPreds <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Al=</span><span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">max</span>(afs1923_multreg<span class="sc">$</span>Al), <span class="at">l=</span><span class="dv">100</span>),</span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>             <span class="at">Fe=</span><span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">max</span>(afs1923_multreg<span class="sc">$</span>Fe), <span class="at">l=</span><span class="dv">100</span>),</span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>             <span class="at">K=</span><span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">max</span>(afs1923_multreg<span class="sc">$</span>K), <span class="at">l=</span><span class="dv">100</span>),</span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>             <span class="at">pH=</span><span class="fu">seq</span>(<span class="fu">min</span>(afs1923_multreg<span class="sc">$</span>pH)<span class="sc">*</span><span class="fl">0.9</span>, <span class="fu">max</span>(afs1923_multreg<span class="sc">$</span>pH), <span class="at">l=</span><span class="dv">100</span>))</span>
-<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>conf1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm_stepwise, newPreds, <span class="at">interval =</span> <span class="st">&quot;conf&quot;</span>)</span>
-<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>conf1 <span class="ot">&lt;-</span> conf1[<span class="fu">order</span>(conf1[,<span class="dv">1</span>]),]</span>
-<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>pred1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm_stepwise, newPreds, <span class="at">interval=</span><span class="st">&quot;prediction&quot;</span>)</span>
-<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>pred1 <span class="ot">&lt;-</span> pred1[<span class="fu">order</span>(pred1[,<span class="dv">1</span>]),]</span>
-<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="fl">0.5</span>,<span class="dv">0</span>), <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex.lab=</span><span class="dv">1</span>, </span>
-<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>    <span class="at">lend=</span><span class="st">&quot;square&quot;</span>, <span class="at">ljoin=</span><span class="st">&quot;mitre&quot;</span>)</span>
-<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a><span class="fu">plot</span>(afs1923_multreg<span class="sc">$</span>Gd.pow <span class="sc">~</span> lm_stepwise<span class="sc">$</span>fitted.values,</span>
-<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Gd.pow predicted from regression model&quot;</span>,</span>
-<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Gd.pow measured values&quot;</span>, <span class="at">type=</span><span class="st">&quot;n&quot;</span>)</span>
-<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">side=</span><span class="dv">3</span>, <span class="at">line=</span><span class="sc">-</span><span class="fl">5.5</span>, <span class="at">adj=</span><span class="fl">0.05</span>, <span class="at">col=</span><span class="st">&quot;blue3&quot;</span>,</span>
-<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a>      <span class="at">text=</span><span class="fu">paste</span>(<span class="st">&quot;Adjusted Rsq =&quot;</span>,<span class="fu">signif</span>(<span class="fu">summary</span>(lm_stepwise)<span class="sc">$</span>adj.r.squared,<span class="dv">3</span>)))</span>
-<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a><span class="co"># lines(conf1[,1], conf1[,2], lty=2, col=&quot;red&quot;)</span></span>
-<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a><span class="co"># lines(conf1[,1], conf1[,3], lty=2, col=&quot;red&quot;)</span></span>
-<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(pred1[,<span class="dv">1</span>],<span class="fu">rev</span>(pred1[,<span class="dv">1</span>])), <span class="fu">c</span>(pred1[,<span class="dv">2</span>],<span class="fu">rev</span>(pred1[,<span class="dv">3</span>])), </span>
-<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a>        <span class="at">col=</span><span class="st">&quot;#2000e040&quot;</span>, <span class="at">border =</span> <span class="st">&quot;transparent&quot;</span>)</span>
-<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(conf1[,<span class="dv">1</span>],<span class="fu">rev</span>(conf1[,<span class="dv">1</span>])), <span class="fu">c</span>(conf1[,<span class="dv">2</span>],<span class="fu">rev</span>(conf1[,<span class="dv">3</span>])), </span>
-<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a>        <span class="at">col=</span><span class="st">&quot;#ff000040&quot;</span>, <span class="at">border =</span> <span class="st">&quot;transparent&quot;</span>)</span>
-<span id="cb23-22"><a href="#cb23-22" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="at">col=</span><span class="st">&quot;gold4&quot;</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb23-23"><a href="#cb23-23" tabindex="-1"></a><span class="fu">points</span>(afs1923_multreg<span class="sc">$</span>Gd.pow <span class="sc">~</span> lm_stepwise<span class="sc">$</span>fitted.values,</span>
-<span id="cb23-24"><a href="#cb23-24" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">0.8</span>, <span class="at">col=</span><span class="st">&quot;blue3&quot;</span>)</span>
-<span id="cb23-25"><a href="#cb23-25" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Observations&quot;</span>,<span class="st">&quot;1:1 line&quot;</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;blue3&quot;</span>,<span class="st">&quot;gold4&quot;</span>), </span>
-<span id="cb23-26"><a href="#cb23-26" tabindex="-1"></a>       <span class="at">text.col=</span><span class="fu">c</span>(<span class="st">&quot;blue3&quot;</span>,<span class="st">&quot;gold4&quot;</span>), <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="cn">NA</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">2</span>), <span class="at">pt.lwd=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>, </span>
-<span id="cb23-27"><a href="#cb23-27" tabindex="-1"></a>       <span class="at">box.col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">box.lwd=</span><span class="dv">2</span>, <span class="at">inset=</span><span class="fl">0.02</span>, <span class="at">seg.len=</span><span class="fl">2.7</span>, <span class="at">y.intersp=</span><span class="fl">1.2</span>)</span>
-<span id="cb23-28"><a href="#cb23-28" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">title=</span><span class="st">&quot;Intervals&quot;</span>, <span class="at">pch=</span><span class="dv">15</span>, <span class="at">pt.cex=</span><span class="dv">2</span>, </span>
-<span id="cb23-29"><a href="#cb23-29" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;95% confidence&quot;</span>, <span class="st">&quot;95% prediction&quot;</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#ff000040&quot;</span>, <span class="st">&quot;#2000e040&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>newPreds <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Al=</span><span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">max</span>(afs1923_multreg<span class="sc">$</span>Al), <span class="at">l=</span><span class="dv">100</span>),</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>             <span class="at">Fe=</span><span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">max</span>(afs1923_multreg<span class="sc">$</span>Fe), <span class="at">l=</span><span class="dv">100</span>),</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>             <span class="at">K=</span><span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">max</span>(afs1923_multreg<span class="sc">$</span>K), <span class="at">l=</span><span class="dv">100</span>),</span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>             <span class="at">pH=</span><span class="fu">seq</span>(<span class="fu">min</span>(afs1923_multreg<span class="sc">$</span>pH)<span class="sc">*</span><span class="fl">0.9</span>, <span class="fu">max</span>(afs1923_multreg<span class="sc">$</span>pH), <span class="at">l=</span><span class="dv">100</span>))</span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>conf1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm_stepwise, newPreds, <span class="at">interval =</span> <span class="st">&quot;conf&quot;</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a>conf1 <span class="ot">&lt;-</span> conf1[<span class="fu">order</span>(conf1[,<span class="dv">1</span>]),]</span>
+<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a>pred1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm_stepwise, newPreds, <span class="at">interval=</span><span class="st">&quot;prediction&quot;</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a>pred1 <span class="ot">&lt;-</span> pred1[<span class="fu">order</span>(pred1[,<span class="dv">1</span>]),]</span>
+<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="fl">0.5</span>,<span class="dv">0</span>), <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex.lab=</span><span class="dv">1</span>, </span>
+<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a>    <span class="at">lend=</span><span class="st">&quot;square&quot;</span>, <span class="at">ljoin=</span><span class="st">&quot;mitre&quot;</span>)</span>
+<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a><span class="fu">plot</span>(afs1923_multreg<span class="sc">$</span>Gd.pow <span class="sc">~</span> lm_stepwise<span class="sc">$</span>fitted.values,</span>
+<span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Gd.pow predicted from regression model&quot;</span>,</span>
+<span id="cb27-13"><a href="#cb27-13" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Gd.pow measured values&quot;</span>, <span class="at">type=</span><span class="st">&quot;n&quot;</span>)</span>
+<span id="cb27-14"><a href="#cb27-14" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">side=</span><span class="dv">3</span>, <span class="at">line=</span><span class="sc">-</span><span class="fl">5.5</span>, <span class="at">adj=</span><span class="fl">0.05</span>, <span class="at">col=</span><span class="st">&quot;blue3&quot;</span>,</span>
+<span id="cb27-15"><a href="#cb27-15" tabindex="-1"></a>      <span class="at">text=</span><span class="fu">paste</span>(<span class="st">&quot;Adjusted Rsq =&quot;</span>,<span class="fu">signif</span>(<span class="fu">summary</span>(lm_stepwise)<span class="sc">$</span>adj.r.squared,<span class="dv">3</span>)))</span>
+<span id="cb27-16"><a href="#cb27-16" tabindex="-1"></a><span class="co"># lines(conf1[,1], conf1[,2], lty=2, col=&quot;red&quot;)</span></span>
+<span id="cb27-17"><a href="#cb27-17" tabindex="-1"></a><span class="co"># lines(conf1[,1], conf1[,3], lty=2, col=&quot;red&quot;)</span></span>
+<span id="cb27-18"><a href="#cb27-18" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(pred1[,<span class="dv">1</span>],<span class="fu">rev</span>(pred1[,<span class="dv">1</span>])), <span class="fu">c</span>(pred1[,<span class="dv">2</span>],<span class="fu">rev</span>(pred1[,<span class="dv">3</span>])), </span>
+<span id="cb27-19"><a href="#cb27-19" tabindex="-1"></a>        <span class="at">col=</span><span class="st">&quot;#2000e040&quot;</span>, <span class="at">border =</span> <span class="st">&quot;transparent&quot;</span>)</span>
+<span id="cb27-20"><a href="#cb27-20" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(conf1[,<span class="dv">1</span>],<span class="fu">rev</span>(conf1[,<span class="dv">1</span>])), <span class="fu">c</span>(conf1[,<span class="dv">2</span>],<span class="fu">rev</span>(conf1[,<span class="dv">3</span>])), </span>
+<span id="cb27-21"><a href="#cb27-21" tabindex="-1"></a>        <span class="at">col=</span><span class="st">&quot;#ff000040&quot;</span>, <span class="at">border =</span> <span class="st">&quot;transparent&quot;</span>)</span>
+<span id="cb27-22"><a href="#cb27-22" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="at">col=</span><span class="st">&quot;gold4&quot;</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb27-23"><a href="#cb27-23" tabindex="-1"></a><span class="fu">points</span>(afs1923_multreg<span class="sc">$</span>Gd.pow <span class="sc">~</span> lm_stepwise<span class="sc">$</span>fitted.values,</span>
+<span id="cb27-24"><a href="#cb27-24" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">0.8</span>, <span class="at">col=</span><span class="st">&quot;blue3&quot;</span>)</span>
+<span id="cb27-25"><a href="#cb27-25" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Observations&quot;</span>,<span class="st">&quot;1:1 line&quot;</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;blue3&quot;</span>,<span class="st">&quot;gold4&quot;</span>), </span>
+<span id="cb27-26"><a href="#cb27-26" tabindex="-1"></a>       <span class="at">text.col=</span><span class="fu">c</span>(<span class="st">&quot;blue3&quot;</span>,<span class="st">&quot;gold4&quot;</span>), <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="cn">NA</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">2</span>), <span class="at">pt.lwd=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>, </span>
+<span id="cb27-27"><a href="#cb27-27" tabindex="-1"></a>       <span class="at">box.col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">box.lwd=</span><span class="dv">2</span>, <span class="at">inset=</span><span class="fl">0.02</span>, <span class="at">seg.len=</span><span class="fl">2.7</span>, <span class="at">y.intersp=</span><span class="fl">1.2</span>)</span>
+<span id="cb27-28"><a href="#cb27-28" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">title=</span><span class="st">&quot;Intervals&quot;</span>, <span class="at">pch=</span><span class="dv">15</span>, <span class="at">pt.cex=</span><span class="dv">2</span>, </span>
+<span id="cb27-29"><a href="#cb27-29" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;95% confidence&quot;</span>, <span class="st">&quot;95% prediction&quot;</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#ff000040&quot;</span>, <span class="st">&quot;#2000e040&quot;</span>))</span></code></pre></div>
 <div class="figure">
 <img src="reg-multi_files/figure-html/obs-vs-fitted-1.png" alt="Figure 3: Measured (observed) vs. predicted values in the optimal multiple regression model, showing uncertainty intervals." width="480" />
 <p class="caption">
@@ -1041,7 +1091,7 @@ eutrophic estuarine sediments receiving acid sulfate soil drainage.
 href="https://doi.org/10.1016/j.chemgeo.2012.03.012"
 target="_blank">https://doi.org/10.1016/j.chemgeo.2012.03.012</a></p>
 <p>Hebbali, A. (2018). Collinearity Diagnostics, Model Fit and Variable
-Gdntribution. Vignette for R Package 'olsrr'. Retrieved 2018.04.05, from
+Contribution. Vignette for R Package 'olsrr'. Retrieved 2018.04.05, from
 <a
 href="https://cran.r-project.org/web/packages/olsrr/vignettes/regression_diagnostics.html"
 target="_blank">https://cran.r-project.org/web/packages/olsrr/vignettes/regression_diagnostics.html</a>.</p>
