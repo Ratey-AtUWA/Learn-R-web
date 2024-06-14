@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-05-24" />
+<meta name="date" content="2024-06-14" />
 
 <title>Basic maps in R</title>
 
@@ -343,7 +343,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -358,7 +358,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -373,7 +373,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -388,7 +388,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -409,7 +409,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -427,7 +427,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -436,6 +436,9 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="distributions.html">Distribution checking</a>
+    </li>
+    <li>
+      <a href="residuals.html">Regression residuals to identify contamination</a>
     </li>
   </ul>
 </li>
@@ -452,7 +455,7 @@ $(document).ready(function () {
 
 <html>
 <body>
-<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science<br />at The University of Western Australia</span></h3>
 <h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
 </body>
 </html>
@@ -464,7 +467,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Basic maps in R</h1>
 <h3 class="subtitle">Data plotted over tile backgrounds</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-05-24</h4>
+<h4 class="date">2024-06-14</h4>
 
 </div>
 
@@ -476,13 +479,13 @@ $(document).ready(function () {
 </style>
 <div style="border: 2px solid #039; padding: 8px;">
 <p style="text-align:center; font-size:12pt;">
-<em>Maps / spatial pages</em>: <a href="maps.html" style="color:#04b;">Maps</a> |
-<a href="spatial.html" style="color:#04b;">Spatial statistics</a> |
-<a href="spat-interp.html" style="color:#04b;">Spatial interpolation</a></p>
+<em>Maps / spatial pages</em>: <a href="maps.html"
+style="color:#04b;">Maps</a> | <a href="spatial.html"
+style="color:#04b;">Spatial statistics</a> | <a href="spat-interp.html"
+style="color:#04b;">Spatial interpolation</a>
+</p>
 </div>
-
-<p>&nbsp;</p>
-
+<p> </p>
 <div id="activities-for-this-workshop-class" class="section level1"
 style="border: 2px solid #039; background-color:#fec; padding: 8px;">
 <h1>Activities for this Workshop class</h1>
@@ -619,48 +622,8 @@ collected in this class, relatively simply. We <em>will not</em> cover
 vector-based maps, importing GIS shapefiles, interpolation of point
 data, chloropleth maps, and many other map plotting methods.</p>
 <p><img src="maps_files/figure-html/world%20map%20for%20decoration-1.png" width="45%" style="display: block; margin: auto;" /></p>
-<div id="load-packages-needed-to-make-maps" class="section level3">
-<h3>load packages needed to make maps</h3>
-<p>...also read some <em>data</em> we need for map annotations, make
-some <em>colour</em> <em>palettes</em> to use later, and set any
-alternative Windows <em>fonts</em>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(sf)            <span class="co"># Simple Features spatial data in R</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(maptiles)      <span class="co"># get open-source map tiles for background maps</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(prettymapr)    <span class="co"># add scale bar and north arrows to maps</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(viridis)       <span class="co"># colourblind-friendly colour palettes</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(scico)         <span class="co"># more colourblind-friendly colour palettes</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">library</span>(ggmap)         <span class="co"># plotting spatial data with ggplot syntax</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/Ratey-AtUWA/&quot;</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>afr_map <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;spatial/main/afr_map_v2.csv&quot;</span>), </span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>                      <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>places <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;Learn-R/main/places.csv&quot;</span>),</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>                   <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>pal4lite <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, viridis<span class="sc">::</span><span class="fu">plasma</span>(<span class="dv">8</span>), <span class="st">&quot;white&quot;</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>pal4liteTransp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, </span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>                    scico<span class="sc">::</span><span class="fu">scico</span>(<span class="dv">8</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">palette =</span> <span class="st">&quot;hawaii&quot;</span>, <span class="at">beg=</span><span class="fl">0.1</span>),</span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>                    <span class="st">&quot;white&quot;</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>pal4dark <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;white&quot;</span>, viridis<span class="sc">::</span><span class="fu">turbo</span>(<span class="dv">8</span>, <span class="at">beg=</span><span class="fl">0.2</span>, <span class="at">end=</span><span class="fl">0.9</span>,<span class="at">dir=</span><span class="dv">1</span>), <span class="st">&quot;black&quot;</span>)</span></code></pre></div>
-</div>
-<div id="preparing-to-make-maps" class="section level2">
-<h2>Preparing to make maps</h2>
-<p>First we read the data we need: from <code>.csv</code> files on a
-website, into an <strong>R</strong> data frame:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="do">## # afs19 &lt;- read.table(&#39;clipboard&#39;, header=T, sep=&quot;\t&quot;, stringsAsFactors = TRUE)</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># alternative code reading data from a file:</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>afs19 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;Learn-R/main/afs19.csv&quot;</span>), </span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>                  <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>) <span class="co"># use this one</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>afs22 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;Learn-R/main/afs22S1.csv&quot;</span>), </span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>                  <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<hr style="height: 2px; background-color: #660F00;" />
-<blockquote>
-<p>"<em>I wisely started with a map</em>."</p>
-<p>--- <a href="https://www.tolkienestate.com/painting/maps/"
-target="_blank">J. R. R. Tolkien</a></p>
-</blockquote>
-<hr style="height: 2px; background-color: #660F00;" />
-<table border="1">
-<tr>
-<td style="background-color: #FFF0E0;">
+<div
+style="border: 2px solid gray; background-color:#fff0e0; padding: 8px;">
 <p><strong>Notes about maps</strong></p>
 <p>[distilled from the author instructions of a few relevant
 journals]</p>
@@ -701,12 +664,49 @@ present on map tiles.)</li>
 Adjacent countries must be located and named. [<em>Optional for this
 class</em>].</li>
 </ul>
-</td>
-</tr>
-</table>
+</div>
 <p>
  
 </p>
+<div id="load-packages-needed-to-make-maps" class="section level3">
+<h3>load packages needed to make maps</h3>
+<p>...also read some <em>data</em> we need for map annotations, make
+some <em>colour</em> <em>palettes</em> to use later, and set any
+alternative Windows <em>fonts</em>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(sf)            <span class="co"># Simple Features spatial data in R</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(maptiles)      <span class="co"># get open-source map tiles for background maps</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(prettymapr)    <span class="co"># add scale bar and north arrows to maps</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(viridis)       <span class="co"># colourblind-friendly colour palettes</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(scico)         <span class="co"># more colourblind-friendly colour palettes</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">library</span>(ggmap)         <span class="co"># plotting spatial data with ggplot syntax</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/Ratey-AtUWA/&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>afr_map <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;spatial/main/afr_map_v2.csv&quot;</span>), </span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>                      <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>places <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;Learn-R/main/places.csv&quot;</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>                   <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>pal4lite <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, viridis<span class="sc">::</span><span class="fu">plasma</span>(<span class="dv">8</span>), <span class="st">&quot;white&quot;</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>pal4liteTransp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, </span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>                    scico<span class="sc">::</span><span class="fu">scico</span>(<span class="dv">8</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">palette =</span> <span class="st">&quot;hawaii&quot;</span>, <span class="at">beg=</span><span class="fl">0.1</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>                    <span class="st">&quot;white&quot;</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>pal4dark <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;white&quot;</span>, viridis<span class="sc">::</span><span class="fu">turbo</span>(<span class="dv">8</span>, <span class="at">beg=</span><span class="fl">0.2</span>, <span class="at">end=</span><span class="fl">0.9</span>,<span class="at">dir=</span><span class="dv">1</span>), <span class="st">&quot;black&quot;</span>)</span></code></pre></div>
+</div>
+<div id="preparing-to-make-maps" class="section level2">
+<h2>Preparing to make maps</h2>
+<hr style="height: 2px; background-color: #003087;" />
+<blockquote>
+<p>"<em>I wisely started with a map</em>."</p>
+<p>--- <a href="https://www.tolkienestate.com/painting/maps/"
+target="_blank">J. R. R. Tolkien</a></p>
+</blockquote>
+<hr style="height: 2px; background-color: #003087;" />
+<p>First we read the data we need: from <code>.csv</code> files on a
+website, into an <strong>R</strong> data frame:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="do">## # afs19 &lt;- read.table(&#39;clipboard&#39;, header=T, sep=&quot;\t&quot;, stringsAsFactors = TRUE)</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># alternative code reading data from a file:</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>afs19 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;Learn-R/main/afs19.csv&quot;</span>), </span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>                  <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>) <span class="co"># use this one</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>afs22 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;Learn-R/main/afs22S1.csv&quot;</span>), </span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>                  <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Before we start downloading map data, we define and save some
 commonly-used coordinate reference systems which describe the map
 projection of our GPS data. The function <code>st_crs()</code> is from

@@ -109,6 +109,24 @@ ggplot() + mapWorld +
   xlim(-180,180) + theme_void()
 ```
 
+<div style="border: 2px solid gray; background-color:#fff0e0; padding: 8px;">
+
+**Notes about maps**
+
+[distilled from the author instructions of a few relevant journals] 
+
+- Include a <span style="color:red;">**scale**</span>, and <span style="color:red;">**north arrow**</span> (and where relevant, <span style="color:red;">**co-ordinates**</span> of latitude (°N, °S) and longitude (°W, °E);<br /><span style="color: #6000B0;">grid-based systems such as UTM are also ok, and can allow scale to be omitted if grid measurements are in metres).</span>
+- The use of colour unnecessarily is discouraged. 
+- All text must be large enough to be readable. Avoid making the lettering too large for the figure &ndash; this can result in a "cartoonish" appearance.  
+- Use a clear, sans serif typeface &ndash; the **R** default is <span style="color:red; font-family:Arial;">Arial</span> (<span style="color:red; font-family:Helvetica;">Helvetica, </span><span style="color:red; font-family:'Segoe UI';">Segoe UI, </span><span style="color:red; font-family:'Source Sans Pro';">Source Sans Pro, </span><span style="color:red; font-family:ubuntu;">Ubuntu, *etc*. are all OK</span>).  
+- Try to keep all text in a figure (including axis labels, contour labels, latitude and longitude, scale text, inset text, *etc.*) around the same size to aid reducibility and/or enlargement.
+- Use a white background behind lettering that crosses a dark or textured area in a figure.
+- Maps must show locations of any significant places/sample points, *etc*., mentioned in your report's text or tables. These might include cities, rivers, lakes, ponds, drains, landmarks, presumed sources of contamination, and so on. (These features are not always present on map tiles.)
+- A country map is required for all studies, locating the study area. Adjacent countries must be located and named. [*Optional for this class*].
+</div>
+
+<p>&nbsp;</p>
+
 ### load packages needed to make maps
 
 ...also read some *data* we need for map annotations, make some *colour*
@@ -155,6 +173,14 @@ pal4dark <- c("white", viridis::turbo(8, beg=0.2, end=0.9,dir=1), "black")
 
 ## Preparing to make maps
 
+<hr style="height: 2px; background-color: #003087;" />
+
+> "*I wisely started with a map*."
+>
+> --- [J. R. R. Tolkien](https://www.tolkienestate.com/painting/maps/){target="_blank"}
+
+<hr style="height: 2px; background-color: #003087;" />
+
 First we read the data we need: from `.csv` files on a website, into an **R**
 data frame:
 
@@ -166,31 +192,6 @@ afs19 <- read.csv(file=paste0(git,"Learn-R/main/afs19.csv"),
 afs22 <- read.csv(file=paste0(git,"Learn-R/main/afs22S1.csv"), 
                   stringsAsFactors = TRUE)
 ```
-
-<hr style="height: 2px; background-color: #660F00;" />
-
-> "*I wisely started with a map*."
->
-> --- [J. R. R. Tolkien](https://www.tolkienestate.com/painting/maps/){target="_blank"}
-
-<hr style="height: 2px; background-color: #660F00;" />
-
-<table border=1><tr><td style="background-color: #FFF0E0;">
-**Notes about maps**
-
-[distilled from the author instructions of a few relevant journals] 
-
-- Include a <span style="color:red;">**scale**</span>, and <span style="color:red;">**north arrow**</span> (and where relevant, <span style="color:red;">**co-ordinates**</span> of latitude (°N, °S) and longitude (°W, °E);<br /><span style="color: #6000B0;">grid-based systems such as UTM are also ok, and can allow scale to be omitted if grid measurements are in metres).</span>
-- The use of colour unnecessarily is discouraged. 
-- All text must be large enough to be readable. Avoid making the lettering too large for the figure &ndash; this can result in a "cartoonish" appearance.  
-- Use a clear, sans serif typeface &ndash; the **R** default is <span style="color:red; font-family:Arial;">Arial</span> (<span style="color:red; font-family:Helvetica;">Helvetica, </span><span style="color:red; font-family:'Segoe UI';">Segoe UI, </span><span style="color:red; font-family:'Source Sans Pro';">Source Sans Pro, </span><span style="color:red; font-family:ubuntu;">Ubuntu, *etc*. are all OK</span>).  
-- Try to keep all text in a figure (including axis labels, contour labels, latitude and longitude, scale text, inset text, *etc.*) around the same size to aid reducibility and/or enlargement.
-- Use a white background behind lettering that crosses a dark or textured area in a figure.
-- Maps must show locations of any significant places/sample points, *etc*., mentioned in your report's text or tables. These might include cities, rivers, lakes, ponds, drains, landmarks, presumed sources of contamination, and so on. (These features are not always present on map tiles.)
-- A country map is required for all studies, locating the study area. Adjacent countries must be located and named. [*Optional for this class*].
-</td></tr></table>
-
-<p>&nbsp;</p>
 
 Before we start downloading map data, we define and save some commonly-used
 coordinate reference systems which describe the map projection of our GPS data.
