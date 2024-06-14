@@ -1,0 +1,326 @@
+---
+title: "Utilities = useful stuff"
+subtitle: "Making use of unusual regression residuals"
+author: "Andrew Rate"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Do large positive regression residuals indicate contamination?
+
+Background concentrations of contaminants are usually defined as being 
+concentrations which occur naturally, in the absence of additions derived from 
+human activity. It is generally recognised that:
+
+- background concentrations in water, sediments, and soils vary spatially, depending on the local geology, the age of the landscape in which a site under investigation is situated, *etc*. (Reimann and Garrett, 2005)
+- background concentrations of contaminants in soils and sediments are not a single constant value, but are instead a function of sediment properties such as pH, cation exchange capacity, or the concentrations of major elements such as Al, Fe, or Mn (Hamon *et al*., 2004)
+
+```{r load-packages-etc-hide, include=FALSE}
+library(car)           # Companion to Applied Regression
+library(sf)            # Simple Features spatial data in R
+library(maptiles)      # get open-source map tiles for background maps
+library(prettymapr)    # add scale bar and north arrows to maps
+library(viridis)       # colourblind-friendly colour palettes
+library(scico)         # more colourblind-friendly colour palettes
+```
+
+```{r load-packages-etc, eval=FALSE}
+library(car)           # Companion to Applied Regression
+library(sf)            # Simple Features spatial data in R
+library(maptiles)      # get open-source map tiles for background maps
+library(prettymapr)    # add scale bar and north arrows to maps
+library(viridis)       # colourblind-friendly colour palettes
+library(scico)         # more colourblind-friendly colour palettes
+```
+
+For this session we're going to use the Ashfield Flats compiled data from 2019-2023.
+
+```{r read-data, message=FALSE, warning=FALSE}
+git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+afs1923 <- read.csv(paste0(git,"afs1923.csv"), stringsAsFactors = TRUE)
+# re-order the factor levels
+afs1923$Type <- factor(afs1923$Type, levels=c("Drain_Sed","Lake_Sed","Saltmarsh","Other"))
+afs1923$Type2 <- 
+  factor(afs1923$Type2, 
+         levels=c("Drain_Sed","Lake_Sed","Saltmarsh W","Saltmarsh E","Other"))
+afr_map <- 
+  read.csv("https://raw.githubusercontent.com/Ratey-AtUWA/spatial/main/afr_map_v2.csv", 
+           stringsAsFactors = TRUE)
+extent <- st_as_sf(data.frame(x=c(399900,400600),y=c(6467900,6468400)),
+                   coords = c("x","y"), crs = UTM50S)
+aftiles <- get_tiles(extent, provider = "OpenStreetMap.HOT", crop = TRUE)
+```
+
+It's good practice to remove missing observations from the data we use to
+generate our multiple regression model. This is usually **essential** practice
+when conducting multiple regression, since if the stepwise procedure removes or
+adds predictors, successive iterations of the stepwise refinement procedure may
+need to use a different number of observations, which will cause an error.
+See the Warning and other information at `help(step)` for more detail. We're 
+also log~10~-transforming positively skewed variables, in an effort to address 
+later issues with the distribution and variance of linear model residuals.
+
+```{r check-collinearity, message=FALSE, warning=FALSE, paged.print=FALSE}
+regdata <- na.omit(afs1923[,c("Pb","pH","Al","Ca","Fe","S","P","Na","K","Mg")])
+regdata$Pb.log <- log10(regdata$Pb)
+regdata$Ca.log <- log10(regdata$Ca)
+regdata$S.log <- log10(regdata$S)
+regdata$P.log <- log10(regdata$P)
+regdata$Na.log <- log10(regdata$Na)
+regdata$Mg.log <- log10(regdata$Mg)
+row.names(regdata) <- NULL
+cat("original data has",nrow(afs1923),"rows, subset has",nrow(regdata),"rows\n\n")
+cors <- cor(regdata[,c("Pb.log","pH","Al","Ca.log","Fe","S.log","P.log",
+                       "Na.log","K","Mg.log")])
+cors[which(cors==1)] <- NA
+print(cors, digits=2, na.print = "")
+```
+
+&nbsp;
+
+From the correlation matrix above, we notice that Na, Mg are correlated with
+r&nbsp;=&nbsp;0.933 (definitely r>0.8), so Na and Mg are too collinear. We
+therefore omit one of this collinear pair from our initial model. We add spatial
+coordinates (`Easting`, `Northing`) to the data subset, not to include them in
+models but because we'll use them later.
+
+```{r}
+regdata <- na.omit(afs1923[,c("Pb","pH","Al","Ca","Fe","S","P","Na","K","Easting","Northing")])
+row.names(regdata) <- NULL
+regdata$Pb.log <- log10(regdata$Pb)
+regdata$Ca.log <- log10(regdata$Ca)
+regdata$S.log <- log10(regdata$S)
+regdata$P.log <- log10(regdata$P)
+regdata$Na.log <- log10(regdata$Na)
+cat("original data has",nrow(afs1923),"rows, subset has",nrow(regdata),"rows")
+```
+
+It's always good practice to check scatterplots of the potential relationships
+too, to make sure there are no odd apparent relationships caused by outliers or
+clustering of points (this is more of an issue when we have fewer observations).
+
+```{r check-scatterplot-matrix, warning=FALSE, message=FALSE, fig.width=10, fig.height=10, fig.cap="Figure 1: Scatter plot matrix for Pb and potenial multiple regression predictors. Positively skewed variables are log10-transformed.", results='hold'}
+spm(~Pb.log+pH+Al+Ca.log+Fe+S.log+P.log+Na.log+K, data=regdata, cex=0.5, smooth=FALSE)
+```
+
+&nbsp;
+
+The scatter plot matrix (Figure 1) is useful for showing whether the
+relationships between the dependent variable (`Pb`) and individual predictors
+has (i) any outliers that might influence regression parameters, or; (ii) if
+there is any clustering apparent. The first row (horizontal) of the scatter plot
+matrix is particularly useful because it shows the relationship of our dependent
+variable (`Pb`) *vs*. each of the individual predictors.
+
+We should also run the correlation matrix again:
+
+```{r corrmat2, warning=FALSE, message=FALSE, results='hold'}
+cors <- cor(regdata[,c("Pb.log","pH","Al","Ca.log","Fe","S.log","P.log","Na.log","K")])
+cors[which(cors==1)] <- NA
+print(signif(cors,2), na.print = "")
+```
+
+The revised correlation matrix above shows no r values above 0.8, but some close 
+to the r=0.8 threshold (*e.g*. Al-K r=0.76; Na-K r=0.76). We will need to check the variance inflation factors one we have run the initial model.
+
+```{r multi-lm, warning=FALSE, message=FALSE, results='hold'}
+lm0 <- lm(Pb.log ~ pH+Al+Ca.log+Fe+S.log+P.log+Na.log+K, data=regdata)
+summary(lm0)
+```
+
+The regression output shows that we can't reject the null hypothesis of no 
+effect for several variables. This may be due to our model being 
+over-parameterised, and we hope that we can rely on the stepwise selection 
+procedure to eliminate unnecessary predictors. Let look at the VIF values:
+
+```{r vif-multi-lm, warning=FALSE, message=FALSE, results='hold'}
+vif(lm0)
+```
+
+None of the VIF values indicate that predictors should be removed, but the value 
+&gt;&nbsp;4 (4.26 for K) is worth remembering when we generate the final model 
+by stepwise parameter selection.
+
+That's what we do next, using the `step()` function. If we're being really
+careful, we can compare different options for generating a multiple regression
+model, *e.g*.:
+
+- `direction = "forward"` &ndash; starting from a minimal model and successively 
+adding predictors;
+- `direction = "backward"` &ndash; starting from a maximal model and 
+successively removing predictors;
+- `direction = "both"` (the default is `"both"`, which we have used) &ndash; 
+specifying a maximal model and allowing and testing addition *and* removal of 
+predictors.
+
+If we're interested in seeing some of the progress of the stepwise algorithm, we
+can specify `trace=1`. See `help(step)` for more detail.
+
+```{r stepwise-model-both, message=FALSE, warning=FALSE, results='hold'}
+
+lm1 <- step(lm0, direction = "both", trace=0)
+summary(lm1)
+```
+Check the AIC for the maximal and stepwise models...
+
+```{r check-AIC, message=FALSE, warning=FALSE, paged.print=FALSE}
+AIC(lm0,lm1)
+```
+
+...and check the VIF for the predictors:
+
+```{r check-vif-stepwise, message=FALSE, warning=FALSE, paged.print=FALSE, results='hold'}
+vif(lm1)
+```
+
+Our final model has six predictors, reduced from eight in the maximal model. [We could even try a model without Fe as a predictor, since we can't reject H~0~ for Fe based on its p-value&nbsp;&sime;0.06. Since it's marginal we'll leave it in for now...]. The stepwise refinement has removed K and S as predictors, so we no longer have any issue with collinearity. It's interesting to compare the regression coefficients with the individual correlation coefficients:
+
+```{r compare-reg-coefs-with-correl, message=FALSE, warning=FALSE, paged.print=FALSE, results='hold'}
+(r_vs_coefs <- data.frame(Pearson_r=cors[names(lm1$coefficients[-1]),1],
+                         lm_coefs=lm1$coefficients[-1]))
+```
+
+We can see that all the correlation coefficients are *positive*, but that the 
+regression coefficients for Ca, Fe, and Na are *negative*.  
+In&nbsp;a&nbsp;multiple linear regression model, the effects of the predictors interact,
+so we don't always see the effects we might expect based on simple correlation.
+
+```{r plot-obs-fitted, warning=FALSE, message=FALSE, results='hold', fig.width=5, fig.height=5, fig.cap="Figure 2: Relationship of observed to predicted log10-Pb showing 1:1 line and 95% prediction interval.", out.width="50%"}
+par(mfrow=c(1,1), mgp=c(1.5,0.2,0), tcl=0.25, mar=c(3,3,0.5,0.5), las=1, lend="square", xpd=F)
+plot(lm1$model$Pb.log ~ lm1$fitted.values,
+     xlab=expression(bold(paste(log[10],"Pb predicted by model"))),
+     ylab=expression(bold(paste("Observed ",log[10],"Pb"))),
+     pch=19, cex=1.2, col="#0000ff40"); abline(0,1,col="sienna")
+newdata <- data.frame(pH=seq(min(regdata$pH),max(regdata$pH),l=50),
+                      Al=seq(min(regdata$Al),max(regdata$Al),l=50),
+                      Ca.log=seq(min(regdata$Ca.log),max(regdata$Ca.log),l=50),
+                      Fe=seq(min(regdata$Fe),max(regdata$Fe),l=50),
+                      P.log=seq(min(regdata$P.log),max(regdata$P.log),l=50),
+                      Na.log=seq(min(regdata$Na.log),max(regdata$Na.log),l=50))
+conf0 <- predict(lm1, newdata, interval = "prediction", level=0.95)
+lines(conf0[,1], conf0[,2], col="grey", lty=3, lwd=2)
+lines(conf0[,1], conf0[,3], col="grey", lty=3, lwd=2)
+legend("topleft", bty="n", inset=0.01, pt.cex=1.2, pch=c(19,NA,NA), 
+       legend=c("Observations","1:1 line","±95% prediction"),
+       col=c("#0000ff40","sienna","grey"), lty=c(NA,1,3),lwd=c(NA,1,2))
+```
+
+&nbsp;
+
+The observed *vs*. predicted log~10~Pb in Figure 2 
+shows the expected scatter about a 1:1 line, with some positive residuals that
+may be unusually large. If we convert the residuals to standard normal 
+distribution scores (the R tool for this is the `scale()` function) then we may 
+be able to identify which observations are unusually high, *e.g*. &ge;&nbsp;2 
+standard deviations above the mean.
+
+```{r boxplot-z-residuals, fig.height=5, fig.width=3, fig.align='center', message=FALSE, warning=FALSE, fig.cap="Figure 3: Box plot of model residuals scaled to standard normal distribution scores (mean=0, sd=1).", out.width="33%"}
+par(mfrow=c(1,1), mgp=c(1.5,0.2,0), tcl=0.25, mar=c(3,3,0.5,0.5), las=1, lend="square", xpd=F)
+boxplot(scale(lm1$residuals), col="lemonchiffon", xlab=expression(bold(paste(log[10],"Pb"))), 
+        ylab="Standardised residual from multiple regression model ")
+#abline(h=2, col=4, lty=2)
+rect(par("usr")[1],2,par("usr")[2],par("usr")[4],border="transparent", col="#00308720")
+arrows(0.65,3.8,y1=par("usr")[4],angle = 20,length = 0.1, col="#003087")
+arrows(0.65,2.8,y1=2,angle = 20,length = 0.1, col="#003087")
+text(0.5, 3.2, pos=4, offset=0.2, col="#003087", cex=0.8, 
+     labels="Standardised\nresidual > 2\n(p \u2248 0.025)")
+```
+
+&nbsp;
+
+```{r large-residual-values, results='hold'}
+cat("---- Large log10(Pb) ----\n");lm1$model$Pb.log[which(scale(lm1$residuals)>=2)]
+cat("\n---- Back-transformed ----\n");10^(lm1$model$Pb.log[which(scale(lm1$residuals)>=2)])
+```
+
+```{r map-zresids-gt-2, warning=FALSE, message=FALSE, fig.width=7, fig.height=5.5, fig.cap="Figure 4: Map of Ashfield Flats showing locations of samples having unusually large Pb concentrations based on a multiple regression model representing a 'backgroind concentration function'.", results='hold'}
+par(mfrow=c(1,1), oma=c(0,0,0,0), lend="square", xpd=TRUE)
+plot_tiles(aftiles, adjust=F, axes=TRUE, mar=c(3,3,0.5,0.5)) # use axes = TRUE
+
+mtext("Easting (UTM Zone 50, m)", side = 1, line = 3, font=2)
+mtext("Northing (UTM Zone 50, m)", side = 2, line = 2.5, font=2)
+addnortharrow(text.col=1, border=1, pos="topleft")
+addscalebar(plotepsg = 32750, label.col = 1, linecol = 1, 
+            label.cex = 1.2, htin=0.15, widthhint = 0.3)
+with(afr_map, lines(drain_E, drain_N, col = "cadetblue", lwd = 2))
+with(afr_map, polygon(wetland_E, wetland_N, col = "#5F9EA080", 
+                      border="cadetblue", lwd = 1, lty = 1))
+text(c(400250, 399962, 400047), c(6468165, 6468075, 6468237),
+     labels = c("Chapman\nDrain","Kitchener\nDrain", "Woolcock\nDrain"),
+     pos = c(2,2,4), cex = 0.8, font = 3, col = "cadetblue")
+clrz <- plasma(15)[6:15]
+with(regdata[which(scale(lm1$residuals)>=2),], 
+     points(Easting, Northing, pch=21, col="#000000b0", bg="#ffe000b0", cex=1.4, lwd=2))
+with(regdata[which(scale(lm1$residuals)>=2),], 
+     text(Easting, Northing, labels=round(Pb,0), cex=0.8, 
+          pos=c(2,4,2,1,4,2,4,4,4,3,4,4,4,2), offset=0.3))
+legend("bottomright", bty="n", y.intersp=1.75, 
+       legend=c("Sediment samples with \nPb standardised residuals ≥ 2",
+                "Numbers next to points are\nPb concentrations (mg/kg)"),
+       pch = c(21,NA), col = c("#000000b0","black"), pt.bg = "#ffe000b0", 
+       inset = c(0.02,0.04), pt.cex=c(1.4,0.8), pt.lwd=2)
+```
+
+&nbsp;
+
+We should note that the locations identified in Figure 4 do 
+not all have Pb concentrations greater than the upper guideline value (GV-high
+for Pb is 220&nbsp;mg/kg; Water Quality Australia, 2024), although all have Pb
+concentrations greater than the default guideline value of 50&nbsp;mg/kg.
+Unusual samples with lower Pb concentrations are those which our model predicts
+should have a lower background concentration. Based on the coefficients for each
+predictor in our model, this means sediments with low pH, low Al, high Ca, high
+Fe, low P and high Na. We can visualise this by plotting the effects for
+individual predictors using `plot(effects::allEffects(lm1))`.
+
+It's interesting to note that the observations we have identified as unusual, on
+the basis of having scaled residuals &gt;&nbsp;2, are also those which are have 
+greater log~10~Pb concentration greater than the upper bound of the 95% 
+prediction interval for the regression &ndash; see Figure 5 below.
+
+```{r plot-obs-fit-z, warning=FALSE, message=FALSE, results='hold', fig.width=5, fig.height=5, fig.cap="Figure 5: Relationship of observed to predicted log10-Pb showing 1:1 line and 95% prediction interval.", out.width="50%"}
+par(mfrow=c(1,1), mgp=c(1.5,0.2,0), tcl=0.25, mar=c(3,3,0.5,0.5), las=1, lend="square", xpd=F)
+plot(lm1$model$Pb.log ~ lm1$fitted.values,
+     xlab=expression(bold(paste(log[10],"Pb predicted by model"))),
+     ylab=expression(bold(paste("Observed ",log[10],"Pb"))),
+     pch=19, cex=1.2, col="#0000ff40"); abline(0,1,col="sienna")
+newdata <- data.frame(pH=seq(min(regdata$pH),max(regdata$pH),l=50),
+                      Al=seq(min(regdata$Al),max(regdata$Al),l=50),
+                      Ca.log=seq(min(regdata$Ca.log),max(regdata$Ca.log),l=50),
+                      Fe=seq(min(regdata$Fe),max(regdata$Fe),l=50),
+                      P.log=seq(min(regdata$P.log),max(regdata$P.log),l=50),
+                      Na.log=seq(min(regdata$Na.log),max(regdata$Na.log),l=50))
+conffit <- predict(lm1, interval = "prediction", level=0.95)
+conf0 <- conffit[order(conffit[,1]),]
+lines(conf0[,1], conf0[,2], col="grey", lty=3, lwd=2)
+lines(conf0[,1], conf0[,3], col="grey", lty=3, lwd=2)
+# overplot unusual points separately
+hipts <- which(scale(lm1$residuals)>2)
+points(lm1$model$Pb.log[hipts] ~ lm1$fitted.values[hipts], pch=22, bg="gold", cex=1.2)
+legend("topleft", bty="n", inset=0.01, pt.cex=1.2, pch=c(19,22,NA,NA), 
+       legend=c("Observations","Obs. with scaled residuals > 2","1:1 line","± 95% prediction"),
+       col=c("#0000ff40",1,"sienna","grey"), lty=c(NA,NA,1,3),lwd=c(NA,NA,1,2),
+       pt.bg=c(NA,"gold",NA,NA))
+```
+
+&nbsp;
+
+# References
+
+Hamon, R. E., McLaughlin, M. J., Gilkes, R. J., Rate, A. W., Zarcinas, B., Robertson, A., Cozens, G., Radford, N., & Bettenay, L. (2004). Geochemical indices allow estimation of heavy metal background concentrations in soils. *Global Biogeochemical Cycles*, **18** (GB1014). [https://doi.org/10.1029/2003GB002063](https://doi.org/10.1029/2003GB002063){target="_blank"} 
+
+Reimann, C., & Garrett, R. G. (2005). Geochemical background - Concept and reality. *Science of The Total Environment*, **350**, 12-27. [https://doi.org/10.1016/j.scitotenv.2005.01.047](https://doi.org/10.1016/j.scitotenv.2005.01.047){target="_blank"}
+
+Water Quality Australia. (2024). *Toxicant default guideline values for sediment quality.* Department of Climate Change, Energy, the Environment and Water, Government of Australia. Retrieved 2024-04-11 from [https://www.waterquality.gov.au/anz-guidelines/guideline-values/default/sediment-quality-toxicants](https://www.waterquality.gov.au/anz-guidelines/guideline-values/default/sediment-quality-toxicants){target="_blank"}
+
+&nbsp;

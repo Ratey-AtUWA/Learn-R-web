@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Andrew Rate" />
+
+<meta name="date" content="2024-06-14" />
+
+<title>Utilities = useful stuff</title>
+
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/sandstone.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Sessions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">For beginners</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Intro</a>
+    </li>
+    <li>
+      <a href="intro-GG.html">Intro+ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plots.html">Plots-baseR</a>
+    </li>
+    <li>
+      <a href="plots-GG.html">Plots-ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Compare
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="means.html">Compare means (parametric)</a>
+    </li>
+    <li>
+      <a href="nonparam.html">Non-parametric comparisons</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="correl.html">Correlation</a>
+    </li>
+    <li>
+      <a href="regression.html">Simple linear regression</a>
+    </li>
+    <li>
+      <a href="reg-group.html">Grouped linear regression</a>
+    </li>
+    <li>
+      <a href="reg-multi.html">Multiple linear regression</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Maps
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="maps.html">Map data with tile backgrounds</a>
+    </li>
+    <li>
+      <a href="spatial.html">Spatial statistics</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">Spatial interpolation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Util
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tables.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="distributions.html">Distribution checking</a>
+    </li>
+    <li>
+      <a href="residuals.html">Regression residuals to identify contamination</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">UWA School of Agriculture and Environment</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!DOCTYPE html>
+
+<html>
+<body>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science<br />at The University of Western Australia</span></h3>
+<h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
+</body>
+</html>
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Utilities = useful stuff</h1>
+<h3 class="subtitle">Making use of unusual regression residuals</h3>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2024-06-14</h4>
+
+</div>
+
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+<div id="do-large-positive-regression-residuals-indicate-contamination"
+class="section level1">
+<h1>Do large positive regression residuals indicate contamination?</h1>
+<p>Background concentrations of contaminants are usually defined as
+being concentrations which occur naturally, in the absence of additions
+derived from human activity. It is generally recognised that:</p>
+<ul>
+<li>background concentrations in water, sediments, and soils vary
+spatially, depending on the local geology, the age of the landscape in
+which a site under investigation is situated, <em>etc</em>. (Reimann and
+Garrett, 2005)</li>
+<li>background concentrations of contaminants in soils and sediments are
+not a single constant value, but are instead a function of sediment
+properties such as pH, cation exchange capacity, or the concentrations
+of major elements such as Al, Fe, or Mn (Hamon <em>et al</em>.,
+2004)</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(car)           <span class="co"># Companion to Applied Regression</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(sf)            <span class="co"># Simple Features spatial data in R</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(maptiles)      <span class="co"># get open-source map tiles for background maps</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(prettymapr)    <span class="co"># add scale bar and north arrows to maps</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(viridis)       <span class="co"># colourblind-friendly colour palettes</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">library</span>(scico)         <span class="co"># more colourblind-friendly colour palettes</span></span></code></pre></div>
+<p>For this session we're going to use the Ashfield Flats compiled data
+from 2019-2023.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R/raw/main/&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>afs1923 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;afs1923.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co"># re-order the factor levels</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>afs1923<span class="sc">$</span>Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(afs1923<span class="sc">$</span>Type, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Drain_Sed&quot;</span>,<span class="st">&quot;Lake_Sed&quot;</span>,<span class="st">&quot;Saltmarsh&quot;</span>,<span class="st">&quot;Other&quot;</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>afs1923<span class="sc">$</span>Type2 <span class="ot">&lt;-</span> </span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="fu">factor</span>(afs1923<span class="sc">$</span>Type2, </span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>         <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Drain_Sed&quot;</span>,<span class="st">&quot;Lake_Sed&quot;</span>,<span class="st">&quot;Saltmarsh W&quot;</span>,<span class="st">&quot;Saltmarsh E&quot;</span>,<span class="st">&quot;Other&quot;</span>))</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>afr_map <span class="ot">&lt;-</span> </span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/Ratey-AtUWA/spatial/main/afr_map_v2.csv&quot;</span>, </span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>           <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>extent <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(<span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">399900</span>,<span class="dv">400600</span>),<span class="at">y=</span><span class="fu">c</span>(<span class="dv">6467900</span>,<span class="dv">6468400</span>)),</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>                   <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>), <span class="at">crs =</span> UTM50S)</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>aftiles <span class="ot">&lt;-</span> <span class="fu">get_tiles</span>(extent, <span class="at">provider =</span> <span class="st">&quot;OpenStreetMap.HOT&quot;</span>, <span class="at">crop =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>It's good practice to remove missing observations from the data we
+use to generate our multiple regression model. This is usually
+<strong>essential</strong> practice when conducting multiple regression,
+since if the stepwise procedure removes or adds predictors, successive
+iterations of the stepwise refinement procedure may need to use a
+different number of observations, which will cause an error. See the
+Warning and other information at <code>help(step)</code> for more
+detail. We're also log<sub>10</sub>-transforming positively skewed
+variables, in an effort to address later issues with the distribution
+and variance of linear model residuals.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>regdata <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(afs1923[,<span class="fu">c</span>(<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;pH&quot;</span>,<span class="st">&quot;Al&quot;</span>,<span class="st">&quot;Ca&quot;</span>,<span class="st">&quot;Fe&quot;</span>,<span class="st">&quot;S&quot;</span>,<span class="st">&quot;P&quot;</span>,<span class="st">&quot;Na&quot;</span>,<span class="st">&quot;K&quot;</span>,<span class="st">&quot;Mg&quot;</span>)])</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>regdata<span class="sc">$</span>Pb.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(regdata<span class="sc">$</span>Pb)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>regdata<span class="sc">$</span>Ca.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(regdata<span class="sc">$</span>Ca)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>regdata<span class="sc">$</span>S.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(regdata<span class="sc">$</span>S)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>regdata<span class="sc">$</span>P.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(regdata<span class="sc">$</span>P)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>regdata<span class="sc">$</span>Na.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(regdata<span class="sc">$</span>Na)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>regdata<span class="sc">$</span>Mg.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(regdata<span class="sc">$</span>Mg)</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">row.names</span>(regdata) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;original data has&quot;</span>,<span class="fu">nrow</span>(afs1923),<span class="st">&quot;rows, subset has&quot;</span>,<span class="fu">nrow</span>(regdata),<span class="st">&quot;rows</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## original data has 335 rows, subset has 298 rows</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>cors <span class="ot">&lt;-</span> <span class="fu">cor</span>(regdata[,<span class="fu">c</span>(<span class="st">&quot;Pb.log&quot;</span>,<span class="st">&quot;pH&quot;</span>,<span class="st">&quot;Al&quot;</span>,<span class="st">&quot;Ca.log&quot;</span>,<span class="st">&quot;Fe&quot;</span>,<span class="st">&quot;S.log&quot;</span>,<span class="st">&quot;P.log&quot;</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>                       <span class="st">&quot;Na.log&quot;</span>,<span class="st">&quot;K&quot;</span>,<span class="st">&quot;Mg.log&quot;</span>)])</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>cors[<span class="fu">which</span>(cors<span class="sc">==</span><span class="dv">1</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">print</span>(cors, <span class="at">digits=</span><span class="dv">2</span>, <span class="at">na.print =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<pre><code>##        Pb.log     pH     Al Ca.log    Fe S.log P.log Na.log     K Mg.log
+## Pb.log         0.102  0.381  0.239 0.418 0.216 0.726   0.33  0.34  0.437
+## pH       0.10        -0.121  0.322 0.068 0.068 0.035  -0.11 -0.12  0.031
+## Al       0.38 -0.121         0.096 0.244 0.017 0.246   0.51  0.76  0.645
+## Ca.log   0.24  0.322  0.096        0.210 0.350 0.452   0.24  0.17  0.380
+## Fe       0.42  0.068  0.244  0.210       0.354 0.615   0.44  0.33  0.497
+## S.log    0.22  0.068  0.017  0.350 0.354       0.423   0.45  0.27  0.426
+## P.log    0.73  0.035  0.246  0.452 0.615 0.423         0.49  0.36  0.546
+## Na.log   0.33 -0.106  0.512  0.238 0.440 0.454 0.491         0.76  0.933
+## K        0.34 -0.118  0.759  0.174 0.329 0.268 0.361   0.76        0.795
+## Mg.log   0.44  0.031  0.645  0.380 0.497 0.426 0.546   0.93  0.79</code></pre>
+<p> </p>
+<p>From the correlation matrix above, we notice that Na, Mg are
+correlated with r = 0.933 (definitely r&gt;0.8), so Na and Mg are too
+collinear. We therefore omit one of this collinear pair from our initial
+model. We add spatial coordinates (<code>Easting</code>,
+<code>Northing</code>) to the data subset, not to include them in models
+but because we'll use them later.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>regdata <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(afs1923[,<span class="fu">c</span>(<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;pH&quot;</span>,<span class="st">&quot;Al&quot;</span>,<span class="st">&quot;Ca&quot;</span>,<span class="st">&quot;Fe&quot;</span>,<span class="st">&quot;S&quot;</span>,<span class="st">&quot;P&quot;</span>,<span class="st">&quot;Na&quot;</span>,<span class="st">&quot;K&quot;</span>,<span class="st">&quot;Easting&quot;</span>,<span class="st">&quot;Northing&quot;</span>)])</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">row.names</span>(regdata) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>regdata<span class="sc">$</span>Pb.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(regdata<span class="sc">$</span>Pb)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>regdata<span class="sc">$</span>Ca.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(regdata<span class="sc">$</span>Ca)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>regdata<span class="sc">$</span>S.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(regdata<span class="sc">$</span>S)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>regdata<span class="sc">$</span>P.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(regdata<span class="sc">$</span>P)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>regdata<span class="sc">$</span>Na.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(regdata<span class="sc">$</span>Na)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;original data has&quot;</span>,<span class="fu">nrow</span>(afs1923),<span class="st">&quot;rows, subset has&quot;</span>,<span class="fu">nrow</span>(regdata),<span class="st">&quot;rows&quot;</span>)</span></code></pre></div>
+<pre><code>## original data has 335 rows, subset has 298 rows</code></pre>
+<p>It's always good practice to check scatterplots of the potential
+relationships too, to make sure there are no odd apparent relationships
+caused by outliers or clustering of points (this is more of an issue
+when we have fewer observations).</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">spm</span>(<span class="sc">~</span>Pb.log<span class="sc">+</span>pH<span class="sc">+</span>Al<span class="sc">+</span>Ca.log<span class="sc">+</span>Fe<span class="sc">+</span>S.log<span class="sc">+</span>P.log<span class="sc">+</span>Na.log<span class="sc">+</span>K, <span class="at">data=</span>regdata, <span class="at">cex=</span><span class="fl">0.5</span>, <span class="at">smooth=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="figure">
+<img src="residuals_files/figure-html/check-scatterplot-matrix-1.png" alt="Figure 1: Scatter plot matrix for Pb and potenial multiple regression predictors. Positively skewed variables are log10-transformed." width="960" />
+<p class="caption">
+Figure 1: Scatter plot matrix for Pb and potenial multiple regression
+predictors. Positively skewed variables are log10-transformed.
+</p>
+</div>
+<p> </p>
+<p>The scatter plot matrix (Figure 1) is useful for showing whether the
+relationships between the dependent variable (<code>Pb</code>) and
+individual predictors has (i) any outliers that might influence
+regression parameters, or; (ii) if there is any clustering apparent. The
+first row (horizontal) of the scatter plot matrix is particularly useful
+because it shows the relationship of our dependent variable
+(<code>Pb</code>) <em>vs</em>. each of the individual predictors.</p>
+<p>We should also run the correlation matrix again:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>cors <span class="ot">&lt;-</span> <span class="fu">cor</span>(regdata[,<span class="fu">c</span>(<span class="st">&quot;Pb.log&quot;</span>,<span class="st">&quot;pH&quot;</span>,<span class="st">&quot;Al&quot;</span>,<span class="st">&quot;Ca.log&quot;</span>,<span class="st">&quot;Fe&quot;</span>,<span class="st">&quot;S.log&quot;</span>,<span class="st">&quot;P.log&quot;</span>,<span class="st">&quot;Na.log&quot;</span>,<span class="st">&quot;K&quot;</span>)])</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>cors[<span class="fu">which</span>(cors<span class="sc">==</span><span class="dv">1</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">signif</span>(cors,<span class="dv">2</span>), <span class="at">na.print =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<pre><code>##        Pb.log     pH     Al Ca.log    Fe S.log P.log Na.log     K
+## Pb.log         0.100  0.380  0.240 0.420 0.220 0.730   0.33  0.34
+## pH       0.10        -0.120  0.320 0.068 0.068 0.035  -0.11 -0.12
+## Al       0.38 -0.120         0.096 0.240 0.017 0.250   0.51  0.76
+## Ca.log   0.24  0.320  0.096        0.210 0.350 0.450   0.24  0.17
+## Fe       0.42  0.068  0.240  0.210       0.350 0.620   0.44  0.33
+## S.log    0.22  0.068  0.017  0.350 0.350       0.420   0.45  0.27
+## P.log    0.73  0.035  0.250  0.450 0.620 0.420         0.49  0.36
+## Na.log   0.33 -0.110  0.510  0.240 0.440 0.450 0.490         0.76
+## K        0.34 -0.120  0.760  0.170 0.330 0.270 0.360   0.76</code></pre>
+<p>The revised correlation matrix above shows no r values above 0.8, but
+some close to the r=0.8 threshold (<em>e.g</em>. Al-K r=0.76; Na-K
+r=0.76). We will need to check the variance inflation factors one we
+have run the initial model.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>lm0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Pb.log <span class="sc">~</span> pH<span class="sc">+</span>Al<span class="sc">+</span>Ca.log<span class="sc">+</span>Fe<span class="sc">+</span>S.log<span class="sc">+</span>P.log<span class="sc">+</span>Na.log<span class="sc">+</span>K, <span class="at">data=</span>regdata)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">summary</span>(lm0)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Pb.log ~ pH + Al + Ca.log + Fe + S.log + P.log + 
+##     Na.log + K, data = regdata)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.57663 -0.11881 -0.01945  0.09097  0.96958 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -2.516e-01  1.723e-01  -1.460 0.145405    
+## pH           6.127e-02  1.561e-02   3.925 0.000108 ***
+## Al           8.283e-06  1.505e-06   5.505 8.15e-08 ***
+## Ca.log      -1.696e-01  4.430e-02  -3.828 0.000159 ***
+## Fe          -1.571e-06  8.327e-07  -1.886 0.060269 .  
+## S.log        1.730e-04  3.314e-02   0.005 0.995838    
+## P.log        8.192e-01  5.102e-02  16.055  &lt; 2e-16 ***
+## Na.log      -7.348e-02  3.556e-02  -2.066 0.039687 *  
+## K           -8.771e-06  1.875e-05  -0.468 0.640334    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.2118 on 289 degrees of freedom
+## Multiple R-squared:  0.6232, Adjusted R-squared:  0.6128 
+## F-statistic: 59.74 on 8 and 289 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>The regression output shows that we can't reject the null hypothesis
+of no effect for several variables. This may be due to our model being
+over-parameterised, and we hope that we can rely on the stepwise
+selection procedure to eliminate unnecessary predictors. Let look at the
+VIF values:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">vif</span>(lm0)</span></code></pre></div>
+<pre><code>##       pH       Al   Ca.log       Fe    S.log    P.log   Na.log        K 
+## 1.193383 2.628976 1.520550 1.751400 1.563434 2.154061 3.079927 4.257511</code></pre>
+<p>None of the VIF values indicate that predictors should be removed,
+but the value &gt; 4 (4.26 for K) is worth remembering when we generate
+the final model by stepwise parameter selection.</p>
+<p>That's what we do next, using the <code>step()</code> function. If
+we're being really careful, we can compare different options for
+generating a multiple regression model, <em>e.g</em>.:</p>
+<ul>
+<li><code>direction = "forward"</code> – starting from a minimal model
+and successively adding predictors;</li>
+<li><code>direction = "backward"</code> – starting from a maximal model
+and successively removing predictors;</li>
+<li><code>direction = "both"</code> (the default is <code>"both"</code>,
+which we have used) – specifying a maximal model and allowing and
+testing addition <em>and</em> removal of predictors.</li>
+</ul>
+<p>If we're interested in seeing some of the progress of the stepwise
+algorithm, we can specify <code>trace=1</code>. See
+<code>help(step)</code> for more detail.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">step</span>(lm0, <span class="at">direction =</span> <span class="st">&quot;both&quot;</span>, <span class="at">trace=</span><span class="dv">0</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">summary</span>(lm1)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Pb.log ~ pH + Al + Ca.log + Fe + P.log + Na.log, 
+##     data = regdata)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.57968 -0.11802 -0.01794  0.09023  0.96002 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -2.222e-01  1.553e-01  -1.431 0.153501    
+## pH           6.135e-02  1.556e-02   3.943 0.000101 ***
+## Al           7.831e-06  1.081e-06   7.245 3.88e-12 ***
+## Ca.log      -1.700e-01  4.333e-02  -3.922 0.000109 ***
+## Fe          -1.561e-06  8.249e-07  -1.893 0.059359 .  
+## P.log        8.195e-01  5.060e-02  16.195  &lt; 2e-16 ***
+## Na.log      -8.339e-02  2.678e-02  -3.114 0.002030 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.2111 on 291 degrees of freedom
+## Multiple R-squared:  0.6229, Adjusted R-squared:  0.6151 
+## F-statistic: 80.11 on 6 and 291 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Check the AIC for the maximal and stepwise models...</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">AIC</span>(lm0,lm1)</span></code></pre></div>
+<pre><code>##     df       AIC
+## lm0 10 -68.60634
+## lm1  8 -72.37964</code></pre>
+<p>...and check the VIF for the predictors:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">vif</span>(lm1)</span></code></pre></div>
+<pre><code>##       pH       Al   Ca.log       Fe    P.log   Na.log 
+## 1.193117 1.365100 1.464100 1.729388 2.131921 1.757584</code></pre>
+<p>Our final model has six predictors, reduced from eight in the maximal
+model. [We could even try a model without Fe as a predictor, since we
+can't reject H<sub>0</sub> for Fe based on its p-value ≃0.06. Since it's
+marginal we'll leave it in for now...]. The stepwise refinement has
+removed K and S as predictors, so we no longer have any issue with
+collinearity. It's interesting to compare the regression coefficients
+with the individual correlation coefficients:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>(r_vs_coefs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Pearson_r=</span>cors[<span class="fu">names</span>(lm1<span class="sc">$</span>coefficients[<span class="sc">-</span><span class="dv">1</span>]),<span class="dv">1</span>],</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>                         <span class="at">lm_coefs=</span>lm1<span class="sc">$</span>coefficients[<span class="sc">-</span><span class="dv">1</span>]))</span></code></pre></div>
+<pre><code>##        Pearson_r      lm_coefs
+## pH     0.1023659  6.134560e-02
+## Al     0.3807144  7.831464e-06
+## Ca.log 0.2391211 -1.699679e-01
+## Fe     0.4176609 -1.561546e-06
+## P.log  0.7260967  8.195048e-01
+## Na.log 0.3282740 -8.338841e-02</code></pre>
+<p>We can see that all the correlation coefficients are
+<em>positive</em>, but that the regression coefficients for Ca, Fe, and
+Na are <em>negative</em>.<br />
+In a multiple linear regression model, the effects of the predictors
+interact, so we don't always see the effects we might expect based on
+simple correlation.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">las=</span><span class="dv">1</span>, <span class="at">lend=</span><span class="st">&quot;square&quot;</span>, <span class="at">xpd=</span>F)</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="fu">plot</span>(lm1<span class="sc">$</span>model<span class="sc">$</span>Pb.log <span class="sc">~</span> lm1<span class="sc">$</span>fitted.values,</span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>     <span class="at">xlab=</span><span class="fu">expression</span>(<span class="fu">bold</span>(<span class="fu">paste</span>(log[<span class="dv">10</span>],<span class="st">&quot;Pb predicted by model&quot;</span>))),</span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>     <span class="at">ylab=</span><span class="fu">expression</span>(<span class="fu">bold</span>(<span class="fu">paste</span>(<span class="st">&quot;Observed &quot;</span>,log[<span class="dv">10</span>],<span class="st">&quot;Pb&quot;</span>))),</span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">1.2</span>, <span class="at">col=</span><span class="st">&quot;#0000ff40&quot;</span>); <span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">col=</span><span class="st">&quot;sienna&quot;</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>newdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">pH=</span><span class="fu">seq</span>(<span class="fu">min</span>(regdata<span class="sc">$</span>pH),<span class="fu">max</span>(regdata<span class="sc">$</span>pH),<span class="at">l=</span><span class="dv">50</span>),</span>
+<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a>                      <span class="at">Al=</span><span class="fu">seq</span>(<span class="fu">min</span>(regdata<span class="sc">$</span>Al),<span class="fu">max</span>(regdata<span class="sc">$</span>Al),<span class="at">l=</span><span class="dv">50</span>),</span>
+<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a>                      <span class="at">Ca.log=</span><span class="fu">seq</span>(<span class="fu">min</span>(regdata<span class="sc">$</span>Ca.log),<span class="fu">max</span>(regdata<span class="sc">$</span>Ca.log),<span class="at">l=</span><span class="dv">50</span>),</span>
+<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a>                      <span class="at">Fe=</span><span class="fu">seq</span>(<span class="fu">min</span>(regdata<span class="sc">$</span>Fe),<span class="fu">max</span>(regdata<span class="sc">$</span>Fe),<span class="at">l=</span><span class="dv">50</span>),</span>
+<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a>                      <span class="at">P.log=</span><span class="fu">seq</span>(<span class="fu">min</span>(regdata<span class="sc">$</span>P.log),<span class="fu">max</span>(regdata<span class="sc">$</span>P.log),<span class="at">l=</span><span class="dv">50</span>),</span>
+<span id="cb24-11"><a href="#cb24-11" tabindex="-1"></a>                      <span class="at">Na.log=</span><span class="fu">seq</span>(<span class="fu">min</span>(regdata<span class="sc">$</span>Na.log),<span class="fu">max</span>(regdata<span class="sc">$</span>Na.log),<span class="at">l=</span><span class="dv">50</span>))</span>
+<span id="cb24-12"><a href="#cb24-12" tabindex="-1"></a>conf0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm1, newdata, <span class="at">interval =</span> <span class="st">&quot;prediction&quot;</span>, <span class="at">level=</span><span class="fl">0.95</span>)</span>
+<span id="cb24-13"><a href="#cb24-13" tabindex="-1"></a><span class="fu">lines</span>(conf0[,<span class="dv">1</span>], conf0[,<span class="dv">2</span>], <span class="at">col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">lty=</span><span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb24-14"><a href="#cb24-14" tabindex="-1"></a><span class="fu">lines</span>(conf0[,<span class="dv">1</span>], conf0[,<span class="dv">3</span>], <span class="at">col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">lty=</span><span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb24-15"><a href="#cb24-15" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">inset=</span><span class="fl">0.01</span>, <span class="at">pt.cex=</span><span class="fl">1.2</span>, <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">19</span>,<span class="cn">NA</span>,<span class="cn">NA</span>), </span>
+<span id="cb24-16"><a href="#cb24-16" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Observations&quot;</span>,<span class="st">&quot;1:1 line&quot;</span>,<span class="st">&quot;±95% prediction&quot;</span>),</span>
+<span id="cb24-17"><a href="#cb24-17" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#0000ff40&quot;</span>,<span class="st">&quot;sienna&quot;</span>,<span class="st">&quot;grey&quot;</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">1</span>,<span class="dv">3</span>),<span class="at">lwd=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
+<div class="figure">
+<img src="residuals_files/figure-html/plot-obs-fitted-1.png" alt="Figure 2: Relationship of observed to predicted log10-Pb showing 1:1 line and 95% prediction interval." width="50%" />
+<p class="caption">
+Figure 2: Relationship of observed to predicted log10-Pb showing 1:1
+line and 95% prediction interval.
+</p>
+</div>
+<p> </p>
+<p>The observed <em>vs</em>. predicted log<sub>10</sub>Pb in Figure 2
+shows the expected scatter about a 1:1 line, with some positive
+residuals that may be unusually large. If we convert the residuals to
+standard normal distribution scores (the R tool for this is the
+<code>scale()</code> function) then we may be able to identify which
+observations are unusually high, <em>e.g</em>. ≥ 2 standard deviations
+above the mean.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">las=</span><span class="dv">1</span>, <span class="at">lend=</span><span class="st">&quot;square&quot;</span>, <span class="at">xpd=</span>F)</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">scale</span>(lm1<span class="sc">$</span>residuals), <span class="at">col=</span><span class="st">&quot;lemonchiffon&quot;</span>, <span class="at">xlab=</span><span class="fu">expression</span>(<span class="fu">bold</span>(<span class="fu">paste</span>(log[<span class="dv">10</span>],<span class="st">&quot;Pb&quot;</span>))), </span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>        <span class="at">ylab=</span><span class="st">&quot;Standardised residual from multiple regression model &quot;</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="co">#abline(h=2, col=4, lty=2)</span></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a><span class="fu">rect</span>(<span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">1</span>],<span class="dv">2</span>,<span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">2</span>],<span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">4</span>],<span class="at">border=</span><span class="st">&quot;transparent&quot;</span>, <span class="at">col=</span><span class="st">&quot;#00308720&quot;</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a><span class="fu">arrows</span>(<span class="fl">0.65</span>,<span class="fl">3.8</span>,<span class="at">y1=</span><span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">4</span>],<span class="at">angle =</span> <span class="dv">20</span>,<span class="at">length =</span> <span class="fl">0.1</span>, <span class="at">col=</span><span class="st">&quot;#003087&quot;</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a><span class="fu">arrows</span>(<span class="fl">0.65</span>,<span class="fl">2.8</span>,<span class="at">y1=</span><span class="dv">2</span>,<span class="at">angle =</span> <span class="dv">20</span>,<span class="at">length =</span> <span class="fl">0.1</span>, <span class="at">col=</span><span class="st">&quot;#003087&quot;</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>, <span class="fl">3.2</span>, <span class="at">pos=</span><span class="dv">4</span>, <span class="at">offset=</span><span class="fl">0.2</span>, <span class="at">col=</span><span class="st">&quot;#003087&quot;</span>, <span class="at">cex=</span><span class="fl">0.8</span>, </span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>     <span class="at">labels=</span><span class="st">&quot;Standardised</span><span class="sc">\n</span><span class="st">residual &gt; 2</span><span class="sc">\n</span><span class="st">(p \u2248 0.025)&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="residuals_files/figure-html/boxplot-z-residuals-1.png" alt="Figure 3: Box plot of model residuals scaled to standard normal distribution scores (mean=0, sd=1)." width="33%" />
+<p class="caption">
+Figure 3: Box plot of model residuals scaled to standard normal
+distribution scores (mean=0, sd=1).
+</p>
+</div>
+<p> </p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;---- Large log10(Pb) ----</span><span class="sc">\n</span><span class="st">&quot;</span>);lm1<span class="sc">$</span>model<span class="sc">$</span>Pb.log[<span class="fu">which</span>(<span class="fu">scale</span>(lm1<span class="sc">$</span>residuals)<span class="sc">&gt;=</span><span class="dv">2</span>)]</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">---- Back-transformed ----</span><span class="sc">\n</span><span class="st">&quot;</span>);<span class="dv">10</span><span class="sc">^</span>(lm1<span class="sc">$</span>model<span class="sc">$</span>Pb.log[<span class="fu">which</span>(<span class="fu">scale</span>(lm1<span class="sc">$</span>residuals)<span class="sc">&gt;=</span><span class="dv">2</span>)])</span></code></pre></div>
+<pre><code>## ---- Large log10(Pb) ----
+##  [1] 1.850646 1.831870 2.316809 2.674677 2.919653 2.382737 1.929419 1.995635 1.961421 2.799134 2.838912
+## [12] 2.453318 2.403635 1.792392 2.056905
+## 
+## ---- Back-transformed ----
+##  [1]  70.9  67.9 207.4 472.8 831.1 241.4  85.0  99.0  91.5 629.7 690.1 284.0 253.3  62.0 114.0</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">lend=</span><span class="st">&quot;square&quot;</span>, <span class="at">xpd=</span><span class="cn">TRUE</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="fu">plot_tiles</span>(aftiles, <span class="at">adjust=</span>F, <span class="at">axes=</span><span class="cn">TRUE</span>, <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>)) <span class="co"># use axes = TRUE</span></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Easting (UTM Zone 50, m)&quot;</span>, <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="dv">3</span>, <span class="at">font=</span><span class="dv">2</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Northing (UTM Zone 50, m)&quot;</span>, <span class="at">side =</span> <span class="dv">2</span>, <span class="at">line =</span> <span class="fl">2.5</span>, <span class="at">font=</span><span class="dv">2</span>)</span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a><span class="fu">addnortharrow</span>(<span class="at">text.col=</span><span class="dv">1</span>, <span class="at">border=</span><span class="dv">1</span>, <span class="at">pos=</span><span class="st">&quot;topleft&quot;</span>)</span>
+<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a><span class="fu">addscalebar</span>(<span class="at">plotepsg =</span> <span class="dv">32750</span>, <span class="at">label.col =</span> <span class="dv">1</span>, <span class="at">linecol =</span> <span class="dv">1</span>, </span>
+<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a>            <span class="at">label.cex =</span> <span class="fl">1.2</span>, <span class="at">htin=</span><span class="fl">0.15</span>, <span class="at">widthhint =</span> <span class="fl">0.3</span>)</span>
+<span id="cb28-9"><a href="#cb28-9" tabindex="-1"></a><span class="fu">with</span>(afr_map, <span class="fu">lines</span>(drain_E, drain_N, <span class="at">col =</span> <span class="st">&quot;cadetblue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>))</span>
+<span id="cb28-10"><a href="#cb28-10" tabindex="-1"></a><span class="fu">with</span>(afr_map, <span class="fu">polygon</span>(wetland_E, wetland_N, <span class="at">col =</span> <span class="st">&quot;#5F9EA080&quot;</span>, </span>
+<span id="cb28-11"><a href="#cb28-11" tabindex="-1"></a>                      <span class="at">border=</span><span class="st">&quot;cadetblue&quot;</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">1</span>))</span>
+<span id="cb28-12"><a href="#cb28-12" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">c</span>(<span class="dv">400250</span>, <span class="dv">399962</span>, <span class="dv">400047</span>), <span class="fu">c</span>(<span class="dv">6468165</span>, <span class="dv">6468075</span>, <span class="dv">6468237</span>),</span>
+<span id="cb28-13"><a href="#cb28-13" tabindex="-1"></a>     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Chapman</span><span class="sc">\n</span><span class="st">Drain&quot;</span>,<span class="st">&quot;Kitchener</span><span class="sc">\n</span><span class="st">Drain&quot;</span>, <span class="st">&quot;Woolcock</span><span class="sc">\n</span><span class="st">Drain&quot;</span>),</span>
+<span id="cb28-14"><a href="#cb28-14" tabindex="-1"></a>     <span class="at">pos =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>), <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">font =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;cadetblue&quot;</span>)</span>
+<span id="cb28-15"><a href="#cb28-15" tabindex="-1"></a>clrz <span class="ot">&lt;-</span> <span class="fu">plasma</span>(<span class="dv">15</span>)[<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]</span>
+<span id="cb28-16"><a href="#cb28-16" tabindex="-1"></a><span class="fu">with</span>(regdata[<span class="fu">which</span>(<span class="fu">scale</span>(lm1<span class="sc">$</span>residuals)<span class="sc">&gt;=</span><span class="dv">2</span>),], </span>
+<span id="cb28-17"><a href="#cb28-17" tabindex="-1"></a>     <span class="fu">points</span>(Easting, Northing, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">col=</span><span class="st">&quot;#000000b0&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffe000b0&quot;</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">lwd=</span><span class="dv">2</span>))</span>
+<span id="cb28-18"><a href="#cb28-18" tabindex="-1"></a><span class="fu">with</span>(regdata[<span class="fu">which</span>(<span class="fu">scale</span>(lm1<span class="sc">$</span>residuals)<span class="sc">&gt;=</span><span class="dv">2</span>),], </span>
+<span id="cb28-19"><a href="#cb28-19" tabindex="-1"></a>     <span class="fu">text</span>(Easting, Northing, <span class="at">labels=</span><span class="fu">round</span>(Pb,<span class="dv">0</span>), <span class="at">cex=</span><span class="fl">0.8</span>, </span>
+<span id="cb28-20"><a href="#cb28-20" tabindex="-1"></a>          <span class="at">pos=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>), <span class="at">offset=</span><span class="fl">0.3</span>))</span>
+<span id="cb28-21"><a href="#cb28-21" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">y.intersp=</span><span class="fl">1.75</span>, </span>
+<span id="cb28-22"><a href="#cb28-22" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Sediment samples with </span><span class="sc">\n</span><span class="st">Pb standardised residuals ≥ 2&quot;</span>,</span>
+<span id="cb28-23"><a href="#cb28-23" tabindex="-1"></a>                <span class="st">&quot;Numbers next to points are</span><span class="sc">\n</span><span class="st">Pb concentrations (mg/kg)&quot;</span>),</span>
+<span id="cb28-24"><a href="#cb28-24" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">21</span>,<span class="cn">NA</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;#000000b0&quot;</span>,<span class="st">&quot;black&quot;</span>), <span class="at">pt.bg =</span> <span class="st">&quot;#ffe000b0&quot;</span>, </span>
+<span id="cb28-25"><a href="#cb28-25" tabindex="-1"></a>       <span class="at">inset =</span> <span class="fu">c</span>(<span class="fl">0.02</span>,<span class="fl">0.04</span>), <span class="at">pt.cex=</span><span class="fu">c</span>(<span class="fl">1.4</span>,<span class="fl">0.8</span>), <span class="at">pt.lwd=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="figure">
+<img src="residuals_files/figure-html/map-zresids-gt-2-1.png" alt="Figure 4: Map of Ashfield Flats showing locations of samples having unusually large Pb concentrations based on a multiple regression model representing a 'backgroind concentration function'." width="672" />
+<p class="caption">
+Figure 4: Map of Ashfield Flats showing locations of samples having
+unusually large Pb concentrations based on a multiple regression model
+representing a 'backgroind concentration function'.
+</p>
+</div>
+<p> </p>
+<p>We should note that the locations identified in Figure 4 do not all
+have Pb concentrations greater than the upper guideline value (GV-high
+for Pb is 220 mg/kg; Water Quality Australia, 2024), although all have
+Pb concentrations greater than the default guideline value of 50 mg/kg.
+Unusual samples with lower Pb concentrations are those which our model
+predicts should have a lower background concentration. Based on the
+coefficients for each predictor in our model, this means sediments with
+low pH, low Al, high Ca, high Fe, low P and high Na. We can visualise
+this by plotting the effects for individual predictors using
+<code>plot(effects::allEffects(lm1))</code>.</p>
+<p>It's interesting to note that the observations we have identified as
+unusual, on the basis of having scaled residuals &gt; 2, are also those
+which are have greater log<sub>10</sub>Pb concentration greater than the
+upper bound of the 95% prediction interval for the regression – see
+Figure 5 below.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">las=</span><span class="dv">1</span>, <span class="at">lend=</span><span class="st">&quot;square&quot;</span>, <span class="at">xpd=</span>F)</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="fu">plot</span>(lm1<span class="sc">$</span>model<span class="sc">$</span>Pb.log <span class="sc">~</span> lm1<span class="sc">$</span>fitted.values,</span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>     <span class="at">xlab=</span><span class="fu">expression</span>(<span class="fu">bold</span>(<span class="fu">paste</span>(log[<span class="dv">10</span>],<span class="st">&quot;Pb predicted by model&quot;</span>))),</span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>     <span class="at">ylab=</span><span class="fu">expression</span>(<span class="fu">bold</span>(<span class="fu">paste</span>(<span class="st">&quot;Observed &quot;</span>,log[<span class="dv">10</span>],<span class="st">&quot;Pb&quot;</span>))),</span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">1.2</span>, <span class="at">col=</span><span class="st">&quot;#0000ff40&quot;</span>); <span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">col=</span><span class="st">&quot;sienna&quot;</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>newdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">pH=</span><span class="fu">seq</span>(<span class="fu">min</span>(regdata<span class="sc">$</span>pH),<span class="fu">max</span>(regdata<span class="sc">$</span>pH),<span class="at">l=</span><span class="dv">50</span>),</span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>                      <span class="at">Al=</span><span class="fu">seq</span>(<span class="fu">min</span>(regdata<span class="sc">$</span>Al),<span class="fu">max</span>(regdata<span class="sc">$</span>Al),<span class="at">l=</span><span class="dv">50</span>),</span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>                      <span class="at">Ca.log=</span><span class="fu">seq</span>(<span class="fu">min</span>(regdata<span class="sc">$</span>Ca.log),<span class="fu">max</span>(regdata<span class="sc">$</span>Ca.log),<span class="at">l=</span><span class="dv">50</span>),</span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>                      <span class="at">Fe=</span><span class="fu">seq</span>(<span class="fu">min</span>(regdata<span class="sc">$</span>Fe),<span class="fu">max</span>(regdata<span class="sc">$</span>Fe),<span class="at">l=</span><span class="dv">50</span>),</span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>                      <span class="at">P.log=</span><span class="fu">seq</span>(<span class="fu">min</span>(regdata<span class="sc">$</span>P.log),<span class="fu">max</span>(regdata<span class="sc">$</span>P.log),<span class="at">l=</span><span class="dv">50</span>),</span>
+<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>                      <span class="at">Na.log=</span><span class="fu">seq</span>(<span class="fu">min</span>(regdata<span class="sc">$</span>Na.log),<span class="fu">max</span>(regdata<span class="sc">$</span>Na.log),<span class="at">l=</span><span class="dv">50</span>))</span>
+<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a>conffit <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm1, <span class="at">interval =</span> <span class="st">&quot;prediction&quot;</span>, <span class="at">level=</span><span class="fl">0.95</span>)</span>
+<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>conf0 <span class="ot">&lt;-</span> conffit[<span class="fu">order</span>(conffit[,<span class="dv">1</span>]),]</span>
+<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a><span class="fu">lines</span>(conf0[,<span class="dv">1</span>], conf0[,<span class="dv">2</span>], <span class="at">col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">lty=</span><span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a><span class="fu">lines</span>(conf0[,<span class="dv">1</span>], conf0[,<span class="dv">3</span>], <span class="at">col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">lty=</span><span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a><span class="co"># overplot unusual points separately</span></span>
+<span id="cb29-17"><a href="#cb29-17" tabindex="-1"></a>hipts <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">scale</span>(lm1<span class="sc">$</span>residuals)<span class="sc">&gt;</span><span class="dv">2</span>)</span>
+<span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a><span class="fu">points</span>(lm1<span class="sc">$</span>model<span class="sc">$</span>Pb.log[hipts] <span class="sc">~</span> lm1<span class="sc">$</span>fitted.values[hipts], <span class="at">pch=</span><span class="dv">22</span>, <span class="at">bg=</span><span class="st">&quot;gold&quot;</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span>
+<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">inset=</span><span class="fl">0.01</span>, <span class="at">pt.cex=</span><span class="fl">1.2</span>, <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">19</span>,<span class="dv">22</span>,<span class="cn">NA</span>,<span class="cn">NA</span>), </span>
+<span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Observations&quot;</span>,<span class="st">&quot;Obs. with scaled residuals &gt; 2&quot;</span>,<span class="st">&quot;1:1 line&quot;</span>,<span class="st">&quot;± 95% prediction&quot;</span>),</span>
+<span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#0000ff40&quot;</span>,<span class="dv">1</span>,<span class="st">&quot;sienna&quot;</span>,<span class="st">&quot;grey&quot;</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="cn">NA</span>,<span class="dv">1</span>,<span class="dv">3</span>),<span class="at">lwd=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="cn">NA</span>,<span class="dv">1</span>,<span class="dv">2</span>),</span>
+<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a>       <span class="at">pt.bg=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="st">&quot;gold&quot;</span>,<span class="cn">NA</span>,<span class="cn">NA</span>))</span></code></pre></div>
+<div class="figure">
+<img src="residuals_files/figure-html/plot-obs-fit-z-1.png" alt="Figure 5: Relationship of observed to predicted log10-Pb showing 1:1 line and 95% prediction interval." width="50%" />
+<p class="caption">
+Figure 5: Relationship of observed to predicted log10-Pb showing 1:1
+line and 95% prediction interval.
+</p>
+</div>
+<p> </p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<p>Hamon, R. E., McLaughlin, M. J., Gilkes, R. J., Rate, A. W.,
+Zarcinas, B., Robertson, A., Cozens, G., Radford, N., &amp; Bettenay, L.
+(2004). Geochemical indices allow estimation of heavy metal background
+concentrations in soils. <em>Global Biogeochemical Cycles</em>,
+<strong>18</strong> (GB1014). <a
+href="https://doi.org/10.1029/2003GB002063"
+target="_blank">https://doi.org/10.1029/2003GB002063</a></p>
+<p>Reimann, C., &amp; Garrett, R. G. (2005). Geochemical background -
+Concept and reality. <em>Science of The Total Environment</em>,
+<strong>350</strong>, 12-27. <a
+href="https://doi.org/10.1016/j.scitotenv.2005.01.047"
+target="_blank">https://doi.org/10.1016/j.scitotenv.2005.01.047</a></p>
+<p>Water Quality Australia. (2024). <em>Toxicant default guideline
+values for sediment quality.</em> Department of Climate Change, Energy,
+the Environment and Water, Government of Australia. Retrieved 2024-04-11
+from <a
+href="https://www.waterquality.gov.au/anz-guidelines/guideline-values/default/sediment-quality-toxicants"
+target="_blank">https://www.waterquality.gov.au/anz-guidelines/guideline-values/default/sediment-quality-toxicants</a></p>
+<p> </p>
+</div>
+
+<!DOCTYPE html>
+
+<html>
+<body>
+<hr style="height: 2px; background-color: #003087;" />
+<p><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>.</span></p>
+</body>
+</html>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -47,6 +47,8 @@ navbar:
           href: tables.html
         - text: "Distribution checking"
           href: distributions.html
+        - text: "Regression residuals to identify contamination"
+          href: residuals.html
   right:
     - text: "UWA School of Agriculture and Environment"
       href: https://www.uwa.edu.au/schools/agriculture-and-environment
