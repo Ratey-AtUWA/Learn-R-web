@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-05-24" />
+<meta name="date" content="2024-06-14" />
 
 <title>Spatial interpolation in R</title>
 
@@ -345,7 +345,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -360,7 +360,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -375,7 +375,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -390,7 +390,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -411,7 +411,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -429,7 +429,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -438,6 +438,9 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="distributions.html">Distribution checking</a>
+    </li>
+    <li>
+      <a href="residuals.html">Regression residuals to identify contamination</a>
     </li>
   </ul>
 </li>
@@ -454,7 +457,7 @@ $(document).ready(function () {
 
 <html>
 <body>
-<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science<br />at The University of Western Australia</span></h3>
 <h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
 </body>
 </html>
@@ -466,7 +469,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Spatial interpolation in R</h1>
 <h3 class="subtitle">Data analysis and visualization</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-05-24</h4>
+<h4 class="date">2024-06-14</h4>
 
 </div>
 
@@ -476,17 +479,18 @@ $(document).ready(function () {
   font-size: 12pt;
 }
 </style>
-
-<p>&nbsp;</p>
+<p>
+ 
+</p>
 <div style="border: 2px solid #039; padding: 8px;">
 <p style="text-align:center; font-size:12pt;">
-<em>Maps / spatial pages</em>: <a href="maps.html" style="color:#04b;">Maps</a> |
-<a href="spatial.html" style="color:#04b;">Spatial statistics</a> |
-<a href="spat-interp.html" style="color:#04b;">Spatial interpolation</a></p>
+<em>Maps / spatial pages</em>: <a href="maps.html"
+style="color:#04b;">Maps</a> | <a href="spatial.html"
+style="color:#04b;">Spatial statistics</a> | <a href="spat-interp.html"
+style="color:#04b;">Spatial interpolation</a>
+</p>
 </div>
-
-<p>&nbsp;</p>
-
+<p> </p>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>For many assessments of environmental data, it is desirable to
@@ -514,7 +518,7 @@ available in <code>.csv</code> files which we can read into
 <strong>R</strong>.</p>
 <p>In this Chapter we use a range of R packages for different functions,
 shown in Table 1.</p>
-<template id="d459ad29-424a-43c2-8773-cdbdb68583a4"><style>
+<template id="39241bc2-9e8b-4723-b3b2-be2d6779fda5"><style>
 .tabwid table{
   border-spacing:0px !important;
   border-collapse:collapse;
@@ -553,11 +557,11 @@ background-color: transparent;
 .katex-display {
     margin: 0 0 !important;
 }
-</style><div class="tabwid"><style>.cl-07dfd04c{}.cl-07d6ec84{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-07d6ec98{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-07da38da{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-07da4da2{width:1.2in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07da4db6{width:4.5in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07da4db7{width:2.5in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07da4dc0{width:1.2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07da4dc1{width:4.5in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07da4dca{width:2.5in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07da4dcb{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07da4dcc{width:4.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07da4dd4{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07da4dd5{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07da4dd6{width:4.5in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07da4dde{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07d29b52{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-07dfd04c'><caption><span class="cl-07d29b52">Table 1: R packages used for spatial data analysis and visualisation.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-07da4da2"><p class="cl-07da38da"><span class="cl-07d6ec84">Package</span></p></td><td class="cl-07da4db6"><p class="cl-07da38da"><span class="cl-07d6ec84">Purpose</span></p></td><td class="cl-07da4db7"><p class="cl-07da38da"><span class="cl-07d6ec84">Reference</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-07da4dc0"><p class="cl-07da38da"><span class="cl-07d6ec84">sf</span></p></td><td class="cl-07da4dc1"><p class="cl-07da38da"><span class="cl-07d6ec98">Spatial data handling, formatting, and storing spatial data</span></p></td><td class="cl-07da4dca"><p class="cl-07da38da"><span class="cl-07d6ec98">Pebesma (2018)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-07da4dcb"><p class="cl-07da38da"><span class="cl-07d6ec84">gstat</span></p></td><td class="cl-07da4dcc"><p class="cl-07da38da"><span class="cl-07d6ec98">Geostatistics (variograms and variogram models, kriging)</span></p></td><td class="cl-07da4dd4"><p class="cl-07da38da"><span class="cl-07d6ec98">Pebesma (2004)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-07da4dc0"><p class="cl-07da38da"><span class="cl-07d6ec84">maps</span></p></td><td class="cl-07da4dc1"><p class="cl-07da38da"><span class="cl-07d6ec98">Simple map outlines</span></p></td><td class="cl-07da4dca"><p class="cl-07da38da"><span class="cl-07d6ec98">Becker et al. (2021)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-07da4dcb"><p class="cl-07da38da"><span class="cl-07d6ec84">spdep</span></p></td><td class="cl-07da4dcc"><p class="cl-07da38da"><span class="cl-07d6ec98">Spatial autocorrelation, LISA</span></p></td><td class="cl-07da4dd4"><p class="cl-07da38da"><span class="cl-07d6ec98">Pebesma and Bivand (2023)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-07da4dc0"><p class="cl-07da38da"><span class="cl-07d6ec84">sp</span></p></td><td class="cl-07da4dc1"><p class="cl-07da38da"><span class="cl-07d6ec98">Older spatial package needed by spdep</span></p></td><td class="cl-07da4dca"><p class="cl-07da38da"><span class="cl-07d6ec98">Pebesma and Bivand (2005)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-07da4dcb"><p class="cl-07da38da"><span class="cl-07d6ec84">lctools</span></p></td><td class="cl-07da4dcc"><p class="cl-07da38da"><span class="cl-07d6ec98">Spatial autocorrelation</span></p></td><td class="cl-07da4dd4"><p class="cl-07da38da"><span class="cl-07d6ec98">Kalogirou (2020)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-07da4dc0"><p class="cl-07da38da"><span class="cl-07d6ec84">maptiles</span></p></td><td class="cl-07da4dc1"><p class="cl-07da38da"><span class="cl-07d6ec98">Retrieving and plotting tile-based map data</span></p></td><td class="cl-07da4dca"><p class="cl-07da38da"><span class="cl-07d6ec98">Giraud (2021)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-07da4dcb"><p class="cl-07da38da"><span class="cl-07d6ec84">prettymapr</span></p></td><td class="cl-07da4dcc"><p class="cl-07da38da"><span class="cl-07d6ec98">Map annotations</span></p></td><td class="cl-07da4dd4"><p class="cl-07da38da"><span class="cl-07d6ec98">Dunnington (2022)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-07da4dc0"><p class="cl-07da38da"><span class="cl-07d6ec84">fields</span></p></td><td class="cl-07da4dc1"><p class="cl-07da38da"><span class="cl-07d6ec98">Visualizing spatial data with irregular grids</span></p></td><td class="cl-07da4dca"><p class="cl-07da38da"><span class="cl-07d6ec98">Nychka et al. (2021)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-07da4dd5"><p class="cl-07da38da"><span class="cl-07d6ec84">viridis</span></p></td><td class="cl-07da4dd6"><p class="cl-07da38da"><span class="cl-07d6ec98">Colourblind-friendly colour palettes for maps</span></p></td><td class="cl-07da4dde"><p class="cl-07da38da"><span class="cl-07d6ec98">Garnier et al. (2021)</span></p></td></tr></tbody></table></div></template>
-<div class="flextable-shadow-host" id="9ecc7442-93ab-4f5c-8843-061f1e51931d"></div>
+</style><div class="tabwid"><style>.cl-cad0a9c4{}.cl-cac7ec8a{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-cac7ec94{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-cacb57f8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-cacb6b94{width:1.2in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cacb6b9e{width:4.5in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cacb6ba8{width:2.5in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cacb6ba9{width:1.2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cacb6bb2{width:4.5in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cacb6bb3{width:2.5in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cacb6bbc{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cacb6bbd{width:4.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cacb6bbe{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cacb6bc6{width:1.2in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cacb6bc7{width:4.5in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cacb6bd0{width:2.5in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cac3d6a4{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-cad0a9c4'><caption><span class="cl-cac3d6a4">Table 1: R packages used for spatial data analysis and visualisation.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-cacb6b94"><p class="cl-cacb57f8"><span class="cl-cac7ec8a">Package</span></p></td><td class="cl-cacb6b9e"><p class="cl-cacb57f8"><span class="cl-cac7ec8a">Purpose</span></p></td><td class="cl-cacb6ba8"><p class="cl-cacb57f8"><span class="cl-cac7ec8a">Reference</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-cacb6ba9"><p class="cl-cacb57f8"><span class="cl-cac7ec8a">sf</span></p></td><td class="cl-cacb6bb2"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Spatial data handling, formatting, and storing spatial data</span></p></td><td class="cl-cacb6bb3"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Pebesma (2018)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-cacb6bbc"><p class="cl-cacb57f8"><span class="cl-cac7ec8a">gstat</span></p></td><td class="cl-cacb6bbd"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Geostatistics (variograms and variogram models, kriging)</span></p></td><td class="cl-cacb6bbe"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Pebesma (2004)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-cacb6ba9"><p class="cl-cacb57f8"><span class="cl-cac7ec8a">maps</span></p></td><td class="cl-cacb6bb2"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Simple map outlines</span></p></td><td class="cl-cacb6bb3"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Becker et al. (2021)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-cacb6bbc"><p class="cl-cacb57f8"><span class="cl-cac7ec8a">spdep</span></p></td><td class="cl-cacb6bbd"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Spatial autocorrelation, LISA</span></p></td><td class="cl-cacb6bbe"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Pebesma and Bivand (2023)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-cacb6ba9"><p class="cl-cacb57f8"><span class="cl-cac7ec8a">sp</span></p></td><td class="cl-cacb6bb2"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Older spatial package needed by spdep</span></p></td><td class="cl-cacb6bb3"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Pebesma and Bivand (2005)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-cacb6bbc"><p class="cl-cacb57f8"><span class="cl-cac7ec8a">lctools</span></p></td><td class="cl-cacb6bbd"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Spatial autocorrelation</span></p></td><td class="cl-cacb6bbe"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Kalogirou (2020)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-cacb6ba9"><p class="cl-cacb57f8"><span class="cl-cac7ec8a">maptiles</span></p></td><td class="cl-cacb6bb2"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Retrieving and plotting tile-based map data</span></p></td><td class="cl-cacb6bb3"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Giraud (2021)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-cacb6bbc"><p class="cl-cacb57f8"><span class="cl-cac7ec8a">prettymapr</span></p></td><td class="cl-cacb6bbd"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Map annotations</span></p></td><td class="cl-cacb6bbe"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Dunnington (2022)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-cacb6ba9"><p class="cl-cacb57f8"><span class="cl-cac7ec8a">fields</span></p></td><td class="cl-cacb6bb2"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Visualizing spatial data with irregular grids</span></p></td><td class="cl-cacb6bb3"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Nychka et al. (2021)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-cacb6bc6"><p class="cl-cacb57f8"><span class="cl-cac7ec8a">viridis</span></p></td><td class="cl-cacb6bc7"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Colourblind-friendly colour palettes for maps</span></p></td><td class="cl-cacb6bd0"><p class="cl-cacb57f8"><span class="cl-cac7ec94">Garnier et al. (2021)</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="f4518879-b511-4fc5-9f7e-869fb719b2e1"></div>
 <script>
-var dest = document.getElementById("9ecc7442-93ab-4f5c-8843-061f1e51931d");
-var template = document.getElementById("d459ad29-424a-43c2-8773-cdbdb68583a4");
+var dest = document.getElementById("f4518879-b511-4fc5-9f7e-869fb719b2e1");
+var template = document.getElementById("39241bc2-9e8b-4723-b3b2-be2d6779fda5");
 var caption = template.content.querySelector("caption");
 var fantome = dest.attachShadow({mode: 'open'});
 var templateContent = template.content;
@@ -617,12 +621,12 @@ outliers.)</p>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                     <span class="at">crs =</span> LongLat)</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>As.AR_sf<span class="sc">$</span>As.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(As.AR_sf<span class="sc">$</span>As.AR)</span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">summary</span>(As.AR_sf)</span></code></pre></div>
-<pre><code>##      As.AR                 geometry       As.log
-##  Min.   : 0.050   POINT        :305   Min.   :-1.30103
-##  1st Qu.: 0.800   epsg:4326    :  0   1st Qu.:-0.09691
-##  Median : 1.600   +proj=long...:  0   Median : 0.20412
-##  Mean   : 2.869                       Mean   : 0.15464
-##  3rd Qu.: 3.300                       3rd Qu.: 0.51851
+<pre><code>##      As.AR                 geometry       As.log        
+##  Min.   : 0.050   POINT        :305   Min.   :-1.30103  
+##  1st Qu.: 0.800   epsg:4326    :  0   1st Qu.:-0.09691  
+##  Median : 1.600   +proj=long...:  0   Median : 0.20412  
+##  Mean   : 2.869                       Mean   : 0.15464  
+##  3rd Qu.: 3.300                       3rd Qu.: 0.51851  
 ##  Max.   :50.200                       Max.   : 1.70070</code></pre>
 <p>
  
@@ -813,7 +817,7 @@ using the <code>st_intersection()</code> function from
 <span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a></span>
 <span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Prediction grid:</span><span class="sc">\n</span><span class="st">&quot;</span>); NGSAgrid</span></code></pre></div>
 <pre><code>## Prediction grid:
-## Geometry set for 3500 features
+## Geometry set for 3500 features 
 ## Geometry type: POINT
 ## Dimension:     XY
 ## Bounding box:  xmin: 113.4034 ymin: -34.96724 xmax: 128.8034 ymax: -16.76724
@@ -835,23 +839,23 @@ the inverse distance weighting parameter <code>idp =</code>.</p>
 <span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>                  <span class="at">newdata =</span> NGSAgrid, <span class="at">idp =</span> idpower) <span class="co"># idp = 2 is the default</span></span>
 <span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="fu">summary</span>(idw_As.log)</span></code></pre></div>
 <pre><code>## [using ordinary kriging]
-##    var1.pred           var1.var               geometry
-##  Min.   :-0.95613   Min.   :0.1575   POINT        :3500
-##  1st Qu.:-0.04899   1st Qu.:0.1720   epsg:4326    :   0
-##  Median : 0.23887   Median :0.1763   +proj=long...:   0
-##  Mean   : 0.20047   Mean   :0.1777
-##  3rd Qu.: 0.48836   3rd Qu.:0.1816
-##  Max.   : 1.01392   Max.   :0.2311
+##    var1.pred           var1.var               geometry   
+##  Min.   :-0.95613   Min.   :0.1575   POINT        :3500  
+##  1st Qu.:-0.04899   1st Qu.:0.1720   epsg:4326    :   0  
+##  Median : 0.23887   Median :0.1763   +proj=long...:   0  
+##  Mean   : 0.20047   Mean   :0.1777                       
+##  3rd Qu.: 0.48836   3rd Qu.:0.1816                       
+##  Max.   : 1.01392   Max.   :0.2311                       
 ## _____________________________________________________________________
-##
+## 
 ## [inverse distance weighted interpolation]
-##    var1.pred           var1.var             geometry
-##  Min.   :-1.30072   Min.   : NA    POINT        :3500
-##  1st Qu.:-0.03455   1st Qu.: NA    epsg:4326    :   0
-##  Median : 0.23292   Median : NA    +proj=long...:   0
-##  Mean   : 0.19244   Mean   :NaN
-##  3rd Qu.: 0.47952   3rd Qu.: NA
-##  Max.   : 1.63438   Max.   : NA
+##    var1.pred           var1.var             geometry   
+##  Min.   :-1.30072   Min.   : NA    POINT        :3500  
+##  1st Qu.:-0.03455   1st Qu.: NA    epsg:4326    :   0  
+##  Median : 0.23292   Median : NA    +proj=long...:   0  
+##  Mean   : 0.19244   Mean   :NaN                        
+##  3rd Qu.: 0.47952   3rd Qu.: NA                        
+##  Max.   : 1.63438   Max.   : NA                        
 ##                     NA&#39;s   :3500</code></pre>
 </div>
 <div id="simple-plot-of-kriging-output" class="section level3">
