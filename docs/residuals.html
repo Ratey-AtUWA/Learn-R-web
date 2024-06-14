@@ -497,9 +497,7 @@ of major elements such as Al, Fe, or Mn (Hamon <em>et al</em>.,
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(car)           <span class="co"># Companion to Applied Regression</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(sf)            <span class="co"># Simple Features spatial data in R</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(maptiles)      <span class="co"># get open-source map tiles for background maps</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(prettymapr)    <span class="co"># add scale bar and north arrows to maps</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(viridis)       <span class="co"># colourblind-friendly colour palettes</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">library</span>(scico)         <span class="co"># more colourblind-friendly colour palettes</span></span></code></pre></div>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(prettymapr)    <span class="co"># add scale bar and north arrows to maps</span></span></code></pre></div>
 <p>For this session we're going to use the Ashfield Flats compiled data
 from 2019-2023.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R/raw/main/&quot;</span></span>
@@ -696,7 +694,9 @@ algorithm, we can specify <code>trace=1</code>. See
 <p>Our final model has six predictors, reduced from eight in the maximal
 model. [We could even try a model without Fe as a predictor, since we
 can't reject H<sub>0</sub> for Fe based on its p-value ≃0.06. Since it's
-marginal we'll leave it in for now...]. The stepwise refinement has
+marginal we'll leave it in for now...]. Based on its lower AIC value,
+the stepwise model provides a better combination of predictive ability
+and parsimony than the maximal model. The stepwise refinement has
 removed K and S as predictors, so we no longer have any issue with
 collinearity. It's interesting to compare the regression coefficients
 with the individual correlation coefficients:</p>
@@ -733,10 +733,10 @@ simple correlation.</p>
 <span id="cb24-16"><a href="#cb24-16" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Observations&quot;</span>,<span class="st">&quot;1:1 line&quot;</span>,<span class="st">&quot;±95% prediction&quot;</span>),</span>
 <span id="cb24-17"><a href="#cb24-17" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#0000ff40&quot;</span>,<span class="st">&quot;sienna&quot;</span>,<span class="st">&quot;grey&quot;</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">1</span>,<span class="dv">3</span>),<span class="at">lwd=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
 <div class="figure">
-<img src="residuals_files/figure-html/plot-obs-fitted-1.png" alt="Figure 2: Relationship of observed to predicted log10-Pb showing 1:1 line and 95% prediction interval." width="50%" />
+<img src="residuals_files/figure-html/plot-obs-fitted-1.png" alt="Figure 2: Relationship of observed to predicted log~10~-Pb showing 1:1 line and 95% prediction interval." width="50%" />
 <p class="caption">
-Figure 2: Relationship of observed to predicted log10-Pb showing 1:1
-line and 95% prediction interval.
+Figure 2: Relationship of observed to predicted log<sub>10</sub>-Pb
+showing 1:1 line and 95% prediction interval.
 </p>
 </div>
 <p> </p>
@@ -792,30 +792,31 @@ distribution scores (mean=0, sd=1).
 <span id="cb28-18"><a href="#cb28-18" tabindex="-1"></a><span class="fu">with</span>(regdata[<span class="fu">which</span>(<span class="fu">scale</span>(lm1<span class="sc">$</span>residuals)<span class="sc">&gt;=</span><span class="dv">2</span>),], </span>
 <span id="cb28-19"><a href="#cb28-19" tabindex="-1"></a>     <span class="fu">text</span>(Easting, Northing, <span class="at">labels=</span><span class="fu">round</span>(Pb,<span class="dv">0</span>), <span class="at">cex=</span><span class="fl">0.8</span>, </span>
 <span id="cb28-20"><a href="#cb28-20" tabindex="-1"></a>          <span class="at">pos=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>), <span class="at">offset=</span><span class="fl">0.3</span>))</span>
-<span id="cb28-21"><a href="#cb28-21" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">y.intersp=</span><span class="fl">1.75</span>, </span>
+<span id="cb28-21"><a href="#cb28-21" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">box.col=</span><span class="st">&quot;#ffffff40&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffffff40&quot;</span>, <span class="at">y.intersp=</span><span class="fl">1.75</span>, </span>
 <span id="cb28-22"><a href="#cb28-22" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Sediment samples with </span><span class="sc">\n</span><span class="st">Pb standardised residuals ≥ 2&quot;</span>,</span>
 <span id="cb28-23"><a href="#cb28-23" tabindex="-1"></a>                <span class="st">&quot;Numbers next to points are</span><span class="sc">\n</span><span class="st">Pb concentrations (mg/kg)&quot;</span>),</span>
 <span id="cb28-24"><a href="#cb28-24" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">21</span>,<span class="cn">NA</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;#000000b0&quot;</span>,<span class="st">&quot;black&quot;</span>), <span class="at">pt.bg =</span> <span class="st">&quot;#ffe000b0&quot;</span>, </span>
 <span id="cb28-25"><a href="#cb28-25" tabindex="-1"></a>       <span class="at">inset =</span> <span class="fu">c</span>(<span class="fl">0.02</span>,<span class="fl">0.04</span>), <span class="at">pt.cex=</span><span class="fu">c</span>(<span class="fl">1.4</span>,<span class="fl">0.8</span>), <span class="at">pt.lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure">
-<img src="residuals_files/figure-html/map-zresids-gt-2-1.png" alt="Figure 4: Map of Ashfield Flats showing locations of samples having unusually large Pb concentrations based on a multiple regression model representing a 'backgroind concentration function'." width="672" />
+<img src="residuals_files/figure-html/map-zresids-gt-2-1.png" alt="Figure 4: Map of Ashfield Flats showing locations of samples having unusually large Pb concentrations based on a multiple regression model representing a 'background concentration function'." width="672" />
 <p class="caption">
 Figure 4: Map of Ashfield Flats showing locations of samples having
 unusually large Pb concentrations based on a multiple regression model
-representing a 'backgroind concentration function'.
+representing a 'background concentration function'.
 </p>
 </div>
 <p> </p>
 <p>We should note that the locations identified in Figure 4 do not all
-have Pb concentrations greater than the upper guideline value (GV-high
-for Pb is 220 mg/kg; Water Quality Australia, 2024), although all have
-Pb concentrations greater than the default guideline value of 50 mg/kg.
-Unusual samples with lower Pb concentrations are those which our model
-predicts should have a lower background concentration. Based on the
-coefficients for each predictor in our model, this means sediments with
-low pH, low Al, high Ca, high Fe, low P and high Na. We can visualise
-this by plotting the effects for individual predictors using
-<code>plot(effects::allEffects(lm1))</code>.</p>
+have Pb concentrations greater than the upper guideline value
+(GV-high =220 mg/kg), although all have Pb concentrations greater than
+the default guideline value (DGV = 50 mg/kg; Water Quality Australia,
+2024). Unusual samples with lower Pb concentrations are those which our
+model predicts should have a lower background concentration. Based on
+the coefficients for each predictor in our model, this means sediments
+with low pH, low Al, high Ca, high Fe, low P and high Na. We can
+visualise this by plotting the effects for individual predictors using
+<code>plot(effects::allEffects(lm1))</code> from the
+<code>effects</code> package.</p>
 <p>It's interesting to note that the observations we have identified as
 unusual, on the basis of having scaled residuals &gt; 2, are also those
 which are have greater log<sub>10</sub>Pb concentration greater than the
@@ -839,33 +840,71 @@ Figure 5 below.</p>
 <span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a><span class="co"># overplot unusual points separately</span></span>
 <span id="cb29-17"><a href="#cb29-17" tabindex="-1"></a>hipts <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">scale</span>(lm1<span class="sc">$</span>residuals)<span class="sc">&gt;</span><span class="dv">2</span>)</span>
 <span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a><span class="fu">points</span>(lm1<span class="sc">$</span>model<span class="sc">$</span>Pb.log[hipts] <span class="sc">~</span> lm1<span class="sc">$</span>fitted.values[hipts], <span class="at">pch=</span><span class="dv">22</span>, <span class="at">bg=</span><span class="st">&quot;gold&quot;</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span>
-<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">inset=</span><span class="fl">0.01</span>, <span class="at">pt.cex=</span><span class="fl">1.2</span>, <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">19</span>,<span class="dv">22</span>,<span class="cn">NA</span>,<span class="cn">NA</span>), </span>
+<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">box.col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">inset=</span><span class="fu">c</span>(<span class="fl">0.03</span>,<span class="fl">0.02</span>), <span class="at">pt.cex=</span><span class="fl">1.2</span>, <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">19</span>,<span class="dv">22</span>,<span class="cn">NA</span>,<span class="cn">NA</span>), </span>
 <span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Observations&quot;</span>,<span class="st">&quot;Obs. with scaled residuals &gt; 2&quot;</span>,<span class="st">&quot;1:1 line&quot;</span>,<span class="st">&quot;± 95% prediction&quot;</span>),</span>
 <span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#0000ff40&quot;</span>,<span class="dv">1</span>,<span class="st">&quot;sienna&quot;</span>,<span class="st">&quot;grey&quot;</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="cn">NA</span>,<span class="dv">1</span>,<span class="dv">3</span>),<span class="at">lwd=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="cn">NA</span>,<span class="dv">1</span>,<span class="dv">2</span>),</span>
-<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a>       <span class="at">pt.bg=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="st">&quot;gold&quot;</span>,<span class="cn">NA</span>,<span class="cn">NA</span>))</span></code></pre></div>
+<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a>       <span class="at">pt.bg=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="st">&quot;gold&quot;</span>,<span class="cn">NA</span>,<span class="cn">NA</span>), <span class="at">bg=</span><span class="st">&quot;transparent&quot;</span>)</span></code></pre></div>
 <div class="figure">
-<img src="residuals_files/figure-html/plot-obs-fit-z-1.png" alt="Figure 5: Relationship of observed to predicted log10-Pb showing 1:1 line and 95% prediction interval." width="50%" />
+<img src="residuals_files/figure-html/plot-obs-fit-z-1.png" alt="Figure 5: Relationship of observed to predicted log~10~-Pb showing 1:1 line, 95% prediction interval, and observations with standardised residuals &gt; 2." width="50%" />
 <p class="caption">
-Figure 5: Relationship of observed to predicted log10-Pb showing 1:1
-line and 95% prediction interval.
+Figure 5: Relationship of observed to predicted log<sub>10</sub>-Pb
+showing 1:1 line, 95% prediction interval, and observations with
+standardised residuals &gt; 2.
 </p>
 </div>
 <p> </p>
+<p>The use of regression model residuals to identify unusually high
+concentrations has made its way into Australian Guidelines for soil
+contamination (NEPC, 2013). So long as our predictors makes sense in
+terms of actual biogeochemical controls on contaminant concentrations,
+this is an approach which would make sense for identifying unusual
+concentrations for elements which do not yet have guideline values
+(<em>e.g</em>. Rate, 2018).</p>
 </div>
-<div id="references" class="section level1">
-<h1>References</h1>
+<div id="references-and-r-packages-used" class="section level1">
+<h1>References and R packages used</h1>
+<p>Dunnington, Dewey (2017). <code>prettymapr</code><em>: Scale Bar,
+North Arrow, and Pretty Margins in R</em>. R package version 0.2.2. <a
+href="https://CRAN.R-project.org/package=prettymapr"
+target="_blank">https://CRAN.R-project.org/package=prettymapr</a>.</p>
+<p>Fox J, Weisberg S (2019). <em>An</em> <code>R</code> <em>Companion to
+Applied Regression, Third Edition</em>. Thousand Oaks CA: Sage. <a
+href="https://socialsciences.mcmaster.ca/jfox/Books/Companion/"
+target="_blank">https://socialsciences.mcmaster.ca/jfox/Books/Companion/</a>
+(<strong>R</strong> packages <code>car</code> and
+<code>effects</code>).</p>
+<p>Giraud T (2021). <code>maptiles</code><em>: Download and Display Map
+Tiles</em>. R package version 0.3.0, <a
+href="https://CRAN.R-project.org/package=maptiles"
+target="_blank">https://CRAN.R-project.org/package=maptiles</a>.</p>
 <p>Hamon, R. E., McLaughlin, M. J., Gilkes, R. J., Rate, A. W.,
 Zarcinas, B., Robertson, A., Cozens, G., Radford, N., &amp; Bettenay, L.
 (2004). Geochemical indices allow estimation of heavy metal background
 concentrations in soils. <em>Global Biogeochemical Cycles</em>,
 <strong>18</strong> (GB1014). <a
 href="https://doi.org/10.1029/2003GB002063"
-target="_blank">https://doi.org/10.1029/2003GB002063</a></p>
+target="_blank">doi:10.1029/2003GB002063</a></p>
+<p>NEPC (National Environment Protection Council). (2013). Schedule
+B(1): Guideline on the Investigation Levels for Soil and Groundwater.
+<strong>In</strong> <em>National Environment Protection (Assessment of
+Site Contamination) Measure (Amended)</em>. Commonwealth of
+Australia.</p>
+<p>Pebesma, E., 2018. Simple Features for R: Standardized Support for
+Spatial VectorData. <em>The R Journal</em> <strong>10</strong> (1),
+439-446, <a href="https://doi.org/10.32614/RJ-2018-009"
+target="_blank">doi:10.32614/RJ-2018-009</a> . (<strong>R</strong>
+package <code>sf</code>)</p>
+<p>Rate, A. W. (2018). Multielement geochemistry identifies the spatial
+pattern of soil and sediment contamination in an urban parkland, Western
+Australia. <em>Science of The Total Environment</em>,
+<strong>627</strong>, 1106-1120. <a
+href="https://doi.org/10.1016/j.scitotenv.2018.01.332"
+target="_blank">doi:10.1016/j.scitotenv.2018.01.332</a></p>
 <p>Reimann, C., &amp; Garrett, R. G. (2005). Geochemical background -
 Concept and reality. <em>Science of The Total Environment</em>,
 <strong>350</strong>, 12-27. <a
 href="https://doi.org/10.1016/j.scitotenv.2005.01.047"
-target="_blank">https://doi.org/10.1016/j.scitotenv.2005.01.047</a></p>
+target="_blank">doi:10.1016/j.scitotenv.2005.01.047</a></p>
 <p>Water Quality Australia. (2024). <em>Toxicant default guideline
 values for sediment quality.</em> Department of Climate Change, Energy,
 the Environment and Water, Government of Australia. Retrieved 2024-04-11

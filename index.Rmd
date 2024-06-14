@@ -15,23 +15,37 @@ output:
 <div style="border: 2px solid #039; padding: 8px;">
 # ![](./images/indexPic.jpg){align="right" width="300" height="300"}Contents
 
-1. [Contents](index.html)
+1. [**Contents**](index.html)
 
-2. [For beginners](about.html)
+2. [**For beginners**](about.html)
 
-3. [Intro](intro.html)
+3. [**Intro**](intro.html)
+  - [Intro with `ggplot`](intro-GG.html)
 
-4. [Plots](plots.html)
+4. [**Plots**](plots.html)
+  - [Plots with `ggplot`](plots-GG.html)
 
-5. [Comparisons](means.html)
+5. [**Comparisons**](means.html)
+  - [Compare means (parametric)](means.html)
+  - [Non-parametric comparisons](nonparam.html)
 
-6. [Relationships](correl.html)
+6. [**Relationships**](correl.html)
+  - [Correlation](correl.html)
+  - [Simple linear regression](regression.html)
+  - [Grouped linear regression](reg-group.html)
+  - [Multiple linear regression](reg-multi.html)
 
-7. [Maps](maps.html)
+7. [**Maps**](maps.html)
+  - [Map data with tile backgrounds](maps.html)
+  - [Spatial statistics](spatial.html)
+  - [Spatial interpolation](spat-interp.html)
 
-8. [Utilities and other R goodies](tables.html)
+8. [**Utilities and other R goodies**](tables.html)
+  - [Tables & trigger value counts](tables.html)
+  - [Distribution checking](distributions.html)
+  - [Regression residuals to identify contamination](residuals.html)
 
-9. [UWA School of Agriculture and Environment](https://www.uwa.edu.au/schools/agriculture-and-environment){target="_blank"}
+9. [**UWA School of Agriculture and Environment**](https://www.uwa.edu.au/schools/agriculture-and-environment){target="_blank"}
 
 </div>
 

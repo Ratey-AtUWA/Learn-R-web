@@ -860,11 +860,11 @@ D. Kahle and H. Wickham. `ggmap`: Spatial Visualization with `ggplot2`. *The R J
 
 Pebesma, E., 2018. Simple Features for R: Standardized Support for
 Spatial VectorData. *The R Journal* **10** (1), 439-446,
-[https://doi.org/10.32614/RJ-2018-009](https://doi.org/10.32614/RJ-2018-009){target="_blank"} . (package **sf**)
+[https://doi.org/10.32614/RJ-2018-009](https://doi.org/10.32614/RJ-2018-009){target="_blank"} . (package `sf`)
 
 Pebesma, E.J., R.S. Bivand, 2005. Classes and methods for spatial data
 in R. *R News* **5** (2), [https://cran.r-project.org/doc/Rnews/](https://cran.r-project.org/doc/Rnews/){target="_blank"}.
-(package **sp**)
+(package `sp`)
 
 <hr style="height: 2px; background-color: #5560A4;" />
 

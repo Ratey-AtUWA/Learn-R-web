@@ -359,7 +359,7 @@ ii. testing a model which has more than one predictor variable for our dependent
 
 # References
 
-Fox, J. and Weisberg, S. (2019). *An {R} Companion to Applied Regression, Third Edition*. Thousand Oaks CA: Sage. [https://socialsciences.mcmaster.ca/jfox/Books/Companion/](https://socialsciences.mcmaster.ca/jfox/Books/Companion/){target="_blank"} (**R** package `car`)
+Fox, J. and Weisberg, S. (2019). *An* `R` *Companion to Applied Regression, Third Edition*. Thousand Oaks CA: Sage. [https://socialsciences.mcmaster.ca/jfox/Books/Companion/](https://socialsciences.mcmaster.ca/jfox/Books/Companion/){target="_blank"} (**R** packages `car` and `effects`)
 
 Garnier S, Ross N, Rudis R, Camargo AP, Sciaini M, Scherer C (2021). *Rvision &ndash; Colorblind-Friendly Color Maps for R*. R package version 0.6.2. (**R** package `viridis`)
 

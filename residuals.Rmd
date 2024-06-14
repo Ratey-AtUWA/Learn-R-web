@@ -30,8 +30,6 @@ library(car)           # Companion to Applied Regression
 library(sf)            # Simple Features spatial data in R
 library(maptiles)      # get open-source map tiles for background maps
 library(prettymapr)    # add scale bar and north arrows to maps
-library(viridis)       # colourblind-friendly colour palettes
-library(scico)         # more colourblind-friendly colour palettes
 ```
 
 ```{r load-packages-etc, eval=FALSE}
@@ -39,8 +37,6 @@ library(car)           # Companion to Applied Regression
 library(sf)            # Simple Features spatial data in R
 library(maptiles)      # get open-source map tiles for background maps
 library(prettymapr)    # add scale bar and north arrows to maps
-library(viridis)       # colourblind-friendly colour palettes
-library(scico)         # more colourblind-friendly colour palettes
 ```
 
 For this session we're going to use the Ashfield Flats compiled data from 2019-2023.
@@ -183,7 +179,14 @@ AIC(lm0,lm1)
 vif(lm1)
 ```
 
-Our final model has six predictors, reduced from eight in the maximal model. [We could even try a model without Fe as a predictor, since we can't reject H~0~ for Fe based on its p-value&nbsp;&sime;0.06. Since it's marginal we'll leave it in for now...]. The stepwise refinement has removed K and S as predictors, so we no longer have any issue with collinearity. It's interesting to compare the regression coefficients with the individual correlation coefficients:
+Our final model has six predictors, reduced from eight in the maximal model. [We
+could even try a model without Fe as a predictor, since we can't reject H~0~ for
+Fe based on its p-value&nbsp;&sime;0.06. Since it's marginal we'll leave it in
+for now...]. Based on its lower AIC value, the stepwise model provides a better
+combination of predictive ability and parsimony than the maximal model. The
+stepwise refinement has removed K and S as predictors, so we no longer have any
+issue with collinearity. It's interesting to compare the regression coefficients
+with the individual correlation coefficients:
 
 ```{r compare-reg-coefs-with-correl, message=FALSE, warning=FALSE, paged.print=FALSE, results='hold'}
 (r_vs_coefs <- data.frame(Pearson_r=cors[names(lm1$coefficients[-1]),1],
@@ -195,7 +198,7 @@ regression coefficients for Ca, Fe, and Na are *negative*.
 In&nbsp;a&nbsp;multiple linear regression model, the effects of the predictors interact,
 so we don't always see the effects we might expect based on simple correlation.
 
-```{r plot-obs-fitted, warning=FALSE, message=FALSE, results='hold', fig.width=5, fig.height=5, fig.cap="Figure 2: Relationship of observed to predicted log10-Pb showing 1:1 line and 95% prediction interval.", out.width="50%"}
+```{r plot-obs-fitted, warning=FALSE, message=FALSE, results='hold', fig.width=5, fig.height=5, fig.cap="Figure 2: Relationship of observed to predicted log~10~-Pb showing 1:1 line and 95% prediction interval.", out.width="50%"}
 par(mfrow=c(1,1), mgp=c(1.5,0.2,0), tcl=0.25, mar=c(3,3,0.5,0.5), las=1, lend="square", xpd=F)
 plot(lm1$model$Pb.log ~ lm1$fitted.values,
      xlab=expression(bold(paste(log[10],"Pb predicted by model"))),
@@ -243,7 +246,7 @@ cat("---- Large log10(Pb) ----\n");lm1$model$Pb.log[which(scale(lm1$residuals)>=
 cat("\n---- Back-transformed ----\n");10^(lm1$model$Pb.log[which(scale(lm1$residuals)>=2)])
 ```
 
-```{r map-zresids-gt-2, warning=FALSE, message=FALSE, fig.width=7, fig.height=5.5, fig.cap="Figure 4: Map of Ashfield Flats showing locations of samples having unusually large Pb concentrations based on a multiple regression model representing a 'backgroind concentration function'.", results='hold'}
+```{r map-zresids-gt-2, warning=FALSE, message=FALSE, fig.width=7, fig.height=5.5, fig.cap="Figure 4: Map of Ashfield Flats showing locations of samples having unusually large Pb concentrations based on a multiple regression model representing a 'background concentration function'.", results='hold'}
 par(mfrow=c(1,1), oma=c(0,0,0,0), lend="square", xpd=TRUE)
 plot_tiles(aftiles, adjust=F, axes=TRUE, mar=c(3,3,0.5,0.5)) # use axes = TRUE
 
@@ -264,7 +267,7 @@ with(regdata[which(scale(lm1$residuals)>=2),],
 with(regdata[which(scale(lm1$residuals)>=2),], 
      text(Easting, Northing, labels=round(Pb,0), cex=0.8, 
           pos=c(2,4,2,1,4,2,4,4,4,3,4,4,4,2), offset=0.3))
-legend("bottomright", bty="n", y.intersp=1.75, 
+legend("bottomright", box.col="#ffffff40", bg="#ffffff40", y.intersp=1.75, 
        legend=c("Sediment samples with \nPb standardised residuals ≥ 2",
                 "Numbers next to points are\nPb concentrations (mg/kg)"),
        pch = c(21,NA), col = c("#000000b0","black"), pt.bg = "#ffe000b0", 
@@ -273,22 +276,23 @@ legend("bottomright", bty="n", y.intersp=1.75,
 
 &nbsp;
 
-We should note that the locations identified in Figure 4 do 
-not all have Pb concentrations greater than the upper guideline value (GV-high
-for Pb is 220&nbsp;mg/kg; Water Quality Australia, 2024), although all have Pb
-concentrations greater than the default guideline value of 50&nbsp;mg/kg.
-Unusual samples with lower Pb concentrations are those which our model predicts
-should have a lower background concentration. Based on the coefficients for each
-predictor in our model, this means sediments with low pH, low Al, high Ca, high
-Fe, low P and high Na. We can visualise this by plotting the effects for
-individual predictors using `plot(effects::allEffects(lm1))`.
+We should note that the locations identified in Figure 4 do not all have Pb
+concentrations greater than the upper guideline value
+(GV-high&nbsp;=220&nbsp;mg/kg), although all have Pb concentrations greater than
+the default guideline value (DGV&nbsp;=&nbsp;50&nbsp;mg/kg; Water Quality
+Australia, 2024). Unusual samples with lower Pb concentrations are those which
+our model predicts should have a lower background concentration. Based on the
+coefficients for each predictor in our model, this means sediments with low pH,
+low Al, high Ca, high Fe, low P and high Na. We can visualise this by plotting
+the effects for individual predictors using `plot(effects::allEffects(lm1))` 
+from the `effects` package.
 
 It's interesting to note that the observations we have identified as unusual, on
 the basis of having scaled residuals &gt;&nbsp;2, are also those which are have 
 greater log~10~Pb concentration greater than the upper bound of the 95% 
 prediction interval for the regression &ndash; see Figure 5 below.
 
-```{r plot-obs-fit-z, warning=FALSE, message=FALSE, results='hold', fig.width=5, fig.height=5, fig.cap="Figure 5: Relationship of observed to predicted log10-Pb showing 1:1 line and 95% prediction interval.", out.width="50%"}
+```{r plot-obs-fit-z, warning=FALSE, message=FALSE, results='hold', fig.width=5, fig.height=5, fig.cap="Figure 5: Relationship of observed to predicted log~10~-Pb showing 1:1 line, 95% prediction interval, and observations with standardised residuals > 2.", out.width="50%"}
 par(mfrow=c(1,1), mgp=c(1.5,0.2,0), tcl=0.25, mar=c(3,3,0.5,0.5), las=1, lend="square", xpd=F)
 plot(lm1$model$Pb.log ~ lm1$fitted.values,
      xlab=expression(bold(paste(log[10],"Pb predicted by model"))),
@@ -307,19 +311,39 @@ lines(conf0[,1], conf0[,3], col="grey", lty=3, lwd=2)
 # overplot unusual points separately
 hipts <- which(scale(lm1$residuals)>2)
 points(lm1$model$Pb.log[hipts] ~ lm1$fitted.values[hipts], pch=22, bg="gold", cex=1.2)
-legend("topleft", bty="n", inset=0.01, pt.cex=1.2, pch=c(19,22,NA,NA), 
+legend("topleft", box.col="grey", inset=c(0.03,0.02), pt.cex=1.2, pch=c(19,22,NA,NA), 
        legend=c("Observations","Obs. with scaled residuals > 2","1:1 line","± 95% prediction"),
        col=c("#0000ff40",1,"sienna","grey"), lty=c(NA,NA,1,3),lwd=c(NA,NA,1,2),
-       pt.bg=c(NA,"gold",NA,NA))
+       pt.bg=c(NA,"gold",NA,NA), bg="transparent")
 ```
 
 &nbsp;
 
-# References
+The use of regression model residuals to identify unusually high concentrations 
+has made its way into Australian Guidelines for soil contamination (NEPC, 2013). 
+So long as our predictors makes sense in terms of actual biogeochemical controls 
+on contaminant concentrations, this is an approach which would make sense for 
+identifying unusual concentrations for elements which do not yet have guideline 
+values (*e.g*. Rate, 2018).
 
-Hamon, R. E., McLaughlin, M. J., Gilkes, R. J., Rate, A. W., Zarcinas, B., Robertson, A., Cozens, G., Radford, N., & Bettenay, L. (2004). Geochemical indices allow estimation of heavy metal background concentrations in soils. *Global Biogeochemical Cycles*, **18** (GB1014). [https://doi.org/10.1029/2003GB002063](https://doi.org/10.1029/2003GB002063){target="_blank"} 
+# References and R packages used
 
-Reimann, C., & Garrett, R. G. (2005). Geochemical background - Concept and reality. *Science of The Total Environment*, **350**, 12-27. [https://doi.org/10.1016/j.scitotenv.2005.01.047](https://doi.org/10.1016/j.scitotenv.2005.01.047){target="_blank"}
+Dunnington, Dewey (2017). `prettymapr`*: Scale Bar, North Arrow, and Pretty Margins in R*. R package version 0.2.2. [https://CRAN.R-project.org/package=prettymapr](https://CRAN.R-project.org/package=prettymapr){target="_blank"}.
+
+Fox J, Weisberg S (2019). *An* `R` *Companion to Applied Regression, Third Edition*. Thousand Oaks CA: Sage. [https://socialsciences.mcmaster.ca/jfox/Books/Companion/](https://socialsciences.mcmaster.ca/jfox/Books/Companion/){target="_blank"} (**R** packages `car` and `effects`).
+
+Giraud T (2021). `maptiles`*: Download and Display Map Tiles*. R package
+version 0.3.0, [https://CRAN.R-project.org/package=maptiles](https://CRAN.R-project.org/package=maptiles){target="_blank"}.
+
+Hamon, R. E., McLaughlin, M. J., Gilkes, R. J., Rate, A. W., Zarcinas, B., Robertson, A., Cozens, G., Radford, N., & Bettenay, L. (2004). Geochemical indices allow estimation of heavy metal background concentrations in soils. *Global Biogeochemical Cycles*, **18** (GB1014). [doi:10.1029/2003GB002063](https://doi.org/10.1029/2003GB002063){target="_blank"} 
+
+NEPC (National Environment Protection Council). (2013). Schedule B(1): Guideline on the Investigation Levels for Soil and Groundwater. **In** *National Environment Protection (Assessment of Site Contamination) Measure (Amended)*. Commonwealth of Australia. 
+
+Pebesma, E., 2018. Simple Features for R: Standardized Support for Spatial VectorData. *The R Journal* **10** (1), 439-446, [doi:10.32614/RJ-2018-009](https://doi.org/10.32614/RJ-2018-009){target="_blank"} . (**R** package `sf`)
+
+Rate, A. W. (2018). Multielement geochemistry identifies the spatial pattern of soil and sediment contamination in an urban parkland, Western Australia. *Science of The Total Environment*, **627**, 1106-1120. [doi:10.1016/j.scitotenv.2018.01.332](https://doi.org/10.1016/j.scitotenv.2018.01.332){target="_blank"}
+
+Reimann, C., & Garrett, R. G. (2005). Geochemical background - Concept and reality. *Science of The Total Environment*, **350**, 12-27. [doi:10.1016/j.scitotenv.2005.01.047](https://doi.org/10.1016/j.scitotenv.2005.01.047){target="_blank"}
 
 Water Quality Australia. (2024). *Toxicant default guideline values for sediment quality.* Department of Climate Change, Energy, the Environment and Water, Government of Australia. Retrieved 2024-04-11 from [https://www.waterquality.gov.au/anz-guidelines/guideline-values/default/sediment-quality-toxicants](https://www.waterquality.gov.au/anz-guidelines/guideline-values/default/sediment-quality-toxicants){target="_blank"}
 

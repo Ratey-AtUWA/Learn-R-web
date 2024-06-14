@@ -606,7 +606,7 @@ flextable(data.frame(Statistic=row.names(mytable),signif(mytable,3))) |>
 
 Fox J (2022). *RcmdrMisc: R Commander Miscellaneous Functions*. R package version 2.7-2, [https://CRAN.R-project.org/package=RcmdrMisc](https://CRAN.R-project.org/package=RcmdrMisc){target="_blank"}.
 
-Fox J, Weisberg S (2019). *An {R} Companion to Applied Regression, Third Edition*. Thousand Oaks CA: Sage. [https://socialsciences.mcmaster.ca/jfox/Books/Companion/](https://socialsciences.mcmaster.ca/jfox/Books/Companion/){target="_blank"} (**car** package).
+Fox J, Weisberg S (2019). *An {R} Companion to Applied Regression, Third Edition*. Thousand Oaks CA: Sage. [https://socialsciences.mcmaster.ca/jfox/Books/Companion/](https://socialsciences.mcmaster.ca/jfox/Books/Companion/){target="_blank"} (`car` package).
 
 Posit Software (2023) *RStudio 2023.09.1 "Desert Sunflower" Release*. [https://posit.co/products/open-source/rstudio/](https://posit.co/products/open-source/rstudio/){target="_blank"}.
 
