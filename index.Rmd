@@ -34,7 +34,7 @@ output:
   - [Simple linear regression](regression.html)
   - [Grouped linear regression](reg-group.html)
   - [Multiple linear regression](reg-multi.html)
-  - [Making use of unusual regression residuals](residuals.html)
+    - [Making use of unusual regression residuals](residuals.html)
 
 7. [**Maps**](maps.html)
   - [Map data with tile backgrounds](maps.html)

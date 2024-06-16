@@ -261,7 +261,6 @@ with(afr_map, polygon(wetland_E, wetland_N, col = "#5F9EA080",
 text(c(400250, 399962, 400047), c(6468165, 6468075, 6468237),
      labels = c("Chapman\nDrain","Kitchener\nDrain", "Woolcock\nDrain"),
      pos = c(2,2,4), cex = 0.8, font = 3, col = "cadetblue")
-clrz <- plasma(15)[6:15]
 with(regdata[which(scale(lm1$residuals)>=2),], 
      points(Easting, Northing, pch=21, col="#000000b0", bg="#ffe000b0", cex=1.4, lwd=2))
 with(regdata[which(scale(lm1$residuals)>=2),], 
