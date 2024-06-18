@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Andrew Rate" />
+
+<meta name="date" content="2024-06-18" />
+
+<title>Multivariate analysis</title>
+
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/sandstone.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/tabwid-1.1.0/tabwid.css" rel="stylesheet" />
+<link href="site_libs/tabwid-1.1.0/scrool.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Sessions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">For beginners</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Intro</a>
+    </li>
+    <li>
+      <a href="intro-GG.html">Intro+ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Plots
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plots.html">Plots-baseR</a>
+    </li>
+    <li>
+      <a href="plots-GG.html">Plots-ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Compare
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="means.html">Compare means (parametric)</a>
+    </li>
+    <li>
+      <a href="nonparam.html">Non-parametric comparisons</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relate
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="correl.html">Correlation</a>
+    </li>
+    <li>
+      <a href="regression.html">Simple linear regression</a>
+    </li>
+    <li>
+      <a href="reg-group.html">Grouped linear regression</a>
+    </li>
+    <li>
+      <a href="reg-multi.html">Multiple linear regression</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Maps
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="maps.html">Map data with tile backgrounds</a>
+    </li>
+    <li>
+      <a href="spatial.html">Spatial statistics</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">Spatial interpolation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Multi
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pca.html">Principal components analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Util
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tables.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="distributions.html">Distribution checking</a>
+    </li>
+    <li>
+      <a href="residuals.html">Regression residuals to identify contamination</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">UWA School of Agriculture and Environment</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!DOCTYPE html>
+
+<html>
+<body>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science<br />at The University of Western Australia</span></h3>
+<h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
+</body>
+</html>
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Multivariate analysis</h1>
+<h3 class="subtitle">Principal Components Analysis for Compositional
+Data</h3>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2024-06-18</h4>
+
+</div>
+
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+<div id="understanding-compositional-data" class="section level1">
+<h1>Understanding Compositional Data</h1>
+<p>Compositional data, defined as any measurements which are proportions
+of some whole, are common in many disciplines, including (Table 1):</p>
+<template id="1b3a5535-7e9f-4011-b440-4f7affd0d860"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  border-color: transparent;
+  caption-side: top;
+}
+.tabwid-caption-bottom table{
+  caption-side: bottom;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+</style><div class="tabwid"><style>.cl-8396c458{}.cl-838ea41c{font-family:'Arial';font-size:9pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-838ea426{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-8391ceb2{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-8391e24e{width:2in;background-color:rgba(208, 224, 255, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8391e258{width:5in;background-color:rgba(208, 224, 255, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8391e259{width:2in;height:0.2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8391e262{width:5in;height:0.2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8391e263{width:2in;height:0.2in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8391e26c{width:5in;height:0.2in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8391e276{width:2in;height:0.2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-8391e277{width:5in;height:0.2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-838a8648{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-8396c458'><caption style="margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span class="cl-838a8648">Table 1: Examples of compositional data by discipline. All of these examples of data have fixed-sum closure (see below).</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-8391e24e"><p class="cl-8391ceb2"><span class="cl-838ea41c">Discipline</span></p></td><td class="cl-8391e258"><p class="cl-8391ceb2"><span class="cl-838ea41c">Examples</span></p></td></tr></thead><tbody><tr><td class="cl-8391e259"><p class="cl-8391ceb2"><span class="cl-838ea426">Environmental science</span></p></td><td class="cl-8391e262"><p class="cl-8391ceb2"><span class="cl-838ea426">Sediment or soil texture - proportions of mineral grains in particle size range fractions</span></p></td></tr><tr><td class="cl-8391e263"><p class="cl-8391ceb2"><span class="cl-838ea426">Geography</span></p></td><td class="cl-8391e26c"><p class="cl-8391ceb2"><span class="cl-838ea426">Proportions of land area subject to different land uses</span></p></td></tr><tr><td class="cl-8391e259"><p class="cl-8391ceb2"><span class="cl-838ea426">Geology and geochemistry</span></p></td><td class="cl-8391e262"><p class="cl-8391ceb2"><span class="cl-838ea426">Elemental composition of rocks</span></p></td></tr><tr><td class="cl-8391e263"><p class="cl-8391ceb2"><span class="cl-838ea426">Biology</span></p></td><td class="cl-8391e26c"><p class="cl-8391ceb2"><span class="cl-838ea426">Plant species abundance as a proportion of ground cover</span></p></td></tr><tr><td class="cl-8391e276"><p class="cl-8391ceb2"><span class="cl-838ea426">Politics</span></p></td><td class="cl-8391e277"><p class="cl-8391ceb2"><span class="cl-838ea426">Percentage of voters supporting each candidate</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="ec4920d0-fe96-4f46-813f-da54dee278a7"></div>
+<script>
+var dest = document.getElementById("ec4920d0-fe96-4f46-813f-da54dee278a7");
+var template = document.getElementById("1b3a5535-7e9f-4011-b440-4f7affd0d860");
+var caption = template.content.querySelector("caption");
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+<p> </p>
+<p>Compositional data have mathematical properties which result in
+misleading conclusions from traditional statistical analyses.
+Compositional variables (including concentrations of substances in water
+[or air, or rock, or soil, and so on] or proportions of land surface
+coverage) are technically part of a <strong>fixed-sum closed
+set</strong>. For example, with data on percent land use over an urban
+area, all percentages add up to 100%! As Greenacre (2018) points out, we
+often deal with <em>subcompositions</em> rather than compositions,
+because we do not (or can not) measure all possible components of a
+sample. For example, in environmental science, when we measure the
+substances present in water, we probably can't measure everything, and
+we don't usually measure the concentration of water itself. Or in
+politics, we report the proportions of voters who voted for each
+candidate, but not often the proportion of citizens who didn't vote.</p>
+<p>The issue of subcompositions is not necessarily a problem. For
+instance, in the political example above, the ratio of voters supporting
+the two leading candidates will be the same whether we consider the
+total eligible electors, or only the people who actually voted. As we
+will see below, a key strategy for analysing compositional data is the
+use of some sort of <em>ratio</em>.</p>
+<p>If uncorrected, analysis of data having fixed-sum closure can lead to
+very misleading conclusions, especially when <em>relationships</em>
+between variables are being investigated, as in correlation analyses or
+<em>multivariate methods</em> such as principal component analysis.
+Closed data require specialised transformations to remove closure, such
+as calculation of <strong>centered or additive log ratios</strong>
+(Reimann et al. 2008). The centered log-ratio is defined by:</p>
+<p><span class="math inline">\(x_{CLR} =
+log(\dfrac{x}{geomean(x_{1},...,x_{n})})\)</span>, where</p>
+<ul>
+<li><span class="math inline">\(x\)</span> is the value being
+transformed (concentration, proportion);</li>
+<li><span class="math inline">\(x_{CLR}\)</span> is the centered
+log-ratio transformed value;</li>
+<li><span class="math inline">\(geomean\)</span> means the geometric
+mean of;</li>
+<li><span class="math inline">\(x_{1}...x_{n}\)</span> are all the <span
+class="math inline">\(n\)</span> values contributing to the
+(sub)composition, including the one (<span
+class="math inline">\(x\)</span>) being transformed;</li>
+<li>all the components (parts) of the composition need to be in
+<strong>identical units</strong> (<em>e.g</em>. percent, mg/L, incidence
+per 10,000, <em>etc</em>.).</li>
+</ul>
+<p>For example, in a soil texture analysis where the proportions of
+grain size categories gravel (G), sand (S), silt (Z), and clay (C) all
+add up to 100%, the CLR-transformed sand content
+(<em>S<sub>CLR</sub></em>) is:</p>
+<p><span class="math inline">\(S_{CLR} =
+log(\dfrac{S}{geomean(G,S,Z,C)})\)</span></p>
+<p>The example in Figure 1 shows the relationship between phosphorus (P)
+and iron (Fe) in soil/sediment materials in an acid sulfate environment.
+Without correcting for compositional closure, the P <em>vs</em>. Fe plot
+implies that P increases as Fe increases. Correcting for compositional
+closure, however, suggests the opposite, with P negatively related to
+Fe! In this case, if we had used conventional transformations, we might
+have come to a very wrong conclusion about the sediment properties
+affecting phosphorus.</p>
+<div class="figure" style="text-align: center">
+<img src="pca_files/figure-html/closed%20open%20example%20P-Fe-1.png" alt="Figure 1: Comparison of relationships between P and Fe for (a) compositionally closed concentrations showing a positive relationship and (b) concentration variables corrected for compositional closure using centred log ratios showing a negative relationship. Data from Xu et al. (2018)." width="65%" />
+<p class="caption">
+Figure 1: Comparison of relationships between P and Fe for (a)
+compositionally closed concentrations showing a positive relationship
+and (b) concentration variables corrected for compositional closure
+using centred log ratios showing a negative relationship. Data from Xu
+et al. (2018).
+</p>
+</div>
+<p> </p>
+</div>
+<div id="principal-components-analysis" class="section level1">
+<h1>Principal Components Analysis</h1>
+<p>To get started with understanding compositional data, and analysing
+them using Principal Components Analysis, we load the packages we need,
+and set a preferred colour palette.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(stringr)     <span class="co"># manipulate character strings</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(car)         <span class="co"># statistical functions focused on regression</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(flextable)   <span class="co"># publication-quality tables</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;#003087&quot;</span>, <span class="st">&quot;#DAAA00&quot;</span>, <span class="st">&quot;#8F92C4&quot;</span>, <span class="st">&quot;#E5CF7E&quot;</span>, </span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>          <span class="st">&quot;#001D51&quot;</span>, <span class="st">&quot;#B7A99F&quot;</span>, <span class="st">&quot;#A51890&quot;</span>, <span class="st">&quot;#C5003E&quot;</span>, <span class="st">&quot;#FDC596&quot;</span>, </span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>          <span class="st">&quot;#AD5D1E&quot;</span>, <span class="st">&quot;gray40&quot;</span>, <span class="st">&quot;gray85&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;transparent&quot;</span>))</span></code></pre></div>
+<p>We also need to <strong>read some data</strong>:</p>
+<p><strong>Data are from</strong>: Fig. 11 <em>in</em> Hu, J., Wang, Y.,
+Taubenböck, H., Zhu, X.X., 2021. Land consumption in cities: A
+comparative study across the globe. <em>Cities</em>,
+<strong>113</strong>: 103163, <a
+href="https://doi.org/10.1016/j.cities.2021.103163"
+class="uri">https://doi.org/10.1016/j.cities.2021.103163</a>. (digitised
+from figure using <a href="https://automeris.io/WebPlotDigitizer/"
+class="uri">https://automeris.io/WebPlotDigitizer/</a>)</p>
+<p><em>If you were hoping for an example using geochemical-type
+compositional data – don't worry, we're going to repeat all the analyses
+<a href="#geochem">below using a geochemical dataset</a></em>.</p>
+<p>After reading the data we make a column containing abbreviated codes
+for the land-use type factor, using the <code>gsub()</code> function to
+substitute character strings.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>cities <span class="ot">&lt;-</span> </span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="fu">paste0</span>(<span class="st">&quot;https://raw.githubusercontent.com/Ratey-AtUWA/&quot;</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>                  <span class="st">&quot;compositional_data/main/cities_Hu_etal_2021.csv&quot;</span>), </span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>           <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">row.names</span>(cities) <span class="ot">&lt;-</span> <span class="fu">as.character</span>(cities<span class="sc">$</span>City)</span></code></pre></div>
+<p>We also need to use a log-ratio transform to remove compositional
+fixed-sum closure:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>cities_clr <span class="ot">&lt;-</span> cities</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>cities_clr[,<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(cities[,<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>], <span class="at">MARGIN =</span> <span class="dv">1</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                           <span class="at">FUN =</span> <span class="cf">function</span>(x){<span class="fu">log</span>(x) <span class="sc">-</span> <span class="fu">mean</span>(<span class="fu">log</span>(x))}))</span></code></pre></div>
+<div id="explanation-of-principal-components-analysis"
+class="section level2">
+<h2>Explanation of principal components analysis</h2>
+<p>It is quite common to measure many variables in environmental science
+and other disciplines. Using various types of <em>ordination
+analysis</em>, we can use the information contained in multiple
+variables to create a reduced subset of variables containing nearly the
+same amount of information. Ordination methods are also referred to, for
+this reason, as 'data reduction' methods and are commonly used for
+multivariate analysis.</p>
+<p>One of the earliest and most widely used ordination methods for
+exploration and dimension-reduction of multivariate data is
+<strong>principal components analysis</strong> (PCA). Imagine a dataset
+with many samples (rows) and n continuous numeric variables (columns)
+which contain quantitative information about each sample such as
+concentrations, heights, velocities, <em>etc</em>. For these <em>n</em>
+variables/dimensions, the principal component calculation generates
+<em>n</em> new variables, or principal components, which are each a
+function of the set of all the original variables (so each principal
+component is defined by a weighting or coefficient for each of the
+original variables). We may choose to omit some variables from the
+analysis if they contain too many missing observations or if there is
+another valid reason to doubt their integrity. Since each principal
+component is selected to account for successively smaller proportions of
+the multiple variance, it is usually the first few principal components
+which explain most of the variance and therefore contain the most useful
+information. We conventionally visualize this in a 'scree plot' (Figure
+2), a kind of bar graph showing the decrease in variance accounted for
+by each component.</p>
+<p>Base-<strong>R</strong> has two functions which perform Principal
+Components Analysis (PCA). We will use the <code>prcomp()</code>
+function which has better numerical accuracy and a more valid variance
+calculation than the alternative <code>princomp()</code> (see
+<strong>Details</strong> after running <code>?prcomp</code> for more
+information). We include the argument <code>scale. = TRUE</code>, as
+this is better for avoiding unexpected results due to large differences
+in magnitude of the variables.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(cities[,<span class="fu">c</span>(<span class="st">&quot;Compact&quot;</span>,<span class="st">&quot;Open&quot;</span>,<span class="st">&quot;Lightweight&quot;</span>,<span class="st">&quot;Industry&quot;</span>)])</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>pca_cities_clos <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data0, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Variable weightings (rotations) - closed data</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>pca_cities_clos<span class="sc">$</span>rot</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;...</span><span class="sc">\n\n</span><span class="st">Component Variances - Closed data</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>pca_cities_clos<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;...</span><span class="sc">\n\n</span><span class="st">Proportions of variance explained by each component&quot;</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>    <span class="st">&quot;</span><span class="sc">\n</span><span class="st">CLR-transformed (open) data</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="fu">round</span>(pca_cities_clos<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="fu">sum</span>(pca_cities_clos<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>),<span class="dv">3</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">--------------------</span><span class="sc">\n</span><span class="st">Variable weightings (rotations) - open data</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(cities_clr[,<span class="fu">c</span>(<span class="st">&quot;Compact&quot;</span>,<span class="st">&quot;Open&quot;</span>,<span class="st">&quot;Lightweight&quot;</span>,<span class="st">&quot;Industry&quot;</span>)])</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>pca_cities_open <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data0, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>pca_cities_open<span class="sc">$</span>rot</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;...</span><span class="sc">\n\n</span><span class="st">Component Variances - CLR-transformed (open) data</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>pca_cities_open<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;...</span><span class="sc">\n\n</span><span class="st">Proportions of variance explained by each component&quot;</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>    <span class="st">&quot;</span><span class="sc">\n</span><span class="st">CLR-transformed (open) data</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="fu">round</span>(pca_cities_open<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="fu">sum</span>(pca_cities_open<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>),<span class="dv">3</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="fu">rm</span>(data0)</span></code></pre></div>
+<pre><code>## Variable weightings (rotations) - closed data
+##                    PC1        PC2        PC3         PC4
+## Compact     -0.5582052  0.5356252 0.05639404 -0.63113567
+## Open        -0.3409659 -0.7576682 0.46899761 -0.29953715
+## Lightweight  0.3992211  0.3417785 0.85067121  0.01297763
+## Industry    -0.6424731  0.1491041 0.23069343  0.71538580
+## ...
+##
+## Component Variances - Closed data
+## [1] 1.5860528 1.0026876 0.8705986 0.5406610
+## ...
+##
+## Proportions of variance explained by each component
+## CLR-transformed (open) data
+## [1] 0.397 0.251 0.218 0.135
+##
+## --------------------
+## Variable weightings (rotations) - open data
+##                    PC1         PC2        PC3        PC4
+## Compact     -0.2081793  0.75498116  0.3214239 -0.5323077
+## Open        -0.3535490 -0.62668193  0.5577101 -0.4138022
+## Lightweight  0.6833728 -0.17189496 -0.2520621 -0.6632635
+## Industry    -0.6038759 -0.08789385 -0.7225723 -0.3248042
+## ...
+##
+## Component Variances - CLR-transformed (open) data
+## [1] 1.975945e+00 1.511204e+00 5.128514e-01 1.470492e-31
+## ...
+##
+## Proportions of variance explained by each component
+## CLR-transformed (open) data
+## [1] 0.494 0.378 0.128 0.000</code></pre>
+<p>As we should expect, each component accounts for successively less
+variance. We can already see that removing closure has made a noticeable
+difference to the PCA output, both in the variable weightings and the
+component variances.</p>
+</div>
+<div id="principal-components-analysis-output" class="section level2">
+<h2>Principal Components Analysis output</h2>
+<p>As well as the component variances, the useful results of principal
+components analysis include the variable weightings or 'rotations' for
+each principal component. Referring to just the output for <strong>open
+data</strong> above, PC1 (which explains the most multivariate variance)
+has its greatest absolute contributions from the Lightweight and
+Industry variables, which act in opposite directions (remembering that
+the sign is arbitrary, but that <em>relative</em> sign and magnitude are
+important). PC2 contains mainly variance from the Compact and Open
+variables, PC3 (which explains much less variance) reflects
+Open/Industry, and we can ignore PC4 as it has a negligible component
+variance.</p>
+<p>In addition, every individual observation (sample) is a multivariate
+point, the observation scores for all samples in each principal
+component based on the values of the variables used in PCA for that
+sample. It is conventional to plot both of these two types of output in
+a principal component <strong>biplot</strong>, as shown in Figure 3.
+Before discussing the biplot, we should note that the sign (positive or
+negative) of variable weightings and observation scores (<em>i.e</em>.
+the direction of the axes) is arbitrary and should not affect our
+interpretations.</p>
+<div class="figure" style="text-align: center">
+<img src="pca_files/figure-html/scree-plots-cities-1.png" alt="Figure 2: PCA scree plots for urban land-use data, for: (a) compositionally closed proportions; (b) data corrected for closure using CLR-transformation." width="60%" />
+<p class="caption">
+Figure 2: PCA scree plots for urban land-use data, for: (a)
+compositionally closed proportions; (b) data corrected for closure using
+CLR-transformation.
+</p>
+</div>
+<p> </p>
+<p>There are informal 'rules' for deciding which of the principal
+components contain useful information:</p>
+<ol style="list-style-type: decimal">
+<li>Components having variance greater than 1 (the 'Kaiser'
+criterion)</li>
+<li>Components up to a cumulative proportion of variance explained of
+0.8 (80%)</li>
+</ol>
+<p>For example, for the open data, the component variances are PC1
+1.976, PC2 1.511, PC3 0.513, PC4 1.5E-31 -- so only PC1 and PC2 meet the
+first criterion. Similarly, the <em>cumulative</em> proportions of
+variance explained by each component are PC1 0.494, PC1+PC2 0.872, so by
+criterion 2 no useful information is contained in principal components
+&gt;2. In this example both criteria agree (they don't always!).</p>
+<p>Another part of the PCA output that we need to know about is the set
+of <em>observation scores</em>, essentially showing where each
+observation (each city, in these data) plots in principal component
+space. We're only interested in PC1 and PC2, since they are the only
+components meeting the criteria. The observation scores for the first
+rows of the data are as follows (Table 2):</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>OScores <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">City=</span>cities_clr<span class="sc">$</span>City[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>],</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>                      <span class="at">PC1_closed=</span><span class="fu">round</span>(pca_cities_clos<span class="sc">$</span>x[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,<span class="dv">1</span>],<span class="dv">3</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>                      <span class="at">PC2_closed=</span><span class="fu">round</span>(pca_cities_clos<span class="sc">$</span>x[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,<span class="dv">2</span>],<span class="dv">3</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>                      <span class="at">PC1_open=</span><span class="fu">round</span>(pca_cities_open<span class="sc">$</span>x[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,<span class="dv">1</span>],<span class="dv">3</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>                      <span class="at">PC2_open=</span><span class="fu">round</span>(pca_cities_open<span class="sc">$</span>x[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,<span class="dv">2</span>],<span class="dv">3</span>))</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="fu">flextable</span>(OScores) <span class="sc">|&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="fu">theme_zebra</span>(<span class="at">odd_header =</span> <span class="st">&quot;#D0E0FF&quot;</span>, <span class="at">even_header =</span> <span class="st">&quot;#D0E0FF&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="fu">border_outer</span>(<span class="at">border =</span> BorderDk, <span class="at">part =</span> <span class="st">&quot;all&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="fu">border_inner_v</span>(<span class="at">border=</span>BorderLt, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  <span class="fu">set_caption</span>(<span class="at">caption =</span> <span class="st">&quot;Table 2: PCA observation scores for the first 8 rows of the cities data (closed and open).&quot;</span>, <span class="at">align_with_table=</span>F, <span class="at">fp_p=</span><span class="fu">fp_par</span>(<span class="at">text.align =</span> <span class="st">&quot;left&quot;</span>, <span class="at">padding.bottom =</span> <span class="dv">6</span>))</span></code></pre></div>
+<template id="28b7e07b-e33e-4f49-a9a2-912e05b46407"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  border-color: transparent;
+  caption-side: top;
+}
+.tabwid-caption-bottom table{
+  caption-side: bottom;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+</style><div class="tabwid"><style>.cl-84dc0c42{}.cl-847a5e8e{font-family:'Arial';font-size:9pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-847a5ea2{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-848f687e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-848f6888{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-848f84da{width:0.75in;background-color:rgba(208, 224, 255, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-848f84e4{width:0.75in;background-color:rgba(208, 224, 255, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-848f84ee{width:0.75in;background-color:rgba(208, 224, 255, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-848f84ef{width:0.75in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-848f84f0{width:0.75in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-848f84f1{width:0.75in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-848f84f8{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-848f84f9{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-848f8502{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-848f8503{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-848f8504{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-848f850c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-84753120{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-84dc0c42'><caption style="margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span class="cl-84753120">Table 2: PCA observation scores for the first 8 rows of the cities data (closed and open).</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-848f84da"><p class="cl-848f687e"><span class="cl-847a5e8e">City</span></p></td><td class="cl-848f84e4"><p class="cl-848f6888"><span class="cl-847a5e8e">PC1_closed</span></p></td><td class="cl-848f84e4"><p class="cl-848f6888"><span class="cl-847a5e8e">PC2_closed</span></p></td><td class="cl-848f84e4"><p class="cl-848f6888"><span class="cl-847a5e8e">PC1_open</span></p></td><td class="cl-848f84ee"><p class="cl-848f6888"><span class="cl-847a5e8e">PC2_open</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-848f84ef"><p class="cl-848f687e"><span class="cl-847a5ea2">New York</span></p></td><td class="cl-848f84f0"><p class="cl-848f6888"><span class="cl-847a5ea2">-1.885</span></p></td><td class="cl-848f84f0"><p class="cl-848f6888"><span class="cl-847a5ea2">-1.095</span></p></td><td class="cl-848f84f0"><p class="cl-848f6888"><span class="cl-847a5ea2">-0.896</span></p></td><td class="cl-848f84f1"><p class="cl-848f6888"><span class="cl-847a5ea2">0.155</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-848f84f8"><p class="cl-848f687e"><span class="cl-847a5ea2">Sao Paulo</span></p></td><td class="cl-848f84f9"><p class="cl-848f6888"><span class="cl-847a5ea2">-2.054</span></p></td><td class="cl-848f84f9"><p class="cl-848f6888"><span class="cl-847a5ea2">0.732</span></p></td><td class="cl-848f84f9"><p class="cl-848f6888"><span class="cl-847a5ea2">-0.646</span></p></td><td class="cl-848f8502"><p class="cl-848f6888"><span class="cl-847a5ea2">0.722</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-848f84ef"><p class="cl-848f687e"><span class="cl-847a5ea2">Shanghai</span></p></td><td class="cl-848f84f0"><p class="cl-848f6888"><span class="cl-847a5ea2">-2.889</span></p></td><td class="cl-848f84f0"><p class="cl-848f6888"><span class="cl-847a5ea2">-0.909</span></p></td><td class="cl-848f84f0"><p class="cl-848f6888"><span class="cl-847a5ea2">-1.413</span></p></td><td class="cl-848f84f1"><p class="cl-848f6888"><span class="cl-847a5ea2">-0.467</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-848f84f8"><p class="cl-848f687e"><span class="cl-847a5ea2">Beijing</span></p></td><td class="cl-848f84f9"><p class="cl-848f6888"><span class="cl-847a5ea2">-1.665</span></p></td><td class="cl-848f84f9"><p class="cl-848f6888"><span class="cl-847a5ea2">-1.230</span></p></td><td class="cl-848f84f9"><p class="cl-848f6888"><span class="cl-847a5ea2">-0.858</span></p></td><td class="cl-848f8502"><p class="cl-848f6888"><span class="cl-847a5ea2">0.098</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-848f84ef"><p class="cl-848f687e"><span class="cl-847a5ea2">Jakarta</span></p></td><td class="cl-848f84f0"><p class="cl-848f6888"><span class="cl-847a5ea2">-2.515</span></p></td><td class="cl-848f84f0"><p class="cl-848f6888"><span class="cl-847a5ea2">2.528</span></p></td><td class="cl-848f84f0"><p class="cl-848f6888"><span class="cl-847a5ea2">-0.592</span></p></td><td class="cl-848f84f1"><p class="cl-848f6888"><span class="cl-847a5ea2">2.491</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-848f84f8"><p class="cl-848f687e"><span class="cl-847a5ea2">Guangzhou</span></p></td><td class="cl-848f84f9"><p class="cl-848f6888"><span class="cl-847a5ea2">-2.679</span></p></td><td class="cl-848f84f9"><p class="cl-848f6888"><span class="cl-847a5ea2">1.453</span></p></td><td class="cl-848f84f9"><p class="cl-848f6888"><span class="cl-847a5ea2">-1.099</span></p></td><td class="cl-848f8502"><p class="cl-848f6888"><span class="cl-847a5ea2">0.957</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-848f84ef"><p class="cl-848f687e"><span class="cl-847a5ea2">Melbourne</span></p></td><td class="cl-848f84f0"><p class="cl-848f6888"><span class="cl-847a5ea2">-1.871</span></p></td><td class="cl-848f84f0"><p class="cl-848f6888"><span class="cl-847a5ea2">1.375</span></p></td><td class="cl-848f84f0"><p class="cl-848f6888"><span class="cl-847a5ea2">-0.808</span></p></td><td class="cl-848f84f1"><p class="cl-848f6888"><span class="cl-847a5ea2">0.991</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-848f8503"><p class="cl-848f687e"><span class="cl-847a5ea2">Paris</span></p></td><td class="cl-848f8504"><p class="cl-848f6888"><span class="cl-847a5ea2">-0.632</span></p></td><td class="cl-848f8504"><p class="cl-848f6888"><span class="cl-847a5ea2">-2.171</span></p></td><td class="cl-848f8504"><p class="cl-848f6888"><span class="cl-847a5ea2">-0.615</span></p></td><td class="cl-848f850c"><p class="cl-848f6888"><span class="cl-847a5ea2">-0.489</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="88771779-a423-486f-b42e-7dfa6d640ac5"></div>
+<script>
+var dest = document.getElementById("88771779-a423-486f-b42e-7dfa6d640ac5");
+var template = document.getElementById("28b7e07b-e33e-4f49-a9a2-912e05b46407");
+var caption = template.content.querySelector("caption");
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+<p> </p>
+</div>
+<div id="principal-components-biplots" class="section level2">
+<h2>Principal components biplots</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">require</span>(car) <span class="co"># for data ellipses (see Fig 1.4)</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,scico<span class="sc">::</span><span class="fu">scico</span>(<span class="dv">8</span>, <span class="at">palette =</span> <span class="st">&quot;batlow&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>),<span class="st">&quot;white&quot;</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">3.5</span>,<span class="fl">3.5</span>,<span class="fl">3.5</span>,<span class="fl">3.5</span>), <span class="at">oma =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), </span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl =</span> <span class="fl">0.25</span>, <span class="at">font.lab=</span><span class="dv">2</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>    <span class="at">lend =</span> <span class="st">&quot;square&quot;</span>, <span class="at">ljoin =</span> <span class="st">&quot;mitre&quot;</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co"># choose components and set scaling factor (sf)</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="dv">1</span>; v2 <span class="ot">&lt;-</span> <span class="dv">2</span>; sf <span class="ot">&lt;-</span> <span class="fl">0.4</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="fu">biplot</span>(pca_cities_clos, <span class="at">choices =</span> <span class="fu">c</span>(v1,v2), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">cex=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.0</span>),</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>       <span class="at">pc.biplot =</span> <span class="cn">FALSE</span>, <span class="at">scale =</span> <span class="fl">0.4</span>, <span class="at">arrow.len =</span> <span class="fl">0.08</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>       <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.5</span>,<span class="fl">1.5</span>),</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v1,<span class="st">&quot; Component Loadings&quot;</span>),</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>       <span class="at">ylab =</span> <span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v2,<span class="st">&quot; Component Loadings&quot;</span>))</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v1,<span class="st">&quot; Observation Scores&quot;</span>), <span class="dv">3</span>, <span class="fl">1.6</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v2,<span class="st">&quot; Observation Scores&quot;</span>), <span class="dv">4</span>, <span class="fl">1.6</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Untransformed data</span><span class="sc">\n</span><span class="st">(compositionally closed)&quot;</span>,</span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>      <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="sc">-</span><span class="dv">2</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">adj =</span> <span class="fl">0.98</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(cities[,<span class="fu">c</span>(<span class="st">&quot;Type&quot;</span>,<span class="st">&quot;Global&quot;</span>,<span class="st">&quot;Region&quot;</span>,<span class="st">&quot;Compact&quot;</span>,</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>                           <span class="st">&quot;Open&quot;</span>,<span class="st">&quot;Lightweight&quot;</span>,<span class="st">&quot;Industry&quot;</span>)])</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="fu">points</span>(pca_cities_clos<span class="sc">$</span>x[,v1]<span class="sc">*</span>sf, pca_cities_clos<span class="sc">$</span>x[,v2]<span class="sc">*</span>sf<span class="sc">*</span><span class="fl">1.5</span>,</span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>)[data0<span class="sc">$</span>Type],</span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">bg =</span> <span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>)[data0<span class="sc">$</span>Type],</span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">1</span>,</span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fu">c</span>(<span class="fl">1.4</span>,<span class="fl">1.3</span>,<span class="fl">1.2</span>,<span class="fl">1.2</span>,<span class="fl">1.2</span>)[data0<span class="sc">$</span>Type])</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="fu">dataEllipse</span>(<span class="at">x=</span>pca_cities_clos<span class="sc">$</span>x[,v1]<span class="sc">*</span>sf, <span class="at">y=</span>pca_cities_clos<span class="sc">$</span>x[,v2]<span class="sc">*</span>sf<span class="sc">*</span><span class="fl">1.5</span>,</span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>            <span class="at">groups =</span> data0<span class="sc">$</span>Type, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">plot.points =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a>            <span class="at">levels =</span> <span class="fu">c</span>(<span class="fl">0.9</span>), <span class="at">center.pch =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">11</span>),</span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>            <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">center.cex =</span> <span class="fl">2.4</span>, <span class="at">group.labels =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">bty =</span> <span class="st">&quot;o&quot;</span>, <span class="at">inset =</span> <span class="fl">0.03</span>,</span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a>       <span class="at">box.col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">box.lwd =</span> <span class="dv">2</span>, <span class="at">bg =</span> <span class="dv">10</span>,</span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(data0<span class="sc">$</span>Type),</span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>), <span class="at">pt.lwd =</span> <span class="dv">1</span>,</span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">1</span>, <span class="at">pt.bg =</span> <span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>),</span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a>       <span class="at">pt.cex =</span> <span class="fu">c</span>(<span class="fl">1.4</span>, <span class="fl">1.3</span>, <span class="fl">1.2</span>,<span class="fl">1.2</span>,<span class="fl">1.2</span>),</span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">y.intersp =</span> <span class="fl">0.9</span>)</span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(a)&quot;</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="sc">-</span><span class="fl">1.5</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">adj =</span> <span class="fl">0.02</span>, <span class="at">cex =</span> <span class="fl">1.25</span>)</span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a></span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a>sf <span class="ot">&lt;-</span> <span class="fl">0.25</span> <span class="co"># adjust scaling factor for next PCA biplot</span></span>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a></span>
+<span id="cb7-40"><a href="#cb7-40" tabindex="-1"></a><span class="fu">biplot</span>(pca_cities_open, <span class="at">choices =</span> <span class="fu">c</span>(v1,v2), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">cex=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="dv">1</span>),</span>
+<span id="cb7-41"><a href="#cb7-41" tabindex="-1"></a>       <span class="at">pc.biplot =</span> <span class="cn">FALSE</span>, <span class="at">scale =</span> <span class="fl">0.2</span>, <span class="at">arrow.len =</span> <span class="fl">0.08</span>,</span>
+<span id="cb7-42"><a href="#cb7-42" tabindex="-1"></a>       <span class="co"># xlim = c(-1.2,3.2), ylim = c(-3.5,1.7),</span></span>
+<span id="cb7-43"><a href="#cb7-43" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v1,<span class="st">&quot; Component Loadings&quot;</span>),</span>
+<span id="cb7-44"><a href="#cb7-44" tabindex="-1"></a>       <span class="at">ylab =</span> <span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v2,<span class="st">&quot; Component Loadings&quot;</span>)) </span>
+<span id="cb7-45"><a href="#cb7-45" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v1,<span class="st">&quot; Observation Scores&quot;</span>), <span class="dv">3</span>, <span class="fl">1.6</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb7-46"><a href="#cb7-46" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v2,<span class="st">&quot; Observation Scores&quot;</span>), <span class="dv">4</span>, <span class="fl">1.6</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb7-47"><a href="#cb7-47" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;CLR</span><span class="sc">\n</span><span class="st">transformed</span><span class="sc">\n</span><span class="st">data</span><span class="sc">\n</span><span class="st">(no closure)&quot;</span>,</span>
+<span id="cb7-48"><a href="#cb7-48" tabindex="-1"></a>      <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="sc">-</span><span class="dv">4</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">adj =</span> <span class="fl">0.98</span>)</span>
+<span id="cb7-49"><a href="#cb7-49" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(cities_clr[,<span class="fu">c</span>(<span class="st">&quot;Type&quot;</span>,<span class="st">&quot;Compact&quot;</span>,<span class="st">&quot;Open&quot;</span>,<span class="st">&quot;Lightweight&quot;</span>,<span class="st">&quot;Industry&quot;</span>)])</span>
+<span id="cb7-50"><a href="#cb7-50" tabindex="-1"></a><span class="fu">points</span>(pca_cities_open<span class="sc">$</span>x[,v1]<span class="sc">*</span>sf, pca_cities_open<span class="sc">$</span>x[,v2]<span class="sc">*</span>sf,</span>
+<span id="cb7-51"><a href="#cb7-51" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>)[data0<span class="sc">$</span>Type],</span>
+<span id="cb7-52"><a href="#cb7-52" tabindex="-1"></a>       <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">bg =</span> <span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>)[data0<span class="sc">$</span>Type],</span>
+<span id="cb7-53"><a href="#cb7-53" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)[data0<span class="sc">$</span>Type],</span>
+<span id="cb7-54"><a href="#cb7-54" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fu">c</span>(<span class="fl">1.4</span>,<span class="fl">1.3</span>,<span class="fl">1.2</span>,<span class="fl">1.2</span>,<span class="fl">1.2</span>)[data0<span class="sc">$</span>Type])</span>
+<span id="cb7-55"><a href="#cb7-55" tabindex="-1"></a><span class="fu">dataEllipse</span>(<span class="at">x=</span>pca_cities_open<span class="sc">$</span>x[,v1]<span class="sc">*</span>sf, <span class="at">y=</span>pca_cities_open<span class="sc">$</span>x[,v2]<span class="sc">*</span>sf<span class="sc">*</span><span class="fl">1.5</span>,</span>
+<span id="cb7-56"><a href="#cb7-56" tabindex="-1"></a>            <span class="at">groups =</span> data0<span class="sc">$</span>Type, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">plot.points =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb7-57"><a href="#cb7-57" tabindex="-1"></a>            <span class="at">levels =</span> <span class="fu">c</span>(<span class="fl">0.9</span>), <span class="at">center.pch =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>),</span>
+<span id="cb7-58"><a href="#cb7-58" tabindex="-1"></a>            <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">center.cex =</span> <span class="fl">2.4</span>, <span class="at">group.labels =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb7-59"><a href="#cb7-59" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">bty =</span> <span class="st">&quot;o&quot;</span>, <span class="at">inset =</span> <span class="fl">0.03</span>,</span>
+<span id="cb7-60"><a href="#cb7-60" tabindex="-1"></a>       <span class="at">box.col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">box.lwd =</span> <span class="dv">2</span>, <span class="at">bg =</span> <span class="dv">10</span>,</span>
+<span id="cb7-61"><a href="#cb7-61" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(data0<span class="sc">$</span>Type),</span>
+<span id="cb7-62"><a href="#cb7-62" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">251</span>), <span class="at">pt.lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb7-63"><a href="#cb7-63" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">1</span>, <span class="at">pt.bg =</span> <span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>),</span>
+<span id="cb7-64"><a href="#cb7-64" tabindex="-1"></a>       <span class="at">pt.cex =</span> <span class="fu">c</span>(<span class="fl">1.4</span>, <span class="fl">1.3</span>, <span class="fl">1.2</span>,<span class="fl">1.2</span>,<span class="fl">1.2</span>),</span>
+<span id="cb7-65"><a href="#cb7-65" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">y.intersp =</span> <span class="fl">0.9</span>)</span>
+<span id="cb7-66"><a href="#cb7-66" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(b)&quot;</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="sc">-</span><span class="fl">1.5</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">adj =</span> <span class="fl">0.02</span>, <span class="at">cex =</span> <span class="fl">1.25</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="pca_files/figure-html/visualise-PCA-cities-1.png" alt="Figure 3: PCA biplots for urban land-use data, with observations categorised by type for: (a) compositionally closed proportions; (b) data corrected for closure using CLR-transformation." width="1152" />
+<<p class="caption">p class="caption">
+Figure 3: PCA biplots for urban land-use data, with observations
+categorised by type for: (a) compositionally closed proportions; (b)
+data corrected for closure using CLR-transformation.
+</p>
+</div>
+<p> </p>
+<p>PCA biplots are useful, because the <em>variable weightings</em>
+group together for variables (measurements) that are related to one
+another. For example, in the biplots in Figure 3, the variables are
+relative land areas under 4 land-use categories (which have been
+corrected in Figure 3(b) for compositional closure using the CLR
+transformation). These variables are shown as vectors (arrows) in the
+biplot of principal components PC1 and PC2, and variables which are
+related have vectors of similar length and/or direction. For example,
+the variables 'Compact' and 'Industry' plot closely together on biplot
+(a), suggesting some relationship between these land use categories.
+Removing closure in our data (biplot (b)) seems to remove this
+relationship, so it is probably not real!</p>
+<p>Often we see the component vectors arranged in an obviously
+<em>asymmetric pattern</em> with closed data, and this is more apparent
+<a href="#geochem">further down this page</a> when we analyse some
+geochemical data. (When closure is removed, the vectors have a less
+asymmetric pattern - see <a href="#biplot2">Figure 5</a> further
+below.)</p>
+<p>The other main information we obtain from principal components
+biplots is from the <em>observation scores</em> (see above). These will
+plot at locations similar to their dominant variables: for example, in
+Figure 2(b), the 'Compact' cities all plot towards the top of the biplot
+in the same direction as the 'Compact' variable weighting vector. This
+suggests that compact cities have greater proportions of compact land
+use -- which should not be too surprising! Note that in the biplot for
+closed data in Figure 2(a), the separation of cities is not so
+clear.</p>
+<div id="some-other-things-to-try" class="section level4">
+<h4>Some other things to try</h4>
+<p>We could also group the observation scores in our biplot by a
+different factor in our dataset. For example, it would be interesting to
+see if we could observe any separation of cities by geographical region
+in the principal components analysis. You might want to practice your
+<strong>R</strong> coding on this problem!</p>
+<p> </p>
+</div>
+</div>
+</div>
+<div id="pca-on-geochemical-data" class="section level1">
+<h1>PCA on Geochemical Data</h1>
+<p id="geochem">
+<strong>Data edited from</strong>: Rate &amp; McGrath (2022a) (described
+in Rate &amp; McGrath, 2022b).
+</p>
+<div id="first-we-read-and-curate-the-data..." class="section level3">
+<h3>First we read and curate the data...</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>ashfield <span class="ot">&lt;-</span> </span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="fu">paste0</span>(<span class="st">&quot;https://raw.githubusercontent.com/Ratey-AtUWA/&quot;</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>                  <span class="st">&quot;compositional_data/main/AFR_surfSed_2019-2021.csv&quot;</span>), </span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>           <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>ashfield<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(ashfield<span class="sc">$</span>Year)</span></code></pre></div>
+<p>...and then apply a CLR-transformation to remove closure for the
+relevant set of variables (<em>i.e</em>. the concentration variables in
+columns <code>11:38</code>: <code>Al</code>, <code>As</code>,
+<code>Ba</code>, <code>Ca</code>, <code>Cd</code>, <code>Ce</code>,
+<code>Co</code>, <code>Cr</code>, <code>Cu</code>, <code>Fe</code>,
+<code>Gd</code>, <code>K</code>, <code>La</code>, <code>Li</code>,
+<code>Mg</code>, <code>Mn</code>, <code>Mo</code>, <code>Na</code>,
+<code>Nd</code>, <code>Ni</code>, <code>P</code>, <code>Pb</code>,
+<code>S</code>, <code>Sr</code>, <code>Th</code>, <code>V</code>,
+<code>Y</code>, <code>Zn</code>.</p>
+<p>For the closed data, all elements except Al, Cr, Fe, Gd, K, La, Li,
+Nd, Ni, Th, V, Y are log<sub>10</sub>-transformed before PCA to limit
+the effects of skewness (using <code>scale.=TRUE</code> won't change the
+shape of variable distributions, unfortunately). We don't remove closure
+by log<sub>10</sub>-transformation alone, though.</p>
+<p>We also need to make a centered log ratio-transformed dataset.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>ashfield_clr <span class="ot">&lt;-</span> ashfield</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>ashfield_clr[,<span class="dv">11</span><span class="sc">:</span><span class="dv">38</span>] <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(ashfield[,<span class="dv">11</span><span class="sc">:</span><span class="dv">38</span>], <span class="at">MARGIN =</span> <span class="dv">1</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>                                <span class="at">FUN =</span> <span class="cf">function</span>(x){<span class="fu">log</span>(x) <span class="sc">-</span> <span class="fu">mean</span>(<span class="fu">log</span>(x), <span class="at">na.rm=</span><span class="cn">TRUE</span>)}))</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">head</span>(ashfield_clr[,<span class="dv">11</span><span class="sc">:</span><span class="dv">17</span>])</span></code></pre></div>
+<pre><code>##         Al        As         Ba       Ca        Cd         Ce        Co
+## 1 4.915247 -2.629041 -0.9121439 4.363272 -5.860602 -1.7556753 -0.808294
+## 2 5.485119 -3.237030 -0.8175805 3.059425 -5.505493 -0.5044887 -2.056470
+## 3 5.453100 -3.673684 -0.8895440 3.585314 -6.701993 -0.4096881 -2.581503
+## 4 5.510806        NA -0.3797352 3.032430 -7.305800 -0.5253843 -2.722609
+## 5 5.601512 -2.808624 -0.6332189 3.276841 -7.804974 -0.3297310 -2.845259
+## 6 5.774326 -3.398333 -0.5061159 3.665076 -8.188598 -0.3984539 -2.680560</code></pre>
+</div>
+<div id="running-the-geochemical-pca" class="section level3">
+<h3>Running the geochemical PCA</h3>
+<p>We run the PCA using <code>prcomp()</code> using
+<code>scale. = TRUE</code> as before, for both closed and
+CLR-transformed concentrations:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(ashfield[,<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">11</span><span class="sc">:</span><span class="dv">38</span>)])</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>forlog <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;As&quot;</span>,<span class="st">&quot;Ba&quot;</span>,<span class="st">&quot;Ca&quot;</span>,<span class="st">&quot;Cd&quot;</span>,<span class="st">&quot;Ce&quot;</span>,<span class="st">&quot;Co&quot;</span>,<span class="st">&quot;Cu&quot;</span>,<span class="st">&quot;Mg&quot;</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>            <span class="st">&quot;Mn&quot;</span>,<span class="st">&quot;Mo&quot;</span>,<span class="st">&quot;Na&quot;</span>,<span class="st">&quot;P&quot;</span>,<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;S&quot;</span>,<span class="st">&quot;Sr&quot;</span>,<span class="st">&quot;Zn&quot;</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>data0[,<span class="fu">which</span>(<span class="fu">colnames</span>(data0) <span class="sc">%in%</span> forlog<span class="sc">==</span>T)] <span class="ot">&lt;-</span> </span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">log10</span>(data0[,<span class="fu">which</span>(<span class="fu">colnames</span>(data0) <span class="sc">%in%</span> forlog<span class="sc">==</span>T)]) <span class="co"># note log-transformation</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>pca_ashfield_clos <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data0[,<span class="dv">3</span><span class="sc">:</span><span class="dv">30</span>], <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Variable weightings (rotations) - Closed data (only simple transformations) (first 8 PCs, first 6 variables)</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="fu">head</span>(pca_ashfield_clos<span class="sc">$</span>rot[,<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;...</span><span class="sc">\n\n</span><span class="st">Component Variances - Closed data (only simple transformations)</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>pca_ashfield_clos<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;...</span><span class="sc">\n\n</span><span class="st">Proportions of variance explained by each component&quot;</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>    <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Closed data (only simple transformations)</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="fu">round</span>(pca_ashfield_clos<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="fu">sum</span>(pca_ashfield_clos<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>),<span class="dv">3</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Cumulative proportions of variance explained by each component&quot;</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>    <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Closed data (only simple transformations)</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="fu">cumsum</span>(<span class="fu">round</span>(pca_ashfield_clos<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="fu">sum</span>(pca_ashfield_clos<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>),<span class="dv">3</span>))</span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">--------------------</span><span class="sc">\n</span><span class="st">Variable weightings (rotations) - open data (first 8 PCs, first 6 variables)</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(ashfield_clr[,<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">11</span><span class="sc">:</span><span class="dv">38</span>)])</span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a>pca_ashfield_open <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data0[,<span class="dv">3</span><span class="sc">:</span><span class="dv">30</span>], <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="fu">head</span>(pca_ashfield_open<span class="sc">$</span>rot[,<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;...</span><span class="sc">\n\n</span><span class="st">Component Variances - CLR-transformed (open) data</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a>pca_ashfield_open<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;...</span><span class="sc">\n\n</span><span class="st">Proportions of variance explained by each component&quot;</span>,</span>
+<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a>    <span class="st">&quot;</span><span class="sc">\n</span><span class="st">CLR-transformed (open) data</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a><span class="fu">round</span>(pca_ashfield_open<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="fu">sum</span>(pca_ashfield_open<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>),<span class="dv">3</span>)</span>
+<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Cumulative proportions of variance explained by each component&quot;</span>,</span>
+<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a>    <span class="st">&quot;</span><span class="sc">\n</span><span class="st">CLR-transformed (open) data</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a><span class="fu">cumsum</span>(<span class="fu">round</span>(pca_ashfield_open<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="fu">sum</span>(pca_ashfield_open<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span>),<span class="dv">3</span>))</span></code></pre></div>
+<pre><code>## Variable weightings (rotations) - Closed data (only simple transformations) (first 8 PCs, first 6 variables)
+##             PC1          PC2         PC3         PC4         PC5         PC6         PC7         PC8
+## Al  0.262841876  0.017144343 -0.03340468  0.07557376 -0.02000568  0.12582389 -0.14426303  0.01632898
+## As -0.008274958 -0.318481074  0.32606705 -0.15555049  0.04373040  0.08520550  0.07421221  0.11276656
+## Ba  0.223649632 -0.008918856  0.10460779 -0.02859546 -0.02721085 -0.07730027  0.09108350  0.69439959
+## Ca -0.003890032 -0.270074999 -0.22805374  0.31810269  0.17176970 -0.23038375  0.16281311  0.02894780
+## Cd -0.007462965 -0.353406876  0.09916246  0.04792640 -0.13819598  0.26012265 -0.09793862 -0.21727179
+## Ce  0.270588496  0.055330381  0.03351360  0.04960608  0.11573493  0.07281675  0.08373182 -0.05420771
+## ...
+##
+## Component Variances - Closed data (only simple transformations)
+##  [1] 12.032835073  5.299682267  2.008113141  1.707073819  1.410281801  1.208587356  0.871576056  0.536311687  0.495569067  0.452154244  0.344878927
+## [12]  0.311959327  0.225668949  0.189165871  0.157172071  0.140098666  0.132463354  0.111278485  0.085343162  0.079540396  0.055650771  0.039918372
+## [23]  0.031313004  0.029117363  0.021903268  0.016070376  0.004875592  0.001397537
+## ...
+##
+## Proportions of variance explained by each component
+## Closed data (only simple transformations)
+##  [1] 0.430 0.189 0.072 0.061 0.050 0.043 0.031 0.019 0.018 0.016 0.012 0.011 0.008 0.007 0.006 0.005 0.005 0.004 0.003 0.003 0.002 0.001 0.001 0.001
+## [25] 0.001 0.001 0.000 0.000
+##
+## Cumulative proportions of variance explained by each component
+## Closed data (only simple transformations)
+##  [1] 0.430 0.619 0.691 0.752 0.802 0.845 0.876 0.895 0.913 0.929 0.941 0.952 0.960 0.967 0.973 0.978 0.983 0.987 0.990 0.993 0.995 0.996 0.997 0.998
+## [25] 0.999 1.000 1.000 1.000
+##
+## --------------------
+## Variable weightings (rotations) - open data (first 8 PCs, first 6 variables)
+##           PC1          PC2          PC3         PC4         PC5         PC6         PC7        PC8
+## Al  0.2178761 -0.175508744  0.110495240 -0.06970021  0.07015334 -0.02101289  0.20442617 -0.1993189
+## As -0.2047095 -0.181257338 -0.202507482  0.10924893  0.10719031 -0.11524954 -0.08703576 -0.2380530
+## Ba  0.1050193 -0.150214445 -0.047486395 -0.02175757 -0.14850985 -0.61186474  0.39012320  0.4123293
+## Ca -0.1738396  0.045453704  0.199087874 -0.28077341 -0.06087187 -0.18134128 -0.09351070 -0.5848205
+## Cd -0.2318630 -0.144853181  0.008502368  0.02861680  0.07265346  0.22920487 -0.04565633  0.2309725
+## Ce  0.2627008 -0.002588997 -0.144448507 -0.17814957  0.16699334  0.04285596 -0.05901182  0.0236751
+## ...
+##
+## Component Variances - CLR-transformed (open) data
+##  [1] 1.165706e+01 3.619179e+00 2.753411e+00 2.339868e+00 1.638357e+00 1.240181e+00 8.625783e-01 6.309300e-01 5.935636e-01 4.648664e-01 4.266296e-01
+## [12] 2.947315e-01 2.784008e-01 2.291795e-01 1.888286e-01 1.552614e-01 1.497596e-01 1.258552e-01 9.168352e-02 7.637244e-02 5.451782e-02 3.796124e-02
+## [23] 3.090203e-02 2.757347e-02 2.237504e-02 8.676022e-03 1.298201e-03 2.931132e-30
+## ...
+##
+## Proportions of variance explained by each component
+## CLR-transformed (open) data
+##  [1] 0.416 0.129 0.098 0.084 0.059 0.044 0.031 0.023 0.021 0.017 0.015 0.011 0.010 0.008 0.007 0.006 0.005 0.004 0.003 0.003 0.002 0.001 0.001 0.001
+## [25] 0.001 0.000 0.000 0.000
+##
+## Cumulative proportions of variance explained by each component
+## CLR-transformed (open) data
+##  [1] 0.416 0.545 0.643 0.727 0.786 0.830 0.861 0.884 0.905 0.922 0.937 0.948 0.958 0.966 0.973 0.979 0.984 0.988 0.991 0.994 0.996 0.997 0.998 0.999
+## [25] 1.000 1.000 1.000 1.000</code></pre>
+<p>For both the closed and open data, we reach 80% of variance explained
+by component 6.</p>
+<div class="figure" style="text-align: center">
+<img src="pca_files/figure-html/scree-plots-ashfield-1.png" alt="Figure 4: PCA scree plots for Ashfield data, for: (a) compositionally closed concentrations (only simple transformations); (b) data corrected for closure using CLR-transformation." width="80%" />
+<p class="caption">
+Figure 4: PCA scree plots for Ashfield data, for: (a) compositionally
+closed concentrations (only simple transformations); (b) data corrected
+for closure using CLR-transformation.
+</p>
+</div>
+<p>Figure 4 shows that for this analysis, 6 components have variances ≥
+1, regardless of closure.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>OScores <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Samp=</span>ashfield_clr<span class="sc">$</span>SampID[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>],</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>                      <span class="at">PC1_closed=</span><span class="fu">round</span>(pca_ashfield_clos<span class="sc">$</span>x[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,<span class="dv">1</span>],<span class="dv">3</span>),</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>                      <span class="at">PC2_closed=</span><span class="fu">round</span>(pca_ashfield_clos<span class="sc">$</span>x[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,<span class="dv">2</span>],<span class="dv">3</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>                      <span class="at">PC1_open=</span><span class="fu">round</span>(pca_ashfield_open<span class="sc">$</span>x[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,<span class="dv">1</span>],<span class="dv">3</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>                      <span class="at">PC2_open=</span><span class="fu">round</span>(pca_ashfield_open<span class="sc">$</span>x[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,<span class="dv">2</span>],<span class="dv">3</span>))</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="fu">flextable</span>(OScores) <span class="sc">|&gt;</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  <span class="fu">theme_zebra</span>(<span class="at">odd_header =</span> <span class="st">&quot;#D0E0FF&quot;</span>, <span class="at">even_header =</span> <span class="st">&quot;#D0E0FF&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>  <span class="fu">border_outer</span>(<span class="at">border =</span> BorderDk, <span class="at">part =</span> <span class="st">&quot;all&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  <span class="fu">border_inner_v</span>(<span class="at">border=</span>BorderLt, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>  <span class="fu">set_caption</span>(<span class="at">caption=</span><span class="st">&quot;Table 3: PCA observation scores for the first 8 rows of the Ashfield Flats data (closed and open).&quot;</span>, <span class="at">align_with_table=</span>F, <span class="at">fp_p=</span><span class="fu">fp_par</span>(<span class="at">text.align =</span> <span class="st">&quot;left&quot;</span>, <span class="at">padding.bottom =</span> <span class="dv">6</span>))</span></code></pre></div>
+<template id="cee7a896-6a72-4e86-a0a5-87fa2fe49187"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  border-color: transparent;
+  caption-side: top;
+}
+.tabwid-caption-bottom table{
+  caption-side: bottom;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+</style><div class="tabwid"><style>.cl-87d31abc{}.cl-87c3a064{font-family:'Arial';font-size:9pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-87c3a078{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-87cac3bc{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-87cac3d0{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-87cafe5e{width:0.75in;background-color:rgba(208, 224, 255, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87cafe72{width:0.75in;background-color:rgba(208, 224, 255, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87cafe73{width:0.75in;background-color:rgba(208, 224, 255, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87cafe7c{width:0.75in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87cafe86{width:0.75in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87cafe90{width:0.75in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87cafe9a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87cafe9b{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87cafea4{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87cafeae{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87cafeb8{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87cafec2{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-876d6f50{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-87d31abc'><caption style="margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span class="cl-876d6f50">Table 3: PCA observation scores for the first 8 rows of the Ashfield Flats data (closed and open).</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-87cafe5e"><p class="cl-87cac3bc"><span class="cl-87c3a064">Samp</span></p></td><td class="cl-87cafe72"><p class="cl-87cac3d0"><span class="cl-87c3a064">PC1_closed</span></p></td><td class="cl-87cafe72"><p class="cl-87cac3d0"><span class="cl-87c3a064">PC2_closed</span></p></td><td class="cl-87cafe72"><p class="cl-87cac3d0"><span class="cl-87c3a064">PC1_open</span></p></td><td class="cl-87cafe73"><p class="cl-87cac3d0"><span class="cl-87c3a064">PC2_open</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-87cafe7c"><p class="cl-87cac3bc"><span class="cl-87c3a078">2019_1_1</span></p></td><td class="cl-87cafe86"><p class="cl-87cac3d0"><span class="cl-87c3a078">-5.146</span></p></td><td class="cl-87cafe86"><p class="cl-87cac3d0"><span class="cl-87c3a078">-2.714</span></p></td><td class="cl-87cafe86"><p class="cl-87cac3d0"><span class="cl-87c3a078">-7.490</span></p></td><td class="cl-87cafe90"><p class="cl-87cac3d0"><span class="cl-87c3a078">4.090</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87cafe9a"><p class="cl-87cac3bc"><span class="cl-87c3a078">2019_1_2</span></p></td><td class="cl-87cafe9b"><p class="cl-87cac3d0"><span class="cl-87c3a078">2.327</span></p></td><td class="cl-87cafe9b"><p class="cl-87cac3d0"><span class="cl-87c3a078">-1.885</span></p></td><td class="cl-87cafe9b"><p class="cl-87cac3d0"><span class="cl-87c3a078">-0.544</span></p></td><td class="cl-87cafea4"><p class="cl-87cac3d0"><span class="cl-87c3a078">1.529</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87cafe7c"><p class="cl-87cac3bc"><span class="cl-87c3a078">2019_1_3</span></p></td><td class="cl-87cafe86"><p class="cl-87cac3d0"><span class="cl-87c3a078">1.030</span></p></td><td class="cl-87cafe86"><p class="cl-87cac3d0"><span class="cl-87c3a078">-0.447</span></p></td><td class="cl-87cafe86"><p class="cl-87cac3d0"><span class="cl-87c3a078">0.637</span></p></td><td class="cl-87cafe90"><p class="cl-87cac3d0"><span class="cl-87c3a078">2.714</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87cafe9a"><p class="cl-87cac3bc"><span class="cl-87c3a078">2019_1_4</span></p></td><td class="cl-87cafe9b"><p class="cl-87cac3d0"><span class="cl-87c3a078">1.426</span></p></td><td class="cl-87cafe9b"><p class="cl-87cac3d0"><span class="cl-87c3a078">-0.136</span></p></td><td class="cl-87cafe9b"><p class="cl-87cac3d0"><span class="cl-87c3a078">1.237</span></p></td><td class="cl-87cafea4"><p class="cl-87cac3d0"><span class="cl-87c3a078">1.460</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87cafe7c"><p class="cl-87cac3bc"><span class="cl-87c3a078">2019_1_5</span></p></td><td class="cl-87cafe86"><p class="cl-87cac3d0"><span class="cl-87c3a078">1.105</span></p></td><td class="cl-87cafe86"><p class="cl-87cac3d0"><span class="cl-87c3a078">0.705</span></p></td><td class="cl-87cafe86"><p class="cl-87cac3d0"><span class="cl-87c3a078">1.819</span></p></td><td class="cl-87cafe90"><p class="cl-87cac3d0"><span class="cl-87c3a078">2.410</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87cafe9a"><p class="cl-87cac3bc"><span class="cl-87c3a078">2019_1_6</span></p></td><td class="cl-87cafe9b"><p class="cl-87cac3d0"><span class="cl-87c3a078">0.982</span></p></td><td class="cl-87cafe9b"><p class="cl-87cac3d0"><span class="cl-87c3a078">-0.781</span></p></td><td class="cl-87cafe9b"><p class="cl-87cac3d0"><span class="cl-87c3a078">0.087</span></p></td><td class="cl-87cafea4"><p class="cl-87cac3d0"><span class="cl-87c3a078">2.629</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87cafe7c"><p class="cl-87cac3bc"><span class="cl-87c3a078">2019_1_7</span></p></td><td class="cl-87cafe86"><p class="cl-87cac3d0"><span class="cl-87c3a078">0.391</span></p></td><td class="cl-87cafe86"><p class="cl-87cac3d0"><span class="cl-87c3a078">0.176</span></p></td><td class="cl-87cafe86"><p class="cl-87cac3d0"><span class="cl-87c3a078">0.877</span></p></td><td class="cl-87cafe90"><p class="cl-87cac3d0"><span class="cl-87c3a078">3.000</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87cafeae"><p class="cl-87cac3bc"><span class="cl-87c3a078">2019_1_8</span></p></td><td class="cl-87cafeb8"><p class="cl-87cac3d0"><span class="cl-87c3a078">-0.489</span></p></td><td class="cl-87cafeb8"><p class="cl-87cac3d0"><span class="cl-87c3a078">-3.817</span></p></td><td class="cl-87cafeb8"><p class="cl-87cac3d0"><span class="cl-87c3a078">-3.505</span></p></td><td class="cl-87cafec2"><p class="cl-87cac3d0"><span class="cl-87c3a078">2.875</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="529feae9-5b75-4c1f-a4f1-aab4972e58ab"></div>
+<script>
+var dest = document.getElementById("529feae9-5b75-4c1f-a4f1-aab4972e58ab");
+var template = document.getElementById("cee7a896-6a72-4e86-a0a5-87fa2fe49187");
+var caption = template.content.querySelector("caption");
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+<p> </p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">3.5</span>,<span class="fl">3.5</span>,<span class="fl">3.5</span>,<span class="fl">3.5</span>), <span class="at">oma =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), </span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>    <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl =</span> <span class="fl">0.25</span>, <span class="at">font.lab=</span><span class="dv">2</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>    <span class="at">lend =</span> <span class="st">&quot;square&quot;</span>, <span class="at">ljoin =</span> <span class="st">&quot;mitre&quot;</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co"># choose components and set scaling factor (s0)</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="dv">1</span>; v2 <span class="ot">&lt;-</span> <span class="dv">2</span>; s0 <span class="ot">&lt;-</span> <span class="fl">0.12</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="fu">biplot</span>(pca_ashfield_clos, <span class="at">choices =</span> <span class="fu">c</span>(v1,v2), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;#ffffff00&quot;</span>,<span class="dv">1</span>), <span class="at">cex=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.0</span>),</span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>       <span class="at">pc.biplot =</span> <span class="cn">FALSE</span>, <span class="at">scale =</span> <span class="fl">0.4</span>, <span class="at">arrow.len =</span> <span class="fl">0.08</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>       <span class="co"># xlim = c(-1.5,1.5), ylim = c(-1.2,1.2),</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v1,<span class="st">&quot; Component Loadings&quot;</span>),</span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a>       <span class="at">ylab =</span> <span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v2,<span class="st">&quot; Component Loadings&quot;</span>))</span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v1,<span class="st">&quot; Observation Scores&quot;</span>), <span class="dv">3</span>, <span class="fl">1.6</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v2,<span class="st">&quot; Observation Scores&quot;</span>), <span class="dv">4</span>, <span class="fl">1.6</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Untransformed data</span><span class="sc">\n</span><span class="st">(compositionally closed)&quot;</span>,</span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a>      <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="sc">-</span><span class="dv">2</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">adj =</span> <span class="fl">0.04</span>)</span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(ashfield[,<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">9</span><span class="sc">:</span><span class="dv">38</span>)])</span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a><span class="fu">points</span>(pca_ashfield_clos<span class="sc">$</span>x[,v1]<span class="sc">*</span>s0, pca_ashfield_clos<span class="sc">$</span>x[,v2]<span class="sc">*</span>s0<span class="sc">*</span><span class="fl">1.5</span>,</span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">22</span>,<span class="dv">21</span>,<span class="dv">24</span>)[data0<span class="sc">$</span>Type],</span>
+<span id="cb14-19"><a href="#cb14-19" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">bg =</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">2</span>)[data0<span class="sc">$</span>Type],</span>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">1</span>,</span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">1.4</span>,<span class="dv">1</span>)[data0<span class="sc">$</span>Type])</span>
+<span id="cb14-22"><a href="#cb14-22" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">bty =</span> <span class="st">&quot;o&quot;</span>, <span class="at">inset =</span> <span class="fl">0.03</span>,</span>
+<span id="cb14-23"><a href="#cb14-23" tabindex="-1"></a>       <span class="at">box.col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">box.lwd =</span> <span class="dv">2</span>, <span class="at">bg =</span> <span class="dv">10</span>,</span>
+<span id="cb14-24"><a href="#cb14-24" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(data0<span class="sc">$</span>Type),</span>
+<span id="cb14-25"><a href="#cb14-25" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">22</span>,<span class="dv">21</span>,<span class="dv">24</span>), <span class="at">pt.lwd =</span> <span class="dv">1</span></span>
+<span id="cb14-26"><a href="#cb14-26" tabindex="-1"></a>       ,</span>
+<span id="cb14-27"><a href="#cb14-27" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">1</span>, <span class="at">pt.bg =</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">2</span>),</span>
+<span id="cb14-28"><a href="#cb14-28" tabindex="-1"></a>       <span class="at">pt.cex =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">1.4</span>, <span class="dv">1</span>),</span>
+<span id="cb14-29"><a href="#cb14-29" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">y.intersp =</span> <span class="fl">0.9</span>)</span>
+<span id="cb14-30"><a href="#cb14-30" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(a)&quot;</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="sc">-</span><span class="fl">1.5</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">adj =</span> <span class="fl">0.02</span>, <span class="at">cex =</span> <span class="fl">1.25</span>)</span>
+<span id="cb14-31"><a href="#cb14-31" tabindex="-1"></a></span>
+<span id="cb14-32"><a href="#cb14-32" tabindex="-1"></a>s0 <span class="ot">&lt;-</span> <span class="fl">0.09</span> <span class="co"># adjust scaling factor for next PCA biplot</span></span>
+<span id="cb14-33"><a href="#cb14-33" tabindex="-1"></a></span>
+<span id="cb14-34"><a href="#cb14-34" tabindex="-1"></a><span class="fu">biplot</span>(pca_ashfield_open, <span class="at">choices =</span> <span class="fu">c</span>(v1,v2), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;transparent&quot;</span>,<span class="dv">1</span>), <span class="at">cex=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="dv">1</span>),</span>
+<span id="cb14-35"><a href="#cb14-35" tabindex="-1"></a>       <span class="at">pc.biplot =</span> <span class="cn">FALSE</span>, <span class="at">scale =</span> <span class="fl">0.2</span>, <span class="at">arrow.len =</span> <span class="fl">0.08</span>,</span>
+<span id="cb14-36"><a href="#cb14-36" tabindex="-1"></a>       <span class="co"># xlim = c(-1.2,3.2), ylim = c(-3.5,1.7),</span></span>
+<span id="cb14-37"><a href="#cb14-37" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v1,<span class="st">&quot; Component Loadings&quot;</span>),</span>
+<span id="cb14-38"><a href="#cb14-38" tabindex="-1"></a>       <span class="at">ylab =</span> <span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v2,<span class="st">&quot; Component Loadings&quot;</span>)) </span>
+<span id="cb14-39"><a href="#cb14-39" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v1,<span class="st">&quot; Observation Scores&quot;</span>), <span class="dv">3</span>, <span class="fl">1.6</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb14-40"><a href="#cb14-40" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v2,<span class="st">&quot; Observation Scores&quot;</span>), <span class="dv">4</span>, <span class="fl">1.6</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb14-41"><a href="#cb14-41" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;CLR-transformed</span><span class="sc">\n</span><span class="st">data (no closure)&quot;</span>,</span>
+<span id="cb14-42"><a href="#cb14-42" tabindex="-1"></a>      <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="sc">-</span><span class="dv">2</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">adj =</span> <span class="fl">0.04</span>)</span>
+<span id="cb14-43"><a href="#cb14-43" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(ashfield_clr[,<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">9</span><span class="sc">:</span><span class="dv">38</span>)])</span>
+<span id="cb14-44"><a href="#cb14-44" tabindex="-1"></a><span class="fu">points</span>(pca_ashfield_open<span class="sc">$</span>x[,v1]<span class="sc">*</span>s0, pca_ashfield_open<span class="sc">$</span>x[,v2]<span class="sc">*</span>s0,</span>
+<span id="cb14-45"><a href="#cb14-45" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">22</span>,<span class="dv">21</span>,<span class="dv">24</span>)[data0<span class="sc">$</span>Type],</span>
+<span id="cb14-46"><a href="#cb14-46" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">bg =</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">2</span>)[data0<span class="sc">$</span>Type],</span>
+<span id="cb14-47"><a href="#cb14-47" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">1</span>,</span>
+<span id="cb14-48"><a href="#cb14-48" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">1.4</span>,<span class="dv">1</span>)[data0<span class="sc">$</span>Type])</span>
+<span id="cb14-49"><a href="#cb14-49" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">bty =</span> <span class="st">&quot;o&quot;</span>, <span class="at">inset =</span> <span class="fl">0.03</span>,</span>
+<span id="cb14-50"><a href="#cb14-50" tabindex="-1"></a>       <span class="at">box.col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">box.lwd =</span> <span class="dv">2</span>, <span class="at">bg =</span> <span class="dv">10</span>,</span>
+<span id="cb14-51"><a href="#cb14-51" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(data0<span class="sc">$</span>Type),</span>
+<span id="cb14-52"><a href="#cb14-52" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">22</span>,<span class="dv">21</span>,<span class="dv">24</span>), <span class="at">pt.lwd =</span> <span class="dv">1</span>,</span>
+<span id="cb14-53"><a href="#cb14-53" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">1</span>, <span class="at">pt.bg =</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">2</span>),</span>
+<span id="cb14-54"><a href="#cb14-54" tabindex="-1"></a>       <span class="at">pt.cex =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">1.4</span>, <span class="dv">1</span>),</span>
+<span id="cb14-55"><a href="#cb14-55" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">y.intersp =</span> <span class="fl">0.9</span>)</span>
+<span id="cb14-56"><a href="#cb14-56" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(b)&quot;</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="sc">-</span><span class="fl">1.5</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">adj =</span> <span class="fl">0.02</span>, <span class="at">cex =</span> <span class="fl">1.25</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="pca_files/figure-html/visualise-PCA-ashfield-1.png" alt="Figure 5: PCA biplots for Ashfield data, with observations categorised by sample type for: (a) compositionally closed concentrations, log~10~ transformation only; (b) data corrected for closure using CLR-transformation." width="1152" />
+<p class="caption">
+Figure 5: PCA biplots for Ashfield data, with observations categorised
+by sample type for: (a) compositionally closed concentrations,
+log<sub>10</sub> transformation only; (b) data corrected for closure
+using CLR-transformation.
+</p>
+</div>
+<p id="biplot2">
+ 
+</p>
+<p>We can see some interesting effects in Figure 5:</p>
+<ul>
+<li>there is obvious asymmetry in the biplot for the closed data (Figure
+5(a)) which can make any effects hard to interpret, even if they were
+valid</li>
+<li>in the biplot for open (clr-transformed) data (Figure 5(b)), some of
+the elemental associations make sense (<em>e.g</em>. Sr-Na-Mg, the REEs
+Ce-La-Nd-Gd-(Y), Al with Cr, Th, and V (and possibly REEs),
+redox-sensitive elements Fe-Mn, <em>etc</em>.)</li>
+<li>some clustering of observations is apparent in Figure 5(b),
+<em>e.g</em>. some Saltmarsh sediments seem to be associated with high
+REE concentrations; drain sediments are mainly towards the lower left
+<ul>
+<li>we may see clearer clustering by plotting different pairs of
+principal components, <em>e.g</em>. PC1 <em>vs</em>. PC3, PC2
+<em>vs</em>. PC3. Remember from above that six principal component
+dimensions possibly contain useful information.</li>
+<li>also, the PCA procedure maximises multiple variance, not the
+separation between groups. There are other multivariate methods that can
+do that.</li>
+</ul></li>
+</ul>
+<p>We might see clearer groupings based on a different factor, such as
+whether the sample location has a tidal influence or not, or a finer
+categorisation by individual wetland pond.</p>
+<p> </p>
+<p>Let's have a look at plotting other PCA dimensions (just for the
+clr-transformed data, since that's the correct way to do it). The output
+of the code below is in Figure 6.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(ashfield_clr[,<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">11</span><span class="sc">:</span><span class="dv">38</span>)])</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;moccasin&quot;</span>,<span class="st">&quot;cyan2&quot;</span>,<span class="st">&quot;navy&quot;</span>,<span class="st">&quot;gray33&quot;</span>))</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>), <span class="at">oma =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), </span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>    <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.3</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl =</span> <span class="fl">0.25</span>, <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex.lab=</span><span class="fl">1.2</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>    <span class="at">lend =</span> <span class="st">&quot;square&quot;</span>, <span class="at">ljoin =</span> <span class="st">&quot;mitre&quot;</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>v1list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>) ; v2list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>s0 <span class="ot">&lt;-</span> <span class="fl">0.09</span> <span class="co"># components &amp; scaling factor for this plot</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>){</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>  v1 <span class="ot">&lt;-</span> v1list[i]; v2 <span class="ot">&lt;-</span> v2list[i]; s0s <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.09</span>,<span class="fl">0.12</span>,<span class="fl">0.14</span>,<span class="fl">0.12</span>,<span class="fl">0.14</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>  <span class="fu">biplot</span>(pca_ashfield_open, <span class="at">choices =</span> <span class="fu">c</span>(v1,v2), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;transparent&quot;</span>,<span class="dv">5</span>), <span class="at">cex=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="dv">1</span>),</span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>         <span class="at">pc.biplot =</span> <span class="cn">FALSE</span>, <span class="at">scale =</span> <span class="fl">0.2</span>, <span class="at">arrow.len =</span> <span class="fl">0.08</span>,</span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>         <span class="co"># xlim = c(-1.2,3.2), ylim = c(-3.5,1.7),</span></span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>         <span class="at">xlab =</span> <span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v1,<span class="st">&quot; Component Loadings&quot;</span>),</span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a>         <span class="at">ylab =</span> <span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v2,<span class="st">&quot; Component Loadings&quot;</span>)) </span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v1,<span class="st">&quot; Observation Scores&quot;</span>), <span class="dv">3</span>, <span class="fl">1.3</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">cex=</span><span class="fl">0.8</span>)</span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="fu">paste0</span>(<span class="st">&quot;Scaled PC&quot;</span>,v2,<span class="st">&quot; Observation Scores&quot;</span>), <span class="dv">4</span>, <span class="fl">1.3</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">cex=</span><span class="fl">0.8</span>)</span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a>  <span class="fu">points</span>(pca_ashfield_open<span class="sc">$</span>x[,v1]<span class="sc">*</span>s0s[i], pca_ashfield_open<span class="sc">$</span>x[,v2]<span class="sc">*</span>s0s[i],</span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a>         <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">22</span>,<span class="dv">21</span>,<span class="dv">24</span>)[data0<span class="sc">$</span>Type],</span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a>         <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">bg =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)[data0<span class="sc">$</span>Type],</span>
+<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a>         <span class="at">col =</span> <span class="dv">1</span>,</span>
+<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a>         <span class="at">cex =</span> <span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">1.4</span>,<span class="dv">1</span>)[data0<span class="sc">$</span>Type])</span>
+<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="fu">paste0</span>(<span class="st">&quot;(&quot;</span>,letters[i],<span class="st">&quot;) PC&quot;</span>,v2,<span class="st">&quot; vs. PC&quot;</span>,v1), </span>
+<span id="cb15-23"><a href="#cb15-23" tabindex="-1"></a>        <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="sc">-</span><span class="fl">1.5</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">adj =</span> <span class="fl">0.02</span>)</span>
+<span id="cb15-24"><a href="#cb15-24" tabindex="-1"></a>}</span>
+<span id="cb15-25"><a href="#cb15-25" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>,<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">type=</span><span class="st">&quot;n&quot;</span>,<span class="at">bty=</span><span class="st">&quot;n&quot;</span>,<span class="at">axes=</span>F,<span class="at">ann=</span>F)</span>
+<span id="cb15-26"><a href="#cb15-26" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">bty =</span> <span class="st">&quot;o&quot;</span>, <span class="at">inset =</span> <span class="fl">0.03</span>,</span>
+<span id="cb15-27"><a href="#cb15-27" tabindex="-1"></a>        <span class="at">box.col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">box.lwd =</span> <span class="dv">2</span>, <span class="at">bg =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb15-28"><a href="#cb15-28" tabindex="-1"></a>        <span class="at">legend =</span> <span class="fu">levels</span>(data0<span class="sc">$</span>Type), <span class="at">title=</span><span class="st">&quot;Sample Type&quot;</span>,</span>
+<span id="cb15-29"><a href="#cb15-29" tabindex="-1"></a>         <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">22</span>,<span class="dv">21</span>,<span class="dv">24</span>), <span class="at">pt.lwd =</span> <span class="dv">1</span>,</span>
+<span id="cb15-30"><a href="#cb15-30" tabindex="-1"></a>         <span class="at">col =</span> <span class="dv">1</span>, <span class="at">pt.bg =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>),</span>
+<span id="cb15-31"><a href="#cb15-31" tabindex="-1"></a>         <span class="at">pt.cex =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">1.4</span>, <span class="dv">1</span>)<span class="sc">*</span><span class="fl">1.4</span>,</span>
+<span id="cb15-32"><a href="#cb15-32" tabindex="-1"></a>         <span class="at">cex =</span> <span class="fl">1.4</span>, <span class="at">y.intersp =</span> <span class="fl">0.9</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="pca_files/figure-html/biplots-PCA-AF-newdims-1.png" alt="Figure 6: PCA biplots for Ashfield data, with observations categorised by sample type for: (a) PC3 vs. PC1; (b) PC4 vs. PC1; (c) PC3 vs. PC2; (d) PC4 vs. PC2; (e) PC4 vs. PC3." width="768" />
+<p class="caption">
+Figure 6: PCA biplots for Ashfield data, with observations categorised
+by sample type for: (a) PC3 vs. PC1; (b) PC4 vs. PC1; (c) PC3 vs. PC2;
+(d) PC4 vs. PC2; (e) PC4 vs. PC3.
+</p>
+</div>
+<p> </p>
+<p>Alternatively we could look at a 3D plot (Figure 7) using the
+<code>scatterplot3d</code> package.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">library</span>(scatterplot3d)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(ashfield_clr[,<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">11</span><span class="sc">:</span><span class="dv">38</span>)])</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,<span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">&quot;navy&quot;</span>,<span class="st">&quot;cyan2&quot;</span>,<span class="st">&quot;moccasin&quot;</span>))(<span class="dv">7</span>),</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>          <span class="st">&quot;grey&quot;</span>,<span class="st">&quot;#ffffffa0&quot;</span>))</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>s3d <span class="ot">&lt;-</span> <span class="fu">scatterplot3d</span>(<span class="at">x=</span>pca_ashfield_open<span class="sc">$</span>x[,<span class="dv">1</span>], </span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>                     <span class="at">y=</span>pca_ashfield_open<span class="sc">$</span>x[,<span class="dv">2</span>], </span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>                     <span class="at">z=</span>pca_ashfield_open<span class="sc">$</span>x[,<span class="dv">3</span>], <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="fl">2.6</span>),</span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>              <span class="at">box=</span>T, <span class="at">grid=</span>T, <span class="at">type=</span><span class="st">&quot;p&quot;</span>, <span class="at">col.axis=</span><span class="st">&quot;grey&quot;</span>, <span class="at">angle=</span><span class="dv">25</span>, <span class="at">scale.y =</span> <span class="fl">0.8</span>, </span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>              <span class="at">bg =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">8</span>)[data0<span class="sc">$</span>Type], </span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>              <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>)[data0<span class="sc">$</span>Type], <span class="at">main=</span><span class="st">&quot;(a)&quot;</span>,</span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a>              <span class="at">xlab=</span><span class="st">&quot;PC1 observation score&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;PC2 observation score&quot;</span>,<span class="at">zlab=</span><span class="st">&quot;PC3 observation score&quot;</span>)</span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="fu">legend</span>(s3d<span class="sc">$</span><span class="fu">xyz.convert</span>(<span class="sc">-</span><span class="dv">11</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">4</span>), <span class="at">legend =</span> <span class="fu">levels</span>(data0<span class="sc">$</span>Type),</span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a>      <span class="at">title=</span><span class="st">&quot;Sample Type&quot;</span>, <span class="at">pt.bg=</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">8</span>), <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>), <span class="at">box.col=</span><span class="dv">10</span>, <span class="at">bg=</span><span class="dv">10</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a>s3d <span class="ot">&lt;-</span> <span class="fu">scatterplot3d</span>(<span class="at">x=</span>pca_ashfield_open<span class="sc">$</span>rotation[,<span class="dv">1</span>], </span>
+<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a>                     <span class="at">y=</span>pca_ashfield_open<span class="sc">$</span>rotation[,<span class="dv">2</span>], </span>
+<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a>                     <span class="at">z=</span>pca_ashfield_open<span class="sc">$</span>rotation[,<span class="dv">3</span>], <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="fl">2.6</span>),</span>
+<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a>                     <span class="at">box=</span>T, <span class="at">grid=</span>T, <span class="at">type=</span><span class="st">&quot;p&quot;</span>, <span class="at">col.axis=</span><span class="st">&quot;grey&quot;</span>, <span class="at">angle=</span><span class="dv">25</span>, <span class="at">scale.y =</span> <span class="fl">0.75</span>, </span>
+<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a>                     <span class="at">pch =</span> <span class="dv">1</span>, <span class="at">cex.symbols=</span><span class="dv">3</span>, <span class="at">color=</span><span class="st">&quot;gray&quot;</span>, <span class="at">main=</span><span class="st">&quot;(b)&quot;</span>,</span>
+<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a>                     <span class="at">xlab=</span><span class="st">&quot;PC1 Variable Rotation&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;PC2 Variable Rotation&quot;</span>,<span class="at">zlab=</span><span class="st">&quot;PC3 Variable Rotation&quot;</span>)</span>
+<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a><span class="fu">text</span>(s3d<span class="sc">$</span><span class="fu">xyz.convert</span>(pca_ashfield_open<span class="sc">$</span>rotation[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]), <span class="at">labels =</span> <span class="fu">rownames</span>(pca_ashfield_open<span class="sc">$</span>rotation),</span>
+<span id="cb16-22"><a href="#cb16-22" tabindex="-1"></a>     <span class="at">cex=</span> <span class="fl">0.85</span>)</span>
+<span id="cb16-23"><a href="#cb16-23" tabindex="-1"></a><span class="fu">text</span>(s3d<span class="sc">$</span><span class="fu">xyz.convert</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">labels =</span> <span class="st">&quot;(b)&quot;</span>)</span></code></pre></div>
+<div class="figure">
+<img src="pca_files/figure-html/unnamed-chunk-25-1.png" alt="Figure 7: Plot of (a) observation scores and (b) component (variable) loadings for PCA on clr-transformed sediment elemental concentrations from Ashfield Flats 2019-2021." width="1152" />
+<p class="caption">
+Figure 7: Plot of (a) observation scores and (b) component (variable) loadings for
+PCA on clr-transformed sediment elemental concentrations from Ashfield
+Flats 2019-2021.
+</p>
+</div>
+<p> </p>
+</div>
+<div id="references-and-r-packages" class="section level3">
+<h3>References and R Packages</h3>
+<p>Fox, J. (2022). <em>RcmdrMisc: R Commander Miscellaneous
+Functions</em>. R package version 2.7-2. <a
+href="https://CRAN.R-project.org/package=RcmdrMisc"
+target="_blank">https://CRAN.R-project.org/package=RcmdrMisc</a></p>
+<p>John Fox and Sanford Weisberg (2019). <em>An {R} Companion to Applied
+Regression</em> (<strong>car</strong>), Third Edition. Thousand Oaks CA:
+Sage. URL: <a
+href="https://socialsciences.mcmaster.ca/jfox/Books/Companion/"
+target="_blank">https://socialsciences.mcmaster.ca/jfox/Books/Companion/</a></p>
+<p>Greenacre, M. (2018). <em>Compositional Data Analysis in
+Practice</em>. CRC Press LLC, Boca Raton, FL, USA.</p>
+<p>Hu, J., Wang, Y., Taubenböck, H., Zhu, X.X. (2021). Land consumption
+in cities: A comparative study across the globe. <em>Cities</em>,
+<strong>113</strong>: 103163, <a
+href="https://doi.org/10.1016/j.cities.2021.103163"
+target="_blank">https://doi.org/10.1016/j.cities.2021.103163</a>.</p>
+<p>Kassambara, A. and Mundt, F. (2020). <em>factoextra: Extract and
+Visualize the Results of Multivariate Data Analyses</em>. R package
+version 1.0.7. <a href="https://CRAN.R-project.org/package=factoextra"
+target="_blank">https://CRAN.R-project.org/package=factoextra</a></p>
+<p>Rate, A.W., &amp; McGrath, G. (2022a). Sediment and soil quality at
+Ashfield Flats Reserve, Western Australia (Version 1). <em>Mendeley
+Data</em>, <a href="https://doi.org/10.17632/d7m3746byk.1"
+target="_blank">doi:10.17632/d7m3746byk.1</a></p>
+<p>Rate, A. W., &amp; McGrath, G. S. (2022b). Data for assessment of
+sediment, soil, and water quality at Ashfield Flats Reserve, Western
+Australia. <em>Data in Brief</em>, <strong>41</strong>, 107970. <a
+href="https://doi.org/10.1016/j.dib.2022.107970"
+target="_blank">doi:10.1016/j.dib.2022.107970</a></p>
+<p>Reimann, C., Filzmoser, P., Garrett, R. G., &amp; Dutter, R. (2008).
+<em>Statistical Data Analysis Explained: Applied Environmental
+Statistics with R</em> (First ed.). John Wiley &amp; Sons, Chichester,
+UK.</p>
+<p>Venables, W. N. &amp; Ripley, B. D. (2002) <em>Modern Applied
+Statistics with S</em> (<strong>MASS</strong>). Fourth Edition.
+Springer, New York. ISBN 0-387-95457-0. <a
+href="http://www.stats.ox.ac.uk/pub/MASS4/"
+target="_blank">http://www.stats.ox.ac.uk/pub/MASS4/</a></p>
+<p>Wickham, H. (2019). <em>stringr: Simple, Consistent Wrappers for
+Common String Operations</em>. R package version 1.4.0. <a
+href="https://CRAN.R-project.org/package=stringr"
+target="_blank">https://CRAN.R-project.org/package=stringr</a></p>
+<p>Xu, N., Rate, A. W., &amp; Morgan, B. (2018). From source to sink:
+Rare-earth elements trace the legacy of sulfuric dredge spoils on
+estuarine sediments. <em>Science of The Total Environment</em>,
+<strong>637-638</strong>, 1537-1549. <a
+href="https://doi.org/10.1016/j.scitotenv.2018.04.398"
+target="_blank">https://doi.org/10.1016/j.scitotenv.2018.04.398</a></p>
+</div>
+</div>
+
+<!DOCTYPE html>
+
+<html>
+<body>
+<hr style="height: 2px; background-color: #003087;" />
+<p><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>.</span></p>
+</body>
+</html>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

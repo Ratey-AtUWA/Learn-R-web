@@ -41,6 +41,10 @@ navbar:
           href: spatial.html
         - text: "Spatial interpolation"
           href: spat-interp.html
+    - text: "Multi"
+      menu:
+        - text: "Principal components analysis"
+          href: pca.html
     - text: "Util"
       menu:
         - text: "Tables & trigger value counts"
