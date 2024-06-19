@@ -45,6 +45,12 @@ navbar:
       menu:
         - text: "Principal components analysis"
           href: pca.html
+        - text: "Analysis of species presence-absence data"
+          href: tbc.html
+        - text: "Linear discriminant analysis"
+          href: tbc.html
+        - text: "Cluster analysis"
+          href: tbc.html
     - text: "Util"
       menu:
         - text: "Tables & trigger value counts"
