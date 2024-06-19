@@ -644,9 +644,9 @@ legend("topleft", bty = "o", inset = 0.03,
 
 &nbsp;
 
-Alternatively we could look at a 3D plot using the `scatterplot3d` package.
+Alternatively we could look at a 3D plot (Figure 7) susing the `scatterplot3d` package.
 
-```{r fig.height=5, fig.width=12, fig.cap="Plot of (a) observation scores and (b) component (variable) loadings for PCA on clr-transformed sediment elemental concentrations from Ashfield Flats 2019-2021."}
+```{r pca-obs-3D, fig.cap="Figure 7: Plot of (a) observation scores and (b) component (variable) loadings for PCA on clr-transformed sediment elemental concentrations from Ashfield Flats 2019-2021.", fig.height=5, fig.width=12}
 library(scatterplot3d)
 data0 <- na.omit(ashfield_clr[,c(3,4,11:38)])
 palette(c("black",colorRampPalette(c("navy","cyan2","moccasin"))(7),

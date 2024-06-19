@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-06-14" />
+<meta name="date" content="2024-06-19" />
 
 <title>Utilities = useful stuff</title>
 
@@ -426,6 +426,27 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Multi
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pca.html">Principal components analysis</a>
+    </li>
+    <li>
+      <a href="tbc.html">Analysis of species presence-absence data</a>
+    </li>
+    <li>
+      <a href="tbc.html">Linear discriminant analysis</a>
+    </li>
+    <li>
+      <a href="tbc.html">Cluster analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
      
     <span class="caret"></span>
@@ -467,7 +488,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Utilities = useful stuff</h1>
 <h3 class="subtitle">Making use of unusual regression residuals</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-06-14</h4>
+<h4 class="date">2024-06-19</h4>
 
 </div>
 
@@ -786,17 +807,16 @@ distribution scores (mean=0, sd=1).
 <span id="cb28-12"><a href="#cb28-12" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">c</span>(<span class="dv">400250</span>, <span class="dv">399962</span>, <span class="dv">400047</span>), <span class="fu">c</span>(<span class="dv">6468165</span>, <span class="dv">6468075</span>, <span class="dv">6468237</span>),</span>
 <span id="cb28-13"><a href="#cb28-13" tabindex="-1"></a>     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Chapman</span><span class="sc">\n</span><span class="st">Drain&quot;</span>,<span class="st">&quot;Kitchener</span><span class="sc">\n</span><span class="st">Drain&quot;</span>, <span class="st">&quot;Woolcock</span><span class="sc">\n</span><span class="st">Drain&quot;</span>),</span>
 <span id="cb28-14"><a href="#cb28-14" tabindex="-1"></a>     <span class="at">pos =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>), <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">font =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;cadetblue&quot;</span>)</span>
-<span id="cb28-15"><a href="#cb28-15" tabindex="-1"></a>clrz <span class="ot">&lt;-</span> <span class="fu">plasma</span>(<span class="dv">15</span>)[<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]</span>
-<span id="cb28-16"><a href="#cb28-16" tabindex="-1"></a><span class="fu">with</span>(regdata[<span class="fu">which</span>(<span class="fu">scale</span>(lm1<span class="sc">$</span>residuals)<span class="sc">&gt;=</span><span class="dv">2</span>),], </span>
-<span id="cb28-17"><a href="#cb28-17" tabindex="-1"></a>     <span class="fu">points</span>(Easting, Northing, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">col=</span><span class="st">&quot;#000000b0&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffe000b0&quot;</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">lwd=</span><span class="dv">2</span>))</span>
-<span id="cb28-18"><a href="#cb28-18" tabindex="-1"></a><span class="fu">with</span>(regdata[<span class="fu">which</span>(<span class="fu">scale</span>(lm1<span class="sc">$</span>residuals)<span class="sc">&gt;=</span><span class="dv">2</span>),], </span>
-<span id="cb28-19"><a href="#cb28-19" tabindex="-1"></a>     <span class="fu">text</span>(Easting, Northing, <span class="at">labels=</span><span class="fu">round</span>(Pb,<span class="dv">0</span>), <span class="at">cex=</span><span class="fl">0.8</span>, </span>
-<span id="cb28-20"><a href="#cb28-20" tabindex="-1"></a>          <span class="at">pos=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>), <span class="at">offset=</span><span class="fl">0.3</span>))</span>
-<span id="cb28-21"><a href="#cb28-21" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">box.col=</span><span class="st">&quot;#ffffff40&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffffff40&quot;</span>, <span class="at">y.intersp=</span><span class="fl">1.75</span>, </span>
-<span id="cb28-22"><a href="#cb28-22" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Sediment samples with </span><span class="sc">\n</span><span class="st">Pb standardised residuals ≥ 2&quot;</span>,</span>
-<span id="cb28-23"><a href="#cb28-23" tabindex="-1"></a>                <span class="st">&quot;Numbers next to points are</span><span class="sc">\n</span><span class="st">Pb concentrations (mg/kg)&quot;</span>),</span>
-<span id="cb28-24"><a href="#cb28-24" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">21</span>,<span class="cn">NA</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;#000000b0&quot;</span>,<span class="st">&quot;black&quot;</span>), <span class="at">pt.bg =</span> <span class="st">&quot;#ffe000b0&quot;</span>, </span>
-<span id="cb28-25"><a href="#cb28-25" tabindex="-1"></a>       <span class="at">inset =</span> <span class="fu">c</span>(<span class="fl">0.02</span>,<span class="fl">0.04</span>), <span class="at">pt.cex=</span><span class="fu">c</span>(<span class="fl">1.4</span>,<span class="fl">0.8</span>), <span class="at">pt.lwd=</span><span class="dv">2</span>)</span></code></pre></div>
+<span id="cb28-15"><a href="#cb28-15" tabindex="-1"></a><span class="fu">with</span>(regdata[<span class="fu">which</span>(<span class="fu">scale</span>(lm1<span class="sc">$</span>residuals)<span class="sc">&gt;=</span><span class="dv">2</span>),], </span>
+<span id="cb28-16"><a href="#cb28-16" tabindex="-1"></a>     <span class="fu">points</span>(Easting, Northing, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">col=</span><span class="st">&quot;#000000b0&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffe000b0&quot;</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">lwd=</span><span class="dv">2</span>))</span>
+<span id="cb28-17"><a href="#cb28-17" tabindex="-1"></a><span class="fu">with</span>(regdata[<span class="fu">which</span>(<span class="fu">scale</span>(lm1<span class="sc">$</span>residuals)<span class="sc">&gt;=</span><span class="dv">2</span>),], </span>
+<span id="cb28-18"><a href="#cb28-18" tabindex="-1"></a>     <span class="fu">text</span>(Easting, Northing, <span class="at">labels=</span><span class="fu">round</span>(Pb,<span class="dv">0</span>), <span class="at">cex=</span><span class="fl">0.8</span>, </span>
+<span id="cb28-19"><a href="#cb28-19" tabindex="-1"></a>          <span class="at">pos=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>), <span class="at">offset=</span><span class="fl">0.3</span>))</span>
+<span id="cb28-20"><a href="#cb28-20" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">box.col=</span><span class="st">&quot;#ffffff40&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffffff40&quot;</span>, <span class="at">y.intersp=</span><span class="fl">1.75</span>, </span>
+<span id="cb28-21"><a href="#cb28-21" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Sediment samples with </span><span class="sc">\n</span><span class="st">Pb standardised residuals ≥ 2&quot;</span>,</span>
+<span id="cb28-22"><a href="#cb28-22" tabindex="-1"></a>                <span class="st">&quot;Numbers next to points are</span><span class="sc">\n</span><span class="st">Pb concentrations (mg/kg)&quot;</span>),</span>
+<span id="cb28-23"><a href="#cb28-23" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">21</span>,<span class="cn">NA</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;#000000b0&quot;</span>,<span class="st">&quot;black&quot;</span>), <span class="at">pt.bg =</span> <span class="st">&quot;#ffe000b0&quot;</span>, </span>
+<span id="cb28-24"><a href="#cb28-24" tabindex="-1"></a>       <span class="at">inset =</span> <span class="fu">c</span>(<span class="fl">0.02</span>,<span class="fl">0.04</span>), <span class="at">pt.cex=</span><span class="fu">c</span>(<span class="fl">1.4</span>,<span class="fl">0.8</span>), <span class="at">pt.lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure">
 <img src="residuals_files/figure-html/map-zresids-gt-2-1.png" alt="Figure 4: Map of Ashfield Flats showing locations of samples having unusually large Pb concentrations based on a multiple regression model representing a 'background concentration function'." width="672" />
 <p class="caption">
