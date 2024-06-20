@@ -5,6 +5,7 @@ author: "Andrew Rate"
 date: "`r Sys.Date()`"
 output: 
   html_document: 
+    code_folding: show
     self_contained: no
     number_sections: no
     smart: no
@@ -140,6 +141,7 @@ colour palette.
 library(stringr)     # manipulate character strings
 library(car)         # statistical functions focused on regression
 library(flextable)   # publication-quality tables
+library(corrplot)    # correlation heatmaps
 
 palette(c("black", "#003087", "#DAAA00", "#8F92C4", "#E5CF7E", 
           "#001D51", "#B7A99F", "#A51890", "#C5003E", "#FDC596", 
@@ -458,6 +460,23 @@ ashfield_clr[,11:38] <- t(apply(ashfield[,11:38], MARGIN = 1,
 head(ashfield_clr[,11:17])
 ```
 
+### Inspect correlation matrix first
+
+```{r corr-heat-x2, fig.height=7, fig.width=15, message=FALSE, warning=FALSE, fig.cap="Figure 4: Correlation heatmaps showing relationships based on Spearman correlations between elements in (a) compositionally closed data and (b) clr-transformed 'opened' data (both from Ashfield Flats 2019-2021).", results='hold'}
+par(mfrow=c(1,2), mar=c(5,4,6,2))
+corC <- cor(ashfield[,11:38], use="pairwise.complete.obs", method="spearman")
+corrplot::corrplot(corC, title="\n(a)", method="ellipse", diag=F, tl.col = 1)
+corO <- cor(ashfield_clr[,11:38], use="pairwise.complete.obs", method="spearman")
+corrplot::corrplot(corO, title="\n(b)", method="ellipse", diag=F, tl.col = 1)
+```
+
+&nbsp;
+
+Figure 4 shows that between-element correlations are profoundly different when 
+compositional closure is removed by centered-log-ratio transformation. Strictly 
+speaking, we should *always* use CLR-transformed concentrations when examining 
+relationships between chemical components of environmental samples.
+
 ### Running the geochemical PCA
 
 We run the PCA using `prcomp()` using `scale. = TRUE` as before, for both closed
@@ -497,7 +516,7 @@ cumsum(round(pca_ashfield_open$sdev^2/sum(pca_ashfield_open$sdev^2),3))
 
 For both the closed and open data, we reach 80% of variance explained by component 6.
 
-```{r scree-plots-ashfield, echo=FALSE, fig.height=3, fig.width=10, message=FALSE, warning=FALSE, out.width='80%', fig.align='center', fig.cap="Figure 4: PCA scree plots for Ashfield data, for: (a) compositionally closed concentrations (only simple transformations); (b) data corrected for closure using CLR-transformation.", results='hold'}
+```{r scree-plots-ashfield, echo=FALSE, fig.height=3, fig.width=10, message=FALSE, warning=FALSE, out.width='80%', fig.align='center', fig.cap="Figure 5: PCA scree plots for Ashfield data, for: (a) compositionally closed concentrations (only simple transformations); (b) data corrected for closure using CLR-transformation.", results='hold'}
 palette(c("black",UWAcolgrad(9, saturated = TRUE, alpha = 0.65)))
 par(mar = c(3.,3.5,1.2,1), mfrow = c(1,2), mgp=c(2,0.8,0), font.lab=2)
 plot(pca_ashfield_clos, main = "(a) closed", cex.main = 1, col = 7)
@@ -511,7 +530,7 @@ mtext("Component", side = 1, line = 1.15, font = 2)
 par(mar = c(3.5,3.5,1,1), mfrow = c(1,2), mgp=c(1.7,0.3,0))
 ```
 
-Figure 4 shows that for this analysis, 6 components have variances &ge; 1, 
+Figure 5 shows that for this analysis, 6 components have variances &ge; 1, 
 regardless of closure.
 
 ```{r table-PCA-obs-scores-ashfield, results='hold'}
@@ -529,7 +548,7 @@ flextable(OScores) |>
 
 &nbsp;
 
-```{r visualise-PCA-ashfield, fig.height=6, fig.width=12, fig.align='center', fig.cap="Figure 5: PCA biplots for Ashfield data, with observations categorised by sample type for: (a) compositionally closed concentrations, log~10~ transformation only; (b) data corrected for closure using CLR-transformation.", results='hold'}
+```{r visualise-PCA-ashfield, fig.height=6, fig.width=12, fig.align='center', fig.cap="Figure 6: PCA biplots for Ashfield data, with observations categorised by sample type for: (a) compositionally closed concentrations, log~10~ transformation only; (b) data corrected for closure using CLR-transformation.", results='hold'}
 par(mfrow=c(1,2), mar = c(3.5,3.5,3.5,3.5), oma = c(0,0,0,0), 
     mgp=c(1.7,0.3,0), tcl = 0.25, font.lab=2,
     lend = "square", ljoin = "mitre")
@@ -590,11 +609,11 @@ mtext("(b)", side = 3, line = -1.5, font = 2, adj = 0.02, cex = 1.25)
 
 <p id="biplot2">&nbsp;</p>
 
-We can see some interesting effects in Figure 5:
+We can see some interesting effects in Figure 6:
 
-- there is obvious asymmetry in the biplot for the closed data (Figure 5(a)) which can make any effects hard to interpret, even if they were valid
-- in the biplot for open (clr-transformed) data (Figure 5(b)), some of the elemental associations make sense (*e.g*. Sr-Na-Mg, the REEs Ce-La-Nd-Gd-(Y), Al with Cr, Th, and V (and possibly REEs), redox-sensitive elements Fe-Mn, *etc*.)
-- some clustering of observations is apparent in Figure 5(b), *e.g*. some Saltmarsh sediments seem to be associated with high REE concentrations; drain sediments are mainly towards the lower left
+- there is obvious asymmetry in the biplot for the closed data (Figure 6(a)) which can make any effects hard to interpret, even if they were valid
+- in the biplot for open (clr-transformed) data (Figure 6(b)), some of the elemental associations make sense (*e.g*. Sr-Na-Mg, the REEs Ce-La-Nd-Gd-(Y), Al with Cr, Th, and V (and possibly REEs), redox-sensitive elements Fe-Mn, *etc*.)
+- some clustering of observations is apparent in Figure 6(b), *e.g*. some Saltmarsh sediments seem to be associated with high REE concentrations; drain sediments are mainly towards the lower left
   - we may see clearer clustering by plotting different pairs of principal components, *e.g*. PC1 *vs*. PC3, PC2 *vs*. PC3. Remember from above that six principal component dimensions possibly contain useful information.
   - also, the PCA procedure maximises multiple variance, not the separation between groups. There are other multivariate methods that can do that.
 
@@ -607,7 +626,7 @@ individual wetland pond.
 Let's have a look at plotting other PCA dimensions (just for the clr-transformed data, since that's the correct way to do it). The output of the code below is in 
 Figure 6.
 
-```{r biplots-PCA-AF-newdims, fig.height=12, fig.width=8, fig.align='center', fig.cap="Figure 6: PCA biplots for Ashfield data, with observations categorised by sample type for: (a) PC3 vs. PC1; (b) PC4 vs. PC1; (c) PC3 vs. PC2; (d) PC4 vs. PC2; (e) PC4 vs. PC3.", results='hold'}
+```{r biplots-PCA-AF-newdims, fig.height=12, fig.width=8, fig.align='center', fig.cap="Figure 7: PCA biplots for Ashfield data, with observations categorised by sample type for: (a) PC3 vs. PC1; (b) PC4 vs. PC1; (c) PC3 vs. PC2; (d) PC4 vs. PC2; (e) PC4 vs. PC3.", results='hold'}
 data0 <- na.omit(ashfield_clr[,c(3,4,11:38)])
 palette(c("black","moccasin","cyan2","navy","gray33"))
 par(mfrow=c(3,2), mar = c(3,3,3,3), oma = c(0,0,0,0), 
@@ -644,9 +663,9 @@ legend("topleft", bty = "o", inset = 0.03,
 
 &nbsp;
 
-Alternatively we could look at a 3D plot (Figure 7) susing the `scatterplot3d` package.
+Alternatively we could look at a 3D plot (Figure 8) susing the `scatterplot3d` package.
 
-```{r pca-obs-3D, fig.cap="Figure 7: Plot of (a) observation scores and (b) component (variable) loadings for PCA on clr-transformed sediment elemental concentrations from Ashfield Flats 2019-2021.", fig.height=5, fig.width=12}
+```{r pca-obs-3D, fig.cap="Figure 8: Plot of (a) observation scores and (b) component (variable) loadings for PCA on clr-transformed sediment elemental concentrations from Ashfield Flats 2019-2021.", fig.height=5, fig.width=12}
 library(scatterplot3d)
 data0 <- na.omit(ashfield_clr[,c(3,4,11:38)])
 palette(c("black",colorRampPalette(c("navy","cyan2","moccasin"))(7),
