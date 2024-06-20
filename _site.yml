@@ -46,7 +46,7 @@ navbar:
         - text: "Principal components analysis"
           href: pca.html
         - text: "Analysis of species presence-absence data"
-          href: tbc.html
+          href: vegan.html
         - text: "Linear discriminant analysis"
           href: tbc.html
         - text: "Cluster analysis"

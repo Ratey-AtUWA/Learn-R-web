@@ -1,0 +1,525 @@
+---
+title: "Multivariate analysis"
+subtitle: "Principal Components Analysis for Compositional Data"
+author: "Deirdre Gleeson and Andrew Rate"
+date: "`r Sys.Date()`"
+output: 
+  html_document: 
+    code_folding: show
+    self_contained: no
+    number_sections: no
+    smart: no
+    toc: no
+---
+
+## Learning Outcomes:
+
+1. Students are able to appropriately analyse data from an eDNA field sampling campaign;
+2. Students are able to interpret and understand statistical outputs from the R package `vegan`.
+
+```{r set up, message=FALSE, warning=FALSE, results='hide'}
+library(vegan)          # ecological multivariate analysis
+library(flextable)      # publication-quality tables
+  set_flextable_defaults(theme_fun = "theme_booktabs", font.size = 10)
+library(officer)        # functions to support some flextable options
+library(stringr)        # character string manipulation
+library(viridis)        # colourblind-friendly colour palettes
+library(scatterplot3d)  # used for 3D ordination plots
+```
+
+## Import the data
+
+**Notes**:
+
+1. This code imports the data from a file where the **samples are rows** and the **species are columns**.
+2. We convert the column `Site` to a *factor* (categorical information in R)
+
+```{r read-curate-data, message=FALSE, warning=FALSE, results='hide'}
+git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+eDNA2022 <- read.csv(file = paste0(git,"eDNA2022.csv"))
+eDNA2022$Site <- as.factor(eDNA2022$Site)
+```
+
+If you have *species* as rows and *samples* as columns, we will need to do a bit
+of wrangling!
+
+```{r read and wrangle species as rows data, eval=FALSE}
+speciesAsRows <- read.csv(file = paste0(git,"speciesAsRows.csv"), row.names = 1)
+speciesAsRows <- rbind(str_remove(colnames(speciesAsRows), "X"),
+                       speciesAsRows)
+row.names(speciesAsRows)[1] <- "SiteID"
+speciesAsRows <- as.matrix(speciesAsRows) # convert to matrix for next step
+speciesAsRows <- t(speciesAsRows) # t() means transpose
+row.names(speciesAsRows) <- NULL
+eDNA2022 <- as.data.frame(speciesAsRows)
+eDNA2022$Site <- as.factor(eDNA2022$Site)
+```
+
+## List of all the species and their common names
+
+```{r tabulate-species, message=FALSE, warning=FALSE, results='hold'}
+altnames <- 
+  c("MosqFish", "Goby", "Mullet", "Bream", "BnjoFrog", "GToadlet", "MlrdDuck",
+    "SpotDove", "SwampHen", "Crake", "WFHeron", "Lorikeet", "Cattle", "Sheep",
+    "Mouse", "Rat", "HydroidB", "HydroidO", "BwnJelly", "MoonJely", "Dog")
+names_table <- 
+  data.frame(Taxonomic = gsub("."," ",colnames(eDNA2022[,4:24]), fixed = T),
+             Common=c("Mosquito Fish","Bridled Goby","Gray Mullet","Black Bream",
+                      "Western Banjo Frog", "Gunther's Toadlet", "Mallard Duck",
+                      "Spotted Turtle Dove", "Purple Swamphen", "Spotted Crake",
+                      "White Faced Heron", "Rainbow Lorikeet", "Cattle", "Sheep",
+                      "Mouse", "Rat", "HydroidB", "HydroidO", "Brown Jellyfish",
+                      "Moon Jellyfish", "Domestic Dog"),
+             Abbreviated=altnames)
+flextable(names_table,cwidth = c(3,2,2)) |> italic(j=1, italic=T) |> bold(bold=T, part="header") |> 
+  padding(padding=2, part="all") |> 
+  set_caption(caption="Table 1: Taxonomic, common, and abbreviated names for the species detected by eDNA sampling and analysis at Ashfield Flats in 2022.", align_with_table = F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
+```
+
+&nbsp;
+
+We need to make a subset of our imported data which contains just the species
+presence/absence information (not sample IDs, sites, reps). We also overwrite
+the original column names with abbreviated names for better visualisation later.
+
+```{r generate all species data, results='hold'}
+allSpecies <- eDNA2022[,4:24] # not columns 1:3 which are sample IDs etc.
+colnames(allSpecies) <- names_table[,3]
+```
+
+## Difference and Similarity measures
+
+We start by assessing how similar or different our samples are – to do this we
+need to set up a resemblance matrix. Ideally our 4 replicated samples are more
+similar to one another than any other samples – but with field sampling this is
+not always the case. To determine similarity we need to use a similarity
+measure.
+
+### Similarity Measures:
+A similarity measure is conventionally defined to take values between 0 and 100%
+(or 0 and 1) with the ends of the range representing the extreme possibilities:
+
+- Similarity = 100% (*or 1*) if two samples are totally similar
+- Similarity = 0 if two samples are totally dissimilar
+
+What constitutes total similarity, and particularly total dissimilarity, of two
+samples depends on the specific criteria that are adopted. For example most
+biologists would feel that similarity should equal zero when two samples have no
+species in common, and similarity should equal 100% if two samples have
+identical entries. Similarities are calculated between every pair of samples
+creating a similarity matrix. There are a number of similarity measures (ways to
+calculate similarity) which can be used to create this matrix.
+
+**Bray Curtis** and **Jaccard** are two different similarity measures we can use
+-– both are commonly used in ecology and have desirable properties &ndash; similarity
+is calculated based on the taxa that samples have in common. Similarity takes a
+value of 0 if two samples have no species in common and joint absences have no
+effect (*i.e*. a taxon jointly absent in two samples does not contribute to its
+similarity). The difference between them is that Bray Curtis will use abundance
+information (where it is present) in assessing similarity, whereas Jaccard
+converts abundances to binary (*i.e*. 0s and 1s, with 1 representing presence
+and 0 meaning absence) to assess similarity. In our case it does not matter much
+which we use, since we have already converted to binary – so let’s proceed with
+Jaccard.
+
+**Ecological Question – If two samples have no taxa present each does this make them more similar to one another?**
+
+To assess similarity in the `vegan` **R** package carry out the following steps. The
+output shows the first few rows and columns of the dissimilarity matrix; each
+number represents the Jaccard distance between samples based on the presence or
+absence of species.
+
+```{r dissim matrix all Jaccard, eval=FALSE}
+AF_diss_all <- vegdist(allSpecies, 
+                           distance = "jaccard") # default is distance = "bray"
+
+# just look at the top corner of the dissimilarity matrix:
+txt0 <- capture.output(print(AF_diss_all, digits=3)); txt0[1:10]; rm(txt0)
+```
+
+```{r dist matrix all jaccard output with cat, echo=FALSE}
+AF_diss_all <- vegdist(allSpecies, 
+                           distance = "jaccard")
+txt0 <- capture.output(print(AF_diss_all,digits=3))
+for (i in 1:11){ cat(txt0[i],"\n") }
+```
+
+# Ordinations
+
+Next we will construct our ordination – a procedure to visualise the similarity
+matrix by simplifying (scaling) it into fewer dimensions than our original data.
+This reduction of dimensions is useful as the original data will have as many
+dimensions as there are species, which is impossible to visualise! There are two
+different types of ordination that we will use: **Multi-Dimensional-Scaling**
+(nmMDS) and **Principal Coordinates Analysis** (PCO). If you have previously
+used PCA &ndash; Principal Component Analysis &ndash; you may be familiar with
+ordination methods. PCA is useful for environmental datasets &ndash; these are
+represented by a similarity matrix derived via use of Euclidean Distance as a
+measure of similarity. PCA is more suited to environmental variables because of
+the type of data – there are no large blocks of zeros (usually) and it is no
+longer necessary to select a similarity measure that ignores joint absences.
+When looking at ordination plots in general you should note that sample points
+that are spatially located together share common characteristics and sample
+points that are distantly located from one another share less characteristics.
+This holds whether we are working with environmental variables (pH, EC, moisture
+content, heavy metals *etc*.) or species abundances.
+
+The main difference between MDS and PCO relates to the underlying use of the
+resemblance matrix.
+
+**MDS** takes the similarity measures calculated by Jaccard or Bray Curtis and
+ranks them in order. Thus pairs are samples are ranked according to highest to
+lowest similarity and are thus plotted in multidimensional space. Since it uses
+the rank and not the actual values, it's commonly called "non-[para]metric"
+multi-dimensional scaling, or **nmMDS**.
+
+**PCO** takes the actual values of the underlying measure of similarity and
+plots pairs of samples in multi-dimensional space. It will then look for the
+direction (vector) of greatest variance in the multi-dimensional "cloud" of
+points, which becomes the first PCO dimension. Successive dimensions explain the
+most possible remaining variance, until all variance is accounted for. So, many
+PCO dimensions are possible, but usually only the first 2 or 3 are useful for
+visualizing our data.
+
+For both types of ordinations the software attempts to preserve the similarity
+of each pair of samples &ndash; while this is feasible in multidimensional
+space, in order for us to view the ordination we see this in 2 or 3 dimensions
+&ndash; thus the software attempts to preserve as much as is feasible of the
+sample pair similarity as calculated &ndash; but in reality we need to consider
+how much the 2- dimensional view is a true representation of the data set. In
+nmMDS we use the *stress* value to evaluate this, in PCO we can plot multiple
+axes, *i.e*. axis 1 *vs*. axis 2, axis 2 *vs*. axis 3 and so on. The amount of 
+variance explained in each PCO dimension is called the *eigenvalue*, and the
+output will include these values; the greater the eigenvalue, the more useful a
+PCO dimension is. In practice, much of the variability is often explained in the
+first two axes (*i.e*. 2 dimensions) and we will limit our analysis to these
+axes for this dataset.
+
+## Non-metric multidimensional scaling (nmMDS)
+
+In vegan this is done using the `metaMDS()` function. We need to specify an
+input matrix of just the species data (*e.g*. `allSpecies` which we made
+earlier). The default is to find 2 dimensions (`k`) using a Bray-Curtis
+dissimilarity matrix, but we can set these options to different values using 
+`k =` and `distance =` options. The dissimilarity matrix is
+calculated within the `metaMDS()` function, so for consistency we set 
+`distance = "jaccard"`.
+
+```{r run nmds all jaccard, results='hide'}
+# default with 2 dimensions
+AF_nmds_all <- metaMDS(allSpecies, distance = "jaccard")
+# 3 dimensions for comparison
+AF_nmds_all3 <- metaMDS(allSpecies, k=3, distance = "jaccard")
+```
+
+```{r show mds all jaccard}
+
+# show output for 2 nmMDS dimensions
+AF_nmds_all
+```
+
+The 2D stress value is &sime;&nbsp;0.16. This can be interpreted as follows:
+
+```{r stress-range-diagram, fig.height=1., fig.width=6, out.width="50%", fig.align='center', echo=FALSE}
+par(mar=c(2,0,1,0))
+plot(c(0,0.4),c(0,1),type="n",bty="n",xaxs="i",yaxs="i",xaxt="n",yaxt="n",xlab="",ylab="")
+axis(1,at=c(0.05,0.1,0.2,0.3),labels=c(0.05,0.1,0.2,0.3));abline(h=0)
+mtext("What's good stress? (for nmMDS)", adj=0.02)
+abline(v=c(0.05,0.1,0.2), lty = 2)
+text(c(0.025,0.075,0.15,0.3), rep(0.25,5),
+     labels=c("excellent","great","good but caution",
+              "maybe useful but potentially wrong . . ."),
+     col = c("chartreuse4","blue","darkorange2","firebrick3"))
+par(mar=c(4,4,1,1))
+```
+
+The stress value is relatively high as we are dealing with a large number of
+samples with lots of values of `0` or `1` in a 2 dimensional space – resulting in a
+challenging similarity environment.
+
+$\Rightarrow$ Check the stress value of the 3-D ordination – is it lower? Remember that we made this object in the code block above:
+
+```{r show mds all jaccard 3dim, results='hide'}
+AF_nmds_all3
+```
+
+Figure 1 below mimics the nmmds plot in Deirdre's original `PRIMER` handout
+(note that the sign of dimension MDS2 is reversed)
+
+```{r plot-nmds-all-Jaccard-2D, fig.height=6, fig.width=6, fig.cap="Figure 1: 2D NMDS ordination plot based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022.", out.width="70%"}
+palette(c("black", viridis(10))) # a viridis palette
+par(mfrow=c(1,1), mar=c(3,3,2,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
+plot(AF_nmds_all$points, pch=c(rep(21:25, 2),21)[eDNA2022$Site], 
+     xlim = c(-1.6,2.2), ylim = c(1.2,-1.2), 
+     bg=seq(1,11)[eDNA2022$Site], 
+     cex = 1.4, main = "All species", col.main = "steelblue")
+text(AF_nmds_all, display = "species", col = "#a0006080", font=3, cex = 1)
+legend("bottomright", box.col="grey", bg="transparent", ncol=4, title = "Site", 
+       legend=seq(1,11), pch=c(rep(21:25, 2),21), 
+       inset=0.01, pt.bg=seq(1,11), pt.cex=1.4, cex=1.2)
+```
+
+&nbsp;
+
+You can play around with the code for Figure 1 to make additional changes – you
+won’t break it by trying, so play around as much as you like. You will notice
+that there are only 2 points for Site 2 – this is because the points are
+overlaid on top of one another – as we are picking up only a few taxa some of
+the samples are very similar to one another. However we can generally see that
+there are sample groupings and that likely location has an effect (i.e. samples
+that are from the same location are closer together). We will test this
+statistically a little later.
+
+We can also generate a form of 3-dimensional plot using the `scatterplot3d()` 
+function from the `scatterplot3d` R package. Figure 2 shows a 3D plot for the 
+3-dimension NMDS generated above.
+
+```{r plot-nmds-3D, fig.height=5, fig.width=6.5, out.width="70%", fig.cap="Figure 2: 2D NMDS ordination plot based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022."}
+palette(c("black", viridis(10))) # a viridis palette
+par(mfrow=c(1,1), mar=c(3,3,2,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
+s3d <- scatterplot3d(x=AF_nmds_all3$points[,1], y=AF_nmds_all3$points[,2],
+              z=AF_nmds_all3$points[,3],
+              xlab="MDS1", ylab="MDS2", zlab="MDS3",
+              angle=25, mar=c(4,4,1,2), type="h", col.axis="darkgray", color="gray",
+              pch=c(rep(21:25, 2),21)[eDNA2022$Site],
+              bg=c(1:11)[eDNA2022$Site], cex.symbols=1.4)
+legend(s3d$xyz.convert(-1.6, -1.3, 1.4), legend = levels(eDNA2022$Site), bty="n",
+      title="Site", pt.bg= c(1:11), pt.cex=1.4, col="gray", pch=c(rep(21:25, 2),21))
+```
+
+## Principal Coordinates (PCoA) Analysis
+
+In the 'vegan' package we use Weighted classical multidimensional scaling, also
+known as *Weighted Principal Coordinates Analysis*. This is implemented using 
+the function `wcmdscale()`. We plot the PCO output in Figure 3 below.
+
+```{r run-pco, message=FALSE, warning=FALSE, results='hold'}
+AF_pco_all <- wcmdscale(vegdist(allSpecies), eig=TRUE)
+AF_pco_all
+```
+
+```{r basic-pco-plot, fig.height=5, fig.width=5, fig.cap="Figure 3: Basic principal coordinates analysis (PCoA) ordination plot based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022."}
+par(mfrow=c(1,1), mar=c(3,3,2,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
+plot(AF_pco_all)
+```
+
+Figure 3 is a basic PCoA plot based on all species, showing the locations of
+individual samples by row number.
+
+We can make more informative plots by using the information stored in the
+output object (`[AF_pco_all`) &ndash; see Figure 4.
+
+```{r better-pco-plot-s3d, fig.width=4, fig.height=4, out.width="70%", fig.cap="Figure 4: Principal coordinates (PCoA) ordination plot in 3D based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022.", echo=1:3}
+palette(c("black", plasma(10))) # a viridis palette
+par(mfrow = c(1,1), mar = c(3,3,1,1), mgp = c(1.5,0.2,0), tcl = 0.25, 
+    font.lab = 2)
+scatterplot3d(x=AF_pco_all$points[,1], y=AF_pco_all$points[,2], z=AF_pco_all$points[,3],
+              xlab="Dim 1", ylab="Dim 2", zlab="Dim 3",
+              angle=65, mar=c(4,4,1,2), type="h", col.axis="gray", color="#e0e0e0",
+              pch=c(rep(21:25, 2),21)[eDNA2022$Site],
+              bg=c(1:11)[eDNA2022$Site], cex.symbols=1.4,
+              xlim=c(-0.6,0.4),ylim=c(-0.6,0.4),zlim=c(-0.3,0.4))
+# plot(AF_pco_all$points[,c(1,2)], xlim = c(-0.6,0.4), ylim = c(-0.6,0.4), 
+#      pch=19, cex = 1, col = 4)
+# text(AF_pco_all$points[,c(1,2)],labels = eDNA2022$SiteID,
+#      col=seq(1,11)[eDNA2022$Site])
+# mtext("(a)", line=-1.3, adj=0.05, cex=1.2)
+# plot(AF_pco_all$points[,c(1,3)], xlim = c(-0.6,0.4), ylim = c(-0.6,0.4), 
+#      pch=15, cex = 1, col = 6)
+# text(AF_pco_all$points[,c(1,3)],labels = eDNA2022$SiteID,
+#      col=seq(1,11)[eDNA2022$Site])
+# mtext("(b)", line=-1.3, adj=0.05, cex=1.2)
+
+```
+
+```{r calculate pco scores but not sure if we need this}
+AF_pco_scores <- scores(AF_pco_all)
+```
+
+<hr />
+
+# PERMANOVA
+
+In order to test where location has a significant effect on the taxa at our
+field site we need to run an ANOVA – however as we have multiple species to test
+together we cannot run a basic ANOVA – we must run a multivariate permutational
+ANOVA or **PERMANOVA**.
+
+PERMANOVA shares some resemblance to ANOVA where they both measure the
+sum-of-squares within and between groups, and make use of an F test to compare
+within-group to between-group variance. However, while ANOVA bases the
+significance of the result on assumption of normality, PERMANOVA draws tests for
+significance by comparing the actual F test result to that gained from random
+permutations of the objects between the groups. Moreover, whilst PERMANOVA tests
+for similarity based on a chosen distance measure, ANOVA tests for similarity of
+the group averages.
+
+We could calculate a univariate measure of diversity (a Simpson or Shannon
+index,  for example) and run an ANOVA on that univariate value. In doing so, however, we are reducing the complex dataset to a simplified version and losing
+discrete information in the process. Remember that ANOVA also has an underlying
+assumption of normality &ndash; generally speaking, biological species data are not
+normally distributed and thus do not satisfy this assumption. This makes
+applying a permutational ANOVA a much better option. Before the advent of
+computational capacity a permutational ANOVA would have taken quite some time to
+run &ndash; luckily now it only takes a matter of seconds to minutes depending on the
+complexity of the dataset.
+
+In the `vegan` package, the `adonis2()` function implements Permutational
+Multivariate Analysis of Variance Using Distance Matrices (*i.e*. PERMANOVA).
+
+We use a formula in the `adonis2()` function which expresses the community matrix 
+(*i.e*. the columns of species presence or absence) as a function of a factor 
+(in this case, `Site`).
+
+```{r permanova-main-effect}
+AF_permanova_all <- adonis2(eDNA2022[,4:24] ~ Site, data = eDNA2022,
+                            permutations = 9999)
+AF_permanova_all
+```
+
+P value by permutation =`0.0001` indicating a significant effect of location on
+the community composition of our samples. Note that 9999 permutations were
+undertaken to arrive at this value.
+
+The output from the `pairwise.adonis2()` function is quite lengthy (to see it, 
+run `print(AF_PWpermanova_all)`). We can tidy it up for clarity with a custom 
+function (`plainPW2()` &ndash; see output below).
+
+```{r pairwise-Permanova, echo=2:6, message=FALSE, warning=FALSE, paged.print=FALSE}
+options(width = 120)
+source("https://github.com/Ratey-AtUWA/eDNA/raw/master/FUN_pairwise_adonis2.R")
+source("https://github.com/Ratey-AtUWA/Learn-R/raw/main/plain-pairwise-FUNCTION2.R")
+AF_PWpermanova_all <- pairwise.adonis2(eDNA2022[,4:24] ~ Site, data = eDNA2022)
+AF_plainPW_all <- plainPW2(AF_PWpermanova_all, ns.repl=TRUE, alpha=0.05) # see custom function code below
+s0 <- data.frame(Site=1:10)
+flextable(cbind(s0,AF_plainPW_all)) |> width(width=0.5) |> theme_booktabs() |> 
+  bold(bold=T,part="header") |> bold(bold=T, j=1) |> 
+  padding(padding=2, part="all") |> align_text_col(align="right") |> 
+  set_caption(caption="Table 2: Pairwise comparison matrix based on PERMANOVA testing the effect of `Site` on multivariate species presence-absence (ns = p > 0.05).", align_with_table = F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
+```
+
+<p>&nbsp;</p>
+
+**Notes**: 
+
+- the pairwise Adonis2 source code is by Pedro Martinez Arbizu at [https://github.com/pmartinezarbizu/pairwiseAdonis](https://github.com/pmartinezarbizu/pairwiseAdonis){target="_blank"}.
+- The code for the `plainPW2()` function is as follows:
+
+```{r plainPW2-function-code, eval=FALSE, paged.print=FALSE}
+# function inputs output object from Pedro Martinez Arbizu's pairwise.adonis2()
+# code at https://github.com/pmartinezarbizu/pairwiseAdonis
+plainPW2 <- function(x, ns.repl=TRUE, alpha=0.05){
+  tablout <- data.frame(Pair=rep(NA, length(x)-1),
+                        P_value=rep(NA, length(x)-1))
+  for(i in 2:length(x)){
+    tablout[i-1,] <- c(names(x)[i],
+                       as.data.frame(x[names(x)[i]])[1,5])
+    }
+  n0 <- (ceiling(sqrt(length(x)*2)))-1
+  ptable <- as.data.frame(matrix(rep(NA, n0^2), ncol = n0))
+  colnames(ptable) <- c(1:n0)+1
+  r0 <- 1 ; rn <- n0
+  for(i in 1:n0){
+    ptable[i,] <- c(rep(NA,n0-((rn-r0)+1)),as.numeric(c(tablout[r0:rn,2])))
+    r0 <- rn+1
+    rn <- rn+(n0-i)
+  }
+  if(ns.repl==TRUE){
+    for(i in 1:ncol(ptable)){
+      ptable[which(ptable[,i]>alpha),i] <- "ns"
+      }
+    }
+  return(ptable)
+}
+```
+
+You can also get the `plainPW2()` function code at
+[github.com/Ratey-AtUWA/.../plain-pairwise-FUNCTION2.R](https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/plain-pairwise-FUNCTION2.R){target="_blank"}.
+
+&nbsp;
+
+# Extras
+
+### Stress plot for nmMDS based on Jaccard dissimilarities, all species
+
+```{r stress-plot, fig.height=5, fig.width=7, out.width="50%", fig.cap="Figure 5: Stress plot showing the goodness-of-fit between actual dsiimilarity for the Ashfield Flats 2022 eDNA data and dissimilarities predicted by NMDS ordination distances.", message=FALSE, warning=FALSE}
+par(mfrow=c(1,1), mar=c(3,3,0.5,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
+stressplot(AF_nmds_all)
+```
+
+## Analysis with just the aquatic species
+
+These are: *Gambusia holbrooki, Arenigobius bifrenatus, Mugil cephalus, Acanthopagrus butcheri, Limnodynastes dorsalis, Pseudophryne guentheri, Blackfordia polytentaculata, Obelia bidentata, Phyllorhiza punctata, Aurelia sp.*
+
+```{r subset to just aquatic, paged.print=FALSE, results='hold'}
+fish <- allSpecies[,c(1:6,17:20)]
+head(fish)
+```
+
+### for interest look at the dissimilarity matrix
+
+```{r dissim matrix aquat bray, eval=FALSE}
+AF_diss_aquat <- vegdist(fish, 
+                           distance = "bray")
+txt0 <- capture.output(print(AF_diss_aquat,digits=3));txt0[1:10];rm(txt0)
+```
+
+```{r dist matrix aquat bray output with cat, echo=FALSE}
+AF_diss_aquat <- vegdist(fish, 
+                           distance = "bray")
+txt0 <- capture.output(print(AF_diss_aquat,digits=3))
+for (i in 1:11){ cat(txt0[i],"\n") }
+```
+
+```{r run nmds aquat Bray, results='hide'}
+AF_nmds_aquat <- metaMDS(fish, trymax = 500, 
+                           distance = "jaccard")
+```
+```{r show nmds aquat Bray}
+AF_nmds_aquat
+```
+```{r plot nmds aquat Bray, fig.height=4, fig.width=4, fig.cap="Figure 6: Basic NMDS plot showing observations as symbols and species as text. Presence-absence data from eDNA sampling and analysis at Ashfield Flats."}
+par(mfrow=c(1,1), mar=c(3,3,2,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
+plot(AF_nmds_aquat, type="p",display = "sites", cex = 1.2)
+text(AF_nmds_aquat, display = "species", col = "dodgerblue", cex = 0.8)
+```
+
+### alternative to vegan plots
+```{r alt-to-vegan-nmds-aquat, fig.height=3.5, fig.width=7, fig.cap="Figure 7: Two-dimensional non-metric multidimensional scaling (NMDS) plot showing observations as symbols and species as text located in MDS2 vs. MDS1 space. Presence-absence data for aquatic species only from eDNA sampling and analysis at Ashfield Flats."}
+palette(c("black", plasma(10))) # a viridis palette
+par(mfrow=c(1,2), mar=c(3,3,0.5,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
+plot(AF_nmds_aquat$points, pch=c(rep(21:25, 2),21)[eDNA2022$Site], 
+     xlim = c(-1.2,1.8), 
+     bg = seq(1,11)[eDNA2022$Site], 
+     cex = 1.2, col.main = "steelblue")
+text(AF_nmds_aquat, display = "species", col = "grey33", font=3, cex = 0.8)
+plot(0:1,0:1, type="n", axes=F, bty="n", xlab="", ylab="")
+legend("left", legend=seq(1,11), bty="n", title="Site", cex=1, pt.cex=1.2, 
+       pch=c(rep(21:25, 2),21), pt.bg=1:11)
+```
+
+## Detrended correspondence analysis - all species
+
+```{r run-DCA, message=FALSE, warning=FALSE, results='hold'}
+AF_dca_all <- decorana(allSpecies)
+AF_dca_all
+```
+
+```{r decorana-plot, fig.height=4, fig.width=4, fig.cap="Figure 8: Two-dimensional detrended correspondence analysis (DCA) plot showing observations as symbols and species as text. Presence-absence data from eDNA sampling and analysis at Ashfield Flats."}
+par(mfrow=c(1,1), mar=c(3,3,0.5,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
+plot(AF_dca_all)
+```
+
+## For comparison if wanted: nmMDS again with Bray-Curtis distances
+```{r run nmds Bray allspecies, results='hide'}
+AF_nmds_all_B <- metaMDS(allSpecies) # uses Bray by default
+```
+
+```{r show nmds Bray allspecies, results='hold'}
+AF_nmds_all_B
+```
+
+The results should be identical to nmMDS with Jaccard, since the community
+matrix is already converted to presence-absence (binary ones and zeros).
+
+&nbsp;

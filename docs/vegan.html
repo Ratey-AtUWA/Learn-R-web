@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Deirdre Gleeson and Andrew Rate" />
+
+<meta name="date" content="2024-06-20" />
+
+<title>Multivariate analysis</title>
+
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/sandstone.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/tabwid-1.1.0/tabwid.css" rel="stylesheet" />
+<link href="site_libs/tabwid-1.1.0/scrool.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Sessions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">For beginners</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Intro</a>
+    </li>
+    <li>
+      <a href="intro-GG.html">Intro+ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plots.html">Plots-baseR</a>
+    </li>
+    <li>
+      <a href="plots-GG.html">Plots-ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Compare
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="means.html">Compare means (parametric)</a>
+    </li>
+    <li>
+      <a href="nonparam.html">Non-parametric comparisons</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="correl.html">Correlation</a>
+    </li>
+    <li>
+      <a href="regression.html">Simple linear regression</a>
+    </li>
+    <li>
+      <a href="reg-group.html">Grouped linear regression</a>
+    </li>
+    <li>
+      <a href="reg-multi.html">Multiple linear regression</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Maps
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="maps.html">Map data with tile backgrounds</a>
+    </li>
+    <li>
+      <a href="spatial.html">Spatial statistics</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">Spatial interpolation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Multi
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pca.html">Principal components analysis</a>
+    </li>
+    <li>
+      <a href="vegan.html">Analysis of species presence-absence data</a>
+    </li>
+    <li>
+      <a href="tbc.html">Linear discriminant analysis</a>
+    </li>
+    <li>
+      <a href="tbc.html">Cluster analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Util
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tables.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="distributions.html">Distribution checking</a>
+    </li>
+    <li>
+      <a href="residuals.html">Regression residuals to identify contamination</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">UWA School of Agriculture and Environment</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!DOCTYPE html>
+
+<html>
+<body>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science<br />at The University of Western Australia</span></h3>
+<h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
+</body>
+</html>
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Multivariate analysis</h1>
+<h3 class="subtitle">Principal Components Analysis for Compositional
+Data</h3>
+<h4 class="author">Deirdre Gleeson and Andrew Rate</h4>
+<h4 class="date">2024-06-20</h4>
+
+</div>
+
+
+<div id="learning-outcomes" class="section level2">
+<h2>Learning Outcomes:</h2>
+<ol style="list-style-type: decimal">
+<li>Students are able to appropriately analyse data from an eDNA field
+sampling campaign;</li>
+<li>Students are able to interpret and understand statistical outputs
+from the R package <code>vegan</code>.</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(vegan)          <span class="co"># ecological multivariate analysis</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(flextable)      <span class="co"># publication-quality tables</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="fu">set_flextable_defaults</span>(<span class="at">theme_fun =</span> <span class="st">&quot;theme_booktabs&quot;</span>, <span class="at">font.size =</span> <span class="dv">10</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(officer)        <span class="co"># functions to support some flextable options</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(stringr)        <span class="co"># character string manipulation</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">library</span>(viridis)        <span class="co"># colourblind-friendly colour palettes</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">library</span>(scatterplot3d)  <span class="co"># used for 3D ordination plots</span></span></code></pre></div>
+</div>
+<div id="import-the-data" class="section level2">
+<h2>Import the data</h2>
+<p><strong>Notes</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>This code imports the data from a file where the <strong>samples are
+rows</strong> and the <strong>species are columns</strong>.</li>
+<li>We convert the column <code>Site</code> to a <em>factor</em>
+(categorical information in R)</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R/raw/main/&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>eDNA2022 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="fu">paste0</span>(git,<span class="st">&quot;eDNA2022.csv&quot;</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>eDNA2022<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(eDNA2022<span class="sc">$</span>Site)</span></code></pre></div>
+<p>If you have <em>species</em> as rows and <em>samples</em> as columns,
+we will need to do a bit of wrangling!</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>speciesAsRows <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="fu">paste0</span>(git,<span class="st">&quot;speciesAsRows.csv&quot;</span>), <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>speciesAsRows <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">str_remove</span>(<span class="fu">colnames</span>(speciesAsRows), <span class="st">&quot;X&quot;</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                       speciesAsRows)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">row.names</span>(speciesAsRows)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;SiteID&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>speciesAsRows <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(speciesAsRows) <span class="co"># convert to matrix for next step</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>speciesAsRows <span class="ot">&lt;-</span> <span class="fu">t</span>(speciesAsRows) <span class="co"># t() means transpose</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="fu">row.names</span>(speciesAsRows) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>eDNA2022 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(speciesAsRows)</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>eDNA2022<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(eDNA2022<span class="sc">$</span>Site)</span></code></pre></div>
+</div>
+<div id="list-of-all-the-species-and-their-common-names"
+class="section level2">
+<h2>List of all the species and their common names</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>altnames <span class="ot">&lt;-</span> </span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;MosqFish&quot;</span>, <span class="st">&quot;Goby&quot;</span>, <span class="st">&quot;Mullet&quot;</span>, <span class="st">&quot;Bream&quot;</span>, <span class="st">&quot;BnjoFrog&quot;</span>, <span class="st">&quot;GToadlet&quot;</span>, <span class="st">&quot;MlrdDuck&quot;</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    <span class="st">&quot;SpotDove&quot;</span>, <span class="st">&quot;SwampHen&quot;</span>, <span class="st">&quot;Crake&quot;</span>, <span class="st">&quot;WFHeron&quot;</span>, <span class="st">&quot;Lorikeet&quot;</span>, <span class="st">&quot;Cattle&quot;</span>, <span class="st">&quot;Sheep&quot;</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    <span class="st">&quot;Mouse&quot;</span>, <span class="st">&quot;Rat&quot;</span>, <span class="st">&quot;HydroidB&quot;</span>, <span class="st">&quot;HydroidO&quot;</span>, <span class="st">&quot;BwnJelly&quot;</span>, <span class="st">&quot;MoonJely&quot;</span>, <span class="st">&quot;Dog&quot;</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>names_table <span class="ot">&lt;-</span> </span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Taxonomic =</span> <span class="fu">gsub</span>(<span class="st">&quot;.&quot;</span>,<span class="st">&quot; &quot;</span>,<span class="fu">colnames</span>(eDNA2022[,<span class="dv">4</span><span class="sc">:</span><span class="dv">24</span>]), <span class="at">fixed =</span> T),</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>             <span class="at">Common=</span><span class="fu">c</span>(<span class="st">&quot;Mosquito Fish&quot;</span>,<span class="st">&quot;Bridled Goby&quot;</span>,<span class="st">&quot;Gray Mullet&quot;</span>,<span class="st">&quot;Black Bream&quot;</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>                      <span class="st">&quot;Western Banjo Frog&quot;</span>, <span class="st">&quot;Gunther&#39;s Toadlet&quot;</span>, <span class="st">&quot;Mallard Duck&quot;</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>                      <span class="st">&quot;Spotted Turtle Dove&quot;</span>, <span class="st">&quot;Purple Swamphen&quot;</span>, <span class="st">&quot;Spotted Crake&quot;</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>                      <span class="st">&quot;White Faced Heron&quot;</span>, <span class="st">&quot;Rainbow Lorikeet&quot;</span>, <span class="st">&quot;Cattle&quot;</span>, <span class="st">&quot;Sheep&quot;</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>                      <span class="st">&quot;Mouse&quot;</span>, <span class="st">&quot;Rat&quot;</span>, <span class="st">&quot;HydroidB&quot;</span>, <span class="st">&quot;HydroidO&quot;</span>, <span class="st">&quot;Brown Jellyfish&quot;</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>                      <span class="st">&quot;Moon Jellyfish&quot;</span>, <span class="st">&quot;Domestic Dog&quot;</span>),</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>             <span class="at">Abbreviated=</span>altnames)</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="fu">flextable</span>(names_table,<span class="at">cwidth =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">2</span>)) <span class="sc">|&gt;</span> <span class="fu">italic</span>(<span class="at">j=</span><span class="dv">1</span>, <span class="at">italic=</span>T) <span class="sc">|&gt;</span> <span class="fu">bold</span>(<span class="at">bold=</span>T, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>  <span class="fu">padding</span>(<span class="at">padding=</span><span class="dv">2</span>, <span class="at">part=</span><span class="st">&quot;all&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>  <span class="fu">set_caption</span>(<span class="at">caption=</span><span class="st">&quot;Table 1: Taxonomic, common, and abbreviated names for the species detected by eDNA sampling and analysis at Ashfield Flats in 2022.&quot;</span>, <span class="at">align_with_table =</span> F, <span class="at">fp_p=</span><span class="fu">fp_par</span>(<span class="at">text.align =</span> <span class="st">&quot;left&quot;</span>, <span class="at">padding.bottom =</span> <span class="dv">6</span>))</span></code></pre></div>
+<template id="5f69e3b5-ee01-48bf-a0dd-4dbbb2693500"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  border-color: transparent;
+  caption-side: top;
+}
+.tabwid-caption-bottom table{
+  caption-side: bottom;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+</style><div class="tabwid"><style>.cl-e0ca3f52{}.cl-e0c05d84{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e0c05d8e{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:italic;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e0c05d98{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e0c42130{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-e0c436a2{width:3in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e0c436ac{width:2in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e0c436b6{width:3in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e0c436c0{width:2in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e0c436c1{width:3in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e0c436c2{width:2in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e0bafee8{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-e0ca3f52'><caption style="margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span class="cl-e0bafee8">Table 1: Taxonomic, common, and abbreviated names for the species detected by eDNA sampling and analysis at Ashfield Flats in 2022.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-e0c436a2"><p class="cl-e0c42130"><span class="cl-e0c05d84">Taxonomic</span></p></td><td class="cl-e0c436ac"><p class="cl-e0c42130"><span class="cl-e0c05d84">Common</span></p></td><td class="cl-e0c436ac"><p class="cl-e0c42130"><span class="cl-e0c05d84">Abbreviated</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Gambusia holbrooki</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Mosquito Fish</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">MosqFish</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Arenigobius bifrenatus</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Bridled Goby</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Goby</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Mugil cephalus</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Gray Mullet</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Mullet</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Acanthopagrus butcheri</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Black Bream</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Bream</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Limnodynastes dorsalis</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Western Banjo Frog</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">BnjoFrog</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Pseudophryne guentheri</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Gunther's Toadlet</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">GToadlet</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Anas platyrhynchos</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Mallard Duck</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">MlrdDuck</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Spilopelia chinensis</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Spotted Turtle Dove</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">SpotDove</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Porphyrio porphyrio</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Purple Swamphen</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">SwampHen</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Porzana tabuensis</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Spotted Crake</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Crake</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Egretta novaehollandiae</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">White Faced Heron</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">WFHeron</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Trichoglossus rubritorquis</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Rainbow Lorikeet</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Lorikeet</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Bos taurus</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Cattle</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Cattle</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Ovis sp </span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Sheep</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Sheep</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Mus musculus</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Mouse</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Mouse</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Rattus sp </span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Rat</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Rat</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Blackfordia polytentaculata</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">HydroidB</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">HydroidB</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Obelia bidentata</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">HydroidO</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">HydroidO</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Phyllorhiza punctata</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Brown Jellyfish</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">BwnJelly</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436b6"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Aurelia sp </span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">Moon Jellyfish</span></p></td><td class="cl-e0c436c0"><p class="cl-e0c42130"><span class="cl-e0c05d98">MoonJely</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e0c436c1"><p class="cl-e0c42130"><span class="cl-e0c05d8e">Canis lupus familiaris</span></p></td><td class="cl-e0c436c2"><p class="cl-e0c42130"><span class="cl-e0c05d98">Domestic Dog</span></p></td><td class="cl-e0c436c2"><p class="cl-e0c42130"><span class="cl-e0c05d98">Dog</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="f3649a0f-ebf8-45d8-b109-197f650b081d"></div>
+<script>
+var dest = document.getElementById("f3649a0f-ebf8-45d8-b109-197f650b081d");
+var template = document.getElementById("5f69e3b5-ee01-48bf-a0dd-4dbbb2693500");
+var caption = template.content.querySelector("caption");
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+<p> </p>
+<p>We need to make a subset of our imported data which contains just the
+species presence/absence information (not sample IDs, sites, reps). We
+also overwrite the original column names with abbreviated names for
+better visualisation later.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>allSpecies <span class="ot">&lt;-</span> eDNA2022[,<span class="dv">4</span><span class="sc">:</span><span class="dv">24</span>] <span class="co"># not columns 1:3 which are sample IDs etc.</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">colnames</span>(allSpecies) <span class="ot">&lt;-</span> names_table[,<span class="dv">3</span>]</span></code></pre></div>
+</div>
+<div id="difference-and-similarity-measures" class="section level2">
+<h2>Difference and Similarity measures</h2>
+<p>We start by assessing how similar or different our samples are – to
+do this we need to set up a resemblance matrix. Ideally our 4 replicated
+samples are more similar to one another than any other samples – but
+with field sampling this is not always the case. To determine similarity
+we need to use a similarity measure.</p>
+<div id="similarity-measures" class="section level3">
+<h3>Similarity Measures:</h3>
+<p>A similarity measure is conventionally defined to take values between
+0 and 100% (or 0 and 1) with the ends of the range representing the
+extreme possibilities:</p>
+<ul>
+<li>Similarity = 100% (<em>or 1</em>) if two samples are totally
+similar</li>
+<li>Similarity = 0 if two samples are totally dissimilar</li>
+</ul>
+<p>What constitutes total similarity, and particularly total
+dissimilarity, of two samples depends on the specific criteria that are
+adopted. For example most biologists would feel that similarity should
+equal zero when two samples have no species in common, and similarity
+should equal 100% if two samples have identical entries. Similarities
+are calculated between every pair of samples creating a similarity
+matrix. There are a number of similarity measures (ways to calculate
+similarity) which can be used to create this matrix.</p>
+<p><strong>Bray Curtis</strong> and <strong>Jaccard</strong> are two
+different similarity measures we can use -– both are commonly used in
+ecology and have desirable properties – similarity is calculated based
+on the taxa that samples have in common. Similarity takes a value of 0
+if two samples have no species in common and joint absences have no
+effect (<em>i.e</em>. a taxon jointly absent in two samples does not
+contribute to its similarity). The difference between them is that Bray
+Curtis will use abundance information (where it is present) in assessing
+similarity, whereas Jaccard converts abundances to binary (<em>i.e</em>.
+0s and 1s, with 1 representing presence and 0 meaning absence) to assess
+similarity. In our case it does not matter much which we use, since we
+have already converted to binary – so let’s proceed with Jaccard.</p>
+<p><strong>Ecological Question – If two samples have no taxa present
+each does this make them more similar to one another?</strong></p>
+<p>To assess similarity in the <code>vegan</code> <strong>R</strong>
+package carry out the following steps. The output shows the first few
+rows and columns of the dissimilarity matrix; each number represents the
+Jaccard distance between samples based on the presence or absence of
+species.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>AF_diss_all <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(allSpecies, </span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>                           <span class="at">distance =</span> <span class="st">&quot;jaccard&quot;</span>) <span class="co"># default is distance = &quot;bray&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># just look at the top corner of the dissimilarity matrix:</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>txt0 <span class="ot">&lt;-</span> <span class="fu">capture.output</span>(<span class="fu">print</span>(AF_diss_all, <span class="at">digits=</span><span class="dv">3</span>)); txt0[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]; <span class="fu">rm</span>(txt0)</span></code></pre></div>
+<pre><code>##         1      2      3      4      5      6      7      8      9     10     11     12     13     14     15     16     17     18 
+## 2  0.0769                                                                                                                        
+## 3  0.2727 0.1667                                                                                                                 
+## 4  0.0769 0.0000 0.1667                                                                                                          
+## 5  0.3333 0.3846 0.6364 0.3846                                                                                                   
+## 6  0.3333 0.3846 0.6364 0.3846 0.0000                                                                                            
+## 7  0.3333 0.3846 0.6364 0.3846 0.0000 0.0000                                                                                     
+## 8  0.2727 0.3333 0.6000 0.3333 0.0909 0.0909 0.0909                                                                              
+## 9  0.8000 0.6364 0.5556 0.6364 0.6000 0.6000 0.6000 0.7778                                                                       
+## 10 0.6000 0.6364 0.5556 0.6364 0.6000 0.6000 0.6000 0.7778 0.2500                                                                
+## 11 0.8000 0.6364 0.5556 0.6364 0.8000 0.8000 0.8000 1.0000 0.2500 0.2500</code></pre>
+</div>
+</div>
+<div id="ordinations" class="section level1">
+<h1>Ordinations</h1>
+<p>Next we will construct our ordination – a procedure to visualise the
+similarity matrix by simplifying (scaling) it into fewer dimensions than
+our original data. This reduction of dimensions is useful as the
+original data will have as many dimensions as there are species, which
+is impossible to visualise! There are two different types of ordination
+that we will use: <strong>Multi-Dimensional-Scaling</strong> (nmMDS) and
+<strong>Principal Coordinates Analysis</strong> (PCO). If you have
+previously used PCA – Principal Component Analysis – you may be familiar
+with ordination methods. PCA is useful for environmental datasets –
+these are represented by a similarity matrix derived via use of
+Euclidean Distance as a measure of similarity. PCA is more suited to
+environmental variables because of the type of data – there are no large
+blocks of zeros (usually) and it is no longer necessary to select a
+similarity measure that ignores joint absences. When looking at
+ordination plots in general you should note that sample points that are
+spatially located together share common characteristics and sample
+points that are distantly located from one another share less
+characteristics. This holds whether we are working with environmental
+variables (pH, EC, moisture content, heavy metals <em>etc</em>.) or
+species abundances.</p>
+<p>The main difference between MDS and PCO relates to the underlying use
+of the resemblance matrix.</p>
+<p><strong>MDS</strong> takes the similarity measures calculated by
+Jaccard or Bray Curtis and ranks them in order. Thus pairs are samples
+are ranked according to highest to lowest similarity and are thus
+plotted in multidimensional space. Since it uses the rank and not the
+actual values, it's commonly called "non-[para]metric" multi-dimensional
+scaling, or <strong>nmMDS</strong>.</p>
+<p><strong>PCO</strong> takes the actual values of the underlying
+measure of similarity and plots pairs of samples in multi-dimensional
+space. It will then look for the direction (vector) of greatest variance
+in the multi-dimensional "cloud" of points, which becomes the first PCO
+dimension. Successive dimensions explain the most possible remaining
+variance, until all variance is accounted for. So, many PCO dimensions
+are possible, but usually only the first 2 or 3 are useful for
+visualizing our data.</p>
+<p>For both types of ordinations the software attempts to preserve the
+similarity of each pair of samples – while this is feasible in
+multidimensional space, in order for us to view the ordination we see
+this in 2 or 3 dimensions – thus the software attempts to preserve as
+much as is feasible of the sample pair similarity as calculated – but in
+reality we need to consider how much the 2- dimensional view is a true
+representation of the data set. In nmMDS we use the <em>stress</em>
+value to evaluate this, in PCO we can plot multiple axes, <em>i.e</em>.
+axis 1 <em>vs</em>. axis 2, axis 2 <em>vs</em>. axis 3 and so on. The
+amount of variance explained in each PCO dimension is called the
+<em>eigenvalue</em>, and the output will include these values; the
+greater the eigenvalue, the more useful a PCO dimension is. In practice,
+much of the variability is often explained in the first two axes
+(<em>i.e</em>. 2 dimensions) and we will limit our analysis to these
+axes for this dataset.</p>
+<div id="non-metric-multidimensional-scaling-nmmds"
+class="section level2">
+<h2>Non-metric multidimensional scaling (nmMDS)</h2>
+<p>In vegan this is done using the <code>metaMDS()</code> function. We
+need to specify an input matrix of just the species data (<em>e.g</em>.
+<code>allSpecies</code> which we made earlier). The default is to find 2
+dimensions (<code>k</code>) using a Bray-Curtis dissimilarity matrix,
+but we can set these options to different values using <code>k =</code>
+and <code>distance =</code> options. The dissimilarity matrix is
+calculated within the <code>metaMDS()</code> function, so for
+consistency we set <code>distance = "jaccard"</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># default with 2 dimensions</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>AF_nmds_all <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(allSpecies, <span class="at">distance =</span> <span class="st">&quot;jaccard&quot;</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co"># 3 dimensions for comparison</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>AF_nmds_all3 <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(allSpecies, <span class="at">k=</span><span class="dv">3</span>, <span class="at">distance =</span> <span class="st">&quot;jaccard&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># show output for 2 nmMDS dimensions</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>AF_nmds_all</span></code></pre></div>
+<pre><code>## 
+## Call:
+## metaMDS(comm = allSpecies, distance = &quot;jaccard&quot;) 
+## 
+## global Multidimensional Scaling using monoMDS
+## 
+## Data:     allSpecies 
+## Distance: jaccard 
+## 
+## Dimensions: 2 
+## Stress:     0.1554552 
+## Stress type 1, weak ties
+## Two convergent solutions found after 20 tries
+## Scaling: centring, PC rotation, halfchange scaling 
+## Species: expanded scores based on &#39;allSpecies&#39;</code></pre>
+<p>The 2D stress value is ≃ 0.16. This can be interpreted as
+follows:</p>
+<p><img src="vegan_files/figure-html/stress-range-diagram-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>The stress value is relatively high as we are dealing with a large
+number of samples with lots of values of <code>0</code> or
+<code>1</code> in a 2 dimensional space – resulting in a challenging
+similarity environment.</p>
+<p><span class="math inline">\(\Rightarrow\)</span> Check the stress
+value of the 3-D ordination – is it lower? Remember that we made this
+object in the code block above:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>AF_nmds_all3</span></code></pre></div>
+<p>Figure 1 below mimics the nmmds plot in Deirdre's original
+<code>PRIMER</code> handout (note that the sign of dimension MDS2 is
+reversed)</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="fu">viridis</span>(<span class="dv">10</span>))) <span class="co"># a viridis palette</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">plot</span>(AF_nmds_all<span class="sc">$</span>points, <span class="at">pch=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>, <span class="dv">2</span>),<span class="dv">21</span>)[eDNA2022<span class="sc">$</span>Site], </span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.6</span>,<span class="fl">2.2</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">1.2</span>,<span class="sc">-</span><span class="fl">1.2</span>), </span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>     <span class="at">bg=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">11</span>)[eDNA2022<span class="sc">$</span>Site], </span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>     <span class="at">cex =</span> <span class="fl">1.4</span>, <span class="at">main =</span> <span class="st">&quot;All species&quot;</span>, <span class="at">col.main =</span> <span class="st">&quot;steelblue&quot;</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="fu">text</span>(AF_nmds_all, <span class="at">display =</span> <span class="st">&quot;species&quot;</span>, <span class="at">col =</span> <span class="st">&quot;#a0006080&quot;</span>, <span class="at">font=</span><span class="dv">3</span>, <span class="at">cex =</span> <span class="dv">1</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">box.col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">bg=</span><span class="st">&quot;transparent&quot;</span>, <span class="at">ncol=</span><span class="dv">4</span>, <span class="at">title =</span> <span class="st">&quot;Site&quot;</span>, </span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">11</span>), <span class="at">pch=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>, <span class="dv">2</span>),<span class="dv">21</span>), </span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>       <span class="at">inset=</span><span class="fl">0.01</span>, <span class="at">pt.bg=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">11</span>), <span class="at">pt.cex=</span><span class="fl">1.4</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span></code></pre></div>
+<div class="figure">
+<img src="vegan_files/figure-html/plot-nmds-all-Jaccard-2D-1.png" alt="Figure 1: 2D NMDS ordination plot based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022." width="70%" />
+<p class="caption">
+Figure 1: 2D NMDS ordination plot based on Jaccard (dis)similarities in
+eDNA species presence-absence data for water sampled from Ashfield Flats
+in 2022.
+</p>
+</div>
+<p> </p>
+<p>You can play around with the code for Figure 1 to make additional
+changes – you won’t break it by trying, so play around as much as you
+like. You will notice that there are only 2 points for Site 2 – this is
+because the points are overlaid on top of one another – as we are
+picking up only a few taxa some of the samples are very similar to one
+another. However we can generally see that there are sample groupings
+and that likely location has an effect (i.e. samples that are from the
+same location are closer together). We will test this statistically a
+little later.</p>
+<p>We can also generate a form of 3-dimensional plot using the
+<code>scatterplot3d()</code> function from the
+<code>scatterplot3d</code> R package. Figure 2 shows a 3D plot for the
+3-dimension NMDS generated above.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="fu">viridis</span>(<span class="dv">10</span>))) <span class="co"># a viridis palette</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>s3d <span class="ot">&lt;-</span> <span class="fu">scatterplot3d</span>(<span class="at">x=</span>AF_nmds_all3<span class="sc">$</span>points[,<span class="dv">1</span>], <span class="at">y=</span>AF_nmds_all3<span class="sc">$</span>points[,<span class="dv">2</span>],</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>              <span class="at">z=</span>AF_nmds_all3<span class="sc">$</span>points[,<span class="dv">3</span>],</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>              <span class="at">xlab=</span><span class="st">&quot;MDS1&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;MDS2&quot;</span>, <span class="at">zlab=</span><span class="st">&quot;MDS3&quot;</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>              <span class="at">angle=</span><span class="dv">25</span>, <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">type=</span><span class="st">&quot;h&quot;</span>, <span class="at">col.axis=</span><span class="st">&quot;darkgray&quot;</span>, <span class="at">color=</span><span class="st">&quot;gray&quot;</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>              <span class="at">pch=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>, <span class="dv">2</span>),<span class="dv">21</span>)[eDNA2022<span class="sc">$</span>Site],</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>              <span class="at">bg=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>)[eDNA2022<span class="sc">$</span>Site], <span class="at">cex.symbols=</span><span class="fl">1.4</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="fu">legend</span>(s3d<span class="sc">$</span><span class="fu">xyz.convert</span>(<span class="sc">-</span><span class="fl">1.6</span>, <span class="sc">-</span><span class="fl">1.3</span>, <span class="fl">1.4</span>), <span class="at">legend =</span> <span class="fu">levels</span>(eDNA2022<span class="sc">$</span>Site), <span class="at">bty=</span><span class="st">&quot;n&quot;</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>      <span class="at">title=</span><span class="st">&quot;Site&quot;</span>, <span class="at">pt.bg=</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>), <span class="at">pt.cex=</span><span class="fl">1.4</span>, <span class="at">col=</span><span class="st">&quot;gray&quot;</span>, <span class="at">pch=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>, <span class="dv">2</span>),<span class="dv">21</span>))</span></code></pre></div>
+<div class="figure">
+<img src="vegan_files/figure-html/plot-nmds-3D-1.png" alt="Figure 2: 2D NMDS ordination plot based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022." width="70%" />
+<p class="caption">
+Figure 2: 2D NMDS ordination plot based on Jaccard (dis)similarities in
+eDNA species presence-absence data for water sampled from Ashfield Flats
+in 2022.
+</p>
+</div>
+</div>
+<div id="principal-coordinates-pcoa-analysis" class="section level2">
+<h2>Principal Coordinates (PCoA) Analysis</h2>
+<p>In the 'vegan' package we use Weighted classical multidimensional
+scaling, also known as <em>Weighted Principal Coordinates Analysis</em>.
+This is implemented using the function <code>wcmdscale()</code>. We plot
+the PCO output in Figure 3 below.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>AF_pco_all <span class="ot">&lt;-</span> <span class="fu">wcmdscale</span>(<span class="fu">vegdist</span>(allSpecies), <span class="at">eig=</span><span class="cn">TRUE</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>AF_pco_all</span></code></pre></div>
+<pre><code>## Call: wcmdscale(d = vegdist(allSpecies), eig = TRUE)
+## 
+##           Inertia Rank
+## Total       8.169     
+## Real       10.272   15
+## Imaginary  -2.103   21
+## 
+## Results have 44 points, 15 axes
+## 
+## Eigenvalues:
+##  [1]  3.377  2.101  1.537  1.297  0.613  0.434  0.342  0.214  0.158  0.100  0.039  0.032  0.014  0.010  0.004 -0.006 -0.007 -0.009
+## [19] -0.016 -0.021 -0.027 -0.035 -0.046 -0.052 -0.059 -0.074 -0.089 -0.094 -0.115 -0.134 -0.143 -0.163 -0.190 -0.212 -0.242 -0.371
+## 
+## Weights: Constant</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">plot</span>(AF_pco_all)</span></code></pre></div>
+<div class="figure">
+<img src="vegan_files/figure-html/basic-pco-plot-1.png" alt="Figure 3: Basic principal coordinates analysis (PCoA) ordination plot based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022." width="480" />
+<p class="caption">
+Figure 3: Basic principal coordinates analysis (PCoA) ordination plot
+based on Jaccard (dis)similarities in eDNA species presence-absence data
+for water sampled from Ashfield Flats in 2022.
+</p>
+</div>
+<p>Figure 3 is a basic PCoA plot based on all species, showing the
+locations of individual samples by row number.</p>
+<p>We can make more informative plots by using the information stored in
+the output object (<code>[AF_pco_all</code>) – see Figure 4.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="fu">plasma</span>(<span class="dv">10</span>))) <span class="co"># a viridis palette</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl =</span> <span class="fl">0.25</span>, </span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>    <span class="at">font.lab =</span> <span class="dv">2</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="fu">scatterplot3d</span>(<span class="at">x=</span>AF_pco_all<span class="sc">$</span>points[,<span class="dv">1</span>], <span class="at">y=</span>AF_pco_all<span class="sc">$</span>points[,<span class="dv">2</span>], <span class="at">z=</span>AF_pco_all<span class="sc">$</span>points[,<span class="dv">3</span>],</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>              <span class="at">xlab=</span><span class="st">&quot;Dim 1&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Dim 2&quot;</span>, <span class="at">zlab=</span><span class="st">&quot;Dim 3&quot;</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>              <span class="at">angle=</span><span class="dv">65</span>, <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">type=</span><span class="st">&quot;h&quot;</span>, <span class="at">col.axis=</span><span class="st">&quot;gray&quot;</span>, <span class="at">color=</span><span class="st">&quot;#e0e0e0&quot;</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>              <span class="at">pch=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>, <span class="dv">2</span>),<span class="dv">21</span>)[eDNA2022<span class="sc">$</span>Site],</span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>              <span class="at">bg=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>)[eDNA2022<span class="sc">$</span>Site], <span class="at">cex.symbols=</span><span class="fl">1.4</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>              <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.6</span>,<span class="fl">0.4</span>),<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.6</span>,<span class="fl">0.4</span>),<span class="at">zlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.3</span>,<span class="fl">0.4</span>))</span></code></pre></div>
+<div class="figure">
+<img src="vegan_files/figure-html/better-pco-plot-s3d-1.png" alt="Figure 4: Principal coordinates (PCoA) ordination plot in 3D based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022." width="70%" />
+<p class="caption">
+Figure 4: Principal coordinates (PCoA) ordination plot in 3D based on
+Jaccard (dis)similarities in eDNA species presence-absence data for
+water sampled from Ashfield Flats in 2022.
+</p>
+</div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>AF_pco_scores <span class="ot">&lt;-</span> <span class="fu">scores</span>(AF_pco_all)</span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="permanova" class="section level1">
+<h1>PERMANOVA</h1>
+<p>In order to test where location has a significant effect on the taxa
+at our field site we need to run an ANOVA – however as we have multiple
+species to test together we cannot run a basic ANOVA – we must run a
+multivariate permutational ANOVA or <strong>PERMANOVA</strong>.</p>
+<p>PERMANOVA shares some resemblance to ANOVA where they both measure
+the sum-of-squares within and between groups, and make use of an F test
+to compare within-group to between-group variance. However, while ANOVA
+bases the significance of the result on assumption of normality,
+PERMANOVA draws tests for significance by comparing the actual F test
+result to that gained from random permutations of the objects between
+the groups. Moreover, whilst PERMANOVA tests for similarity based on a
+chosen distance measure, ANOVA tests for similarity of the group
+averages.</p>
+<p>We could calculate a univariate measure of diversity (a Simpson or
+Shannon index, for example) and run an ANOVA on that univariate value.
+In doing so, however, we are reducing the complex dataset to a
+simplified version and losing discrete information in the process.
+Remember that ANOVA also has an underlying assumption of normality –
+generally speaking, biological species data are not normally distributed
+and thus do not satisfy this assumption. This makes applying a
+permutational ANOVA a much better option. Before the advent of
+computational capacity a permutational ANOVA would have taken quite some
+time to run – luckily now it only takes a matter of seconds to minutes
+depending on the complexity of the dataset.</p>
+<p>In the <code>vegan</code> package, the <code>adonis2()</code>
+function implements Permutational Multivariate Analysis of Variance
+Using Distance Matrices (<em>i.e</em>. PERMANOVA).</p>
+<p>We use a formula in the <code>adonis2()</code> function which
+expresses the community matrix (<em>i.e</em>. the columns of species
+presence or absence) as a function of a factor (in this case,
+<code>Site</code>).</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>AF_permanova_all <span class="ot">&lt;-</span> <span class="fu">adonis2</span>(eDNA2022[,<span class="dv">4</span><span class="sc">:</span><span class="dv">24</span>] <span class="sc">~</span> Site, <span class="at">data =</span> eDNA2022,</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>                            <span class="at">permutations =</span> <span class="dv">9999</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>AF_permanova_all</span></code></pre></div>
+<pre><code>## Permutation test for adonis under reduced model
+## Terms added sequentially (first to last)
+## Permutation: free
+## Number of permutations: 9999
+## 
+## adonis2(formula = eDNA2022[, 4:24] ~ Site, data = eDNA2022, permutations = 9999)
+##          Df SumOfSqs      R2      F Pr(&gt;F)    
+## Site     10   7.7475 0.94839 60.644  1e-04 ***
+## Residual 33   0.4216 0.05161                  
+## Total    43   8.1691 1.00000                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>P value by permutation =<code>0.0001</code> indicating a significant
+effect of location on the community composition of our samples. Note
+that 9999 permutations were undertaken to arrive at this value.</p>
+<p>The output from the <code>pairwise.adonis2()</code> function is quite
+lengthy (to see it, run <code>print(AF_PWpermanova_all)</code>). We can
+tidy it up for clarity with a custom function (<code>plainPW2()</code> –
+see output below).</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;https://github.com/Ratey-AtUWA/eDNA/raw/master/FUN_pairwise_adonis2.R&quot;</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R/raw/main/plain-pairwise-FUNCTION2.R&quot;</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>AF_PWpermanova_all <span class="ot">&lt;-</span> <span class="fu">pairwise.adonis2</span>(eDNA2022[,<span class="dv">4</span><span class="sc">:</span><span class="dv">24</span>] <span class="sc">~</span> Site, <span class="at">data =</span> eDNA2022)</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>AF_plainPW_all <span class="ot">&lt;-</span> <span class="fu">plainPW2</span>(AF_PWpermanova_all, <span class="at">ns.repl=</span><span class="cn">TRUE</span>, <span class="at">alpha=</span><span class="fl">0.05</span>) <span class="co"># see custom function code below</span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>s0 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Site=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<template id="6e246f5d-080b-47e3-891d-a8d9cddf7dbf"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  border-color: transparent;
+  caption-side: top;
+}
+.tabwid-caption-bottom table{
+  caption-side: bottom;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+</style><div class="tabwid"><style>.cl-e72586a4{}.cl-e71b9af4{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e71b9b08{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e71f81c8{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-e71f96ea{width:0.5in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e71f96f4{width:0.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e71f96f5{width:0.5in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e715be04{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-e72586a4'><caption style="margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span class="cl-e715be04">Table 2: Pairwise comparison matrix based on PERMANOVA testing the effect of `Site` on multivariate species presence-absence (ns = p &gt; 0.05).</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-e71f96ea"><p class="cl-e71f81c8"><span class="cl-e71b9af4">Site</span></p></td><td class="cl-e71f96ea"><p class="cl-e71f81c8"><span class="cl-e71b9af4">2</span></p></td><td class="cl-e71f96ea"><p class="cl-e71f81c8"><span class="cl-e71b9af4">3</span></p></td><td class="cl-e71f96ea"><p class="cl-e71f81c8"><span class="cl-e71b9af4">4</span></p></td><td class="cl-e71f96ea"><p class="cl-e71f81c8"><span class="cl-e71b9af4">5</span></p></td><td class="cl-e71f96ea"><p class="cl-e71f81c8"><span class="cl-e71b9af4">6</span></p></td><td class="cl-e71f96ea"><p class="cl-e71f81c8"><span class="cl-e71b9af4">7</span></p></td><td class="cl-e71f96ea"><p class="cl-e71f81c8"><span class="cl-e71b9af4">8</span></p></td><td class="cl-e71f96ea"><p class="cl-e71f81c8"><span class="cl-e71b9af4">9</span></p></td><td class="cl-e71f96ea"><p class="cl-e71f81c8"><span class="cl-e71b9af4">10</span></p></td><td class="cl-e71f96ea"><p class="cl-e71f81c8"><span class="cl-e71b9af4">11</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9af4">1</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.034</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.037</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.023</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.023</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.026</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.029</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.028</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.031</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.032</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.028</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9af4">2</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.030</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.034</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.029</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.031</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.035</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.041</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.036</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.037</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.032</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9af4">3</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.026</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.032</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.027</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.025</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.038</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.026</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.033</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.022</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9af4">4</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.030</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.020</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.030</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.025</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.028</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.029</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.031</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9af4">5</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.024</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.035</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.032</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.026</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.024</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.030</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9af4">6</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.032</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.028</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.042</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">ns</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.030</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9af4">7</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.022</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.027</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.014</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.029</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9af4">8</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.032</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.022</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.030</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9af4">9</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.031</span></p></td><td class="cl-e71f96f4"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.029</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e71f96f5"><p class="cl-e71f81c8"><span class="cl-e71b9af4">10</span></p></td><td class="cl-e71f96f5"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f5"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f5"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f5"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f5"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f5"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f5"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f5"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f5"><p class="cl-e71f81c8"><span class="cl-e71b9b08"></span></p></td><td class="cl-e71f96f5"><p class="cl-e71f81c8"><span class="cl-e71b9b08">0.045</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="9b37c937-a05d-4a9b-a2be-fb154c46260f"></div>
+<script>
+var dest = document.getElementById("9b37c937-a05d-4a9b-a2be-fb154c46260f");
+var template = document.getElementById("6e246f5d-080b-47e3-891d-a8d9cddf7dbf");
+var caption = template.content.querySelector("caption");
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+<p>
+ 
+</p>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li>the pairwise Adonis2 source code is by Pedro Martinez Arbizu at <a
+href="https://github.com/pmartinezarbizu/pairwiseAdonis"
+target="_blank">https://github.com/pmartinezarbizu/pairwiseAdonis</a>.</li>
+<li>The code for the <code>plainPW2()</code> function is as
+follows:</li>
+</ul>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># function inputs output object from Pedro Martinez Arbizu&#39;s pairwise.adonis2()</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="co"># code at https://github.com/pmartinezarbizu/pairwiseAdonis</span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>plainPW2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">ns.repl=</span><span class="cn">TRUE</span>, <span class="at">alpha=</span><span class="fl">0.05</span>){</span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>  tablout <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Pair=</span><span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(x)<span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>                        <span class="at">P_value=</span><span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(x)<span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(x)){</span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>    tablout[i<span class="dv">-1</span>,] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">names</span>(x)[i],</span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>                       <span class="fu">as.data.frame</span>(x[<span class="fu">names</span>(x)[i]])[<span class="dv">1</span>,<span class="dv">5</span>])</span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>    }</span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a>  n0 <span class="ot">&lt;-</span> (<span class="fu">ceiling</span>(<span class="fu">sqrt</span>(<span class="fu">length</span>(x)<span class="sc">*</span><span class="dv">2</span>)))<span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a>  ptable <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="cn">NA</span>, n0<span class="sc">^</span><span class="dv">2</span>), <span class="at">ncol =</span> n0))</span>
+<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a>  <span class="fu">colnames</span>(ptable) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>n0)<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a>  r0 <span class="ot">&lt;-</span> <span class="dv">1</span> ; rn <span class="ot">&lt;-</span> n0</span>
+<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n0){</span>
+<span id="cb22-15"><a href="#cb22-15" tabindex="-1"></a>    ptable[i,] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">NA</span>,n0<span class="sc">-</span>((rn<span class="sc">-</span>r0)<span class="sc">+</span><span class="dv">1</span>)),<span class="fu">as.numeric</span>(<span class="fu">c</span>(tablout[r0<span class="sc">:</span>rn,<span class="dv">2</span>])))</span>
+<span id="cb22-16"><a href="#cb22-16" tabindex="-1"></a>    r0 <span class="ot">&lt;-</span> rn<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb22-17"><a href="#cb22-17" tabindex="-1"></a>    rn <span class="ot">&lt;-</span> rn<span class="sc">+</span>(n0<span class="sc">-</span>i)</span>
+<span id="cb22-18"><a href="#cb22-18" tabindex="-1"></a>  }</span>
+<span id="cb22-19"><a href="#cb22-19" tabindex="-1"></a>  <span class="cf">if</span>(ns.repl<span class="sc">==</span><span class="cn">TRUE</span>){</span>
+<span id="cb22-20"><a href="#cb22-20" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(ptable)){</span>
+<span id="cb22-21"><a href="#cb22-21" tabindex="-1"></a>      ptable[<span class="fu">which</span>(ptable[,i]<span class="sc">&gt;</span>alpha),i] <span class="ot">&lt;-</span> <span class="st">&quot;ns&quot;</span></span>
+<span id="cb22-22"><a href="#cb22-22" tabindex="-1"></a>      }</span>
+<span id="cb22-23"><a href="#cb22-23" tabindex="-1"></a>    }</span>
+<span id="cb22-24"><a href="#cb22-24" tabindex="-1"></a>  <span class="fu">return</span>(ptable)</span>
+<span id="cb22-25"><a href="#cb22-25" tabindex="-1"></a>}</span></code></pre></div>
+<p>You can also get the <code>plainPW2()</code> function code at <a
+href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/plain-pairwise-FUNCTION2.R"
+target="_blank">github.com/Ratey-AtUWA/.../plain-pairwise-FUNCTION2.R</a>.</p>
+<p> </p>
+</div>
+<div id="extras" class="section level1">
+<h1>Extras</h1>
+<div
+id="stress-plot-for-nmmds-based-on-jaccard-dissimilarities-all-species"
+class="section level3">
+<h3>Stress plot for nmMDS based on Jaccard dissimilarities, all
+species</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="fu">stressplot</span>(AF_nmds_all)</span></code></pre></div>
+<div class="figure">
+<img src="vegan_files/figure-html/stress-plot-1.png" alt="Figure 5: Stress plot showing the goodness-of-fit between actual dsiimilarity for the Ashfield Flats 2022 eDNA data and dissimilarities predicted by NMDS ordination distances." width="50%" />
+<p class="caption">
+Figure 5: Stress plot showing the goodness-of-fit between actual
+dsiimilarity for the Ashfield Flats 2022 eDNA data and dissimilarities
+predicted by NMDS ordination distances.
+</p>
+</div>
+</div>
+<div id="analysis-with-just-the-aquatic-species" class="section level2">
+<h2>Analysis with just the aquatic species</h2>
+<p>These are: <em>Gambusia holbrooki, Arenigobius bifrenatus, Mugil
+cephalus, Acanthopagrus butcheri, Limnodynastes dorsalis, Pseudophryne
+guentheri, Blackfordia polytentaculata, Obelia bidentata, Phyllorhiza
+punctata, Aurelia sp.</em></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>fish <span class="ot">&lt;-</span> allSpecies[,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">17</span><span class="sc">:</span><span class="dv">20</span>)]</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="fu">head</span>(fish)</span></code></pre></div>
+<pre><code>##   MosqFish Goby Mullet Bream BnjoFrog GToadlet HydroidB HydroidO BwnJelly MoonJely
+## 1        1    0      0     0        1        0        0        0        0        0
+## 2        1    0      0     0        1        1        0        0        0        0
+## 3        1    0      0     0        0        1        0        0        0        0
+## 4        1    0      0     0        1        1        0        0        0        0
+## 5        1    0      0     0        1        0        0        0        0        0
+## 6        1    0      0     0        1        0        0        0        0        0</code></pre>
+<div id="for-interest-look-at-the-dissimilarity-matrix"
+class="section level3">
+<h3>for interest look at the dissimilarity matrix</h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>AF_diss_aquat <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(fish, </span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>                           <span class="at">distance =</span> <span class="st">&quot;bray&quot;</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>txt0 <span class="ot">&lt;-</span> <span class="fu">capture.output</span>(<span class="fu">print</span>(AF_diss_aquat,<span class="at">digits=</span><span class="dv">3</span>));txt0[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>];<span class="fu">rm</span>(txt0)</span></code></pre></div>
+<pre><code>##         1      2      3      4      5      6      7      8      9     10     11     12     13     14     15     16 
+## 2  0.2000                                                                                                          
+## 3  0.5000 0.2000                                                                                                   
+## 4  0.2000 0.0000 0.2000                                                                                            
+## 5  0.0000 0.2000 0.5000 0.2000                                                                                     
+## 6  0.0000 0.2000 0.5000 0.2000 0.0000                                                                              
+## 7  0.0000 0.2000 0.5000 0.2000 0.0000 0.0000                                                                       
+## 8  0.0000 0.2000 0.5000 0.2000 0.0000 0.0000 0.0000                                                                
+## 9  0.5000 0.2000 0.0000 0.2000 0.5000 0.5000 0.5000 0.5000                                                         
+## 10 0.3333 0.5000 0.3333 0.5000 0.3333 0.3333 0.3333 0.3333 0.3333                                                  
+## 11 1.0000 0.5000 0.3333 0.5000 1.0000 1.0000 1.0000 1.0000 0.3333 1.0000</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>AF_nmds_aquat <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(fish, <span class="at">trymax =</span> <span class="dv">500</span>, </span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>                           <span class="at">distance =</span> <span class="st">&quot;jaccard&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>AF_nmds_aquat</span></code></pre></div>
+<pre><code>## 
+## Call:
+## metaMDS(comm = fish, distance = &quot;jaccard&quot;, trymax = 500) 
+## 
+## global Multidimensional Scaling using monoMDS
+## 
+## Data:     fish 
+## Distance: jaccard 
+## 
+## Dimensions: 2 
+## Stress:     0.08664753 
+## Stress type 1, weak ties
+## Two convergent solutions found after 20 tries
+## Scaling: centring, PC rotation, halfchange scaling 
+## Species: expanded scores based on &#39;fish&#39;</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="fu">plot</span>(AF_nmds_aquat, <span class="at">type=</span><span class="st">&quot;p&quot;</span>,<span class="at">display =</span> <span class="st">&quot;sites&quot;</span>, <span class="at">cex =</span> <span class="fl">1.2</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="fu">text</span>(AF_nmds_aquat, <span class="at">display =</span> <span class="st">&quot;species&quot;</span>, <span class="at">col =</span> <span class="st">&quot;dodgerblue&quot;</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span></code></pre></div>
+<div class="figure">
+<img src="vegan_files/figure-html/plot%20nmds%20aquat%20Bray-1.png" alt="Figure 6: Basic NMDS plot showing observations as symbols and species as text. Presence-absence data from eDNA sampling and analysis at Ashfield Flats." width="384" />
+<p class="caption">
+Figure 6: Basic NMDS plot showing observations as symbols and species as
+text. Presence-absence data from eDNA sampling and analysis at Ashfield
+Flats.
+</p>
+</div>
+</div>
+<div id="alternative-to-vegan-plots" class="section level3">
+<h3>alternative to vegan plots</h3>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="fu">plasma</span>(<span class="dv">10</span>))) <span class="co"># a viridis palette</span></span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a><span class="fu">plot</span>(AF_nmds_aquat<span class="sc">$</span>points, <span class="at">pch=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>, <span class="dv">2</span>),<span class="dv">21</span>)[eDNA2022<span class="sc">$</span>Site], </span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.2</span>,<span class="fl">1.8</span>), </span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>     <span class="at">bg =</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">11</span>)[eDNA2022<span class="sc">$</span>Site], </span>
+<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>     <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">col.main =</span> <span class="st">&quot;steelblue&quot;</span>)</span>
+<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a><span class="fu">text</span>(AF_nmds_aquat, <span class="at">display =</span> <span class="st">&quot;species&quot;</span>, <span class="at">col =</span> <span class="st">&quot;grey33&quot;</span>, <span class="at">font=</span><span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>,<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">axes=</span>F, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb32-9"><a href="#cb32-9" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;left&quot;</span>, <span class="at">legend=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">11</span>), <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">title=</span><span class="st">&quot;Site&quot;</span>, <span class="at">cex=</span><span class="dv">1</span>, <span class="at">pt.cex=</span><span class="fl">1.2</span>, </span>
+<span id="cb32-10"><a href="#cb32-10" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>, <span class="dv">2</span>),<span class="dv">21</span>), <span class="at">pt.bg=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>)</span></code></pre></div>
+<div class="figure">
+<img src="vegan_files/figure-html/alt-to-vegan-nmds-aquat-1.png" alt="Figure 7: Two-dimensional non-metric multidimensional scaling (NMDS) plot showing observations as symbols and species as text located in MDS2 vs. MDS1 space. Presence-absence data for aquatic species only from eDNA sampling and analysis at Ashfield Flats." width="672" />
+<p class="caption">
+Figure 7: Two-dimensional non-metric multidimensional scaling (NMDS)
+plot showing observations as symbols and species as text located in MDS2
+vs. MDS1 space. Presence-absence data for aquatic species only from eDNA
+sampling and analysis at Ashfield Flats.
+</p>
+</div>
+</div>
+</div>
+<div id="detrended-correspondence-analysis---all-species"
+class="section level2">
+<h2>Detrended correspondence analysis - all species</h2>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>AF_dca_all <span class="ot">&lt;-</span> <span class="fu">decorana</span>(allSpecies)</span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>AF_dca_all</span></code></pre></div>
+<pre><code>## 
+## Call:
+## decorana(veg = allSpecies) 
+## 
+## Detrended correspondence analysis with 26 segments.
+## Rescaling of axes with 4 iterations.
+## 
+##                   DCA1   DCA2   DCA3    DCA4
+## Eigenvalues     0.5537 0.3602 0.2545 0.17011
+## Decorana values 0.5632 0.3154 0.1915 0.07493
+## Axis lengths    3.2842 2.6926 2.1577 1.75539</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a><span class="fu">plot</span>(AF_dca_all)</span></code></pre></div>
+<div class="figure">
+<img src="vegan_files/figure-html/decorana-plot-1.png" alt="Figure 8: Two-dimensional detrended correspondence analysis (DCA) plot showing observations as symbols and species as text. Presence-absence data from eDNA sampling and analysis at Ashfield Flats." width="384" />
+<p class="caption">
+Figure 8: Two-dimensional detrended correspondence analysis (DCA) plot
+showing observations as symbols and species as text. Presence-absence
+data from eDNA sampling and analysis at Ashfield Flats.
+</p>
+</div>
+</div>
+<div
+id="for-comparison-if-wanted-nmmds-again-with-bray-curtis-distances"
+class="section level2">
+<h2>For comparison if wanted: nmMDS again with Bray-Curtis
+distances</h2>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>AF_nmds_all_B <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(allSpecies) <span class="co"># uses Bray by default</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a>AF_nmds_all_B</span></code></pre></div>
+<pre><code>## 
+## Call:
+## metaMDS(comm = allSpecies) 
+## 
+## global Multidimensional Scaling using monoMDS
+## 
+## Data:     allSpecies 
+## Distance: bray 
+## 
+## Dimensions: 2 
+## Stress:     0.1554552 
+## Stress type 1, weak ties
+## Two convergent solutions found after 20 tries
+## Scaling: centring, PC rotation, halfchange scaling 
+## Species: expanded scores based on &#39;allSpecies&#39;</code></pre>
+<p>The results should be identical to nmMDS with Jaccard, since the
+community matrix is already converted to presence-absence (binary ones
+and zeros).</p>
+<p> </p>
+</div>
+</div>
+
+<!DOCTYPE html>
+
+<html>
+<body>
+<hr style="height: 2px; background-color: #003087;" />
+<p><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>.</span></p>
+</body>
+</html>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
