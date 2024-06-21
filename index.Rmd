@@ -36,17 +36,21 @@ output:
   - [Multiple linear regression](reg-multi.html)
     - [Making use of unusual regression residuals](residuals.html)
 
-7. [**Maps**](maps.html)
+7. [**Multivariate analyses**](pca.html)
+  - [Principal components analysis](pca.html)
+  - [Ordinations of species presence-absence data](vegan.html)
+
+8. [**Maps**](maps.html)
   - [Map data with tile backgrounds](maps.html)
   - [Spatial statistics](spatial.html)
   - [Spatial interpolation](spat-interp.html)
 
-8. [**Utilities and other R goodies**](tables.html)
+9. [**Utilities and other R goodies**](tables.html)
   - [Tables & trigger value counts](tables.html)
   - [Distribution checking](distributions.html)
   - [Regression residuals to identify contamination](residuals.html)
 
-9. [**UWA School of Agriculture and Environment**](https://www.uwa.edu.au/schools/agriculture-and-environment){target="_blank"}
+10. [**UWA School of Agriculture and Environment**](https://www.uwa.edu.au/schools/agriculture-and-environment){target="_blank"}
 
 </div>
 
