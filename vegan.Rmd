@@ -1,6 +1,6 @@
 ---
 title: "Multivariate analysis"
-subtitle: "Principal Components Analysis for Compositional Data"
+subtitle: "Ordination analysis of species presence-absence data"
 author: "Deirdre Gleeson and Andrew Rate"
 date: "`r Sys.Date()`"
 output: 
@@ -246,7 +246,7 @@ AF_nmds_all3
 Figure 1 below mimics the nmmds plot in Deirdre's original `PRIMER` handout
 (note that the sign of dimension MDS2 is reversed)
 
-```{r plot-nmds-all-Jaccard-2D, fig.height=6, fig.width=6, fig.cap="Figure 1: 2D NMDS ordination plot based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022.", out.width="70%"}
+```{r plot-nmds-all-Jaccard-2D, fig.height=6, fig.width=6, fig.cap="Figure 1: 2D NMDS ordination plot based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022.", out.width="60%"}
 palette(c("black", viridis(10))) # a viridis palette
 par(mfrow=c(1,1), mar=c(3,3,2,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
 plot(AF_nmds_all$points, pch=c(rep(21:25, 2),21)[eDNA2022$Site], 
@@ -283,8 +283,9 @@ s3d <- scatterplot3d(x=AF_nmds_all3$points[,1], y=AF_nmds_all3$points[,2],
               angle=25, mar=c(4,4,1,2), type="h", col.axis="darkgray", color="gray",
               pch=c(rep(21:25, 2),21)[eDNA2022$Site],
               bg=c(1:11)[eDNA2022$Site], cex.symbols=1.4)
-legend(s3d$xyz.convert(-1.6, -1.3, 1.4), legend = levels(eDNA2022$Site), bty="n",
-      title="Site", pt.bg= c(1:11), pt.cex=1.4, col="gray", pch=c(rep(21:25, 2),21))
+legend(s3d$xyz.convert(1.8, 0.75, 1), legend = levels(eDNA2022$Site), title="Site", 
+       bg="#ffffffa0", box.col="transparent", 
+       pt.bg= c(1:11), pt.cex=1.4, col="gray", pch=c(rep(21:25, 2),21))
 ```
 
 ## Principal Coordinates (PCoA) Analysis
@@ -298,7 +299,7 @@ AF_pco_all <- wcmdscale(vegdist(allSpecies), eig=TRUE)
 AF_pco_all
 ```
 
-```{r basic-pco-plot, fig.height=5, fig.width=5, fig.cap="Figure 3: Basic principal coordinates analysis (PCoA) ordination plot based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022."}
+```{r basic-pco-plot, fig.height=4, fig.width=4, fig.cap="Figure 3: Basic principal coordinates analysis (PCoA) ordination plot based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022."}
 par(mfrow=c(1,1), mar=c(3,3,2,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
 plot(AF_pco_all)
 ```
@@ -307,18 +308,21 @@ Figure 3 is a basic PCoA plot based on all species, showing the locations of
 individual samples by row number.
 
 We can make more informative plots by using the information stored in the
-output object (`[AF_pco_all`) &ndash; see Figure 4.
+output object (`AF_pco_all`) &ndash; see Figure 4.
 
-```{r better-pco-plot-s3d, fig.width=4, fig.height=4, out.width="70%", fig.cap="Figure 4: Principal coordinates (PCoA) ordination plot in 3D based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022.", echo=1:3}
+```{r better-pco-plot-s3d, fig.width=4.5, fig.height=4, out.width="70%", fig.cap="Figure 4: Principal coordinates (PCoA) ordination plot in 3D based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022.", echo=1:4, out.width="50%"}
 palette(c("black", plasma(10))) # a viridis palette
 par(mfrow = c(1,1), mar = c(3,3,1,1), mgp = c(1.5,0.2,0), tcl = 0.25, 
-    font.lab = 2)
-scatterplot3d(x=AF_pco_all$points[,1], y=AF_pco_all$points[,2], z=AF_pco_all$points[,3],
+    font.lab = 2, xpd=T)
+s3d <- scatterplot3d(x=AF_pco_all$points[,1], y=AF_pco_all$points[,2], z=AF_pco_all$points[,3],
               xlab="Dim 1", ylab="Dim 2", zlab="Dim 3",
-              angle=65, mar=c(4,4,1,2), type="h", col.axis="gray", color="#e0e0e0",
+              angle=65, mar=c(4,4,3,2), type="h", col.axis="gray", color="#e0e0e0",
               pch=c(rep(21:25, 2),21)[eDNA2022$Site],
               bg=c(1:11)[eDNA2022$Site], cex.symbols=1.4,
               xlim=c(-0.6,0.4),ylim=c(-0.6,0.4),zlim=c(-0.3,0.4))
+legend(s3d$xyz.convert(-1.5, 0.4, 0.7), legend = levels(eDNA2022$Site), title="Site", 
+       horiz=TRUE, cex=0.8, bg="#ffffffa0", box.col="transparent", 
+       pt.bg= c(1:11), pt.cex=1.1, col="gray", pch=c(rep(21:25, 2),21))
 # plot(AF_pco_all$points[,c(1,2)], xlim = c(-0.6,0.4), ylim = c(-0.6,0.4), 
 #      pch=19, cex = 1, col = 4)
 # text(AF_pco_all$points[,c(1,2)],labels = eDNA2022$SiteID,
@@ -329,7 +333,7 @@ scatterplot3d(x=AF_pco_all$points[,1], y=AF_pco_all$points[,2], z=AF_pco_all$poi
 # text(AF_pco_all$points[,c(1,3)],labels = eDNA2022$SiteID,
 #      col=seq(1,11)[eDNA2022$Site])
 # mtext("(b)", line=-1.3, adj=0.05, cex=1.2)
-
+par(xpd=F)
 ```
 
 ```{r calculate pco scores but not sure if we need this}
@@ -442,7 +446,7 @@ You can also get the `plainPW2()` function code at
 
 ### Stress plot for nmMDS based on Jaccard dissimilarities, all species
 
-```{r stress-plot, fig.height=5, fig.width=7, out.width="50%", fig.cap="Figure 5: Stress plot showing the goodness-of-fit between actual dsiimilarity for the Ashfield Flats 2022 eDNA data and dissimilarities predicted by NMDS ordination distances.", message=FALSE, warning=FALSE}
+```{r stress-plot, fig.height=5, fig.width=7, fig.align='center', out.width="60%", fig.cap="Figure 5: Stress plot showing the goodness-of-fit between actual dsiimilarity for the Ashfield Flats 2022 eDNA data and dissimilarities predicted by NMDS ordination distances.", message=FALSE, warning=FALSE}
 par(mfrow=c(1,1), mar=c(3,3,0.5,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
 stressplot(AF_nmds_all)
 ```
@@ -478,24 +482,24 @@ AF_nmds_aquat <- metaMDS(fish, trymax = 500,
 ```{r show nmds aquat Bray}
 AF_nmds_aquat
 ```
-```{r plot nmds aquat Bray, fig.height=4, fig.width=4, fig.cap="Figure 6: Basic NMDS plot showing observations as symbols and species as text. Presence-absence data from eDNA sampling and analysis at Ashfield Flats."}
+```{r plot nmds aquat Bray, fig.height=4, fig.width=4, fig.align='center', fig.cap="Figure 6: Basic NMDS plot showing observations as symbols and species as text. Presence-absence data from eDNA sampling and analysis at Ashfield Flats."}
 par(mfrow=c(1,1), mar=c(3,3,2,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
 plot(AF_nmds_aquat, type="p",display = "sites", cex = 1.2)
-text(AF_nmds_aquat, display = "species", col = "dodgerblue", cex = 0.8)
+text(AF_nmds_aquat, display = "species", col = "royalblue", cex = 0.8)
 ```
 
 ### alternative to vegan plots
-```{r alt-to-vegan-nmds-aquat, fig.height=3.5, fig.width=7, fig.cap="Figure 7: Two-dimensional non-metric multidimensional scaling (NMDS) plot showing observations as symbols and species as text located in MDS2 vs. MDS1 space. Presence-absence data for aquatic species only from eDNA sampling and analysis at Ashfield Flats."}
+```{r alt-to-vegan-nmds-aquat, fig.height=3.5, fig.width=5, fig.cap="Figure 7: Two-dimensional non-metric multidimensional scaling (NMDS) plot showing observations as symbols and species as text located in MDS2 vs. MDS1 space. Presence-absence data for aquatic species only from eDNA sampling and analysis at Ashfield Flats.", echo=1:5}
 palette(c("black", plasma(10))) # a viridis palette
-par(mfrow=c(1,2), mar=c(3,3,0.5,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
+par(mfrow=c(1,1), mar=c(3,3,0.5,5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2, xpd=T)
 plot(AF_nmds_aquat$points, pch=c(rep(21:25, 2),21)[eDNA2022$Site], 
      xlim = c(-1.2,1.8), 
      bg = seq(1,11)[eDNA2022$Site], 
      cex = 1.2, col.main = "steelblue")
 text(AF_nmds_aquat, display = "species", col = "grey33", font=3, cex = 0.8)
-plot(0:1,0:1, type="n", axes=F, bty="n", xlab="", ylab="")
-legend("left", legend=seq(1,11), bty="n", title="Site", cex=1, pt.cex=1.2, 
+legend(2.2,1.2, legend=seq(1,11), bty="n", title="Site", cex=1, pt.cex=1.2, 
        pch=c(rep(21:25, 2),21), pt.bg=1:11)
+par(xpd=F)
 ```
 
 ## Detrended correspondence analysis - all species
@@ -505,9 +509,9 @@ AF_dca_all <- decorana(allSpecies)
 AF_dca_all
 ```
 
-```{r decorana-plot, fig.height=4, fig.width=4, fig.cap="Figure 8: Two-dimensional detrended correspondence analysis (DCA) plot showing observations as symbols and species as text. Presence-absence data from eDNA sampling and analysis at Ashfield Flats."}
+```{r decorana-plot, fig.height=4, fig.width=4, fig.cap="Figure 8: Two-dimensional detrended correspondence analysis (DCA) plot showing observations as symbols and species as text. Presence-absence data from water sampling and eDNA analysis at Ashfield Flats."}
 par(mfrow=c(1,1), mar=c(3,3,0.5,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
-plot(AF_dca_all)
+plot(AF_dca_all, col=c(1,4))
 ```
 
 ## For comparison if wanted: nmMDS again with Bray-Curtis distances
