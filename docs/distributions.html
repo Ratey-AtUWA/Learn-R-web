@@ -345,7 +345,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -360,7 +360,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -375,7 +375,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -390,7 +390,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -411,7 +411,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -429,7 +429,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -437,7 +437,7 @@ $(document).ready(function () {
       <a href="pca.html">Principal components analysis</a>
     </li>
     <li>
-      <a href="tbc.html">Analysis of species presence-absence data</a>
+      <a href="vegan.html">Analysis of species presence-absence data</a>
     </li>
     <li>
       <a href="tbc.html">Linear discriminant analysis</a>
@@ -450,7 +450,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -513,61 +513,61 @@ any information from the original if something goes horribly wrong. We
 then check our data using the <code>summary()</code> function:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> sv2017</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">summary</span>(data0)</span></code></pre></div>
-<pre><code>##   ICP.Seq.No            Group           Sample              Type              Easting      
-##  Length:95          Min.   : 1.000   Length:95          Length:95          Min.   :391064  
-##  Class :character   1st Qu.: 3.000   Class :character   Class :character   1st Qu.:391242  
-##  Mode  :character   Median : 6.000   Mode  :character   Mode  :character   Median :391338  
-##                     Mean   : 6.344                                         Mean   :391301  
-##                     3rd Qu.: 9.000                                         3rd Qu.:391384  
-##                     Max.   :12.000                                         Max.   :391431  
-##                     NA&#39;s   :2                                                              
-##     Northing         Longitude        Latitude            pH              EC              Al      
-##  Min.   :6466246   Min.   :115.8   Min.   :-31.93   Min.   :4.630   Min.   : 29.1   Min.   : 396  
-##  1st Qu.:6466430   1st Qu.:115.8   1st Qu.:-31.93   1st Qu.:6.388   1st Qu.:106.6   1st Qu.:2106  
-##  Median :6466589   Median :115.9   Median :-31.93   Median :6.820   Median :152.6   Median :2503  
-##  Mean   :6466556   Mean   :115.9   Mean   :-31.93   Mean   :6.813   Mean   :188.5   Mean   :2558  
-##  3rd Qu.:6466676   3rd Qu.:115.9   3rd Qu.:-31.93   3rd Qu.:7.280   3rd Qu.:215.1   3rd Qu.:2933  
-##  Max.   :6466771   Max.   :115.9   Max.   :-31.93   Max.   :8.630   Max.   :835.0   Max.   :8463  
-##                                                     NA&#39;s   :1       NA&#39;s   :34      NA&#39;s   :7     
-##        As                Ba               Ca              Cd               Ce               Cr        
-##  Min.   :  0.480   Min.   : 3.990   Min.   :  283   Min.   :0.0200   Min.   : 1.190   Min.   : 1.170  
-##  1st Qu.:  1.738   1st Qu.: 9.755   1st Qu.: 1189   1st Qu.:0.0500   1st Qu.: 3.290   1st Qu.: 5.610  
-##  Median :  2.100   Median :13.550   Median : 1837   Median :0.0700   Median : 4.270   Median : 7.085  
-##  Mean   :  3.758   Mean   :15.102   Mean   : 5768   Mean   :0.1008   Mean   : 4.576   Mean   : 7.249  
-##  3rd Qu.:  2.800   3rd Qu.:19.938   3rd Qu.: 6510   3rd Qu.:0.1200   3rd Qu.: 5.420   3rd Qu.: 8.450  
-##  Max.   :113.630   Max.   :41.670   Max.   :66286   Max.   :0.6600   Max.   :14.080   Max.   :26.290  
-##  NA&#39;s   :7         NA&#39;s   :7        NA&#39;s   :7       NA&#39;s   :19       NA&#39;s   :8        NA&#39;s   :7       
-##        Cu               Fe              Gd               K               La              Mg         
-##  Min.   : 2.130   Min.   :  833   Min.   :0.2100   Min.   : 41.1   Min.   :0.750   Min.   :  57.34  
-##  1st Qu.: 4.213   1st Qu.: 2013   1st Qu.:0.3700   1st Qu.:101.7   1st Qu.:1.560   1st Qu.: 237.21  
-##  Median : 6.010   Median : 2589   Median :0.4650   Median :151.7   Median :1.895   Median : 351.26  
-##  Mean   :10.794   Mean   : 3132   Mean   :0.5166   Mean   :173.5   Mean   :2.110   Mean   : 467.74  
-##  3rd Qu.:12.200   3rd Qu.: 3362   3rd Qu.:0.6300   3rd Qu.:221.9   3rd Qu.:2.413   3rd Qu.: 563.90  
-##  Max.   :87.380   Max.   :36052   Max.   :2.4100   Max.   :634.1   Max.   :7.530   Max.   :3253.43  
-##  NA&#39;s   :7        NA&#39;s   :7       NA&#39;s   :9        NA&#39;s   :7       NA&#39;s   :7       NA&#39;s   :7        
-##        Mn               Mo               Na                Nd              Ni               P        
-##  Min.   :  2.68   Min.   : 0.050   Min.   :  27.80   Min.   :0.050   Min.   : 0.250   Min.   : 18.5  
-##  1st Qu.: 18.89   1st Qu.: 0.170   1st Qu.:  70.75   1st Qu.:1.230   1st Qu.: 1.252   1st Qu.:113.0  
-##  Median : 30.82   Median : 0.230   Median : 107.95   Median :1.620   Median : 2.040   Median :186.8  
-##  Mean   : 35.57   Mean   : 0.418   Mean   : 142.02   Mean   :1.692   Mean   : 2.536   Mean   :218.2  
-##  3rd Qu.: 47.97   3rd Qu.: 0.310   3rd Qu.: 163.43   3rd Qu.:2.110   3rd Qu.: 2.768   3rd Qu.:298.8  
-##  Max.   :127.42   Max.   :14.470   Max.   :1613.70   Max.   :8.540   Max.   :21.340   Max.   :846.9  
-##  NA&#39;s   :7        NA&#39;s   :7        NA&#39;s   :7         NA&#39;s   :10      NA&#39;s   :7        NA&#39;s   :7      
-##        Pb               S                  Sr               Th              V         
-##  Min.   :  3.23   Min.   :   42.96   Min.   :  1.87   Min.   :0.480   Min.   : 1.280  
-##  1st Qu.: 10.16   1st Qu.:  183.44   1st Qu.:  6.24   1st Qu.:0.650   1st Qu.: 4.330  
-##  Median : 15.36   Median :  281.78   Median : 10.37   Median :0.940   Median : 5.360  
-##  Mean   : 28.42   Mean   :  897.30   Mean   : 31.24   Mean   :1.171   Mean   : 5.727  
-##  3rd Qu.: 27.12   3rd Qu.:  425.77   3rd Qu.: 27.82   3rd Qu.:1.400   3rd Qu.: 6.400  
-##  Max.   :173.78   Max.   :41484.84   Max.   :473.42   Max.   :3.840   Max.   :33.620  
-##  NA&#39;s   :7        NA&#39;s   :7          NA&#39;s   :7        NA&#39;s   :24      NA&#39;s   :7       
-##        Y                Zn        
-##  Min.   : 0.440   Min.   :  5.59  
-##  1st Qu.: 1.130   1st Qu.: 23.96  
-##  Median : 1.490   Median : 38.60  
-##  Mean   : 1.808   Mean   : 58.71  
-##  3rd Qu.: 2.053   3rd Qu.: 63.63  
-##  Max.   :12.320   Max.   :452.16  
+<pre><code>##   ICP.Seq.No            Group           Sample              Type              Easting
+##  Length:95          Min.   : 1.000   Length:95          Length:95          Min.   :391064
+##  Class :character   1st Qu.: 3.000   Class :character   Class :character   1st Qu.:391242
+##  Mode  :character   Median : 6.000   Mode  :character   Mode  :character   Median :391338
+##                     Mean   : 6.344                                         Mean   :391301
+##                     3rd Qu.: 9.000                                         3rd Qu.:391384
+##                     Max.   :12.000                                         Max.   :391431
+##                     NA&#39;s   :2
+##     Northing         Longitude        Latitude            pH              EC              Al
+##  Min.   :6466246   Min.   :115.8   Min.   :-31.93   Min.   :4.630   Min.   : 29.1   Min.   : 396
+##  1st Qu.:6466430   1st Qu.:115.8   1st Qu.:-31.93   1st Qu.:6.388   1st Qu.:106.6   1st Qu.:2106
+##  Median :6466589   Median :115.9   Median :-31.93   Median :6.820   Median :152.6   Median :2503
+##  Mean   :6466556   Mean   :115.9   Mean   :-31.93   Mean   :6.813   Mean   :188.5   Mean   :2558
+##  3rd Qu.:6466676   3rd Qu.:115.9   3rd Qu.:-31.93   3rd Qu.:7.280   3rd Qu.:215.1   3rd Qu.:2933
+##  Max.   :6466771   Max.   :115.9   Max.   :-31.93   Max.   :8.630   Max.   :835.0   Max.   :8463
+##                                                     NA&#39;s   :1       NA&#39;s   :34      NA&#39;s   :7
+##        As                Ba               Ca              Cd               Ce               Cr
+##  Min.   :  0.480   Min.   : 3.990   Min.   :  283   Min.   :0.0200   Min.   : 1.190   Min.   : 1.170
+##  1st Qu.:  1.738   1st Qu.: 9.755   1st Qu.: 1189   1st Qu.:0.0500   1st Qu.: 3.290   1st Qu.: 5.610
+##  Median :  2.100   Median :13.550   Median : 1837   Median :0.0700   Median : 4.270   Median : 7.085
+##  Mean   :  3.758   Mean   :15.102   Mean   : 5768   Mean   :0.1008   Mean   : 4.576   Mean   : 7.249
+##  3rd Qu.:  2.800   3rd Qu.:19.938   3rd Qu.: 6510   3rd Qu.:0.1200   3rd Qu.: 5.420   3rd Qu.: 8.450
+##  Max.   :113.630   Max.   :41.670   Max.   :66286   Max.   :0.6600   Max.   :14.080   Max.   :26.290
+##  NA&#39;s   :7         NA&#39;s   :7        NA&#39;s   :7       NA&#39;s   :19       NA&#39;s   :8        NA&#39;s   :7
+##        Cu               Fe              Gd               K               La              Mg
+##  Min.   : 2.130   Min.   :  833   Min.   :0.2100   Min.   : 41.1   Min.   :0.750   Min.   :  57.34
+##  1st Qu.: 4.213   1st Qu.: 2013   1st Qu.:0.3700   1st Qu.:101.7   1st Qu.:1.560   1st Qu.: 237.21
+##  Median : 6.010   Median : 2589   Median :0.4650   Median :151.7   Median :1.895   Median : 351.26
+##  Mean   :10.794   Mean   : 3132   Mean   :0.5166   Mean   :173.5   Mean   :2.110   Mean   : 467.74
+##  3rd Qu.:12.200   3rd Qu.: 3362   3rd Qu.:0.6300   3rd Qu.:221.9   3rd Qu.:2.413   3rd Qu.: 563.90
+##  Max.   :87.380   Max.   :36052   Max.   :2.4100   Max.   :634.1   Max.   :7.530   Max.   :3253.43
+##  NA&#39;s   :7        NA&#39;s   :7       NA&#39;s   :9        NA&#39;s   :7       NA&#39;s   :7       NA&#39;s   :7
+##        Mn               Mo               Na                Nd              Ni               P
+##  Min.   :  2.68   Min.   : 0.050   Min.   :  27.80   Min.   :0.050   Min.   : 0.250   Min.   : 18.5
+##  1st Qu.: 18.89   1st Qu.: 0.170   1st Qu.:  70.75   1st Qu.:1.230   1st Qu.: 1.252   1st Qu.:113.0
+##  Median : 30.82   Median : 0.230   Median : 107.95   Median :1.620   Median : 2.040   Median :186.8
+##  Mean   : 35.57   Mean   : 0.418   Mean   : 142.02   Mean   :1.692   Mean   : 2.536   Mean   :218.2
+##  3rd Qu.: 47.97   3rd Qu.: 0.310   3rd Qu.: 163.43   3rd Qu.:2.110   3rd Qu.: 2.768   3rd Qu.:298.8
+##  Max.   :127.42   Max.   :14.470   Max.   :1613.70   Max.   :8.540   Max.   :21.340   Max.   :846.9
+##  NA&#39;s   :7        NA&#39;s   :7        NA&#39;s   :7         NA&#39;s   :10      NA&#39;s   :7        NA&#39;s   :7
+##        Pb               S                  Sr               Th              V
+##  Min.   :  3.23   Min.   :   42.96   Min.   :  1.87   Min.   :0.480   Min.   : 1.280
+##  1st Qu.: 10.16   1st Qu.:  183.44   1st Qu.:  6.24   1st Qu.:0.650   1st Qu.: 4.330
+##  Median : 15.36   Median :  281.78   Median : 10.37   Median :0.940   Median : 5.360
+##  Mean   : 28.42   Mean   :  897.30   Mean   : 31.24   Mean   :1.171   Mean   : 5.727
+##  3rd Qu.: 27.12   3rd Qu.:  425.77   3rd Qu.: 27.82   3rd Qu.:1.400   3rd Qu.: 6.400
+##  Max.   :173.78   Max.   :41484.84   Max.   :473.42   Max.   :3.840   Max.   :33.620
+##  NA&#39;s   :7        NA&#39;s   :7          NA&#39;s   :7        NA&#39;s   :24      NA&#39;s   :7
+##        Y                Zn
+##  Min.   : 0.440   Min.   :  5.59
+##  1st Qu.: 1.130   1st Qu.: 23.96
+##  Median : 1.490   Median : 38.60
+##  Mean   : 1.808   Mean   : 58.71
+##  3rd Qu.: 2.053   3rd Qu.: 63.63
+##  Max.   :12.320   Max.   :452.16
 ##  NA&#39;s   :7        NA&#39;s   :7</code></pre>
 <p>The <code>summary()</code> shows us that the first numeric variable
 we want to check the distribution for is <code>pH</code>. There are
@@ -626,7 +626,7 @@ significant digits.</p>
 <span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="fu">print</span>(transf_results, <span class="at">row.names =</span> <span class="cn">FALSE</span>)}</span></code></pre></div>
 <pre><code>## Table 1: Shapiro-Wilk statistics and p-values for untransformed (_orig) and transformed
 ## (_log, _pow) variables from soil and sediemnt analysis at Smith&#39;s Lake Reserve.
-## 
+##
 ##  Variable W_orig    p_orig W_log_tr  p_log_tr W_pow_tr  p_pow_tr  Pow_term
 ##        pH 0.9766   0.08979   0.9474 0.0008693   0.9867    0.4612     2.002
 ##        EC   0.76 1.274e-08   0.9823    0.5219   0.9824    0.5283  -0.01806

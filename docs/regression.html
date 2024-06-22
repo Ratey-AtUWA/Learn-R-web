@@ -345,7 +345,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -360,7 +360,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -375,7 +375,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -390,7 +390,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -411,7 +411,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -429,7 +429,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -437,7 +437,7 @@ $(document).ready(function () {
       <a href="pca.html">Principal components analysis</a>
     </li>
     <li>
-      <a href="tbc.html">Analysis of species presence-absence data</a>
+      <a href="vegan.html">Analysis of species presence-absence data</a>
     </li>
     <li>
       <a href="tbc.html">Linear discriminant analysis</a>
@@ -450,7 +450,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -611,23 +611,23 @@ class="math inline">\(x\)</span>-axis</p>
 gives the most informative output:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>lmCrAlsimple <span class="ot">&lt;-</span> <span class="fu">lm</span>(Cr <span class="sc">~</span> Al, <span class="at">data =</span> afs1923)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">summary</span>(lmCrAlsimple)</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## Call:
 ## lm(formula = Cr ~ Al, data = afs1923)
-## 
+##
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -40.751  -5.349  -0.251   5.774  52.250 
-## 
+##     Min      1Q  Median      3Q     Max
+## -40.751  -5.349  -0.251   5.774  52.250
+##
 ## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
+##              Estimate Std. Error t value Pr(&gt;|t|)
 ## (Intercept) 7.672e+00  1.284e+00   5.976 5.89e-09 ***
 ## Al          1.359e-03  3.829e-05  35.480  &lt; 2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
+##
 ## Residual standard error: 9.428 on 333 degrees of freedom
-## Multiple R-squared:  0.7908, Adjusted R-squared:  0.7902 
+## Multiple R-squared:  0.7908, Adjusted R-squared:  0.7902
 ## F-statistic:  1259 on 1 and 333 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>The output from a linear model summary in R is quite extensive:</p>
 <ol style="list-style-type: decimal">
@@ -738,9 +738,9 @@ packages.</p>
 <em>normally distributed residuals</em> (H<sub>0</sub> is that the
 residuals <em>are</em> normally distributed):</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(lmCrAlsimple<span class="sc">$</span>residuals) <span class="co"># normality</span></span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  Shapiro-Wilk normality test
-## 
+##
 ## data:  lmCrAlsimple$residuals
 ## W = 0.96084, p-value = 8.146e-08</code></pre>
 <p>The Breusch-Godfrey test is for residual autocorrelation;
@@ -748,26 +748,26 @@ H<sub>0</sub> is that residuals are not autocorrelated (<em>i.e</em>.
 observations probably <em>independent</em>)</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">require</span>(lmtest)</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">bgtest</span>(lmCrAlsimple) <span class="co"># autocorrelation (independence)</span></span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  Breusch-Godfrey test for serial correlation of order up to 1
-## 
+##
 ## data:  lmCrAlsimple
 ## LM test = 73.543, df = 1, p-value &lt; 2.2e-16</code></pre>
 <p>The Breusch-Pagan test is for heteroscedasticity; H<sub>0</sub> is
 that residuals are <em>homoscedastic</em> (<em>i.e</em>. variance
 independent of value of variable).</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">bptest</span>(lmCrAlsimple) <span class="co"># homoscedasticity</span></span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  studentized Breusch-Pagan test
-## 
+##
 ## data:  lmCrAlsimple
 ## BP = 0.11665, df = 1, p-value = 0.7327</code></pre>
 <p>The Rainbow test is to test the assumption of <em>linearity</em>;
 H<sub>0</sub> is that the relationship is linear.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">raintest</span>(lmCrAlsimple) <span class="co"># linearity</span></span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  Rainbow test
-## 
+##
 ## data:  lmCrAlsimple
 ## Rain = 0.54384, df1 = 168, df2 = 165, p-value = 1</code></pre>
 <p>The <code>outlierTest()</code> function in the <code>car</code>
@@ -787,7 +787,7 @@ influential in the regression is <em>Cook's distance</em>. We often use
 a rule-of-thumb that observations with a Cook's distance &gt;0.5 could
 be considered influential.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">cooks.distance</span>(lmCrAlsimple)) <span class="co"># influential observations</span></span></code></pre></div>
-<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
 ## 0.0000000 0.0002053 0.0008548 0.0035295 0.0026661 0.1354693</code></pre>
 <p>Even more detail can be obtained using the function
 <code>influence.measures()</code>. This produces a lot of output, so we
@@ -796,24 +796,24 @@ show only part of it here.</p>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">summary</span>(infl.lmCrAl) <span class="co"># influential observations</span></span></code></pre></div>
 <pre><code>## Potentially influential observations of
 ##   lm(formula = Cr ~ Al, data = afs1923) :
-## 
-##     dfb.1_ dfb.Al dffit   cov.r   cook.d hat    
-## 2    0.00   0.06   0.14    0.98_*  0.01   0.00  
-## 134  0.53  -0.48   0.53_*  0.92_*  0.14   0.02  
-## 137  0.04  -0.04   0.04    1.02_*  0.00   0.01  
-## 138 -0.07   0.00  -0.17    0.96_*  0.01   0.00  
-## 168 -0.03   0.02  -0.03    1.02_*  0.00   0.01  
-## 177  0.49  -0.40   0.51_*  0.83_*  0.12   0.01  
-## 222 -0.10   0.09  -0.10    1.02_*  0.01   0.02  
-## 223 -0.10   0.09  -0.10    1.02_*  0.01   0.02  
-## 226 -0.10   0.05  -0.14    0.97_*  0.01   0.00  
-## 227  0.04  -0.15  -0.28_*  0.90_*  0.04   0.00  
+##
+##     dfb.1_ dfb.Al dffit   cov.r   cook.d hat
+## 2    0.00   0.06   0.14    0.98_*  0.01   0.00
+## 134  0.53  -0.48   0.53_*  0.92_*  0.14   0.02
+## 137  0.04  -0.04   0.04    1.02_*  0.00   0.01
+## 138 -0.07   0.00  -0.17    0.96_*  0.01   0.00
+## 168 -0.03   0.02  -0.03    1.02_*  0.00   0.01
+## 177  0.49  -0.40   0.51_*  0.83_*  0.12   0.01
+## 222 -0.10   0.09  -0.10    1.02_*  0.01   0.02
+## 223 -0.10   0.09  -0.10    1.02_*  0.01   0.02
+## 226 -0.10   0.05  -0.14    0.97_*  0.01   0.00
+## 227  0.04  -0.15  -0.28_*  0.90_*  0.04   0.00
 ## 245  0.33  -0.44  -0.47_*  0.97_*  0.11   0.02_*
-## 247  0.18  -0.24  -0.27_*  1.00    0.04   0.02  
-## 267  0.15  -0.22  -0.25_*  0.99    0.03   0.01  
-## 290 -0.10   0.09  -0.10    1.02_*  0.00   0.02  
+## 247  0.18  -0.24  -0.27_*  1.00    0.04   0.02
+## 267  0.15  -0.22  -0.25_*  0.99    0.03   0.01
+## 290 -0.10   0.09  -0.10    1.02_*  0.00   0.02
 ## 291 -0.10   0.10  -0.10    1.02_*  0.01   0.02_*
-## 296 -0.07   0.06  -0.07    1.02_*  0.00   0.02  
+## 296 -0.07   0.06  -0.07    1.02_*  0.00   0.02
 ## 320 -0.03   0.03  -0.03    1.02_*  0.00   0.02</code></pre>
 <p>To summarise:</p>
 <template id="12396ac6-7fe1-4cae-b4f7-2f917d779c23"><style>

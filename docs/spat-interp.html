@@ -345,7 +345,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -360,7 +360,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -375,7 +375,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -390,7 +390,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -411,7 +411,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -429,7 +429,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -437,7 +437,7 @@ $(document).ready(function () {
       <a href="pca.html">Principal components analysis</a>
     </li>
     <li>
-      <a href="tbc.html">Analysis of species presence-absence data</a>
+      <a href="vegan.html">Analysis of species presence-absence data</a>
     </li>
     <li>
       <a href="tbc.html">Linear discriminant analysis</a>
@@ -450,7 +450,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -642,12 +642,12 @@ outliers.)</p>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                     <span class="at">crs =</span> LongLat)</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>As.AR_sf<span class="sc">$</span>As.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(As.AR_sf<span class="sc">$</span>As.AR)</span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">summary</span>(As.AR_sf)</span></code></pre></div>
-<pre><code>##      As.AR                 geometry       As.log        
-##  Min.   : 0.050   POINT        :305   Min.   :-1.30103  
-##  1st Qu.: 0.800   epsg:4326    :  0   1st Qu.:-0.09691  
-##  Median : 1.600   +proj=long...:  0   Median : 0.20412  
-##  Mean   : 2.869                       Mean   : 0.15464  
-##  3rd Qu.: 3.300                       3rd Qu.: 0.51851  
+<pre><code>##      As.AR                 geometry       As.log
+##  Min.   : 0.050   POINT        :305   Min.   :-1.30103
+##  1st Qu.: 0.800   epsg:4326    :  0   1st Qu.:-0.09691
+##  Median : 1.600   +proj=long...:  0   Median : 0.20412
+##  Mean   : 2.869                       Mean   : 0.15464
+##  3rd Qu.: 3.300                       3rd Qu.: 0.51851
 ##  Max.   :50.200                       Max.   : 1.70070</code></pre>
 <p>
  
@@ -838,7 +838,7 @@ using the <code>st_intersection()</code> function from
 <span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a></span>
 <span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Prediction grid:</span><span class="sc">\n</span><span class="st">&quot;</span>); NGSAgrid</span></code></pre></div>
 <pre><code>## Prediction grid:
-## Geometry set for 3500 features 
+## Geometry set for 3500 features
 ## Geometry type: POINT
 ## Dimension:     XY
 ## Bounding box:  xmin: 113.4034 ymin: -34.96724 xmax: 128.8034 ymax: -16.76724
@@ -860,23 +860,23 @@ the inverse distance weighting parameter <code>idp =</code>.</p>
 <span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>                  <span class="at">newdata =</span> NGSAgrid, <span class="at">idp =</span> idpower) <span class="co"># idp = 2 is the default</span></span>
 <span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="fu">summary</span>(idw_As.log)</span></code></pre></div>
 <pre><code>## [using ordinary kriging]
-##    var1.pred           var1.var               geometry   
-##  Min.   :-0.95613   Min.   :0.1575   POINT        :3500  
-##  1st Qu.:-0.04899   1st Qu.:0.1720   epsg:4326    :   0  
-##  Median : 0.23887   Median :0.1763   +proj=long...:   0  
-##  Mean   : 0.20047   Mean   :0.1777                       
-##  3rd Qu.: 0.48836   3rd Qu.:0.1816                       
-##  Max.   : 1.01392   Max.   :0.2311                       
+##    var1.pred           var1.var               geometry
+##  Min.   :-0.95613   Min.   :0.1575   POINT        :3500
+##  1st Qu.:-0.04899   1st Qu.:0.1720   epsg:4326    :   0
+##  Median : 0.23887   Median :0.1763   +proj=long...:   0
+##  Mean   : 0.20047   Mean   :0.1777
+##  3rd Qu.: 0.48836   3rd Qu.:0.1816
+##  Max.   : 1.01392   Max.   :0.2311
 ## _____________________________________________________________________
-## 
+##
 ## [inverse distance weighted interpolation]
-##    var1.pred           var1.var             geometry   
-##  Min.   :-1.30072   Min.   : NA    POINT        :3500  
-##  1st Qu.:-0.03455   1st Qu.: NA    epsg:4326    :   0  
-##  Median : 0.23292   Median : NA    +proj=long...:   0  
-##  Mean   : 0.19244   Mean   :NaN                        
-##  3rd Qu.: 0.47952   3rd Qu.: NA                        
-##  Max.   : 1.63438   Max.   : NA                        
+##    var1.pred           var1.var             geometry
+##  Min.   :-1.30072   Min.   : NA    POINT        :3500
+##  1st Qu.:-0.03455   1st Qu.: NA    epsg:4326    :   0
+##  Median : 0.23292   Median : NA    +proj=long...:   0
+##  Mean   : 0.19244   Mean   :NaN
+##  3rd Qu.: 0.47952   3rd Qu.: NA
+##  Max.   : 1.63438   Max.   : NA
 ##                     NA&#39;s   :3500</code></pre>
 </div>
 <div id="simple-plot-of-kriging-output" class="section level3">

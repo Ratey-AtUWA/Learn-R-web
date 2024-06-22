@@ -345,7 +345,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -360,7 +360,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -375,7 +375,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -390,7 +390,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -411,7 +411,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -429,7 +429,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -437,7 +437,7 @@ $(document).ready(function () {
       <a href="pca.html">Principal components analysis</a>
     </li>
     <li>
-      <a href="tbc.html">Analysis of species presence-absence data</a>
+      <a href="vegan.html">Analysis of species presence-absence data</a>
     </li>
     <li>
       <a href="tbc.html">Linear discriminant analysis</a>
@@ -450,7 +450,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -879,16 +879,16 @@ random with no spatial correlation.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>ngsaWA_nbwt <span class="ot">&lt;-</span> <span class="fu">knearneigh</span>(<span class="at">x=</span>ngsaWAsf, <span class="at">k=</span><span class="dv">8</span>) <span class="sc">|&gt;</span> <span class="fu">knn2nb</span>() <span class="sc">|&gt;</span> <span class="fu">nb2listw</span>()</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>ngsaWAsf<span class="sc">$</span>As.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(ngsaWAsf<span class="sc">$</span>As.AR)</span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>(mI <span class="ot">&lt;-</span> <span class="fu">moran.test</span>(ngsaWAsf<span class="sc">$</span>As.log, ngsaWA_nbwt)) <span class="co"># ; str(mI) # if needed</span></span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  Moran I test under randomisation
-## 
-## data:  ngsaWAsf$As.log  
-## weights: ngsaWA_nbwt    
-## 
+##
+## data:  ngsaWAsf$As.log
+## weights: ngsaWA_nbwt
+##
 ## Moran I statistic standard deviate = 17.055, p-value &lt; 2.2e-16
 ## alternative hypothesis: greater
 ## sample estimates:
-## Moran I statistic       Expectation          Variance 
+## Moran I statistic       Expectation          Variance
 ##      0.4604199496     -0.0032894737      0.0007392565</code></pre>
 <p>The <code>Expectation</code> in the output is the estimated value of
 Moran's I if the null hypothesis is correct. We can try running the test
