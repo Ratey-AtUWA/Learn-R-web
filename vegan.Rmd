@@ -283,7 +283,7 @@ s3d <- scatterplot3d(x=AF_nmds_all3$points[,1], y=AF_nmds_all3$points[,2],
               angle=25, mar=c(4,4,1,2), type="h", col.axis="darkgray", color="gray",
               pch=c(rep(21:25, 2),21)[eDNA2022$Site],
               bg=c(1:11)[eDNA2022$Site], cex.symbols=1.4)
-legend(s3d$xyz.convert(1.8, 0.75, 1), legend = levels(eDNA2022$Site), title="Site", 
+legend(s3d$xyz.convert(1.7, 0.75, 1.6), legend = levels(eDNA2022$Site), title="Site", 
        bg="#ffffffa0", box.col="transparent", 
        pt.bg= c(1:11), pt.cex=1.4, col="gray", pch=c(rep(21:25, 2),21))
 ```
