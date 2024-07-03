@@ -48,9 +48,9 @@ navbar:
         - text: "Analysis of species presence-absence data"
           href: vegan.html
         - text: "Linear discriminant analysis"
-          href: tbc.html
+          href: lda.html
         - text: "Cluster analysis"
-          href: tbc.html
+          href: cluster.html
     - text: "Util"
       menu:
         - text: "Tables & trigger value counts"
