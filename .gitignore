@@ -19,6 +19,7 @@
 .nojekyll
 *.Rproj
 render-them.R
+search-replace-gsub-multi-files.R
 *.docx
 
 # Output files from R CMD check
