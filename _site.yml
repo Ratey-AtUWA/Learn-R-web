@@ -33,6 +33,8 @@ navbar:
           href: reg-group.html
         - text: "Multiple linear regression"
           href: reg-multi.html
+        - text: "Time series analysis"
+          href: timeseries.html
     - text: "Maps"
       menu:
         - text: "Map data with tile backgrounds"
