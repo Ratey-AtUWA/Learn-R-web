@@ -50,12 +50,16 @@ soiltemp <- read.csv(paste0(git,"soiltemp2.csv"))
 colnames(soiltemp) <- c("Date","temp")
 ```
 
-## Do some checks of the data
+&nbsp;
+
+### Do some checks of the data
 
 ```{r check-dataframe, message=FALSE, warning=FALSE, results='hold'}
 summary(soiltemp) # simple summary of each column
 str(soiltemp) # more detailed information about the R object ('str'=structure)
 ```
+
+&nbsp;
 
 ### Check with a plot
 
@@ -93,6 +97,8 @@ plot(soiltemp_T15_zoo, col = 2)
 Sometimes we need to use another time series data format, `xts`
 (e[X]{.underline}tended [T]{.underline}ime [S]{.underline}eries), which allows us
 to use more functions...
+
+&nbsp;
 
 ### Make an xts object from our zoo object
 
@@ -177,6 +183,8 @@ soiltemp_T15_zoo <- soiltemp_T15_zoo^0.5 ####  don't run this chunk of code...
 soiltemp_T15_xts <- as.xts(soiltemp_T15_zoo) # ...it's just an example 😊
 ```
 
+&nbsp;
+
 ## Assessing if a time series variable is stationary
 
 A **stationary** variable's mean and variance are not dependent on time. In
@@ -190,7 +198,9 @@ Many useful statistical analyses and models for time series models need a
 stationary time series as input, or a time series that can be made stationary
 with transformations or differencing.
 
-## Testing for stationarity
+&nbsp;
+
+### Testing for stationarity
 
 ```{r adf tests}
 # we need the package 'tseries' for the Augmented Dickey–Fuller (adf) Test
@@ -199,7 +209,9 @@ d1 <- adf.test(diff(soiltemp_T15_zoo,1)); print(d1)
 d2 <- adf.test(diff(diff(soiltemp_T15_zoo,1),1)); print(d2)
 ```
 
-## Plot differencing for stationarity
+&nbsp;
+
+### Plot differencing for stationarity
 
 The plots in Figure 5 below show that constant mean and variance (*i.e*.
 stationarity) is achieved after a single differencing step. The `adf.test`
@@ -275,6 +287,8 @@ The output from `mk.test()` shows a negative slope (*i.e*. the value of `S`),
 with the `p-value` definitely < 0.05, so we can reject the null hypothesis of 
 zero slope.
 
+&nbsp;
+
 #### 1b. Estimate the Sen's slope
 
 ```{r Sens slope test}
@@ -302,7 +316,7 @@ smooth curve doesn't necessarily mean that we have periodicity (seasonality).
 <div style="border: 1px solid #039; background-color:#ffffe0; padding: 8px;">
 <span style="font-size:12pt;">**Moving averages** are important parts of the **ARIMA** family of predictive models for time series, and that's why we show them here first.</span>
 
-There are probably better ways of drawing smooth curves to represent our time series data (see below).
+There are possibly better ways of drawing smooth curves to represent our time series data... see below.
 </div>
 
 &nbsp;
@@ -349,6 +363,8 @@ legend("topright", legend = c("Data","Linear trend"), col = c(8,2), lty = c(1,2)
 Figure 7 shows that a linear model does not really capture 
 the trend (ignoring the periodicity) very convincingly. The next option 'loess' 
 smoothing option below tries to present the trend more accurately.
+
+&nbsp;
 
 ### 4. Using Locally Estimated Scatterplot Smoothing (loess)
 
@@ -405,10 +421,10 @@ autocorrelations will be needed to model the time series data.
 
 &nbsp;
 
-### We use the 'Box-Pierce test' for autocorrelation
+### Box-Pierce test for autocorrelation
 
-The null hypothesis H~0~ is that no autocorrelation exists at any lag distance (so 
-p $\le$ 0.05 'rejects' H~0~):
+The null hypothesis H~0~ for the Box-Pierce test (`Box.test()`)is that no
+autocorrelation exists at any lag distance (so p&nbsp;&le;&nbsp;0.05 'rejects' H~0~):
 
 ```{r box tests}
 Box.test(soiltemp_T15_xts)
@@ -488,6 +504,8 @@ make yet another time series object to hold this isolated periodicity:
 soiltemp_T15_periodic2 <- soiltemp_T15_LOESS2 - soiltemp_T15_trend
 ```
 
+&nbsp;
+
 ### Plot everything to show the components of time series decomposition
 
 ```{r decomp-plots, fig.height=9, fig.width=8, fig.align='center', fig.cap="Figure 13: Time series decomposition into the three main components (periodicity, trend, and error; the raw data are at the top) for soil temperature (\u00B0C) at 15 cm depth."}
@@ -535,6 +553,8 @@ All of these operations are possible components of **ARIMA** models!
 [**We recommend using the [xts]{.underline} format of a time series in ARIMA
 model functions and forecasting**.]{style="color: #8000e0;"}
 
+&nbsp;
+
 ## Use the `forecast` R package to run an ARIMA model
 
 ```{r auto arima}
@@ -549,6 +569,8 @@ is 'lost' in the model compared with reality. The AIC combines how well the
 model describes the data with a 'penalty' for increased complexity of the model.
 Using AIC, a better fitting model might not be selected if it has too many
 predictors. The best ARIMA models will have the **lowest** AIC (or AICc) value.
+
+&nbsp;
 
 ## Use output of `auto.arima()` to run arima
 
@@ -590,6 +612,8 @@ seasonal autoregressive predictors, `D` the seasonal differencing, `Q` the
 seasonal moving averages, and `n` is the number of time steps per
 period/season.
 
+&nbsp;
+
 ### 1. With no seasonality
 
 ```{r simple arima, results='hold'}
@@ -608,6 +632,8 @@ average coefficients.
 The output from `confint(am0)` is a table showing the 95% confidence interval
 for the parameters. The confidence intervals should not include zero! (if so,
 this would mean we can't be sure if the parameter is useful or not).
+
+&nbsp;
 
 ### 2. With seasonality
 
@@ -794,20 +820,21 @@ Western Australia, Perth.
 [www.wa.gov.au/.../calculating-trends-nutrient-data](https://www.wa.gov.au/government/publications/calculating-trends-nutrient-data){target="_blank"}.
 
 Hyndman R, Athanasopoulos G, Bergmeir C, Caceres G, Chhay L, O'Hara-Wild M,
-Petropoulos F, Razbash S, Wang E, Yasmeen F (2022). *forecast: Forecasting*
+Petropoulos F, Razbash S, Wang E, Yasmeen F (2022). `forecast`:&nbsp;*Forecasting*
 *functions for time series and linear models*. R package version 8.17.0,
 [http://pkg.robjhyndman.com/forecast/](http://pkg.robjhyndman.com/forecast/){target="_blank"}.
 
 Long, J.D., Teetor, P., 2019. Time series analysis. Chapter 14, *The R Cookbook*,
 Second Edition [https://rc2e.com/timeseriesanalysis](https://rc2e.com/timeseriesanalysis){target="_blank"}.
 
-R Core Team (2022). *R: A language and environment for statistical computing*. 
+R Core Team (2022). `R`: *A language and environment for statistical computing*. 
 R Foundation for Statistical Computing, Vienna, Austria. URL
 [https://www.R-project.org/](https://www.R-project.org/){target="_blank"}.
 
-Ryan, J.A. and Ulrich, J.M. (2020). *xts: eXtensible Time Series*. R package
-version 0.12.1. [https://CRAN.R-project.org/package=xts](https://CRAN.R-project.org/package=xts){target="_blank"}
+Ryan, J.A. and Ulrich, J.M. (2020). `xts`: *eXtensible Time Series*. R package
+version 0.12.1.
+[https://CRAN.R-project.org/package=xts](https://CRAN.R-project.org/package=xts){target="_blank"}
 
-Zeileis, A. and Grothendieck, G. (2005). zoo: S3 Infrastructure for Regular and
+Zeileis, A. and Grothendieck, G. (2005). `zoo`: S3 Infrastructure for Regular and
 Irregular Time Series. *Journal of Statistical Software*, **14**(6), 1-27.
 [doi:10.18637/jss.v014.i06](https://doi.org/10.18637/jss.v014.i06){target="_blank"}

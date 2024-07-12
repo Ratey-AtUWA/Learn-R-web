@@ -548,9 +548,9 @@ it's not the format we need but we'll use it for comparison.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R-web/main/&quot;</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>soiltemp <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;soiltemp2.csv&quot;</span>))</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">colnames</span>(soiltemp) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Date&quot;</span>,<span class="st">&quot;temp&quot;</span>)</span></code></pre></div>
-</div>
-<div id="do-some-checks-of-the-data" class="section level2">
-<h2>Do some checks of the data</h2>
+<p> </p>
+<div id="do-some-checks-of-the-data" class="section level3">
+<h3>Do some checks of the data</h3>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">summary</span>(soiltemp) <span class="co"># simple summary of each column</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">str</span>(soiltemp) <span class="co"># more detailed information about the R object (&#39;str&#39;=structure)</span></span></code></pre></div>
 <pre><code>##      Date                temp      
@@ -563,6 +563,8 @@ it's not the format we need but we'll use it for comparison.</p>
 ## &#39;data.frame&#39;:    1464 obs. of  2 variables:
 ##  $ Date: chr  &quot;2014-04-01 00:00:00&quot; &quot;2014-04-01 01:00:00&quot; &quot;2014-04-01 02:00:00&quot; &quot;2014-04-01 03:00:00&quot; ...
 ##  $ temp: num  20.1 19.8 19.6 19.2 19 ...</code></pre>
+<p> </p>
+</div>
 <div id="check-with-a-plot" class="section level3">
 <h3>Check with a plot</h3>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">plot</span>(soiltemp<span class="sc">$</span>temp, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="dv">4</span>)</span></code></pre></div>
@@ -611,6 +613,7 @@ as a zoo time series object.
 <p>Sometimes we need to use another time series data format,
 <code>xts</code> (e<u>X</u>tended <u>T</u>ime <u>S</u>eries), which
 allows us to use more functions...</p>
+<p> </p>
 </div>
 <div id="make-an-xts-object-from-our-zoo-object" class="section level3">
 <h3>Make an xts object from our zoo object</h3>
@@ -699,6 +702,7 @@ decide that the log<sub>10</sub>-transformation is more suitable.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>soiltemp_T15_zoo <span class="ot">&lt;-</span> soiltemp_T15_zoo<span class="sc">^</span><span class="fl">0.5</span> <span class="do">####  don&#39;t run this chunk of code...</span></span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co"># don&#39;t forget the xts version either!</span></span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>soiltemp_T15_xts <span class="ot">&lt;-</span> <span class="fu">as.xts</span>(soiltemp_T15_zoo) <span class="co"># ...it&#39;s just an example 😊</span></span></code></pre></div>
+<p> </p>
 <div id="assessing-if-a-time-series-variable-is-stationary"
 class="section level2">
 <h2>Assessing if a time series variable is stationary</h2>
@@ -711,9 +715,9 @@ stationary time series.</p>
 <p>Many useful statistical analyses and models for time series models
 need a stationary time series as input, or a time series that can be
 made stationary with transformations or differencing.</p>
-</div>
-<div id="testing-for-stationarity" class="section level2">
-<h2>Testing for stationarity</h2>
+<p> </p>
+<div id="testing-for-stationarity" class="section level3">
+<h3>Testing for stationarity</h3>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># we need the package &#39;tseries&#39; for the Augmented Dickey–Fuller (adf) Test</span></span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>d0 <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(soiltemp_T15_zoo); <span class="fu">print</span>(d0)</span></code></pre></div>
 <pre><code>## 
@@ -738,9 +742,10 @@ made stationary with transformations or differencing.</p>
 ## data:  diff(diff(soiltemp_T15_zoo, 1), 1)
 ## Dickey-Fuller = -17.204, Lag order = 11, p-value = 0.01
 ## alternative hypothesis: stationary</code></pre>
+<p> </p>
 </div>
-<div id="plot-differencing-for-stationarity" class="section level2">
-<h2>Plot differencing for stationarity</h2>
+<div id="plot-differencing-for-stationarity" class="section level3">
+<h3>Plot differencing for stationarity</h3>
 <p>The plots in Figure 5 below show that constant mean and variance
 (<em>i.e</em>. stationarity) is achieved after a single differencing
 step. The <code>adf.test</code> p-value suggests that the
@@ -789,6 +794,7 @@ linear trends.
 </div>
 <p> </p>
 </div>
+</div>
 <div id="finding-the-trend" class="section level2">
 <h2>Finding the trend</h2>
 <div id="determine-if-there-is-actually-any-trend"
@@ -825,6 +831,7 @@ class="section level4">
 (<em>i.e</em>. the value of <code>S</code>), with the
 <code>p-value</code> definitely &lt; 0.05, so we can reject the null
 hypothesis of zero slope.</p>
+<p> </p>
 </div>
 <div id="b.-estimate-the-sens-slope" class="section level4">
 <h4>1b. Estimate the Sen's slope</h4>
@@ -868,8 +875,8 @@ style="border: 1px solid #039; background-color:#ffffe0; padding: 8px;">
 important parts of the <strong>ARIMA</strong> family of predictive
 models for time series, and that's why we show them here
 first.</span></p>
-<p>There are probably better ways of drawing smooth curves to represent
-our time series data (see below).</p>
+<p>There are possibly better ways of drawing smooth curves to represent
+our time series data... see below.</p>
 </div>
 <p> </p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>ff <span class="ot">&lt;-</span> <span class="fu">findfrequency</span>(soiltemp_T15_xts) <span class="co"># often an approximation!! check the data!</span></span>
@@ -932,6 +939,7 @@ trend shown by a linear model.
 <p>Figure 7 shows that a linear model does not really capture the trend
 (ignoring the periodicity) very convincingly. The next option 'loess'
 smoothing option below tries to present the trend more accurately.</p>
+<p> </p>
 </div>
 <div id="using-locally-estimated-scatterplot-smoothing-loess"
 class="section level3">
@@ -1003,12 +1011,11 @@ Simplistically, partial autocorrelation allows us to identify which and
 how many autocorrelations will be needed to model the time series
 data.</p>
 <p> </p>
-<div id="we-use-the-box-pierce-test-for-autocorrelation"
-class="section level3">
-<h3>We use the 'Box-Pierce test' for autocorrelation</h3>
-<p>The null hypothesis H<sub>0</sub> is that no autocorrelation exists
-at any lag distance (so p <span class="math inline">\(\le\)</span> 0.05
-'rejects' H<sub>0</sub>):</p>
+<div id="box-pierce-test-for-autocorrelation" class="section level3">
+<h3>Box-Pierce test for autocorrelation</h3>
+<p>The null hypothesis H<sub>0</sub> for the Box-Pierce test
+(<code>Box.test()</code>)is that no autocorrelation exists at any lag
+distance (so p ≤ 0.05 'rejects' H<sub>0</sub>):</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="fu">Box.test</span>(soiltemp_T15_xts)</span></code></pre></div>
 <pre><code>## 
 ##  Box-Pierce test
@@ -1096,6 +1103,7 @@ periodicity) loess, as suggested by the two loess curves in Figure 12.
 We now make yet another time series object to hold this isolated
 periodicity:</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a>soiltemp_T15_periodic2 <span class="ot">&lt;-</span> soiltemp_T15_LOESS2 <span class="sc">-</span> soiltemp_T15_trend</span></code></pre></div>
+<p> </p>
 </div>
 </div>
 <div
@@ -1159,6 +1167,7 @@ analysis of time series:</p>
 <p><span style="color: #8000e0;"><strong>We recommend using the
 <u>xts</u> format of a time series in ARIMA model functions and
 forecasting</strong>.</span></p>
+<p> </p>
 <div id="use-the-forecast-r-package-to-run-an-arima-model"
 class="section level2">
 <h2>Use the <code>forecast</code> R package to run an ARIMA model</h2>
@@ -1183,6 +1192,7 @@ describes the data with a 'penalty' for increased complexity of the
 model. Using AIC, a better fitting model might not be selected if it has
 too many predictors. The best ARIMA models will have the
 <strong>lowest</strong> AIC (or AICc) value.</p>
+<p> </p>
 </div>
 <div id="use-output-of-auto.arima-to-run-arima" class="section level2">
 <h2>Use output of <code>auto.arima()</code> to run arima</h2>
@@ -1244,6 +1254,7 @@ parameters refer to the seasonality: <code>P</code> is the number of
 seasonal autoregressive predictors, <code>D</code> the seasonal
 differencing, <code>Q</code> the seasonal moving averages, and
 <code>n</code> is the number of time steps per period/season.</p>
+<p> </p>
 <div id="with-no-seasonality" class="section level3">
 <h3>1. With no seasonality</h3>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a>am0 <span class="ot">&lt;-</span> <span class="fu">arima</span>(<span class="at">x =</span> soiltemp_T15_xts, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">3</span>))</span>
@@ -1279,6 +1290,7 @@ coefficients, and <code>ma</code> are moving average coefficients.</p>
 confidence interval for the parameters. The confidence intervals should
 not include zero! (if so, this would mean we can't be sure if the
 parameter is useful or not).</p>
+<p> </p>
 </div>
 <div id="with-seasonality" class="section level3">
 <h3>2. With seasonality</h3>
@@ -1542,25 +1554,25 @@ href="https://www.wa.gov.au/government/publications/calculating-trends-nutrient-
 target="_blank">www.wa.gov.au/.../calculating-trends-nutrient-data</a>.</p>
 <p>Hyndman R, Athanasopoulos G, Bergmeir C, Caceres G, Chhay L,
 O'Hara-Wild M, Petropoulos F, Razbash S, Wang E, Yasmeen F (2022).
-<em>forecast: Forecasting</em> <em>functions for time series and linear
-models</em>. R package version 8.17.0, <a
+<code>forecast</code>: <em>Forecasting</em> <em>functions for time
+series and linear models</em>. R package version 8.17.0, <a
 href="http://pkg.robjhyndman.com/forecast/"
 target="_blank">http://pkg.robjhyndman.com/forecast/</a>.</p>
 <p>Long, J.D., Teetor, P., 2019. Time series analysis. Chapter 14,
 <em>The R Cookbook</em>, Second Edition <a
 href="https://rc2e.com/timeseriesanalysis"
 target="_blank">https://rc2e.com/timeseriesanalysis</a>.</p>
-<p>R Core Team (2022). <em>R: A language and environment for statistical
-computing</em>. R Foundation for Statistical Computing, Vienna, Austria.
-URL <a href="https://www.R-project.org/"
+<p>R Core Team (2022). <code>R</code>: <em>A language and environment
+for statistical computing</em>. R Foundation for Statistical Computing,
+Vienna, Austria. URL <a href="https://www.R-project.org/"
 target="_blank">https://www.R-project.org/</a>.</p>
-<p>Ryan, J.A. and Ulrich, J.M. (2020). <em>xts: eXtensible Time
-Series</em>. R package version 0.12.1. <a
+<p>Ryan, J.A. and Ulrich, J.M. (2020). <code>xts</code>: <em>eXtensible
+Time Series</em>. R package version 0.12.1. <a
 href="https://CRAN.R-project.org/package=xts"
 target="_blank">https://CRAN.R-project.org/package=xts</a></p>
-<p>Zeileis, A. and Grothendieck, G. (2005). zoo: S3 Infrastructure for
-Regular and Irregular Time Series. <em>Journal of Statistical
-Software</em>, <strong>14</strong>(6), 1-27. <a
+<p>Zeileis, A. and Grothendieck, G. (2005). <code>zoo</code>: S3
+Infrastructure for Regular and Irregular Time Series. <em>Journal of
+Statistical Software</em>, <strong>14</strong>(6), 1-27. <a
 href="https://doi.org/10.18637/jss.v014.i06"
 target="_blank">doi:10.18637/jss.v014.i06</a></p>
 </div>
