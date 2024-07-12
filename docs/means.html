@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-06-19" />
+<meta name="date" content="2024-07-12" />
 
 <title>Statistics for Comparisons</title>
 
@@ -56,7 +56,7 @@
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -345,7 +345,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -360,7 +360,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -375,7 +375,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -390,7 +390,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -406,12 +406,15 @@ $(document).ready(function () {
     <li>
       <a href="reg-multi.html">Multiple linear regression</a>
     </li>
+    <li>
+      <a href="timeseries.html">Time series analysis</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -429,7 +432,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -450,7 +453,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -490,7 +493,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistics for Comparisons</h1>
 <h3 class="subtitle">Parametric mean comparison tests</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-06-19</h4>
+<h4 class="date">2024-07-12</h4>
 
 </div>
 
@@ -641,7 +644,7 @@ Street.</p>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>sv17_soil <span class="ot">&lt;-</span> <span class="fu">subset</span>(sv2017, <span class="at">subset=</span>sv2017<span class="sc">$</span>Type<span class="sc">==</span><span class="st">&quot;Soil&quot;</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Number of soil samples in each reserve</span><span class="sc">\n</span><span class="st">&quot;</span>); <span class="fu">summary</span>(sv17_soil<span class="sc">$</span>Reserve)</span></code></pre></div>
 <pre><code>## Number of soil samples in each reserve</code></pre>
-<pre><code>##  Smiths Veryard
+<pre><code>##  Smiths Veryard 
 ##      21      52</code></pre>
 <p>
  
@@ -737,30 +740,30 @@ function (do they both give the same conclusion?):</p>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">with</span>(sv17_soil, <span class="fu">shapiro.test</span>(Na.pow))</span>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="fu">with</span>(sv17_soil, <span class="fu">var.test</span>(Na.pow <span class="sc">~</span> Reserve))</span>
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="fu">with</span>(sv17_soil, <span class="fu">bartlett.test</span>(Na.pow <span class="sc">~</span> Reserve))</span></code></pre></div>
-<pre><code>## Estimated transformation parameter
-## sv17_soil$Na
-##    0.1266407
-##
+<pre><code>## Estimated transformation parameter 
+## sv17_soil$Na 
+##    0.1266407 
+## 
 ##  Shapiro-Wilk normality test
-##
+## 
 ## data:  Na.pow
 ## W = 0.99135, p-value = 0.9222
-##
-##
+## 
+## 
 ##  F test to compare two variances
-##
+## 
 ## data:  Na.pow by Reserve
 ## F = 1.664, num df = 15, denom df = 51, p-value = 0.1789
 ## alternative hypothesis: true ratio of variances is not equal to 1
 ## 95 percent confidence interval:
 ##  0.7911095 4.2363994
 ## sample estimates:
-## ratio of variances
-##           1.663991
-##
-##
+## ratio of variances 
+##           1.663991 
+## 
+## 
 ##  Bartlett test of homogeneity of variances
-##
+## 
 ## data:  Na.pow by Reserve
 ## Bartlett&#39;s K-squared = 1.6001, df = 1, p-value = 0.2059</code></pre>
 <p>Both the variance-ratio and Bartlett tests show that H<sub>0</sub>
@@ -803,16 +806,16 @@ So we can apply the <code>t.test()</code> with the option
 <code>var.equal=TRUE</code> (<em>i.e</em>. a 'standard' two-sample
 t-test).</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">t.test</span>(sv17_soil<span class="sc">$</span>Na.pow <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve, <span class="at">var.equal=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>##
+<pre><code>## 
 ##  Two Sample t-test
-##
+## 
 ## data:  sv17_soil$Na.pow by sv17_soil$Reserve
 ## t = -2.6175, df = 66, p-value = 0.01097
 ## alternative hypothesis: true difference in means between group Smiths and group Veryard is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.15360517 -0.02067153
 ## sample estimates:
-##  mean in group Smiths mean in group Veryard
+##  mean in group Smiths mean in group Veryard 
 ##              1.762519              1.849657</code></pre>
 <p>We can visualize means comparisons in a few different ways – see
 Figure 5. My favourite is the boxplot with <em>means included</em> as
@@ -893,12 +896,12 @@ statistic is a standardised measure of effect size available in the
 <code>effsize</code>h R package.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">require</span>(effsize)</span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">cohen.d</span>(sv17_soil<span class="sc">$</span>Na.pow <span class="sc">~</span> sv17_soil<span class="sc">$</span>Reserve)</span></code></pre></div>
-<pre><code>##
+<pre><code>## 
 ## Cohen&#39;s d
-##
+## 
 ## d estimate: -0.7483083 (medium)
 ## 95 percent confidence interval:
-##      lower      upper
+##      lower      upper 
 ## -1.3332988 -0.1633178</code></pre>
 <p>The calculated value of Cohen's <em>d</em> is 0.5 ≤ <em>d</em> &lt;
 0.8, which is medium. The 95% CI for the estimate of Cohen's <em>d</em>
@@ -908,7 +911,7 @@ not include zero, so we can probably rely on it.</p>
 More recently than Cohen, <strong>Sawilowsky (2009) proposed that for
 Cohen's d:</strong>
 </p>
-<template id="35b52993-8dc3-4f1a-9f13-edd8909e5360"><style>
+<template id="a69eba5a-1435-4ac9-8735-748174286b59"><style>
 .tabwid table{
   border-spacing:0px !important;
   border-collapse:collapse;
@@ -947,11 +950,11 @@ background-color: transparent;
 .katex-display {
     margin: 0 0 !important;
 }
-</style><div class="tabwid"><style>.cl-ec4fb0c2{}.cl-ec4626e2{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-ec4960f0{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-ec4960fa{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-ec496104{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-ec497482{width:0.472in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec49748c{width:0.197in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec497496{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec497497{width:0.787in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec4974a0{width:0.472in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec4974aa{width:0.197in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec4974ab{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec4974b4{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec4974b5{width:0.472in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec4974b6{width:0.197in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec4974be{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec4974bf{width:0.787in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec4974c0{width:0.472in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec4974c8{width:0.197in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec4974c9{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ec4974dc{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class='cl-ec4fb0c2'><tbody><tr style="overflow-wrap:break-word;"><td class="cl-ec497482"><p class="cl-ec4960f0"><span class="cl-ec4626e2">0.01 ≤</span></p></td><td class="cl-ec49748c"><p class="cl-ec4960fa"><span class="cl-ec4626e2">d</span></p></td><td class="cl-ec497496"><p class="cl-ec496104"><span class="cl-ec4626e2">&lt; 0.2</span></p></td><td class="cl-ec497497"><p class="cl-ec496104"><span class="cl-ec4626e2">very small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ec4974a0"><p class="cl-ec4960f0"><span class="cl-ec4626e2">0.2 ≤</span></p></td><td class="cl-ec4974aa"><p class="cl-ec4960fa"><span class="cl-ec4626e2">d</span></p></td><td class="cl-ec4974ab"><p class="cl-ec496104"><span class="cl-ec4626e2">&lt; 0.5</span></p></td><td class="cl-ec4974b4"><p class="cl-ec496104"><span class="cl-ec4626e2">small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ec4974b5"><p class="cl-ec4960f0"><span class="cl-ec4626e2">0.5 ≤</span></p></td><td class="cl-ec4974b6"><p class="cl-ec4960fa"><span class="cl-ec4626e2">d</span></p></td><td class="cl-ec4974be"><p class="cl-ec496104"><span class="cl-ec4626e2">&lt; 0.8</span></p></td><td class="cl-ec4974bf"><p class="cl-ec496104"><span class="cl-ec4626e2">medium</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ec4974a0"><p class="cl-ec4960f0"><span class="cl-ec4626e2">0.8 ≤</span></p></td><td class="cl-ec4974aa"><p class="cl-ec4960fa"><span class="cl-ec4626e2">d</span></p></td><td class="cl-ec4974ab"><p class="cl-ec496104"><span class="cl-ec4626e2">&lt; 1.2</span></p></td><td class="cl-ec4974b4"><p class="cl-ec496104"><span class="cl-ec4626e2">large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ec4974b5"><p class="cl-ec4960f0"><span class="cl-ec4626e2">1.2 ≤</span></p></td><td class="cl-ec4974b6"><p class="cl-ec4960fa"><span class="cl-ec4626e2">d</span></p></td><td class="cl-ec4974be"><p class="cl-ec496104"><span class="cl-ec4626e2">&lt; 2.0</span></p></td><td class="cl-ec4974bf"><p class="cl-ec496104"><span class="cl-ec4626e2">very large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ec4974c0"><p class="cl-ec4960f0"><span class="cl-ec4626e2"></span></p></td><td class="cl-ec4974c8"><p class="cl-ec4960fa"><span class="cl-ec4626e2">d</span></p></td><td class="cl-ec4974c9"><p class="cl-ec496104"><span class="cl-ec4626e2">&gt; 2.0</span></p></td><td class="cl-ec4974dc"><p class="cl-ec496104"><span class="cl-ec4626e2">huge</span></p></td></tr></tbody></table></div></template>
-<div class="flextable-shadow-host" id="cfaedf57-9f20-42aa-ac74-da0d59c96866"></div>
+</style><div class="tabwid"><style>.cl-768bf39c{}.cl-7680366a{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-7684c720{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-7684c72a{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-7684c734{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-7684e066{width:0.472in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7684e070{width:0.197in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7684e071{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7684e07a{width:0.787in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7684e084{width:0.472in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7684e085{width:0.197in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7684e08e{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7684e098{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7684e099{width:0.472in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7684e0a2{width:0.197in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7684e0a3{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7684e0ac{width:0.787in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7684e0ad{width:0.472in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7684e0ae{width:0.197in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7684e0b6{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7684e0b7{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class='cl-768bf39c'><tbody><tr style="overflow-wrap:break-word;"><td class="cl-7684e066"><p class="cl-7684c720"><span class="cl-7680366a">0.01 ≤</span></p></td><td class="cl-7684e070"><p class="cl-7684c72a"><span class="cl-7680366a">d</span></p></td><td class="cl-7684e071"><p class="cl-7684c734"><span class="cl-7680366a">&lt; 0.2</span></p></td><td class="cl-7684e07a"><p class="cl-7684c734"><span class="cl-7680366a">very small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7684e084"><p class="cl-7684c720"><span class="cl-7680366a">0.2 ≤</span></p></td><td class="cl-7684e085"><p class="cl-7684c72a"><span class="cl-7680366a">d</span></p></td><td class="cl-7684e08e"><p class="cl-7684c734"><span class="cl-7680366a">&lt; 0.5</span></p></td><td class="cl-7684e098"><p class="cl-7684c734"><span class="cl-7680366a">small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7684e099"><p class="cl-7684c720"><span class="cl-7680366a">0.5 ≤</span></p></td><td class="cl-7684e0a2"><p class="cl-7684c72a"><span class="cl-7680366a">d</span></p></td><td class="cl-7684e0a3"><p class="cl-7684c734"><span class="cl-7680366a">&lt; 0.8</span></p></td><td class="cl-7684e0ac"><p class="cl-7684c734"><span class="cl-7680366a">medium</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7684e084"><p class="cl-7684c720"><span class="cl-7680366a">0.8 ≤</span></p></td><td class="cl-7684e085"><p class="cl-7684c72a"><span class="cl-7680366a">d</span></p></td><td class="cl-7684e08e"><p class="cl-7684c734"><span class="cl-7680366a">&lt; 1.2</span></p></td><td class="cl-7684e098"><p class="cl-7684c734"><span class="cl-7680366a">large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7684e099"><p class="cl-7684c720"><span class="cl-7680366a">1.2 ≤</span></p></td><td class="cl-7684e0a2"><p class="cl-7684c72a"><span class="cl-7680366a">d</span></p></td><td class="cl-7684e0a3"><p class="cl-7684c734"><span class="cl-7680366a">&lt; 2.0</span></p></td><td class="cl-7684e0ac"><p class="cl-7684c734"><span class="cl-7680366a">very large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7684e0ad"><p class="cl-7684c720"><span class="cl-7680366a"></span></p></td><td class="cl-7684e0ae"><p class="cl-7684c72a"><span class="cl-7680366a">d</span></p></td><td class="cl-7684e0b6"><p class="cl-7684c734"><span class="cl-7680366a">&gt; 2.0</span></p></td><td class="cl-7684e0b7"><p class="cl-7684c734"><span class="cl-7680366a">huge</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="ebb17506-fcd2-48dd-9ec9-7928fd023b76"></div>
 <script>
-var dest = document.getElementById("cfaedf57-9f20-42aa-ac74-da0d59c96866");
-var template = document.getElementById("35b52993-8dc3-4f1a-9f13-edd8909e5360");
+var dest = document.getElementById("ebb17506-fcd2-48dd-9ec9-7928fd023b76");
+var template = document.getElementById("a69eba5a-1435-4ac9-8735-748174286b59");
 var caption = template.content.querySelector("caption");
 var fantome = dest.attachShadow({mode: 'open'});
 var templateContent = template.content;
@@ -980,15 +983,15 @@ equal. Since there are more than 2 groups, we need to use the Bartlett
 test.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">shapiro.test</span>(sv2017<span class="sc">$</span>Ca.pow)</span>
 <span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">bartlett.test</span>(sv2017<span class="sc">$</span>Ca.pow <span class="sc">~</span> sv2017<span class="sc">$</span>Type)</span></code></pre></div>
-<pre><code>##
+<pre><code>## 
 ##  Shapiro-Wilk normality test
-##
+## 
 ## data:  sv2017$Ca.pow
 ## W = 0.97634, p-value = 0.1073
-##
-##
+## 
+## 
 ##  Bartlett test of homogeneity of variances
-##
+## 
 ## data:  sv2017$Ca.pow by sv2017$Type
 ## Bartlett&#39;s K-squared = 8.9659, df = 2, p-value = 0.0113</code></pre>
 <p>The <code>shapiro.test()</code> p-value is &gt; 0.05, so we can
@@ -1022,7 +1025,7 @@ interpretation:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;--- Variances for each factor level ---</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">with</span>(sv2017, <span class="fu">tapply</span>(Ca.pow, Type, var, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## --- Variances for each factor level ---
-##     Sediment         Soil  Street dust
+##     Sediment         Soil  Street dust 
 ## 0.0047080391 0.0018348117 0.0005551313</code></pre>
 </div>
 <p>
@@ -1040,19 +1043,19 @@ heteroscedastic).</p>
 <span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>meansCa <span class="ot">&lt;-</span> <span class="fu">tapply</span>(sv2017<span class="sc">$</span>Ca, sv2017<span class="sc">$</span>Type, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>);</span>
 <span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">signif</span>(meansAl,<span class="dv">4</span>)) <span class="co"># output means with appropriate significant digits</span></span>
 <span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="fu">rm</span>(meansCa) <span class="co"># tidy up</span></span></code></pre></div>
-<pre><code>##
+<pre><code>## 
 ##  One-way analysis of means (not assuming equal variances)
-##
+## 
 ## data:  sv2017$Ca.pow and sv2017$Type
 ## F = 10.016, num df = 2.000, denom df = 15.485, p-value = 0.001617
-##
-##
+## 
+## 
 ## Means for transformed variable
-##    Sediment        Soil Street dust
-##       0.251       0.220       0.178
-##
+##    Sediment        Soil Street dust 
+##       0.251       0.220       0.178 
+## 
 ## Means for original (untransformed) variable
-##    Sediment        Soil Street dust
+##    Sediment        Soil Street dust 
 ##      0.2509      0.2203      0.1785</code></pre>
 <p>In the output above, the p-value from our <code>oneway.test()</code>
 is less than 0.05 based on the large value for the <code>F</code>
@@ -1176,21 +1179,21 @@ significant (p ≈ 0.002):</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">with</span>(sv2017, <span class="fu">shapiro.test</span>(Ba.log))</span>
 <span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">with</span>(sv2017, <span class="fu">bartlett.test</span>(Ba.log <span class="sc">~</span> Type))</span>
 <span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a><span class="fu">with</span>(sv2017, <span class="fu">oneway.test</span>(Ba.log <span class="sc">~</span> Type, <span class="at">var.equal =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
-<pre><code>##
+<pre><code>## 
 ##  Shapiro-Wilk normality test
-##
+## 
 ## data:  Ba.log
 ## W = 0.9885, p-value = 0.6358
-##
-##
+## 
+## 
 ##  Bartlett test of homogeneity of variances
-##
+## 
 ## data:  Ba.log by Type
 ## Bartlett&#39;s K-squared = 3.4694, df = 2, p-value = 0.1765
-##
-##
+## 
+## 
 ##  One-way analysis of means
-##
+## 
 ## data:  Ba.log and Type
 ## F = 6.6595, num df = 2, denom df = 85, p-value = 0.002057</code></pre>
 <p>How did we get <code>Ba.log</code>? (<em>You need to calculate it
@@ -1212,19 +1215,19 @@ heteroscedastic, we would have used
 <span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">==== Compact letters ====</span><span class="sc">\n</span><span class="st">&quot;</span>) </span>
 <span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>pwBa_pv <span class="ot">&lt;-</span> <span class="fu">fullPTable</span>(pwBa<span class="sc">$</span>p.value)                 <span class="co"># from rcompanion</span></span>
 <span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a><span class="fu">multcompLetters</span>(pwBa_pv)                            <span class="co"># from multcompView</span></span></code></pre></div>
-<pre><code>##
-##  Pairwise comparisons using t tests with pooled SD
-##
-## data:  Ba.log and Type
-##
-##             Sediment Soil
-## Soil        0.0031   -
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  Ba.log and Type 
+## 
+##             Sediment Soil  
+## Soil        0.0031   -     
 ## Street dust 0.0078   0.3634
-##
-## P value adjustment method: holm
-##
+## 
+## P value adjustment method: holm 
+## 
 ## ==== Compact letters ====
-##    Sediment        Soil Street dust
+##    Sediment        Soil Street dust 
 ##         &quot;a&quot;         &quot;b&quot;         &quot;b&quot;</code></pre>
 <p>In the output above, the table of p-values shows a significant
 difference (p &lt; 0.05) between Sediment and Soil, and Sediment and
@@ -1247,7 +1250,7 @@ conclusion. We need to load the <code>multcomp</code> package.</p>
 <span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a><span class="fu">require</span>(multcomp)</span>
 <span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>pwise0 <span class="ot">&lt;-</span> <span class="fu">glht</span>(anovaBa, <span class="at">linfct =</span> <span class="fu">mcp</span>(<span class="at">Type=</span><span class="st">&quot;Tukey&quot;</span>)) <span class="co"># anovaBa from above</span></span>
 <span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a><span class="fu">cld</span>(pwise0)</span></code></pre></div>
-<pre><code>##    Sediment        Soil Street dust
+<pre><code>##    Sediment        Soil Street dust 
 ##         &quot;a&quot;         &quot;b&quot;         &quot;b&quot;</code></pre>
 <p>Groups assigned a different letter are significantly different at the
 specified probability level (p ≤ 0.05 by default). In this example, Ba
@@ -1272,9 +1275,9 @@ don't.</p>
 <span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">c</span>(<span class="st">&quot;anovaBa&quot;</span>,<span class="st">&quot;pwise0&quot;</span>))    <span class="co"># tidy up</span></span></code></pre></div>
 <pre><code>##   Tukey multiple comparisons of means
 ##     95% family-wise confidence level
-##
+## 
 ## Fit: aov(formula = Ba.log ~ Type, data = sv2017)
-##
+## 
 ## $Type
 ##                            diff         lwr       upr     p adj
 ## Soil-Sediment        0.20660696  0.06143156 0.3517824 0.0029746

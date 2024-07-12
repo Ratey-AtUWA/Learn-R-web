@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-06-19" />
+<meta name="date" content="2024-07-12" />
 
 <title>Statistics for Comparisons</title>
 
@@ -54,7 +54,7 @@
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -343,7 +343,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -358,7 +358,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -373,7 +373,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -388,7 +388,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -404,12 +404,15 @@ $(document).ready(function () {
     <li>
       <a href="reg-multi.html">Multiple linear regression</a>
     </li>
+    <li>
+      <a href="timeseries.html">Time series analysis</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -427,7 +430,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -448,7 +451,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -488,7 +491,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistics for Comparisons</h1>
 <h3 class="subtitle">Non-parametric tests</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-06-19</h4>
+<h4 class="date">2024-07-12</h4>
 
 </div>
 
@@ -685,8 +688,8 @@ W = 246, p-value = 0.01426
 alternative hypothesis: true location shift is not equal to 0
 
 Means for original (untransformed) variable
- Smiths Veryard
-    102     139
+ Smiths Veryard 
+    102     139 
 
 --------------------------------------------
 
@@ -697,7 +700,7 @@ W = 246, p-value = 0.01426
 alternative hypothesis: true location shift is not equal to 0
 
 Means for transformed variable
- Smiths Veryard
+ Smiths Veryard 
    1.76    1.85 </code></pre>
 <p>
  
@@ -790,7 +793,7 @@ data:  sv2017$Fe by sv2017$Type
 Kruskal-Wallis chi-squared = 8.222, df = 2, p-value = 0.01639
 
 Means for untransformed variable
-   Sediment        Soil Street dust
+   Sediment        Soil Street dust 
        5111        2695        3694 </code></pre>
 <p>
  
@@ -847,12 +850,12 @@ Veryard Reserves in 2017.
 class="section level3">
 <h3>Pairwise comparisons following a Kruskal-Wallis test</h3>
 <pre><code>
-    Pairwise comparisons using Wilcoxon rank sum test with continuity correction
+    Pairwise comparisons using Wilcoxon rank sum test with continuity correction 
 
-data:  Fe and Type
+data:  Fe and Type 
 
-            Sediment Soil
-Soil        0.743    -
+            Sediment Soil 
+Soil        0.743    -    
 Street dust 0.091    0.012
 
 P value adjustment method: holm </code></pre>
@@ -869,7 +872,7 @@ results of non-parametric tests. As before, we need the
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>pwFe_Type <span class="ot">&lt;-</span> <span class="fu">with</span>(sv2017, <span class="fu">pairwise.wilcox.test</span>(Fe, Type)) </span>
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>pwFe_Type_pv <span class="ot">&lt;-</span> <span class="fu">fullPTable</span>(pwFe_Type<span class="sc">$</span>p.value)               <span class="co"># from rcompanion</span></span>
 <span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">multcompLetters</span>(pwFe_Type_pv)                               <span class="co"># from multcompView</span></span></code></pre></div>
-<pre><code>   Sediment        Soil Street dust
+<pre><code>   Sediment        Soil Street dust 
        &quot;ab&quot;         &quot;a&quot;         &quot;b&quot; </code></pre>
 <p>The output from <code>pairwise.wilcox.test()</code> shows that p ≤
 0.05 only for the Soil-Street dust comparison (<code>"ab"</code> matches

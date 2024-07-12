@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-06-19" />
+<meta name="date" content="2024-07-12" />
 
 <title>Statistical Relationships</title>
 
@@ -54,7 +54,7 @@
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -343,7 +343,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -358,7 +358,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -373,7 +373,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -388,7 +388,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -404,12 +404,15 @@ $(document).ready(function () {
     <li>
       <a href="reg-multi.html">Multiple linear regression</a>
     </li>
+    <li>
+      <a href="timeseries.html">Time series analysis</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -427,7 +430,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -448,7 +451,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -488,7 +491,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistical Relationships</h1>
 <h3 class="subtitle">Correlation</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-06-19</h4>
+<h4 class="date">2024-07-12</h4>
 
 </div>
 
@@ -569,27 +572,27 @@ and therefore our variable is normally distributed.</p>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">shapiro.test</span>(sv2017<span class="sc">$</span>Cd.log)</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">shapiro.test</span>(sv2017<span class="sc">$</span>Zn)</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">shapiro.test</span>(sv2017<span class="sc">$</span>Zn.log)</span></code></pre></div>
-<pre><code>##
+<pre><code>## 
 ##  Shapiro-Wilk normality test
-##
+## 
 ## data:  sv2017$Cd
 ## W = 0.63001, p-value = 1.528e-12
-##
-##
+## 
+## 
 ##  Shapiro-Wilk normality test
-##
+## 
 ## data:  sv2017$Cd.log
 ## W = 0.97272, p-value = 0.1006
-##
-##
+## 
+## 
 ##  Shapiro-Wilk normality test
-##
+## 
 ## data:  sv2017$Zn
 ## W = 0.6155, p-value = 7.75e-14
-##
-##
+## 
+## 
 ##  Shapiro-Wilk normality test
-##
+## 
 ## data:  sv2017$Zn.log
 ## W = 0.9828, p-value = 0.295</code></pre>
 <p>
@@ -601,28 +604,28 @@ and therefore our variable is normally distributed.</p>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>         <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>) <span class="co"># is Pearson valid?</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">cor.test</span>(sv2017<span class="sc">$</span>Cd.log, sv2017<span class="sc">$</span>Zn.log, <span class="at">alternative=</span><span class="st">&quot;two.sided&quot;</span>, </span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>         <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>) <span class="co"># is Pearson valid?</span></span></code></pre></div>
-<pre><code>##
+<pre><code>## 
 ##  Pearson&#39;s product-moment correlation
-##
+## 
 ## data:  sv2017$Cd and sv2017$Zn
 ## t = 9.8415, df = 74, p-value = 4.357e-15
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  0.6353031 0.8363947
 ## sample estimates:
-##       cor
-## 0.7529165
-##
-##
+##       cor 
+## 0.7529165 
+## 
+## 
 ##  Pearson&#39;s product-moment correlation
-##
+## 
 ## data:  sv2017$Cd.log and sv2017$Zn.log
 ## t = 7.696, df = 74, p-value = 4.859e-11
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  0.5193717 0.7756160
 ## sample estimates:
-##       cor
+##       cor 
 ## 0.6667536</code></pre>
 <p>For the Pearson correlation we get a <code>t</code> statistic and
 associated degrees of freedom (<code>df</code>), for which there is a
@@ -637,24 +640,24 @@ is calculated from the ranks (ordering) of each variable.</p>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>         <span class="at">method=</span><span class="st">&quot;spearman&quot;</span>) <span class="co"># can we use method=&quot;pearson&quot;?</span></span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">cor.test</span>(sv2017<span class="sc">$</span>Cd.log, sv2017<span class="sc">$</span>Zn.log, <span class="at">alternative=</span><span class="st">&quot;two.sided&quot;</span>, </span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>         <span class="at">method=</span><span class="st">&quot;spearman&quot;</span>) <span class="co"># can we use method=&quot;pearson&quot;?</span></span></code></pre></div>
-<pre><code>##
+<pre><code>## 
 ##  Spearman&#39;s rank correlation rho
-##
+## 
 ## data:  sv2017$Cd and sv2017$Zn
 ## S = 25750, p-value = 2.494e-10
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
-##       rho
-## 0.6479832
-##
-##
+##       rho 
+## 0.6479832 
+## 
+## 
 ##  Spearman&#39;s rank correlation rho
-##
+## 
 ## data:  sv2017$Cd.log and sv2017$Zn.log
 ## S = 25750, p-value = 2.494e-10
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
-##       rho
+##       rho 
 ## 0.6479832</code></pre>
 <p>For the Spearman correlation we get an S statistic and associated
 p-value. The null hypothesis is that there is no relationship between
@@ -720,9 +723,9 @@ true.</p>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>corr_table <span class="ot">&lt;-</span> <span class="fu">corTest</span>(sv2017[<span class="fu">c</span>(<span class="st">&quot;pH&quot;</span>,<span class="st">&quot;Al&quot;</span>,<span class="st">&quot;Ca&quot;</span>,<span class="st">&quot;Fe&quot;</span>,<span class="st">&quot;Cd&quot;</span>,<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;Zn&quot;</span>)], </span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>                    <span class="at">method=</span><span class="st">&quot;spearman&quot;</span>)</span>
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">print</span>(corr_table)</span></code></pre></div>
-<pre><code>## Call:corTest(x = sv2017[c(&quot;pH&quot;, &quot;Al&quot;, &quot;Ca&quot;, &quot;Fe&quot;, &quot;Cd&quot;, &quot;Pb&quot;, &quot;Zn&quot;)],
+<pre><code>## Call:corTest(x = sv2017[c(&quot;pH&quot;, &quot;Al&quot;, &quot;Ca&quot;, &quot;Fe&quot;, &quot;Cd&quot;, &quot;Pb&quot;, &quot;Zn&quot;)], 
 ##     method = &quot;spearman&quot;)
-## Correlation matrix
+## Correlation matrix 
 ##      pH   Al   Ca   Fe   Cd   Pb   Zn
 ## pH 1.00 0.31 0.68 0.29 0.23 0.13 0.12
 ## Al 0.31 1.00 0.32 0.45 0.19 0.07 0.16
@@ -731,7 +734,7 @@ true.</p>
 ## Cd 0.23 0.19 0.25 0.47 1.00 0.69 0.65
 ## Pb 0.13 0.07 0.21 0.63 0.69 1.00 0.77
 ## Zn 0.12 0.16 0.35 0.73 0.65 0.77 1.00
-## Sample Size
+## Sample Size 
 ##    pH Al Ca Fe Cd Pb Zn
 ## pH 94 87 87 87 75 87 87
 ## Al 87 88 88 88 76 88 88
@@ -740,7 +743,7 @@ true.</p>
 ## Cd 75 76 76 76 76 76 76
 ## Pb 87 88 88 88 76 88 88
 ## Zn 87 88 88 88 76 88 88
-## Probability values (Entries above the diagonal are adjusted for multiple tests.)
+## Probability values (Entries above the diagonal are adjusted for multiple tests.) 
 ##      pH   Al   Ca   Fe   Cd   Pb   Zn
 ## pH 0.00 0.03 0.00 0.06 0.32 0.72 0.72
 ## Al 0.00 0.00 0.03 0.00 0.51 0.72 0.51
@@ -749,7 +752,7 @@ true.</p>
 ## Cd 0.05 0.10 0.03 0.00 0.00 0.00 0.00
 ## Pb 0.24 0.50 0.05 0.00 0.00 0.00 0.00
 ## Zn 0.26 0.13 0.00 0.00 0.00 0.00 0.00
-##
+## 
 ##  To see confidence intervals of the correlations, print with the short=FALSE option</code></pre>
 <p>The output from <code>psych::corTest()</code>has three
 sub-tables:</p>

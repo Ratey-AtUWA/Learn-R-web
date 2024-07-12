@@ -87,6 +87,8 @@ library(multcompView)
 library(effsize)
 library(multcomp)
 library(PMCMRplus)
+library(flextable)
+library(officer)
 ```
 
 ## Intro: Comparisons of means between groups
@@ -137,19 +139,19 @@ library(TeachingDemos) # for shadowtext() function
 ```{r SLCVR-map, echo=FALSE, fig.width=5, fig.height=4.7, fig.cap="Figure 1: Map showing locations of the adjacent Charles Veryard Reserve and Smiths Lake Reserve, North Perth, Western Australia (these were the locations sampled for the sv2017 dataset).", fig.align='center', results='hold',warning=FALSE}
 extent <- st_as_sf(data.frame(x=c(390910,391550),y=c(6466220,6466800)),
                    coords = c("x","y"), crs = st_crs(32750))
-SLtiles <- get_tiles(extent, provider = "OpenTopoMap", 
+SLtiles <- get_tiles(extent, provider = "OpenStreetMap.HOT", 
                      zoom=16, crop = TRUE)
 par(oma=c(0,0,0,0), mgp=c(1.6,0.3,0), tcl=-0.25, lend="square", xpd=TRUE)
 plot_tiles(SLtiles, axes=TRUE, mar=c(3,3,0.1,0.1))
 mtext("Easting (UTM Zone 50, m)", side = 1, line = 3, font=2)
 mtext("Northing (UTM Zone 50, m)", side = 2, line = 2.4, font=2)
-shadowtext(c(391365,391260), c(6466370,6466660),
-     labels=c("Smith's\nLake\nReserve","Charles Veryard\nReserve"),
-     col="darkgreen", bg="white", font=3)
-lines(st_bbox(SLtiles)[c(1,3)],rep(6466530,2), lty=1, lwd=8, col="#FFFFFFC0")
-lines(st_bbox(SLtiles)[c(1,3)],rep(6466530,2), lty="23", lwd=4, col="purple3")
+lines(st_bbox(SLtiles)[c(1,3)],rep(6466530,2), lty=1, lwd=10, col="#FFFFFFC0")
+lines(st_bbox(SLtiles)[c(1,3)],rep(6466530,2), lty="23", lwd=3, col="#7D26CDA0")
+shadowtext(c(391365,391235,391070), c(6466370,6466652,6466530),
+     labels=c("Smith's\nLake\nReserve","Charles Veryard\nReserve","Bourke Street"),
+     col=c("darkgreen","darkgreen","dimgrey"), bg="white", font=c(3,3,2), cex=c(1,1,0.8))
 shadowtext(391480,6466532,label="Northing\n6466530", 
-           col="purple3", bg="white")
+           col="#7D26CDA0", bg="#FFFFFFA0")
 par(xpd=FALSE)
 ```
 
