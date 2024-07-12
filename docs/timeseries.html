@@ -356,7 +356,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -371,7 +371,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -386,7 +386,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -401,7 +401,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -425,7 +425,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -443,7 +443,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -464,7 +464,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -553,13 +553,13 @@ it's not the format we need but we'll use it for comparison.</p>
 <h3>Do some checks of the data</h3>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">summary</span>(soiltemp) <span class="co"># simple summary of each column</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">str</span>(soiltemp) <span class="co"># more detailed information about the R object (&#39;str&#39;=structure)</span></span></code></pre></div>
-<pre><code>##      Date                temp      
-##  Length:1464        Min.   :10.40  
-##  Class :character   1st Qu.:12.45  
-##  Mode  :character   Median :14.30  
-##                     Mean   :14.86  
-##                     3rd Qu.:17.41  
-##                     Max.   :21.70  
+<pre><code>##      Date                temp
+##  Length:1464        Min.   :10.40
+##  Class :character   1st Qu.:12.45
+##  Mode  :character   Median :14.30
+##                     Mean   :14.86
+##                     3rd Qu.:17.41
+##                     Max.   :21.70
 ## &#39;data.frame&#39;:    1464 obs. of  2 variables:
 ##  $ Date: chr  &quot;2014-04-01 00:00:00&quot; &quot;2014-04-01 01:00:00&quot; &quot;2014-04-01 02:00:00&quot; &quot;2014-04-01 03:00:00&quot; ...
 ##  $ temp: num  20.1 19.8 19.6 19.2 19 ...</code></pre>
@@ -591,12 +591,12 @@ default time series object in R.</p>
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="fu">summary</span>(soiltemp_T15_zoo) </span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="fu">str</span>(soiltemp_T15_zoo) <span class="co"># POSIXct in the output is a date-time format</span></span></code></pre></div>
 <pre><code>##      Index                     soiltemp_T15_zoo
-##  Min.   :2014-04-01 00:00:00   Min.   :10.40   
-##  1st Qu.:2014-04-16 05:45:00   1st Qu.:12.45   
-##  Median :2014-05-01 11:30:00   Median :14.30   
-##  Mean   :2014-05-01 11:30:00   Mean   :14.86   
-##  3rd Qu.:2014-05-16 17:15:00   3rd Qu.:17.41   
-##  Max.   :2014-05-31 23:00:00   Max.   :21.70   
+##  Min.   :2014-04-01 00:00:00   Min.   :10.40
+##  1st Qu.:2014-04-16 05:45:00   1st Qu.:12.45
+##  Median :2014-05-01 11:30:00   Median :14.30
+##  Mean   :2014-05-01 11:30:00   Mean   :14.86
+##  3rd Qu.:2014-05-16 17:15:00   3rd Qu.:17.41
+##  Max.   :2014-05-31 23:00:00   Max.   :21.70
 ## &#39;zoo&#39; series from 2014-04-01 to 2014-05-31 23:00:00
 ##   Data: num [1:1464] 20.1 19.8 19.6 19.2 19 ...
 ##   Index:  POSIXct[1:1464], format: &quot;2014-04-01 00:00:00&quot; &quot;2014-04-01 01:00:00&quot; &quot;2014-04-01 02:00:00&quot; &quot;2014-04-01 03:00:00&quot; &quot;2014-04-01 04:00:00&quot; ...</code></pre>
@@ -622,7 +622,7 @@ allows us to use more functions...</p>
 <pre><code>## An &#39;xts&#39; object on 2014-04-01/2014-05-31 23:00:00 containing:
 ##   Data: num [1:1464, 1] 20.1 19.8 19.6 19.2 19 ...
 ##   Indexed by objects of class: [POSIXct,POSIXt] TZ: Australia/Perth
-##   xts Attributes:  
+##   xts Attributes:
 ##  NULL</code></pre>
 <p> </p>
 </div>
@@ -720,25 +720,25 @@ made stationary with transformations or differencing.</p>
 <h3>Testing for stationarity</h3>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># we need the package &#39;tseries&#39; for the Augmented Dickey–Fuller (adf) Test</span></span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>d0 <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(soiltemp_T15_zoo); <span class="fu">print</span>(d0)</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  Augmented Dickey-Fuller Test
-## 
+##
 ## data:  soiltemp_T15_zoo
 ## Dickey-Fuller = -3.9515, Lag order = 11, p-value = 0.01141
 ## alternative hypothesis: stationary</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(<span class="fu">diff</span>(soiltemp_T15_zoo,<span class="dv">1</span>)); <span class="fu">print</span>(d1)</span></code></pre></div>
 <pre><code>## Warning in adf.test(diff(soiltemp_T15_zoo, 1)): p-value smaller than printed p-value</code></pre>
-<pre><code>## 
+<pre><code>##
 ##  Augmented Dickey-Fuller Test
-## 
+##
 ## data:  diff(soiltemp_T15_zoo, 1)
 ## Dickey-Fuller = -16.143, Lag order = 11, p-value = 0.01
 ## alternative hypothesis: stationary</code></pre>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(<span class="fu">diff</span>(<span class="fu">diff</span>(soiltemp_T15_zoo,<span class="dv">1</span>),<span class="dv">1</span>)); <span class="fu">print</span>(d2)</span></code></pre></div>
 <pre><code>## Warning in adf.test(diff(diff(soiltemp_T15_zoo, 1), 1)): p-value smaller than printed p-value</code></pre>
-<pre><code>## 
+<pre><code>##
 ##  Augmented Dickey-Fuller Test
-## 
+##
 ## data:  diff(diff(soiltemp_T15_zoo, 1), 1)
 ## Dickey-Fuller = -17.204, Lag order = 11, p-value = 0.01
 ## alternative hypothesis: stationary</code></pre>
@@ -808,22 +808,24 @@ significant trend, and the direction of that trend</strong>
 sufficient from a regulatory perspective.</span> For example, when
 monitoring the attenuation of pollution or checking the effectiveness of
 remediation, showing that the contaminant concentrations are decreasing
-is important information! (see Australian Government 2023; Department of
-Water 2015).</span>
+is important information! (see <a
+href="https://www.waterquality.gov.au/anz-guidelines/monitoring/data-analysis/data-assess-change"
+target="_blank">Australian Government 2023</a>; <a href="https://www.wa.gov.au/government/publications/calculating-trends-nutrient-data" target="_blank">Department of
+Water 2015</a>).</span>
 </div>
 <p> </p>
 <div id="a.-apply-the-mann-kendall-test-from-the-trend-package"
 class="section level4">
 <h4>1a. Apply the Mann-Kendall test from the 'trend' package</h4>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">mk.test</span>(<span class="fu">coredata</span>(soiltemp_T15_zoo))</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  Mann-Kendall trend test
-## 
+##
 ## data:  coredata(soiltemp_T15_zoo)
 ## z = -36.387, n = 1464, p-value &lt; 2.2e-16
 ## alternative hypothesis: true S is not equal to 0
 ## sample estimates:
-##             S          varS           tau 
+##             S          varS           tau
 ## -6.797270e+05  3.489630e+08 -6.371125e-01</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co">#    or</span></span>
 <span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="co"># SeasonalMannKendall(soiltemp_T15_zoo) # needs base R regular time series object</span></span></code></pre></div>
@@ -836,16 +838,16 @@ hypothesis of zero slope.</p>
 <div id="b.-estimate-the-sens-slope" class="section level4">
 <h4>1b. Estimate the Sen's slope</h4>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">sens.slope</span>(<span class="fu">coredata</span>(soiltemp_T15_zoo))</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  Sen&#39;s slope
-## 
+##
 ## data:  coredata(soiltemp_T15_zoo)
 ## z = -36.387, n = 1464, p-value &lt; 2.2e-16
 ## alternative hypothesis: true z is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.005963303 -0.005570410
 ## sample estimates:
-##  Sen&#39;s slope 
+##  Sen&#39;s slope
 ## -0.005765595</code></pre>
 <p>The output from <code>sens.slope()</code> also shows a negative slope
 (<em>i.e</em>. the value of <code>Sen's slope</code> at the end of the
@@ -905,23 +907,23 @@ as described above.</p>
 <p>First we create a linear model of the time series...</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>lm0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">coredata</span>(soiltemp_T15_zoo) <span class="sc">~</span> <span class="fu">index</span>(soiltemp_T15_zoo))</span>
 <span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="fu">summary</span>(lm0)</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## Call:
 ## lm(formula = coredata(soiltemp_T15_zoo) ~ index(soiltemp_T15_zoo))
-## 
+##
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.9217 -1.0968  0.0743  1.0938  3.5318 
-## 
+##     Min      1Q  Median      3Q     Max
+## -3.9217 -1.0968  0.0743  1.0938  3.5318
+##
 ## Coefficients:
-##                           Estimate Std. Error t value Pr(&gt;|t|)    
+##                           Estimate Std. Error t value Pr(&gt;|t|)
 ## (Intercept)              2.213e+03  3.370e+01   65.66   &lt;2e-16 ***
 ## index(soiltemp_T15_zoo) -1.571e-06  2.409e-08  -65.22   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
+##
 ## Residual standard error: 1.402 on 1462 degrees of freedom
-## Multiple R-squared:  0.7442, Adjusted R-squared:  0.744 
+## Multiple R-squared:  0.7442, Adjusted R-squared:  0.744
 ## F-statistic:  4253 on 1 and 1462 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>...then use a plot (Figure 7) to look at the linear relationship.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>soiltemp_T15_lmfit <span class="ot">&lt;-</span> <span class="fu">zoo</span>(lm0<span class="sc">$</span>fitted.values, <span class="fu">index</span>(soiltemp_T15_zoo))</span>
@@ -1017,21 +1019,21 @@ data.</p>
 (<code>Box.test()</code>)is that no autocorrelation exists at any lag
 distance (so p ≤ 0.05 'rejects' H<sub>0</sub>):</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="fu">Box.test</span>(soiltemp_T15_xts)</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  Box-Pierce test
-## 
+##
 ## data:  soiltemp_T15_xts
 ## X-squared = 1436.3, df = 1, p-value &lt; 2.2e-16</code></pre>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="fu">Box.test</span>(<span class="fu">diff</span>(soiltemp_T15_xts,<span class="dv">1</span>)) <span class="co"># 1 difference</span></span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  Box-Pierce test
-## 
+##
 ## data:  diff(soiltemp_T15_xts, 1)
 ## X-squared = 15.658, df = 1, p-value = 7.589e-05</code></pre>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="fu">Box.test</span>(<span class="fu">diff</span>(<span class="fu">diff</span>(soiltemp_T15_xts,<span class="dv">1</span>),<span class="dv">1</span>)) <span class="co"># 2 differences</span></span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  Box-Pierce test
-## 
+##
 ## data:  diff(diff(soiltemp_T15_xts, 1), 1)
 ## X-squared = 357.45, df = 1, p-value &lt; 2.2e-16</code></pre>
 <p> </p>
@@ -1173,14 +1175,14 @@ class="section level2">
 <h2>Use the <code>forecast</code> R package to run an ARIMA model</h2>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="fu">auto.arima</span>(soiltemp_T15_xts, <span class="at">max.p =</span> <span class="dv">3</span>, <span class="at">max.q =</span> <span class="dv">3</span>, <span class="at">max.d =</span> <span class="dv">0</span>, </span>
 <span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a>           <span class="at">seasonal =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## Series: soiltemp_T15_xts 
-## ARIMA(1,0,3) with non-zero mean 
-## 
+<pre><code>## Series: soiltemp_T15_xts
+## ARIMA(1,0,3) with non-zero mean
+##
 ## Coefficients:
 ##          ar1     ma1     ma2     ma3     mean
 ##       0.9883  0.0923  0.0892  0.0999  15.0050
 ## s.e.  0.0041  0.0263  0.0255  0.0258   0.9301
-## 
+##
 ## sigma^2 = 0.1188:  log likelihood = -517.87
 ## AIC=1047.73   AICc=1047.79   BIC=1079.47</code></pre>
 <p>The <code>auto.arima()</code> function runs a complex algorithm
@@ -1260,17 +1262,17 @@ differencing, <code>Q</code> the seasonal moving averages, and
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a>am0 <span class="ot">&lt;-</span> <span class="fu">arima</span>(<span class="at">x =</span> soiltemp_T15_xts, <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">3</span>))</span>
 <span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a><span class="fu">summary</span>(am0)</span>
 <span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a><span class="fu">confint</span>(am0)</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## Call:
 ## arima(x = soiltemp_T15_xts, order = c(1, 0, 3))
-## 
+##
 ## Coefficients:
 ##          ar1     ma1     ma2     ma3  intercept
 ##       0.9883  0.0923  0.0892  0.0999    15.0050
 ## s.e.  0.0041  0.0263  0.0255  0.0258     0.9301
-## 
+##
 ## sigma^2 estimated as 0.1184:  log likelihood = -517.87,  aic = 1047.73
-## 
+##
 ## Training set error measures:
 ##                        ME      RMSE       MAE         MPE     MAPE     MASE          ACF1
 ## Training set -0.005215705 0.3441525 0.2467179 -0.08670514 1.716531 0.980305 -0.0001019764
@@ -1300,19 +1302,19 @@ parameter is useful or not).</p>
 <span id="cb54-4"><a href="#cb54-4" tabindex="-1"></a>             <span class="at">seasonal =</span> <span class="fu">list</span>(<span class="at">order =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">period =</span> ff))</span>
 <span id="cb54-5"><a href="#cb54-5" tabindex="-1"></a><span class="fu">summary</span>(am1)</span>
 <span id="cb54-6"><a href="#cb54-6" tabindex="-1"></a><span class="fu">confint</span>(am1)</span></code></pre></div>
-<pre><code>## Estimated time series frequency is 24 
-## 
+<pre><code>## Estimated time series frequency is 24
+##
 ## Call:
-## arima(x = soiltemp_T15_xts, order = c(1, 0, 2), seasonal = list(order = c(1, 
+## arima(x = soiltemp_T15_xts, order = c(1, 0, 2), seasonal = list(order = c(1,
 ##     0, 1), period = ff))
-## 
+##
 ## Coefficients:
 ##          ar1      ma1      ma2    sar1     sma1  intercept
 ##       0.9968  -0.1466  -0.0984  0.9998  -0.9856     14.829
 ## s.e.  0.0020   0.0268   0.0288  0.0004   0.0143     10.415
-## 
+##
 ## sigma^2 estimated as 0.09073:  log likelihood = -355.68,  aic = 725.35
-## 
+##
 ## Training set error measures:
 ##                       ME    RMSE       MAE        MPE     MAPE      MASE         ACF1
 ## Training set -0.01572894 0.30122 0.2169846 -0.1427709 1.504911 0.8621632 0.0006582706
@@ -1346,12 +1348,12 @@ Figure 14: Residual diagnostic plots for a non-seasonal ARIMA model of
 the soil temperature time series.
 </p>
 </div>
-<pre><code>## 
+<pre><code>##
 ##  Ljung-Box test
-## 
+##
 ## data:  Residuals from ARIMA(1,0,3) with non-zero mean
 ## Q* = 35.092, df = 6, p-value = 4.136e-06
-## 
+##
 ## Model df: 4.   Total lags used: 10</code></pre>
 <p> </p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a><span class="fu">checkresiduals</span>(am1)</span></code></pre></div>
@@ -1362,12 +1364,12 @@ Figure 15: Residual diagnostic plots for a seasonal ARIMA (SARIMA) model
 of the soil temperature time series.
 </p>
 </div>
-<pre><code>## 
+<pre><code>##
 ##  Ljung-Box test
-## 
+##
 ## data:  Residuals from ARIMA(1,0,2)(1,0,1)[24] with non-zero mean
 ## Q* = 20.04, df = 5, p-value = 0.001228
-## 
+##
 ## Model df: 5.   Total lags used: 10</code></pre>
 <p> </p>
 <p>In both the diagnostic plots (Figure 14 and Figure 15) the residuals
@@ -1477,25 +1479,25 @@ type using the <code>model =</code> option!</p>
 automatically.</p>
 <div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" tabindex="-1"></a>soiltemp_T15_ets <span class="ot">&lt;-</span> <span class="fu">ets</span>(soiltemp_T15_xts, <span class="at">model =</span> <span class="st">&quot;ZZZ&quot;</span>)</span>
 <span id="cb63-2"><a href="#cb63-2" tabindex="-1"></a><span class="fu">summary</span>(soiltemp_T15_ets)</span></code></pre></div>
-<pre><code>## ETS(A,Ad,N) 
-## 
+<pre><code>## ETS(A,Ad,N)
+##
 ## Call:
-##  ets(y = soiltemp_T15_xts, model = &quot;ZZZ&quot;) 
-## 
+##  ets(y = soiltemp_T15_xts, model = &quot;ZZZ&quot;)
+##
 ##   Smoothing parameters:
-##     alpha = 0.9999 
-##     beta  = 0.1083 
-##     phi   = 0.8 
-## 
+##     alpha = 0.9999
+##     beta  = 0.1083
+##     phi   = 0.8
+##
 ##   Initial states:
-##     l = 20.2683 
-##     b = -0.4487 
-## 
+##     l = 20.2683
+##     b = -0.4487
+##
 ##   sigma:  0.3482
-## 
-##      AIC     AICc      BIC 
-## 7588.660 7588.718 7620.394 
-## 
+##
+##      AIC     AICc      BIC
+## 7588.660 7588.718 7620.394
+##
 ## Training set error measures:
 ##                        ME      RMSE       MAE         MPE     MAPE       MASE      ACF1
 ## Training set -0.003041526 0.3475639 0.2472475 -0.03856289 1.719534 0.01664266 0.0146761</code></pre>

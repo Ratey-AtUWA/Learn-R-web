@@ -270,8 +270,8 @@ trend, and the direction of that trend** (*i.e*. negative = decreasing or positi
 = increasing) may be sufficient from a regulatory perspective.</span> For
 example, when monitoring the attenuation of pollution or checking the
 effectiveness of remediation, showing that the contaminant concentrations are
-decreasing is important information! (see Australian Government 2023; Department
-of Water 2015).</span></div>
+decreasing is important information! (see [Australian Government 2023](https://www.waterquality.gov.au/anz-guidelines/monitoring/data-analysis/data-assess-change){target="_blank"}; 
+[Department of Water 2015](https://www.wa.gov.au/government/publications/calculating-trends-nutrient-data){target="_blank"}).</span></div>
 
 &nbsp;
 
