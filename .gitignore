@@ -20,6 +20,7 @@
 *.Rproj
 render-them.R
 search-replace-gsub-multi-files.R
+sandbox*.Rmd
 *.docx
 
 # Output files from R CMD check

@@ -15,7 +15,7 @@ output:
 <div style="border: 2px solid #039; padding: 8px;">
 # ![](./images/indexPic.jpg){align="right" width="400" height="400"}Contents
 
-*Contents are provided on this page only &ndash; to navigate from other pages use the menu at the top.*
+<span style="font-size:10pt; color:#808080;">*Contents are provided on this page only &ndash; to navigate from other pages use the menu at the top.*</span>
 
 1. [**Contents**](index.html)
 

@@ -1,6 +1,6 @@
 ---
 title: "Multivariate methods - LDA"
-subtitle: "Linerar Discriminant Analysis"
+subtitle: "Linear Discriminant Analysis"
 author: "Andrew Rate"
 date: "`r Sys.Date()`"
 output: 
@@ -27,8 +27,8 @@ library(ggplot2)
 library(reshape2)
 library(ggpubr)
 library(flextable)
-library(magrittr)
-library(RcmdrMisc)
+library(viridis)
+library(corrplot)
 library(klaR)
 
 set_flextable_defaults(theme_fun = "theme_booktabs", 
@@ -96,13 +96,16 @@ results.
 
 ### Load packages, and read and transform data 
 
-```{r setup-show, message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r setup-show, message=FALSE, warning=FALSE, paged.print=FALSE, results='hold', R.options = list(width = 120)}
 library(MASS)
+library(corrplot)
+library(klaR)
+library(viridis)
 
 git <- "https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R-web/main/"
 Hallberg <- read.csv(paste0(git,"HallbergTE.csv"), stringsAsFactors = TRUE)
 head(Hallberg[,c(15:25,28:37)])
-
+cat("\n------------------\n")
 Hallberg_clr <- Hallberg
 Hallberg_clr[,c(15:25,28:37)] <- t(apply(Hallberg[,c(15:25,28:37)], MARGIN = 1,
                            FUN = function(x){log(x) - mean(log(x))}))
@@ -138,8 +141,9 @@ classification spectrum (which includes the rocks in this dataset, all being
 ```{r LDA closed whole rock data, results='hold', R.options = list(width = 120)}
 data0 <- Hallberg
 data0[,c(15:25,28:37)] <- scale(data0[,c(15:25,28:37)]) # scale just numeric variables
-lda_rock_clos <- lda(formula = Rock ~ Co + Cr + Cu + Ni + Rb + Sr + TiO2 + V + 
-                               Y + Zn + Zr, 
+lda_rock_clos <- lda(formula = Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + 
+                               MgO + CaO + Na2O + K2O + P2O5 + Co + Cr + Cu + 
+                               Ni + Rb + Sr + TiO2 + V + Y + Zn + Zr, 
                     data = data0,
                     prior = as.numeric(summary(Hallberg$Rock))/nrow(Hallberg)) 
 print(lda_rock_clos)
@@ -147,16 +151,15 @@ print(lda_rock_clos)
 
 &nbsp;
 
-```{r Fig1-correl-matrix-closed, fig.height=6, fig.width=6, out.width="60%", fig.cap="Figure 1: Correlation matrix for closed-set predictors (not part of LDA output)>", message=FALSE, warning=FALSE}
-cormat <- rcorr.adjust(data0[,c(16,28:37)], 
+```{r Fig1-correl-matrix-closed, fig.height=12, fig.width=12, out.width="80%", fig.cap="Figure 1: Correlation matrix for closed-set predictors (not part of LDA output)>", message=FALSE, warning=FALSE}
+cormat <- rcorr.adjust(data0[,c(15:25,28:37)], 
                        type="pearson")
 cmx <- round(cormat$R$r,3) ; cmx[which(cmx>0.9999)] <- NA
-cmx[lower.tri(cmx)] <- NA 
-# flextable(as.data.frame(cbind(row.names(cmx),cmx))) |> width(j=1:12, width=1.2, unit="cm") |> 
-#   set_header_labels(V1="") |> align(align="right", part="all") |> 
-#   set_caption(caption = "")
-corrplot::corrplot(cmx, method="ellipse", tl.col=1, addCoef.col=1, 
-                   cl.cex=0.95, na.label = " ")
+corrplot(cmx, method="ellipse", type="upper", tl.col=1, tl.cex=1.4, 
+                   cl.cex=1.4, na.label = " ", tl.pos="lt")
+corrplot(cmx, method="color", type="lower", tl.col=1, addCoef.col=1, 
+         addgrid.col = "grey", na.label = " ", cl.pos="n", tl.pos="n", add=TRUE,
+         col=colorRampPalette(c("#ffe0e0","white","#e0e0ff"))(200))
 ```
 
 &nbsp;
@@ -166,8 +169,9 @@ corrplot::corrplot(cmx, method="ellipse", tl.col=1, addCoef.col=1,
 ```{r LDA open whole rock data, message=FALSE, warning=FALSE, results='hold', R.options = list(width = 120)}
 data0 <- Hallberg_clr
 data0[,c(15:25,28:37)] <- scale(data0[,c(15:25,28:37)]) # scale just numeric variables
-lda_rock_open <- lda(formula = Rock ~ Co + Cr + Cu + Ni + Rb + Sr + TiO2 + V + 
-                               Y + Zn + Zr, 
+lda_rock_open <- lda(formula = Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + 
+                               MgO + CaO + Na2O + K2O + P2O5 + Co + Cr + Cu + 
+                               Ni + Rb + Sr + TiO2 + V + Y + Zn + Zr, 
                     data = data0,
                     prior = as.numeric(summary(data0$Rock))/nrow(data0)) 
 print(lda_rock_open)
@@ -175,16 +179,15 @@ print(lda_rock_open)
 
 &nbsp;
 
-```{r Fig2-correl-matrix-CLR, fig.height=6, fig.width=6, out.width="60%", fig.cap="Figure 2: Correlation matrix for clr-transformed predictors (not part of LDA output)>", message=FALSE, warning=FALSE}
-cormat <- rcorr.adjust(data0[,c(16,28:37)], 
+```{r Fig2-correl-matrix-CLR, fig.height=11, fig.width=11, out.width="60%", fig.cap="Figure 2: Correlation matrix for clr-transformed predictors (not part of LDA output)>", message=FALSE, warning=FALSE}
+cormat <- rcorr.adjust(data0[,c(15:25,28:37)], 
                        type="pearson")
 cmx <- round(cormat$R$r,3) ; cmx[which(cmx>0.9999)] <- NA
-cmx[lower.tri(cmx)] <- NA 
-# flextable(as.data.frame(cbind(row.names(cmx),cmx))) |> width(j=1:12, width=1.2, unit="cm") |> 
-#   set_header_labels(V1="") |> align(align="right", part="all") |> 
-#   set_caption(caption = "")
-corrplot::corrplot(cmx, method="ellipse", tl.col=1, addCoef.col=1, 
-                   cl.cex=0.95, na.label = " ")
+corrplot(cmx, method="ellipse", type="upper", tl.col=1, tl.cex=1.4, 
+                   cl.cex=1.4, na.label = " ", tl.pos="lt")
+corrplot(cmx, method="ellipse", type="lower", tl.col=1, addCoef.col=1, 
+         addgrid.col = "grey", na.label = " ", cl.pos="n", tl.pos="n", add=TRUE,
+         col=colorRampPalette(c("#ffe0e0","white","#e0e0ff"))(200))
 ```
 
 &nbsp;
@@ -198,7 +201,7 @@ that separate our categories, since each function (LD1, LD2, *etc*.) is a
 linear combination of all the variables. Finally, the *Proportion of trace* 
 sub-table gives the *proportions of between-class variance* that are explained 
 by successive discriminant functions (*e.g*. for the open Hallberg rock data,
-LD1 explains 0.908 (91%) and LD2 explains 0.081 (8.1%) of variance between Rock 
+LD1 explains 0.849 (85%) and LD2 explains 0.125 (12.5%) of variance between Rock 
 type categories).
 
 [**Note**: sometimes we cannot make an LDA model, because the predictors are
@@ -222,8 +225,8 @@ side-by side comparison) are shown in Figure 3.
 
 
 ```{r Fig3-ldahistComp, fig.align='center', fig.cap="Figure 3: Histograms based on the first linear discriminant function for (a) closed and (b) open (CLR-transformed) whole-rock major element data.", fig.height=14, fig.width=10, out.width="80%", results='hold'}
-predClos <- predict(lda_rock_clos, Hallberg[,c(16,28:37)])
-predOpen <- predict(lda_rock_open, Hallberg[,c(16,28:37)])
+predClos <- predict(lda_rock_clos, Hallberg[,c(15:25,28:37)])
+predOpen <- predict(lda_rock_open, Hallberg[,c(15:25,28:37)])
 LD1c <- data.frame(Rock=as.character(Hallberg$Rock),LD1=predClos$x[,1])
 LD1c$Rock <- factor(LD1c$Rock, levels=levels(Hallberg$Rock))
 par(mfcol = c(nlevels(LD1c$Rock),2), mar = c(1,2,1,1), oma = c(1,0,1,0), 
@@ -308,13 +311,13 @@ par(mfrow = c(2,2), mar = c(3.5,3.5,1,1), mgp = c(1.5,0.3,0), tcl = 0.25,
     lend = "square", ljoin = "mitre", cex.main = 0.9, font.lab=2)
 palette(c("black", viridis::viridis(6, alp=0.7, end=0.99), "gray","transparent"))
 plot(lda_rock_clos$scaling[,1], lda_rock_clos$scaling[,2], type="n",
-     xlim = c(-0.5,2.3), # ylim=c(-0.8,1.4), 
+     xlim = c(-1,1), # ylim=c(-0.8,1.4), 
      xlab="Linear Discriminant [1]", ylab="Linear Discriminant [2]", 
      main="(a) Variable Coefficients [LD1, LD2]")
 abline(v=0,col="grey",lty=2)
 abline(h=0,col="grey",lty=2)
 text(lda_rock_clos$scaling[,1],lda_rock_clos$scaling[,2],
-     labels=names(Hallberg)[c(16,28:37)], pos = c(4,4,2,4,4,1,1,1,4,2,3),
+     labels=names(Hallberg)[c(15:25,28:37)], pos = c(4,4,2,4,4,1,1,1,4,2,3),
      cex = 1.1, col = 2, offset = 0.2)
 mtext("(a)", 3, -1.5, adj = 0.95, cex = 1.2, font = 2)
 
@@ -353,9 +356,6 @@ abline(h=0,col="grey",lty=2)
 #      labels=Hallberg$Rock, col=c(1:13)[Hallberg$Rock],
 #      pos=1, offset=0.15, cex=0.65)
 mtext("(c)", 3, -1.5, adj = 0.05, cex = 1.2, font = 2)
-legend("topright",legend=levels(Hallberg$Rock), ncol = 1, bty="n", 
-       inset=c(0.01,0.04), pt.bg=c(2:7), pch=c(21:25,21), pt.lwd = 1,
-    title="Rock Type in (b) - (d)", pt.cex = 1.5, cex = 1.1, y.intersp = 1)
 
 plot(ldaPred_rock_clos$x[,2], ldaPred_rock_clos$x[,4],
      bg=c(2:7)[Hallberg_clr$Rock],
@@ -367,63 +367,69 @@ abline(h=0,col="grey",lty=2)
 # text(ldaPred_rock_clos$x[,2], ldaPred_rock_clos$x[,4], 
 #      labels=Hallberg$Rock, col=c(2,4,6,3,12)[Hallberg$Rock],
 #      pos=1, offset=0.15, cex=0.65)
-mtext("(d)", 3, -1.5, adj = 0.05, cex = 1.2, font = 2)
+mtext("(d)", 3, -1.5, adj=0.05, cex=1.2, font=2)
+legend("bottomright",legend=levels(Hallberg$Rock), ncol=2, bty="n", 
+       inset=c(0.001,0.001), pt.bg=c(2:7), pch=c(21:25,21), pt.lwd=1,
+    title="Rock Type in (b) - (d)", pt.cex=1.5, cex=1, y.intersp=1)
 ```
 
 &nbsp;
 
-```{r Fig6-LDAopen, fig.height=8, fig.width=8, out.width="70%", fig.align='center', fig.cap="Figure 6: Linear discriminant analysis (LDA) plots for open (CLR-transformed) rock composition data: (a) variable coefficients in LD1-LD2 space, and predictions for observations in (b) LD1-LD2 space; (c) LD1-LD3 space; (d) LS2-LD3 space. Legend in (a) applies to plots (b), (c), and (d).", results='hold'}
+```{r Fig6-LDAopen, fig.height=8, fig.width=8, out.width="70%", fig.align='center', fig.cap="Figure 6: Linear discriminant analysis (LDA) plots for open (CLR-transformed) rock composition data: (a) variable coefficients in LD1-LD2 space, and predictions for observations (showing correct classes) in (b) LD1-LD2 space; (c) LD1-LD3 space; (d) LS2-LD3 space. Legend in (a) applies to plots (b), (c), and (d).", results='hold'}
 par(mfrow = c(2,2), mar = c(3.5,3.5,1,1), mgp = c(1.5,0.3,0), tcl = 0.25,
     lend = "square", ljoin = "mitre", cex.main = 0.9, font.lab=2)
+palette(c("black", viridis(6, alp=0.7, end=0.99), "gray","transparent","white"))
 plot(lda_rock_open$scaling[,1], lda_rock_open$scaling[,2], type="n", 
-     xlim = c(-0.15,1.3),  ylim = c(-2,1.8), 
+     xlim = c(-1,1),  ylim = c(-1.2,1), 
      xlab="Linear Discriminant [1]", ylab="Linear Discriminant [2]", 
      main="Variable Coefficients [LD1, LD2]")
 abline(v=0,col="grey",lty=2); abline(h=0,col="grey",lty=2)
-text(lda_rock_open$scaling[,1], lda_rock_open$scaling[,2], 
-     labels=names(Hallberg_clr)[c(16,28:37)],
-     pos = c(4,4,1,1,4,4,1,1,4,4,4), cex = 1.1, col = 3, offset=0.2, font=2)
+text(lda_rock_open$scaling[,1]*1.1, lda_rock_open$scaling[,2]*1.1, 
+     labels=names(Hallberg_clr)[c(15:25,28:37)],
+     cex = 1.1, col = 3, offset=0.2, font=2)
 for(i in 1:NROW(lda_rock_open$scaling)){
-  arrows(0,0,lda_rock_open$scaling[i,1],lda_rock_open$scaling[i,2],
+  arrows(0,0,lda_rock_open$scaling[i,1], lda_rock_open$scaling[i,2],
          length = 0.1, col = 8) }
 mtext("(a)", 3, -1.5, adj = 0.05, cex = 1.2, font = 2)
 
 ldaPred_rock_open <- predict(lda_rock_open)
 
 plot(ldaPred_rock_open$x[,1], ldaPred_rock_open$x[,2], 
-     bg=c(2:7)[Hallberg$Rock],
-     pch=c(21:25,21)[Hallberg$Rock], lwd=1, cex = 1.5, 
+     col="#000000a0",bg=c(2:7)[ldaPred_rock_open$class],
+     pch=c(21:25,21)[ldaPred_rock_open$class], lwd=1, cex = 1.5, 
      main="Predictions for Observations [LD1, LD2]", 
      xlab="Linear Discriminant [1]", ylab="Linear Discriminant [2]")
+points(ldaPred_rock_open$x[ldaPred_rock_open$class==data0$Rock,1],
+       ldaPred_rock_open$x[ldaPred_rock_open$class==data0$Rock,2],
+       pch=21, cex=0.5, col="#ffffffa0", bg="#000000c0")
 abline(v=0,col="grey",lty=2); abline(h=0,col="grey",lty=2)
-# text(ldaPred_rock_open$x[,1], ldaPred_rock_open$x[,2], labels=Hallberg$Rock, 
-#      col=c(2,4,6,3,12)[Hallberg$Rock], pos=1, offset=0.15, cex=0.65)
 mtext("(b)", 3, -1.5, adj = 0.05, cex = 1.2, font = 2)
+legend("bottomright", ncol = 1, bty="n", cex=0.85, title="Rock Type in (b)-(d)", 
+       legend=c(substr(levels(ldaPred_rock_open$class),1,7),"dots = correct"), 
+       pt.cex=c(rep(1.5,6),0.5), pt.bg=c(2:7,"#000000c0"), col=c(rep("#000000a0",6),10), 
+       pch=c(21:25,21,21), pt.lwd=1, box.col="grey90", y.intersp=0.95, box.lwd=2)
 
 plot(ldaPred_rock_open$x[,1], ldaPred_rock_open$x[,3], 
-     bg=c(2:7)[Hallberg$Rock],
-     pch=c(21:25,21)[Hallberg$Rock], lwd=1, cex = 1.5, 
+     bg=c(2:7)[ldaPred_rock_open$class],
+     pch=c(21:25,21)[ldaPred_rock_open$class], lwd=1, cex = 1.5, 
      main="Predictions for Observations [LD1, LD3]", 
      xlab="Linear Discriminant [1]", ylab="Linear Discriminant [3]")
+points(ldaPred_rock_open$x[ldaPred_rock_open$class==data0$Rock,1],
+       ldaPred_rock_open$x[ldaPred_rock_open$class==data0$Rock,3],
+       pch=21, cex=0.5, col="#ffffffa0", bg="#000000c0")
 abline(v=0,col="grey",lty=2); abline(h=0,col="grey",lty=2)
-# text(ldaPred_rock_open$x[,1], ldaPred_rock_open$x[,3], labels=Hallberg$Rock, 
-#      col=c(2,4,6,3,12)[Hallberg$Rock], pos=1, offset=0.15, cex=0.65)
 mtext("(c)", 3, -1.5, adj = 0.05, cex = 1.2, font = 2)
 
 plot(ldaPred_rock_open$x[,2], ldaPred_rock_open$x[,4], 
-     bg=c(2:7)[Hallberg$Rock],
-     pch=c(21:25,21)[Hallberg$Rock], lwd=1, cex = 1.5, 
+     bg=c(2:7)[ldaPred_rock_open$class],
+     pch=c(21:25,21)[ldaPred_rock_open$class], lwd=1, cex = 1.5, 
      main="Predictions for Observations [LD2, LD4]", 
      xlab="Linear Discriminant [2]", ylab="Linear Discriminant [4]")
+points(ldaPred_rock_open$x[ldaPred_rock_open$class==data0$Rock,2],
+       ldaPred_rock_open$x[ldaPred_rock_open$class==data0$Rock,4],
+       pch=21, cex=0.5, col="#ffffffa0", bg="#000000c0")
 abline(v=0,col="grey",lty=2); abline(h=0,col="grey",lty=2)
-# text(ldaPred_rock_open$x[,2], ldaPred_rock_open$x[,3], labels=Hallberg$Rock, 
-#      col=c(2,4,6,3,12)[Hallberg$Rock], pos=1, offset=0.15, cex=0.65)
 mtext("(d)", 3, -1.5, adj = 0.95, cex = 1.2, font = 2)
-legend("topleft", ncol = 1, legend=levels(Hallberg$Rock), 
-       pt.bg=c(2:7), pch=c(21:25,21), pt.lwd = 1,
-       bty="n", box.col="grey90", y.intersp = 0.9, 
-       title="Rock Type in (b) - (d)",
-       box.lwd=2, pt.cex=1.5, cex=1.1)
 ```
 
 ```{r reset par to 1x1, message=FALSE, warning=FALSE, include=FALSE, results='hide'}
@@ -486,13 +492,11 @@ cat("\nPredictions by LDA using open data:",k,"out of",NROW(Hallberg_clr),
 head(openComp, n = 10)
 ```
 
-For this dataset, it seems as though LDA using either closed open open data is
-not that good at predicting the Rock category for each observation! In the
-output above, Basalt is mis-identified as Dolerite (which might make sense given
-the expected compositional similarity; simplistically, dolerite is a more
-coarse-grained version of basalt). It seems to be more common for Basalt to be
-mis-identified as Metasediment, which may or not make sense depending on the
-composition of the original sediment!
+For this dataset, it seems as though LDA using open data is better at predicting
+the Rock category for each observation. In the output above, Basalt is
+mis-identified as Dolerite (which might make sense given the expected
+compositional similarity; simplistically, dolerite is a more coarse-grained
+version of basalt).
 
 This kind of comparison is not very rigorous, and nor does it address the reason
 we might perform a supervised classification like LDA &ndash; to use data to predict
@@ -519,8 +523,9 @@ to the category with the greatest posterior probability.]
 # leave-one-out cross validation for LDA
 data0 <- Hallberg_clr
 data0[,c(15:25,28:37)] <- scale(data0[,c(15:25,28:37)]) # scale just numeric variables
-lda_rock_open <- lda(formula = Rock ~ Co + Cr + Cu + Ni + Rb + Sr + TiO2 + V + 
-                               Y + Zn + Zr, 
+lda_rock_open <- lda(formula = Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + 
+                               MgO + CaO + Na2O + K2O + P2O5 + Co + Cr + Cu + 
+                               Ni + Rb + Sr + TiO2 + V + Y + Zn + Zr, 
                      data = data0,
                      prior = as.numeric(summary(data0$Rock))/nrow(data0), 
                      CV=TRUE) 
@@ -528,10 +533,10 @@ preds <- apply(lda_rock_open$posterior, MARGIN = 1,
       FUN = function(x){levels(lda_rock_open$class)[which(x==max(x, na.rm=TRUE))]})
 obsvs <- data0$Rock
 matches <- data.frame(Pred_class=preds, Actual_class=obsvs, Match=preds==obsvs)
-flextable(matches[1:10,]) |> bold(part="header") |> width(width=c(4.8,2.8,3.8), unit="cm") |> 
+flextable(matches[1:20,]) |> bold(part="header") |> width(width=c(4.8,2.8,3.8), unit="cm") |> 
   set_header_labels(Pred_class="Predicted class", Actual_class="Actual class", 
-                    Match="Is LDA correct?") |> 
-  set_caption(caption="Table 2: Matches between LDA model and actual data based on clr-transformed major element concentrations in the whole rock dataset compiled by Hallberg (2006). Only the first 10 observations are shown.")
+                    Match="Is LDA correct?") |> padding(padding=0.5,part="all") |> 
+  set_caption(caption="Table 2: Matches between LDA model and actual data based on CLR-transformed major element concentrations in the whole rock dataset compiled by Hallberg (2006). Only the first 20 observations are shown.")
 ```
 
 &nbsp;
@@ -553,7 +558,7 @@ The code below applies an 'error-catching' condition before running the training
 LDA, which is that all categories in a random subset need to be populated.
 
 ```{r LDA train and predict closed, message=FALSE, warning=FALSE, paged.print=FALSE, results='hold'}
-n0 <- 100 # number of iterations
+n0 <- 200 # number of iterations
 ftrain <- 0.5 # proportion of observations in training set
 results <- data.frame(
   Rep = rep(NA, n0),
@@ -577,8 +582,9 @@ for (i in 1:n0) {
       # set condition requiring all categories to be populated
       if (is.na(match(NA,tapply(Hallberg[train,]$SiO2, 
                       Hallberg[train,]$Rock, sd, na.rm=T))) == TRUE) {
-          lda_Rock_train <- lda(formula = Rock ~ Co + Cr + Cu + Ni + Rb + Sr + 
-                                  TiO2 + V + Y + Zn + Zr, 
+          lda_Rock_train <- lda(formula = Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + 
+                               MgO + CaO + Na2O + K2O + P2O5 + Co + Cr + Cu + 
+                               Ni + Rb + Sr + TiO2 + V + Y + Zn + Zr, 
                           data = Hallberg[train,],
                           prior=as.numeric(summary(Hallberg$Rock[train]))/
                             nrow(Hallberg[train,]))
@@ -634,9 +640,6 @@ cat(paste("[Based on", n0, "random subsets of",paste0(100*ftrain,"%"),
     Percent_Matched = paste0(round(100*(rowSums(matchByClass)/cc0),1),"%"),
     row.names = NULL)
   print(summCats)
-# tidy up
-rm(list = c("n0","ftrain","i","isOK","jS","jM","k","m0","m1","t0","cc0",
-            "matchByClass","fMatchXClass","results","train","summCats"))
 ```
 
 The number of iterations makes some difference (Figure 5)!
@@ -663,7 +666,7 @@ for closed data, but with references to `Hallberg` replaced with
 `Hallberg_clr`).
 
 ```{r LDA train and predict open, message=FALSE, warning=FALSE, echo=FALSE, paged.print=FALSE, results='hold'}
-n0 <- 100 # number of iterations
+n0 <- 200 # number of iterations
 ftrain <- 0.5 # proportion of observations in training set
 results <- data.frame(
   Rep = rep(NA, n0),
@@ -687,8 +690,9 @@ for (i in 1:n0) {
   train <- sample(1:NROW(Hallberg_clr), round(NROW(Hallberg_clr) * ftrain,0))
       if (is.na(match(NA,tapply(Hallberg_clr[train,]$TiO2, 
                       Hallberg_clr[train,]$Rock, sd, na.rm=T))) == TRUE) {
-          lda_Rock_train <- lda(formula = Rock ~ Co + Cr + Cu + Ni + Rb + Sr + 
-                                  TiO2 + V + Y + Zn + Zr, 
+          lda_Rock_train <- lda(formula = Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + 
+                               MgO + CaO + Na2O + K2O + P2O5 + Co + Cr + Cu + 
+                               Ni + Rb + Sr + TiO2 + V + Y + Zn + Zr, 
                           data = Hallberg_clr[train,],
                           prior=as.numeric(summary(Hallberg_clr$Rock[train]))/
                             nrow(Hallberg_clr[train,]))
@@ -744,6 +748,10 @@ cat(paste("[Based on", n0, "random subsets of",paste0(100*ftrain,"%"),
     Percent_Matched = paste0(round(100*(rowSums(matchByClass)/cc0),1),"%"),
     row.names = NULL)
   print(summCats)
+```
+
+```{r tidy-up-train-predict, message=FALSE, warning=FALSE, include=FALSE}
+# tidy up
 rm(list = c("n0","ftrain","i","isOK","jS","jM","k","m0","m1","t0","cc0",
             "matchByClass","fMatchXClass","results","train","summCats"))
 ```
@@ -751,61 +759,63 @@ rm(list = c("n0","ftrain","i","isOK","jS","jM","k","m0","m1","t0","cc0",
 &nbsp;
 
 If we compare the validation output for the open data with the results for
-closed data, we see very little difference in overall accuracy. Both closed and
-open data generated successful predictions 62.7% of the time, with a slightly
-lower standard deviation for LDA based on open data. 
+closed data, we see slightly better overall accuracy for open data. Both closed and
+open data generated successful predictions &gt;&nbsp;60% of the time, with a slightly
+greater standard deviation for LDA based on open data. 
 
 There were small differences (in this validation exercise), between closed and
-open data, in the ability of LDA to predict specific categories. Closed-data LDA
-seemed better at predicting Dolerite, Gabbro, High Mg Basalt, and Metasediment.
-Conversely, LDA using open data seemed better at predicting Basalt, Peridotite,
-Pyroxenite, and Spinel Peridotite.
-
-We may get better prediction accuracy by including different variables in the
-LDA model. The original Hallberg geochemistry data at
-https://catalogue.data.wa.gov.au/dataset/hallberg-geochemistry also contain
-trace element concentrations, which can sometimes provide better discrimination
-than major element concentrations alone. This would be an interesting exercise
-to extend one's skills in data curation and multivariate analysis of
-compositional data.
+open data, in the ability of LDA to predict specific categories. Open-data LDA
+seemed better at predicting most categories; neither open- or closed-data LDA 
+was good at predicting if a rock was Gabbro.
 
 &nbsp;
 
 An issue that we haven't considered yet is whether all the variables we used for
 prediction are necessary to discriminate the categories in our data (some are
-collinear, based on Figure 2). The R package `klaR` (Weihs et al. 2005) includes
+collinear, based on Figure 2). The R package `klaR` (Weihs *et al*. 2005) includes
 the `stepclass()` function, which enables us to refine an LDA model, using a
 procedure similar to stepwise selection of predictors in multiple regression.
 The next chunk of code implements this approach.
 
 ```{r stepwise-lda, message=FALSE, warning=FALSE, results='hold'}
-minimp <- c(0.0005,0.001,0.002,0.003,0.005,0.01) ; j <- 1
+minimp <- c(0.0005,0.001,0.002,0.003,0.005,0.01) ; j <- 2
 # for(j in 1:length(minimp)){
-  stepwise.lda <- stepclass(formula = Rock ~ Co + Cr + Cu + Ni + Rb + Sr + 
-                              TiO2 + V + Y + Zn + Zr, 
+  stepwise.lda <- stepclass(formula = Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + 
+                               MgO + CaO + Na2O + K2O + P2O5 + Co + Cr + Cu + 
+                               Ni + Rb + Sr + TiO2 + V + Y + Zn + Zr, 
                             data = data0, output=TRUE, 
                             prior=as.numeric(summary(data0$Rock))/nrow(data0), 
                             method="lda", improvement=minimp[j], 
                             direction="backward", criterion="AS")
   # }
-  cat("Stepwise model: ",deparse(stepwise.lda$formula))
+  cat("Stepwise model: ",deparse(stepwise.lda$formula)) # cleaner output
 ```
 
 &nbsp;
 
-The &lsquo;full&rsquo; LDA model had 11 predictors, but the stepwise model
-retains less &ndash; 8-9 predictors, depending on individual code runs and/or
-choice of options (see below).
+The &lsquo;full&rsquo; LDA model had 21 predictors, but the stepwise model
+retains fewer predictors, depending on individual code runs and/or choice of
+options (see below). For example, the `stepclass()` function does not remove the
+same variable first every time, using `"backward"` predictor selection (we can
+change this to `"both"`, but `"backward"` makes sense if we start with a
+&lsquo;full&rsquo; LDA model).
 
 If we run the code above repeatedly, we get different results. We also get
 different results if we change the options in `stepclass()` (for example, the
 default tolerance specified by `improvement=` is 0.05, which I've found to not
 be sensitive enough). We can also specify different criteria to optimise; the
 code uses `criterion="AS"`, which is &lsquo;ability to separate&rsquo;, but we
-can choose others, such as correctness rate (`CR`, the default), accuracy `AC`,
-or confidence `CF`. For full details run `?klaR::stepclass`. If you copy the
-code above, uncomment the lines beginning with `#`, and run, you can see what
-the effect of changing the improvement tolerance is.
+can choose others, such as correctness rate (`"CR"`, the default), accuracy
+`"AC"`, or confidence `"CF"`. For full details run `?klaR::stepclass`. If you
+copy the code above, uncomment the lines beginning with `#`, and run, you can
+see what the effect of changing the improvement tolerance is.
+
+&nbsp;
+
+Overall, Linear Discriminant Analysis offers a relatively simple way to predict
+pre-existing categories in a dataset based on multiple numeric variables. If we
+dont know what the categories should be, we would need to use a different type
+of multivariate procedure, such as one of the [cluster analysis methods](cluster.html).
 
 &nbsp;
 
