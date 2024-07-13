@@ -25,6 +25,7 @@ library(officer)        # functions to support some flextable options
 library(stringr)        # character string manipulation
 library(viridis)        # colourblind-friendly colour palettes
 library(scatterplot3d)  # used for 3D ordination plots
+library(TeachingDemos)  # used for shadowtext() function
 ```
 
 ## Import the data
@@ -35,7 +36,7 @@ library(scatterplot3d)  # used for 3D ordination plots
 2. We convert the column `Site` to a *factor* (categorical information in R)
 
 ```{r read-curate-data, message=FALSE, warning=FALSE, results='hide'}
-git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+git <- "https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/"
 eDNA2022 <- read.csv(file = paste0(git,"eDNA2022.csv"))
 eDNA2022$Site <- as.factor(eDNA2022$Site)
 ```
@@ -63,7 +64,7 @@ altnames <-
     "SpotDove", "SwampHen", "Crake", "WFHeron", "Lorikeet", "Cattle", "Sheep",
     "Mouse", "Rat", "HydroidB", "HydroidO", "BwnJelly", "MoonJely", "Dog")
 names_table <- 
-  data.frame(Taxonomic = gsub("."," ",colnames(eDNA2022[,4:24]), fixed = T),
+  data.frame(Taxonomic = gsub("."," ",colnames(eDNA2022[,6:26]), fixed = T),
              Common=c("Mosquito Fish","Bridled Goby","Gray Mullet","Black Bream",
                       "Western Banjo Frog", "Gunther's Toadlet", "Mallard Duck",
                       "Spotted Turtle Dove", "Purple Swamphen", "Spotted Crake",
@@ -83,7 +84,7 @@ presence/absence information (not sample IDs, sites, reps). We also overwrite
 the original column names with abbreviated names for better visualisation later.
 
 ```{r generate all species data, results='hold'}
-allSpecies <- eDNA2022[,4:24] # not columns 1:3 which are sample IDs etc.
+allSpecies <- eDNA2022[,6:26] # not columns 1:5 which are sample IDs etc.
 colnames(allSpecies) <- names_table[,3]
 ```
 
@@ -359,14 +360,15 @@ for similarity based on a chosen distance measure, ANOVA tests for similarity of
 the group averages.
 
 We could calculate a univariate measure of diversity (a Simpson or Shannon
-index,  for example) and run an ANOVA on that univariate value. In doing so, however, we are reducing the complex dataset to a simplified version and losing
+index, for example) and run an ANOVA on that univariate value. In doing so,
+however, we are reducing the complex dataset to a simplified version and losing
 discrete information in the process. Remember that ANOVA also has an underlying
-assumption of normality &ndash; generally speaking, biological species data are not
-normally distributed and thus do not satisfy this assumption. This makes
+assumption of normality &ndash; generally speaking, biological species data are
+not normally distributed and thus do not satisfy this assumption. This makes
 applying a permutational ANOVA a much better option. Before the advent of
 computational capacity a permutational ANOVA would have taken quite some time to
-run &ndash; luckily now it only takes a matter of seconds to minutes depending on the
-complexity of the dataset.
+run &ndash; luckily now it only takes a matter of seconds to minutes depending
+on the complexity of the dataset.
 
 In the `vegan` package, the `adonis2()` function implements Permutational
 Multivariate Analysis of Variance Using Distance Matrices (*i.e*. PERMANOVA).
@@ -376,7 +378,7 @@ We use a formula in the `adonis2()` function which expresses the community matri
 (in this case, `Site`).
 
 ```{r permanova-main-effect}
-AF_permanova_all <- adonis2(eDNA2022[,4:24] ~ Site, data = eDNA2022,
+AF_permanova_all <- adonis2(eDNA2022[,6:26] ~ Site, data = eDNA2022,
                             permutations = 9999)
 AF_permanova_all
 ```
@@ -393,7 +395,7 @@ function (`plainPW2()` &ndash; see output below).
 options(width = 120)
 source("https://github.com/Ratey-AtUWA/eDNA/raw/master/FUN_pairwise_adonis2.R")
 source("https://github.com/Ratey-AtUWA/Learn-R/raw/main/plain-pairwise-FUNCTION2.R")
-AF_PWpermanova_all <- pairwise.adonis2(eDNA2022[,4:24] ~ Site, data = eDNA2022)
+AF_PWpermanova_all <- pairwise.adonis2(eDNA2022[,6:26] ~ Site, data = eDNA2022)
 AF_plainPW_all <- plainPW2(AF_PWpermanova_all, ns.repl=TRUE, alpha=0.05) # see custom function code below
 s0 <- data.frame(Site=1:10)
 flextable(cbind(s0,AF_plainPW_all)) |> width(width=0.5) |> theme_booktabs() |> 
@@ -444,9 +446,83 @@ You can also get the `plainPW2()` function code at
 
 # Extras
 
+# Additional options for `vegan` ordination plots
+
+If we have factors (categories) in our data it's useful to show these using our
+multivariate ordination plots. We can make a rough categorisation of Sites based
+on their site location, for example as shown in the code below:
+
+```{r make-N-S-factor, message=FALSE, warning=FALSE, results='hold'}
+eDNA2022$Zone <- cut(eDNA2022$Northing, breaks = c(1,6468100,9999999), 
+                     labels=c("South","North"))
+(eDNA2022$Zone <- factor(eDNA2022$Zone, levels=c("North","South"))) # re-order
+```
+
+We can then add geometric shapes on our ordination plots to emphasise the
+positions of different groups (*i.e*. factor levels) within the ordination
+dimensions' space (Figure 5). These plot features are really only applicable to
+two-dimensional (*x-y*) plots &ndash; 3D geometric shapes could be hard to
+interpret on a 3D plot!.
+
+```{r ellipses-hulls-spiders, fig.height=8, fig.width=8, message=FALSE, warning=FALSE, fig.cap="Figure 5: Ordination plots made using a combination of functions from the `vegan` package and base-R, showing (a) 75% CI ellipses around Zone groups; (b) convex hulls around Site groups; (c) ‘spiders’ around Zone groups. The `shadowtext()` function from the `teachingDemos::` package is used for clearer labels. The Zones in this Figure are just for illustration and based on whether the site is south or north of an arbitrary coordinate, and may make no sense!", results='hold'}
+# plot (a) ellipses
+par(mar=c(3,3,1,1), mgp=c(1.7,0.3,0), tcl=0.25, lend=2, ljoin=1, font.lab=2,
+    mfrow=c(2,2))
+palette(c("black", inferno(6)[2:6],"white"))
+plot(AF_nmds_all, display="sites", cex=1.4, xlim=c(-1.35,1.65), ylim=c(-1.5,1.5))
+mtext("(a)", side=3, line=-1.6, adj=0.03, cex=1.4)
+points(AF_nmds_all$points, col=c(2,5)[eDNA2022$Zone], pch=19, cex=1.4)
+ordiellipse(AF_nmds_all, groups=eDNA2022$Zone, col=c(2,5), lwd=2, 
+            kind = "sd", conf=0.75)
+shadowtext(tapply(AF_nmds_all$points[,1], eDNA2022$Zone, mean),
+           tapply(AF_nmds_all$points[,2], eDNA2022$Zone, mean),
+           labels=levels(eDNA2022$Zone), cex=1.2, col=c(2,5), bg=7, r=0.2)
+legend("bottomright", bty="n", legend=levels(eDNA2022$Zone), title="Zone",
+       col=c(2,5), pt.bg=c(2,4,5), lty=1, lwd=2, pch=NA, pt.cex=1.5, cex=1.2)
+legend("bottomright", bty="n", legend=levels(eDNA2022$Zone), col=7, 
+       pt.bg=c(2,5), lty=NA, lwd=2, pch=21, pt.cex=2.2, cex=1.2)
+
+# plot (b) convex hulls
+# par(mar=c(3,3,1,1), mgp=c(1.7,0.3,0), tcl=0.25, lend=2, ljoin=1, font.lab=2)
+palette(c("black", magma(5)[2:5],"white"))
+plot(AF_nmds_all, display="sites", cex=1.4, xlim=c(-1.35,1.65), ylim=c(-1.5,1.5))
+ordihull(AF_nmds_all, groups=eDNA2022$Zone, 
+         col=c(2,4), lwd=2, label=F)
+points(AF_nmds_all$points, bg=c(2,4)[eDNA2022$Zone], 
+       pch=c(21,22)[eDNA2022$Zone], cex=2, col=6)
+shadowtext(tapply(AF_nmds_all$points[,1], eDNA2022$Zone, mean),
+           tapply(AF_nmds_all$points[,2], eDNA2022$Zone, mean),
+           labels=levels(eDNA2022$Zone), cex=1.2, col=c(2,4), bg=6, r=0.2)
+mtext("(b)", side=3, line=-1.6, adj=0.03, cex=1.4)
+legend("bottomright", bty="n", legend=levels(eDNA2022$Zone), title="Zone",
+       col=c(2,4), pt.bg=c(2,4), lty=1, lwd=2, pch=NA, pt.cex=1.5, cex=1.2)
+legend("bottomright", bty="n", legend=levels(eDNA2022$Zone), col=6, 
+       pt.bg=c(2,4), lty=NA, lwd=2, pch=c(21,22), pt.cex=2.2, cex=1.2)
+
+# (c) spiders
+palette(c("black", plasma(6)[2:6],"white"))
+plot(AF_nmds_all, display="sites", cex=0.8, xlim=c(-1.35,1.65), ylim=c(-1.5,1.5))
+mtext("(c)", side=3, line=-1.6, adj=0.03, cex=1.4)
+points(AF_nmds_all$points, col=c(2,4)[eDNA2022$Zone], pch=19, cex=1.4)
+ordispider(AF_nmds_all, groups=eDNA2022$Zone, col=c(2,4), lwd=1)
+shadowtext(tapply(AF_nmds_all$points[,1], eDNA2022$Zone, mean),
+           tapply(AF_nmds_all$points[,2], eDNA2022$Zone, mean),
+           labels=levels(eDNA2022$Zone), cex=1.2, col=c(2,4), bg=7, r=0.2)
+legend("bottomright", bty="n", legend=levels(eDNA2022$Zone), title="Zone",
+       col=c(2,4), pt.bg=c(1,3,5), lty=1, lwd=2, pch=NA, pt.cex=1.5, cex=1.2)
+legend("bottomright", bty="n", legend=levels(eDNA2022$Zone), col=7, 
+       pt.bg=c(2,4), lty=NA, lwd=2, pch=21, pt.cex=2.2, cex=1.2)
+
+plot(c(0,1),c(0,1),bty="n",axes=F,ann=F,type="n")
+text(0.5,0.5, cex=1.5, col=3, font=3,
+       labels = "The categories\n'North' and 'South' may\nnot be useful zones!")
+```
+
+&nbsp;
+
 ### Stress plot for nmMDS based on Jaccard dissimilarities, all species
 
-```{r stress-plot, fig.height=5, fig.width=7, fig.align='center', out.width="60%", fig.cap="Figure 5: Stress plot showing the goodness-of-fit between actual dsiimilarity for the Ashfield Flats 2022 eDNA data and dissimilarities predicted by NMDS ordination distances.", message=FALSE, warning=FALSE}
+```{r stress-plot, fig.height=5, fig.width=7, fig.align='center', out.width="60%", fig.cap="Figure 6: Stress plot showing the goodness-of-fit between actual dsiimilarity for the Ashfield Flats 2022 eDNA data and dissimilarities predicted by NMDS ordination distances.", message=FALSE, warning=FALSE}
 par(mfrow=c(1,1), mar=c(3,3,0.5,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
 stressplot(AF_nmds_all)
 ```
@@ -482,14 +558,14 @@ AF_nmds_aquat <- metaMDS(fish, trymax = 500,
 ```{r show nmds aquat Bray}
 AF_nmds_aquat
 ```
-```{r plot nmds aquat Bray, fig.height=4, fig.width=4, fig.align='center', fig.cap="Figure 6: Basic NMDS plot showing observations as symbols and species as text. Presence-absence data from eDNA sampling and analysis at Ashfield Flats."}
+```{r plot nmds aquat Bray, fig.height=4, fig.width=4, fig.align='center', fig.cap="Figure 7: Basic NMDS plot showing observations as symbols and species as text. Presence-absence data from eDNA sampling and analysis at Ashfield Flats."}
 par(mfrow=c(1,1), mar=c(3,3,2,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
 plot(AF_nmds_aquat, type="p",display = "sites", cex = 1.2)
 text(AF_nmds_aquat, display = "species", col = "royalblue", cex = 0.8)
 ```
 
 ### alternative to vegan plots
-```{r alt-to-vegan-nmds-aquat, fig.height=3.5, fig.width=5, fig.cap="Figure 7: Two-dimensional non-metric multidimensional scaling (NMDS) plot showing observations as symbols and species as text located in MDS2 vs. MDS1 space. Presence-absence data for aquatic species only from eDNA sampling and analysis at Ashfield Flats.", echo=1:5}
+```{r alt-to-vegan-nmds-aquat, fig.height=3.5, fig.width=5, fig.cap="Figure 8: Two-dimensional non-metric multidimensional scaling (NMDS) plot showing observations as symbols and species as text located in MDS2 vs. MDS1 space. Presence-absence data for aquatic species only from eDNA sampling and analysis at Ashfield Flats.", echo=1:5}
 palette(c("black", plasma(10))) # a viridis palette
 par(mfrow=c(1,1), mar=c(3,3,0.5,5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2, xpd=T)
 plot(AF_nmds_aquat$points, pch=c(rep(21:25, 2),21)[eDNA2022$Site], 
@@ -509,7 +585,7 @@ AF_dca_all <- decorana(allSpecies)
 AF_dca_all
 ```
 
-```{r decorana-plot, fig.height=4, fig.width=4, fig.cap="Figure 8: Two-dimensional detrended correspondence analysis (DCA) plot showing observations as symbols and species as text. Presence-absence data from water sampling and eDNA analysis at Ashfield Flats."}
+```{r decorana-plot, fig.height=4, fig.width=4, fig.cap="Figure 9: Two-dimensional detrended correspondence analysis (DCA) plot showing observations as symbols and species as text. Presence-absence data from water sampling and eDNA analysis at Ashfield Flats."}
 par(mfrow=c(1,1), mar=c(3,3,0.5,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
 plot(AF_dca_all, col=c(1,4))
 ```
@@ -527,3 +603,21 @@ The results should be identical to nmMDS with Jaccard, since the community
 matrix is already converted to presence-absence (binary ones and zeros).
 
 &nbsp;
+
+# References and `R` Packages
+
+Dunnington, Dewey (2017). `prettymapr`: *Scale Bar, North Arrow, and Pretty Margins in R*. R package version 0.2.2.
+[CRAN.R-project.org/package=prettymapr](https://cran.r-project.org/package=prettymapr){target="_blank"}.
+
+Giraud T (2021). `maptiles`: *Download and Display Map Tiles*. R package version 0.3.0, [CRAN.R-project.org/package=maptiles](https://cran.r-project.org/package=maptiles){target="_blank"}.
+
+Garnier S, Ross N, Rudis R, Camargo AP, Sciaini M, Scherer C (2021). *Rvision - Colorblind-Friendly Color Maps for R* (`viridis`). R package version 0.6.2. [sjmgarnier.github.io/viridis/](https://sjmgarnier.github.io/viridis/){target="_blank"}
+
+Gohel D, Skintzos P (2022). `flextable`: *Functions for Tabular Reporting*. R package version 0.8.1, [CRAN.R-project.org/package=flextable](https://cran.r-project.org/package=flextable){target="_blank"}.
+
+Oksanen J, Simpson G, Blanchet F, Kindt R, Legendre P, Minchin P, O’Hara R, Solymos P, Stevens M, Szoecs E, Wagner H, Barbour M, Bedward M, Bolker B, Borcard D, Carvalho G, Chirico M, De Caceres M, Durand S, Evangelista H, FitzJohn R, Friendly M, Furneaux B, Hannigan G, Hill M, Lahti L, McGlinn D, Ouellette M, Ribeiro Cunha E, Smith T, Stier A, Ter Braak C, Weedon J (2022). `vegan`: *Community Ecology Package*. R package version 2.6-2, [CRAN.R-project.org/package=vegan](https://cran.r-project.org/package=vegan){target="_blank"}.
+
+Pebesma, E., 2018. Simple Features for R: Standardized Support for Spatial Vector Data. *The R Journal* **10**(1), 439-446, [doi:10.32614/RJ-2018-009](https://doi.org/10.32614/RJ-2018-009){target="_blank"}. (package `sf`)
+
+Wickham H (2022). `stringr`: *Simple, Consistent Wrappers for Common String Operations*. R package version 1.4.1, [CRAN.R-project.org/package=stringr](https://cran.r-project.org/package=stringr){target="_blank"}.
+
