@@ -358,7 +358,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -373,7 +373,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -388,7 +388,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -403,7 +403,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -427,7 +427,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -445,7 +445,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -466,7 +466,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -525,14 +525,6 @@ $(document).ready(function () {
 }
 </style>
 <p> </p>
-<div
-style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
-<p><strong>Data Source</strong>: We are using a curated version of a
-whole rock major element dataset from Hallberg (2006) <a
-href="https://catalogue.data.wa.gov.au/dataset/hallberg-geochemistry"
-target="_blank">https://catalogue.data.wa.gov.au/dataset/hallberg-geochemistry</a></p>
-</div>
-<p> </p>
 <p><strong>Linear Discriminant Analysis (LDA)</strong> is a
 <strong>supervised classification</strong> method that uses the
 information from multiple variables to separate the observations into
@@ -577,6 +569,14 @@ values having an unbalanced effect on the results.</p>
 <div id="load-packages-and-read-and-transform-data"
 class="section level3">
 <h3>Load packages, and read and transform data</h3>
+<div
+style="border: 2px solid #039; background-color:#f0f0f0; padding: 8px;">
+<p><strong>Data Source</strong>: We are using a curated version of a
+whole rock major element dataset from Hallberg (2006) <a
+href="https://catalogue.data.wa.gov.au/dataset/hallberg-geochemistry"
+target="_blank">https://catalogue.data.wa.gov.au/dataset/hallberg-geochemistry</a></p>
+</div>
+<p> </p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(klaR)</span>
@@ -597,7 +597,7 @@ class="section level3">
 ## 4 531000  7400 123000 17000 72000 2200 74000 124000 30000 1200 1100 70 332  33 110  3  60 304 14 100 45
 ## 5 503000 10400 163000  8000 91000 2500 47000 123000 26000 1900 1600 61 470 110 173  7 124 306 26 105 65
 ## 6 521000  6000 150000 14000 79000 1700 78000  83000 35200 4600  800 47 192 152 120  3  79 310 31  75 38
-## 
+##
 ## ------------------
 ##   SiO2 TiO2 Al2O3 Fe2O3  FeO  MnO  MgO  CaO Na2O   K2O  P2O5    Co    Cr    Cu    Ni    Rb    Sr     V     Y    Zn
 ## 1 5.89 1.90  4.63  2.48 4.13 0.34 3.47 4.48 2.74  0.48  0.11 -3.17 -1.34 -2.37 -2.23 -7.26 -2.70 -1.56 -4.17 -2.71
@@ -634,14 +634,14 @@ discriminate rocks at the mafic end of the rock classification spectrum
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>                    <span class="at">prior =</span> <span class="fu">as.numeric</span>(<span class="fu">summary</span>(Hallberg<span class="sc">$</span>Rock))<span class="sc">/</span><span class="fu">nrow</span>(Hallberg)) </span>
 <span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">print</span>(lda_rock_clos)</span></code></pre></div>
 <pre><code>## Call:
-## lda(Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + MgO + CaO + 
-##     Na2O + K2O + P2O5 + Co + Cr + Cu + Ni + Rb + Sr + TiO2 + 
+## lda(Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + MgO + CaO +
+##     Na2O + K2O + P2O5 + Co + Cr + Cu + Ni + Rb + Sr + TiO2 +
 ##     V + Y + Zn + Zr, data = data0, prior = as.numeric(summary(Hallberg$Rock))/nrow(Hallberg))
-## 
+##
 ## Prior probabilities of groups:
-##            Basalt          Dolerite            Gabbro    High-Mg Basalt        Peridotite Spinel Peridotite 
-##       0.572237960       0.082152975       0.019830028       0.243626062       0.073654391       0.008498584 
-## 
+##            Basalt          Dolerite            Gabbro    High-Mg Basalt        Peridotite Spinel Peridotite
+##       0.572237960       0.082152975       0.019830028       0.243626062       0.073654391       0.008498584
+##
 ## Group means:
 ##                          SiO2       TiO2      Al2O3       Fe2O3         FeO         MnO        MgO        CaO
 ## Basalt             0.31715964  0.3639023  0.5185686  0.11684431 -0.05196006  0.15207936 -0.4873181  0.3845373
@@ -664,7 +664,7 @@ discriminate rocks at the mafic end of the rock classification spectrum
 ## High-Mg Basalt    -0.25712595 -0.5206124 -0.3199898  0.34516149 -0.2851220
 ## Peridotite        -1.05311422 -2.0632007 -1.2243902  0.30013690 -1.2959201
 ## Spinel Peridotite -1.02639968 -1.7268598 -1.0153084  0.37055020 -1.2703848
-## 
+##
 ## Coefficients of linear discriminants:
 ##                LD1         LD2         LD3          LD4         LD5
 ## SiO2  -0.515714496  0.33956357  0.73483678 -1.275875748  0.07446471
@@ -688,9 +688,9 @@ discriminate rocks at the mafic end of the rock classification spectrum
 ## Y     -0.049032227  0.04236829 -0.21394852 -0.203492141  0.08223319
 ## Zn    -0.130404312  0.13998531 -0.08672013  0.330717988 -0.32195927
 ## Zr     0.153648832  0.27883508  0.23748549  0.444240032  0.51596379
-## 
+##
 ## Proportion of trace:
-##    LD1    LD2    LD3    LD4    LD5 
+##    LD1    LD2    LD3    LD4    LD5
 ## 0.8047 0.1716 0.0160 0.0057 0.0021</code></pre>
 <p> </p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>cormat <span class="ot">&lt;-</span> <span class="fu">rcorr.adjust</span>(data0[,<span class="fu">c</span>(<span class="dv">15</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">28</span><span class="sc">:</span><span class="dv">37</span>)], </span>
@@ -722,14 +722,14 @@ class="section level2">
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>                    <span class="at">prior =</span> <span class="fu">as.numeric</span>(<span class="fu">summary</span>(data0<span class="sc">$</span>Rock))<span class="sc">/</span><span class="fu">nrow</span>(data0)) </span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="fu">print</span>(lda_rock_open)</span></code></pre></div>
 <pre><code>## Call:
-## lda(Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + MgO + CaO + 
-##     Na2O + K2O + P2O5 + Co + Cr + Cu + Ni + Rb + Sr + TiO2 + 
+## lda(Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + MgO + CaO +
+##     Na2O + K2O + P2O5 + Co + Cr + Cu + Ni + Rb + Sr + TiO2 +
 ##     V + Y + Zn + Zr, data = data0, prior = as.numeric(summary(data0$Rock))/nrow(data0))
-## 
+##
 ## Prior probabilities of groups:
-##            Basalt          Dolerite            Gabbro    High-Mg Basalt        Peridotite Spinel Peridotite 
-##       0.572237960       0.082152975       0.019830028       0.243626062       0.073654391       0.008498584 
-## 
+##            Basalt          Dolerite            Gabbro    High-Mg Basalt        Peridotite Spinel Peridotite
+##       0.572237960       0.082152975       0.019830028       0.243626062       0.073654391       0.008498584
+##
 ## Group means:
 ##                          SiO2       TiO2      Al2O3       Fe2O3         FeO         MnO        MgO         CaO
 ## Basalt            -0.25738187  0.2537924  0.4391688 -0.05095198 -0.31451236 -0.20473569 -0.4997587  0.22117524
@@ -752,7 +752,7 @@ class="section level2">
 ## High-Mg Basalt    -0.4946752 -0.4070925  0.1464523 -0.3289291
 ## Peridotite        -1.5608713 -1.8247550  1.1886606 -1.7881890
 ## Spinel Peridotite -1.4214092 -1.1916923  1.2347375 -1.9337810
-## 
+##
 ## Coefficients of linear discriminants:
 ##                LD1          LD2         LD3         LD4         LD5
 ## SiO2   0.311906556  0.475172430  1.06386434 -0.31153403 -0.49360643
@@ -776,9 +776,9 @@ class="section level2">
 ## Y     -0.028468272  0.031123166 -0.15387790  0.34661178  0.12424677
 ## Zn    -0.089890850 -0.073273061  0.06237525 -0.05846468  0.53558740
 ## Zr     0.097653277 -0.197155426 -0.06140115 -0.31397470 -0.61079156
-## 
+##
 ## Proportion of trace:
-##    LD1    LD2    LD3    LD4    LD5 
+##    LD1    LD2    LD3    LD4    LD5
 ## 0.8494 0.1247 0.0173 0.0071 0.0015</code></pre>
 <p> </p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>cormat <span class="ot">&lt;-</span> <span class="fu">rcorr.adjust</span>(data0[,<span class="fu">c</span>(<span class="dv">15</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">28</span><span class="sc">:</span><span class="dv">37</span>)], </span>
@@ -1120,7 +1120,7 @@ comparison data frames using <code>print()</code>.</p>
 ## 8          Basalt    Basalt  TRUE
 ## 9  High-Mg Basalt    Basalt FALSE
 ## 10       Dolerite  Dolerite  TRUE
-## 
+##
 ## Predictions by LDA using open data: 295 out of 353 = 83.6% correct
 ##            Actual      Predicted  test
 ## 1          Basalt         Basalt  TRUE
@@ -1339,7 +1339,7 @@ that all categories in a random subset need to be populated.</p>
 ## Stat. summary for &#39;success&#39;:
 ## Mean = 0.6143, sd = 0.1441, 95% confidence interval = (0.594, 0.6344) (after 200 reps)
 ## 105 iterations &#39;failed&#39; due to randomisation missing a category
-## 
+##
 ## Fraction of matches by category over ALL iterations:
 ##           Rock_Type Total_Matched Actual Percent_Matched
 ## 1            Basalt         16124  20304           79.4%
@@ -1384,7 +1384,7 @@ the code for validation of LDA for closed data, but with references to
 ## Stat. summary for &#39;success&#39;:
 ## Mean = 0.6082, sd = 0.1493, 95% confidence interval = (0.587, 0.6291) (after 200 reps)
 ## 113 iterations &#39;failed&#39; due to randomisation missing a category
-## 
+##
 ## Fraction of matches by category over ALL iterations:
 ##           Rock_Type Total_Matched Actual Percent_Matched
 ## 1            Basalt         15979  20236             79%
@@ -1424,12 +1424,12 @@ approach.</p>
 <span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>                            <span class="at">direction=</span><span class="st">&quot;backward&quot;</span>, <span class="at">criterion=</span><span class="st">&quot;AS&quot;</span>)</span>
 <span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>  <span class="co"># }</span></span>
 <span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Stepwise model: &quot;</span>,<span class="fu">deparse</span>(stepwise.lda<span class="sc">$</span>formula)) <span class="co"># cleaner output</span></span></code></pre></div>
-<pre><code>## abiltity to seperate: 0.79392;  starting variables (21): SiO2, TiO2, Al2O3, Fe2O3, FeO, MnO, MgO, CaO, Na2O, K2O, P2O5, Co, Cr, Cu, Ni, Rb, Sr, V, Y, Zn, Zr 
-## abiltity to seperate: 0.79392;  out: &quot;MgO&quot;;  variables (20): SiO2, TiO2, Al2O3, Fe2O3, FeO, MnO, CaO, Na2O, K2O, P2O5, Co, Cr, Cu, Ni, Rb, Sr, V, Y, Zn, Zr 
-## 
-##  hr.elapsed min.elapsed sec.elapsed 
-##        0.00        0.00        2.26 
-## 
+<pre><code>## abiltity to seperate: 0.79392;  starting variables (21): SiO2, TiO2, Al2O3, Fe2O3, FeO, MnO, MgO, CaO, Na2O, K2O, P2O5, Co, Cr, Cu, Ni, Rb, Sr, V, Y, Zn, Zr
+## abiltity to seperate: 0.79392;  out: &quot;MgO&quot;;  variables (20): SiO2, TiO2, Al2O3, Fe2O3, FeO, MnO, CaO, Na2O, K2O, P2O5, Co, Cr, Cu, Ni, Rb, Sr, V, Y, Zn, Zr
+##
+##  hr.elapsed min.elapsed sec.elapsed
+##        0.00        0.00        2.26
+##
 ## Stepwise model:  Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + CaO + Na2O +      K2O + P2O5 + Co + Cr + Cu + Ni + Rb + Sr + V + Y + Zn + Zr</code></pre>
 <p> </p>
 <p>The ‘full’ LDA model had 21 predictors, but the stepwise model

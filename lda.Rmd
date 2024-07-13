@@ -44,14 +44,6 @@ UWApal <- c("black", "#003087", "#DAAA00", "#8F92C4", "#E5CF7E",
 
 &nbsp;
 
-<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
-**Data Source**: We are using a curated version of a whole rock major element 
-dataset from Hallberg (2006) 
-[https://catalogue.data.wa.gov.au/dataset/hallberg-geochemistry](https://catalogue.data.wa.gov.au/dataset/hallberg-geochemistry){target="_blank"}
-</div>
-
-&nbsp;
-
 **Linear Discriminant Analysis (LDA)** is a **supervised classification**
 method that uses the information from multiple variables to separate the
 observations into each of the &lsquo;classes&rsquo; or categories in a factor
@@ -95,6 +87,14 @@ results.
 &nbsp;
 
 ### Load packages, and read and transform data 
+
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+**Data Source**: We are using a curated version of a whole rock major element 
+dataset from Hallberg (2006) 
+[https://catalogue.data.wa.gov.au/dataset/hallberg-geochemistry](https://catalogue.data.wa.gov.au/dataset/hallberg-geochemistry){target="_blank"}
+</div>
+
+&nbsp;
 
 ```{r setup-show, message=FALSE, warning=FALSE, paged.print=FALSE, results='hold', R.options = list(width = 120)}
 library(MASS)

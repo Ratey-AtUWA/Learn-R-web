@@ -37,10 +37,13 @@ output:
   - [Grouped linear regression](reg-group.html)
   - [Multiple linear regression](reg-multi.html)
     - [Making use of unusual regression residuals](residuals.html)
+  - [Time series analysis](timeseries.html)
 
 7. [**Multivariate analyses**](pca.html)
   - [Principal components analysis](pca.html)
   - [Ordinations of species presence-absence data](vegan.html)
+  - [Linear discriminant analysis](lda.html)
+  - [Cluster analysis](cluster.html)
 
 8. [**Maps**](maps.html)
   - [Map data with tile backgrounds](maps.html)
