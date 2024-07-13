@@ -21,6 +21,8 @@
 render-them.R
 search-replace-gsub-multi-files.R
 sandbox*.Rmd
+sandbox*.html
+sandbox-themes/
 *.docx
 
 # Output files from R CMD check
