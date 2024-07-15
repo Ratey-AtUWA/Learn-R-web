@@ -61,6 +61,8 @@ navbar:
           href: distributions.html
         - text: "Regression residuals to identify contamination"
           href: residuals.html
+        - text: "Hydrus-1D cheatsheet"
+          href: hydrus1d.html
   right:
     - text: "UWA School of Agriculture and Environment"
       href: https://www.uwa.edu.au/schools/agriculture-and-environment

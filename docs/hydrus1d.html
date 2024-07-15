@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Andrew Rate" />
+
+<meta name="date" content="2024-07-15" />
+
+<title>ENVT5503 Hydrus-1D Beginners` Guide</title>
+
+<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/tabwid-1.1.0/tabwid.css" rel="stylesheet" />
+<link href="site_libs/tabwid-1.1.0/scrool.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Sessions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">For beginners</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Intro</a>
+    </li>
+    <li>
+      <a href="intro-GG.html">Intro+ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plots.html">Plots-baseR</a>
+    </li>
+    <li>
+      <a href="plots-GG.html">Plots-ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Compare
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="means.html">Compare means (parametric)</a>
+    </li>
+    <li>
+      <a href="nonparam.html">Non-parametric comparisons</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="correl.html">Correlation</a>
+    </li>
+    <li>
+      <a href="regression.html">Simple linear regression</a>
+    </li>
+    <li>
+      <a href="reg-group.html">Grouped linear regression</a>
+    </li>
+    <li>
+      <a href="reg-multi.html">Multiple linear regression</a>
+    </li>
+    <li>
+      <a href="timeseries.html">Time series analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Maps
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="maps.html">Map data with tile backgrounds</a>
+    </li>
+    <li>
+      <a href="spatial.html">Spatial statistics</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">Spatial interpolation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Multi
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pca.html">Principal components analysis</a>
+    </li>
+    <li>
+      <a href="vegan.html">Analysis of species presence-absence data</a>
+    </li>
+    <li>
+      <a href="lda.html">Linear discriminant analysis</a>
+    </li>
+    <li>
+      <a href="cluster.html">Cluster analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Util
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tables.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="distributions.html">Distribution checking</a>
+    </li>
+    <li>
+      <a href="residuals.html">Regression residuals to identify contamination</a>
+    </li>
+    <li>
+      <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">UWA School of Agriculture and Environment</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!DOCTYPE html>
+
+<html>
+<body>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science<br />at The University of Western Australia</span></h3>
+<h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
+</body>
+</html>
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">ENVT5503 Hydrus-1D Beginners` Guide</h1>
+<h3 class="subtitle">Remediation of Soil and Groundwater</h3>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2024-07-15</h4>
+
+</div>
+
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+<p> </p>
+<div id="getting-started" class="section level1">
+<h1>Getting Started</h1>
+<p>Start by opening the <code>Project Manager</code>, and click the
+<code>New</code> button:</p>
+<p><img src="./images/01a-open-project-mgr-new.png"
+alt="Hydrus-1D startup screen screenshot" /></p>
+<p>In the <code>New Project</code> dialog box, type the name (and
+optional description), then click <code>OK</code>:</p>
+<p><img src="./images/02a-new-proj-name-callout.png"
+alt="New Project dialog screenshot" /></p>
+<p>This should open the <code>input dialog</code> (the sub-window name
+will be the name you gave it above under <code>New Project</code>).</p>
+<ul>
+<li>Double-click on the items in the <code>Pre-processing</code> pane
+(left) to open them, which allows you to change input parameters.</li>
+<li>The right side of the window (<code>Post-processing</code>) will
+have items in it after a Hydrus-1D project is run</li>
+</ul>
+<p><img src="./images/03-input-dialog.png"
+alt="input dialog screenshot" /></p>
+<p>Double-clicking on <code>Main Processes</code> gives a new dialog box
+– you should make sure that you check the ☑<code>Solute Transport</code>
+checkbox:</p>
+<p><img src="./images/04-main-processes-callout.png"
+alt="Main Processes dialog screenshot" /></p>
+<p>You can just keep clicking the <code>Next</code> button to get to
+each part of the input set-up:<br />
+(Remember you can click the <code>Help</code> button for assistance on
+any screen!)</p>
+</div>
+<div id="hints-for-parameter-selection-in-each-input-dialog"
+class="section level1">
+<h1>Hints for parameter selection in each input dialog</h1>
+<div id="geometry-information" class="section level2">
+<h2><code>Geometry Information</code></h2>
+<ul>
+<li>Set Length Units to desired value (cm is OK) <img
+src="./images/05-geometry-info.png" align="right" width="393"
+height="159" alt="Geometry Information dialog screenshot" /></li>
+<li>Use one Soil Material for simple transport, but two or more for
+reactive barriers etc.</li>
+<li>For horizontal transport use Decline from Vertical…; of ≤ 0.1</li>
+<li>Set Depth to desired value – this represents our flow path length,
+so choose something realistic for groundwater!</li>
+</ul>
+</div>
+<div id="time-information" class="section level2">
+<h2><code>Time Information</code></h2>
+<ul>
+<li>Set Time Units to desired value (days is OK) <img
+src="./images/06-time-info.png" align="right" width="266" height="248"
+alt="Time Information dialog screenshot" /></li>
+<li>Set Final Time to match column length and (later) hydraulic
+conductivity</li>
+<li>You can scale Initial/Minimum/Maximum Time Step up or down depending
+on whether you increase or decrease Final Time</li>
+<li>Leave other settings as default (for now)</li>
+</ul>
+<p>You may need to return to the <code>Time Information</code> dialog
+later depending on the output of your initial simulation.</p>
+<p> </p>
+<p> </p>
+<p> </p>
+</div>
+<div id="print-information" class="section level2">
+<h2><code>Print Information</code></h2>
+<ul>
+<li>Set Number of Print Times to enable plotting profile information at
+different times (<em>e.g</em>. 5-10)</li>
+<li>Then click <code>Select Print Times...</code> and click
+<code>Default</code> (you can try the other settings later)<br />
+<img src="images/07-print-info.png" width="366" height="359"
+alt="Print Information dialog screenshot" /> <img
+src="images/07a-print-times.png" width="383" height="119"
+alt="dialog screenshot" /></li>
+</ul>
+<p> </p>
+</div>
+<div id="iteration-criteria" class="section level2">
+<h2><code>Iteration Criteria</code></h2>
+<ul>
+<li>Leave these at their default settings for now (we don`t usually need
+to change these values).</li>
+</ul>
+<p><img src="images/08-iteration.png"
+alt="Iteration Criteria dialog screenshot" width="346"
+height="246" /></p>
+<p> </p>
+</div>
+<div id="soil-hydraulic-model" class="section level2">
+<h2><code>Soil Hydraulic Model</code></h2>
+<ul>
+<li>Leave at default settings for now (the van Genuchten model is a good
+and widely-used option for relating soil physical properties to the
+water retention curve.)</li>
+</ul>
+<p><img src="images/09-soil-hydraulic.png"
+alt="Soil Hydraulic Model dialog screenshot" width="392"
+height="353" /></p>
+<p> </p>
+</div>
+<div id="water-flow-parameters" class="section level2">
+<h2><code>Water Flow Parameters</code></h2>
+<ul>
+<li>Select the desired pre-set from the <code>Soil Catalog</code> <img
+src="images/10-water-flow.png" align="right" width="414" height="229"
+alt="Water Flow Parameters dialog screenshot" /><br />
+<code>Qr</code> = Residual soil water content,
+<em>q<sub>r</sub></em><br />
+<code>Qs</code> = Saturated soil water content,
+<em>q<sub>s</sub></em><br />
+<code>Alpha</code> = Parameter <em>a</em> in the soil water retention
+function [L<sup>-1</sup>]<br />
+<code>n</code> = Parameter <em>n</em> in the soil water retention
+function<br />
+<code>Ks</code> = Saturated hydraulic conductivity,
+<em>K<sub>s</sub></em> [LT<sup>-1</sup>]<br />
+<code>l</code> = Tortuosity parameter in the conductivity function
+[-]</li>
+</ul>
+<p>The individual values can be set manually too.</p>
+<p> </p>
+</div>
+<div id="water-flow-boundary-conditions" class="section level2">
+<h2><code>Water Flow Boundary Conditions</code></h2>
+<ul>
+<li>Leave at default settings for now<br />
+<img src="images/11-water-flow-BCs.png" width="310" height="311"
+alt="Water Flow Boundary Conditions dialog screenshot" /></li>
+</ul>
+<p> </p>
+</div>
+<div id="solute-transport" class="section level2">
+<h2><code>Solute Transport</code></h2>
+<ul>
+<li>Make sure <code>Number of Solutes</code> = 1</li>
+<li>Choose <code>Pulse Duration</code> to be a fraction (<em>e.g</em>.
+0.1 × the <code>Final Time</code> set earlier)<br />
+<img src="images/12-solute-transport.png" width="414" height="347"
+alt="Solute Transport dialog screenshot" /></li>
+</ul>
+<p> </p>
+</div>
+<div id="solute-transport-parameters" class="section level2">
+<h2><code>Solute Transport Parameters</code></h2>
+<ul>
+<li>You can leave these at defaults, but FYI: <img
+src="images/13-solute-transp-pars.png" align="right" width="413"
+height="230"
+alt="Solute Transport Parameters dialog screenshot" /><br />
+(dimensions are in square brackets [ ] )</li>
+</ul>
+<div id="soil-specific-parameters" class="section level4">
+<h4><code>Soil Specific Parameters</code>:</h4>
+<p><code>Bulk.d.</code> = Bulk density, <em>r</em>
+[ML<sup>-3</sup>]<br />
+<code>Disp</code> = Longitudinal dispersivity, <em>D<sub>L</sub></em>
+[L]<br />
+<code>Frac</code> = …;fraction of adsorption sites with instantaneous
+sorption …; Set = 1 for equilibrium transport<br />
+<code>ThIm</code> = Immobile water content. Set equal to 0 when
+<em>physical nonequilibrium</em> is not considered.</p>
+</div>
+<div id="solute-specific-parameters" class="section level4">
+<h4><code>Solute Specific Parameters</code>:</h4>
+<p><code>Diffus.W</code> = diffusion coefficient in water,
+<em>D<sub>w</sub></em> [L<sup>2</sup>T<sup>-1</sup>]<br />
+<code>Diffus.G</code> = diffusion coefficient in soil air,
+<em>D<sub>a</sub></em> [L<sup>2</sup>T<sup>-1</sup>]</p>
+<p> </p>
+</div>
+</div>
+<div id="solute-transport-and-reaction-parameters"
+class="section level2">
+<h2><code>Solute Transport and Reaction Parameters</code></h2>
+<ul>
+<li>Set partition coefficient <code>Kd</code> &gt; 0 for reactive
+transport (leave <code>Kd</code> = 0 for non-reactive)</li>
+<li>Click the <code>Help</code> button for details!<br />
+<img src="images/14-solute-transp-react-pars.png" width="363"
+height="231"
+alt="Solute Transport and Reaction Parameters dialog screenshot" /></li>
+</ul>
+<p> </p>
+</div>
+<div id="solute-transport-boundary-conditions" class="section level2">
+<h2><code>Solute Transport Boundary Conditions</code></h2>
+<ul>
+<li><code>Bound. Cond</code> &gt; 0 for each solute
+(<code>Sol. No.</code>) – this is the initial solute concentration, so
+it can`t be zero!
+<ul>
+<li>Ensure concentrations are realistic and in the correct units set
+under <code>Dimensions</code></li>
+</ul></li>
+<li>Click the <code>Help</code> button for details of the other
+options.<br />
+<img src="images/15-solute-transp-BCs.png" width="397" height="294"
+alt="Solute Transport Boundary Conditions dialog screenshot" /></li>
+</ul>
+<p> </p>
+</div>
+<div id="do-you-want-to-run-profile-application" class="section level2">
+<h2><code>Do you want to run PROFILE application ?</code></h2>
+<ul>
+<li>Yes, you do!<br />
+<img src="images/16-run-profile.png" width="298" height="93"
+alt="PROFILE application screenshot" /></li>
+</ul>
+<p> </p>
+</div>
+</div>
+<div id="profile-information-dialog" class="section level1">
+<h1><code>Profile Information</code> dialog</h1>
+<ul>
+<li><p>Click <code>Pressure Head&amp;hellip;;</code>, then click the
+<code>Edit Condition</code> button, and select the whole column by
+clicking top then bottom, then set <code>Top</code> and
+<code>Bottom</code> value to 0 (zero) <em>i.e</em>. <strong>saturated
+with water</strong></p></li>
+<li><p>You can also set other soil parameters, <em>e.g</em>. material
+types and observation points – see the video!</p></li>
+<li><p>Make sure you click save 💾 (you might need to press the
+[<code>esc</code>] key first), check the soil profile table display,
+then you are ready to run Hydrus – see the video!</p></li>
+</ul>
+<p><img src="images/17-profile-info.png"
+alt="Profle Information dialog screenshot" /></p>
+<p> </p>
+<p>After a successful Hydrus-1D simulation run, you can use the options
+in the post-processing window to visualise the output within Hydrus-1D.
+Alternatively, you can read the data file(s) into Excel® or R and make
+better graphs!</p>
+<template id="ac96dcac-4595-4c86-84e3-00be2efecba3"><style>
+.tabwid table{
+  border-spacing:0px !important;
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  border-color: transparent;
+  caption-side: top;
+}
+.tabwid-caption-bottom table{
+  caption-side: bottom;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+.katex-display {
+    margin: 0 0 !important;
+}
+</style><div class="tabwid"><style>.cl-9aaacc4a{}.cl-9aa1c352{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-9aa1c35c{font-family:'Courier New';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-9aa1c366{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-9aa512f0{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-9aa512fa{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-9aa52704{width:2.362in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9aa5270e{width:5.512in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9aa52718{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9aa52719{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9aa52722{width:2.362in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9aa52723{width:5.512in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9aa5272c{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9aa5272d{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9a9ddd78{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-9aaacc4a'><caption style="margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span class="cl-9a9ddd78">Table 1: The following HYDRUS-1D output files contain useful data.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-9aa52704"><p class="cl-9aa512f0"><span class="cl-9aa1c352">File name</span></p></td><td class="cl-9aa5270e"><p class="cl-9aa512f0"><span class="cl-9aa1c352">Contents</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-9aa52718"><p class="cl-9aa512fa"><span class="cl-9aa1c35c">Nod_Inf.out</span></p></td><td class="cl-9aa52719"><p class="cl-9aa512fa"><span class="cl-9aa1c366">Separate data matrices  at selected `Print times` during simulation.</span><br><span class="cl-9aa1c366">Useful columns: Depth, Conc(1..NS), Sorb(1..NS)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9aa52722"><p class="cl-9aa512fa"><span class="cl-9aa1c35c">Obs_Node.out</span></p></td><td class="cl-9aa52723"><p class="cl-9aa512fa"><span class="cl-9aa1c366">Side-by side data matrices for each node depth.</span><br><span class="cl-9aa1c366">Useful columns: time, theta, conc</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9aa5272c"><p class="cl-9aa512fa"><span class="cl-9aa1c35c">Solute1.out</span><br><span class="cl-9aa1c35c">(&amp; Solute2.out,...)</span></p></td><td class="cl-9aa5272d"><p class="cl-9aa512fa"><span class="cl-9aa1c366">Single data matrix for each solute. Contains columns for time, fluxes and concentrations (including cumulative values) at start of flow path (Top), Root zone, end of flow path (Bot).</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="b8182113-1b9a-4166-8689-634502554eff"></div>
+<script>
+var dest = document.getElementById("b8182113-1b9a-4166-8689-634502554eff");
+var template = document.getElementById("ac96dcac-4595-4c86-84e3-00be2efecba3");
+var caption = template.content.querySelector("caption");
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+<p> </p>
+</div>
+<div id="reading-hydrus-1d-data-into-r" class="section level1">
+<h1>Reading HYDRUS-1D data into <code>R</code></h1>
+<p>Users of <a
+href="https://www.pc-progress.com/en/Default.aspx?H1d-downloads"
+target="_blank">Hydrus-1D</a> either need to use the limited graphics in
+Hydrus itself, open the output files in Excel, or figure out a way of
+using more flexible software. So here's my code to read the node
+(Profile) information output files from Hydrus-1D
+(<code>Nod_Inf.out</code> in the relevant Hydrus-1D project folder) into
+an <strong>R</strong> data frame.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># R code to read Hydrus-1D Nod_Inf.out files into an R data frame</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co"># set full path to Hydrus-1D project directory (folder)</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># -=-=-=-=- EDIT THIS TO MATCH THE FOLDER ON YOUR COMPUTER ! -=-=-=-=-</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>PCdir <span class="ot">&lt;-</span> <span class="fu">paste0</span>(MyPC,<span class="st">&quot;ENVT5503/Hydrus1D ENVT5503/PRB&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># read Nod_Inf.out file into a vector of character (text) strings</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> <span class="fu">readLines</span>(<span class="fu">paste0</span>(PCdir,<span class="st">&quot;/&quot;</span>,<span class="st">&quot;Nod_Inf.out&quot;</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co"># View(Nod_Inf_out) # optionally check what we just read</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co"># find indices of some rows we want to delete</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>head_rows <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;Node&quot;</span>, Nod_Inf_out)</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># use indices to delete the rows</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> Nod_Inf_out[<span class="sc">-</span><span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">7</span>),head_rows<span class="dv">-2</span>, head_rows<span class="dv">-1</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>                              head_rows<span class="sc">+</span><span class="dv">1</span>, head_rows<span class="sc">+</span><span class="dv">2</span>)]</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co"># find indices of some more rows we want to delete</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>ends <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;end&quot;</span>,Nod_Inf_out)[<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span><span class="fu">NROW</span>(<span class="fu">grep</span>(<span class="st">&quot;end&quot;</span>,Nod_Inf_out))]</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co"># use indices to delete the rows</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> Nod_Inf_out[<span class="sc">-</span><span class="fu">c</span>(ends, ends<span class="sc">+</span><span class="dv">1</span>, ends<span class="sc">+</span><span class="dv">2</span>)]</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co"># find indices of rows that have the Hydrus-1D print times</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>time_rows <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;Time:&quot;</span>, Nod_Inf_out)</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co"># extract the rows with Hydrus-1D print times into a vector</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>timz <span class="ot">&lt;-</span> Nod_Inf_out[time_rows]</span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co"># get rid of text around the Hydrus-1D print time values...</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>timz <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;Time: &quot;</span>,<span class="st">&quot;&quot;</span>,timz)</span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>timz <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot; &quot;</span>,<span class="st">&quot;&quot;</span>,timz)</span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co"># ...and convert to numbers...</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>timz <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(timz)</span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co"># ...then delete the Hydrus-1D print time rows</span></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> Nod_Inf_out[<span class="sc">-</span><span class="fu">c</span>(time_rows)]</span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="co"># find the rows with column names for each block of print data...</span></span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>head_rows <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;Node&quot;</span>, Nod_Inf_out)</span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="co"># and remove all except the first one</span></span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> Nod_Inf_out[<span class="sc">-</span><span class="fu">c</span>(head_rows[<span class="sc">-</span><span class="dv">1</span>])]</span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="co"># strip out all but single spaces from data...</span></span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a><span class="cf">while</span>(<span class="fu">NROW</span>(<span class="fu">grep</span>(<span class="st">&quot;  &quot;</span>, Nod_Inf_out)) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a>  Nod_Inf_out <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;  &quot;</span>,<span class="st">&quot; &quot;</span>, Nod_Inf_out)</span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>}</span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a><span class="co"># ...and (finally!) delete the very last row (an &#39;end&#39; statement)</span></span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> Nod_Inf_out[<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span><span class="fu">NROW</span>(Nod_Inf_out)]</span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a><span class="co"># write the edited output to a file...</span></span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="fu">writeLines</span>(Nod_Inf_out, <span class="at">con=</span><span class="st">&quot;./NodInf3.out&quot;</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="co"># ...and read the file in as space-delimited</span></span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a>node_data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="at">file =</span> <span class="st">&quot;NodInf3.out&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="co"># the is a blank column 1; rename it to &quot;Time&quot;</span></span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="fu">colnames</span>(node_data)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Time&quot;</span></span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="co"># use the print times vector to make a vector with</span></span>
+<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="co"># the relevant time repeated for each block</span></span>
+<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a>timz0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(timz[<span class="dv">1</span>], <span class="fu">NROW</span>(node_data)<span class="sc">/</span><span class="fu">NROW</span>(timz))</span>
+<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">NROW</span>(timz)) {</span>
+<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a>  timz0 <span class="ot">&lt;-</span> <span class="fu">append</span>(timz0, <span class="fu">rep</span>(timz[i], <span class="fu">NROW</span>(node_data)<span class="sc">/</span><span class="fu">NROW</span>(timz)))</span>
+<span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a>}</span>
+<span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a><span class="co"># replace the Time colum with the vector we just made...</span></span>
+<span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a>node_data<span class="sc">$</span>Time <span class="ot">&lt;-</span> timz0</span>
+<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a><span class="co"># ...and convert Time to a factor</span></span>
+<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a>node_data<span class="sc">$</span>Time <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(node_data<span class="sc">$</span>Time)</span>
+<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a><span class="co"># remove temporary objects...</span></span>
+<span id="cb1-56"><a href="#cb1-56" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">c</span>(<span class="st">&quot;i&quot;</span>,<span class="st">&quot;head_rows&quot;</span>,<span class="st">&quot;Nod_Inf_out&quot;</span>,<span class="st">&quot;timz&quot;</span>,<span class="st">&quot;timz0&quot;</span>,<span class="st">&quot;ends&quot;</span>))</span>
+<span id="cb1-57"><a href="#cb1-57" tabindex="-1"></a><span class="co"># ...and check the cleaned-up data</span></span>
+<span id="cb1-58"><a href="#cb1-58" tabindex="-1"></a><span class="fu">str</span>(node_data)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    707 obs. of  14 variables:
+##  $ Time        : Factor w/ 7 levels &quot;0&quot;,&quot;80&quot;,&quot;160&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Node        : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ Depth       : num  0 -20 -40 -60 -80 -100 -120 -140 -160 -180 ...
+##  $ Head        : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ Moisture    : num  0.43 0.43 0.43 0.43 0.43 0.43 0.43 0.43 0.43 0.43 ...
+##  $ K           : num  25 25 25 25 25 ...
+##  $ C           : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ Flux        : num  -2.5 -2.5 -2.5 -2.5 -2.5 ...
+##  $ Sink        : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ Kappa       : int  -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 ...
+##  $ v.KsTop     : num  -0.1 -0.1 -0.1 -0.1 -0.1 -0.1 -0.1 -0.1 -0.1 -0.1 ...
+##  $ Temp        : num  20 20 20 20 20 20 20 20 20 20 ...
+##  $ Conc.1..NS. : num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ Sorb.1...NS.: num  0 0 0 0 0 0 0 0 0 0 ...</code></pre>
+<div id="plot-concentration-vs.-depth" class="section level2">
+<h2>Plot concentration <em>vs</em>. depth</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># check it with a plot</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># plot as concentration vs. depth</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,viridis<span class="sc">::</span><span class="fu">plasma</span>(<span class="dv">6</span>, <span class="at">end=</span><span class="fl">0.7</span>)))</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl =</span> <span class="fl">0.3</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">plot</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>(node_data<span class="sc">$</span>Depth) <span class="sc">~</span> node_data[,<span class="dv">13</span>], </span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="dv">1</span>, </span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(node_data[,<span class="dv">13</span>], <span class="at">na.rm=</span>T)), </span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span><span class="fu">min</span>(node_data<span class="sc">$</span>Depth, <span class="at">na.rm=</span>T), <span class="dv">0</span>), </span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>     <span class="at">subset =</span> node_data<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(node_data<span class="sc">$</span>Time)[<span class="dv">1</span>],</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>     <span class="at">xaxt =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Depth (cm)&quot;</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Concentration&quot;</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">1.7</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nlevels</span>(node_data<span class="sc">$</span>Time)) {</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="fu">points</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>node_data<span class="sc">$</span>Depth <span class="sc">~</span> node_data[,<span class="dv">13</span>], <span class="at">col =</span> i, </span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>       <span class="at">subset =</span> node_data<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(node_data<span class="sc">$</span>Time)[i],</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>       <span class="at">type =</span> <span class="st">&quot;o&quot;</span>, <span class="at">pch =</span> i<span class="dv">-2</span>, <span class="at">cex =</span> <span class="fl">0.6</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>}</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">legend =</span> <span class="fu">levels</span>(node_data<span class="sc">$</span>Time),</span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">nlevels</span>(node_data<span class="sc">$</span>Time)),</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="fu">seq</span>(<span class="dv">0</span>,<span class="fu">nlevels</span>(node_data<span class="sc">$</span>Time))),</span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">1</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>       <span class="at">pt.cex=</span><span class="fl">0.85</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fl">0.02</span>, </span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Time (days)&quot;</span>)))</span></code></pre></div>
+<div class="figure">
+<img src="hydrus1d_files/figure-html/conc-depth-1.png" alt="Figure 1: Plot of simulated solute concentration vs. vertical depth for each simulation time step, using Hydrus-1D" width="384" />
+<p class="caption">
+Figure 1: Plot of simulated solute concentration vs. vertical depth for
+each simulation time step, using Hydrus-1D
+</p>
+</div>
+</div>
+<div id="plot-as-concentration-vs.-horizontal-distance"
+class="section level2">
+<h2>Plot as concentration <em>vs</em>. horizontal distance</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,viridis<span class="sc">::</span><span class="fu">plasma</span>(<span class="dv">6</span>)))</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>symz <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">2</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl =</span> <span class="fl">0.3</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>node_data<span class="sc">$</span>Distance <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>node_data<span class="sc">$</span>Depth</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">plot</span>(node_data[,<span class="dv">13</span>] <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>node_data<span class="sc">$</span>Distance, </span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="dv">1</span>, </span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(node_data[,<span class="dv">13</span>], <span class="at">na.rm=</span>T)), </span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(node_data<span class="sc">$</span>Distance, <span class="at">na.rm=</span>T)), </span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>     <span class="at">subset =</span> node_data<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(node_data<span class="sc">$</span>Time)[<span class="dv">1</span>],</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Concentration&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Distance (cm)&quot;</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nlevels</span>(node_data<span class="sc">$</span>Time)) {</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  <span class="fu">points</span>(node_data[,<span class="dv">13</span>] <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>node_data<span class="sc">$</span>Distance, <span class="at">bg =</span> i, </span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>         <span class="at">subset =</span> node_data<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(node_data<span class="sc">$</span>Time)[i],</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>         <span class="at">type =</span> <span class="st">&quot;o&quot;</span>, <span class="at">pch =</span> symz[i<span class="dv">-1</span>], <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>}</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">levels</span>(node_data<span class="sc">$</span>Time),</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>       <span class="at">pt.bg =</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">nlevels</span>(node_data<span class="sc">$</span>Time)),</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="cn">NA</span>,symz),</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">1</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>       <span class="at">pt.cex=</span><span class="fl">0.85</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fl">0.02</span>, </span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Time (days)&quot;</span>)))</span></code></pre></div>
+<div class="figure">
+<img src="hydrus1d_files/figure-html/conc-hdist-1.png" alt="Figure 2: Plot of simulated solute concentration vs. horizontal distance for each simulation time step, using Hydrus-1D" width="576" />
+<p class="caption">
+Figure 2: Plot of simulated solute concentration vs. horizontal distance
+for each simulation time step, using Hydrus-1D
+</p>
+</div>
+</div>
+</div>
+
+<!DOCTYPE html>
+
+<html>
+<body>
+<hr style="height: 2px; background-color: #003087;" />
+<p><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>. Currently using the free <a href="https://bootswatch.com/yeti/" target="_blank"><span style="font-family: monospace;">yeti</span> theme from Bootswatch</a>.</span></p>
+</body>
+</html>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

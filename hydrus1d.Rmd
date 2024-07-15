@@ -1,0 +1,325 @@
+---
+title: "ENVT5503 Hydrus-1D Beginners` Guide"
+subtitle: "Remediation of Soil and Groundwater"
+author: "Andrew Rate"
+date: "`r Sys.Date()`"
+output: 
+  html_document: 
+    theme: yeti
+    code_folding: hide
+    self_contained: no
+    number_sections: no
+    smart: no
+    toc: true
+    toc_depth: 2
+    toc_float: true
+---
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+
+&nbsp;
+
+# Getting Started
+
+Start by opening the `Project Manager`, and click the `New` button:
+ 	 
+![](./images/01a-open-project-mgr-new.png){alt="Hydrus-1D startup screen screenshot"}
+
+In the `New Project` dialog box, type the name (and optional description), then click `OK`:
+ 
+![](./images/02a-new-proj-name-callout.png){alt="New Project dialog screenshot"}
+
+This should open the `input dialog` (the sub-window name will be the name you gave it above under `New Project`).
+
+- Double-click on the items in the `Pre-processing` pane (left) to open them, which allows you to change input parameters.
+- The right side of the window (`Post-processing`) will have items in it after a Hydrus-1D project is run
+
+![](./images/03-input-dialog.png){alt="input dialog screenshot"}
+
+
+Double-clicking on `Main Processes` gives a new dialog box &ndash; you should make sure that you check the &#9745;`Solute Transport` checkbox:
+
+![](./images/04-main-processes-callout.png){alt="Main Processes dialog screenshot"}
+
+ 
+You can just keep clicking the `Next` button to get to each part of the input set-up:  
+(Remember you can click the `Help` button for assistance on any screen!) 
+
+# Hints for parameter selection in each input dialog
+
+## `Geometry Information` 
+
+- Set Length Units to desired value (cm is OK) ![Geometry Information dialog screenshot](./images/05-geometry-info.png){align="right" width=393 height=159}
+- Use one Soil Material for simple transport, but two or more for reactive barriers etc.
+- For horizontal transport use Decline from Vertical&hellip;; of ≤ 0.1
+- Set Depth to desired value &ndash; this represents our flow path length, so choose something realistic for groundwater!
+
+## `Time Information`
+
+- Set Time Units to desired value (days is OK) ![Time Information dialog screenshot](./images/06-time-info.png){align="right" width=266 height=248}
+- Set Final Time to match column length and (later) hydraulic conductivity
+- You can scale Initial/Minimum/Maximum Time Step up or down depending on whether you increase or decrease  Final Time
+- Leave other settings as default (for now)
+
+You may need to return to the `Time Information` dialog later depending on the output of your initial simulation.
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+## `Print Information`
+- Set Number of Print Times to enable plotting profile information at different times (*e.g*. 5-10) 
+- Then click `Select Print Times...` and click `Default` (you can try the other settings later)  
+![Print Information dialog screenshot](images/07-print-info.png){width=366 height=359} ![ dialog screenshot](images/07a-print-times.png){width=383 height=119}
+
+&nbsp;
+
+## `Iteration Criteria`
+- Leave these at their default settings for now (we don`t usually need to change these values). 
+
+![](images/08-iteration.png){width=346 height=246 alt="Iteration Criteria dialog screenshot"}
+
+&nbsp;
+
+## `Soil Hydraulic Model`
+- Leave at default settings for now (the van Genuchten model is a good and widely-used option for relating soil physical properties to the water retention curve.)
+
+![](images/09-soil-hydraulic.png){width=392 height=353 alt="Soil Hydraulic Model dialog screenshot"}
+
+&nbsp;
+
+## `Water Flow Parameters`
+- Select the desired pre-set from the `Soil Catalog` ![Water Flow Parameters dialog screenshot](images/10-water-flow.png){align="right" width=414 height=229}  
+`Qr` = Residual soil water content, *q~r~*  
+`Qs` = Saturated soil water content, *q~s~*  
+`Alpha` = Parameter *a* in the soil water retention function [L^-1^]  
+`n` = Parameter *n* in the soil water retention function  
+`Ks` = Saturated hydraulic conductivity, *K~s~* [LT^-1^]  
+`l` = Tortuosity parameter in the conductivity function [-]
+
+The individual values can be set manually too.
+
+&nbsp;
+
+## `Water Flow Boundary Conditions` 
+- Leave at default settings for now  
+![Water Flow Boundary Conditions dialog screenshot](images/11-water-flow-BCs.png){width=310 height=311}
+
+&nbsp;
+
+## `Solute Transport`
+- Make sure `Number of Solutes` = 1 
+- Choose `Pulse Duration` to be a fraction (*e.g*. 0.1 × the `Final Time` set earlier)  
+![Solute Transport dialog screenshot](images/12-solute-transport.png){width=414 height=347}
+
+&nbsp;
+
+## `Solute Transport Parameters`
+- You can leave these at defaults, but FYI: ![Solute Transport Parameters dialog screenshot](images/13-solute-transp-pars.png){align="right" width=413 height=230}  
+(dimensions are in square brackets [ ] )
+
+#### `Soil Specific Parameters`:
+`Bulk.d.` = Bulk density, *r* [ML^-3^]  
+`Disp` = Longitudinal dispersivity, *D~L~* [L]  
+`Frac` = &hellip;;fraction of adsorption sites with instantaneous sorption &hellip;; Set = 1 for equilibrium transport  
+`ThIm` = Immobile water content. Set equal to 0 when *physical nonequilibrium* is not considered.
+
+#### `Solute Specific Parameters`:
+`Diffus.W` = diffusion coefficient in water, *D~w~* [L^2^T^-1^]  
+`Diffus.G` = diffusion coefficient in soil air, *D~a~* [L^2^T^-1^]
+
+&nbsp;
+
+## `Solute Transport and Reaction Parameters`
+- Set partition coefficient `Kd` > 0 for reactive transport (leave `Kd` = 0 for non-reactive) 
+- Click the `Help` button for details!  
+![Solute Transport and Reaction Parameters dialog screenshot](images/14-solute-transp-react-pars.png){width=363 height=231}
+
+&nbsp;
+
+## `Solute Transport Boundary Conditions`
+- `Bound. Cond` > 0 for each solute (`Sol. No.`) &ndash; this is the initial solute concentration, so it can`t be zero!
+  - Ensure concentrations are realistic and in the correct units set under `Dimensions`
+- Click the `Help` button for details of the other options.  
+![Solute Transport Boundary Conditions dialog screenshot](images/15-solute-transp-BCs.png){width=397 height=294}
+
+&nbsp;
+
+## `Do you want to run PROFILE application ?`
+- Yes, you do!  
+![PROFILE application screenshot](images/16-run-profile.png){width=298 height=93}
+ 
+&nbsp;
+
+# `Profile Information` dialog
+
+- Click `Pressure Head&hellip;;`, then click the `Edit Condition` button, and select the whole column by clicking top then bottom, then set `Top` and `Bottom` value to 0 (zero) *i.e*. **saturated with water**
+
+- You can also set other soil parameters, *e.g*. material types and observation points 
+&ndash; see the video!
+
+- Make sure you click save 💾 (you might need to press the [`esc`] key first), check the soil profile table display, then you are ready to run Hydrus &ndash; see the video!
+
+![](images/17-profile-info.png){alt="Profle Information dialog screenshot"}
+
+&nbsp;
+
+After a successful Hydrus-1D simulation run, you can use the options in the post-processing window to visualise the output within Hydrus-1D. Alternatively, you can read the data file(s) into Excel® or R and make better graphs!
+
+```{r table1, message=FALSE, warning=FALSE, echo=FALSE}
+library(flextable)
+library(officer)
+set_flextable_defaults(theme_fun = "theme_zebra", 
+                       font.size = 11, font.family = "Arial",
+                       padding = 2, text.align = "right")
+BorderDk <- officer::fp_border(color = "#B5C3DF", style = "solid", width = 1)
+BorderLt <- officer::fp_border(color = "#FFFFFF", style = "solid", width = 1)
+table1 <- data.frame(filename=c("Nod_Inf.out","Obs_Node.out",
+                                "Solute1.out\n(& Solute2.out,...)"),
+                     Contents=c("Separate data matrices  at selected `Print times` during simulation.\nUseful columns: Depth, Conc(1..NS), Sorb(1..NS)",
+                                "Side-by side data matrices for each node depth.\nUseful columns: time, theta, conc",
+                                "Single data matrix for each solute. Contains columns for time, fluxes and concentrations (including cumulative values) at start of flow path (Top), Root zone, end of flow path (Bot)."))
+flextable(table1) |> width(j=c(1,2), width=c(6,14), unit="cm") |> 
+  valign(valign = "top", part="body") |> font(j=1, fontname="Courier New") |> 
+  border_outer(border=BorderDk) |> border_inner(border=BorderLt) |> 
+  set_header_labels(filename="File name") |> fontsize(size=11, part="all") |> 
+  set_caption(caption="Table 1: The following HYDRUS-1D output files contain useful data.", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
+```
+
+&nbsp;
+
+# Reading HYDRUS-1D data into `R`
+
+Users of
+[Hydrus-1D](https://www.pc-progress.com/en/Default.aspx?H1d-downloads){target="_blank"}
+either need to use the limited graphics in Hydrus itself, open the output files
+in Excel, or figure out a way of using more flexible software. So here's my code
+to read the node (Profile) information output files from Hydrus-1D
+(`Nod_Inf.out` in the relevant Hydrus-1D project folder) into an **R** data 
+frame.
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+MyPC <- "C:/Users/00028958/OneDrive - The University of Western Australia/My Documents/aaTeaching/"
+```
+
+```{r}
+# R code to read Hydrus-1D Nod_Inf.out files into an R data frame
+# set full path to Hydrus-1D project directory (folder)
+# -=-=-=-=- EDIT THIS TO MATCH THE FOLDER ON YOUR COMPUTER ! -=-=-=-=-
+PCdir <- paste0(MyPC,"ENVT5503/Hydrus1D ENVT5503/PRB")
+# read Nod_Inf.out file into a vector of character (text) strings
+Nod_Inf_out <- readLines(paste0(PCdir,"/","Nod_Inf.out"))
+# View(Nod_Inf_out) # optionally check what we just read
+# find indices of some rows we want to delete
+head_rows <- grep("Node", Nod_Inf_out)
+# use indices to delete the rows
+Nod_Inf_out <- Nod_Inf_out[-c(seq(1,7),head_rows-2, head_rows-1,
+                              head_rows+1, head_rows+2)]
+# find indices of some more rows we want to delete
+ends <- grep("end",Nod_Inf_out)[-1*NROW(grep("end",Nod_Inf_out))]
+# use indices to delete the rows
+Nod_Inf_out <- Nod_Inf_out[-c(ends, ends+1, ends+2)]
+# find indices of rows that have the Hydrus-1D print times
+time_rows <- grep("Time:", Nod_Inf_out)
+# extract the rows with Hydrus-1D print times into a vector
+timz <- Nod_Inf_out[time_rows]
+# get rid of text around the Hydrus-1D print time values...
+timz <- gsub("Time: ","",timz)
+timz <- gsub(" ","",timz)
+# ...and convert to numbers...
+timz <- as.numeric(timz)
+# ...then delete the Hydrus-1D print time rows
+Nod_Inf_out <- Nod_Inf_out[-c(time_rows)]
+# find the rows with column names for each block of print data...
+head_rows <- grep("Node", Nod_Inf_out)
+# and remove all except the first one
+Nod_Inf_out <- Nod_Inf_out[-c(head_rows[-1])]
+# strip out all but single spaces from data...
+while(NROW(grep("  ", Nod_Inf_out)) > 0) {
+  Nod_Inf_out <- gsub("  "," ", Nod_Inf_out)
+}
+# ...and (finally!) delete the very last row (an 'end' statement)
+Nod_Inf_out <- Nod_Inf_out[-1*NROW(Nod_Inf_out)]
+#
+# write the edited output to a file...
+writeLines(Nod_Inf_out, con="./NodInf3.out")
+# ...and read the file in as space-delimited
+node_data <- read.table(file = "NodInf3.out", header = TRUE, sep = " ")
+# the is a blank column 1; rename it to "Time"
+colnames(node_data)[1] <- "Time"
+# use the print times vector to make a vector with
+# the relevant time repeated for each block
+timz0 <- rep(timz[1], NROW(node_data)/NROW(timz))
+for (i in 2:NROW(timz)) {
+  timz0 <- append(timz0, rep(timz[i], NROW(node_data)/NROW(timz)))
+}
+# replace the Time colum with the vector we just made...
+node_data$Time <- timz0
+# ...and convert Time to a factor
+node_data$Time <- as.factor(node_data$Time)
+# remove temporary objects...
+rm(list = c("i","head_rows","Nod_Inf_out","timz","timz0","ends"))
+# ...and check the cleaned-up data
+str(node_data)
+```
+
+## Plot concentration *vs*. depth
+
+```{r conc-depth, fig.width=4, fig.height=6, fig.cap="Figure 1: Plot of simulated solute concentration vs. vertical depth for each simulation time step, using Hydrus-1D", results='hold'}
+# check it with a plot
+# plot as concentration vs. depth
+palette(c("black",viridis::plasma(6, end=0.7)))
+par(mar = c(1,4,4,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab=2)
+plot(-1*(node_data$Depth) ~ node_data[,13], 
+     type = "l", col = 1, 
+     xlim = c(0, max(node_data[,13], na.rm=T)), 
+     ylim = c(-1*min(node_data$Depth, na.rm=T), 0), 
+     subset = node_data$Time==levels(node_data$Time)[1],
+     xaxt = "n", xlab = "", ylab = "Depth (cm)")
+axis(3)
+mtext("Concentration", side = 3, line = 1.7, font = 2)
+for (i in 2:nlevels(node_data$Time)) {
+points(-1*node_data$Depth ~ node_data[,13], col = i, 
+       subset = node_data$Time==levels(node_data$Time)[i],
+       type = "o", pch = i-2, cex = 0.6)
+}
+legend("bottomright", legend = levels(node_data$Time),
+       col = seq(1,nlevels(node_data$Time)),
+       pch = c(NA,seq(0,nlevels(node_data$Time))),
+       lwd = 1,
+       pt.cex=0.85, bty = "n", inset = 0.02, 
+       title = expression(bold("Time (days)")))
+```
+
+## Plot as concentration *vs*. horizontal distance
+
+```{r conc-hdist, fig.width=6, fig.height=4, fig.cap="Figure 2: Plot of simulated solute concentration vs. horizontal distance for each simulation time step, using Hydrus-1D", results='hold'}
+palette(c("black",viridis::plasma(6)))
+symz <- rep(21:25,2)
+par(mar = c(4,4,1,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab=2)
+node_data$Distance <- -1*node_data$Depth
+plot(node_data[,13] ~ -1*node_data$Distance, 
+     type = "l", col = 1, 
+     ylim = c(0, max(node_data[,13], na.rm=T)), 
+     xlim = c(0, max(node_data$Distance, na.rm=T)), 
+     subset = node_data$Time==levels(node_data$Time)[1],
+     ylab = "Concentration", xlab = "Distance (cm)")
+for (i in 2:nlevels(node_data$Time)) {
+  points(node_data[,13] ~ -1*node_data$Distance, bg = i, 
+         subset = node_data$Time==levels(node_data$Time)[i],
+         type = "o", pch = symz[i-1], cex = 0.8)
+}
+legend("topright", legend = levels(node_data$Time),
+       pt.bg = seq(1,nlevels(node_data$Time)),
+       pch = c(NA,symz),
+       lwd = 1,
+       pt.cex=0.85, bty = "n", inset = 0.02, 
+       title = expression(bold("Time (days)")))
+```
+
