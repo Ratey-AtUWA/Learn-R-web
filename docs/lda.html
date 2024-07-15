@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-07-12" />
+<meta name="date" content="2024-07-15" />
 
 <title>Multivariate methods - LDA</title>
 
@@ -358,7 +358,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -373,7 +373,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -388,7 +388,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -403,7 +403,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -427,7 +427,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -445,7 +445,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -466,7 +466,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -478,6 +478,9 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="residuals.html">Regression residuals to identify contamination</a>
+    </li>
+    <li>
+      <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
     </li>
   </ul>
 </li>
@@ -494,7 +497,7 @@ $(document).ready(function () {
 
 <html>
 <body>
-<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science<br />at The University of Western Australia</span></h3>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
 <h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
 </body>
 </html>
@@ -514,7 +517,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Multivariate methods - LDA</h1>
 <h3 class="subtitle">Linear Discriminant Analysis</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-07-12</h4>
+<h4 class="date">2024-07-15</h4>
 
 </div>
 
@@ -570,7 +573,7 @@ values having an unbalanced effect on the results.</p>
 class="section level3">
 <h3>Load packages, and read and transform data</h3>
 <div
-style="border: 2px solid #039; background-color:#f0f0f0; padding: 8px;">
+style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
 <p><strong>Data Source</strong>: We are using a curated version of a
 whole rock major element dataset from Hallberg (2006) <a
 href="https://catalogue.data.wa.gov.au/dataset/hallberg-geochemistry"
@@ -597,7 +600,7 @@ target="_blank">https://catalogue.data.wa.gov.au/dataset/hallberg-geochemistry</
 ## 4 531000  7400 123000 17000 72000 2200 74000 124000 30000 1200 1100 70 332  33 110  3  60 304 14 100 45
 ## 5 503000 10400 163000  8000 91000 2500 47000 123000 26000 1900 1600 61 470 110 173  7 124 306 26 105 65
 ## 6 521000  6000 150000 14000 79000 1700 78000  83000 35200 4600  800 47 192 152 120  3  79 310 31  75 38
-##
+## 
 ## ------------------
 ##   SiO2 TiO2 Al2O3 Fe2O3  FeO  MnO  MgO  CaO Na2O   K2O  P2O5    Co    Cr    Cu    Ni    Rb    Sr     V     Y    Zn
 ## 1 5.89 1.90  4.63  2.48 4.13 0.34 3.47 4.48 2.74  0.48  0.11 -3.17 -1.34 -2.37 -2.23 -7.26 -2.70 -1.56 -4.17 -2.71
@@ -634,14 +637,14 @@ discriminate rocks at the mafic end of the rock classification spectrum
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>                    <span class="at">prior =</span> <span class="fu">as.numeric</span>(<span class="fu">summary</span>(Hallberg<span class="sc">$</span>Rock))<span class="sc">/</span><span class="fu">nrow</span>(Hallberg)) </span>
 <span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">print</span>(lda_rock_clos)</span></code></pre></div>
 <pre><code>## Call:
-## lda(Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + MgO + CaO +
-##     Na2O + K2O + P2O5 + Co + Cr + Cu + Ni + Rb + Sr + TiO2 +
+## lda(Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + MgO + CaO + 
+##     Na2O + K2O + P2O5 + Co + Cr + Cu + Ni + Rb + Sr + TiO2 + 
 ##     V + Y + Zn + Zr, data = data0, prior = as.numeric(summary(Hallberg$Rock))/nrow(Hallberg))
-##
+## 
 ## Prior probabilities of groups:
-##            Basalt          Dolerite            Gabbro    High-Mg Basalt        Peridotite Spinel Peridotite
-##       0.572237960       0.082152975       0.019830028       0.243626062       0.073654391       0.008498584
-##
+##            Basalt          Dolerite            Gabbro    High-Mg Basalt        Peridotite Spinel Peridotite 
+##       0.572237960       0.082152975       0.019830028       0.243626062       0.073654391       0.008498584 
+## 
 ## Group means:
 ##                          SiO2       TiO2      Al2O3       Fe2O3         FeO         MnO        MgO        CaO
 ## Basalt             0.31715964  0.3639023  0.5185686  0.11684431 -0.05196006  0.15207936 -0.4873181  0.3845373
@@ -664,7 +667,7 @@ discriminate rocks at the mafic end of the rock classification spectrum
 ## High-Mg Basalt    -0.25712595 -0.5206124 -0.3199898  0.34516149 -0.2851220
 ## Peridotite        -1.05311422 -2.0632007 -1.2243902  0.30013690 -1.2959201
 ## Spinel Peridotite -1.02639968 -1.7268598 -1.0153084  0.37055020 -1.2703848
-##
+## 
 ## Coefficients of linear discriminants:
 ##                LD1         LD2         LD3          LD4         LD5
 ## SiO2  -0.515714496  0.33956357  0.73483678 -1.275875748  0.07446471
@@ -688,9 +691,9 @@ discriminate rocks at the mafic end of the rock classification spectrum
 ## Y     -0.049032227  0.04236829 -0.21394852 -0.203492141  0.08223319
 ## Zn    -0.130404312  0.13998531 -0.08672013  0.330717988 -0.32195927
 ## Zr     0.153648832  0.27883508  0.23748549  0.444240032  0.51596379
-##
+## 
 ## Proportion of trace:
-##    LD1    LD2    LD3    LD4    LD5
+##    LD1    LD2    LD3    LD4    LD5 
 ## 0.8047 0.1716 0.0160 0.0057 0.0021</code></pre>
 <p> </p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>cormat <span class="ot">&lt;-</span> <span class="fu">rcorr.adjust</span>(data0[,<span class="fu">c</span>(<span class="dv">15</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">28</span><span class="sc">:</span><span class="dv">37</span>)], </span>
@@ -722,14 +725,14 @@ class="section level2">
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>                    <span class="at">prior =</span> <span class="fu">as.numeric</span>(<span class="fu">summary</span>(data0<span class="sc">$</span>Rock))<span class="sc">/</span><span class="fu">nrow</span>(data0)) </span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="fu">print</span>(lda_rock_open)</span></code></pre></div>
 <pre><code>## Call:
-## lda(Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + MgO + CaO +
-##     Na2O + K2O + P2O5 + Co + Cr + Cu + Ni + Rb + Sr + TiO2 +
+## lda(Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + MgO + CaO + 
+##     Na2O + K2O + P2O5 + Co + Cr + Cu + Ni + Rb + Sr + TiO2 + 
 ##     V + Y + Zn + Zr, data = data0, prior = as.numeric(summary(data0$Rock))/nrow(data0))
-##
+## 
 ## Prior probabilities of groups:
-##            Basalt          Dolerite            Gabbro    High-Mg Basalt        Peridotite Spinel Peridotite
-##       0.572237960       0.082152975       0.019830028       0.243626062       0.073654391       0.008498584
-##
+##            Basalt          Dolerite            Gabbro    High-Mg Basalt        Peridotite Spinel Peridotite 
+##       0.572237960       0.082152975       0.019830028       0.243626062       0.073654391       0.008498584 
+## 
 ## Group means:
 ##                          SiO2       TiO2      Al2O3       Fe2O3         FeO         MnO        MgO         CaO
 ## Basalt            -0.25738187  0.2537924  0.4391688 -0.05095198 -0.31451236 -0.20473569 -0.4997587  0.22117524
@@ -752,7 +755,7 @@ class="section level2">
 ## High-Mg Basalt    -0.4946752 -0.4070925  0.1464523 -0.3289291
 ## Peridotite        -1.5608713 -1.8247550  1.1886606 -1.7881890
 ## Spinel Peridotite -1.4214092 -1.1916923  1.2347375 -1.9337810
-##
+## 
 ## Coefficients of linear discriminants:
 ##                LD1          LD2         LD3         LD4         LD5
 ## SiO2   0.311906556  0.475172430  1.06386434 -0.31153403 -0.49360643
@@ -776,9 +779,9 @@ class="section level2">
 ## Y     -0.028468272  0.031123166 -0.15387790  0.34661178  0.12424677
 ## Zn    -0.089890850 -0.073273061  0.06237525 -0.05846468  0.53558740
 ## Zr     0.097653277 -0.197155426 -0.06140115 -0.31397470 -0.61079156
-##
+## 
 ## Proportion of trace:
-##    LD1    LD2    LD3    LD4    LD5
+##    LD1    LD2    LD3    LD4    LD5 
 ## 0.8494 0.1247 0.0173 0.0071 0.0015</code></pre>
 <p> </p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>cormat <span class="ot">&lt;-</span> <span class="fu">rcorr.adjust</span>(data0[,<span class="fu">c</span>(<span class="dv">15</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">28</span><span class="sc">:</span><span class="dv">37</span>)], </span>
@@ -1120,7 +1123,7 @@ comparison data frames using <code>print()</code>.</p>
 ## 8          Basalt    Basalt  TRUE
 ## 9  High-Mg Basalt    Basalt FALSE
 ## 10       Dolerite  Dolerite  TRUE
-##
+## 
 ## Predictions by LDA using open data: 295 out of 353 = 83.6% correct
 ##            Actual      Predicted  test
 ## 1          Basalt         Basalt  TRUE
@@ -1178,7 +1181,7 @@ probability.]</p>
 <span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a>  <span class="fu">set_header_labels</span>(<span class="at">Pred_class=</span><span class="st">&quot;Predicted class&quot;</span>, <span class="at">Actual_class=</span><span class="st">&quot;Actual class&quot;</span>, </span>
 <span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a>                    <span class="at">Match=</span><span class="st">&quot;Is LDA correct?&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">padding</span>(<span class="at">padding=</span><span class="fl">0.5</span>,<span class="at">part=</span><span class="st">&quot;all&quot;</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a>  <span class="fu">set_caption</span>(<span class="at">caption=</span><span class="st">&quot;Table 2: Matches between LDA model and actual data based on CLR-transformed major element concentrations in the whole rock dataset compiled by Hallberg (2006). Only the first 20 observations are shown.&quot;</span>)</span></code></pre></div>
-<template id="801ed83f-a5c7-43f9-9ee0-cbd1798ae119"><style>
+<template id="8116b900-6bdc-420a-a6ab-4c456923ff12"><style>
 .tabwid table{
   border-spacing:0px !important;
   border-collapse:collapse;
@@ -1217,11 +1220,11 @@ background-color: transparent;
 .katex-display {
     margin: 0 0 !important;
 }
-</style><div class="tabwid"><style>.cl-412b3836{}.cl-411cebe6{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-411cebfa{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4123274a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0.5pt;padding-top:0.5pt;padding-left:0.5pt;padding-right:0.5pt;line-height: 1;background-color:transparent;}.cl-41232768{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0.5pt;padding-top:0.5pt;padding-left:0.5pt;padding-right:0.5pt;line-height: 1;background-color:transparent;}.cl-41233e38{width:1.89in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41233e39{width:1.102in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41233e42{width:1.496in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41233e56{width:1.89in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41233e60{width:1.102in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41233e61{width:1.496in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41233e74{width:1.89in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41233e7e{width:1.102in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41233e88{width:1.496in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-41179cae{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-412b3836'><caption><span class="cl-41179cae">Table 2: Matches between LDA model and actual data based on CLR-transformed major element concentrations in the whole rock dataset compiled by Hallberg (2006). Only the first 20 observations are shown.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-41233e38"><p class="cl-4123274a"><span class="cl-411cebe6">Predicted class</span></p></td><td class="cl-41233e39"><p class="cl-4123274a"><span class="cl-411cebe6">Actual class</span></p></td><td class="cl-41233e42"><p class="cl-41232768"><span class="cl-411cebe6">Is LDA correct?</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Dolerite</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">FALSE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Gabbro</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">FALSE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">High-Mg Basalt</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">High-Mg Basalt</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Dolerite</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">FALSE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Gabbro</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">FALSE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Peridotite</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Peridotite</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Spinel Peridotite</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Peridotite</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">FALSE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Peridotite</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Peridotite</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Spinel Peridotite</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Peridotite</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">FALSE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Peridotite</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Peridotite</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e56"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e60"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e61"><p class="cl-41232768"><span class="cl-411cebfa">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-41233e74"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e7e"><p class="cl-4123274a"><span class="cl-411cebfa">Basalt</span></p></td><td class="cl-41233e88"><p class="cl-41232768"><span class="cl-411cebfa">TRUE</span></p></td></tr></tbody></table></div></template>
-<div class="flextable-shadow-host" id="cd9306c5-6115-4b65-9581-2daf9a8ecb3d"></div>
+</style><div class="tabwid"><style>.cl-a48cd042{}.cl-a47c52a8{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-a47c52b2{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-a48317a0{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0.5pt;padding-top:0.5pt;padding-left:0.5pt;padding-right:0.5pt;line-height: 1;background-color:transparent;}.cl-a48317b4{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0.5pt;padding-top:0.5pt;padding-left:0.5pt;padding-right:0.5pt;line-height: 1;background-color:transparent;}.cl-a4833b04{width:1.89in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4833b18{width:1.102in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4833b19{width:1.496in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4833b22{width:1.89in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4833b23{width:1.102in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4833b2c{width:1.496in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4833b2d{width:1.89in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4833b36{width:1.102in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4833b40{width:1.496in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a4732a98{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-a48cd042'><caption><span class="cl-a4732a98">Table 2: Matches between LDA model and actual data based on CLR-transformed major element concentrations in the whole rock dataset compiled by Hallberg (2006). Only the first 20 observations are shown.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-a4833b04"><p class="cl-a48317a0"><span class="cl-a47c52a8">Predicted class</span></p></td><td class="cl-a4833b18"><p class="cl-a48317a0"><span class="cl-a47c52a8">Actual class</span></p></td><td class="cl-a4833b19"><p class="cl-a48317b4"><span class="cl-a47c52a8">Is LDA correct?</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Dolerite</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">FALSE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Gabbro</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">FALSE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">High-Mg Basalt</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">High-Mg Basalt</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Dolerite</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">FALSE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Gabbro</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">FALSE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Peridotite</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Peridotite</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Spinel Peridotite</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Peridotite</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">FALSE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Peridotite</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Peridotite</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Spinel Peridotite</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Peridotite</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">FALSE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Peridotite</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Peridotite</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b22"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b23"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b2c"><p class="cl-a48317b4"><span class="cl-a47c52b2">TRUE</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a4833b2d"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b36"><p class="cl-a48317a0"><span class="cl-a47c52b2">Basalt</span></p></td><td class="cl-a4833b40"><p class="cl-a48317b4"><span class="cl-a47c52b2">TRUE</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="197c487b-7125-40e3-afdc-6643185b89ed"></div>
 <script>
-var dest = document.getElementById("cd9306c5-6115-4b65-9581-2daf9a8ecb3d");
-var template = document.getElementById("801ed83f-a5c7-43f9-9ee0-cbd1798ae119");
+var dest = document.getElementById("197c487b-7125-40e3-afdc-6643185b89ed");
+var template = document.getElementById("8116b900-6bdc-420a-a6ab-4c456923ff12");
 var caption = template.content.querySelector("caption");
 var fantome = dest.attachShadow({mode: 'open'});
 var templateContent = template.content;
@@ -1331,23 +1334,23 @@ that all categories in a random subset need to be populated.</p>
 <pre><code>## [Based on 200 random subsets of 50% of the dataset to train LDA model
 ##        to predict remaining observations]
 ## Number of obs. in random subsets = 176  (predicting 177 samples)
-##                   mean         sd
-## matches     108.730000 25.5133643
-## non_matches  68.270000 25.5133643
-## success       0.614305  0.1441154
+##                  mean         sd
+## matches     109.52500 25.3642683
+## non_matches  67.47500 25.3642683
+## success       0.61878  0.1432959
 ## -–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–-
 ## Stat. summary for &#39;success&#39;:
-## Mean = 0.6143, sd = 0.1441, 95% confidence interval = (0.594, 0.6344) (after 200 reps)
+## Mean = 0.6188, sd = 0.1433, 95% confidence interval = (0.599, 0.6388) (after 200 reps)
 ## 105 iterations &#39;failed&#39; due to randomisation missing a category
-##
+## 
 ## Fraction of matches by category over ALL iterations:
 ##           Rock_Type Total_Matched Actual Percent_Matched
-## 1            Basalt         16124  20304           79.4%
-## 2          Dolerite           260   2880              9%
-## 3            Gabbro             9    751            1.2%
-## 4    High-Mg Basalt          4371   8600           50.8%
-## 5        Peridotite           936   2565           36.5%
-## 6 Spinel Peridotite            46    300           15.3%</code></pre>
+## 1            Basalt         16104  20251           79.5%
+## 2          Dolerite           240   2928            8.2%
+## 3            Gabbro             9    700            1.3%
+## 4    High-Mg Basalt          4490   8598           52.2%
+## 5        Peridotite          1015   2631           38.6%
+## 6 Spinel Peridotite            47    292           16.1%</code></pre>
 <p>The number of iterations makes some difference (Figure 5)!</p>
 <p>Based on Figure 7, it looks like we should run at least 50-100
 iterations to get a reasonable idea of how well our LDA model performs.
@@ -1376,23 +1379,23 @@ the code for validation of LDA for closed data, but with references to
 <pre><code>## [Based on 200 random subsets of 50% of the dataset to train LDA model
 ##        to predict remaining observations]
 ## Number of obs. in random subsets = 176  (predicting 177 samples)
-##                   mean         sd
-## matches     107.660000 26.4277606
-## non_matches  69.340000 26.4277606
-## success       0.608235  0.1493162
+##                   mean        sd
+## matches     112.000000 26.868000
+## non_matches  65.000000 26.868000
+## success       0.632765  0.151818
 ## -–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–--–-
 ## Stat. summary for &#39;success&#39;:
-## Mean = 0.6082, sd = 0.1493, 95% confidence interval = (0.587, 0.6291) (after 200 reps)
-## 113 iterations &#39;failed&#39; due to randomisation missing a category
-##
+## Mean = 0.6328, sd = 0.1518, 95% confidence interval = (0.612, 0.6539) (after 200 reps)
+## 100 iterations &#39;failed&#39; due to randomisation missing a category
+## 
 ## Fraction of matches by category over ALL iterations:
 ##           Rock_Type Total_Matched Actual Percent_Matched
-## 1            Basalt         15979  20236             79%
-## 2          Dolerite           232   2911              8%
-## 3            Gabbro             3    716            0.4%
-## 4    High-Mg Basalt          4293   8609           49.9%
-## 5        Peridotite           980   2624           37.3%
-## 6 Spinel Peridotite            45    304           14.8%</code></pre>
+## 1            Basalt         16489  20353             81%
+## 2          Dolerite           240   2872            8.4%
+## 3            Gabbro             4    691            0.6%
+## 4    High-Mg Basalt          4561   8661           52.7%
+## 5        Peridotite          1052   2538           41.4%
+## 6 Spinel Peridotite            54    285           18.9%</code></pre>
 <p> </p>
 <p>If we compare the validation output for the open data with the
 results for closed data, we see slightly better overall accuracy for
@@ -1424,13 +1427,14 @@ approach.</p>
 <span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>                            <span class="at">direction=</span><span class="st">&quot;backward&quot;</span>, <span class="at">criterion=</span><span class="st">&quot;AS&quot;</span>)</span>
 <span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>  <span class="co"># }</span></span>
 <span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Stepwise model: &quot;</span>,<span class="fu">deparse</span>(stepwise.lda<span class="sc">$</span>formula)) <span class="co"># cleaner output</span></span></code></pre></div>
-<pre><code>## abiltity to seperate: 0.79392;  starting variables (21): SiO2, TiO2, Al2O3, Fe2O3, FeO, MnO, MgO, CaO, Na2O, K2O, P2O5, Co, Cr, Cu, Ni, Rb, Sr, V, Y, Zn, Zr
-## abiltity to seperate: 0.79392;  out: &quot;MgO&quot;;  variables (20): SiO2, TiO2, Al2O3, Fe2O3, FeO, MnO, CaO, Na2O, K2O, P2O5, Co, Cr, Cu, Ni, Rb, Sr, V, Y, Zn, Zr
-##
-##  hr.elapsed min.elapsed sec.elapsed
-##        0.00        0.00        2.26
-##
-## Stepwise model:  Rock ~ SiO2 + TiO2 + Al2O3 + Fe2O3 + FeO + MnO + CaO + Na2O +      K2O + P2O5 + Co + Cr + Cu + Ni + Rb + Sr + V + Y + Zn + Zr</code></pre>
+<pre><code>## abiltity to seperate: 0.79048;  starting variables (21): SiO2, TiO2, Al2O3, Fe2O3, FeO, MnO, MgO, CaO, Na2O, K2O, P2O5, Co, Cr, Cu, Ni, Rb, Sr, V, Y, Zn, Zr 
+## abiltity to seperate: 0.79048;  out: &quot;Al2O3&quot;;  variables (20): SiO2, TiO2, Fe2O3, FeO, MnO, MgO, CaO, Na2O, K2O, P2O5, Co, Cr, Cu, Ni, Rb, Sr, V, Y, Zn, Zr 
+## abiltity to seperate: 0.79217;  out: &quot;CaO&quot;;  variables (19): SiO2, TiO2, Fe2O3, FeO, MnO, MgO, Na2O, K2O, P2O5, Co, Cr, Cu, Ni, Rb, Sr, V, Y, Zn, Zr 
+## 
+##  hr.elapsed min.elapsed sec.elapsed 
+##        0.00        0.00        4.13 
+## 
+## Stepwise model:  Rock ~ SiO2 + TiO2 + Fe2O3 + FeO + MnO + MgO + Na2O + K2O + P2O5 +      Co + Cr + Cu + Ni + Rb + Sr + V + Y + Zn + Zr</code></pre>
 <p> </p>
 <p>The ‘full’ LDA model had 21 predictors, but the stepwise model
 retains fewer predictors, depending on individual code runs and/or
