@@ -54,6 +54,7 @@ output:
   - [Tables & trigger value counts](tables.html)
   - [Distribution checking](distributions.html)
   - [Regression residuals to identify contamination](residuals.html)
+  - [HYDRUS-1D basics and usage with R](hydrus1d.html)
 
 10. [**UWA School of Agriculture and Environment**](https://www.uwa.edu.au/schools/agriculture-and-environment){target="_blank"}
 
