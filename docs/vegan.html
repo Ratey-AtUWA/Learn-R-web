@@ -11,9 +11,9 @@
 
 <meta name="author" content="Deirdre Gleeson and Andrew Rate" />
 
-<meta name="date" content="2024-07-13" />
+<meta name="date" content="2024-07-15" />
 
-<title>Multivariate analysis</title>
+<title>Ordination analysis of eDNA species presence-absence data</title>
 
 <script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -31,6 +31,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/tabwid-1.1.0/tabwid.css" rel="stylesheet" />
@@ -329,6 +332,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -336,6 +402,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -358,7 +434,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -373,7 +449,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -388,7 +464,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -403,7 +479,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -427,7 +503,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -445,7 +521,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -466,7 +542,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -511,17 +587,17 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Multivariate analysis</h1>
-<h3 class="subtitle">Ordination analysis of species presence-absence
-data</h3>
+<h1 class="title toc-ignore">Ordination analysis of eDNA species presence-absence
+data</h1>
+<h3 class="subtitle">Multivariate analysis</h3>
 <h4 class="author">Deirdre Gleeson and Andrew Rate</h4>
-<h4 class="date">2024-07-13</h4>
+<h4 class="date">2024-07-15</h4>
 
 </div>
 
 
-<div id="learning-outcomes" class="section level2">
-<h2>Learning Outcomes:</h2>
+<div id="learning-outcomes" class="section level1">
+<h1>Learning Outcomes:</h1>
 <ol style="list-style-type: decimal">
 <li>Students are able to appropriately analyse data from an eDNA field
 sampling campaign;</li>
@@ -536,7 +612,6 @@ from the R package <code>vegan</code>.</li>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">library</span>(viridis)        <span class="co"># colourblind-friendly colour palettes</span></span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">library</span>(scatterplot3d)  <span class="co"># used for 3D ordination plots</span></span>
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">library</span>(TeachingDemos)  <span class="co"># used for shadowtext() function</span></span></code></pre></div>
-</div>
 <div id="import-the-data" class="section level2">
 <h2>Import the data</h2>
 <p><strong>Notes</strong>:</p>
@@ -580,7 +655,7 @@ class="section level2">
 <span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="fu">flextable</span>(names_table,<span class="at">cwidth =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">2</span>)) <span class="sc">|&gt;</span> <span class="fu">italic</span>(<span class="at">j=</span><span class="dv">1</span>, <span class="at">italic=</span>T) <span class="sc">|&gt;</span> <span class="fu">bold</span>(<span class="at">bold=</span>T, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>  <span class="fu">padding</span>(<span class="at">padding=</span><span class="dv">2</span>, <span class="at">part=</span><span class="st">&quot;all&quot;</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>  <span class="fu">set_caption</span>(<span class="at">caption=</span><span class="st">&quot;Table 1: Taxonomic, common, and abbreviated names for the species detected by eDNA sampling and analysis at Ashfield Flats in 2022.&quot;</span>, <span class="at">align_with_table =</span> F, <span class="at">fp_p=</span><span class="fu">fp_par</span>(<span class="at">text.align =</span> <span class="st">&quot;left&quot;</span>, <span class="at">padding.bottom =</span> <span class="dv">6</span>))</span></code></pre></div>
-<template id="c98db012-9f6f-42cf-a046-7dedc7ee3469"><style>
+<template id="b57cfca5-0586-4eb7-b1e8-336de4c04252"><style>
 .tabwid table{
   border-spacing:0px !important;
   border-collapse:collapse;
@@ -619,11 +694,11 @@ background-color: transparent;
 .katex-display {
     margin: 0 0 !important;
 }
-</style><div class="tabwid"><style>.cl-35288abc{}.cl-351bd4ca{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-351bd4de{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:italic;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-351bd4df{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-351f43c6{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-351f5834{width:3in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-351f583e{width:2in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-351f583f{width:3in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-351f5848{width:2in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-351f5849{width:3in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-351f584a{width:2in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3516bcba{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-35288abc'><caption style="margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span class="cl-3516bcba">Table 1: Taxonomic, common, and abbreviated names for the species detected by eDNA sampling and analysis at Ashfield Flats in 2022.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-351f5834"><p class="cl-351f43c6"><span class="cl-351bd4ca">Taxonomic</span></p></td><td class="cl-351f583e"><p class="cl-351f43c6"><span class="cl-351bd4ca">Common</span></p></td><td class="cl-351f583e"><p class="cl-351f43c6"><span class="cl-351bd4ca">Abbreviated</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Gambusia holbrooki</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Mosquito Fish</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">MosqFish</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Arenigobius bifrenatus</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Bridled Goby</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Goby</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Mugil cephalus</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Gray Mullet</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Mullet</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Acanthopagrus butcheri</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Black Bream</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Bream</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Limnodynastes dorsalis</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Western Banjo Frog</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">BnjoFrog</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Pseudophryne guentheri</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Gunther's Toadlet</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">GToadlet</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Anas platyrhynchos</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Mallard Duck</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">MlrdDuck</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Spilopelia chinensis</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Spotted Turtle Dove</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">SpotDove</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Porphyrio porphyrio</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Purple Swamphen</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">SwampHen</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Porzana tabuensis</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Spotted Crake</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Crake</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Egretta novaehollandiae</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">White Faced Heron</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">WFHeron</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Trichoglossus rubritorquis</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Rainbow Lorikeet</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Lorikeet</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Bos taurus</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Cattle</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Cattle</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Ovis sp </span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Sheep</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Sheep</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Mus musculus</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Mouse</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Mouse</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Rattus sp </span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Rat</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Rat</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Blackfordia polytentaculata</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">HydroidB</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">HydroidB</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Obelia bidentata</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">HydroidO</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">HydroidO</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Phyllorhiza punctata</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Brown Jellyfish</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">BwnJelly</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f583f"><p class="cl-351f43c6"><span class="cl-351bd4de">Aurelia sp </span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">Moon Jellyfish</span></p></td><td class="cl-351f5848"><p class="cl-351f43c6"><span class="cl-351bd4df">MoonJely</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-351f5849"><p class="cl-351f43c6"><span class="cl-351bd4de">Canis lupus familiaris</span></p></td><td class="cl-351f584a"><p class="cl-351f43c6"><span class="cl-351bd4df">Domestic Dog</span></p></td><td class="cl-351f584a"><p class="cl-351f43c6"><span class="cl-351bd4df">Dog</span></p></td></tr></tbody></table></div></template>
-<div class="flextable-shadow-host" id="57241f73-ca81-48d3-8657-b6365a3ca696"></div>
+</style><div class="tabwid"><style>.cl-ea37e7ae{}.cl-ea2f8262{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-ea2f826c{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:italic;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-ea2f8276{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-ea32b4a0{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-ea32c620{width:3in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea32c62a{width:2in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea32c62b{width:3in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea32c634{width:2in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea32c635{width:3in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea32c636{width:2in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-ea2b3bf8{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-ea37e7ae'><caption style="margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span class="cl-ea2b3bf8">Table 1: Taxonomic, common, and abbreviated names for the species detected by eDNA sampling and analysis at Ashfield Flats in 2022.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-ea32c620"><p class="cl-ea32b4a0"><span class="cl-ea2f8262">Taxonomic</span></p></td><td class="cl-ea32c62a"><p class="cl-ea32b4a0"><span class="cl-ea2f8262">Common</span></p></td><td class="cl-ea32c62a"><p class="cl-ea32b4a0"><span class="cl-ea2f8262">Abbreviated</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Gambusia holbrooki</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Mosquito Fish</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">MosqFish</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Arenigobius bifrenatus</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Bridled Goby</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Goby</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Mugil cephalus</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Gray Mullet</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Mullet</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Acanthopagrus butcheri</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Black Bream</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Bream</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Limnodynastes dorsalis</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Western Banjo Frog</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">BnjoFrog</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Pseudophryne guentheri</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Gunther's Toadlet</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">GToadlet</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Anas platyrhynchos</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Mallard Duck</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">MlrdDuck</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Spilopelia chinensis</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Spotted Turtle Dove</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">SpotDove</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Porphyrio porphyrio</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Purple Swamphen</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">SwampHen</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Porzana tabuensis</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Spotted Crake</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Crake</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Egretta novaehollandiae</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">White Faced Heron</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">WFHeron</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Trichoglossus rubritorquis</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Rainbow Lorikeet</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Lorikeet</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Bos taurus</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Cattle</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Cattle</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Ovis sp </span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Sheep</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Sheep</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Mus musculus</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Mouse</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Mouse</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Rattus sp </span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Rat</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Rat</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Blackfordia polytentaculata</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">HydroidB</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">HydroidB</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Obelia bidentata</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">HydroidO</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">HydroidO</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Phyllorhiza punctata</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Brown Jellyfish</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">BwnJelly</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c62b"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Aurelia sp </span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Moon Jellyfish</span></p></td><td class="cl-ea32c634"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">MoonJely</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-ea32c635"><p class="cl-ea32b4a0"><span class="cl-ea2f826c">Canis lupus familiaris</span></p></td><td class="cl-ea32c636"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Domestic Dog</span></p></td><td class="cl-ea32c636"><p class="cl-ea32b4a0"><span class="cl-ea2f8276">Dog</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="366d7e89-b761-4d5d-8436-bff37a66e8e2"></div>
 <script>
-var dest = document.getElementById("57241f73-ca81-48d3-8657-b6365a3ca696");
-var template = document.getElementById("c98db012-9f6f-42cf-a046-7dedc7ee3469");
+var dest = document.getElementById("366d7e89-b761-4d5d-8436-bff37a66e8e2");
+var template = document.getElementById("b57cfca5-0586-4eb7-b1e8-336de4c04252");
 var caption = template.content.querySelector("caption");
 var fantome = dest.attachShadow({mode: 'open'});
 var templateContent = template.content;
@@ -638,15 +713,16 @@ better visualisation later.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>allSpecies <span class="ot">&lt;-</span> eDNA2022[,<span class="dv">6</span><span class="sc">:</span><span class="dv">26</span>] <span class="co"># not columns 1:5 which are sample IDs etc.</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">colnames</span>(allSpecies) <span class="ot">&lt;-</span> names_table[,<span class="dv">3</span>]</span></code></pre></div>
 </div>
-<div id="difference-and-similarity-measures" class="section level2">
-<h2>Difference and Similarity measures</h2>
+</div>
+<div id="difference-and-similarity-measures" class="section level1">
+<h1>Difference and Similarity measures</h1>
 <p>We start by assessing how similar or different our samples are – to
 do this we need to set up a resemblance matrix. Ideally our 4 replicated
 samples are more similar to one another than any other samples – but
 with field sampling this is not always the case. To determine similarity
 we need to use a similarity measure.</p>
-<div id="similarity-measures" class="section level3">
-<h3>Similarity Measures:</h3>
+<div id="similarity-measures" class="section level2">
+<h2>Similarity Measures:</h2>
 <p>A similarity measure is conventionally defined to take values between
 0 and 100% (or 0 and 1) with the ends of the range representing the
 extreme possibilities:</p>
@@ -687,16 +763,16 @@ species.</p>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># just look at the top corner of the dissimilarity matrix:</span></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>txt0 <span class="ot">&lt;-</span> <span class="fu">capture.output</span>(<span class="fu">print</span>(AF_diss_all, <span class="at">digits=</span><span class="dv">3</span>)); txt0[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]; <span class="fu">rm</span>(txt0)</span></code></pre></div>
-<pre><code>##         1      2      3      4      5      6      7      8      9     10     11     12     13     14     15 
-## 2  0.0769                                                                                                   
-## 3  0.2727 0.1667                                                                                            
-## 4  0.0769 0.0000 0.1667                                                                                     
-## 5  0.3333 0.3846 0.6364 0.3846                                                                              
-## 6  0.3333 0.3846 0.6364 0.3846 0.0000                                                                       
-## 7  0.3333 0.3846 0.6364 0.3846 0.0000 0.0000                                                                
-## 8  0.2727 0.3333 0.6000 0.3333 0.0909 0.0909 0.0909                                                         
-## 9  0.8000 0.6364 0.5556 0.6364 0.6000 0.6000 0.6000 0.7778                                                  
-## 10 0.6000 0.6364 0.5556 0.6364 0.6000 0.6000 0.6000 0.7778 0.2500                                           
+<pre><code>##         1      2      3      4      5      6      7      8      9     10     11     12     13     14     15     16
+## 2  0.0769
+## 3  0.2727 0.1667
+## 4  0.0769 0.0000 0.1667
+## 5  0.3333 0.3846 0.6364 0.3846
+## 6  0.3333 0.3846 0.6364 0.3846 0.0000
+## 7  0.3333 0.3846 0.6364 0.3846 0.0000 0.0000
+## 8  0.2727 0.3333 0.6000 0.3333 0.0909 0.0909 0.0909
+## 9  0.8000 0.6364 0.5556 0.6364 0.6000 0.6000 0.6000 0.7778
+## 10 0.6000 0.6364 0.5556 0.6364 0.6000 0.6000 0.6000 0.7778 0.2500
 ## 11 0.8000 0.6364 0.5556 0.6364 0.8000 0.8000 0.8000 1.0000 0.2500 0.2500</code></pre>
 </div>
 </div>
@@ -770,20 +846,20 @@ consistency we set <code>distance = "jaccard"</code>.</p>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>AF_nmds_all3 <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(allSpecies, <span class="at">k=</span><span class="dv">3</span>, <span class="at">distance =</span> <span class="st">&quot;jaccard&quot;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># show output for 2 nmMDS dimensions</span></span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>AF_nmds_all</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## Call:
-## metaMDS(comm = allSpecies, distance = &quot;jaccard&quot;) 
-## 
+## metaMDS(comm = allSpecies, distance = &quot;jaccard&quot;)
+##
 ## global Multidimensional Scaling using monoMDS
-## 
-## Data:     allSpecies 
-## Distance: jaccard 
-## 
-## Dimensions: 2 
-## Stress:     0.1554552 
+##
+## Data:     allSpecies
+## Distance: jaccard
+##
+## Dimensions: 2
+## Stress:     0.1554552
 ## Stress type 1, weak ties
 ## Two convergent solutions found after 20 tries
-## Scaling: centring, PC rotation, halfchange scaling 
+## Scaling: centring, PC rotation, halfchange scaling
 ## Species: expanded scores based on &#39;allSpecies&#39;</code></pre>
 <p>The 2D stress value is ≃ 0.16. This can be interpreted as
 follows:</p>
@@ -860,19 +936,19 @@ the PCO output in Figure 3 below.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>AF_pco_all <span class="ot">&lt;-</span> <span class="fu">wcmdscale</span>(<span class="fu">vegdist</span>(allSpecies), <span class="at">eig=</span><span class="cn">TRUE</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>AF_pco_all</span></code></pre></div>
 <pre><code>## Call: wcmdscale(d = vegdist(allSpecies), eig = TRUE)
-## 
+##
 ##           Inertia Rank
-## Total       8.169     
+## Total       8.169
 ## Real       10.272   15
 ## Imaginary  -2.103   21
-## 
+##
 ## Results have 44 points, 15 axes
-## 
+##
 ## Eigenvalues:
-##  [1]  3.377  2.101  1.537  1.297  0.613  0.434  0.342  0.214  0.158  0.100  0.039  0.032  0.014  0.010
-## [15]  0.004 -0.006 -0.007 -0.009 -0.016 -0.021 -0.027 -0.035 -0.046 -0.052 -0.059 -0.074 -0.089 -0.094
-## [29] -0.115 -0.134 -0.143 -0.163 -0.190 -0.212 -0.242 -0.371
-## 
+##  [1]  3.377  2.101  1.537  1.297  0.613  0.434  0.342  0.214  0.158  0.100  0.039  0.032  0.014  0.010  0.004 -0.006
+## [17] -0.007 -0.009 -0.016 -0.021 -0.027 -0.035 -0.046 -0.052 -0.059 -0.074 -0.089 -0.094 -0.115 -0.134 -0.143 -0.163
+## [33] -0.190 -0.212 -0.242 -0.371
+##
 ## Weights: Constant</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">plot</span>(AF_pco_all)</span></code></pre></div>
@@ -952,12 +1028,12 @@ presence or absence) as a function of a factor (in this case,
 ## Terms added sequentially (first to last)
 ## Permutation: free
 ## Number of permutations: 9999
-## 
+##
 ## adonis2(formula = eDNA2022[, 6:26] ~ Site, data = eDNA2022, permutations = 9999)
-##          Df SumOfSqs      R2      F Pr(&gt;F)    
+##          Df SumOfSqs      R2      F Pr(&gt;F)
 ## Site     10   7.7475 0.94839 60.644  1e-04 ***
-## Residual 33   0.4216 0.05161                  
-## Total    43   8.1691 1.00000                  
+## Residual 33   0.4216 0.05161
+## Total    43   8.1691 1.00000
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>P value by permutation =<code>0.0001</code> indicating a significant
@@ -972,7 +1048,7 @@ see output below).</p>
 <span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>AF_PWpermanova_all <span class="ot">&lt;-</span> <span class="fu">pairwise.adonis2</span>(eDNA2022[,<span class="dv">6</span><span class="sc">:</span><span class="dv">26</span>] <span class="sc">~</span> Site, <span class="at">data =</span> eDNA2022)</span>
 <span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>AF_plainPW_all <span class="ot">&lt;-</span> <span class="fu">plainPW2</span>(AF_PWpermanova_all, <span class="at">ns.repl=</span><span class="cn">TRUE</span>, <span class="at">alpha=</span><span class="fl">0.05</span>) <span class="co"># see custom function code below</span></span>
 <span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>s0 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Site=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
-<template id="2cf96774-a892-417b-aa29-fe251eeb9b6a"><style>
+<template id="9deb57fc-3f83-40bd-93f9-1d19525189ed"><style>
 .tabwid table{
   border-spacing:0px !important;
   border-collapse:collapse;
@@ -1011,11 +1087,11 @@ background-color: transparent;
 .katex-display {
     margin: 0 0 !important;
 }
-</style><div class="tabwid"><style>.cl-3cec9b62{}.cl-3ce0a4e2{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3ce0a50a{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3ce59efc{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-3ce5b45a{width:0.5in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3ce5b464{width:0.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3ce5b46e{width:0.5in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3cd99a4e{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-3cec9b62'><caption style="margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span class="cl-3cd99a4e">Table 2: Pairwise comparison matrix based on PERMANOVA testing the effect of `Site` on multivariate species presence-absence (ns = p &gt; 0.05).</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-3ce5b45a"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">Site</span></p></td><td class="cl-3ce5b45a"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">2</span></p></td><td class="cl-3ce5b45a"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">3</span></p></td><td class="cl-3ce5b45a"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">4</span></p></td><td class="cl-3ce5b45a"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">5</span></p></td><td class="cl-3ce5b45a"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">6</span></p></td><td class="cl-3ce5b45a"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">7</span></p></td><td class="cl-3ce5b45a"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">8</span></p></td><td class="cl-3ce5b45a"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">9</span></p></td><td class="cl-3ce5b45a"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">10</span></p></td><td class="cl-3ce5b45a"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">11</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">1</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.042</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.036</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.037</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.036</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.039</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.033</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.033</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.024</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.033</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.037</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">2</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.034</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.032</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.026</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.026</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.025</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.033</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.033</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.024</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.023</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">3</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.032</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.023</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.025</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.042</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.026</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.032</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.039</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.025</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">4</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.028</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.031</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.031</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.035</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.027</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.02</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.035</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">5</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.028</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.035</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.035</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.023</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.044</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.026</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">6</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.030</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.036</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.042</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">ns</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.027</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">7</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.031</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.024</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.024</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.031</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">8</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.032</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.035</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.031</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">9</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.02</span></p></td><td class="cl-3ce5b464"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.036</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3ce5b46e"><p class="cl-3ce59efc"><span class="cl-3ce0a4e2">10</span></p></td><td class="cl-3ce5b46e"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b46e"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b46e"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b46e"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b46e"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b46e"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b46e"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b46e"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b46e"><p class="cl-3ce59efc"><span class="cl-3ce0a50a"></span></p></td><td class="cl-3ce5b46e"><p class="cl-3ce59efc"><span class="cl-3ce0a50a">0.031</span></p></td></tr></tbody></table></div></template>
-<div class="flextable-shadow-host" id="b56d7af7-e3bf-46d8-be10-4e4a9f153dd1"></div>
+</style><div class="tabwid"><style>.cl-f1f15908{}.cl-f1e712b8{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f1e712c2{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f1eae794{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-f1eafcde{width:0.5in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f1eafce8{width:0.5in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f1eafcf2{width:0.5in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f1e12650{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-f1f15908'><caption style="margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span class="cl-f1e12650">Table 2: Pairwise comparison matrix based on PERMANOVA testing the effect of `Site` on multivariate species presence-absence (ns = p &gt; 0.05).</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-f1eafcde"><p class="cl-f1eae794"><span class="cl-f1e712b8">Site</span></p></td><td class="cl-f1eafcde"><p class="cl-f1eae794"><span class="cl-f1e712b8">2</span></p></td><td class="cl-f1eafcde"><p class="cl-f1eae794"><span class="cl-f1e712b8">3</span></p></td><td class="cl-f1eafcde"><p class="cl-f1eae794"><span class="cl-f1e712b8">4</span></p></td><td class="cl-f1eafcde"><p class="cl-f1eae794"><span class="cl-f1e712b8">5</span></p></td><td class="cl-f1eafcde"><p class="cl-f1eae794"><span class="cl-f1e712b8">6</span></p></td><td class="cl-f1eafcde"><p class="cl-f1eae794"><span class="cl-f1e712b8">7</span></p></td><td class="cl-f1eafcde"><p class="cl-f1eae794"><span class="cl-f1e712b8">8</span></p></td><td class="cl-f1eafcde"><p class="cl-f1eae794"><span class="cl-f1e712b8">9</span></p></td><td class="cl-f1eafcde"><p class="cl-f1eae794"><span class="cl-f1e712b8">10</span></p></td><td class="cl-f1eafcde"><p class="cl-f1eae794"><span class="cl-f1e712b8">11</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712b8">1</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.031</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.032</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.038</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.026</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.036</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.026</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.042</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.030</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.028</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.028</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712b8">2</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.022</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.030</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.028</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.021</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.033</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.029</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.023</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.036</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.029</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712b8">3</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.029</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.035</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.035</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.026</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.021</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.030</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.034</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.039</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712b8">4</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.032</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.030</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.035</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.018</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.031</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.027</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.032</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712b8">5</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.028</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.024</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.032</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.025</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.017</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.027</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712b8">6</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.026</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.027</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.028</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">ns</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.031</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712b8">7</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.034</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.039</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.023</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.022</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712b8">8</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.017</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.035</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.030</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712b8">9</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.023</span></p></td><td class="cl-f1eafce8"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.036</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f1eafcf2"><p class="cl-f1eae794"><span class="cl-f1e712b8">10</span></p></td><td class="cl-f1eafcf2"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafcf2"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafcf2"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafcf2"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafcf2"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafcf2"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafcf2"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafcf2"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafcf2"><p class="cl-f1eae794"><span class="cl-f1e712c2"></span></p></td><td class="cl-f1eafcf2"><p class="cl-f1eae794"><span class="cl-f1e712c2">0.029</span></p></td></tr></tbody></table></div></template>
+<div class="flextable-shadow-host" id="36455d5f-ee54-4acd-93a3-f16d985027c1"></div>
 <script>
-var dest = document.getElementById("b56d7af7-e3bf-46d8-be10-4e4a9f153dd1");
-var template = document.getElementById("2cf96774-a892-417b-aa29-fe251eeb9b6a");
+var dest = document.getElementById("36455d5f-ee54-4acd-93a3-f16d985027c1");
+var template = document.getElementById("9deb57fc-3f83-40bd-93f9-1d19525189ed");
 var caption = template.content.querySelector("caption");
 var fantome = dest.attachShadow({mode: 'open'});
 var templateContent = template.content;
@@ -1063,9 +1139,6 @@ href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/plain-pairwise-
 target="_blank">github.com/Ratey-AtUWA/.../plain-pairwise-FUNCTION2.R</a>.</p>
 <p> </p>
 </div>
-<div id="extras" class="section level1">
-<h1>Extras</h1>
-</div>
 <div id="additional-options-for-vegan-ordination-plots"
 class="section level1">
 <h1>Additional options for <code>vegan</code> ordination plots</h1>
@@ -1086,9 +1159,14 @@ locations categorised into South and North zones.
 <p> </p>
 <p>We can then add geometric shapes on our ordination plots to emphasise
 the positions of different groups (<em>i.e</em>. factor levels) within
-the ordination dimensions' space (Figure 6). These plot features are
-really only applicable to two-dimensional (<em>x-y</em>) plots – 3D
-geometric shapes could be hard to interpret on a 3D plot!.</p>
+the ordination dimensions' space (Figure 6).</p>
+<details>
+<summary>
+Click to show code
+</summary>
+<p>These plot features are really only applicable to two-dimensional
+(<em>x-y</em>) plots – 3D geometric shapes could be hard to interpret on
+a 3D plot!.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># plot (a) ellipses</span></span>
 <span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, <span class="at">lend=</span><span class="dv">2</span>, <span class="at">ljoin=</span><span class="dv">1</span>, <span class="at">font.lab=</span><span class="dv">2</span>,</span>
 <span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>    <span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
@@ -1140,6 +1218,7 @@ geometric shapes could be hard to interpret on a 3D plot!.</p>
 <span id="cb24-49"><a href="#cb24-49" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">bty=</span><span class="st">&quot;n&quot;</span>,<span class="at">axes=</span>F,<span class="at">ann=</span>F,<span class="at">type=</span><span class="st">&quot;n&quot;</span>)</span>
 <span id="cb24-50"><a href="#cb24-50" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.5</span>, <span class="at">cex=</span><span class="fl">1.5</span>, <span class="at">col=</span><span class="dv">3</span>, <span class="at">font=</span><span class="dv">3</span>,</span>
 <span id="cb24-51"><a href="#cb24-51" tabindex="-1"></a>       <span class="at">labels =</span> <span class="st">&quot;The categories</span><span class="sc">\n</span><span class="st">&#39;North&#39; and &#39;South&#39; may</span><span class="sc">\n</span><span class="st">not be useful zones!&quot;</span>)</span></code></pre></div>
+</details>
 <div class="figure">
 <img src="vegan_files/figure-html/ellipses-hulls-spiders-1.png" alt="Figure 6: Ordination plots made using a combination of functions from the `vegan` package and base-R, showing (a) 75% CI ellipses around Zone groups; (b) convex hulls around Site groups; (c) ‘spiders’ around Zone groups. The `shadowtext()` function from the `teachingDemos::` package is used for clearer labels. The Zones in this Figure are just for illustration and based on whether the site is south or north of an arbitrary coordinate, and may make no sense!" width="768" />
 <p class="caption">
@@ -1154,11 +1233,14 @@ sense!
 </p>
 </div>
 <p> </p>
+</div>
+<div id="extras" class="section level1">
+<h1>Extras</h1>
 <div
 id="stress-plot-for-nmmds-based-on-jaccard-dissimilarities-all-species"
-class="section level3">
-<h3>Stress plot for nmMDS based on Jaccard dissimilarities, all
-species</h3>
+class="section level2">
+<h2>Stress plot for nmMDS based on Jaccard dissimilarities, all
+species</h2>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">stressplot</span>(AF_nmds_all)</span></code></pre></div>
 <div class="figure" style="text-align: center">
@@ -1191,34 +1273,34 @@ class="section level3">
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>AF_diss_aquat <span class="ot">&lt;-</span> <span class="fu">vegdist</span>(fish, </span>
 <span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>                           <span class="at">distance =</span> <span class="st">&quot;bray&quot;</span>)</span>
 <span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>txt0 <span class="ot">&lt;-</span> <span class="fu">capture.output</span>(<span class="fu">print</span>(AF_diss_aquat,<span class="at">digits=</span><span class="dv">3</span>));txt0[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>];<span class="fu">rm</span>(txt0)</span></code></pre></div>
-<pre><code>##         1      2      3      4      5      6      7      8      9     10     11     12     13     14     15     16 
-## 2  0.2000                                                                                                          
-## 3  0.5000 0.2000                                                                                                   
-## 4  0.2000 0.0000 0.2000                                                                                            
-## 5  0.0000 0.2000 0.5000 0.2000                                                                                     
-## 6  0.0000 0.2000 0.5000 0.2000 0.0000                                                                              
-## 7  0.0000 0.2000 0.5000 0.2000 0.0000 0.0000                                                                       
-## 8  0.0000 0.2000 0.5000 0.2000 0.0000 0.0000 0.0000                                                                
-## 9  0.5000 0.2000 0.0000 0.2000 0.5000 0.5000 0.5000 0.5000                                                         
-## 10 0.3333 0.5000 0.3333 0.5000 0.3333 0.3333 0.3333 0.3333 0.3333                                                  
+<pre><code>##         1      2      3      4      5      6      7      8      9     10     11     12     13     14     15     16
+## 2  0.2000
+## 3  0.5000 0.2000
+## 4  0.2000 0.0000 0.2000
+## 5  0.0000 0.2000 0.5000 0.2000
+## 6  0.0000 0.2000 0.5000 0.2000 0.0000
+## 7  0.0000 0.2000 0.5000 0.2000 0.0000 0.0000
+## 8  0.0000 0.2000 0.5000 0.2000 0.0000 0.0000 0.0000
+## 9  0.5000 0.2000 0.0000 0.2000 0.5000 0.5000 0.5000 0.5000
+## 10 0.3333 0.5000 0.3333 0.5000 0.3333 0.3333 0.3333 0.3333 0.3333
 ## 11 1.0000 0.5000 0.3333 0.5000 1.0000 1.0000 1.0000 1.0000 0.3333 1.0000</code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>AF_nmds_aquat <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(fish, <span class="at">trymax =</span> <span class="dv">500</span>, </span>
 <span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>                           <span class="at">distance =</span> <span class="st">&quot;jaccard&quot;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>AF_nmds_aquat</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## Call:
-## metaMDS(comm = fish, distance = &quot;jaccard&quot;, trymax = 500) 
-## 
+## metaMDS(comm = fish, distance = &quot;jaccard&quot;, trymax = 500)
+##
 ## global Multidimensional Scaling using monoMDS
-## 
-## Data:     fish 
-## Distance: jaccard 
-## 
-## Dimensions: 2 
-## Stress:     0.08664753 
+##
+## Data:     fish
+## Distance: jaccard
+##
+## Dimensions: 2
+## Stress:     0.08664753
 ## Stress type 1, weak ties
 ## Two convergent solutions found after 20 tries
-## Scaling: centring, PC rotation, halfchange scaling 
+## Scaling: centring, PC rotation, halfchange scaling
 ## Species: expanded scores based on &#39;fish&#39;</code></pre>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="fu">plot</span>(AF_nmds_aquat, <span class="at">type=</span><span class="st">&quot;p&quot;</span>,<span class="at">display =</span> <span class="st">&quot;sites&quot;</span>, <span class="at">cex =</span> <span class="fl">1.2</span>)</span>
@@ -1259,13 +1341,13 @@ class="section level2">
 <h2>Detrended correspondence analysis - all species</h2>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>AF_dca_all <span class="ot">&lt;-</span> <span class="fu">decorana</span>(allSpecies)</span>
 <span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>AF_dca_all</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## Call:
-## decorana(veg = allSpecies) 
-## 
+## decorana(veg = allSpecies)
+##
 ## Detrended correspondence analysis with 26 segments.
 ## Rescaling of axes with 4 iterations.
-## 
+##
 ##                   DCA1   DCA2   DCA3    DCA4
 ## Eigenvalues     0.5537 0.3602 0.2545 0.17011
 ## Decorana values 0.5632 0.3154 0.1915 0.07493
@@ -1288,20 +1370,20 @@ class="section level2">
 distances</h2>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>AF_nmds_all_B <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(allSpecies) <span class="co"># uses Bray by default</span></span></code></pre></div>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a>AF_nmds_all_B</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## Call:
-## metaMDS(comm = allSpecies) 
-## 
+## metaMDS(comm = allSpecies)
+##
 ## global Multidimensional Scaling using monoMDS
-## 
-## Data:     allSpecies 
-## Distance: bray 
-## 
-## Dimensions: 2 
-## Stress:     0.1554552 
+##
+## Data:     allSpecies
+## Distance: bray
+##
+## Dimensions: 2
+## Stress:     0.1554552
 ## Stress type 1, weak ties
 ## Two convergent solutions found after 20 tries
-## Scaling: centring, PC rotation, halfchange scaling 
+## Scaling: centring, PC rotation, halfchange scaling
 ## Species: expanded scores based on &#39;allSpecies&#39;</code></pre>
 <p>The results should be identical to nmMDS with Jaccard, since the
 community matrix is already converted to presence-absence (binary ones
@@ -1359,6 +1441,8 @@ target="_blank">CRAN.R-project.org/package=stringr</a>.</p>
 </html>
 
 
+</div>
+</div>
 
 </div>
 
@@ -1396,6 +1480,35 @@ $(document).ready(function () {
 });
 </script>
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

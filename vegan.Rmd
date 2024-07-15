@@ -1,6 +1,6 @@
 ---
-title: "Multivariate analysis"
-subtitle: "Ordination analysis of species presence-absence data"
+title: "Ordination analysis of eDNA species presence-absence data"
+subtitle: "Multivariate analysis"
 author: "Deirdre Gleeson and Andrew Rate"
 date: "`r Sys.Date()`"
 output: 
@@ -9,10 +9,12 @@ output:
     self_contained: no
     number_sections: no
     smart: no
-    toc: no
+    toc: true
+    toc_depth: 2
+    toc_float: true
 ---
 
-## Learning Outcomes:
+# Learning Outcomes:
 
 1. Students are able to appropriately analyse data from an eDNA field sampling campaign;
 2. Students are able to interpret and understand statistical outputs from the R package `vegan`.
@@ -88,7 +90,7 @@ allSpecies <- eDNA2022[,6:26] # not columns 1:5 which are sample IDs etc.
 colnames(allSpecies) <- names_table[,3]
 ```
 
-## Difference and Similarity measures
+# Difference and Similarity measures
 
 We start by assessing how similar or different our samples are – to do this we
 need to set up a resemblance matrix. Ideally our 4 replicated samples are more
@@ -96,7 +98,7 @@ similar to one another than any other samples – but with field sampling this i
 not always the case. To determine similarity we need to use a similarity
 measure.
 
-### Similarity Measures:
+## Similarity Measures:
 A similarity measure is conventionally defined to take values between 0 and 100%
 (or 0 and 1) with the ends of the range representing the extreme possibilities:
 
@@ -444,8 +446,6 @@ You can also get the `plainPW2()` function code at
 
 &nbsp;
 
-# Extras
-
 # Additional options for `vegan` ordination plots
 
 If we have factors (categories) in our data it's useful to show these using our
@@ -466,7 +466,8 @@ library(prettymapr)
 extent <- st_as_sf(data.frame(x=c(399920,400670), y=c(6467890,6468580)),
                    coords = c("x","y"), crs=st_crs(32750))
 afmap <- get_tiles(extent, "Esri.WorldImagery", 17, crop=TRUE)
-par(oma=c(0,0,0,0), mar=c(3,3,1,1), mgp=c(1.5,0.4,0), tcl=-0.2, xpd=F)
+par(oma=c(0,0,0,0), mar=c(3,3,1,1), mgp=c(1.5,0.4,0), tcl=-0.2, xpd=F,
+    lend="square", ljoin="mitre")
 palette(c("black", plasma(8), "white","transparent"))
 plot_tiles(afmap, axes=TRUE, mar=c(3,3,1,1))
 mtext("Easting (m)", 1, 1, font=2) ; mtext("Northing (m)", 2, 1, font=2)
@@ -491,11 +492,69 @@ legend("bottomright", legend=levels(eDNA2022$Zone), pch=c(21,22), col=c(9,10),
 
 We can then add geometric shapes on our ordination plots to emphasise the
 positions of different groups (*i.e*. factor levels) within the ordination
-dimensions' space (Figure 6). These plot features are really only applicable to
+dimensions' space (Figure 6). 
+
+<details><summary>Click to show code</summary>
+These plot features are really only applicable to
 two-dimensional (*x-y*) plots &ndash; 3D geometric shapes could be hard to
 interpret on a 3D plot!.
 
-```{r ellipses-hulls-spiders, fig.height=8, fig.width=8, message=FALSE, warning=FALSE, fig.cap="Figure 6: Ordination plots made using a combination of functions from the `vegan` package and base-R, showing (a) 75% CI ellipses around Zone groups; (b) convex hulls around Site groups; (c) ‘spiders’ around Zone groups. The `shadowtext()` function from the `teachingDemos::` package is used for clearer labels. The Zones in this Figure are just for illustration and based on whether the site is south or north of an arbitrary coordinate, and may make no sense!", results='hold'}
+```{r ellips-hul-spid-notrun, fig.height=8, fig.width=8, message=FALSE, warning=FALSE, eval=FALSE}
+# plot (a) ellipses
+par(mar=c(3,3,1,1), mgp=c(1.7,0.3,0), tcl=0.25, lend=2, ljoin=1, font.lab=2,
+    mfrow=c(2,2))
+palette(c("black", inferno(6)[2:6],"white"))
+plot(AF_nmds_all, display="sites", cex=1.4, xlim=c(-1.35,1.65), ylim=c(-1.5,1.5))
+mtext("(a)", side=3, line=-1.6, adj=0.03, cex=1.4)
+points(AF_nmds_all$points, col=c(2,5)[eDNA2022$Zone], pch=19, cex=1.4)
+ordiellipse(AF_nmds_all, groups=eDNA2022$Zone, col=c(2,5), lwd=2, 
+            kind = "sd", conf=0.75)
+shadowtext(tapply(AF_nmds_all$points[,1], eDNA2022$Zone, mean),
+           tapply(AF_nmds_all$points[,2], eDNA2022$Zone, mean),
+           labels=levels(eDNA2022$Zone), cex=1.2, col=c(2,5), bg=7, r=0.2)
+legend("bottomright", bty="n", legend=levels(eDNA2022$Zone), title="Zone",
+       col=c(2,5), pt.bg=c(2,4,5), lty=1, lwd=2, pch=NA, pt.cex=1.5, cex=1.2)
+legend("bottomright", bty="n", legend=levels(eDNA2022$Zone), col=7, 
+       pt.bg=c(2,5), lty=NA, lwd=2, pch=21, pt.cex=2.2, cex=1.2)
+
+# plot (b) convex hulls
+# par(mar=c(3,3,1,1), mgp=c(1.7,0.3,0), tcl=0.25, lend=2, ljoin=1, font.lab=2)
+palette(c("black", magma(5)[2:5],"white"))
+plot(AF_nmds_all, display="sites", cex=1.4, xlim=c(-1.35,1.65), ylim=c(-1.5,1.5))
+ordihull(AF_nmds_all, groups=eDNA2022$Zone, 
+         col=c(2,4), lwd=2, label=F)
+points(AF_nmds_all$points, bg=c(2,4)[eDNA2022$Zone], 
+       pch=c(21,22)[eDNA2022$Zone], cex=2, col=6)
+shadowtext(tapply(AF_nmds_all$points[,1], eDNA2022$Zone, mean),
+           tapply(AF_nmds_all$points[,2], eDNA2022$Zone, mean),
+           labels=levels(eDNA2022$Zone), cex=1.2, col=c(2,4), bg=6, r=0.2)
+mtext("(b)", side=3, line=-1.6, adj=0.03, cex=1.4)
+legend("bottomright", bty="n", legend=levels(eDNA2022$Zone), title="Zone",
+       col=c(2,4), pt.bg=c(2,4), lty=1, lwd=2, pch=NA, pt.cex=1.5, cex=1.2)
+legend("bottomright", bty="n", legend=levels(eDNA2022$Zone), col=6, 
+       pt.bg=c(2,4), lty=NA, lwd=2, pch=c(21,22), pt.cex=2.2, cex=1.2)
+
+# (c) spiders
+palette(c("black", plasma(6)[2:6],"white"))
+plot(AF_nmds_all, display="sites", cex=0.8, xlim=c(-1.35,1.65), ylim=c(-1.5,1.5))
+mtext("(c)", side=3, line=-1.6, adj=0.03, cex=1.4)
+points(AF_nmds_all$points, col=c(2,4)[eDNA2022$Zone], pch=19, cex=1.4)
+ordispider(AF_nmds_all, groups=eDNA2022$Zone, col=c(2,4), lwd=1)
+shadowtext(tapply(AF_nmds_all$points[,1], eDNA2022$Zone, mean),
+           tapply(AF_nmds_all$points[,2], eDNA2022$Zone, mean),
+           labels=levels(eDNA2022$Zone), cex=1.2, col=c(2,4), bg=7, r=0.2)
+legend("bottomright", bty="n", legend=levels(eDNA2022$Zone), title="Zone",
+       col=c(2,4), pt.bg=c(1,3,5), lty=1, lwd=2, pch=NA, pt.cex=1.5, cex=1.2)
+legend("bottomright", bty="n", legend=levels(eDNA2022$Zone), col=7, 
+       pt.bg=c(2,4), lty=NA, lwd=2, pch=21, pt.cex=2.2, cex=1.2)
+
+plot(c(0,1),c(0,1),bty="n",axes=F,ann=F,type="n")
+text(0.5,0.5, cex=1.5, col=3, font=3,
+       labels = "The categories\n'North' and 'South' may\nnot be useful zones!")
+```
+</details>
+
+```{r ellipses-hulls-spiders, fig.height=8, fig.width=8, message=FALSE, warning=FALSE, fig.cap="Figure 6: Ordination plots made using a combination of functions from the `vegan` package and base-R, showing (a) 75% CI ellipses around Zone groups; (b) convex hulls around Site groups; (c) ‘spiders’ around Zone groups. The `shadowtext()` function from the `teachingDemos::` package is used for clearer labels. The Zones in this Figure are just for illustration and based on whether the site is south or north of an arbitrary coordinate, and may make no sense!", results='hold', echo=FALSE}
 # plot (a) ellipses
 par(mar=c(3,3,1,1), mgp=c(1.7,0.3,0), tcl=0.25, lend=2, ljoin=1, font.lab=2,
     mfrow=c(2,2))
@@ -551,7 +610,9 @@ text(0.5,0.5, cex=1.5, col=3, font=3,
 
 &nbsp;
 
-### Stress plot for nmMDS based on Jaccard dissimilarities, all species
+# Extras
+
+## Stress plot for nmMDS based on Jaccard dissimilarities, all species
 
 ```{r stress-plot, fig.height=5, fig.width=7, fig.align='center', out.width="60%", fig.cap="Figure 6: Stress plot showing the goodness-of-fit between actual dsiimilarity for the Ashfield Flats 2022 eDNA data and dissimilarities predicted by NMDS ordination distances.", message=FALSE, warning=FALSE}
 par(mfrow=c(1,1), mar=c(3,3,0.5,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
