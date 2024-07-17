@@ -55,8 +55,8 @@ You can just keep clicking the `Next` button to get to each part of the input se
 
 - Set Length Units to desired value (cm is OK) ![Geometry Information dialog screenshot](./images/05-geometry-info.png){align="right" width=393 height=159}
 - Use one Soil Material for simple transport, but two or more for reactive barriers etc.
-- For horizontal transport use Decline from Vertical&hellip;; of ≤ 0.1
-- Set Depth to desired value &ndash; this represents our flow path length, so choose something realistic for groundwater!
+- For horizontal transport use `Decline from Vertical...` of ≤ 0.1
+- Set `Depth` to desired value &ndash; this represents our flow path length, so choose something realistic for groundwater!
 
 ## `Time Information`
 
@@ -127,7 +127,7 @@ The individual values can be set manually too.
 #### `Soil Specific Parameters`:
 `Bulk.d.` = Bulk density, *r* [ML^-3^]  
 `Disp` = Longitudinal dispersivity, *D~L~* [L]  
-`Frac` = &hellip;;fraction of adsorption sites with instantaneous sorption &hellip;; Set = 1 for equilibrium transport  
+`Frac` = ...fraction of adsorption sites with instantaneous sorption...; Set = 1 for equilibrium transport  
 `ThIm` = Immobile water content. Set equal to 0 when *physical nonequilibrium* is not considered.
 
 #### `Solute Specific Parameters`:
@@ -159,7 +159,7 @@ The individual values can be set manually too.
 
 # `Profile Information` dialog
 
-- Click `Pressure Head&hellip;;`, then click the `Edit Condition` button, and select the whole column by clicking top then bottom, then set `Top` and `Bottom` value to 0 (zero) *i.e*. **saturated with water**
+- Click `Pressure Head...`, then click the `Edit Condition` button, and select the whole column by clicking top then bottom, then set `Top` and `Bottom` value to 0 (zero) *i.e*. **saturated with water**
 
 - You can also set other soil parameters, *e.g*. material types and observation points 
 &ndash; see the video!
