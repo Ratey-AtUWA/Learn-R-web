@@ -1,0 +1,6 @@
+library(vegan)
+str(eDNA23)
+specnumber(eDNA23[,5:25],eDNA23$Group)
+diversity(eDNA23[,5:25], index="shannon", groups = eDNA23$Group)
+diversity(eDNA23[,5:25], index="simpson", groups = eDNA23$Group)
+diversity(eDNA23[,5:25], index="invsimpson", groups = eDNA23$Group)

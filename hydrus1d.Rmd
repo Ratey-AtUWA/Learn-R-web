@@ -25,6 +25,9 @@ output:
 
 # Getting Started
 
+This guide should enable you to create a working simulation of solute transport 
+using Hydrus-1D.
+
 Start by opening the `Project Manager`, and click the `New` button:
  	 
 ![](./images/01a-open-project-mgr-new.png){alt="Hydrus-1D startup screen screenshot"}
@@ -194,6 +197,11 @@ flextable(table1) |> width(j=c(1,2), width=c(6,14), unit="cm") |>
 
 &nbsp;
 
+More detail is available in the Hydrus-1D manual. We recommend the [Hydrus-1D Tutorial (Rassam *et al*. 2018)](https://www.pc-progress.com/Downloads/Public_Lib_H1D/HYDRUS-1D_Tutorial_V1.00_2018.pdf){target="_blank"}.
+Various versions of Hydrus manuals are available at [https://www.pc-progress.com/](https://www.pc-progress.com/en/Default.aspx?Downloads){target="_blank"}, the mist relevant probably being Šimůnek *et al*. (2008).
+
+&nbsp;
+
 # Reading HYDRUS-1D data into `R`
 
 Users of
@@ -323,3 +331,12 @@ legend("topright", legend = levels(node_data$Time),
        title = expression(bold("Time (days)")))
 ```
 
+&nbsp;
+
+# References
+
+Rassam, D., J. Šimůnek, D. Mallants, and M. Th. van Genuchten, *The HYDRUS-1D Software Package for Simulating the One-Dimensional Movement of Water, Heat, and Multiple Solutes in Variably-Saturated Media: Tutorial*, CSIRO Land and Water, Adelaide, Australia, 183 pp., ISBN 978-1-4863-1001-2, 2018. [https://www.pc-progress.com/Downloads/Public_Lib_H1D/HYDRUS-1D_Tutorial_V1.00_2018.pdf](https://www.pc-progress.com/Downloads/Public_Lib_H1D/HYDRUS-1D_Tutorial_V1.00_2018.pdf){target="_blank"}
+
+Šimůnek, J., M. Šejna, H. Saito, M. Sakai, and M. Th. van Genuchten, *The Hydrus-1D Software Package for Simulating the Movement of Water, Heat, and Multiple Solutes in Variably Saturated Media*, Version 4.0, HYDRUS Software Series 3, Department of Environmental Sciences, University of California Riverside, Riverside, California, USA, pp. 315, 2008. ([PDF 2.7MB](https://www.pc-progress.com/downloads/Pgm_Hydrus1D/HYDRUS1D-4.08.pdf){target="_blank"})
+
+&nbsp;

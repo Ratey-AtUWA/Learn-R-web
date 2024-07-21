@@ -11,11 +11,11 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-07-15" />
+<meta name="date" content="2024-07-20" />
 
 <title>ENVT5503 Hydrus-1D Beginners` Guide</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -31,13 +31,13 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
-<link href="site_libs/tabwid-1.1.0/tabwid.css" rel="stylesheet" />
-<link href="site_libs/tabwid-1.1.0/scrool.css" rel="stylesheet" />
+<link href="site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="site_libs/tabwid-1.1.3/tabwid.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -434,7 +434,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -449,7 +449,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -464,7 +464,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -479,7 +479,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -503,7 +503,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -521,7 +521,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -542,7 +542,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -593,7 +593,7 @@ div.tocify {
 <h1 class="title toc-ignore">ENVT5503 Hydrus-1D Beginners` Guide</h1>
 <h3 class="subtitle">Remediation of Soil and Groundwater</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-07-15</h4>
+<h4 class="date">2024-07-20</h4>
 
 </div>
 
@@ -606,6 +606,8 @@ div.tocify {
 <p> </p>
 <div id="getting-started" class="section level1">
 <h1>Getting Started</h1>
+<p>This guide should enable you to create a working simulation of solute
+transport using Hydrus-1D.</p>
 <p>Start by opening the <code>Project Manager</code>, and click the
 <code>New</code> button:</p>
 <p><img src="./images/01a-open-project-mgr-new.png"
@@ -645,9 +647,10 @@ src="./images/05-geometry-info.png" align="right" width="393"
 height="159" alt="Geometry Information dialog screenshot" /></li>
 <li>Use one Soil Material for simple transport, but two or more for
 reactive barriers etc.</li>
-<li>For horizontal transport use Decline from Vertical...; of ≤ 0.1</li>
-<li>Set Depth to desired value – this represents our flow path length,
-so choose something realistic for groundwater!</li>
+<li>For horizontal transport use <code>Decline from Vertical...</code>
+of ≤ 0.1</li>
+<li>Set <code>Depth</code> to desired value – this represents our flow
+path length, so choose something realistic for groundwater!</li>
 </ul>
 </div>
 <div id="time-information" class="section level2">
@@ -837,56 +840,15 @@ alt="Profle Information dialog screenshot" /></p>
 in the post-processing window to visualise the output within Hydrus-1D.
 Alternatively, you can read the data file(s) into Excel® or R and make
 better graphs!</p>
-<template id="ac96dcac-4595-4c86-84e3-00be2efecba3"><style>
-.tabwid table{
-  border-spacing:0px !important;
-  border-collapse:collapse;
-  line-height:1;
-  margin-left:auto;
-  margin-right:auto;
-  border-width: 0;
-  display: table;
-  border-color: transparent;
-  caption-side: top;
-}
-.tabwid-caption-bottom table{
-  caption-side: bottom;
-}
-.tabwid_left table{
-  margin-left:0;
-}
-.tabwid_right table{
-  margin-right:0;
-}
-.tabwid td {
-    padding: 0;
-}
-.tabwid a {
-  text-decoration: none;
-}
-.tabwid thead {
-    background-color: transparent;
-}
-.tabwid tfoot {
-    background-color: transparent;
-}
-.tabwid table tr {
-background-color: transparent;
-}
-.katex-display {
-    margin: 0 0 !important;
-}
-</style><div class="tabwid"><style>.cl-9aaacc4a{}.cl-9aa1c352{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-9aa1c35c{font-family:'Courier New';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-9aa1c366{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-9aa512f0{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-9aa512fa{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-9aa52704{width:2.362in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9aa5270e{width:5.512in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9aa52718{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9aa52719{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9aa52722{width:2.362in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9aa52723{width:5.512in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9aa5272c{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9aa5272d{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9a9ddd78{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-9aaacc4a'><caption style="margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span class="cl-9a9ddd78">Table 1: The following HYDRUS-1D output files contain useful data.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-9aa52704"><p class="cl-9aa512f0"><span class="cl-9aa1c352">File name</span></p></td><td class="cl-9aa5270e"><p class="cl-9aa512f0"><span class="cl-9aa1c352">Contents</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-9aa52718"><p class="cl-9aa512fa"><span class="cl-9aa1c35c">Nod_Inf.out</span></p></td><td class="cl-9aa52719"><p class="cl-9aa512fa"><span class="cl-9aa1c366">Separate data matrices  at selected `Print times` during simulation.</span><br><span class="cl-9aa1c366">Useful columns: Depth, Conc(1..NS), Sorb(1..NS)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9aa52722"><p class="cl-9aa512fa"><span class="cl-9aa1c35c">Obs_Node.out</span></p></td><td class="cl-9aa52723"><p class="cl-9aa512fa"><span class="cl-9aa1c366">Side-by side data matrices for each node depth.</span><br><span class="cl-9aa1c366">Useful columns: time, theta, conc</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9aa5272c"><p class="cl-9aa512fa"><span class="cl-9aa1c35c">Solute1.out</span><br><span class="cl-9aa1c35c">(&amp; Solute2.out,...)</span></p></td><td class="cl-9aa5272d"><p class="cl-9aa512fa"><span class="cl-9aa1c366">Single data matrix for each solute. Contains columns for time, fluxes and concentrations (including cumulative values) at start of flow path (Top), Root zone, end of flow path (Bot).</span></p></td></tr></tbody></table></div></template>
-<div class="flextable-shadow-host" id="b8182113-1b9a-4166-8689-634502554eff"></div>
-<script>
-var dest = document.getElementById("b8182113-1b9a-4166-8689-634502554eff");
-var template = document.getElementById("ac96dcac-4595-4c86-84e3-00be2efecba3");
-var caption = template.content.querySelector("caption");
-var fantome = dest.attachShadow({mode: 'open'});
-var templateContent = template.content;
-fantome.appendChild(templateContent);
-</script>
-
+<div class="tabwid"><style>.cl-737accc6{}.cl-736a36cc{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-736a36ea{font-family:'Courier New';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-736a36eb{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-73718daa{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-73718dc8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-7371ec3c{width:2.362in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7371ec50{width:5.512in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7371ec64{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7371ec6e{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7371ec82{width:2.362in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7371ec8c{width:5.512in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7371ec96{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7371eca0{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-737accc6'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: The following HYDRUS-1D output files contain useful data.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-7371ec3c"><p class="cl-73718daa"><span class="cl-736a36cc">File name</span></p></th><th class="cl-7371ec50"><p class="cl-73718daa"><span class="cl-736a36cc">Contents</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-7371ec64"><p class="cl-73718dc8"><span class="cl-736a36ea">Nod_Inf.out</span></p></td><td class="cl-7371ec6e"><p class="cl-73718dc8"><span class="cl-736a36eb">Separate data matrices  at selected `Print times` during simulation.</span><br><span class="cl-736a36eb">Useful columns: Depth, Conc(1..NS), Sorb(1..NS)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7371ec82"><p class="cl-73718dc8"><span class="cl-736a36ea">Obs_Node.out</span></p></td><td class="cl-7371ec8c"><p class="cl-73718dc8"><span class="cl-736a36eb">Side-by side data matrices for each node depth.</span><br><span class="cl-736a36eb">Useful columns: time, theta, conc</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7371ec96"><p class="cl-73718dc8"><span class="cl-736a36ea">Solute1.out</span><br><span class="cl-736a36ea">(&amp; Solute2.out,...)</span></p></td><td class="cl-7371eca0"><p class="cl-73718dc8"><span class="cl-736a36eb">Single data matrix for each solute. Contains columns for time, fluxes and concentrations (including cumulative values) at start of flow path (Top), Root zone, end of flow path (Bot).</span></p></td></tr></tbody></table></div>
+<p> </p>
+<p>More detail is available in the Hydrus-1D manual. We recommend the <a
+href="https://www.pc-progress.com/Downloads/Public_Lib_H1D/HYDRUS-1D_Tutorial_V1.00_2018.pdf"
+target="_blank">Hydrus-1D Tutorial (Rassam <em>et al</em>. 2018)</a>.
+Various versions of Hydrus manuals are available at <a
+href="https://www.pc-progress.com/en/Default.aspx?Downloads"
+target="_blank">https://www.pc-progress.com/</a>, the mist relevant
+probably being Šimůnek <em>et al</em>. (2008).</p>
 <p> </p>
 </div>
 <div id="reading-hydrus-1d-data-into-r" class="section level1">
@@ -1036,7 +998,27 @@ Figure 2: Plot of simulated solute concentration vs. horizontal distance
 for each simulation time step, using Hydrus-1D
 </p>
 </div>
+<p> </p>
 </div>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<p>Rassam, D., J. Šimůnek, D. Mallants, and M. Th. van Genuchten,
+<em>The HYDRUS-1D Software Package for Simulating the One-Dimensional
+Movement of Water, Heat, and Multiple Solutes in Variably-Saturated
+Media: Tutorial</em>, CSIRO Land and Water, Adelaide, Australia, 183
+pp., ISBN 978-1-4863-1001-2, 2018. <a
+href="https://www.pc-progress.com/Downloads/Public_Lib_H1D/HYDRUS-1D_Tutorial_V1.00_2018.pdf"
+target="_blank">https://www.pc-progress.com/Downloads/Public_Lib_H1D/HYDRUS-1D_Tutorial_V1.00_2018.pdf</a></p>
+<p>Šimůnek, J., M. Šejna, H. Saito, M. Sakai, and M. Th. van Genuchten,
+<em>The Hydrus-1D Software Package for Simulating the Movement of Water,
+Heat, and Multiple Solutes in Variably Saturated Media</em>, Version
+4.0, HYDRUS Software Series 3, Department of Environmental Sciences,
+University of California Riverside, Riverside, California, USA, pp. 315,
+2008. (<a
+href="https://www.pc-progress.com/downloads/Pgm_Hydrus1D/HYDRUS1D-4.08.pdf"
+target="_blank">PDF 2.7MB</a>)</p>
+<p> </p>
 </div>
 
 <!DOCTYPE html>
