@@ -11,11 +11,11 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-07-15" />
+<meta name="date" content="2024-07-23" />
 
 <title>Statistics for Comparisons</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -494,7 +494,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistics for Comparisons</h1>
 <h3 class="subtitle">Non-parametric tests</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-07-15</h4>
+<h4 class="date">2024-07-23</h4>
 
 </div>
 
@@ -551,7 +551,7 @@ guideline)</li>
 <li>Use a <em>two -sided Welch's t-test</em> to compare the means of 2
 groups of a variable (<em>i.e</em>. categorised with a two-two-level
 factor)</li>
-<li>Calculate a C<em>ohen's d effect size for a 2-group mean
+<li>Calculate a <em>Cohen's d effect size for a 2-group mean
 comparison</em></li>
 <li><em>Make a new factor</em> using the <code>cut()</code> function in
 R</li>
@@ -565,49 +565,23 @@ in step 5.</li>
 <p>
  
 </p>
-<div id="videos-and-other-learning-materials" class="section level2"
+<div id="files-and-other-learning-materials" class="section level2"
 style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
-<h2>Videos and other learning materials</h2>
-<div id="videos" class="section level3">
-<h3>Videos</h3>
-<p><a href="https://echo360.net.au/media/b92bf5fa-bbbb-42dd-9567-697591b2e6c9/public" target="_blank" rel="noopener">🎬 Video
-- <strong>Means Comparisons 2 – Pairwise comparisons</strong></a>.</p>
-<p><a href="https://echo360.net.au/media/2eb6c92b-8b13-4c0c-a575-1de857a31166/public" target="_blank" rel="noopener">🎬 Video
-- <strong>Means Comparisons 3 – Non-parametric tests</strong></a>.</p>
-<p><a href="https://echo360.net.au/media/3a49397c-92c6-47a9-86e7-2c840fd19d81/public" target="_blank" rel="noopener">🎬 Video
-- <strong>Means Comparisons 4 – How to make a Factor from a
-Variable</strong></a>.</p>
-</div>
+<h2>Files and other learning materials</h2>
 <div id="supporting-information" class="section level3">
 <h3>Supporting Information</h3>
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243037_1/xid-40243037_1" target="_blank" rel="noopener">📰<strong>Decision
-tree for means comparisons methods</strong></a><br />(as used in
-ENVT3361)</p>
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243821_1/xid-40243821_1" target="_blank" rel="noopener"><strong>📰 Means
-comparisons: Null hypothesis testing and Effect
-size</strong></a><br />(PDF of slides from 2017, still ~OK)
-<strong>NB</strong> based on using R
-Commander*<span style="font-size: 9pt;"><sup>¶</sup>, but the code shown
-on screen should still work!<br />
-<span style="font-size: 10pt;"><sup>¶</sup> a package which allows some
-point-and-click operation of R</p>
+<p><a href="https://lms.uwa.edu.au/bbcswebdav/xid-45752132_1" target="_blank" rel="noopener">📰<strong>Decision
+tree for means comparisons methods</strong></a><br />(on UWA LMS, login
+needed)</p>
 </div>
 <div id="code-and-data-files" class="section level3">
 <h3>Code and Data files</h3>
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243070_1/xid-40243070_1" target="_blank" rel="noopener">🔣
+<p><a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/Learn-R-CODE-meancomps.R" target="_blank" rel="noopener">🔣
 R code file for <strong>Workshop: Advanced Means
 Comparisons</strong></a> – for Week 6, start
 at<strong><span style="font-size:9pt; font-family: 'courier new', courier, monospace;">
 Non-parametric tests (line 409)</strong></p>
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243016_1/xid-40243016_1" target="_blank" rel="noreferrer noopener">🔣
-R code for means on boxplots</a>    
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243019_1/xid-40243019_1" target="_blank" rel="noreferrer noopener">🔣
-R code for means and confidence intervals on boxplots</a>  (more
-complex)</p>
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243084_1/xid-40243084_1" target="_blank" rel="noreferrer noopener">🔣
-R code for calculating pairwise Cohen's d effect sizes</a> 
-(advanced)</p>
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243097_1/xid-40243097_1">📊Smith's
+<p><a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/sv2017_original.csv">📊Smith's
 Lake / Veryard Reserve data (sv2017) in CSV format</a></p>
 </div>
 </div>
@@ -932,6 +906,109 @@ packages used in</strong> <strong>this document</strong>.</p>
 <span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;PMCMRplus&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;rcompanion&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;multcompView&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>To cite package &#39;car&#39; in publications use:
+
+  Fox J, Weisberg S, Price B (2023). _car: Companion to Applied Regression_. R package version
+  3.1-2, &lt;https://CRAN.R-project.org/package=car&gt;.
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {car: Companion to Applied Regression},
+    author = {John Fox and Sanford Weisberg and Brad Price},
+    year = {2023},
+    note = {R package version 3.1-2},
+    url = {https://CRAN.R-project.org/package=car},
+  }
+To cite package &#39;RcmdrMisc&#39; in publications use:
+
+  Fox J, Marquez M (2023). _RcmdrMisc: R Commander Miscellaneous Functions_. R package version
+  2.9-1, &lt;https://CRAN.R-project.org/package=RcmdrMisc&gt;.
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {RcmdrMisc: R Commander Miscellaneous Functions},
+    author = {John Fox and Manuel Marquez},
+    year = {2023},
+    note = {R package version 2.9-1},
+    url = {https://CRAN.R-project.org/package=RcmdrMisc},
+  }
+To cite package &#39;effectsize&#39; in publications use:
+
+  Ben-Shachar M, Makowski D, Lüdecke D, Patil I, Wiernik B, Thériault R, Waggoner P (2024).
+  _effectsize: Indices of Effect Size_. R package version 0.8.9,
+  &lt;https://CRAN.R-project.org/package=effectsize&gt;.
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {effectsize: Indices of Effect Size},
+    author = {Mattan S. Ben-Shachar and Dominique Makowski and Daniel Lüdecke and Indrajeet Patil and Brenton M. Wiernik and Rémi Thériault and Philip Waggoner},
+    year = {2024},
+    note = {R package version 0.8.9},
+    url = {https://CRAN.R-project.org/package=effectsize},
+  }
+To cite package &#39;multcomp&#39; in publications use:
+
+  Hothorn T, Bretz F, Westfall P (2023). _multcomp: Simultaneous Inference in General
+  Parametric Models_. R package version 1.4-25, &lt;https://CRAN.R-project.org/package=multcomp&gt;.
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {multcomp: Simultaneous Inference in General Parametric Models},
+    author = {Torsten Hothorn and Frank Bretz and Peter Westfall},
+    year = {2023},
+    note = {R package version 1.4-25},
+    url = {https://CRAN.R-project.org/package=multcomp},
+  }
+To cite package &#39;PMCMRplus&#39; in publications use:
+
+  Pohlert T (2023). _PMCMRplus: Calculate Pairwise Multiple Comparisons of Mean Rank Sums
+  Extended_. R package version 1.9.10, &lt;https://CRAN.R-project.org/package=PMCMRplus&gt;.
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {PMCMRplus: Calculate Pairwise Multiple Comparisons of Mean Rank Sums
+Extended},
+    author = {Thorsten Pohlert},
+    year = {2023},
+    note = {R package version 1.9.10},
+    url = {https://CRAN.R-project.org/package=PMCMRplus},
+  }
+To cite package &#39;rcompanion&#39; in publications use:
+
+  Mangiafico S (2024). _rcompanion: Functions to Support Extension Education Program
+  Evaluation_. R package version 2.4.36, &lt;https://CRAN.R-project.org/package=rcompanion&gt;.
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {rcompanion: Functions to Support Extension Education Program Evaluation},
+    author = {Salvatore Mangiafico},
+    year = {2024},
+    note = {R package version 2.4.36},
+    url = {https://CRAN.R-project.org/package=rcompanion},
+  }
+To cite package &#39;multcompView&#39; in publications use:
+
+  Graves S, Piepho H, Dorai-Raj LSwhfS (2024). _multcompView: Visualizations of Paired
+  Comparisons_. R package version 0.1-10, &lt;https://CRAN.R-project.org/package=multcompView&gt;.
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {multcompView: Visualizations of Paired Comparisons},
+    author = {Spencer Graves and Hans-Peter Piepho and Luciano Selzer with help from Sundar Dorai-Raj},
+    year = {2024},
+    note = {R package version 0.1-10},
+    url = {https://CRAN.R-project.org/package=multcompView},
+  }
+
+ATTENTION: This citation information has been auto-generated from the package DESCRIPTION file
+and may need manual editing, see &#39;help(&quot;citation&quot;)&#39;.</code></pre>
 </div>
 
 <!DOCTYPE html>

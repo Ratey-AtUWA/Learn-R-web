@@ -38,7 +38,7 @@ href="nonparam.html" style="color:#04b;">Non-parametric tests</a></p>
 &nbsp;
 
 <div style="border: 2px solid #039; background-color:#ffc; padding: 8px;">
-## Activities for this Workshop
+## Activities for this session
 
 1. Use a single-sided t- test to compare the mean of a variable with a fixed value (*e.g*. an environmental guideline)
 2. Use a two -sided Welch's t-test to compare the means of 2 groups of a variable (*i.e*. categorised with a two-two-level factor)
@@ -52,31 +52,19 @@ href="nonparam.html" style="color:#04b;">Non-parametric tests</a></p>
 <p>&nbsp;</p>
 
 <div style="border: 2px solid #039; background-color:#ffc; padding: 8px;">
-### Videos
-
-<iframe height="240" width="320" allowfullscreen frameborder=0 src="https://echo360.net.au/media/53bcb4bc-bc82-4227-9134-ae5a2b2e91c8/public?autoplay=false&automute=false"></iframe>
-<p>&nbsp;</p>
-<iframe height="240" width="320" allowfullscreen frameborder=0 src="https://echo360.net.au/media/b92bf5fa-bbbb-42dd-9567-697591b2e6c9/public?autoplay=false&automute=false"></iframe>
-<p>&nbsp;</p>
-<iframe height="240" width="320" allowfullscreen frameborder=0 src="https://echo360.net.au/media/3a49397c-92c6-47a9-86e7-2c840fd19d81/public?autoplay=false&automute=false"></iframe>
-</div>
-
-<p>&nbsp;</p>
-
-<div style="border: 2px solid #039; background-color:#ffc; padding: 8px;">
 ### Code and Data
 
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091993-dt-content-rid-40243070_1/xid-40243070_1"><span style="font-size: 12pt;">🔣&nbsp;R code file for this workshop session</span></a></p>
+<p><a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/Learn-R-CODE-meancomps.R"><span style="font-size: 12pt;">🔣&nbsp;R code file for this workshop session</span></a></p>
 <hr />
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091993-dt-content-rid-40243007_1/xid-40243007_1"><span style="font-size: 12pt;">📊&nbsp;Ashfield flats water data (afw19) in CSV format</span></a></p>
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091993-dt-content-rid-40243097_1/xid-40243097_1"><span style="font-size: 12pt;">📊&nbsp;Smith's Lake / Veryard Reserve data (sv2017) in CSV format</span></a></p>
+<p><a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/afw19.csv"><span style="font-size: 12pt;">📊&nbsp;Ashfield flats water data (afw19) in CSV format</span></a></p>
+<p><a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/sv2017_original.csv"><span style="font-size: 12pt;">📊&nbsp;Smith's Lake / Veryard Reserve data (sv2017) in CSV format</span></a></p>
 </div>
 
 <p>&nbsp;</p>
 
 ```{r load workspace and packages, echo=FALSE, include=FALSE}
 # load("//uniwa.uwa.edu.au/userhome/staff8/00028958/My Documents/_R Projects/Learning R/.RData")
-git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+git <- "https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/"
 sv2017 <- read.csv(paste0(git,"sv2017_original.csv"), stringsAsFactors = TRUE)
 library(png)
 library(ggplot2)
@@ -366,8 +354,8 @@ cohens <- data.frame(lower=c("0.01 ≤","0.2 ≤","0.5 ≤","0.8 ≤","1.2 ≤",
             d=rep("d",6), upper=c("< 0.2","< 0.5","< 0.8","< 1.2","< 2.0","> 2.0"),
             size=c("very small","small","medium","large","very large","huge"))
 flextable(cohens) |> theme_zebra(odd_body = "#e8e8e8") |> delete_part(part="header") |> 
-  width(width=c(1.2,0.5,1.5,2), unit="cm") |> fontsize(size=11, part="all") |> 
-  align(j=1, align="right", part="all") |> align(j=2, align="c") |> align(j=3, align="left") |> 
+  width(width=c(1.5,0.5,1.5,2.5), unit="cm") |> fontsize(size=11, part="all") |> 
+  align(j=1, align="right", part="all") |> align(j=2, align="center") |> align(j=3, align="left") |> 
   border_outer(border=fp_border(color="#e0e0e0", width=2),part="all")
 ```
 
@@ -640,7 +628,7 @@ Sawilowsky, S.S. (2009). New Effect Size Rules of Thumb. *Journal of Modern Appl
 
 ### Run the R code below to get citation information for the R packages used in this document.
 
-```{r R package citations, eval=FALSE}
+```{r R package citations, results='hold'}
 citation("car", auto = TRUE)
 citation("ggplot2", auto = TRUE)
 citation("effsize", auto = TRUE)

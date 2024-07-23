@@ -55,7 +55,7 @@ c. Make *relevant high-quality graphics* to illustrate means comparisons (*e.g*.
 
 1. Use a *single-sided t- test* to compare the mean of a variable with a fixed value (*e.g*. an environmental guideline)
 2. Use a *two -sided Welch's t-test* to compare the means of 2 groups of a variable (*i.e*. categorised with a two-two-level factor)
-3. Calculate a C*ohen's d effect size for a 2-group mean comparison*
+3. Calculate a *Cohen's d effect size for a 2-group mean comparison*
 4. *Make a new factor* using the `cut()` function in R
 5. Repeat 1 &amp; 2 above using *analysis of variance* (ANOVA) to compare means for 3 or more groups.
 6. Generate a *pairwise comparison of means* from the analysis in step 5.
@@ -65,32 +65,17 @@ c. Make *relevant high-quality graphics* to illustrate means comparisons (*e.g*.
 
 <div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
 
-## Videos and other learning materials
-
-### Videos
-
-<a href="https://echo360.net.au/media/b92bf5fa-bbbb-42dd-9567-697591b2e6c9/public" target="_blank" rel="noopener">🎬&nbsp;Video - **Means Comparisons 2 &ndash; Pairwise comparisons**</a>.
-
-<a href="https://echo360.net.au/media/2eb6c92b-8b13-4c0c-a575-1de857a31166/public" target="_blank" rel="noopener">🎬&nbsp;Video - **Means Comparisons 3 &ndash; Non-parametric tests**</a>.
-
-<a href="https://echo360.net.au/media/3a49397c-92c6-47a9-86e7-2c840fd19d81/public" target="_blank" rel="noopener">🎬&nbsp;Video - **Means Comparisons 4 &ndash; How to make a Factor from a Variable**</a>.
+## Files and other learning materials
 
 ### Supporting Information
 
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243037_1/xid-40243037_1" target="_blank" rel="noopener">📰**Decision tree for means comparisons methods**</a><br />(as used in ENVT3361)
-
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243821_1/xid-40243821_1" target="_blank" rel="noopener">**📰&nbsp;Means comparisons: Null hypothesis testing and Effect size**</a><br />(PDF of slides from 2017, still ~OK) **NB** based on using R Commander*<span style="font-size: 9pt;"><sup>&para;</sup>, but the code shown on screen should still work!<br />
-<span style="font-size: 10pt;"><sup>&para;</sup> a package which allows some point-and-click operation of R
+<a href="https://lms.uwa.edu.au/bbcswebdav/xid-45752132_1" target="_blank" rel="noopener">📰**Decision tree for means comparisons methods**</a><br />(on UWA LMS, login needed)
 
 ### Code and Data files
 
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243070_1/xid-40243070_1" target="_blank" rel="noopener">🔣 R code file for **Workshop: Advanced Means Comparisons**</a> &ndash; for Week 6, start at**<span style="font-size:9pt; font-family: 'courier new', courier, monospace;"> Non-parametric tests (line 409)**
+<a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/Learn-R-CODE-meancomps.R" target="_blank" rel="noopener">🔣 R code file for **Workshop: Advanced Means Comparisons**</a> &ndash; for Week 6, start at**<span style="font-size:9pt; font-family: 'courier new', courier, monospace;"> Non-parametric tests (line 409)**
 
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243016_1/xid-40243016_1" target="_blank" rel="noreferrer noopener">🔣 R code for means&nbsp;on boxplots</a> &nbsp; &nbsp; <a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243019_1/xid-40243019_1" target="_blank" rel="noreferrer noopener">🔣 R code for means and confidence intervals&nbsp;on boxplots</a>&nbsp; (more complex)
-
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243084_1/xid-40243084_1" target="_blank" rel="noreferrer noopener">🔣 R code for calculating&nbsp;pairwise Cohen's d effect sizes</a>&nbsp; (advanced)
-
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3091994-dt-content-rid-40243097_1/xid-40243097_1">📊Smith's Lake / Veryard Reserve data (sv2017) in CSV format</a>
+<a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/sv2017_original.csv">📊Smith's Lake / Veryard Reserve data (sv2017) in CSV format</a>
 </div>
 
 <p>&nbsp;</p>
@@ -382,7 +367,7 @@ Sawilowsky, S.S. (2009). New Effect Size Rules of Thumb. *Journal of Modern Appl
 **Run the R code below to get citation information for the R packages used in** 
 **this document**.
 
-```{r R package citations, eval=FALSE}
+```{r R package citations, results='hold'}
 citation("car", auto = TRUE)
 citation("RcmdrMisc", auto = TRUE)
 citation("effectsize", auto = TRUE)
