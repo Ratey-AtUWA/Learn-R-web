@@ -56,36 +56,27 @@ For activities today we suggest:
 <p>&nbsp;</p>
 
 <div style="border: 2px solid #039; background-color:#fec; padding: 8px;"> 
-## R Mapping - video and text-based learning materials
+## R Mapping - supporting learning materials
 
-<p><strong>Maps in R: Part 1 &ndash; Basics</strong></p>
-<p><iframe width="320" height="240" allowfullscreen="allowfullscreen" frameborder="0" src="https://echo360.net.au/media/82aee36b-9476-419f-ba47-b25de5dfb9ef/public?autoplay=false&amp;automute=false"></iframe></p>
-<p><strong>The first &asymp;23 minutes are the most useful</strong>. After that, some things have changed, even since 2023! If you want to try <span style="font-family: 'courier new', courier, monospace;">ggmap</span>, my Google Maps API Key will no longer work, and the Stamen maps are sadly no longer available.</p>
+&darr;The best code for mapping using state-of-the-art <b>R</b> packages is in the code in the rest of this page (below) &darr;
 
-<p>&darr;The best code for mapping using state-of-the-art <b>R</b> packages is in the code in the rest of this page (below) &darr;</p>
-</div>
-
-<p>&nbsp;</p>
-
-<div style="border: 2px solid #039; background-color:#fec; padding: 8px;"> 
 ### Files to download for this workshop
 
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3094285-dt-content-rid-40243674_1/xid-40243674_1" target="_blank" rel="noreferrer noopener">![](./images/csv.png){alt="csv file icon" width="32" height="32"}Ashfield&nbsp;Flats sediment soil data <strong>2020</strong></a> &nbsp; &nbsp; <a href="https://lms.uwa.edu.au/bbcswebdav/pid-3094285-dt-content-rid-40243112_1/xid-40243112_1" target="_blank" rel="noreferrer noopener">![](./images/rcode.png){alt="R code file icon" width="32" height="32"}&nbsp;Code used in video(s)</a>
+<a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/afs21ll.csv" target="_blank" rel="noreferrer noopener">![](./images/csv.png){alt="csv file icon" width="32" height="32"}Ashfield&nbsp;Flats sediment soil data <strong>2021</strong></a> &nbsp; &nbsp; <a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/Learn-R-CODE-Maps.R" target="_blank" rel="noreferrer noopener">![](./images/rcode.png){alt="R code file icon" width="32" height="32"}&nbsp;Just the code used in this web page</a>
 
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3094285-dt-content-rid-40243004_1/xid-40243004_1">![](./images/csv.png){alt="csv file icon" width="32" height="32"}>Ashfield Flats sediment soil data 2019</a> &nbsp; &nbsp; <a href="https://lms.uwa.edu.au/bbcswebdav/pid-3094285-dt-content-rid-41529282_1/xid-41529282_1" target="_blank" rel="noopener">![](./images/rcode.png){alt="R code file icon" width="32" height="32"}Code for adding percentile bubbles to maps (tricky!)</a>&nbsp;<strong>UPDATED 2023</strong>
+<a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/afs19.csv">![](./images/csv.png){alt="csv file icon" width="32" height="32"}>Ashfield Flats sediment soil data 2019</a>
 
 ### Bonus material
 
 <span style="font-family: cambria, serif; background-color:cyan; text-align: center;">&nbsp;(Currently on another Github site)&nbsp;</span>
 
 <p><a href="https://raw.githubusercontent.com/Ratey-AtUWA/spatial/main/easy%20peasy%20afr%20map.R" target="_blank" rel="noopener">![](./images/rcode.png){alt="R code file icon" width="32" height="32"}&nbsp;eezi-peazi Ashfield map (<strong>R</strong> code)</a><br />&nbsp;</p>
-<p><a href="https://ratey-atuwa.github.io/cybloRg/georef_jpeg_map.html" target="_blank" rel="noopener">![](./images/rcode.png){alt="R code file icon" width="32" height="32"}</a>&nbsp;<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3094285-dt-content-rid-42383985_1/xid-42383985_1" target="_blank" rel="noopener"><strong>R</strong> code to use georeferenced images <em>(e.g</em>. from NearMap) as map backgrounds</a><br />&nbsp;</p>
+<p><a href="https://ratey-atuwa.github.io/cybloRg/georef_jpeg_map.html" target="_blank" rel="noopener">![](./images/rcode.png){alt="R code file icon" width="32" height="32"}</a>&nbsp;<a href="https://ratey-atuwa.github.io/cybloRg/georef_jpeg_map.html" target="_blank" rel="noopener"><strong>R</strong> code to use georeferenced images <em>(e.g</em>. from NearMap) as map backgrounds</a><br />&nbsp;</p>
 <p><a href="https://ratey-atuwa.github.io/cybloRg/Google-kml-R.html" target="_blank" rel="noopener">![](./images/rcode.png){alt="R code file icon" width="32" height="32"}</a>&nbsp;<a href="https://ratey-atuwa.github.io/cybloRg/Google-kml-R.html" target="_blank" rel="noopener">Digitising map features from Google Earth, and R code for a function to convert Google Earth .kml files for use in <strong>R</strong></a></p>
 <p><a href="https://ratey-atuwa.github.io/cybloRg/geostats.html" target="_blank" rel="noopener">Advanced Spatial Analysis</a> (spatial autocorrelation, variograms, and kriging interpolations)<br />&nbsp;</p>
 
 <span style="font-family: cambria, serif; background-color:#ffa; text-align: center;">&nbsp;(Currently on UWA LMS, so you will need to be logged in)&nbsp;</span>
 
-<p>&nbsp;<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3094285-dt-content-rid-40243094_1/xid-40243094_1" target="_blank">&nbsp;![](./images/pdf.png){alt="pdf file icon" width="32" height="32"}Annotated&nbsp;R code&nbsp;</a> (2022)<br />&nbsp;<br />&nbsp; &nbsp; &nbsp; <a href="https://lms.uwa.edu.au/bbcswebdav/pid-3094285-dt-content-rid-40243081_1/xid-40243081_1" target="_blank">![](./images/pdf.png){alt="pdf file icon" width="32" height="32"}Annotated&nbsp;PowerPoint&nbsp;slides</a> (old version, but possibly still useful for some things)</p>
 </div>
 
 <p>&nbsp;</p>
@@ -159,10 +150,10 @@ library(ggmap)
 ```
 
 ```{r load maps data and do setups, error=FALSE, message=FALSE, warning=FALSE, results='hold'}
-git <- "https://raw.githubusercontent.com/Ratey-AtUWA/"
-afr_map <- read.csv(file=paste0(git,"spatial/main/afr_map_v2.csv"), 
+git <- "https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R-web/main/"
+afr_map <- read.csv(file=paste0(git,"afr_map_v2.csv"), 
                       stringsAsFactors = TRUE)
-places <- read.csv(file=paste0(git,"Learn-R/main/places.csv"),
+places <- read.csv(file=paste0(git,"places.csv"),
                    stringsAsFactors = TRUE)
 pal4lite <- c("black", viridis::plasma(8), "white")
 pal4liteTransp <- c("black", 
@@ -185,11 +176,9 @@ First we read the data we need: from `.csv` files on a website, into an **R**
 data frame:
 
 ```{r read AFR data, warning=FALSE, error=FALSE, results='hold',eval=-1}
-# afs19 <- read.table('clipboard', header=T, sep="\t", stringsAsFactors = TRUE)
-# alternative code reading data from a file:
-afs19 <- read.csv(file=paste0(git,"Learn-R/main/afs19.csv"), 
+afs19 <- read.csv(file=paste0(git,"afs19.csv"), 
                   stringsAsFactors = TRUE) # use this one
-afs22 <- read.csv(file=paste0(git,"Learn-R/main/afs22S1.csv"), 
+afs22 <- read.csv(file=paste0(git,"afs22S1.csv"), 
                   stringsAsFactors = TRUE)
 ```
 
