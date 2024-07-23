@@ -68,7 +68,7 @@ sessions using the `load()` function, or clicking the 📁 icon in the
 tab in RStudio.
 
 ```{r read-hubbard-data, results='hold'}
-git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+git <- "https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/"
 hubbard <- read.csv(file = paste0(git,"hubbard.csv"), stringsAsFactors = TRUE)
 # ... and do a quick check
 is.data.frame(hubbard) # check that it worked; if so, the result should be TRUE
@@ -276,7 +276,7 @@ by making use of the factors (categories) in the dataset.
 We also need to learn these graphics parameters:
 
 - `col =` plotting colour(s) - it's easiest to use words like "red", "darkblue" and so on<br>
-see [this R colour chart](https://lms.uwa.edu.au/bbcswebdav/xid-47078256_1){target="_blank"}, or just run the R function `colors()` for a list of all 657 names!
+see [this R colour chart](https://github.com/Ratey-AtUWA/Learn-R-web/blob/main/RcolorChartNames.pdf){target="_blank"}, or just run the R function `colors()` for a list of all 657 names!
 
 - `pch =` plot character(s) - numbers from 0 to 24 (run `help(points)` or see <a href="https://bookdown.org/ndphillips/YaRrr/scatterplot-plot.html#symbol-types-pch" target="_blank">this page from YaRrr</a>).
  
