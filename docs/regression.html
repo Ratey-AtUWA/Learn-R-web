@@ -11,11 +11,11 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-07-15" />
+<meta name="date" content="2024-07-23" />
 
 <title>Statistical Relationships</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -32,8 +32,8 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/tabwid-1.1.0/tabwid.css" rel="stylesheet" />
-<link href="site_libs/tabwid-1.1.0/scrool.css" rel="stylesheet" />
+<link href="site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="site_libs/tabwid-1.1.3/tabwid.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -496,7 +496,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistical Relationships</h1>
 <h3 class="subtitle">Simple linear regression</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-07-15</h4>
+<h4 class="date">2024-07-23</h4>
 
 </div>
 
@@ -517,8 +517,9 @@ regression</a>
 </p>
 </div>
 <p> </p>
-<div
+<div id="suggested-activities" class="section level3"
 style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+<h3>Suggested activities</h3>
 <p>Using the R code file provided and the <code>afs1923</code>
 dataset:</p>
 <ul>
@@ -538,18 +539,19 @@ either:</p>
 <li>running some code like the example below for each package you need
 to install.<br>     <code>install.packages("psych")</code></li>
 </ol>
-<p><span
-style="font-size: 12pt;"><iframe width="360" height="240" src="https://echo360.net.au/media/f444fd3e-9d67-468b-aeb2-c2b27ca26c5e/public?autoplay=false&amp;automute=false" title="E3361+Correl+Regr.mp4" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen"></iframe></span></p>
+<div id="data-and-code-files" class="section level4">
+<h4>Data and code files</h4>
 <p>
-<a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/afs1923.csv"><span
+<a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R-web/main/afs1923.csv"><span
 style="font-size: 12pt;">💾 The afs1923 dataset in csv (comma-separated)
 format</span></a>
 </p>
 <p>
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3088955-dt-content-rid-40243114_1/xid-40243114_1"><span
+<a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/Learn-R-CODE-corr-regr-PARTS-1-2.R"><span
 style="font-size: 12pt;">🔣 R code file for this workshop
 session</span></a>
 </p>
+</div>
 </div>
 <p>Regression and correlation are often considered together, but they
 are not the same thing. <strong>Correlation</strong> measures the
@@ -562,7 +564,7 @@ the dependent variable is a linear function of the predictor
 variable(s).</p>
 <p>Our usual first step is to read the data, and change anything we need
 to:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R/raw/main/&quot;</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/&quot;</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>afs1923 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;afs1923.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>afs1923<span class="sc">$</span>Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(afs1923<span class="sc">$</span>Type, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Drain_Sed&quot;</span>,<span class="st">&quot;Lake_Sed&quot;</span>,<span class="st">&quot;Saltmarsh&quot;</span>,<span class="st">&quot;Other&quot;</span>))</span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>afs1923<span class="sc">$</span>Type2 <span class="ot">&lt;-</span> </span>
@@ -822,56 +824,7 @@ show only part of it here.</p>
 ## 296 -0.07   0.06  -0.07    1.02_*  0.00   0.02  
 ## 320 -0.03   0.03  -0.03    1.02_*  0.00   0.02</code></pre>
 <p>To summarise:</p>
-<template id="c45ef2b8-effe-45c6-8f09-a963d2e40082"><style>
-.tabwid table{
-  border-spacing:0px !important;
-  border-collapse:collapse;
-  line-height:1;
-  margin-left:auto;
-  margin-right:auto;
-  border-width: 0;
-  display: table;
-  border-color: transparent;
-  caption-side: top;
-}
-.tabwid-caption-bottom table{
-  caption-side: bottom;
-}
-.tabwid_left table{
-  margin-left:0;
-}
-.tabwid_right table{
-  margin-right:0;
-}
-.tabwid td {
-    padding: 0;
-}
-.tabwid a {
-  text-decoration: none;
-}
-.tabwid thead {
-    background-color: transparent;
-}
-.tabwid tfoot {
-    background-color: transparent;
-}
-.tabwid table tr {
-background-color: transparent;
-}
-.katex-display {
-    margin: 0 0 !important;
-}
-</style><div class="tabwid"><style>.cl-d7e1912e{}.cl-d7d5acd8{font-family:'Arial';font-size:9pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-d7d5acec{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-d7d9f11c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-d7d9f126{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-d7da099a{width:1.575in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d7da09a4{width:3.15in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d7da09ae{width:1.969in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d7da09b8{width:1.575in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d7da09b9{width:3.15in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d7da09c2{width:1.969in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d7da09cc{width:1.575in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d7da09d6{width:3.15in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d7da09d7{width:1.969in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d7d06106{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-d7e1912e'><caption style="margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span class="cl-d7d06106">Table 1: Summary of regression diagnostic tests for a model predicting Cr from Al in sediments from Ashfield Flats Reserve, based on data from samples collected from 2019-2023.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-d7da099a"><p class="cl-d7d9f11c"><span class="cl-d7d5acd8">Test</span></p></td><td class="cl-d7da09a4"><p class="cl-d7d9f11c"><span class="cl-d7d5acd8">Assessing</span></p></td><td class="cl-d7da09ae"><p class="cl-d7d9f11c"><span class="cl-d7d5acd8">Results</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-d7da09b8"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Shapiro-Wilk</span></p></td><td class="cl-d7da09b9"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Are residuals normally distributed?</span></p></td><td class="cl-d7da09c2"><p class="cl-d7d9f126"><span class="cl-d7d5acec">No (qq-plot suggests long tails)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d7da09cc"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Breusch-Godfrey</span></p></td><td class="cl-d7da09d6"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Are residuals independent?</span></p></td><td class="cl-d7da09d7"><p class="cl-d7d9f126"><span class="cl-d7d5acec">No, there is autocorrelation</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d7da09b8"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Breusch-Pagan</span></p></td><td class="cl-d7da09b9"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Are residuals homoscedastic?</span></p></td><td class="cl-d7da09c2"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Yes (p&lt;0.05)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d7da09cc"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Rainbow</span></p></td><td class="cl-d7da09d6"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Is the relationship linear?</span></p></td><td class="cl-d7da09d7"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Yes (p&lt;0.05)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d7da09b8"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Outlier</span></p></td><td class="cl-d7da09b9"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Are there significant outliers (Bonferroni)?</span></p></td><td class="cl-d7da09c2"><p class="cl-d7d9f126"><span class="cl-d7d5acec">3 points are possible outliers</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d7da09cc"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Cook's Distance</span></p></td><td class="cl-d7da09d6"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Are there any potentially influential observations?</span></p></td><td class="cl-d7da09d7"><p class="cl-d7d9f126"><span class="cl-d7d5acec">No (no values &gt; 0.5)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d7da09b8"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Infuence Measures</span></p></td><td class="cl-d7da09b9"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Are there any potentially influential observations?</span></p></td><td class="cl-d7da09c2"><p class="cl-d7d9f126"><span class="cl-d7d5acec">Yes (17 out of 335 observations)</span></p></td></tr></tbody></table></div></template>
-<div class="flextable-shadow-host" id="9dd2cf55-9117-406a-ad1e-8549a2a69908"></div>
-<script>
-var dest = document.getElementById("9dd2cf55-9117-406a-ad1e-8549a2a69908");
-var template = document.getElementById("c45ef2b8-effe-45c6-8f09-a963d2e40082");
-var caption = template.content.querySelector("caption");
-var fantome = dest.attachShadow({mode: 'open'});
-var templateContent = template.content;
-fantome.appendChild(templateContent);
-</script>
-
+<div class="tabwid"><style>.cl-71d7a74e{}.cl-71c9f0fe{font-family:'Arial';font-size:9pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-71c9f11c{font-family:'Arial';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-71cf2a24{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-71cf2a38{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-71cf4ae0{width:1.575in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-71cf4aea{width:3.15in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-71cf4af4{width:1.969in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-71cf4af5{width:1.575in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-71cf4afe{width:3.15in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-71cf4aff{width:1.969in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-71cf4b00{width:1.575in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-71cf4b08{width:3.15in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-71cf4b09{width:1.969in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-71d7a74e'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Summary of regression diagnostic tests for a model predicting Cr from Al in sediments from Ashfield Flats Reserve, based on data from samples collected from 2019-2023.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-71cf4ae0"><p class="cl-71cf2a24"><span class="cl-71c9f0fe">Test</span></p></th><th class="cl-71cf4aea"><p class="cl-71cf2a24"><span class="cl-71c9f0fe">Assessing</span></p></th><th class="cl-71cf4af4"><p class="cl-71cf2a24"><span class="cl-71c9f0fe">Results</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-71cf4af5"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Shapiro-Wilk</span></p></td><td class="cl-71cf4afe"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Are residuals normally distributed?</span></p></td><td class="cl-71cf4aff"><p class="cl-71cf2a38"><span class="cl-71c9f11c">No (qq-plot suggests long tails)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71cf4b00"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Breusch-Godfrey</span></p></td><td class="cl-71cf4b08"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Are residuals independent?</span></p></td><td class="cl-71cf4b09"><p class="cl-71cf2a38"><span class="cl-71c9f11c">No, there is autocorrelation</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71cf4af5"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Breusch-Pagan</span></p></td><td class="cl-71cf4afe"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Are residuals homoscedastic?</span></p></td><td class="cl-71cf4aff"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Yes (p&lt;0.05)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71cf4b00"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Rainbow</span></p></td><td class="cl-71cf4b08"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Is the relationship linear?</span></p></td><td class="cl-71cf4b09"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Yes (p&lt;0.05)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71cf4af5"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Outlier</span></p></td><td class="cl-71cf4afe"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Are there significant outliers (Bonferroni)?</span></p></td><td class="cl-71cf4aff"><p class="cl-71cf2a38"><span class="cl-71c9f11c">3 points are possible outliers</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71cf4b00"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Cook's Distance</span></p></td><td class="cl-71cf4b08"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Are there any potentially influential observations?</span></p></td><td class="cl-71cf4b09"><p class="cl-71cf2a38"><span class="cl-71c9f11c">No (no values &gt; 0.5)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71cf4af5"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Infuence Measures</span></p></td><td class="cl-71cf4afe"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Are there any potentially influential observations?</span></p></td><td class="cl-71cf4aff"><p class="cl-71cf2a38"><span class="cl-71c9f11c">Yes (17 out of 335 observations)</span></p></td></tr></tbody></table></div>
 <p>
  
 </p>

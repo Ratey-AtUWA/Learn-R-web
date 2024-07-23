@@ -11,11 +11,11 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-07-15" />
+<meta name="date" content="2024-07-23" />
 
 <title>Statistical Relationships</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -32,8 +32,8 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/tabwid-1.1.0/tabwid.css" rel="stylesheet" />
-<link href="site_libs/tabwid-1.1.0/scrool.css" rel="stylesheet" />
+<link href="site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="site_libs/tabwid-1.1.3/tabwid.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -496,7 +496,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistical Relationships</h1>
 <h3 class="subtitle">Grouped linear regression</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-07-15</h4>
+<h4 class="date">2024-07-23</h4>
 
 </div>
 
@@ -517,6 +517,34 @@ regression</a>
 </p>
 </div>
 <p> </p>
+<div id="suggested-activities" class="section level3"
+style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+<h3>Suggested activities</h3>
+<p>Using the R code file provided and the <code>afs1923</code>
+dataset:</p>
+<ul>
+<li>Run a grouped regression model,</li>
+<li>Assess whether or not the grouped regression model meets the
+statistical assumptions,</li>
+<li>Evaluate whether a grouped regression model is a statistically
+significant improvement on the comparable ungrouped model, and</li>
+<li>Make sure you understand the concepts for all the statistical
+methods you use, and can interpret all the output!</li>
+</ul>
+<p>
+<a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/afs1923.csv" target="_blank"><span
+style="font-size: 12pt;">💾 The afs1923 dataset in csv (comma-separated)
+format</span></a>
+</p>
+<p>
+<a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/Learn-R-CODE-corr-regr-PARTS-1-2.R" target="_blank"><span
+style="font-size: 12pt;">🔣 R code file for this and related workshop
+sessions</span></a>
+</p>
+</div>
+<p>
+ 
+</p>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>In a <a href="regression.html">previous session on simple
@@ -532,38 +560,9 @@ know the data were derived from analysis of samples from diverse types
 of environment. For that reason, it seems reasonable to evaluate a
 regression model which allows the regression coefficients (intercept and
 slope) to differ for different sample types.</p>
-<div
-style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
-<p>Using the R code file provided and the <code>afs1923</code>
-dataset:</p>
-<ul>
-<li>Run a grouped regression model,</li>
-<li>Assess whether or not the grouped regression model meets the
-statistical assumptions,</li>
-<li>Evaluate whether a grouped regression model is a statistically
-significant improvement on the comparable ungrouped model, and</li>
-<li>Make sure you understand the concepts for all the statistical
-methods you use, and can interpret all the output!</li>
-</ul>
-<p><span
-style="font-size: 12pt;"><iframe width="360" height="240" src="https://echo360.net.au/media/f444fd3e-9d67-468b-aeb2-c2b27ca26c5e/public?autoplay=false&amp;automute=false" title="E3361+Correl+Regr.mp4" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen"></iframe></span></p>
-<p>
-<a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/afs1923.csv" target="_blank"><span
-style="font-size: 12pt;">💾 The afs1923 dataset in csv (comma-separated)
-format</span></a>
-</p>
-<p>
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3088955-dt-content-rid-40243114_1/xid-40243114_1" target="_blank"><span
-style="font-size: 12pt;">🔣 R code file for this and related workshop
-sessions</span></a>
-</p>
-</div>
-<p>
- 
-</p>
 <p>As previously, our first step is to read the data, and change
 anything we need to:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R/raw/main/&quot;</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/&quot;</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>afs1923 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;afs1923.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># re-order the factor levels</span></span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>afs1923<span class="sc">$</span>Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(afs1923<span class="sc">$</span>Type, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Drain_Sed&quot;</span>,<span class="st">&quot;Lake_Sed&quot;</span>,<span class="st">&quot;Saltmarsh&quot;</span>,<span class="st">&quot;Other&quot;</span>))</span>
@@ -818,59 +817,10 @@ for explanations and null hypotheses).</p>
 <pre><code>## For the model &#39;lm(formula = Cr ~ Al * Type2, data = afs1923)&#39; there are 36 potentially influential observations.
 ## 
 ## The 36 rows containing potentially influential obervations are:
-##  [1]   2  56  92 134 137 138 139 168 177 190 196 218 219 220 227 236 245 250 251 252 273 290 291 296 297 298 316 317
-## [29] 318 319 320 321 322 323 324 325</code></pre>
+##  [1]   2  56  92 134 137 138 139 168 177 190 196 218 219 220 227 236 245 250 251 252 273 290 291 296 297
+## [26] 298 316 317 318 319 320 321 322 323 324 325</code></pre>
 <p>To summarise:</p>
-<template id="949301c3-0318-4d5f-ba8f-8ebded4bd87c"><style>
-.tabwid table{
-  border-spacing:0px !important;
-  border-collapse:collapse;
-  line-height:1;
-  margin-left:auto;
-  margin-right:auto;
-  border-width: 0;
-  display: table;
-  border-color: transparent;
-  caption-side: top;
-}
-.tabwid-caption-bottom table{
-  caption-side: bottom;
-}
-.tabwid_left table{
-  margin-left:0;
-}
-.tabwid_right table{
-  margin-right:0;
-}
-.tabwid td {
-    padding: 0;
-}
-.tabwid a {
-  text-decoration: none;
-}
-.tabwid thead {
-    background-color: transparent;
-}
-.tabwid tfoot {
-    background-color: transparent;
-}
-.tabwid table tr {
-background-color: transparent;
-}
-.katex-display {
-    margin: 0 0 !important;
-}
-</style><div class="tabwid"><style>.cl-041bf496{}.cl-04118b14{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-04118b28{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-0415adca{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-0415adde{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-0415c4d6{width:1.575in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0415c4e0{width:3.15in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0415c4ea{width:2.756in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0415c4eb{width:1.575in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0415c4ec{width:3.15in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0415c4f4{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0415c4f5{width:1.575in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0415c4f6{width:3.15in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0415c4fe{width:2.756in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-040cc4c6{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-041bf496'><caption style="margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span class="cl-040cc4c6">Table 1: Summary of regression diagnostic tests for a grouped linear model predicting Cr from Al (grouped by Type) in sediments from Ashfield Flats Reserve, based on data from samples collected from 2019-2023.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-0415c4d6"><p class="cl-0415adca"><span class="cl-04118b14">Test</span></p></td><td class="cl-0415c4e0"><p class="cl-0415adca"><span class="cl-04118b14">Assessing</span></p></td><td class="cl-0415c4ea"><p class="cl-0415adca"><span class="cl-04118b14">Results</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-0415c4eb"><p class="cl-0415adde"><span class="cl-04118b28">Shapiro-Wilk</span></p></td><td class="cl-0415c4ec"><p class="cl-0415adde"><span class="cl-04118b28">Are residuals normally distributed?</span></p></td><td class="cl-0415c4f4"><p class="cl-0415adde"><span class="cl-04118b28">No (qq-plot suggests long tails)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0415c4f5"><p class="cl-0415adde"><span class="cl-04118b28">Breusch-Godfrey</span></p></td><td class="cl-0415c4f6"><p class="cl-0415adde"><span class="cl-04118b28">Are residuals independent?</span></p></td><td class="cl-0415c4fe"><p class="cl-0415adde"><span class="cl-04118b28">No, there is autocorrelation</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0415c4eb"><p class="cl-0415adde"><span class="cl-04118b28">Breusch-Pagan</span></p></td><td class="cl-0415c4ec"><p class="cl-0415adde"><span class="cl-04118b28">Are residuals homoscedastic?</span></p></td><td class="cl-0415c4f4"><p class="cl-0415adde"><span class="cl-04118b28">No (p&lt;0.05)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0415c4f5"><p class="cl-0415adde"><span class="cl-04118b28">Rainbow</span></p></td><td class="cl-0415c4f6"><p class="cl-0415adde"><span class="cl-04118b28">Is the relationship linear?</span></p></td><td class="cl-0415c4fe"><p class="cl-0415adde"><span class="cl-04118b28">Yes (p&gt;0.05)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0415c4eb"><p class="cl-0415adde"><span class="cl-04118b28">Outlier</span></p></td><td class="cl-0415c4ec"><p class="cl-0415adde"><span class="cl-04118b28">Are there significant outliers (Bonferroni)?</span></p></td><td class="cl-0415c4f4"><p class="cl-0415adde"><span class="cl-04118b28">2 points are possible outliers</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0415c4f5"><p class="cl-0415adde"><span class="cl-04118b28">Cook's Distance</span></p></td><td class="cl-0415c4f6"><p class="cl-0415adde"><span class="cl-04118b28">Are there any potentially influential observations?</span></p></td><td class="cl-0415c4fe"><p class="cl-0415adde"><span class="cl-04118b28">No (no values &gt; 0.5)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0415c4eb"><p class="cl-0415adde"><span class="cl-04118b28">Infuence Measures</span></p></td><td class="cl-0415c4ec"><p class="cl-0415adde"><span class="cl-04118b28">Are there any potentially influential observations?</span></p></td><td class="cl-0415c4f4"><p class="cl-0415adde"><span class="cl-04118b28">Yes (36 out of 335 observations)</span></p></td></tr></tbody></table></div></template>
-<div class="flextable-shadow-host" id="50aaf29f-778b-4f7f-a20f-a177f6ab79cd"></div>
-<script>
-var dest = document.getElementById("50aaf29f-778b-4f7f-a20f-a177f6ab79cd");
-var template = document.getElementById("949301c3-0318-4d5f-ba8f-8ebded4bd87c");
-var caption = template.content.querySelector("caption");
-var fantome = dest.attachShadow({mode: 'open'});
-var templateContent = template.content;
-fantome.appendChild(templateContent);
-</script>
-
+<div class="tabwid"><style>.cl-0609de88{}.cl-05fc0ea2{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-05fc0eac{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-060183b4{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-060183d2{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-0601ab78{width:1.575in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0601ab82{width:3.15in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0601ab8c{width:2.756in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0601ab8d{width:1.575in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0601ab96{width:3.15in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0601ab97{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0601aba0{width:1.575in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0601abaa{width:3.15in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0601abab{width:2.756in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-0609de88'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Summary of regression diagnostic tests for a grouped linear model predicting Cr from Al (grouped by Type) in sediments from Ashfield Flats Reserve, based on data from samples collected from 2019-2023.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-0601ab78"><p class="cl-060183b4"><span class="cl-05fc0ea2">Test</span></p></th><th class="cl-0601ab82"><p class="cl-060183b4"><span class="cl-05fc0ea2">Assessing</span></p></th><th class="cl-0601ab8c"><p class="cl-060183b4"><span class="cl-05fc0ea2">Results</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-0601ab8d"><p class="cl-060183d2"><span class="cl-05fc0eac">Shapiro-Wilk</span></p></td><td class="cl-0601ab96"><p class="cl-060183d2"><span class="cl-05fc0eac">Are residuals normally distributed?</span></p></td><td class="cl-0601ab97"><p class="cl-060183d2"><span class="cl-05fc0eac">No (qq-plot suggests long tails)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0601aba0"><p class="cl-060183d2"><span class="cl-05fc0eac">Breusch-Godfrey</span></p></td><td class="cl-0601abaa"><p class="cl-060183d2"><span class="cl-05fc0eac">Are residuals independent?</span></p></td><td class="cl-0601abab"><p class="cl-060183d2"><span class="cl-05fc0eac">No, there is autocorrelation</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0601ab8d"><p class="cl-060183d2"><span class="cl-05fc0eac">Breusch-Pagan</span></p></td><td class="cl-0601ab96"><p class="cl-060183d2"><span class="cl-05fc0eac">Are residuals homoscedastic?</span></p></td><td class="cl-0601ab97"><p class="cl-060183d2"><span class="cl-05fc0eac">No (p&lt;0.05)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0601aba0"><p class="cl-060183d2"><span class="cl-05fc0eac">Rainbow</span></p></td><td class="cl-0601abaa"><p class="cl-060183d2"><span class="cl-05fc0eac">Is the relationship linear?</span></p></td><td class="cl-0601abab"><p class="cl-060183d2"><span class="cl-05fc0eac">Yes (p&gt;0.05)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0601ab8d"><p class="cl-060183d2"><span class="cl-05fc0eac">Outlier</span></p></td><td class="cl-0601ab96"><p class="cl-060183d2"><span class="cl-05fc0eac">Are there significant outliers (Bonferroni)?</span></p></td><td class="cl-0601ab97"><p class="cl-060183d2"><span class="cl-05fc0eac">2 points are possible outliers</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0601aba0"><p class="cl-060183d2"><span class="cl-05fc0eac">Cook's Distance</span></p></td><td class="cl-0601abaa"><p class="cl-060183d2"><span class="cl-05fc0eac">Are there any potentially influential observations?</span></p></td><td class="cl-0601abab"><p class="cl-060183d2"><span class="cl-05fc0eac">No (no values &gt; 0.5)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0601ab8d"><p class="cl-060183d2"><span class="cl-05fc0eac">Infuence Measures</span></p></td><td class="cl-0601ab96"><p class="cl-060183d2"><span class="cl-05fc0eac">Are there any potentially influential observations?</span></p></td><td class="cl-0601ab97"><p class="cl-060183d2"><span class="cl-05fc0eac">Yes (36 out of 335 observations)</span></p></td></tr></tbody></table></div>
 <p>
  
 </p>
