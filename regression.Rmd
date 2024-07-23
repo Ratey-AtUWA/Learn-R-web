@@ -51,6 +51,8 @@ addImg <- function(obj, x = NULL, y = NULL, width = NULL, interpolate = TRUE){
 &nbsp;
 
 <div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+### Suggested activities
+
 Using the R code file provided and the `afs1923` dataset:
 
 - Run a simple regression model,
@@ -65,10 +67,10 @@ a. from the RStudio packages tab;
 b. running some code like the example below for each package you need to 
 install.<br> &nbsp; &nbsp; `install.packages("psych")`
 
-<span style="font-size: 12pt;"><iframe width="360" height="240" src="https://echo360.net.au/media/f444fd3e-9d67-468b-aeb2-c2b27ca26c5e/public?autoplay=false&amp;automute=false" title="E3361+Correl+Regr.mp4" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen"></iframe></span>
+#### Data and code files
 
-<p><a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/afs1923.csv"><span style="font-size: 12pt;">💾&nbsp;The afs1923 dataset in csv (comma-separated) format</span></a></p>
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3088955-dt-content-rid-40243114_1/xid-40243114_1"><span style="font-size: 12pt;">🔣&nbsp;R code file for this workshop session</span></a></p>
+<p><a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R-web/main/afs1923.csv"><span style="font-size: 12pt;">💾&nbsp;The afs1923 dataset in csv (comma-separated) format</span></a></p>
+<p><a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/Learn-R-CODE-corr-regr-PARTS-1-2.R"><span style="font-size: 12pt;">🔣&nbsp;R code file for this workshop session</span></a></p>
 </div>
 
 Regression and correlation are often considered together, but they are not the
@@ -82,7 +84,7 @@ function of the predictor variable(s).
 Our usual first step is to read the data, and change anything we need to:
 
 ```{r}
-git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+git <- "https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/"
 afs1923 <- read.csv(paste0(git,"afs1923.csv"), stringsAsFactors = TRUE)
 afs1923$Type <- factor(afs1923$Type, levels=c("Drain_Sed","Lake_Sed","Saltmarsh","Other"))
 afs1923$Type2 <- 

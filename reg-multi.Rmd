@@ -111,7 +111,7 @@ For practical purposes, we prefer [linear] regression models which are:
 As previously, our first step is to read the data, and change anything we need to:
 
 ```{r read-data, message=FALSE, warning=FALSE}
-git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+git <- "https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/"
 afs1923 <- read.csv(paste0(git,"afs1923.csv"), stringsAsFactors = TRUE)
 # re-order the factor levels
 afs1923$Type <- factor(afs1923$Type, levels=c("Drain_Sed","Lake_Sed","Saltmarsh","Other"))

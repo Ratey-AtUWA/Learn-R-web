@@ -51,6 +51,22 @@ addImg <- function(obj, x = NULL, y = NULL, width = NULL, interpolate = TRUE){
 
 &nbsp;
 
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+### Suggested activities
+
+Using the R code file provided and the `afs1923` dataset:
+
+- Run a grouped regression model,
+- Assess whether or not the grouped regression model meets the statistical assumptions,
+- Evaluate whether a grouped regression model is a statistically significant improvement on the comparable ungrouped model, and
+- Make sure you understand the concepts for all the statistical methods you use, and can interpret all the output!
+
+<p><a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/afs1923.csv" target="_blank"><span style="font-size: 12pt;">💾&nbsp;The afs1923 dataset in csv (comma-separated) format</span></a></p>
+<p><a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/Learn-R-CODE-corr-regr-PARTS-1-2.R" target="_blank"><span style="font-size: 12pt;">🔣&nbsp;R code file for this and related workshop sessions</span></a></p>
+</div>
+
+<p>&nbsp;</p> 
+
 ## Introduction
 
 In a [previous session on simple regression](regression.html), we finished by 
@@ -65,26 +81,10 @@ For that reason, it seems reasonable to evaluate a regression model which allows
 the regression coefficients (intercept and slope) to differ for different sample
 types.
 
-<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
-Using the R code file provided and the `afs1923` dataset:
-
-- Run a grouped regression model,
-- Assess whether or not the grouped regression model meets the statistical assumptions,
-- Evaluate whether a grouped regression model is a statistically significant improvement on the comparable ungrouped model, and
-- Make sure you understand the concepts for all the statistical methods you use, and can interpret all the output!
-
-<span style="font-size: 12pt;"><iframe width="360" height="240" src="https://echo360.net.au/media/f444fd3e-9d67-468b-aeb2-c2b27ca26c5e/public?autoplay=false&amp;automute=false" title="E3361+Correl+Regr.mp4" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen"></iframe></span>
-
-<p><a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/afs1923.csv" target="_blank"><span style="font-size: 12pt;">💾&nbsp;The afs1923 dataset in csv (comma-separated) format</span></a></p>
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3088955-dt-content-rid-40243114_1/xid-40243114_1" target="_blank"><span style="font-size: 12pt;">🔣&nbsp;R code file for this and related workshop sessions</span></a></p>
-</div>
-
-<p>&nbsp;</p> 
-
 As previously, our first step is to read the data, and change anything we need to:
 
 ```{r read-data, message=FALSE, warning=FALSE}
-git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+git <- "https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/"
 afs1923 <- read.csv(paste0(git,"afs1923.csv"), stringsAsFactors = TRUE)
 # re-order the factor levels
 afs1923$Type <- factor(afs1923$Type, levels=c("Drain_Sed","Lake_Sed","Saltmarsh","Other"))
