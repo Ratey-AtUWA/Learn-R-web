@@ -11,11 +11,11 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-07-15" />
+<meta name="date" content="2024-07-23" />
 
 <title>RStudio graphics and plotting</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -494,7 +494,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">RStudio graphics and plotting</h1>
 <h3 class="subtitle">The base-R version</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-07-15</h4>
+<h4 class="date">2024-07-23</h4>
 
 </div>
 
@@ -504,85 +504,10 @@ $(document).ready(function () {
   font-size: 12pt;
 }
 </style>
-<div id="video-presentations---r-graphics" class="section level3"
-style="border: 2px solid #039; background-color: #fec; padding: 8px;">
-<h3>Video presentations - R graphics</h3>
-<p><a href="https://echo360.net.au/media/19219e47-b5fb-44d9-b4f5-8572f9cfc021/public" target="_blank" rel="noopener"> 
-<img src="images/video.png" style="border: 0px solid #000000;"
-align="left" alt="Video link icon" width="48"
-height="38" /> <strong style="font-family: 'Source Sans Pro'; text-shadow: none !important; letter-spacing: normal; margin: 0px; padding: 0px; border: 0px; outline: 0px; font-weight: bold; font-style: normal; font-size: 13px; color: #000080; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><span
-style="font-size: 12pt;">Video 1 - basic R/RStudio graphics
-functions</span></strong></a><br />  Duration: 18m48s</p>
-<p>
-<span style="color: #000080;"><strong><span
-style="font-size: 12pt;"> <a href="https://echo360.net.au/media/84f872ea-6859-4a3c-a689-4bca0b94a247/public" target="_blank" rel="noopener"><img
-src="images/video.png" style="border: 0px solid #000000;" align="left"
-alt="Video link icon" width="48" height="38" /> Video 2 - additional
-R/RStudio graphics functions</a></span></strong></span>
-</p>
-<p>
-• 0.00s - 8m47s PowerPoint Presentation<br />• 8m59s Setting R graphics
-parameters using <span
-style="font-family: consolas, courier new, courier;">par()</span><br />• 19m30s
-Cumulative Distribution Function plots <span
-style="font-family: consolas, courier new, courier;">plot.ecdf()</span><br />• 21m48s
-Normal quantile (Q-Q) plots using <span
-style="font-family: consolas, courier new, courier;">qqPlot()</span>
-from <b><i>car</i></b> package<br />• 23m19s Histograms - additional
-customisations<br />• 25m35s Boxplots - additional
-customisations<br />• 27m27s Scatter Plots - more
-customisation...<br />• 31m27s Scatter plot matrices<br />• 35m20s Maps
-(a preliminary look, including use of the <code>text()</code> function
-in graphs
-</p>
-</div>
-<p>
- 
-</p>
-<div id="files-to-download-for-r-graphics" class="section level3"
-style="border: 2px solid #039; background-color: #fec; padding: 8px;">
-<h3>Files to download for R Graphics</h3>
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-24053058_1/xid-24053058_1"><span
-style="font-size: 12pt;"><img src="images/rcode.png"
-style="border: 0px solid #000000;" alt="R code icon" width="32"
-height="32" /> R code (script) file for R Graphics video 1</span></a>  
- 
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-23693508_1/xid-23693508_1" target="_blank" rel="noreferrer noopener"><span
-style="font-size: 12pt;"><img src="images/csv.png"
-style="border: 0px solid #000000;" alt="CSV icon" width="32"
-height="32" /> Hubbard Book soil dataset (required in code for video 1
-and  pdf)</span></a></p>
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-23693660_1/xid-23693660_1" target="_blank" rel="noreferrer noopener"><span
-style="font-size: 12pt;"><img src="images/csv.png"
-style="border: 0px solid #000000;" alt="CSV icon" width="32"
-height="32" /> sv18 dataset (required in code for video 2)</span></a>  
-  <span
-style="font-size: 12pt;"><a alt="" href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035953_1/xid-45035953_1" target="_blank" rel="noopener"><img
-src="images/csv.png" style="border: 0px solid #000000;" alt="CSV icon"
-width="32" height="32" /> SL18.csv</a><br />used in Annotated
-code</span></p>
-<p><span
-style="font-size: 12pt;"><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035961_1/xid-45035961_1" target="_blank" rel="noopener"><img
-src="images/csv.png" style="border: 0px solid #000000;" alt="CSV icon"
-width="32" height="32" /> sv2017_original.csv</a>     <span
-style="font-size: 12pt;"><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035966_1/xid-45035966_1" target="_blank" rel="noreferrer noopener">
-<span style="font-size: 12pt;"><img src="images/rcode.png"
-style="border: 0px solid #000000;" alt="R code icon" width="32"
-height="32" /> Complete R code (script) used in
-video</span> 2</a></span><br />(just in case!)</span></p>
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035853_1/xid-45035853_1" target="_blank"><img
-src="images/rcode.png" style="border: 0px solid #000000;"
-alt="R code icon" width="32" height="32" /> R code for adding mean
-symbols to boxplots</a> <span
-style="color: #ff0000; font-size:10pt">(worth trying!)</span></p>
-</div>
-<p>
- 
-</p>
 <div
 style="border: 2px solid #039; background-color: #fec; padding: 8px;">
-<div id="suggested-activities" class="section level3">
-<h3>Suggested Activities</h3>
+<div id="suggested-activities-in-this-session" class="section level3">
+<h3>Suggested Activities in this session</h3>
 <p><span style="color: #800000;"><strong>Using data previously provided
 (on LMS), produce presentation quality graphs of</strong></span>:</p>
 <ul>
@@ -741,7 +666,7 @@ illustrating environmental statistics and plotting).</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(car)      <span class="co"># scatterplot() and scatterplotMatrix() functions</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(viridis)  <span class="co"># colourblind-friendly colour palettes</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(scico)    <span class="co"># &#39;scientific&#39; colour palettes</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R/raw/main/&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/&quot;</span></span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>sv2017 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;sv2017_original.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>sv2017<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sv2017<span class="sc">$</span>Group)</span></code></pre></div>
 <p>We then make an <em>xy</em>-plot (Figure 1) using the

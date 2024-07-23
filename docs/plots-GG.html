@@ -11,11 +11,11 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-07-15" />
+<meta name="date" content="2024-07-23" />
 
 <title>RStudio graphics and plotting</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -494,7 +494,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">RStudio graphics and plotting</h1>
 <h3 class="subtitle">The ggplot version</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-07-15</h4>
+<h4 class="date">2024-07-23</h4>
 
 </div>
 
@@ -504,61 +504,6 @@ $(document).ready(function () {
   font-size: 12pt;
 }
 </style>
-<div id="files-to-use-or-refer-to-during-the-workshop-class"
-class="section level3">
-<h3>Files to use or refer to during the Workshop class</h3>
-<div id="files-to-download-for-r-graphics" class="section level4"
-style="border: 2px solid #039; padding: 8px;">
-<h4>Files to download for R Graphics</h4>
-<p>
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-24052449_1/xid-24052449_1" target="_blank" rel="noreferrer noopener"><img
-src="images/html.png" style="border: 0px solid #000000;"
-alt="html file icon" width="32" height="32" /></a><span
-style="font-size: medium;"><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035919_1/xid-45035919_1" target="_blank" rel="noopener"> <span
-style="background-color: #ffff40;">NEW</span> Annotated code for basic R
-and RStudio Graphics</a></span>      
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-24053058_1/xid-24053058_1"><span
-style="font-size: medium;"><img src="images/rcode.png"
-style="border: 0px solid #000000;" alt="R code icon" width="32"
-height="32" /> R code (script) file for R Graphics video 1</span></a>
-</p>
-<p>
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-23693508_1/xid-23693508_1" target="_blank" rel="noreferrer noopener"><span
-style="font-size: medium;"><img src="images/csv.png"
-style="border: 0px solid #000000;" alt="CSV icon" width="32"
-height="32" /> Hubbard Book soil dataset (required in code for video 1
-and  pdf)</span></a>      
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-23693660_1/xid-23693660_1" target="_blank" rel="noreferrer noopener"><span
-style="font-size: medium;"><img src="images/csv.png"
-style="border: 0px solid #000000;" alt="CSV icon" width="32"
-height="32" /> sv18 dataset (required in code for video 2)</span></a>
-</p>
-<p>
-<span
-style="font-size: medium;"><a alt="" href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035953_1/xid-45035953_1" target="_blank" rel="noopener"><img
-src="images/csv.png" style="border: 0px solid #000000;" alt="CSV icon"
-width="32" height="32" /> SL18.csv</a><br />used in Annotated
-code</span>       <span
-style="font-size: 12pt;"><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035961_1/xid-45035961_1" target="_blank" rel="noopener"><img
-src="images/csv.png" style="border: 0px solid #000000;" alt="CSV icon"
-width="32" height="32" /> sv2017_original.csv</a><br />(just in
-case!)</span>
-</p>
-<p>
-<span
-style="font-size: medium;"><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035966_1/xid-45035966_1" target="_blank" rel="noreferrer noopener">
-<span style="font-size: medium;"><img src="images/rcode.png"
-style="border: 0px solid #000000;" alt="R code icon" width="32"
-height="32" /> Complete R code (script) used in
-video</span> 2</a></span>      
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035853_1/xid-45035853_1" target="_blank" ><img
-src="images/rcode.png" style="border: 0px solid #000000;"
-alt="R code icon" width="32" height="32" /> <span
-style="font-size: 12pt; font-family: sans-serif;">R code for adding mean
-symbols to boxplots</span></a> <span style="color: #ff0000;">(worth
-trying!)</span>
-</p>
-</div>
 <p>
  
 </p>
@@ -613,7 +558,6 @@ excellence</span>
 <p>
  
 </p>
-</div>
 <div id="more-basic-information-on-plots-in-r" class="section level1">
 <h1>More basic information on plots in <strong>R</strong></h1>
 <p>This is a complement to the other preliminary material on
@@ -621,11 +565,9 @@ excellence</span>
 <strong><code>ggplot2</code></strong> package. We have tried to avoid
 too much overlap with other sessions.</p>
 <p>For the <strong>videos and other materials</strong>, you can visit
-the
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3355656-dt-content-rid-42740881_1/xid-42740881_1">
-base-R graphics page</a>. Or, go to the <a href="plots.html">base-R
-graphics page</a> if you're not interested in using
-<code>ggplot2</code>.</p>
+the UWA LMS page for the unit you're enrolled in. Or, go to the <a
+href="plots.html">base-R graphics page</a> if you're not interested in
+using <code>ggplot2</code>.</p>
 <p>
  
 </p>
@@ -743,7 +685,7 @@ download it to your working directory first).</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)  <span class="co"># the plotting package used in this page</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(viridis)  <span class="co"># colourblind-friendly colour palettes</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(scico)    <span class="co"># &#39;scientific&#39; colour palettes</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R/raw/main/&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/&quot;</span></span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>sv2017 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;sv2017_original.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>sv2017<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sv2017<span class="sc">$</span>Group)</span></code></pre></div>
 <p>We then make an <em>xy</em>-plot (Figure 1) using the

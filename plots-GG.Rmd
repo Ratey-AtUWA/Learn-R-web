@@ -30,19 +30,6 @@ addImg <- function(obj, x = NULL, y = NULL, width = NULL, interpolate = TRUE){
 defpar <- par(no.readonly = TRUE)
 ```
 
-### Files to use or refer to during the Workshop class
-
-<div style="border: 2px solid #039; padding: 8px;">
-#### Files to download for R Graphics
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-24052449_1/xid-24052449_1" target="_blank" rel="noreferrer noopener">![](images/html.png){alt="html file icon" style="border: 0px solid #000000;" height="32" width="32"}</a><span style="font-size: medium;"><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035919_1/xid-45035919_1" target="_blank" rel="noopener">&nbsp;<span style="background-color: #ffff40;">NEW</span>&nbsp;Annotated code for basic R and RStudio Graphics</a></span> &nbsp; &nbsp; &nbsp; <a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-24053058_1/xid-24053058_1"><span style="font-size: medium;">![](images/rcode.png){alt="R code icon" style="border: 0px solid #000000;" height="32" width="32"}&nbsp;R code (script) file for R Graphics video 1</span></a></p>
-
-<p><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-23693508_1/xid-23693508_1" target="_blank" rel="noreferrer noopener"><span style="font-size: medium;">![](images/csv.png){alt="CSV icon" style="border: 0px solid #000000;" height="32" width="32"}&nbsp;Hubbard Book soil dataset (required in code for video 1 and&nbsp; pdf)</span></a> &nbsp; &nbsp; &nbsp; <a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-23693660_1/xid-23693660_1" target="_blank" rel="noreferrer noopener"><span style="font-size: medium;">![](images/csv.png){alt="CSV icon" style="border: 0px solid #000000;" height="32" width="32"}&nbsp;sv18 dataset (required in code for video 2)</span></a></p>
-
-<p><span style="font-size: medium;"><a alt="" href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035953_1/xid-45035953_1" target="_blank" rel="noopener">![](images/csv.png){alt="CSV icon" style="border: 0px solid #000000;" height="32" width="32"}&nbsp;SL18.csv</a><br />used in Annotated code</span> &nbsp; &nbsp; &nbsp; <span style="font-size: 12pt;"><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035961_1/xid-45035961_1" target="_blank" rel="noopener">![](images/csv.png){alt="CSV icon" style="border: 0px solid #000000;" height="32" width="32"}&nbsp;sv2017_original.csv</a><br />(just in case!)</span></p>
-
-<p><span style="font-size: medium;"><a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035966_1/xid-45035966_1" target="_blank" rel="noreferrer noopener"> <span style="font-size: medium;">![](images/rcode.png){alt="R code icon" style="border: 0px solid #000000;" height="32" width="32"}&nbsp;Complete R code (script) used in video</span>&nbsp;2</a></span> &nbsp; &nbsp; &nbsp; <a href="https://lms.uwa.edu.au/bbcswebdav/pid-3577359-dt-content-rid-45035853_1/xid-45035853_1" target="_blank" >![](images/rcode.png){alt="R code icon" style="border: 0px solid #000000;" height="32" width="32"}&nbsp;<span style="font-size: 12pt; font-family: sans-serif;">R code for adding mean symbols to boxplots</span></a> <span style="color: #ff0000;">(worth trying!)</span></p>
-</div>
-
 <p>&nbsp;</p>
 
 <div style="border: 2px solid #039; background-color: #fec; padding: 8px;">
@@ -77,11 +64,9 @@ This is a complement to the other preliminary material on **R** graphics with a
 focus on using the **`ggplot2`** package. We have tried to avoid too much
 overlap with other sessions.
 
-For the **videos and other materials**, you can visit the 
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3355656-dt-content-rid-42740881_1/xid-42740881_1">
-base-R graphics page</a>. Or, go to the 
-[base-R graphics page](plots.html) if you're not 
-interested in using `ggplot2`.
+For the **videos and other materials**, you can visit the UWA LMS page for the
+unit you're enrolled in. Or, go to the [base-R graphics page](plots.html) if
+you're not interested in using `ggplot2`.
 
 <p>&nbsp;</p>
 
@@ -177,7 +162,7 @@ library(ggpubr)
 library(ggplot2)  # the plotting package used in this page
 library(viridis)  # colourblind-friendly colour palettes
 library(scico)    # 'scientific' colour palettes
-git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+git <- "https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/"
 sv2017 <- read.csv(file=paste0(git,"sv2017_original.csv"), stringsAsFactors = TRUE)
 sv2017$Group <- as.factor(sv2017$Group)
 ```
