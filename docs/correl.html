@@ -11,11 +11,11 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-07-15" />
+<meta name="date" content="2024-07-23" />
 
 <title>Statistical Relationships</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -494,7 +494,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistical Relationships</h1>
 <h3 class="subtitle">Correlation</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-07-15</h4>
+<h4 class="date">2024-07-23</h4>
 
 </div>
 
@@ -515,8 +515,9 @@ regression</a>
 </p>
 </div>
 <p> </p>
-<div
+<div id="suggested-activities" class="section level3"
 style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+<h3>Suggested activities</h3>
 <p>Using the R code file provided and the <code>sv2017</code>
 dataset:</p>
 <ul>
@@ -538,14 +539,15 @@ methods you use, and can interpret all the output!</li>
 <li>running some code like the example below for each package you need
 to install.<br>     <code>install.packages("psych")</code></li>
 </ol>
-<iframe width="360" height="240" src="https://echo360.net.au/media/f444fd3e-9d67-468b-aeb2-c2b27ca26c5e/public?autoplay=false&amp;automute=false" title="E3361+Correl+Regr.mp4" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen">
-</iframe>
-<p><a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/sv2017_original.csv"><span
+<div id="data-and-code-files" class="section level4">
+<h4>Data and code files</h4>
+<p><a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R-web/main/sv2017_original.csv"><span
 style="font-size: 12pt;">💾 The sv2017 dataset in csv (comma-separated)
 format</span></a><br />
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3088955-dt-content-rid-40243114_1/xid-40243114_1"><span
+<a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/Learn-R-CODE-corr-regr-PARTS-1-2.R"><span
 style="font-size: 12pt;">🔣 R code file for this workshop
 session</span></a></p>
+</div>
 </div>
 <p>
  
@@ -562,7 +564,7 @@ session</span></a></p>
 and Charles Veryard Reserves data from 2017. <br> For Pearson's
 correlation we need variables with normal distributions, so first
 log<sub>10</sub>-transform Cd and Zn...</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/&quot;</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R-web/main/&quot;</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>sv2017 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;sv2017_original.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>sv2017<span class="sc">$</span>Cd.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(sv2017<span class="sc">$</span>Cd)</span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>sv2017<span class="sc">$</span>Zn.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(sv2017<span class="sc">$</span>Zn)</span></code></pre></div>
@@ -983,6 +985,8 @@ relationships between observations from individual groups. Finally, the
 relationship between Al and Ca may be influenced by a single observation
 with low Al and high Ca. All issues like this should be considered when
 we explore our data more deeply.</p>
+<div
+style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
 <p>The classic example of correlations which need plots to interpret
 them is the somewhat famous <strong>Anscombe's Quartet</strong>. This is
 shown below in Figure 5:</p>
@@ -994,6 +998,7 @@ regression lines, all having the same slope, intercept, Pearson's r, and
 R² values. The data are available in R via
 <code>datasets::anscombe</code>.
 </p>
+</div>
 </div>
 <p>
  

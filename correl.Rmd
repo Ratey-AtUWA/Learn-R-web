@@ -55,6 +55,8 @@ library(reshape2)
 &nbsp;
 
 <div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+### Suggested activities
+
 Using the R code file provided and the `sv2017` dataset:
 
 - Run different correlation methods (Pearson’s, Spearman’s) on untransformed and transformed variables,
@@ -69,10 +71,10 @@ a. from the RStudio packages tab;
 b. running some code like the example below for each package you need to 
 install.<br> &nbsp; &nbsp; `install.packages("psych")`
 
-<iframe width="360" height="240" src="https://echo360.net.au/media/f444fd3e-9d67-468b-aeb2-c2b27ca26c5e/public?autoplay=false&amp;automute=false" title="E3361+Correl+Regr.mp4" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen"></iframe>
+#### Data and code files
 
-<a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/sv2017_original.csv"><span style="font-size: 12pt;">💾&nbsp;The sv2017 dataset in csv (comma-separated) format</span></a><br />
-<a href="https://lms.uwa.edu.au/bbcswebdav/pid-3088955-dt-content-rid-40243114_1/xid-40243114_1"><span style="font-size: 12pt;">🔣&nbsp;R code file for this workshop session</span></a>
+<a href="https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R-web/main/sv2017_original.csv"><span style="font-size: 12pt;">💾&nbsp;The sv2017 dataset in csv (comma-separated) format</span></a><br />
+<a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/Learn-R-CODE-corr-regr-PARTS-1-2.R"><span style="font-size: 12pt;">🔣&nbsp;R code file for this workshop session</span></a>
 
 </div>
 
@@ -95,7 +97,7 @@ For Pearson's correlation we need variables with normal distributions, so first
 log~10~-transform Cd and Zn...
 
 ```{r transform variables, results='hold'}
-git <- "https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R/main/"
+git <- "https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R-web/main/"
 sv2017 <- read.csv(paste0(git,"sv2017_original.csv"), stringsAsFactors = TRUE)
 sv2017$Cd.log <- log10(sv2017$Cd)
 sv2017$Zn.log <- log10(sv2017$Zn)
@@ -339,6 +341,7 @@ individual groups. Finally, the relationship between Al and Ca may be influenced
 by a single observation with low Al and high Ca. All issues like this should be
 considered when we explore our data more deeply.
 
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
 The classic example of correlations which need plots to interpret them is the 
 somewhat famous **Anscombe's Quartet**. This is shown below in Figure 5:
 
@@ -382,6 +385,7 @@ text(20,3.8, pos=2, col="#005090",
 abline(lm4, lwd = 2, col = "#00509080")
 
 ```
+</div>
 
 <p>&nbsp;</p>
 
