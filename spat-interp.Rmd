@@ -105,7 +105,6 @@ flextable(pklist,cwidth=c(1.2,4.5,2.5)) |>
   border_outer(border=BorderDk, part = "all") |>
   bold(j=1, bold=TRUE) |>
   set_caption(caption="Table 1: R packages used for spatial data analysis and visualisation.")
-git <- "https://raw.githubusercontent.com/Ratey-AtUWA/"
 ```
 
 <p>&nbsp;</p>
@@ -129,8 +128,9 @@ library(viridis)
 LongLat <- st_crs(4326) # uses Earth ellipsis specs from WGS84 datum
 UTM50S <- st_crs(32750) # just for Zone 50, S hemisphere!
 # import the data
-ngsaWA <- read.csv(paste0(git,"bookChapters/main/ngsaWA.csv"), stringsAsFactors = TRUE)
-NGSAWA_border <- read.csv(paste0(git, "bookChapters/main/NGSAWA_border.csv"))
+git <- "https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R-web/main/"
+ngsaWA <- read.csv(paste0(git,"ngsaWA.csv"), stringsAsFactors = TRUE)
+NGSAWA_border <- read.csv(paste0(git, "NGSAWA_border.csv"))
 # make spatial data objects
 ngsaWAsf <- st_as_sf(x = ngsaWA, coords = c("LONGITUDE","LATITUDE"),
                      crs = LongLat)

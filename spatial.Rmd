@@ -82,8 +82,6 @@ set_flextable_defaults(theme_fun = "theme_zebra",
                        font.size = 10, fonts_ignore = TRUE)
 BorderDk <- officer::fp_border(color = "#B5C3DF", style = "solid", width = 1)
 BorderLt <- officer::fp_border(color = "#FFFFFF", style = "solid", width = 1)
-
-git <- "https://raw.githubusercontent.com/Ratey-AtUWA/"
 ```
 
 ```{r tabulate-packages, echo=FALSE}
@@ -134,10 +132,10 @@ LongLat <- st_crs(4326) # uses Earth ellipsis specs from WGS84 datum
 UTM50S <- st_crs(32750) # just for Zone 50, S hemisphere!
 
 # import the data
-
-ngsaWA <- read.csv(file=paste0(git,"bookChapters/main/ngsaWA.csv"), 
+git <- "https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R-web/main/"
+ngsaWA <- read.csv(file=paste0(git,"ngsaWA.csv"), 
                    stringsAsFactors = TRUE)
-NGSAWA_border <- read.csv(paste0(git,"bookChapters/main/NGSAWA_border.csv"))
+NGSAWA_border <- read.csv(paste0(git,"NGSAWA_border.csv"))
 
 # make spatial data objects
 
