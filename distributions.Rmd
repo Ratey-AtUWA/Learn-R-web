@@ -5,7 +5,14 @@ author: "Andrew Rate"
 date: "`r Sys.Date()`"
 output: 
   html_document:
-    highlight: kate
+    theme: yeti
+    code_folding: show
+    self_contained: no
+    number_sections: no
+    smart: no
+    toc: true
+    toc_depth: 2
+    toc_float: true
 ---
 
 <style type="text/css">
@@ -20,7 +27,7 @@ library(flextable)
   set_flextable_defaults(font.family = "Arial", font.size = 10, 
                        theme_fun = "theme_booktabs", padding = 1)
 library(officer)
-git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+git <- "https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/"
 sv2017 <- read.csv(paste0(git, "sv2017_original.csv"))
 ```
 
@@ -30,7 +37,7 @@ and Charles Veryard Reserves in 2017.
 
 ```{r prelim-notrun, warning=FALSE, message=FALSE, eval=FALSE}
 library(car)
-git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+git <- "https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/"
 sv2017 <- read.csv(paste0(git, "sv2017_original.csv"))
 ```
 

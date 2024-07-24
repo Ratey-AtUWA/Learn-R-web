@@ -3,7 +3,16 @@ title: "Utilities = useful stuff"
 subtitle: "Making use of unusual regression residuals"
 author: "Andrew Rate"
 date: "`r Sys.Date()`"
-output: html_document
+output: 
+  html_document:
+    theme: yeti
+    code_folding: show
+    self_contained: no
+    number_sections: no
+    smart: no
+    toc: true
+    toc_depth: 2
+    toc_float: true
 ---
 
 <style type="text/css">
@@ -42,7 +51,7 @@ library(prettymapr)    # add scale bar and north arrows to maps
 For this session we're going to use the Ashfield Flats compiled data from 2019-2023.
 
 ```{r read-data, message=FALSE, warning=FALSE}
-git <- "https://github.com/Ratey-AtUWA/Learn-R/raw/main/"
+git <- "https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/"
 afs1923 <- read.csv(paste0(git,"afs1923.csv"), stringsAsFactors = TRUE)
 # re-order the factor levels
 afs1923$Type <- factor(afs1923$Type, levels=c("Drain_Sed","Lake_Sed","Saltmarsh","Other"))

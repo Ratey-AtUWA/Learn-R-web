@@ -5,10 +5,14 @@ author: "Andrew Rate"
 date: "`r Sys.Date()`"
 output: 
   html_document: 
-    toc_depth: 2
-    fig_caption: yes
-    number_sections: no
+    theme: yeti
+    code_folding: show
     self_contained: no
+    number_sections: no
+    smart: no
+    toc: true
+    toc_depth: 2
+    toc_float: true
 ---
 
 # Summary statistics tables which include sample counts above environmental thresholds
@@ -101,7 +105,7 @@ classes at The University of Western Australia (see Rate and McGrath, 2022 for
 an earlier version).
 
 ```{r}
-git <- "https://github.com/Ratey-AtUWA/bookChapters/raw/main/"
+git <- "https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/"
 sedsoil <- read.csv(paste0(git,"afs1923abridged.csv"), stringsAsFactors = TRUE)
 # convert Year to a factor, and SampID to character
 sedsoil$Year <- factor(sedsoil$Year)
