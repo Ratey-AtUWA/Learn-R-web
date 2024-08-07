@@ -37,7 +37,7 @@ library(officer)
 
 ## Introduction
 
-![Image of a Table of different categories of tables](./images/TablesTable.jpg){align="right" width=398 height=200}
+![Image of a Table of different categories of furniture tables. This is intended to be humorous and to provoke curiosity!](./images/TablesTable.jpg){align="right" width=398 height=200}
 In environmental reporting it's common to produce tables containing statistical
 summaries of the variables which have been measured at a particular location or
 in a specific environment. The statistical parameters presented often include 

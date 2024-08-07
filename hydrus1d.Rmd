@@ -101,9 +101,9 @@ You may need to return to the `Time Information` dialog later depending on the o
 - Select the desired pre-set from the `Soil Catalog` ![Water Flow Parameters dialog screenshot](images/10-water-flow.png){align="right" width=414 height=229}  
 `Qr` = Residual soil water content, *q~r~*  
 `Qs` = Saturated soil water content, *q~s~*  
-`Alpha` = Parameter *a* in the soil water retention function [L^-1^]  
+`Alpha` = Parameter *a* in the soil water retention function [L^&minus;1^]  
 `n` = Parameter *n* in the soil water retention function  
-`Ks` = Saturated hydraulic conductivity, *K~s~* [LT^-1^]  
+`Ks` = Saturated hydraulic conductivity, *K~s~* [LT^&minus;1^]  
 `l` = Tortuosity parameter in the conductivity function [-]
 
 The individual values can be set manually too.
@@ -128,14 +128,14 @@ The individual values can be set manually too.
 (dimensions are in square brackets [ ] )
 
 #### `Soil Specific Parameters`:
-`Bulk.d.` = Bulk density, *r* [ML^-3^]  
+`Bulk.d.` = Bulk density, *r* [ML^&minus;3^]  
 `Disp` = Longitudinal dispersivity, *D~L~* [L]  
 `Frac` = ...fraction of adsorption sites with instantaneous sorption...; Set = 1 for equilibrium transport  
 `ThIm` = Immobile water content. Set equal to 0 when *physical nonequilibrium* is not considered.
 
 #### `Solute Specific Parameters`:
-`Diffus.W` = diffusion coefficient in water, *D~w~* [L^2^T^-1^]  
-`Diffus.G` = diffusion coefficient in soil air, *D~a~* [L^2^T^-1^]
+`Diffus.W` = diffusion coefficient in water, *D~w~* [L&sup2;T^&minus;1^]  
+`Diffus.G` = diffusion coefficient in soil air, *D~a~* [L&sup2;T^&minus;1^]
 
 &nbsp;
 
