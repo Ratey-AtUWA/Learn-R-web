@@ -20,6 +20,7 @@ output:
 Load the R packages we need and set a default table style (&lsquo;`theme`&rsquo;):
 
 ```{r preliminaries, message = FALSE, warning = FALSE, include = FALSE}
+library(RcmdrMisc)
 library(flextable)
   set_flextable_defaults(font.family = "Arial", font.size = 11, 
                        theme_fun = "theme_booktabs", padding = 1)
@@ -27,6 +28,7 @@ library(officer)
 ```
 
 ```{r setup, eval=FALSE}
+library(RcmdrMisc)
 library(flextable)
   set_flextable_defaults(font.family = "Arial", font.size = 11, 
                        theme_fun = "theme_booktabs", padding = 1)
@@ -62,7 +64,7 @@ In the code chunk below we make use of the ability to name rows in R data
 frames. This will be useful later on as we can include the row names in indices
 to interrogate the data frame for the correct environmental threshold.
 
-```{r import-guidelines}
+```{r read-guidelines-data}
 ISQG <- read.csv("https://github.com/Ratey-AtUWA/bookChapters/raw/main/ISQG.csv")
 row.names(ISQG) <- ISQG$Tox
 HIL <- read.csv("https://github.com/Ratey-AtUWA/bookChapters/raw/main/HIL_NEPM.csv")
@@ -75,13 +77,13 @@ cat("\nNOTES:\nDGV = Default Guideline Value; GV_high = Upper Guideline Value; \
 cat("Tox = Toxicant\n")
 ```
 
-```{r name-HIL-columns-hide, echo=FALSE}
+```{r shorten-HIL-colnames-hide, echo=FALSE}
 colnames(HIL)[3:6] <- 
   c("Resid...A","Resid...B","Recreat...C","Industr...D" )
 ```
 
 
-```{r show-HIL, echo=1, message=FALSE, warning=FALSE, paged.print=FALSE, results='hold'}
+```{r show-HIL-data, echo=1, message=FALSE, warning=FALSE, paged.print=FALSE, results='hold'}
 print(HIL)
 cat("\nNOTES:\nTox = Toxicant; Resid = Residential; \n")
 cat("Recreat = Recreational / Public Open Space; Industr = Industrial\n")
@@ -111,23 +113,30 @@ sedsoil$SampID <- as.character(sedsoil$SampID)
 summary(sedsoil)
 ```
 
-```{r select-variables-make-summtable, message=FALSE, warning=FALSE, paged.print=FALSE, results='hold'}
+```{r choose-variables-make-summary, message=FALSE, warning=FALSE, paged.print=FALSE, results='hold'}
 # first define the variables we want to summarise, and make the basic summary
 elem0 <- c("As","Cr","Cu","Mn","Ni","Pb","Zn")
-(summ0 <- data.frame(tox=elem0,
-             mean=apply(sedsoil[,elem0], 2, function(x){mean(x, na.rm=T)}),
-             sd = apply(sedsoil[,elem0], 2, function(x){sd(x, na.rm=T)}),
-             min = apply(sedsoil[,elem0], 2, function(x){min(x, na.rm=T)}),
-             median = apply(sedsoil[,elem0], 2, function(x){median(x, na.rm=T)}),
-             max = apply(sedsoil[,elem0], 2, function(x){max(x, na.rm=T)}),
-             n = apply(sedsoil[,elem0], 2, function(x){length(na.omit(x))}),
-             nNA = apply(sedsoil[,elem0], 2, function(x){sum(is.na(x))})))
+(summ0 <- numSummary(sedsoil[,elem0], 
+                    statistics = c("mean","sd","quantiles"),
+                    quantiles = c(0,0.5,1)))
 ```
 
+At this stage it's worth inspecting the contents of the list object created 
+using `numSummary()`:
+
+```{r inspect-numSummary-object}
+str(summ0)
+```
+
+We can see that the main summary table (`$table`), the count of observations
+(`$n`), and the count of missing values (`$NAs`) are stored as separate items in
+the list. We will make use of this in the code below; we make a new data frame 
+to hold the results, since this is what we need to input into `flextable`.
+
 <div style="border: 2px solid #fa2; padding: 8px;">
-Instead of making multiple usage of the `apply()` function, we could use the 
-convenient `numSummary()` function in the `RcmdrMisc::` package (Fox & Marquez 2023).
-To look at how that's done, look at the [alternative version of this page](tablesRCM.html).
+Instead of using the `numSummary()` function in the `RcmdrMisc::` package, we
+can use base **R**, making multiple usage of the `apply()` function. To look at
+how that's done, look at the [main version of this page](tables.html).
 </div>
 
 &nbsp;
@@ -140,8 +149,15 @@ function and the customised column and row names we generated earlier, *e.g*.,
 * The code `ISQG[elem0[i],"DGV"]` find the desired value from the ISQG table using the row index `elem0[i]`, and the column index `"DGV"`.  So, the variable names in the data must match the toxicant names in the thresholds table!!
 * So, `which(sedsoil[,elem0[i]] > ISQG[elem0[i],"DGV"])` will give the row indices in `sedsoil` for which the condition is `TRUE`, and the code then simply counts these using `length(which(sedsoil[,elem0[i]] > ISQG[elem0[i],"DGV"]))`
 
-```{r make-output-DF, paged.print=FALSE}
-OutputDF <- summ0
+```{r make-final-output-DF, paged.print=FALSE}
+# just in case our variables have no NA values, make different ways
+# of creating the data frame to hold our results
+
+if(length(summ0$NAs)==0){
+  OutputDF <- data.frame(summ0$table,n=summ0$n,NAs=rep(0,length(summ0$n)))
+} else {
+  OutputDF <- data.frame(summ0$table,n=summ0$n,NAs=summ0$NAs)
+}
 
 # add blank columns in data frame for environmental thresholds
 
@@ -163,8 +179,8 @@ for(i in 1:length(elem0)){
 
 # rename the columns to more understandable names
 
-colnames(OutputDF)[9:11] <- c("n > DGV","n > GV-high", "n > HIL(C)")
-print(OutputDF, row.names = F)
+colnames(OutputDF)[c(3:5,8:10)] <- c("min","median","max","n > DGV","n > GV-high", "n > HIL(C)")
+print(OutputDF)
 ```
 
 We could stop here, but this is not an attractively-formatted table. To make a
@@ -181,8 +197,7 @@ in the `set_caption()` function.
 ```{r final-flextable}
 # make a new data frame with columns and rows transposed, and the 
 # previous column names as the first column:
-ft <- data.frame(Statistic=colnames(OutputDF[,2:ncol(OutputDF)]),
-                 t(signif(OutputDF[,2:ncol(OutputDF)],3)))
+ft <- as.data.frame(cbind(colnames(OutputDF),t(signif(OutputDF,3))))
 
 # Then, use flextable to output a table in publication-quality form
 
@@ -192,9 +207,6 @@ flextable(ft) |>
   align(j=2:8, align="right", part="all") |>
   padding(i=8, padding.top = 8) |>
   bold(bold=TRUE, part="header") |>
-  set_formatter(As=function(x){sprintf("%.01f",x)},
-                Cr=function(x){sprintf("%.0f",x)},
-                Pb=function(x){sprintf("%.0f",x)}) |> 
   set_caption(caption="Table 1: Summary statistics for trace element concentrations (mg/kg) in sediment or soil at Ashfield Flats 2019-2023. Abbreviations: n = number of valid observations; NAs = number of missing observations; n > DGV is number of samples exceeding the sediment Default Guideline Value; n > GV-high is number of samples exceeding the sediment upper Guideline Value at which toxicity effects might be expected (Water Quality Australia, 2024). HIL(C) is the human-health based investigation level for Recreational (public open space) land use (NEPC, 2013).", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
 ```
 
@@ -215,6 +227,7 @@ analysis.
 NEPC (National Environment Protection Council). (2013). Schedule B(1): Guideline on the Investigation Levels for Soil and Groundwater. **In** *National Environment Protection (Assessment of Site Contamination) Measure (Amended)*. Commonwealth of Australia. 
 
 Rate, A. W., & McGrath, G. S. (2022). Data for assessment of sediment, soil, and water quality at Ashfield Flats Reserve, Western Australia. *Data in Brief*, **41**, 107970. [https://doi.org/10.1016/j.dib.2022.107970](https://doi.org/10.1016/j.dib.2022.107970){target="_blank"} 
+
 
 Water Quality Australia. (2024). *Toxicant default guideline values for sediment quality.* Department of Climate Change, Energy, the Environment and Water, Government of Australia. Retrieved 2024-04-11 from [https://www.waterquality.gov.au/anz-guidelines/guideline-values/default/sediment-quality-toxicants](https://www.waterquality.gov.au/anz-guidelines/guideline-values/default/sediment-quality-toxicants){target="_blank"}
 
