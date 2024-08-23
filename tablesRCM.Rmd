@@ -49,8 +49,9 @@ of contaminants that exceed environmental thresholds, and if so, how many.
 The first code chunk (above) shows that we will use the `RcmdrMisc` package, as 
 it contains the useful `numSummary()` function, and the `flextable` package for 
 producing nicely-formatted tables. We also load the `officer` package to 
-make use of some formatting options in `flextable`. The rest of the code just 
-makes use of some functions in base R.
+make use of some formatting options in `flextable`. The code actually used to
+make the summary table object(s) makes use of some functions in base R, with 
+the `apply()` and `which()` functions doing most of the hard work.
 
 ## Importing environmental threshold data
 

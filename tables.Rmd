@@ -44,11 +44,11 @@ In many environmental contexts (*e.g*. assessing environments for pollution or
 contamination) it's also very useful to know if any samples have concentrations
 of contaminants that exceed environmental thresholds, and if so, how many.
 
-The first code chunk (above) shows that we will use the `RcmdrMisc` package, as 
-it contains the useful `numSummary()` function, and the `flextable` package for 
+The first code chunk (above) shows that we will use the `flextable` package for 
 producing nicely-formatted tables. We also load the `officer` package to 
-make use of some formatting options in `flextable`. The rest of the code just 
-makes use of some functions in base R.
+make use of some formatting options in `flextable`. The code actually used to
+make the summary table object(s) makes use of some functions in base R, with 
+the `apply()` and `which()` functions doing most of the hard work.
 
 ## Importing environmental threshold data
 
@@ -202,7 +202,7 @@ flextable(ft) |>
   set_formatter(As=function(x){sprintf("%.01f",x)},
                 Cr=function(x){sprintf("%.0f",x)},
                 Pb=function(x){sprintf("%.0f",x)}) |> 
-  set_caption(caption="Table 1: Summary statistics for trace element concentrations (mg/kg) in sediment or soil at Ashfield Flats 2019-2023. Abbreviations: n = number of valid observations; NAs = number of missing observations; n > DGV is number of samples exceeding the sediment Default Guideline Value; n > GV-high is number of samples exceeding the sediment upper Guideline Value at which toxicity effects might be expected (Water Quality Australia, 2024). HIL(C) is the human-health based investigation level for Recreational (public open space) land use (NEPC, 2013).", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
+  set_caption(caption="Table 1: Summary statistics for trace element concentrations (mg/kg) in sediment or soil at Ashfield Flats 2019-2023. Abbreviations: n = number of valid observations; nNA = number of missing observations; n > DGV is number of samples exceeding the sediment Default Guideline Value; n > GV-high is number of samples exceeding the sediment upper Guideline Value at which toxicity effects might be expected (Water Quality Australia, 2024). HIL(C) is the human-health based investigation level for Recreational (public open space) land use (NEPC, 2013).", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
 ```
 
 <p>&nbsp;</p>
