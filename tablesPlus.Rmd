@@ -305,12 +305,12 @@ flextable(ss2022[,c(2,7:13)]) |> bold(bold=T, part="header") |>
   set_header_labels(Sample_ID="Sample code") |> 
   align(align="center", j=2:8, part="all") |> 
   valign(valign = "bottom", part="header") |> 
-  bg(~ As > ISQG["As","DGV"], j="As", bg="#ffffa0", part="body") |> 
-  bg(~ Cr > ISQG["Cr","DGV"], j="Cr", bg="#ffffa0", part="body") |> 
-  bg(~ Cu > ISQG["Cu","DGV"], j="Cu", bg="#ffffa0", part="body") |> 
-  bg(~ Ni > ISQG["Ni","DGV"], j="Ni", bg="#ffffa0", part="body") |> 
-  bg(~ Pb > ISQG["Pb","DGV"], j="Pb", bg="#ffffa0", part="body") |> 
-  bg(~ Zn > ISQG["Zn","DGV"], j="Zn", bg="#ffffa0", part="body") |> 
+  bg(~ As > ISQG["As","DGV"], j="As", bg="#ffff60", part="body") |> 
+  bg(~ Cr > ISQG["Cr","DGV"], j="Cr", bg="#ffff60", part="body") |> 
+  bg(~ Cu > ISQG["Cu","DGV"], j="Cu", bg="#ffff60", part="body") |> 
+  bg(~ Ni > ISQG["Ni","DGV"], j="Ni", bg="#ffff60", part="body") |> 
+  bg(~ Pb > ISQG["Pb","DGV"], j="Pb", bg="#ffff60", part="body") |> 
+  bg(~ Zn > ISQG["Zn","DGV"], j="Zn", bg="#ffff60", part="body") |> 
   bold(~ As > ISQG["As","GV_high"], j="As", bold=TRUE, part="body") |> 
   bold(~ Cr > ISQG["Cr","GV_high"], j="Cr", bold=TRUE, part="body") |> 
   bold(~ Cu > ISQG["Cu","GV_high"], j="Cu", bold=TRUE, part="body") |> 
@@ -330,7 +330,7 @@ flextable(ss2022[,c(2,7:13)]) |> bold(bold=T, part="header") |>
                 Ni=function(x){sprintf("%.0f",x)},
                 Pb=function(x){sprintf("%.0f",x)},
                 Zn=function(x){sprintf("%.0f",x)}) |> 
-  set_caption(caption="Table 3: Concentrations of selected elements (mg/kg) in Ashfield Flats sediments sampled in March 2022. Shaded (yellow) cells show concentrations exceeding the Default Guideline Value (DGV); darker shading (orange) + bold exceed the GV-high value for that column's element (sediment guidelines from Water Quality Australia, 2024).", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
+  set_caption(caption="Table 3: Concentrations of selected elements (mg/kg) in Ashfield Flats sediments sampled in March 2022. Light shaded (yellow) cells show concentrations exceeding the Default Guideline Value (DGV); darker shading (orange) + bold exceed the GV-high value for that column's element (sediment guidelines from Water Quality Australia, 2024).", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
 ```
 
 &nbsp;
