@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Andrew Rate" />
+
+<meta name="date" content="2024-08-26" />
+
+<title>Counting samples with R</title>
+
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="site_libs/tabwid-1.1.3/tabwid.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Sessions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">For beginners</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Intro</a>
+    </li>
+    <li>
+      <a href="intro-GG.html">Intro+ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Plots
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plots.html">Plots-baseR</a>
+    </li>
+    <li>
+      <a href="plots-GG.html">Plots-ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Compare
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="means.html">Compare means (parametric)</a>
+    </li>
+    <li>
+      <a href="nonparam.html">Non-parametric comparisons</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relate
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="correl.html">Correlation</a>
+    </li>
+    <li>
+      <a href="regression.html">Simple linear regression</a>
+    </li>
+    <li>
+      <a href="reg-group.html">Grouped linear regression</a>
+    </li>
+    <li>
+      <a href="reg-multi.html">Multiple linear regression</a>
+    </li>
+    <li>
+      <a href="timeseries.html">Time series analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Maps
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="maps.html">Map data with tile backgrounds</a>
+    </li>
+    <li>
+      <a href="spatial.html">Spatial statistics</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">Spatial interpolation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Multi
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pca.html">Principal components analysis</a>
+    </li>
+    <li>
+      <a href="vegan.html">Analysis of species presence-absence data</a>
+    </li>
+    <li>
+      <a href="lda.html">Linear discriminant analysis</a>
+    </li>
+    <li>
+      <a href="cluster.html">Cluster analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Util
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="distributions.html">Distribution checking</a>
+    </li>
+    <li>
+      <a href="residuals.html">Regression residuals to identify contamination</a>
+    </li>
+    <li>
+      <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">UWA School of Agriculture and Environment</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!DOCTYPE html>
+
+<html>
+<body>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
+</body>
+</html>
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Counting samples with R</h1>
+<h3 class="subtitle">Informative summary tables for environmental
+investigations</h3>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2024-08-26</h4>
+
+</div>
+
+
+<div
+id="summary-statistics-tables-which-include-sample-counts-above-environmental-thresholds"
+class="section level1">
+<h1>Summary statistics tables which include sample counts above
+environmental thresholds</h1>
+<p>Load the R packages we need and set a default table style
+(‘<code>theme</code>’):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(flextable)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">set_flextable_defaults</span>(<span class="at">font.family =</span> <span class="st">&quot;Arial&quot;</span>, <span class="at">font.size =</span> <span class="dv">11</span>, </span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>                       <span class="at">theme_fun =</span> <span class="st">&quot;theme_booktabs&quot;</span>, <span class="at">padding =</span> <span class="dv">1</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(officer)</span></code></pre></div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p><img src="./images/TablesTable.jpg" align="right" width="398"
+height="200"
+alt="Image of a Table of different categories of furniture tables. This is intended to be humorous and to provoke curiosity!" />
+In environmental reporting it's common to produce tables containing
+statistical summaries of the variables which have been measured at a
+particular location or in a specific environment. The statistical
+parameters presented often include basic statistics such as mean,
+median, standard deviation, minimum, and maximum. In many environmental
+contexts (<em>e.g</em>. assessing environments for pollution or
+contamination) it's also very useful to know if any samples have
+concentrations of contaminants that exceed environmental thresholds, and
+if so, how many.</p>
+<p>The first code chunk (above) shows that we will use the
+<code>flextable</code> package for producing nicely-formatted tables. We
+also load the <code>officer</code> package to make use of some
+additional formatting options in <code>flextable</code>. The code
+actually used to make the summary table object(s) makes use of some
+functions in base R, with the <code>apply()</code> and
+<code>which()</code> functions doing most of the hard work.</p>
+</div>
+<div id="importing-environmental-threshold-data" class="section level2">
+<h2>Importing environmental threshold data</h2>
+<p>In this example we will be looking at data on analysis of sediments
+and soils, for which environmental guideline values exist in Australia.
+For sediments we use the guidelines provided by Water Quality Australia
+(2024), which were derived from the interim sediment quality guidelines
+(ISQG) (hence the name of the file and data frame!). Soil guideline
+values are from NEPC (2013).</p>
+<p>In the code chunk below we make use of the ability to name rows in R
+data frames. This will be useful later on as we can include the row
+names in indices to interrogate the data frame for the correct
+environmental threshold.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>ISQG <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://github.com/Ratey-AtUWA/bookChapters/raw/main/ISQG.csv&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">row.names</span>(ISQG) <span class="ot">&lt;-</span> ISQG<span class="sc">$</span>Tox</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>HIL <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://github.com/Ratey-AtUWA/bookChapters/raw/main/HIL_NEPM.csv&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">row.names</span>(HIL) <span class="ot">&lt;-</span> HIL<span class="sc">$</span>Tox</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">print</span>(ISQG)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">NOTES:</span><span class="sc">\n</span><span class="st">DGV = Default Guideline Value; GV_high = Upper Guideline Value; </span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Tox = Toxicant</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>##       DGV GV_high Tox
+## Ag   1.00       4  Ag
+## As  20.00      70  As
+## Cd   1.50      10  Cd
+## Cr  80.00     370  Cr
+## Cu  65.00     270  Cu
+## Hg   0.15       1  Hg
+## Pb  50.00     220  Pb
+## Ni  21.00      52  Ni
+## Sb   2.00      25  Sb
+## Zn 200.00     410  Zn
+##
+## NOTES:
+## DGV = Default Guideline Value; GV_high = Upper Guideline Value;
+## Tox = Toxicant</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">print</span>(HIL)</span></code></pre></div>
+<pre><code>##                   Element   Tox Resid...A Resid...B Recreat...C Industr...D
+## As                Arsenic    As       100       500         300        3000
+## Be              Beryllium    Be        60        90          90         500
+## B                   Boron     B      4500     40000       20000      300000
+## Cd                Cadmium    Cd        20       150          90         900
+## Cr           Chromium(VI)    Cr       100       500         300        3600
+## Co                 Cobalt    Co       100       600         300        4000
+## Cu                 Copper    Cu      6000     30000       17000      240000
+## Pb                   Lead    Pb       300      1200         600        1500
+## Mn              Manganese    Mn      3800     14000       19000       60000
+## Hg    Mercury_(inorganic)    Hg        40       120          80         730
+## CH3Hg      Methyl_mercury CH3Hg        10        30          13         180
+## Ni                 Nickel    Ni       400      1200        1200        6000
+## Se               Selenium    Se       200      1400         700       10000
+## Zn                   Zinc    Zn      7400     60000       30000      400000
+## CN         Cyanide_(free)    CN       250       300         240        1500
+##
+## NOTES:
+## Tox = Toxicant; Resid = Residential;
+## Recreat = Recreational / Public Open Space; Industr = Industrial</code></pre>
+<p>We can see from the output above that, for reporting, it would be
+worthwhile using a package (such as <code>flextable</code>, but there
+are several others) that can produce more attractive and readable
+tables.</p>
+</div>
+<div id="importing-the-environmental-data-we-want-to-summarise"
+class="section level2">
+<h2>Importing the environmental data we want to summarise</h2>
+<p>We will use a subset of a dataset generated by some of our
+environmental science classes at The University of Western Australia
+(see Rate and McGrath, 2022 for an earlier version).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/&quot;</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>sedsoil <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;afs1923abridged.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co"># convert Year to a factor, and SampID to character</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>sedsoil<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">factor</span>(sedsoil<span class="sc">$</span>Year)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>sedsoil<span class="sc">$</span>SampID <span class="ot">&lt;-</span> <span class="fu">as.character</span>(sedsoil<span class="sc">$</span>SampID)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">summary</span>(sedsoil)</span></code></pre></div>
+<pre><code>##    Year       SampID                 Type       DepthType     Longitude
+##  2019:91   Length:336         Drain_Sed: 61   Core   : 47   Min.   :115.9
+##  2020:75   Class :character   Lake_Sed :121   Surface:289   1st Qu.:115.9
+##  2021:65   Mode  :character   Other    : 15                 Median :115.9
+##  2022:31                      Saltmarsh:139                 Mean   :115.9
+##  2023:74                                                    3rd Qu.:115.9
+##                                                             Max.   :115.9
+##
+##     Latitude            As               Cr              Cu
+##  Min.   :-31.92   Min.   : 0.400   Min.   : 1.00   Min.   :   2.0
+##  1st Qu.:-31.92   1st Qu.: 4.000   1st Qu.:34.00   1st Qu.:  32.0
+##  Median :-31.92   Median : 6.050   Median :54.70   Median :  61.0
+##  Mean   :-31.92   Mean   : 8.159   Mean   :49.33   Mean   : 111.7
+##  3rd Qu.:-31.92   3rd Qu.: 9.000   3rd Qu.:65.45   3rd Qu.: 165.5
+##  Max.   :-31.92   Max.   :62.000   Max.   :84.00   Max.   :1007.8
+##                   NA&#39;s   :13                       NA&#39;s   :9
+##        Mn               Ni              Pb               Zn
+##  Min.   :   6.0   Min.   : 1.00   Min.   :  1.00   Min.   :   1.0
+##  1st Qu.:  55.7   1st Qu.:13.00   1st Qu.: 25.73   1st Qu.: 108.2
+##  Median :  79.0   Median :19.00   Median : 37.30   Median : 222.5
+##  Mean   : 143.6   Mean   :19.05   Mean   : 54.91   Mean   : 471.5
+##  3rd Qu.: 120.5   3rd Qu.:24.80   3rd Qu.: 52.00   3rd Qu.: 359.5
+##  Max.   :3503.0   Max.   :50.00   Max.   :831.10   Max.   :7556.4
+##                   NA&#39;s   :9                        NA&#39;s   :4</code></pre>
+</div>
+<div id="generate-summary-statistics" class="section level2">
+<h2>Generate summary statistics</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># first define the variables we want to summarise, and make the basic summary</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>elem0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;As&quot;</span>,<span class="st">&quot;Cr&quot;</span>,<span class="st">&quot;Cu&quot;</span>,<span class="st">&quot;Mn&quot;</span>,<span class="st">&quot;Ni&quot;</span>,<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;Zn&quot;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>(summ0 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">tox=</span>elem0,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>             <span class="at">mean=</span><span class="fu">apply</span>(sedsoil[,elem0], <span class="dv">2</span>, <span class="cf">function</span>(x){<span class="fu">mean</span>(x, <span class="at">na.rm=</span>T)}),</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>             <span class="at">sd =</span> <span class="fu">apply</span>(sedsoil[,elem0], <span class="dv">2</span>, <span class="cf">function</span>(x){<span class="fu">sd</span>(x, <span class="at">na.rm=</span>T)}),</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>             <span class="at">min =</span> <span class="fu">apply</span>(sedsoil[,elem0], <span class="dv">2</span>, <span class="cf">function</span>(x){<span class="fu">min</span>(x, <span class="at">na.rm=</span>T)}),</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>             <span class="at">median =</span> <span class="fu">apply</span>(sedsoil[,elem0], <span class="dv">2</span>, <span class="cf">function</span>(x){<span class="fu">median</span>(x, <span class="at">na.rm=</span>T)}),</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>             <span class="at">max =</span> <span class="fu">apply</span>(sedsoil[,elem0], <span class="dv">2</span>, <span class="cf">function</span>(x){<span class="fu">max</span>(x, <span class="at">na.rm=</span>T)}),</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>             <span class="at">n =</span> <span class="fu">apply</span>(sedsoil[,elem0], <span class="dv">2</span>, <span class="cf">function</span>(x){<span class="fu">length</span>(<span class="fu">na.omit</span>(x))}),</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>             <span class="at">nNA =</span> <span class="fu">apply</span>(sedsoil[,elem0], <span class="dv">2</span>, <span class="cf">function</span>(x){<span class="fu">sum</span>(<span class="fu">is.na</span>(x))})))</span></code></pre></div>
+<pre><code>##    tox       mean          sd min median    max   n nNA
+## As  As   8.158529    7.712881 0.4   6.05   62.0 323  13
+## Cr  Cr  49.332589   20.581402 1.0  54.70   84.0 336   0
+## Cu  Cu 111.716208  121.118755 2.0  61.00 1007.8 327   9
+## Mn  Mn 143.608036  309.044956 6.0  79.00 3503.0 336   0
+## Ni  Ni  19.049388    7.998509 1.0  19.00   50.0 327   9
+## Pb  Pb  54.906101   84.550788 1.0  37.30  831.1 336   0
+## Zn  Zn 471.488554 1016.997243 1.0 222.50 7556.4 332   4</code></pre>
+<div style="border: 2px solid #fa2; padding: 8px;">
+<p>Instead of making multiple usage of the <code>apply()</code>
+function, we could use the convenient <code>numSummary()</code> function
+in the <code>RcmdrMisc::</code> package (Fox &amp; Marquez 2023). To
+look at how that's done, look at the <a
+href="tablesRCM.html">alternative version of this page</a>.</p>
+</div>
+<p> </p>
+</div>
+<div id="add-the-count-information" class="section level2">
+<h2>Add the count information</h2>
+<p>To perform the actual counting of sample numbers, we use base R's
+<code>which()</code> function and the customised column and row names we
+generated earlier, <em>e.g</em>.,
+<code>which(sedsoil[,elem0[i]] &gt; ISQG[elem0[i],"DGV"])</code>.</p>
+<ul>
+<li>The code <code>sedsoil[,elem0[i]]</code> selects the column from
+<code>sedsoil</code> with the same name as the i<sup>th</sup> element of
+the list of variables <code>elem0</code>, <em>i.e</em>.
+<code>elem0[i]</code>.<br />
+</li>
+<li>The code <code>ISQG[elem0[i],"DGV"]</code> find the desired value
+from the ISQG table using the row index <code>elem0[i]</code>, and the
+column index <code>"DGV"</code>. So, the variable names in the data must
+match the toxicant names in the thresholds table!!</li>
+<li>So, <code>which(sedsoil[,elem0[i]] &gt; ISQG[elem0[i],"DGV"])</code>
+will give the row indices in <code>sedsoil</code> for which the
+condition is <code>TRUE</code>, and the code then simply counts these
+using
+<code>length(which(sedsoil[,elem0[i]] &gt; ISQG[elem0[i],"DGV"]))</code></li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>OutputDF <span class="ot">&lt;-</span> summ0</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co"># add blank columns in data frame for environmental thresholds</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>OutputDF<span class="sc">$</span>DGV <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,<span class="fu">length</span>(elem0))</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>OutputDF<span class="sc">$</span>GV_high <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,<span class="fu">length</span>(elem0))</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>OutputDF<span class="sc">$</span>HIL_C <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,<span class="fu">length</span>(elem0))</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co"># count the values for each element exceeding the various thresholds</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co"># and populate the data frame</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(elem0)){</span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a>  OutputDF<span class="sc">$</span>DGV[i] <span class="ot">&lt;-</span> </span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>    <span class="fu">length</span>(<span class="fu">which</span>(sedsoil[,elem0[i]] <span class="sc">&gt;</span> ISQG[elem0[i],<span class="st">&quot;DGV&quot;</span>]))</span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>  OutputDF<span class="sc">$</span>GV_high[i] <span class="ot">&lt;-</span> </span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>    <span class="fu">length</span>(<span class="fu">which</span>(sedsoil[,elem0[i]] <span class="sc">&gt;</span> ISQG[elem0[i],<span class="st">&quot;GV_high&quot;</span>]))</span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a>  OutputDF<span class="sc">$</span>HIL_C[i] <span class="ot">&lt;-</span> </span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a>    <span class="fu">length</span>(<span class="fu">which</span>(sedsoil[,elem0[i]] <span class="sc">&gt;</span> HIL[elem0[i],<span class="st">&quot;Recreational_C&quot;</span>]))</span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a>}</span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="co"># rename the columns to more understandable names</span></span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a><span class="fu">colnames</span>(OutputDF)[<span class="dv">9</span><span class="sc">:</span><span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;n &gt; DGV&quot;</span>,<span class="st">&quot;n &gt; GV-high&quot;</span>, <span class="st">&quot;n &gt; HIL(C)&quot;</span>)</span>
+<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a><span class="fu">print</span>(OutputDF, <span class="at">row.names =</span> F)</span></code></pre></div>
+<pre><code>##  tox       mean          sd min median    max   n nNA n &gt; DGV n &gt; GV-high
+##   As   8.158529    7.712881 0.4   6.05   62.0 323  13      26           0
+##   Cr  49.332589   20.581402 1.0  54.70   84.0 336   0       6           0
+##   Cu 111.716208  121.118755 2.0  61.00 1007.8 327   9     156          26
+##   Mn 143.608036  309.044956 6.0  79.00 3503.0 336   0       0           0
+##   Ni  19.049388    7.998509 1.0  19.00   50.0 327   9     137           0
+##   Pb  54.906101   84.550788 1.0  37.30  831.1 336   0      91           9
+##   Zn 471.488554 1016.997243 1.0 222.50 7556.4 332   4     185          73
+##  n &gt; HIL(C)
+##           0
+##           0
+##           0
+##           0
+##           0
+##           4
+##           0</code></pre>
+<p>We could stop here, but this is not an attractively-formatted table.
+To make a publication-quality table, we first make a new data frame with
+columns and rows transposed (using <code>t()</code>), with the previous
+column names as the first column.</p>
+</div>
+<div id="publication-quality-table" class="section level2">
+<h2>Publication-quality table</h2>
+<p>To avoid lots of nesting of <code>flextable</code> functions, we find
+it easiest to pipe the successive lines of code containing formatting
+modifications. We use the [new] native R pipe operator
+<code>|&gt;</code> here, but the older <code>magrittr</code> pipe
+operator <code>%&gt;%</code> would work if you prefer. Where we need the
+<code>officer</code> package is to interpret the formatting option
+<code>fp_p=fp_par(text.align = "left", padding.bottom = 6)</code> in the
+<code>set_caption()</code> function.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># make a new data frame with columns and rows transposed, and the </span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co"># previous column names as the first column:</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Statistic=</span><span class="fu">colnames</span>(OutputDF[,<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(OutputDF)]),</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>                 <span class="fu">t</span>(<span class="fu">signif</span>(OutputDF[,<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(OutputDF)],<span class="dv">3</span>)))</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co"># Then, use flextable to output a table in publication-quality form</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="fu">flextable</span>(ft) <span class="sc">|&gt;</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  <span class="fu">width</span>(<span class="at">j=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>), <span class="at">width=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="fu">rep</span>(<span class="fl">2.2</span>,<span class="dv">6</span>)), <span class="at">unit=</span><span class="st">&quot;cm&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>  <span class="fu">set_header_labels</span>(<span class="at">values=</span><span class="fu">list</span>(<span class="at">V1=</span><span class="st">&quot;&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>  <span class="fu">align</span>(<span class="at">j=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">8</span>, <span class="at">align=</span><span class="st">&quot;right&quot;</span>, <span class="at">part=</span><span class="st">&quot;all&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>  <span class="fu">padding</span>(<span class="at">i=</span><span class="dv">8</span>, <span class="at">padding.top =</span> <span class="dv">8</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>  <span class="fu">set_formatter</span>(<span class="at">As=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.01f&quot;</span>,x)},</span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>                <span class="at">Cr=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.0f&quot;</span>,x)},</span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>                <span class="at">Pb=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.0f&quot;</span>,x)}) <span class="sc">|&gt;</span> </span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>  <span class="fu">set_caption</span>(<span class="at">caption=</span><span class="st">&quot;Table 1: Summary statistics for trace element concentrations (mg/kg) in sediment or soil at Ashfield Flats 2019-2023. Abbreviations: n = number of valid observations; nNA = number of missing observations; n &gt; DGV is number of samples exceeding the sediment Default Guideline Value; n &gt; GV-high is number of samples exceeding the sediment upper Guideline Value at which toxicity effects might be expected (Water Quality Australia, 2024). HIL(C) is the human-health based investigation level for Recreational (public open space) land use (NEPC, 2013).&quot;</span>, <span class="at">align_with_table=</span>F, <span class="at">fp_p=</span><span class="fu">fp_par</span>(<span class="at">text.align =</span> <span class="st">&quot;left&quot;</span>, <span class="at">padding.bottom =</span> <span class="dv">6</span>))</span></code></pre></div>
+<div class="tabwid"><style>.cl-87bbec54{}.cl-87ab8634{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-87ab8648{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-87b1c22e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-87b1c238{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-87b1c242{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:8pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-87b1c24c{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:8pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-87b1e768{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87b1e772{width:0.866in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87b1e77c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87b1e786{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87b1e787{width:0.866in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87b1e790{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87b1e791{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87b1e792{width:0.866in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-87b1e79a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-87bbec54'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Summary statistics for trace element concentrations (mg/kg) in sediment or soil at Ashfield Flats 2019-2023. Abbreviations: n = number of valid observations; nNA = number of missing observations; n &gt; DGV is number of samples exceeding the sediment Default Guideline Value; n &gt; GV-high is number of samples exceeding the sediment upper Guideline Value at which toxicity effects might be expected (Water Quality Australia, 2024). HIL(C) is the human-health based investigation level for Recreational (public open space) land use (NEPC, 2013).</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-87b1e768"><p class="cl-87b1c22e"><span class="cl-87ab8634">Statistic</span></p></th><th class="cl-87b1e772"><p class="cl-87b1c238"><span class="cl-87ab8634">As</span></p></th><th class="cl-87b1e772"><p class="cl-87b1c238"><span class="cl-87ab8634">Cr</span></p></th><th class="cl-87b1e772"><p class="cl-87b1c238"><span class="cl-87ab8634">Cu</span></p></th><th class="cl-87b1e772"><p class="cl-87b1c238"><span class="cl-87ab8634">Mn</span></p></th><th class="cl-87b1e772"><p class="cl-87b1c238"><span class="cl-87ab8634">Ni</span></p></th><th class="cl-87b1e772"><p class="cl-87b1c238"><span class="cl-87ab8634">Pb</span></p></th><th class="cl-87b1e77c"><p class="cl-87b1c238"><span class="cl-87ab8634">Zn</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-87b1e786"><p class="cl-87b1c22e"><span class="cl-87ab8648">mean</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">8.2</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">49</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">112</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">144</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">19</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">55</span></p></td><td class="cl-87b1e790"><p class="cl-87b1c238"><span class="cl-87ab8648">471</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87b1e786"><p class="cl-87b1c22e"><span class="cl-87ab8648">sd</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">7.7</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">21</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">121</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">309</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">8</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">85</span></p></td><td class="cl-87b1e790"><p class="cl-87b1c238"><span class="cl-87ab8648">1,020</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87b1e786"><p class="cl-87b1c22e"><span class="cl-87ab8648">min</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">0.4</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">1</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">2</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">6</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">1</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">1</span></p></td><td class="cl-87b1e790"><p class="cl-87b1c238"><span class="cl-87ab8648">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87b1e786"><p class="cl-87b1c22e"><span class="cl-87ab8648">median</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">6.0</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">55</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">61</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">79</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">19</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">37</span></p></td><td class="cl-87b1e790"><p class="cl-87b1c238"><span class="cl-87ab8648">222</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87b1e786"><p class="cl-87b1c22e"><span class="cl-87ab8648">max</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">62.0</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">84</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">1,010</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">3,500</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">50</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">831</span></p></td><td class="cl-87b1e790"><p class="cl-87b1c238"><span class="cl-87ab8648">7,560</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87b1e786"><p class="cl-87b1c22e"><span class="cl-87ab8648">n</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">323.0</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">336</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">327</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">336</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">327</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">336</span></p></td><td class="cl-87b1e790"><p class="cl-87b1c238"><span class="cl-87ab8648">332</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87b1e786"><p class="cl-87b1c22e"><span class="cl-87ab8648">nNA</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">13.0</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">0</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">9</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">0</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">9</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">0</span></p></td><td class="cl-87b1e790"><p class="cl-87b1c238"><span class="cl-87ab8648">4</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87b1e786"><p class="cl-87b1c242"><span class="cl-87ab8648">n &gt; DGV</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c24c"><span class="cl-87ab8648">26.0</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c24c"><span class="cl-87ab8648">6</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c24c"><span class="cl-87ab8648">156</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c24c"><span class="cl-87ab8648">0</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c24c"><span class="cl-87ab8648">137</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c24c"><span class="cl-87ab8648">91</span></p></td><td class="cl-87b1e790"><p class="cl-87b1c24c"><span class="cl-87ab8648">185</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87b1e786"><p class="cl-87b1c22e"><span class="cl-87ab8648">n &gt; GV-high</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">0.0</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">0</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">26</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">0</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">0</span></p></td><td class="cl-87b1e787"><p class="cl-87b1c238"><span class="cl-87ab8648">9</span></p></td><td class="cl-87b1e790"><p class="cl-87b1c238"><span class="cl-87ab8648">73</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-87b1e791"><p class="cl-87b1c22e"><span class="cl-87ab8648">n &gt; HIL(C)</span></p></td><td class="cl-87b1e792"><p class="cl-87b1c238"><span class="cl-87ab8648">0.0</span></p></td><td class="cl-87b1e792"><p class="cl-87b1c238"><span class="cl-87ab8648">0</span></p></td><td class="cl-87b1e792"><p class="cl-87b1c238"><span class="cl-87ab8648">0</span></p></td><td class="cl-87b1e792"><p class="cl-87b1c238"><span class="cl-87ab8648">0</span></p></td><td class="cl-87b1e792"><p class="cl-87b1c238"><span class="cl-87ab8648">0</span></p></td><td class="cl-87b1e792"><p class="cl-87b1c238"><span class="cl-87ab8648">4</span></p></td><td class="cl-87b1e79a"><p class="cl-87b1c238"><span class="cl-87ab8648">0</span></p></td></tr></tbody></table></div>
+<p>
+ 
+</p>
+<p>The final table could now go into a report, and most readers would be
+happy with its appearance. We could probably do something about the
+alignment of the numeric columns, but decimal point alignment is not
+available in <code>flextable</code> yet.</p>
+<p>The next really useful type of information to obtain would be
+<strong>where</strong> the samples which exceed environmental thresholds
+are. That question leads us to another more basic question: “<em>How can
+we map our data in R</em>,” and so other sessions cover preparing maps
+in R, and from there we can move on to spatial analysis.</p>
+<p> </p>
+</div>
+</div>
+<div id="raw-data-tabulation" class="section level1">
+<h1>Raw data tabulation</h1>
+<p>In environmental consultancy reports, it's common to tabulate the raw
+data and indicate which individual samples exceed environmental
+guidelines (“<em>assessment criteria</em>”). This final section shows a
+way we can do this in R, using similar concepts to the summary
+statistics table above, but also including some R programming structures
+such as <code>for()</code> and <code>if()</code> functions.</p>
+<div id="defining-input-data" class="section level2">
+<h2>Defining input data</h2>
+<p>We will use a subset of the data we've already used, so that our raw
+data table does not get too large! By running <code>table()</code> on
+the <code>Year</code> column, we see that we have 31 samples in 2022,
+which won't be too big.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">table</span>(sedsoil<span class="sc">$</span>Year)</span></code></pre></div>
+<pre><code>##
+## 2019 2020 2021 2022 2023
+##   91   75   65   31   74</code></pre>
+<p>We can then subset the <code>sedsoil</code> data frame to include
+just the 2022 data, using <code>droplevels()</code> to remove any unused
+factor levels (<em>e.g</em>. years other that 2022):</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>ss2022 <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(sedsoil[<span class="fu">which</span>(sedsoil<span class="sc">$</span>Year<span class="sc">==</span><span class="st">&quot;2022&quot;</span>),])</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">str</span>(ss2022) <span class="co"># check it</span></span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    31 obs. of  13 variables:
+##  $ Year     : Factor w/ 1 level &quot;2022&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ SampID   : chr  &quot;Group 1&quot; &quot;Group 2&quot; &quot;Group 3&quot; &quot;Group 4&quot; ...
+##  $ Type     : Factor w/ 4 levels &quot;Drain_Sed&quot;,&quot;Lake_Sed&quot;,..: 4 4 4 4 4 4 4 4 4 4 ...
+##  $ DepthType: Factor w/ 1 level &quot;Surface&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Longitude: num  116 116 116 116 116 ...
+##  $ Latitude : num  -31.9 -31.9 -31.9 -31.9 -31.9 ...
+##  $ As       : num  6.52 9.24 16.51 7.73 9.39 ...
+##  $ Cr       : num  52.7 54 16.5 62.6 63.4 ...
+##  $ Cu       : num  36.9 39.4 128.7 247.5 251.3 ...
+##  $ Mn       : num  57.3 93.6 85.6 86.3 66.2 ...
+##  $ Ni       : num  14.4 20.1 6.6 27 23.7 ...
+##  $ Pb       : num  24.1 22.5 82.4 83.1 93.7 ...
+##  $ Zn       : num  16.6 34.9 126.1 243.7 212.4 ...</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>colz <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;SampID&quot;</span>,<span class="st">&quot;As&quot;</span>,<span class="st">&quot;Cr&quot;</span>,<span class="st">&quot;Cu&quot;</span>,<span class="st">&quot;Mn&quot;</span>,<span class="st">&quot;Ni&quot;</span>,<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;Zn&quot;</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="fu">head</span>(ss2022[,colz])</span></code></pre></div>
+<pre><code>##      SampID    As   Cr    Cu   Mn   Ni    Pb    Zn
+## 232 Group 1  6.52 52.7  36.9 57.3 14.4  24.1  16.6
+## 233 Group 2  9.24 54.0  39.4 93.6 20.1  22.5  34.9
+## 234 Group 3 16.51 16.5 128.7 85.6  6.6  82.4 126.1
+## 235 Group 4  7.73 62.6 247.5 86.3 27.0  83.1 243.7
+## 236 Group 5  9.39 63.4 251.3 66.2 23.7  93.7 212.4
+## 237 Group 6 35.89 43.7 593.3 58.9 16.4 181.9 315.8</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> ss2022[ ,colz]</span></code></pre></div>
+</div>
+<div id="making-the-data-table-showing-samples-exceeding-guidelines"
+class="section level2">
+<h2>Making the data table showing samples exceeding guidelines</h2>
+<p>We need to use a somewhat complex control structure in our code, as
+shown below</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> ss2022[ ,colz]</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(data0)){</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(data0)){</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>    <span class="co"># first check if guideline value or observation not missing!</span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>    <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.na</span>(data0[i,j]) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(ISQG[<span class="fu">colnames</span>(data0)[j],<span class="dv">1</span>]) </span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>                          <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(ISQG[<span class="fu">colnames</span>(data0)[j],<span class="dv">2</span>])) {</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>      <span class="co"># then add symbols to observations greater than or equal to upper guideline</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>      <span class="cf">if</span>(<span class="fu">as.numeric</span>(data0[i,j]) <span class="sc">&gt;=</span> ISQG[<span class="fu">colnames</span>(data0)[j],<span class="dv">2</span>]) {</span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>        data0[i,j] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(data0[i,j],<span class="st">&quot;\u26A0&quot;</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>      } <span class="co"># close if() for observation ≥ GV-high</span></span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>      </span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>      <span class="co"># data0[i,j] may now be of class character so as.numeric() gives NA !</span></span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>      <span class="co"># so we need an extra if() statement to catch this</span></span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>      <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.na</span>(<span class="fu">as.numeric</span>(data0[i,j]))){</span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>        <span class="co"># then add symbol to samples between default and upper guideline</span></span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>        <span class="cf">if</span>(<span class="fu">as.numeric</span>(data0[i,j]) <span class="sc">&lt;</span> ISQG[<span class="fu">colnames</span>(data0)[j],<span class="dv">2</span>] <span class="sc">&amp;</span></span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a>           <span class="fu">as.numeric</span>(data0[i,j]) <span class="sc">&gt;=</span> ISQG[<span class="fu">colnames</span>(data0)[j],<span class="dv">1</span>]) {</span>
+<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a>          data0[i,j] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(data0[i,j],<span class="st">&quot;\u2191&quot;</span>)</span>
+<span id="cb21-19"><a href="#cb21-19" tabindex="-1"></a>        } <span class="co"># close if() for DGV.high ≥ observation &gt; DGV</span></span>
+<span id="cb21-20"><a href="#cb21-20" tabindex="-1"></a>      } <span class="co"># close if() for catching number with character added</span></span>
+<span id="cb21-21"><a href="#cb21-21" tabindex="-1"></a>    } <span class="co"># close if() for missing guideline or observation</span></span>
+<span id="cb21-22"><a href="#cb21-22" tabindex="-1"></a>  } <span class="co"># close for(i...) loop</span></span>
+<span id="cb21-23"><a href="#cb21-23" tabindex="-1"></a>} <span class="co"># close for(j...) loop</span></span></code></pre></div>
+<p>Once we have made the table with values exceeding guidelines
+identified, we again use <code>flextable()</code> to format our output
+nicely (Table 2).</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">flextable</span>(data0) <span class="sc">|&gt;</span> <span class="fu">bold</span>(<span class="at">bold=</span>T, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>  <span class="fu">width</span>(<span class="at">width=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="fu">rep</span>(<span class="dv">2</span>,<span class="dv">7</span>)), <span class="at">unit=</span><span class="st">&quot;cm&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>  <span class="fu">set_header_labels</span>(<span class="at">Sample_ID=</span><span class="st">&quot;Sample code&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>  <span class="fu">align</span>(<span class="at">align=</span><span class="st">&quot;left&quot;</span>, <span class="at">part=</span><span class="st">&quot;all&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>  <span class="fu">valign</span>(<span class="at">valign =</span> <span class="st">&quot;bottom&quot;</span>, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>  <span class="fu">set_caption</span>(<span class="at">caption=</span><span class="st">&quot;Table 2: Concentrations of selected elements (mg/kg) in Ashfield Flats sediments sampled in March 2022. Concentrations followed by (↑) exceed the Default Guideline Value (DGV), or with (⚠) exceed the GV-high value for that column&#39;s element (sediment guidelines from Water Quality Australia, 2024).&quot;</span>, <span class="at">align_with_table=</span>F, <span class="at">fp_p=</span><span class="fu">fp_par</span>(<span class="at">text.align =</span> <span class="st">&quot;left&quot;</span>, <span class="at">padding.bottom =</span> <span class="dv">6</span>))</span></code></pre></div>
+<div class="tabwid"><style>.cl-8822ddba{}.cl-88144dd6{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-88144dfe{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-881a2dbe{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-881a2e04{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-881a726a{width:1.181in;background-color:transparent;vertical-align: bottom;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-881a727e{width:0.787in;background-color:transparent;vertical-align: bottom;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-881a7292{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-881a72ba{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-881a72c4{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-881a72d8{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-8822ddba'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 2: Concentrations of selected elements (mg/kg) in Ashfield Flats sediments sampled in March 2022. Concentrations followed by (↑) exceed the Default Guideline Value (DGV), or with (⚠) exceed the GV-high value for that column's element (sediment guidelines from Water Quality Australia, 2024).</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-881a726a"><p class="cl-881a2dbe"><span class="cl-88144dd6">SampID</span></p></th><th class="cl-881a727e"><p class="cl-881a2dbe"><span class="cl-88144dd6">As</span></p></th><th class="cl-881a727e"><p class="cl-881a2dbe"><span class="cl-88144dd6">Cr</span></p></th><th class="cl-881a727e"><p class="cl-881a2dbe"><span class="cl-88144dd6">Cu</span></p></th><th class="cl-881a727e"><p class="cl-881a2dbe"><span class="cl-88144dd6">Mn</span></p></th><th class="cl-881a727e"><p class="cl-881a2dbe"><span class="cl-88144dd6">Ni</span></p></th><th class="cl-881a727e"><p class="cl-881a2dbe"><span class="cl-88144dd6">Pb</span></p></th><th class="cl-881a727e"><p class="cl-881a2dbe"><span class="cl-88144dd6">Zn</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">Group 1</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">6.52</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">52.70</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">36.9</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">57.3</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">14.4</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">24.1</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">16.6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">Group 2</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">9.24</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">54.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">39.4</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">93.6</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">20.1</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">22.5</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">34.9</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">Group 3</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">16.51</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">16.50</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">128.7↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">85.6</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">6.6</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">82.4↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">126.1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">Group 4</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">7.73</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">62.60</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">247.5↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">86.3</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">27↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">83.1↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">243.7↑</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">Group 5</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">9.39</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">63.40</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">251.3↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">66.2</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">23.7↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">93.7↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">212.4↑</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">Group 6</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">35.89↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">43.70</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">593.3⚠</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">58.9</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">16.4</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">181.9↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">315.8↑</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">Group 7</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">3.92</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">65.70</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">53</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">381.9</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">27.4↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">31.3</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">95.3</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">Group 8</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">3.82</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">71.10</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">54.4</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">287.9</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">30.9↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">34.2</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">93</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">Group 9</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">23.4↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">39.40</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">297.1⚠</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">206.6</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">19</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">115.6↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">644.5⚠</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">Group 10</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">28.495↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">61.65</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">418.3⚠</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">141.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">38.35↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">690.25⚠</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">809.5⚠</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">Group 11</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">21.16↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">46.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">435.5⚠</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">94.8</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">17.6</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">192↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">517.7⚠</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">12</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">12</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">39.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">57</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">75.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">13</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">43</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">246↑</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">13</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">22↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">53.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">604⚠</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">48.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">22↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">121↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">263↑</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">14</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">5</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">66.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">135↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">47.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">31↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">49</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">91</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">15</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">6</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">67.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">107↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">74.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">24↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">47</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">204↑</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">16</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">6</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">70.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">106↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">73.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">25↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">44</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">198</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">16.2</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">9</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">18.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">60</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">39.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">3</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">25</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">48.2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">17</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">2</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">41.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">19</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">32.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">9</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">22</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">208↑</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">18</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">3</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">49.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">32</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">34.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">11</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">141↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">121.1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">19</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">3</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">45.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">21</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">36.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">8</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">24</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">60</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">20</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">7</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">36.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">13</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">42.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">5</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">18</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">30</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">21</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">7</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">47.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">20</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">45.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">6</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">23</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">198</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">22</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">7</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">33.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">23</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">42.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">10</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">26</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">1160⚠</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">23</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">9</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">30.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">32</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">48.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">11</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">30</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">1398⚠</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">24</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">1</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">3.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">6</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">19.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">2</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">17</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">2783⚠</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">25</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">3</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">6.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">10</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">87.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">3</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">18</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">2643⚠</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">26</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">1</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">2.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">3</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">12.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe"></span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">62↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">150</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">27</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">5</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">12.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">80↑</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">258.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">6</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">27</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">1632⚠</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">29</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">7</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">14.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">18</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">119.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">4</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">24</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">892⚠</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a7292"><p class="cl-881a2e04"><span class="cl-88144dfe">30</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">9</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">13.00</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">33</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">97.0</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">8</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">46</span></p></td><td class="cl-881a72ba"><p class="cl-881a2e04"><span class="cl-88144dfe">5747⚠</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-881a72c4"><p class="cl-881a2e04"><span class="cl-88144dfe">31</span></p></td><td class="cl-881a72d8"><p class="cl-881a2e04"><span class="cl-88144dfe">6</span></p></td><td class="cl-881a72d8"><p class="cl-881a2e04"><span class="cl-88144dfe">41.00</span></p></td><td class="cl-881a72d8"><p class="cl-881a2e04"><span class="cl-88144dfe">28</span></p></td><td class="cl-881a72d8"><p class="cl-881a2e04"><span class="cl-88144dfe">99.0</span></p></td><td class="cl-881a72d8"><p class="cl-881a2e04"><span class="cl-88144dfe">11</span></p></td><td class="cl-881a72d8"><p class="cl-881a2e04"><span class="cl-88144dfe">25</span></p></td><td class="cl-881a72d8"><p class="cl-881a2e04"><span class="cl-88144dfe">496⚠</span></p></td></tr></tbody></table></div>
+<p>Tables 1 and 2 are the main types of Table which might be presented
+in environmental consultancy reports such as a Detailed Site
+Investigation, or reports on ongoing monitoring.</p>
+</div>
+<p>&nbsp;</p>
+<div id="different-ways-to-make-a-raw-data-table"
+class="section level2">
+<h2>Different ways to make a raw data table</h2>
+<div id="using-flextable-conditional-formatting" class="section level3">
+<h3>1. Using <code>flextable()</code> conditional formatting</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">flextable</span>(ss2022[,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">7</span><span class="sc">:</span><span class="dv">13</span>)]) <span class="sc">|&gt;</span> <span class="fu">bold</span>(<span class="at">bold=</span>T, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>  <span class="fu">width</span>(<span class="at">width=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="fu">rep</span>(<span class="dv">2</span>,<span class="dv">7</span>)), <span class="at">unit=</span><span class="st">&quot;cm&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>  <span class="fu">set_header_labels</span>(<span class="at">Sample_ID=</span><span class="st">&quot;Sample code&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>  <span class="fu">align</span>(<span class="at">align=</span><span class="st">&quot;center&quot;</span>, <span class="at">j=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">8</span>, <span class="at">part=</span><span class="st">&quot;all&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>  <span class="fu">valign</span>(<span class="at">valign =</span> <span class="st">&quot;bottom&quot;</span>, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> As <span class="sc">&gt;</span> ISQG[<span class="st">&quot;As&quot;</span>,<span class="st">&quot;DGV&quot;</span>], <span class="at">j=</span><span class="st">&quot;As&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffff80&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> Cr <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Cr&quot;</span>,<span class="st">&quot;DGV&quot;</span>], <span class="at">j=</span><span class="st">&quot;Cr&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffff80&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> Cu <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Cu&quot;</span>,<span class="st">&quot;DGV&quot;</span>], <span class="at">j=</span><span class="st">&quot;Cu&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffff80&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> Ni <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Ni&quot;</span>,<span class="st">&quot;DGV&quot;</span>], <span class="at">j=</span><span class="st">&quot;Ni&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffff80&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> Pb <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;DGV&quot;</span>], <span class="at">j=</span><span class="st">&quot;Pb&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffff80&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> Zn <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Zn&quot;</span>,<span class="st">&quot;DGV&quot;</span>], <span class="at">j=</span><span class="st">&quot;Zn&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffff80&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="sc">~</span> As <span class="sc">&gt;</span> ISQG[<span class="st">&quot;As&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;As&quot;</span>, <span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="sc">~</span> Cr <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Cr&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Cr&quot;</span>, <span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="sc">~</span> Cu <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Cu&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Cu&quot;</span>, <span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="sc">~</span> Ni <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Ni&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Ni&quot;</span>, <span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="sc">~</span> Pb <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Pb&quot;</span>, <span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="sc">~</span> Zn <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Zn&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Zn&quot;</span>, <span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a>  <span class="fu">color</span>(<span class="sc">~</span> As <span class="sc">&gt;</span> ISQG[<span class="st">&quot;As&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;As&quot;</span>, <span class="at">color=</span><span class="st">&quot;darkred&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a>  <span class="fu">color</span>(<span class="sc">~</span> Cr <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Cr&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Cr&quot;</span>, <span class="at">color=</span><span class="st">&quot;darkred&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a>  <span class="fu">color</span>(<span class="sc">~</span> Cu <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Cu&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Cu&quot;</span>, <span class="at">color=</span><span class="st">&quot;darkred&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a>  <span class="fu">color</span>(<span class="sc">~</span> Ni <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Ni&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Ni&quot;</span>, <span class="at">color=</span><span class="st">&quot;darkred&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-22"><a href="#cb23-22" tabindex="-1"></a>  <span class="fu">color</span>(<span class="sc">~</span> Pb <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Pb&quot;</span>, <span class="at">color=</span><span class="st">&quot;darkred&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-23"><a href="#cb23-23" tabindex="-1"></a>  <span class="fu">color</span>(<span class="sc">~</span> Zn <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Zn&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Zn&quot;</span>, <span class="at">color=</span><span class="st">&quot;darkred&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-24"><a href="#cb23-24" tabindex="-1"></a>  <span class="fu">set_formatter</span>(<span class="at">As=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.01f&quot;</span>,x)},</span>
+<span id="cb23-25"><a href="#cb23-25" tabindex="-1"></a>                <span class="at">Cr=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.0f&quot;</span>,x)},</span>
+<span id="cb23-26"><a href="#cb23-26" tabindex="-1"></a>                <span class="at">Cu=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.0f&quot;</span>,x)},</span>
+<span id="cb23-27"><a href="#cb23-27" tabindex="-1"></a>                <span class="at">Ni=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.0f&quot;</span>,x)},</span>
+<span id="cb23-28"><a href="#cb23-28" tabindex="-1"></a>                <span class="at">Pb=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.0f&quot;</span>,x)},</span>
+<span id="cb23-29"><a href="#cb23-29" tabindex="-1"></a>                <span class="at">Zn=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.0f&quot;</span>,x)}) <span class="sc">|&gt;</span> </span>
+<span id="cb23-30"><a href="#cb23-30" tabindex="-1"></a>  <span class="fu">set_caption</span>(<span class="at">caption=</span><span class="st">&quot;Table 3: Concentrations of selected elements (mg/kg) in Ashfield Flats sediments sampled in March 2022. Shaded cells show concentrations exceeding the Default Guideline Value (DGV), shaded+bold exceed the GV-high value for that column&#39;s element (sediment guidelines from Water Quality Australia, 2024).&quot;</span>, <span class="at">align_with_table=</span>F, <span class="at">fp_p=</span><span class="fu">fp_par</span>(<span class="at">text.align =</span> <span class="st">&quot;left&quot;</span>, <span class="at">padding.bottom =</span> <span class="dv">6</span>))</span></code></pre></div>
+<div class="tabwid"><style>.cl-88606c34{}.cl-885310f2{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-88531106{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-8853111a{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(139, 0, 0, 1.00);background-color:transparent;}.cl-88581a7a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-88581ab6{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-88581aca{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-88581ade{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-8858399c{width:1.181in;background-color:transparent;vertical-align: bottom;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-885839b0{width:0.787in;background-color:transparent;vertical-align: bottom;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-885839c4{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-885839c5{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-885839ce{width:0.787in;background-color:rgba(255, 255, 128, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-885839d8{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-885839ec{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-885839f6{width:0.787in;background-color:rgba(255, 255, 128, 1.00);vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-88606c34'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 3: Concentrations of selected elements (mg/kg) in Ashfield Flats sediments sampled in March 2022. Shaded cells show concentrations exceeding the Default Guideline Value (DGV), shaded+bold exceed the GV-high value for that column's element (sediment guidelines from Water Quality Australia, 2024).</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-8858399c"><p class="cl-88581a7a"><span class="cl-885310f2">SampID</span></p></th><th class="cl-885839b0"><p class="cl-88581ab6"><span class="cl-885310f2">As</span></p></th><th class="cl-885839b0"><p class="cl-88581ab6"><span class="cl-885310f2">Cr</span></p></th><th class="cl-885839b0"><p class="cl-88581ab6"><span class="cl-885310f2">Cu</span></p></th><th class="cl-885839b0"><p class="cl-88581ab6"><span class="cl-885310f2">Mn</span></p></th><th class="cl-885839b0"><p class="cl-88581ab6"><span class="cl-885310f2">Ni</span></p></th><th class="cl-885839b0"><p class="cl-88581ab6"><span class="cl-885310f2">Pb</span></p></th><th class="cl-885839b0"><p class="cl-88581ab6"><span class="cl-885310f2">Zn</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">Group 1</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">6.5</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">53</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">37</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">57.3</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">14</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">24</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">17</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">Group 2</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">9.2</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">54</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">39</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">93.6</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">20</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">22</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">35</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">Group 3</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">16.5</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">16</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">129</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">85.6</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">7</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">82</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">126</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">Group 4</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">7.7</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">63</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">248</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">86.3</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">27</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">83</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">244</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">Group 5</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">9.4</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">63</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">251</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">66.2</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">24</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">94</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">212</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">Group 6</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">35.9</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">44</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">593</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">58.9</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">16</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">182</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">316</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">Group 7</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">3.9</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">66</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">53</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">381.9</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">27</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">31</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">95</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">Group 8</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">3.8</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">71</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">54</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">287.9</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">31</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">34</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">93</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">Group 9</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">23.4</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">39</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">297</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">206.6</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">19</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">116</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">644</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">Group 10</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">28.5</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">62</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">418</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">141.0</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">38</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">690</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">810</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">Group 11</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">21.2</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">46</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">436</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">94.8</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">18</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">192</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">518</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">12</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">12.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">39</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">57</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">75.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">13</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">43</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">246</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">13</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">22.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">53</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">604</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">48.0</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">22</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">121</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">263</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">14</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">5.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">66</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">135</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">47.0</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">31</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">49</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">91</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">15</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">6.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">67</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">107</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">74.0</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">24</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">47</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">204</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">16</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">6.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">70</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">106</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">73.0</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">25</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">44</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">198</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">16.2</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">9.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">18</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">60</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">39.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">3</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">25</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">48</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">17</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">2.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">41</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">19</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">32.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">9</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">22</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">208</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">18</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">3.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">49</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">32</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">34.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">11</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">141</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">121</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">19</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">3.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">45</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">21</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">36.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">8</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">24</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">60</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">20</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">7.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">36</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">13</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">42.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">5</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">18</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">30</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">21</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">7.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">47</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">20</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">45.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">6</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">23</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">198</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">22</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">7.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">33</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">23</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">42.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">10</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">26</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">1160</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">23</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">9.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">30</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">32</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">48.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">11</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">30</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">1398</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">24</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">1.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">3</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">6</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">19.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">2</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">17</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">2783</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">25</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">3.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">6</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">10</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">87.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">3</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">18</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">2643</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">26</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">1.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">2</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">3</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">12.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">NA</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">62</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">150</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">27</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">5.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">12</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-88531106">80</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">258.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">6</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">27</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">1632</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">29</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">7.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">14</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">18</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">119.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">4</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">24</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">892</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839c4"><p class="cl-88581aca"><span class="cl-88531106">30</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">9.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">13</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">33</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">97.0</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">8</span></p></td><td class="cl-885839c5"><p class="cl-88581ade"><span class="cl-88531106">46</span></p></td><td class="cl-885839ce"><p class="cl-88581ade"><span class="cl-8853111a">5747</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-885839d8"><p class="cl-88581aca"><span class="cl-88531106">31</span></p></td><td class="cl-885839ec"><p class="cl-88581ade"><span class="cl-88531106">6.0</span></p></td><td class="cl-885839ec"><p class="cl-88581ade"><span class="cl-88531106">41</span></p></td><td class="cl-885839ec"><p class="cl-88581ade"><span class="cl-88531106">28</span></p></td><td class="cl-885839ec"><p class="cl-88581ade"><span class="cl-88531106">99.0</span></p></td><td class="cl-885839ec"><p class="cl-88581ade"><span class="cl-88531106">11</span></p></td><td class="cl-885839ec"><p class="cl-88581ade"><span class="cl-88531106">25</span></p></td><td class="cl-885839f6"><p class="cl-88581ade"><span class="cl-8853111a">496</span></p></td></tr></tbody></table></div>
+<p> </p>
+</div>
+<div id="using-conditional-formatting-in-microsoft-excel"
+class="section level3">
+<h3>2. Using conditional formatting in Microsoft Excel®</h3>
+<ol style="list-style-type: decimal">
+<li><p>Create an Excel workbook containing the table (<em>e.g</em>.
+values as in Table 2 or Table 3 above)</p></li>
+<li><p>Select the range of your Excel worksheet to be formatted
+(<em>i.e</em>. one of the concentration columns)</p></li>
+<li><p>In the upper ‘ribbon’ menu select Home » Conditional Formatting »
+<u>H</u>ighlight cells rules » <strong><u>G</u>reater
+than...</strong></p></li>
+<li><p>In the dialog box which appears, enter the value relevant to the
+column selected (<em>e.g</em>. DGV from the Sediment quality
+Guidelines), and choose a highlight style</p></li>
+</ol>
+<p><img src="./images/ConditionalFormatExel.gif"
+alt="animation of conditional formatting in Excel" width="600"
+height="450" /><br />
+Figure 1: Animation of conditional formatting in Excel</p>
+<p> </p>
+</div>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<p>NEPC (National Environment Protection Council). (2013). Schedule
+B(1): Guideline on the Investigation Levels for Soil and Groundwater.
+<strong>In</strong> <em>National Environment Protection (Assessment of
+Site Contamination) Measure (Amended)</em>. Commonwealth of
+Australia.</p>
+<p>Rate, A. W., &amp; McGrath, G. S. (2022). Data for assessment of
+sediment, soil, and water quality at Ashfield Flats Reserve, Western
+Australia. <em>Data in Brief</em>, <strong>41</strong>, 107970. <a
+href="https://doi.org/10.1016/j.dib.2022.107970"
+target="_blank">https://doi.org/10.1016/j.dib.2022.107970</a></p>
+<p>Water Quality Australia. (2024). <em>Toxicant default guideline
+values for sediment quality.</em> Department of Climate Change, Energy,
+the Environment and Water, Government of Australia. Retrieved 2024-04-11
+from <a
+href="https://www.waterquality.gov.au/anz-guidelines/guideline-values/default/sediment-quality-toxicants"
+target="_blank">https://www.waterquality.gov.au/anz-guidelines/guideline-values/default/sediment-quality-toxicants</a></p>
+<p>
+ 
+</p>
+</div>
+</div>
+
+<!DOCTYPE html>
+
+<html>
+<body>
+<hr style="height: 2px; background-color: #003087;" />
+<p><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>. Currently using the free <a href="https://bootswatch.com/yeti/" target="_blank"><span style="font-family: monospace;">yeti</span> theme from Bootswatch</a>.</span></p>
+</body>
+</html>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
