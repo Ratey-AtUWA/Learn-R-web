@@ -56,7 +56,7 @@ navbar:
     - text: "Util"
       menu:
         - text: "Tables & trigger value counts"
-          href: tables.html
+          href: tablesPlus.html
         - text: "Distribution checking"
           href: distributions.html
         - text: "Regression residuals to identify contamination"
