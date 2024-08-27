@@ -350,12 +350,16 @@ concentration columns)
 selected (*e.g*. DGV from the Sediment quality Guidelines), and choose a 
 highlight style
 
-![](./images/ConditionalFormatExel.gif){alt="animation of conditional formatting in Excel" width=600 height=450}  
-Figure 1: Animation of conditional formatting in Excel
+![](./images/ConditionalFormatExel.gif){alt="Figure 1: Animation of conditional formatting in Excel showing highlighting of zinc concentrations above both the DGV and GV-high guideline values." width=600 height=450}  
+Figure 1: Animation of conditional formatting in Excel showing highlighting of zinc concentrations above both the DGV and GV-high guideline values.
 
 &nbsp;
 
 # References
+
+Gohel D, Moog S (2024). `officer`: *Manipulation of Microsoft Word and PowerPoint Documents*. R package version 0.6.6, [https://CRAN.R-project.org/package=officer](https://CRAN.R-project.org/package=officer){target="_blank"}.
+
+Gohel D, Skintzos P (2024). `flextable`: *Functions for Tabular Reporting*. R package version 0.9.6, [https://CRAN.R-project.org/package=flextable](https://CRAN.R-project.org/package=flextable){target="_blank"}. (see also [David Gohel's free eBook **Using the flextable R package**](https://ardata-fr.github.io/flextable-book/index.html){target="_blank"})
 
 NEPC (National Environment Protection Council). (2013). Schedule B(1): Guideline on the Investigation Levels for Soil and Groundwater. **In** *National Environment Protection (Assessment of Site Contamination) Measure (Amended)*. Commonwealth of Australia. 
 
