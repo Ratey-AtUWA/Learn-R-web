@@ -23,6 +23,11 @@ output:
 
 &nbsp;
 
+<p style="text-align:center;">![](./images/pulseAnim.gif){alt="animation of vertical solute transport pulse" width=200 height=300}<br />
+<span style="text-align:center; font-size:10pt;">*Figure 0: Animation representing simulated solute transport, made with the `gganimate`<br />R package. For the `R code` to make this animation and some background information,<br />go to [https://ratey-atuwa.github.io/cybloRg/pulse.html](https://ratey-atuwa.github.io/cybloRg/pulse.html){target="_blank"}.*</span></p>
+
+&nbsp;
+
 # Getting Started
 
 This guide should enable you to create a working simulation of solute transport 
