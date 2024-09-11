@@ -199,7 +199,7 @@ flextable(ft) |>
   align(j=2:8, align="right", part="all") |>
   padding(i=8, padding.top = 8) |>
   bold(bold=TRUE, part="header") |>
-  set_formatter(As=function(x){sprintf("%.01f",x)},
+  set_formatter(As=function(x){sprintf("%.03g",x)},
                 Cr=function(x){sprintf("%.0f",x)},
                 Pb=function(x){sprintf("%.0f",x)}) |> 
   set_caption(caption="Table 1: Summary statistics for trace element concentrations (mg/kg) in sediment or soil at Ashfield Flats 2019-2023. Abbreviations: n = number of valid observations; nNA = number of missing observations; n > DGV is number of samples exceeding the sediment Default Guideline Value; n > GV-high is number of samples exceeding the sediment upper Guideline Value at which toxicity effects might be expected (Water Quality Australia, 2024). HIL(C) is the human-health based investigation level for Recreational (public open space) land use (NEPC, 2013).", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
@@ -280,6 +280,7 @@ flextable(data0) |> bold(bold=T, part="header") |>
   align(align="left", part="all") |> 
   valign(valign = "bottom", part="header") |> 
   set_header_labels(SampID="Sample ID") |> 
+  set_formatter(Cr=function(x){sprintf("%.03g",x)}) |> 
   set_caption(caption="Table 2: Concentrations of selected elements (mg/kg) in Ashfield Flats sediments sampled in March 2022. Concentrations followed by (↑) exceed the Default Guideline Value (DGV), or with (⚠) exceed the GV-high value for that column's element (sediment guidelines from Water Quality Australia, 2024).", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
 ```
 
@@ -323,13 +324,13 @@ flextable(ss2022[,c(2,7:13)]) |> bold(bold=T, part="header") |>
   bg(~ Ni > ISQG["Ni","GV_high"], j="Ni", bg="orange", part="body") |> 
   bg(~ Pb > ISQG["Pb","GV_high"], j="Pb", bg="orange", part="body") |> 
   bg(~ Zn > ISQG["Zn","GV_high"], j="Zn", bg="orange", part="body") |> 
-  set_formatter(As=function(x){sprintf("%.01f",x)},
-                Cr=function(x){sprintf("%.0f",x)},
-                Cu=function(x){sprintf("%.0f",x)},
-                Mn=function(x){sprintf("%.0f",x)},
-                Ni=function(x){sprintf("%.0f",x)},
-                Pb=function(x){sprintf("%.0f",x)},
-                Zn=function(x){sprintf("%.0f",x)}) |> 
+  set_formatter(As=function(x){sprintf("%.03g",x)},
+                Cr=function(x){sprintf("%.03g",x)},
+                Cu=function(x){sprintf("%.03g",x)},
+                Mn=function(x){sprintf("%.03g",x)},
+                Ni=function(x){sprintf("%.03g",x)},
+                Pb=function(x){sprintf("%.03g",x)},
+                Zn=function(x){sprintf("%.04g",x)}) |> 
   set_caption(caption="Table 3: Concentrations of selected elements (mg/kg) in Ashfield Flats sediments sampled in March 2022. Light shaded (yellow) cells show concentrations exceeding the Default Guideline Value (DGV); darker shading (orange) + bold exceed the GV-high value for that column's element (sediment guidelines from Water Quality Australia, 2024).", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
 ```
 
