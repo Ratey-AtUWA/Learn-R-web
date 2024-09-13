@@ -1,26 +1,26 @@
 #' @title Tabulate output from pairwise.adonis2 function for pairwise PERMANOVA
 #'
-#' @description Generate a data frame with the upper triangle populated with 
-#' p-values from PERMANOVA pairwise comparisons. Optionally replace p-values 
+#' @description Generate a data frame with the upper triangle populated with
+#' p-values from PERMANOVA pairwise comparisons. Optionally replace p-values
 #' greater than alpha with the string "ns".
 #'
 #' @param x Output of a call to `pairwise.adonis2()` written by Pedro Martinez Arbizu
 #' at https://github.com/Ratey-AtUWA/eDNA/raw/master/FUN_pairwise_adonis2.R
 #' (must be specified; no default).
 #'
-#' @param ns.repl A logical value which if TRUE (the default) will convert p-values
-#' less than `alpha` to the string "ns".
+#' @param ns.repl A logical value which if TRUE (the default is FALSE) will
+#' convert p-values less than `alpha` to the string "ns".
 #'
 #' @param alpha The numeric value of the p-value threshold for (non)acceptance of
-#' the alternate hypothesis for each pairwise comparison.
+#' the alternate hypothesis for each pairwise comparison (default 0.05).
 #'
-#' @return A data frame having n-1 columns and n-1 rows (where n is the number of levels 
-#' in the factor from the preceding call to `pairwise.adonis2()`), representing the matrix 
+#' @return A data frame having n-1 columns and n-1 rows (where n is the number of levels
+#' in the factor from the preceding call to `pairwise.adonis2()`), representing the matrix
 #' of pairwise p-values.
 #'
 #' @export
 
-pairPermTab <- function(x, ns.repl=TRUE, alpha=0.05){
+pairPermTab <- function(x, ns.repl=FALSE, alpha=0.05){
   tablout <- data.frame(Pair=rep(NA, length(x)-1),
                         P_value=rep(NA, length(x)-1))
   for(i in 2:length(x)){
