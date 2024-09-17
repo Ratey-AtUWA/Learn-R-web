@@ -477,7 +477,7 @@ text(c(400225, 400010, 400045), c(6468200, 6468130, 6468235),
      labels = c("Chapman\nDrain","Kitchener\nDrain","Woolcock\nDrain"),
      pos = c(1,2,4), cex = 0.8, font = 3, col = "cadetblue")
 # plot bubbles using the symbols() function
-  # first use a simple algoritm to estimate a scale factor for bubbles
+  # first use a simple algorithm to estimate a scale factor for bubbles
   axrg <- par("usr")[2]-par("usr")[1]
   bublo <- pretty(afs19$Zn)[2]
   bubhi <- pretty(afs19$Zn)[length(pretty(afs19$Zn))]
@@ -543,7 +543,7 @@ text(c(400225, 400010, 400045), c(6468200, 6468130, 6468235),
      labels = c("Chapman\nDrain","Kitchener\nDrain","Woolcock\nDrain"),
      pos = c(1,2,4), cex = 0.8, font = 3, col = "cadetblue")
 # plot bubbles using the symbols() function
-  # first use a simple algoritm to estimate a scale factor for bubbles
+  # first use a simple algorithm to estimate a scale factor for bubbles
   axrg <- par("usr")[2]-par("usr")[1]
   bublo <- pretty(afs19$Zn)[2]
   bubhi <- pretty(afs19$Zn)[length(pretty(afs19$Zn))]
