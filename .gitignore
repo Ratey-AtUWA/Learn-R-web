@@ -24,6 +24,8 @@ FUNC*.R*
 sandbox*.R
 sandbox*.Rmd
 sandbox*.html
+docs/sandbox*.*
+docs/sandbox*
 sandbox-themes/
 *.docx
 
