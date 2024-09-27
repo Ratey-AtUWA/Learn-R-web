@@ -564,7 +564,9 @@ text(c(400263, 399962, 400047), c(6468174, 6468083, 6468237),
      labels = c("Chapman Drain","Kitchener Drain", "Woolcock Drain"),
      pos = c(2,2,4), cex = 0.8, font = 3, col = "cadetblue")
 
-# percentile plot
+# Percentile plot
+#   make a factor column which categorizes each sample by 
+#   which Zn percentile it is in:
 afs19$QZn <- cut(afs19$Zn, quantile(afs19$Zn, 
                  p=c(0,0.02,0.05,0.25,0.5,0.75,0.95,0.98,1), 
                  na.rm=T), labels=c("Q0-02","Q02-05","Q05-25","Q25-50",
@@ -664,9 +666,9 @@ to generate something like a bubble map.
 
 ### Other map types using ggmap
 
-Other options available in `ggmap` are some of the *Stamen* map
-tiles, accessible with the `get_stamenmap()` function. To use the Stamen maps,
-you need to first register for a free API key at
+Other options available in `ggmap` are some of the *Stamen* map tiles from
+*Stadia*, accessible with the `get_stadiamap()` function. To use the Stamen
+maps, you need to first register for a free API key at
 [stadiamaps.com/stamen](https://stadiamaps.com/stamen){target="_blank"}.
 
 [**The next example**]{style="size: 14pt"} (Figure 10) uses the simple features
@@ -683,15 +685,21 @@ suppress this using `scale_x_continuous(label = I)` (same for the y axis; the
 `limits` and `expand` options stop the manual scale adding space around the map
 tiles). We include the information on units and hemisphere in the axis titles.
 
+The code also has a little fun with the symbol fill colours. We set these using 
+`scale_fill_viridis()`, but instead of choosing a single `viridis` palette 
+option, we choose one at random using `option=sample(LETTERS[1:8],1)`. [If you 
+don't like this, change the code to `option="D"`, the standard viridis palette.]
+
 ```{r register-stadia, include=FALSE}
 secretSS <- read.csv("../StadiaMaps-API.csv")[1,1]
 register_stadiamaps(key=secretSS)
 ```
 
-```{r ggAF, fig.height=4.5, fig.width=7, fig.align='center', fig.cap="Figure 10: Zinc concentration (mg/kg) in sediment sampled in Semester 1, 2021 at Ashfield Flats, Western Australia, plotted over `stamen_terrain` map tiles acquired using the `R` package `ggmap`, with data in a simple features data frame, and with manually added wetland pond locations.", out.width='70%', message=FALSE, warning=FALSE, results='hold'}
+```{r ggAF, fig.height=4.5, fig.width=8, fig.align='center', fig.cap="Figure 10: Zinc concentration (mg/kg) in sediment sampled in Semester 1, 2021 at Ashfield Flats, Western Australia, plotted over `stamen_terrain` map tiles acquired using the `R` package `ggmap`, with data in a simple features data frame, and with manually added wetland pond locations.", out.width='85%', message=FALSE, warning=FALSE, results='hold'}
 afr.gg <- 
-  get_stadiamap(bbox=c(left=115.9393, bottom=-31.9203, right=115.948, top=-31.916),
-                        maptype="stamen_terrain",zoom=17)
+  get_stadiamap(bbox=c(left=115.9393, bottom=-31.9203, 
+                       right=115.948, top=-31.916),
+                maptype="stamen_terrain", zoom=17)
 bb <- as.numeric(unlist(as.vector(attr(afr.gg, "bb"))))
 ggmap(afr.gg) + 
   labs(y="Latitude (\u00B0S)", x = "Longitude (\u00B0E)") + 
@@ -709,7 +717,7 @@ ggmap(afr.gg) +
                      expand = expansion(mult=c(0,0))) +
   scale_y_continuous(labels = I, limits=c(bb[1],bb[3]), 
                      expand = expansion(mult=c(0,0))) +
-  scale_fill_viridis_c(alpha = 0.7) + 
+  scale_fill_viridis_c(alpha = 0.7,option=sample(LETTERS[1:8],1)) + 
   scale_size_area(breaks = c(30,100,300,1000,3000,5000), max_size = 9) +
   theme_bw() +
   theme(axis.text=element_text(size=9, color="black"),
