@@ -1,7 +1,8 @@
 Tabulation of field and laboratory results
 including sample identification,
 sampling dates and times, depths (if applicable),
-laboratory detection limits, relevant assessment criteria and
+laboratory detection limits,
+relevant assessment criteria and
 results above the assessment criteria
 “assessment criteria” = guideline concentrations
 DWER. (2021). Assessment and management of contaminated sites
