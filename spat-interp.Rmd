@@ -39,6 +39,7 @@ addImg <- function(obj, x = NULL, y = NULL, width = NULL, interpolate = TRUE){
 
 ## Introduction
 
+![](./docs/images/point2interp.png){align="right" width=357 height=183}
 For many assessments of environmental data, it is desirable to predict an
 environmental measurement at locations where samples have not been taken. To do
 this we need some sort of model which represents how the measurement we're
