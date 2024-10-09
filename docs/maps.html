@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-09-28" />
+<meta name="date" content="2024-10-09" />
 
 <title>Basic maps in R</title>
 
@@ -343,7 +343,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -358,7 +358,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -373,7 +373,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -388,7 +388,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -412,7 +412,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -430,7 +430,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -451,13 +451,10 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
-    </li>
     <li>
       <a href="distributions.html">Distribution checking</a>
     </li>
@@ -469,10 +466,25 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Reporting
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="maps-location-siteplan.html">Location and Site Plan maps</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">UWA School of Agriculture and Environment</a>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -494,7 +506,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Basic maps in R</h1>
 <h3 class="subtitle">Data plotted over tile backgrounds</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-09-28</h4>
+<h4 class="date">2024-10-09</h4>
 
 </div>
 
@@ -522,18 +534,18 @@ Objectives and suggested activities on this page</a>
 </div>
 <p> </p>
 <div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>This guide shows some of the more common and/or easy ways to make
-maps in <strong>R</strong> using map-tile-based backgrounds with data
-plotted over the base maps. We introduce <em>coordinate reference
-systems</em>, <em>recommended packages</em> which allow tile-based map
-drawing, a few ways of <em>including user data</em>, and an Appendix on
-simple <em>coordinate conversion</em>. <br> The intention is to provide
-options to plot informative maps, which include the type of data
-collected in this class, relatively simply. We <em>will not</em> cover
-vector-based maps, importing GIS shapefiles, interpolation of point
-data, chloropleth maps, and many other map plotting methods.</p>
-<p><img src="maps_files/figure-html/world%20map%20for%20decoration-1.png" width="45%" style="display: block; margin: auto;" /></p>
+<h1><img src="./images/whangarei.png" align="right" width="203"
+height="234" /> Introduction</h1>
+<p>This guide shows some of the more common and/or easy
+ways to make maps in <strong>R</strong> using map-tile-based backgrounds
+with data plotted over the base maps. We introduce <em>coordinate
+reference systems</em>, <em>recommended packages</em> which allow
+tile-based map drawing, a few ways of <em>including user data</em>, and
+an Appendix on simple <em>coordinate conversion</em>. <br> The intention
+is to provide options to plot informative maps, which include the type
+of data collected in this class, relatively simply. We <em>will not</em>
+cover vector-based maps, importing GIS shapefiles, interpolation of
+point data, chloropleth maps, and many other map plotting methods.</p>
 <div
 style="border: 2px solid gray; background-color:#fff0e0; padding: 8px;">
 <p><strong>Notes about maps</strong></p>

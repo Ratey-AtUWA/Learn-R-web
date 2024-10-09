@@ -42,7 +42,7 @@ addImg <- function(obj, x = NULL, y = NULL, width = NULL, interpolate = TRUE){
 
 &nbsp;
 
-# Introduction
+# ![](./images/whangarei.png){align="right" width=203 height=234}Introduction
 
 This guide shows some of the more common and/or easy ways to make maps in **R**
 using map-tile-based backgrounds with data plotted over the base maps. We
@@ -53,13 +53,6 @@ The intention is to provide options to plot informative maps, which include the
 type of data collected in this class, relatively simply. We *will not* cover
 vector-based maps, importing GIS shapefiles, interpolation of point data,
 chloropleth maps, and many other map plotting methods.
-
-```{r world map for decoration, fig.align='center', fig.height=1.5, fig.width=5, message=FALSE, warning=FALSE, out.width='45%', echo=FALSE}
-require(ggplot2); require(maps); mp <- NULL
-mapWorld <- borders("world", colour="darkseagreen3", fill="darkseagreen3")
-ggplot() + mapWorld + 
-  xlim(-180,180) + theme_void()
-```
 
 <div style="border: 2px solid gray; background-color:#fff0e0; padding: 8px;">
 
