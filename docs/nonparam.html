@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-07-23" />
+<meta name="date" content="2024-10-10" />
 
 <title>Statistics for Comparisons</title>
 
@@ -456,9 +456,6 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
-    </li>
-    <li>
       <a href="distributions.html">Distribution checking</a>
     </li>
     <li>
@@ -469,10 +466,25 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Reporting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="maps-location-siteplan.html">Location and Site Plan maps</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">UWA School of Agriculture and Environment</a>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -494,7 +506,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistics for Comparisons</h1>
 <h3 class="subtitle">Non-parametric tests</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-07-23</h4>
+<h4 class="date">2024-10-10</h4>
 
 </div>
 
@@ -870,7 +882,7 @@ R package</p>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">interpret_epsilon_squared</span>(resFe<span class="sc">$</span>r)</span></code></pre></div>
 <pre><code>Epsilon2 (rank) |       95% CI
 ------------------------------
-0.09            | [0.06, 1.00]
+0.09            | [0.05, 1.00]
 
 - One-sided CIs: upper bound fixed at [1.00].
 
@@ -908,8 +920,8 @@ packages used in</strong> <strong>this document</strong>.</p>
 <span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;multcompView&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>To cite package &#39;car&#39; in publications use:
 
-  Fox J, Weisberg S, Price B (2023). _car: Companion to Applied Regression_. R package version
-  3.1-2, &lt;https://CRAN.R-project.org/package=car&gt;.
+  Fox J, Weisberg S, Price B (2023). _car: Companion to Applied Regression_. R package
+  version 3.1-2, &lt;https://CRAN.R-project.org/package=car&gt;.
 
 A BibTeX entry for LaTeX users is
 
@@ -922,8 +934,8 @@ A BibTeX entry for LaTeX users is
   }
 To cite package &#39;RcmdrMisc&#39; in publications use:
 
-  Fox J, Marquez M (2023). _RcmdrMisc: R Commander Miscellaneous Functions_. R package version
-  2.9-1, &lt;https://CRAN.R-project.org/package=RcmdrMisc&gt;.
+  Fox J, Marquez M (2023). _RcmdrMisc: R Commander Miscellaneous Functions_. R package
+  version 2.9-1, &lt;https://CRAN.R-project.org/package=RcmdrMisc&gt;.
 
 A BibTeX entry for LaTeX users is
 
@@ -936,8 +948,8 @@ A BibTeX entry for LaTeX users is
   }
 To cite package &#39;effectsize&#39; in publications use:
 
-  Ben-Shachar M, Makowski D, Lüdecke D, Patil I, Wiernik B, Thériault R, Waggoner P (2024).
-  _effectsize: Indices of Effect Size_. R package version 0.8.9,
+  Ben-Shachar M, Makowski D, Lüdecke D, Patil I, Wiernik B, Thériault R, Waggoner P
+  (2024). _effectsize: Indices of Effect Size_. R package version 0.8.9,
   &lt;https://CRAN.R-project.org/package=effectsize&gt;.
 
 A BibTeX entry for LaTeX users is
@@ -952,7 +964,8 @@ A BibTeX entry for LaTeX users is
 To cite package &#39;multcomp&#39; in publications use:
 
   Hothorn T, Bretz F, Westfall P (2023). _multcomp: Simultaneous Inference in General
-  Parametric Models_. R package version 1.4-25, &lt;https://CRAN.R-project.org/package=multcomp&gt;.
+  Parametric Models_. R package version 1.4-25,
+  &lt;https://CRAN.R-project.org/package=multcomp&gt;.
 
 A BibTeX entry for LaTeX users is
 
@@ -965,8 +978,9 @@ A BibTeX entry for LaTeX users is
   }
 To cite package &#39;PMCMRplus&#39; in publications use:
 
-  Pohlert T (2023). _PMCMRplus: Calculate Pairwise Multiple Comparisons of Mean Rank Sums
-  Extended_. R package version 1.9.10, &lt;https://CRAN.R-project.org/package=PMCMRplus&gt;.
+  Pohlert T (2023). _PMCMRplus: Calculate Pairwise Multiple Comparisons of Mean Rank
+  Sums Extended_. R package version 1.9.10,
+  &lt;https://CRAN.R-project.org/package=PMCMRplus&gt;.
 
 A BibTeX entry for LaTeX users is
 
@@ -981,7 +995,8 @@ Extended},
 To cite package &#39;rcompanion&#39; in publications use:
 
   Mangiafico S (2024). _rcompanion: Functions to Support Extension Education Program
-  Evaluation_. R package version 2.4.36, &lt;https://CRAN.R-project.org/package=rcompanion&gt;.
+  Evaluation_. R package version 2.4.36,
+  &lt;https://CRAN.R-project.org/package=rcompanion&gt;.
 
 A BibTeX entry for LaTeX users is
 
@@ -995,7 +1010,8 @@ A BibTeX entry for LaTeX users is
 To cite package &#39;multcompView&#39; in publications use:
 
   Graves S, Piepho H, Dorai-Raj LSwhfS (2024). _multcompView: Visualizations of Paired
-  Comparisons_. R package version 0.1-10, &lt;https://CRAN.R-project.org/package=multcompView&gt;.
+  Comparisons_. R package version 0.1-10,
+  &lt;https://CRAN.R-project.org/package=multcompView&gt;.
 
 A BibTeX entry for LaTeX users is
 
@@ -1007,8 +1023,8 @@ A BibTeX entry for LaTeX users is
     url = {https://CRAN.R-project.org/package=multcompView},
   }
 
-ATTENTION: This citation information has been auto-generated from the package DESCRIPTION file
-and may need manual editing, see &#39;help(&quot;citation&quot;)&#39;.</code></pre>
+ATTENTION: This citation information has been auto-generated from the package
+DESCRIPTION file and may need manual editing, see &#39;help(&quot;citation&quot;)&#39;.</code></pre>
 </div>
 
 <!DOCTYPE html>
