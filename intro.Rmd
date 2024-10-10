@@ -31,25 +31,6 @@ palette(c("black", "#003087", "#DAAA00", "#8F92C4", "#E5CF7E",
           "#AD5D1E", "gray40", "gray85", "#FFFFFF", "transparent"))
 ```
 
-```{r banner hide code, fig.height=1.5, fig.width=10, echo=FALSE, out.width="100%", fig.align='right', results='hold'}
-logo <- readPNG("docs/images/UWA logo_text_V_wsL.png")
-par(mar = c(0,0,0,0))
-layout(matrix(c(1,1,1,1,2),nrow = 1))
-
-plot(c(0,1),c(0,1), axes=F, type="n",xaxt="n", yaxt="n",ann=F)
-text(-0.025,0.9, pos = 4, cex = 2.6, font = 2, 
-     labels="Data Analysis in R for Environmental Science")
-text(-0.025,0.6, pos = 4, cex = 2.2, 
-     labels="R and RStudio basics")
-text(-0.025,0.4, pos = 4, font = 3, cex = 1.4, col = 12,
-     labels="")
-text(1,0.1, pos = 2, font = 3, family = 'serif', cex = 1.5, col = 2,
-     labels="Andrew Rate, School of Agriculture and Environment")
-plot(1,1, axes=F, type="n",xaxt="n", yaxt="n",ann=F)
-addImg(logo, x = 1.2, y = 1, width = 0.5)
-par(mar = c(3.5,3.5,0.5,0.5))
-```
-
 This guide gets you started with reading data into **R** (R Core Team, 2022) 
 from a file, including checking that the data have been read in correctly. We 
 will always be using **R** in the RStudio environment (Posit Software, 2022).
