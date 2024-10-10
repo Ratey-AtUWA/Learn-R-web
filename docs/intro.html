@@ -11,11 +11,11 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-07-15" />
+<meta name="date" content="2024-10-10" />
 
 <title>RStudio introduction</title>
 
-<script src="site_libs/header-attrs-2.17/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -32,8 +32,8 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/tabwid-1.1.0/tabwid.css" rel="stylesheet" />
-<link href="site_libs/tabwid-1.1.0/scrool.css" rel="stylesheet" />
+<link href="site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="site_libs/tabwid-1.1.3/tabwid.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -345,7 +345,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -360,7 +360,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -375,7 +375,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -390,7 +390,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -414,7 +414,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -432,7 +432,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -453,13 +453,10 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
-    </li>
     <li>
       <a href="distributions.html">Distribution checking</a>
     </li>
@@ -471,10 +468,25 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Reporting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="maps-location-siteplan.html">Location and Site Plan maps</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">UWA School of Agriculture and Environment</a>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -496,7 +508,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">RStudio introduction</h1>
 <h3 class="subtitle">Reading files, checking data, and making plots</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-07-15</h4>
+<h4 class="date">2024-10-10</h4>
 
 </div>
 
@@ -550,7 +562,7 @@ which we can then load in later <strong>R</strong> sessions using the
 <code>load()</code> function, or clicking the 📁 icon in the <span
 style="background-color:#404040; color:white;"> Environment </span> tab
 in RStudio.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R/raw/main/&quot;</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/&quot;</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>hubbard <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="fu">paste0</span>(git,<span class="st">&quot;hubbard.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># ... and do a quick check</span></span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">is.data.frame</span>(hubbard) <span class="co"># check that it worked; if so, the result should be TRUE</span></span></code></pre></div>
@@ -578,22 +590,22 @@ class="section level2">
 of our data, to make sure the file has read correctly (this may not
 happen if the file is improperly formatted, <em>etc</em>.).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">summary</span>(hubbard[,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]) <span class="co"># just the first 9 columns to save space!</span></span></code></pre></div>
-<pre><code>##       PLOT       Rel.To.Brook    Transect   UTM_EASTING      UTM_NORTHING           PH         MOISTURE.pct
-##  Min.   :  1.0   North:135    E278000:44   Min.   :276000   Min.   :4866300   Min.   :2.510   Min.   : 0.510
-##  1st Qu.:126.8   South:125    E277000:43   1st Qu.:277000   1st Qu.:4867800   1st Qu.:4.168   1st Qu.: 3.068
-##  Median :254.5                E280000:37   Median :279000   Median :4869000   Median :4.350   Median : 4.131
-##  Mean   :249.2                E276000:35   Mean   :278996   Mean   :4868769   Mean   :4.322   Mean   : 5.367
-##  3rd Qu.:392.2                E279000:34   3rd Qu.:281000   3rd Qu.:4869700   3rd Qu.:4.503   3rd Qu.: 6.324
-##  Max.   :460.0                E282000:25   Max.   :283000   Max.   :4871100   Max.   :4.870   Max.   :26.262
-##                               (Other):42
-##      OM.pct             Cd
-##  Min.   : 2.240   Min.   :0.0980
-##  1st Qu.: 9.188   1st Qu.:0.3070
-##  Median :11.162   Median :0.6350
-##  Mean   :12.009   Mean   :0.7426
-##  3rd Qu.:13.582   3rd Qu.:1.1310
-##  Max.   :50.177   Max.   :1.8890
-##                   NA&#39;s   :167</code></pre>
+<pre><code>##       PLOT       Rel.To.Brook    Transect   UTM_EASTING      UTM_NORTHING           PH       
+##  Min.   :  1.0   North:135    E278000:44   Min.   :276000   Min.   :4866300   Min.   :2.510  
+##  1st Qu.:126.8   South:125    E277000:43   1st Qu.:277000   1st Qu.:4867800   1st Qu.:4.168  
+##  Median :254.5                E280000:37   Median :279000   Median :4869000   Median :4.350  
+##  Mean   :249.2                E276000:35   Mean   :278996   Mean   :4868769   Mean   :4.322  
+##  3rd Qu.:392.2                E279000:34   3rd Qu.:281000   3rd Qu.:4869700   3rd Qu.:4.503  
+##  Max.   :460.0                E282000:25   Max.   :283000   Max.   :4871100   Max.   :4.870  
+##                               (Other):42                                                     
+##   MOISTURE.pct        OM.pct             Cd        
+##  Min.   : 0.510   Min.   : 2.240   Min.   :0.0980  
+##  1st Qu.: 3.068   1st Qu.: 9.188   1st Qu.:0.3070  
+##  Median : 4.131   Median :11.162   Median :0.6350  
+##  Mean   : 5.367   Mean   :12.009   Mean   :0.7426  
+##  3rd Qu.: 6.324   3rd Qu.:13.582   3rd Qu.:1.1310  
+##  Max.   :26.262   Max.   :50.177   Max.   :1.8890  
+##                                    NA&#39;s   :167</code></pre>
 <p>
  
 </p>
@@ -1084,9 +1096,9 @@ tables:</p>
 <span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>       <span class="at">INDEX=</span><span class="fu">list</span>(Transect,Rel.To.Brook), </span>
 <span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>       <span class="at">FUN=</span>mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## One-way table of means
-##     E276000     E277000     E278000     E279000     E280000     E281000     E282000     E283000
-## 0.002588815 0.002136418 0.002827809 0.002813563 0.002528296 0.002262386 0.002221885 0.002957922
-##
+##     E276000     E277000     E278000     E279000     E280000     E281000     E282000     E283000 
+## 0.002588815 0.002136418 0.002827809 0.002813563 0.002528296 0.002262386 0.002221885 0.002957922 
+## 
 ## Two-way table of means
 ##               North       South
 ## E276000 0.002652212 0.002559759
@@ -1123,11 +1135,14 @@ package</h3>
 <pre><code>## Summary statistics for EXCH_Ni
 ##         mean          sd         IQR         0%         25%         50%         75%       100%   n NA
 ##  0.002536502 0.001382344 0.001126141 0.00070457 0.001829135 0.002246775 0.002955276 0.01784169 257  3
-##
+## 
 ## Summary statistics for EXCH_Ni grouped by Rel.To.Brook
-##              mean          sd         IQR          0%         25%         50%         75%        100% data:n data:NA
-## North 0.002635924 0.001605190 0.001114533 0.001120626 0.001933342 0.002277016 0.003047875 0.017841689    132       3
-## South 0.002431513 0.001096042 0.001170948 0.000704570 0.001719421 0.002174767 0.002890369 0.008483806    125       0</code></pre>
+##              mean          sd         IQR          0%         25%         50%         75%        100% data:n
+## North 0.002635924 0.001605190 0.001114533 0.001120626 0.001933342 0.002277016 0.003047875 0.017841689    132
+## South 0.002431513 0.001096042 0.001170948 0.000704570 0.001719421 0.002174767 0.002890369 0.008483806    125
+##       data:NA
+## North       3
+## South       0</code></pre>
 <p>For <code>numSummary()</code> tables, try the following:</p>
 <ul>
 <li>generating summary tables for more than one variable at a time</li>
@@ -1160,7 +1175,7 @@ can figure out what is going on here¹):</p>
 ## Median   4.350         4.13  11.16  0.970  0.139  3.168
 ## Max.     4.870        26.26  50.18  7.132  1.107  7.709
 ## Missing  0.000         0.00   0.00 60.000 62.000 60.000
-##
+## 
 ## The table has now been copied to the clipboard, so you can paste it into Excel!</code></pre>
 <p>If you want to take this further, we can start making really nice
 Tables for reports with various <strong>R</strong> packages. I use the
@@ -1182,56 +1197,7 @@ the table object <code>mytable</code> made above:</p>
 <span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">flextable</span>(<span class="fu">data.frame</span>(<span class="at">Statistic=</span><span class="fu">row.names</span>(mytable),<span class="fu">signif</span>(mytable,<span class="dv">3</span>))) <span class="sc">|&gt;</span></span>
 <span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span></span>
 <span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>  <span class="fu">set_caption</span>(<span class="at">caption=</span><span class="st">&quot;Table 1: Table created by the `flextable` R package. Many more table formatting, text formatting, and number formatting options are available in this package.&quot;</span>)</span></code></pre></div>
-<template id="a8948c75-0fe7-40ad-bc59-567dfacf8086"><style>
-.tabwid table{
-  border-spacing:0px !important;
-  border-collapse:collapse;
-  line-height:1;
-  margin-left:auto;
-  margin-right:auto;
-  border-width: 0;
-  display: table;
-  border-color: transparent;
-  caption-side: top;
-}
-.tabwid-caption-bottom table{
-  caption-side: bottom;
-}
-.tabwid_left table{
-  margin-left:0;
-}
-.tabwid_right table{
-  margin-right:0;
-}
-.tabwid td {
-    padding: 0;
-}
-.tabwid a {
-  text-decoration: none;
-}
-.tabwid thead {
-    background-color: transparent;
-}
-.tabwid tfoot {
-    background-color: transparent;
-}
-.tabwid table tr {
-background-color: transparent;
-}
-.katex-display {
-    margin: 0 0 !important;
-}
-</style><div class="tabwid"><style>.cl-fe446e36{}.cl-fe33c644{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-fe33c64e{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-fe3a064e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-fe3a0662{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-fe3a2f70{width:0.75in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fe3a2f7a{width:0.75in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fe3a2f84{width:0.75in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fe3a2f85{width:0.75in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fe3a2f8e{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fe3a2f98{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fe2ae1e6{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}</style><table class='cl-fe446e36'><caption><span class="cl-fe2ae1e6">Table 1: Table created by the `flextable` R package. Many more table formatting, text formatting, and number formatting options are available in this package.</span></caption><thead><tr style="overflow-wrap:break-word;"><td class="cl-fe3a2f70"><p class="cl-fe3a064e"><span class="cl-fe33c644">Statistic</span></p></td><td class="cl-fe3a2f7a"><p class="cl-fe3a0662"><span class="cl-fe33c644">PH</span></p></td><td class="cl-fe3a2f7a"><p class="cl-fe3a0662"><span class="cl-fe33c644">MOISTURE.pct</span></p></td><td class="cl-fe3a2f7a"><p class="cl-fe3a0662"><span class="cl-fe33c644">OM.pct</span></p></td><td class="cl-fe3a2f7a"><p class="cl-fe3a0662"><span class="cl-fe33c644">Al.pct</span></p></td><td class="cl-fe3a2f7a"><p class="cl-fe3a0662"><span class="cl-fe33c644">Ca.pct</span></p></td><td class="cl-fe3a2f7a"><p class="cl-fe3a0662"><span class="cl-fe33c644">Fe.pct</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-fe3a2f84"><p class="cl-fe3a064e"><span class="cl-fe33c64e">Mean</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">4.320</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">5.37</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">12.00</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">1.640</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">0.208</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">3.160</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-fe3a2f8e"><p class="cl-fe3a064e"><span class="cl-fe33c64e">Std.dev.</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">0.293</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">3.83</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">5.17</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">1.480</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">0.214</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">1.110</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-fe3a2f84"><p class="cl-fe3a064e"><span class="cl-fe33c64e">Min.</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">2.510</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">0.51</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">2.24</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">0.155</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">0.002</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">0.497</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-fe3a2f8e"><p class="cl-fe3a064e"><span class="cl-fe33c64e">Median</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">4.350</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">4.13</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">11.20</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">0.970</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">0.139</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">3.170</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-fe3a2f84"><p class="cl-fe3a064e"><span class="cl-fe33c64e">Max.</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">4.870</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">26.30</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">50.20</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">7.130</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">1.110</span></p></td><td class="cl-fe3a2f85"><p class="cl-fe3a0662"><span class="cl-fe33c64e">7.710</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-fe3a2f8e"><p class="cl-fe3a064e"><span class="cl-fe33c64e">Missing</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">0.000</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">0.00</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">0.00</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">60.000</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">62.000</span></p></td><td class="cl-fe3a2f98"><p class="cl-fe3a0662"><span class="cl-fe33c64e">60.000</span></p></td></tr></tbody></table></div></template>
-<div class="flextable-shadow-host" id="4f2d66bf-e54a-411d-9841-57978751f9cb"></div>
-<script>
-var dest = document.getElementById("4f2d66bf-e54a-411d-9841-57978751f9cb");
-var template = document.getElementById("a8948c75-0fe7-40ad-bc59-567dfacf8086");
-var caption = template.content.querySelector("caption");
-var fantome = dest.attachShadow({mode: 'open'});
-var templateContent = template.content;
-fantome.appendChild(templateContent);
-</script>
-
+<div class="tabwid"><style>.cl-076e548c{}.cl-07617a00{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-07617a14{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-0766f52a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-0766f534{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-07672d10{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07672d1a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07672d1b{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07672d24{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07672d25{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-07672d2e{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-076e548c'><caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;"><span>Table 1: Table created by the `flextable` R package. Many more table formatting, text formatting, and number formatting options are available in this package.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-07672d10"><p class="cl-0766f52a"><span class="cl-07617a00">Statistic</span></p></th><th class="cl-07672d1a"><p class="cl-0766f534"><span class="cl-07617a00">PH</span></p></th><th class="cl-07672d1a"><p class="cl-0766f534"><span class="cl-07617a00">MOISTURE.pct</span></p></th><th class="cl-07672d1a"><p class="cl-0766f534"><span class="cl-07617a00">OM.pct</span></p></th><th class="cl-07672d1a"><p class="cl-0766f534"><span class="cl-07617a00">Al.pct</span></p></th><th class="cl-07672d1a"><p class="cl-0766f534"><span class="cl-07617a00">Ca.pct</span></p></th><th class="cl-07672d1a"><p class="cl-0766f534"><span class="cl-07617a00">Fe.pct</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-07672d1b"><p class="cl-0766f52a"><span class="cl-07617a14">Mean</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">4.320</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">5.37</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">12.00</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">1.640</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">0.208</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">3.160</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-07672d1b"><p class="cl-0766f52a"><span class="cl-07617a14">Std.dev.</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">0.293</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">3.83</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">5.17</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">1.480</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">0.214</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">1.110</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-07672d1b"><p class="cl-0766f52a"><span class="cl-07617a14">Min.</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">2.510</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">0.51</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">2.24</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">0.155</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">0.002</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">0.497</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-07672d1b"><p class="cl-0766f52a"><span class="cl-07617a14">Median</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">4.350</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">4.13</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">11.20</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">0.970</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">0.139</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">3.170</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-07672d1b"><p class="cl-0766f52a"><span class="cl-07617a14">Max.</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">4.870</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">26.30</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">50.20</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">7.130</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">1.110</span></p></td><td class="cl-07672d24"><p class="cl-0766f534"><span class="cl-07617a14">7.710</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-07672d25"><p class="cl-0766f52a"><span class="cl-07617a14">Missing</span></p></td><td class="cl-07672d2e"><p class="cl-0766f534"><span class="cl-07617a14">0.000</span></p></td><td class="cl-07672d2e"><p class="cl-0766f534"><span class="cl-07617a14">0.00</span></p></td><td class="cl-07672d2e"><p class="cl-0766f534"><span class="cl-07617a14">0.00</span></p></td><td class="cl-07672d2e"><p class="cl-0766f534"><span class="cl-07617a14">60.000</span></p></td><td class="cl-07672d2e"><p class="cl-0766f534"><span class="cl-07617a14">62.000</span></p></td><td class="cl-07672d2e"><p class="cl-0766f534"><span class="cl-07617a14">60.000</span></p></td></tr></tbody></table></div>
 <p>
  
 </p>
