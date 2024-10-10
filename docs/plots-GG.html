@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-07-23" />
+<meta name="date" content="2024-10-10" />
 
 <title>RStudio graphics and plotting</title>
 
@@ -456,9 +456,6 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
-    </li>
-    <li>
       <a href="distributions.html">Distribution checking</a>
     </li>
     <li>
@@ -469,10 +466,25 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Reporting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="maps-location-siteplan.html">Location and Site Plan maps</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">UWA School of Agriculture and Environment</a>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -494,7 +506,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">RStudio graphics and plotting</h1>
 <h3 class="subtitle">The ggplot version</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-07-23</h4>
+<h4 class="date">2024-10-10</h4>
 
 </div>
 
@@ -1165,7 +1177,8 @@ plot symbols available</li>
 <span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
 <span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">position=</span><span class="st">&quot;top&quot;</span>) <span class="sc">+</span> </span>
 <span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<pre><code>## Warning: Removed 12 rows containing missing values or values outside the scale range (`geom_point()`).</code></pre>
+<pre><code>## Warning: Removed 12 rows containing missing values or values outside the scale range
+## (`geom_point()`).</code></pre>
 <div class="figure">
 <img src="plots-GG_files/figure-html/gg-depth-profile-1.png" alt="Figure 17: Plots of Fe vs. depth measurements in the sv18 data." width="345.6" />
 <p class="caption">
