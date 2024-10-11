@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-07-24" />
+<meta name="date" content="2024-10-10" />
 
 <title>Utilities = useful stuff</title>
 
@@ -545,9 +545,6 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
-    </li>
-    <li>
       <a href="distributions.html">Distribution checking</a>
     </li>
     <li>
@@ -558,10 +555,25 @@ div.tocify {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Reporting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="maps-location-siteplan.html">Location and Site Plan maps</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">UWA School of Agriculture and Environment</a>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -591,7 +603,7 @@ div.tocify {
 <h1 class="title toc-ignore">Utilities = useful stuff</h1>
 <h3 class="subtitle">Making use of unusual regression residuals</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-07-24</h4>
+<h4 class="date">2024-10-10</h4>
 
 </div>
 
@@ -891,11 +903,12 @@ distribution scores (mean=0, sd=1).
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;---- Large log10(Pb) ----</span><span class="sc">\n</span><span class="st">&quot;</span>);lm1<span class="sc">$</span>model<span class="sc">$</span>Pb.log[<span class="fu">which</span>(<span class="fu">scale</span>(lm1<span class="sc">$</span>residuals)<span class="sc">&gt;=</span><span class="dv">2</span>)]</span>
 <span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">---- Back-transformed ----</span><span class="sc">\n</span><span class="st">&quot;</span>);<span class="dv">10</span><span class="sc">^</span>(lm1<span class="sc">$</span>model<span class="sc">$</span>Pb.log[<span class="fu">which</span>(<span class="fu">scale</span>(lm1<span class="sc">$</span>residuals)<span class="sc">&gt;=</span><span class="dv">2</span>)])</span></code></pre></div>
 <pre><code>## ---- Large log10(Pb) ----
-##  [1] 1.850646 1.831870 2.316809 2.674677 2.919653 2.382737 1.929419 1.995635 1.961421 2.799134 2.838912
-## [12] 2.453318 2.403635 1.792392 2.056905
+##  [1] 1.850646 1.831870 2.316809 2.674677 2.919653 2.382737 1.929419 1.995635
+##  [9] 1.961421 2.799134 2.838912 2.453318 2.403635 1.792392 2.056905
 ## 
 ## ---- Back-transformed ----
-##  [1]  70.9  67.9 207.4 472.8 831.1 241.4  85.0  99.0  91.5 629.7 690.1 284.0 253.3  62.0 114.0</code></pre>
+##  [1]  70.9  67.9 207.4 472.8 831.1 241.4  85.0  99.0  91.5 629.7 690.1 284.0
+## [13] 253.3  62.0 114.0</code></pre>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">lend=</span><span class="st">&quot;square&quot;</span>, <span class="at">xpd=</span><span class="cn">TRUE</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="fu">plot_tiles</span>(aftiles, <span class="at">adjust=</span>F, <span class="at">axes=</span><span class="cn">TRUE</span>, <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>)) <span class="co"># use axes = TRUE</span></span>
 <span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a></span>

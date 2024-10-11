@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-09-10" />
+<meta name="date" content="2024-10-11" />
 
 <title>ENVT5503 Hydrus-1D Beginners` Guide</title>
 
@@ -434,7 +434,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -449,7 +449,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -464,7 +464,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -479,7 +479,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -503,7 +503,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -521,7 +521,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -542,13 +542,10 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
-    </li>
     <li>
       <a href="distributions.html">Distribution checking</a>
     </li>
@@ -560,10 +557,25 @@ div.tocify {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Reporting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="maps-location-siteplan.html">Location and Site Plan maps</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">UWA School of Agriculture and Environment</a>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -593,7 +605,7 @@ div.tocify {
 <h1 class="title toc-ignore">ENVT5503 Hydrus-1D Beginners` Guide</h1>
 <h3 class="subtitle">Remediation of Soil and Groundwater</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-09-10</h4>
+<h4 class="date">2024-10-11</h4>
 
 </div>
 
@@ -604,14 +616,17 @@ div.tocify {
 }
 </style>
 <p> </p>
-<p style="text-align:center;"><img src="./images/pulseAnim.gif"
+<p style="text-align:center;">
+<img src="./images/pulseAnim.gif"
 alt="animation of vertical solute transport pulse" width="200"
-height="300" /><br /><span style="font-size:10pt;"><em>Figure 0: Animation representing simulated solute
-transport, made with the <code>gganimate</code> <br />R package. For the
-<code>R code</code> to make this animation and some background<br />
-information, go to <a
+height="300" /><br /> <span
+style="text-align:center; font-size:10pt;"><em>Figure 0: Animation
+representing simulated solute transport, made with the
+<code>gganimate</code><br />R package. For the <code>R code</code> to
+make this animation and some background information,<br />go to <a
 href="https://ratey-atuwa.github.io/cybloRg/pulse.html"
-target="_blank">https://ratey-atuwa.github.io/cybloRg/pulse.html</a>.</em></span></p>
+target="_blank">https://ratey-atuwa.github.io/cybloRg/pulse.html</a>.</em></span>
+</p>
 <p> </p>
 <div id="getting-started" class="section level1">
 <h1>Getting Started</h1>
@@ -849,7 +864,7 @@ alt="Profle Information dialog screenshot" /></p>
 in the post-processing window to visualise the output within Hydrus-1D.
 Alternatively, you can read the data file(s) into Excel® or R and make
 better graphs!</p>
-<div class="tabwid"><style>.cl-e6997190{}.cl-e686b672{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e686b67c{font-family:'Courier New';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e686b67d{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e68ee040{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-e68ee054{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-e68f1dc6{width:2.362in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e68f1dd0{width:5.512in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e68f1dd1{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e68f1dda{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e68f1de4{width:2.362in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e68f1de5{width:5.512in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e68f1df8{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e68f1df9{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-e6997190'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: The following HYDRUS-1D output files contain useful data.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-e68f1dc6"><p class="cl-e68ee040"><span class="cl-e686b672">File name</span></p></th><th class="cl-e68f1dd0"><p class="cl-e68ee040"><span class="cl-e686b672">Contents</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-e68f1dd1"><p class="cl-e68ee054"><span class="cl-e686b67c">Nod_Inf.out</span></p></td><td class="cl-e68f1dda"><p class="cl-e68ee054"><span class="cl-e686b67d">Separate data matrices  at selected `Print times` during simulation.</span><br><span class="cl-e686b67d">Useful columns: Depth, Conc(1..NS), Sorb(1..NS)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e68f1de4"><p class="cl-e68ee054"><span class="cl-e686b67c">Obs_Node.out</span></p></td><td class="cl-e68f1de5"><p class="cl-e68ee054"><span class="cl-e686b67d">Side-by side data matrices for each node depth.</span><br><span class="cl-e686b67d">Useful columns: time, theta, conc</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e68f1df8"><p class="cl-e68ee054"><span class="cl-e686b67c">Solute1.out</span><br><span class="cl-e686b67c">(&amp; Solute2.out,...)</span></p></td><td class="cl-e68f1df9"><p class="cl-e68ee054"><span class="cl-e686b67d">Single data matrix for each solute. Contains columns for time, fluxes and concentrations (including cumulative values) at start of flow path (Top), Root zone, end of flow path (Bot).</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-391e76da{}.cl-391470a4{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-391470ae{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-391862b8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-391862cc{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-391880f4{width:2.362in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-391880fe{width:5.512in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-39188108{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-39188109{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-39188112{width:2.362in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3918811c{width:5.512in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3918811d{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3918811e{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-391e76da'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: The following HYDRUS-1D output files contain useful data.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-391880f4"><p class="cl-391862b8"><span class="cl-391470a4">File name</span></p></th><th class="cl-391880fe"><p class="cl-391862b8"><span class="cl-391470a4">Contents</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-39188108"><p class="cl-391862cc"><span class="cl-391470ae">Nod_Inf.out</span></p></td><td class="cl-39188109"><p class="cl-391862cc"><span class="cl-391470ae">Separate data matrices  at selected `Print times` during simulation.</span><br><span class="cl-391470ae">Useful columns: Depth, Conc(1..NS), Sorb(1..NS)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-39188112"><p class="cl-391862cc"><span class="cl-391470ae">Obs_Node.out</span></p></td><td class="cl-3918811c"><p class="cl-391862cc"><span class="cl-391470ae">Side-by side data matrices for each node depth.</span><br><span class="cl-391470ae">Useful columns: time, theta, conc</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3918811d"><p class="cl-391862cc"><span class="cl-391470ae">Solute1.out</span><br><span class="cl-391470ae">(&amp; Solute2.out,...)</span></p></td><td class="cl-3918811e"><p class="cl-391862cc"><span class="cl-391470ae">Single data matrix for each solute. Contains columns for time, fluxes and concentrations (including cumulative values) at start of flow path (Top), Root zone, end of flow path (Bot).</span></p></td></tr></tbody></table></div>
 <p> </p>
 <p>More detail is available in the Hydrus-1D manual. We recommend the <a
 href="https://www.pc-progress.com/Downloads/Public_Lib_H1D/HYDRUS-1D_Tutorial_V1.00_2018.pdf"
@@ -975,6 +990,7 @@ Figure 1: Plot of simulated solute concentration vs. vertical depth for
 each simulation time step, using Hydrus-1D
 </p>
 </div>
+<p> </p>
 </div>
 <div id="plot-as-concentration-vs.-horizontal-distance"
 class="section level2">
@@ -1008,6 +1024,105 @@ for each simulation time step, using Hydrus-1D
 </p>
 </div>
 <p> </p>
+</div>
+<div id="reading-data-copied-from-a-hydrus-1d-plot"
+class="section level2">
+<h2>Reading data copied from a Hydrus-1D plot</h2>
+<p>This is an easier alternative to using the <code>Nod_Inf.out</code>
+file described above.</p>
+<p>Right-click on Hydrus-1D plot of Profile Information: Concentration,
+and select Copy; this will copy the data table for the plot in
+tab-separated format.</p>
+<p>Then run the following code:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>hydrus0 <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;clipboard&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
+<p>On some Mac computers this does not work, giving an error message
+such as:<br />
+<code>Error in file(file, "rt") : X11 module cannot be loaded</code></p>
+<p>In that case, copy the data from the Hydrus-1D plot into Excel, and
+save as a <code>.csv</code> file (<em>e.g</em>.
+<code>hydrus1.csv</code>) into your current RStudio working
+directory.</p>
+<p>Then just use <code>read.csv</code> to input the Hydrus-1D data:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>hydrus0 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;hydrus1.csv&quot;</span>) <span class="co"># remember what name you gave the file!</span></span></code></pre></div>
+<p>Then it's useful to input some of the Hydrus-1D information (final ≡
+total time, and number of ‘Print times’):</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># specify Final Time here</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co"># (from Hydrus-1D &#39;Time Information&#39; input)</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#     👇</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="dv">365</span>  <span class="co"># run this line!</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co"># specify number of Print times here</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co"># (from Hydrus-1D &#39;Print Information&#39; input)</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#    👇</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>pt <span class="ot">&lt;-</span> <span class="dv">8</span>  <span class="co"># run this line!</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>(simTimes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,ft, <span class="at">len=</span>pt<span class="sc">+</span><span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## [1]   0.000  45.625  91.250 136.875 182.500 228.125 273.750 319.375 365.000</code></pre>
+<p>Then, reformat the data for easier plotting using <code>melt</code>
+from the <code>reshape2</code> package. If <code>Distance</code> is
+negative, we make it positive.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>hydrus1 <span class="ot">&lt;-</span> <span class="fu">melt</span>(hydrus0[,<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(hydrus0)], </span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>                       <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">&quot;C2&quot;</span>), </span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>                       <span class="at">measure.vars =</span> <span class="fu">paste0</span>(<span class="st">&quot;C&quot;</span>,<span class="fu">seq</span>(<span class="dv">1</span>,(<span class="dv">2</span><span class="sc">*</span>pt)<span class="sc">+</span><span class="dv">1</span>,<span class="dv">2</span>)))</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">colnames</span>(hydrus1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Distance&quot;</span>,<span class="st">&quot;Time&quot;</span>,<span class="st">&quot;Concentration&quot;</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">min</span>(hydrus1<span class="sc">$</span>Distance)<span class="sc">&lt;</span><span class="dv">0</span>) hydrus1<span class="sc">$</span>Distance <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>hydrus1<span class="sc">$</span>Distance</span></code></pre></div>
+<p>Check the data file:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">str</span>(hydrus1)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    909 obs. of  3 variables:
+##  $ Distance     : num  0 0.2 0.4 0.6 0.8 1 1.2 1.4 1.6 1.8 ...
+##  $ Time         : Factor w/ 9 levels &quot;C1&quot;,&quot;C3&quot;,&quot;C5&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Concentration: num  0 0 0 0 0 0 0 0 0 0 ...</code></pre>
+<div id="plot-the-data-preferred-option" class="section level3">
+<h3>Plot the data (preferred option)</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, </span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex.lab=</span><span class="fl">1.2</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,viridis<span class="sc">::</span><span class="fu">plasma</span>(pt, <span class="at">alp=</span><span class="fl">0.7</span>)))</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">with</span>(hydrus1, <span class="fu">plot</span>(Distance, Concentration, <span class="at">type=</span><span class="st">&quot;b&quot;</span>,<span class="at">cex=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">1</span>, </span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>                   <span class="at">pch=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>,<span class="dv">24</span>,<span class="dv">25</span>),<span class="dv">2</span>)[Time],</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>                   <span class="at">bg=</span><span class="fu">seq_along</span>(simTimes)[Time],</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>                   <span class="at">xlab=</span><span class="st">&quot;Distance (m)&quot;</span>, </span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>                   <span class="at">ylab=</span><span class="st">&quot;Solute concentration (mg/L)&quot;</span>))</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">inset=</span><span class="fl">0.02</span>, <span class="at">ncol=</span><span class="dv">2</span>, </span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>       <span class="at">title=</span><span class="fu">expression</span>(<span class="fu">italic</span>(<span class="st">&quot;Simulation times [days]&quot;</span>)), </span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">round</span>(simTimes), <span class="at">pt.bg=</span><span class="fu">seq_along</span>(simTimes), </span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>,<span class="dv">24</span>,<span class="dv">25</span>),<span class="dv">2</span>), <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">pt.cex=</span><span class="fl">1.2</span>)</span></code></pre></div>
+<div class="figure">
+<img src="hydrus1d_files/figure-html/plot-melted-1-1.png" alt="Figure 3: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing individual simulation points), using Hydrus-1D" width="768" />
+<p class="caption">
+Figure 3: Plot of simulated solute concentration vs. horizontal distance
+for each simulation time step (showing individual simulation points),
+using Hydrus-1D
+</p>
+</div>
+<p> </p>
+<p>If the plot above is unsatisfactory, try the following:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, </span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex.lab=</span><span class="fl">1.2</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,viridis<span class="sc">::</span><span class="fu">turbo</span>(pt)))</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">subset</span>(hydrus1, hydrus1<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(hydrus1<span class="sc">$</span>Time)[<span class="dv">1</span>]), </span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>     <span class="fu">plot</span>(Concentration <span class="sc">~</span> Distance, <span class="at">type=</span><span class="st">&quot;l&quot;</span>, </span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>          <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(hydrus1<span class="sc">$</span>Concentration)),</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>          <span class="at">xlab=</span><span class="st">&quot;Distance (m)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Solute concentration (mg/L)&quot;</span>) )</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>(pt<span class="sc">+</span><span class="dv">1</span>)){</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  <span class="fu">with</span>(<span class="fu">subset</span>(hydrus1, hydrus1<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(hydrus1<span class="sc">$</span>Time)[i]), </span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>       <span class="fu">lines</span>(Concentration <span class="sc">~</span> Distance, <span class="at">col=</span>i,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">lty=</span>i))</span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>  }</span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">inset=</span><span class="fl">0.02</span>, <span class="at">ncol=</span><span class="dv">2</span>, </span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>       <span class="at">title=</span><span class="fu">expression</span>(<span class="fu">italic</span>(<span class="st">&quot;Simulation times [days]&quot;</span>)), </span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>       <span class="at">lty=</span><span class="fu">seq_along</span>(simTimes), <span class="at">seg.len=</span><span class="fl">4.5</span>, <span class="at">legend=</span><span class="fu">round</span>(simTimes), </span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">seq_along</span>(simTimes), <span class="at">pch=</span><span class="cn">NA</span>, <span class="at">lwd=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="fu">rep</span>(<span class="dv">3</span>,pt)), </span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>       <span class="at">x.intersp=</span><span class="fl">0.5</span>)</span></code></pre></div>
+<div class="figure">
+<img src="hydrus1d_files/figure-html/plot-melted-2-1.png" alt="Figure 4: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing smooth lines only), using Hydrus-1D" width="768" />
+<p class="caption">
+Figure 4: Plot of simulated solute concentration vs. horizontal distance
+for each simulation time step (showing smooth lines only), using
+Hydrus-1D
+</p>
+</div>
+<p> </p>
+</div>
 </div>
 </div>
 <div id="references" class="section level1">
