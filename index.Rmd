@@ -22,9 +22,11 @@ output:
 2. [**For beginners**](about.html)
 
 3. [**Intro**](intro.html)
-  - [Intro with `ggplot`](intro-GG.html)
+  - [Introduction to R](intro.html)
+  - [Intro to R with `ggplot`](intro-GG.html)
 
 4. [**Plots**](plots.html)
+  - [Plots with base-R](plots.html)
   - [Plots with `ggplot`](plots-GG.html)
 
 5. [**Comparisons**](means.html)
@@ -50,13 +52,16 @@ output:
   - [Spatial statistics](spatial.html)
   - [Spatial interpolation](spat-interp.html)
 
-9. [**Utilities and other R goodies**](tables.html)
-  - [Tables & trigger value counts](tables.html)
+9. [**Utilities and other R goodies**](distributions.html)
   - [Distribution checking](distributions.html)
   - [Regression residuals to identify contamination](residuals.html)
   - [HYDRUS-1D basics and usage with R](hydrus1d.html)
+  
+10. [**Reporting tools**](tablesPlus.html)
+  - [Tables to count &amp; identify over-guideline samples](tablesPlus.html)
+  - [Maps of Locality and Site Plan](maps-location-siteplan.html)
 
-10. [**UWA School of Agriculture and Environment**](https://www.uwa.edu.au/schools/agriculture-and-environment){target="_blank"}
+11. [**UWA School of Agriculture and Environment**](https://www.uwa.edu.au/schools/agriculture-and-environment){target="_blank"}
 
 </div>
 
