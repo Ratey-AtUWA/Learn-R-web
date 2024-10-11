@@ -434,7 +434,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -449,7 +449,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -464,7 +464,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -479,7 +479,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -503,7 +503,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -521,7 +521,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -542,7 +542,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -560,7 +560,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Reporting
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -568,7 +568,7 @@ div.tocify {
       <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
     </li>
     <li>
-      <a href="maps-location-siteplan.html">Location and Site Plan maps</a>
+      <a href="maps-location-siteplan.html">Locality and Site Plan maps</a>
     </li>
   </ul>
 </li>
@@ -674,9 +674,9 @@ environmental threshold.</p>
 ## Ni  21.00      52  Ni
 ## Sb   2.00      25  Sb
 ## Zn 200.00     410  Zn
-## 
+##
 ## NOTES:
-## DGV = Default Guideline Value; GV_high = Upper Guideline Value; 
+## DGV = Default Guideline Value; GV_high = Upper Guideline Value;
 ## Tox = Toxicant</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">print</span>(HIL)</span></code></pre></div>
 <pre><code>##                   Element   Tox Resid...A Resid...B Recreat...C Industr...D
@@ -695,9 +695,9 @@ environmental threshold.</p>
 ## Se               Selenium    Se       200      1400         700       10000
 ## Zn                   Zinc    Zn      7400     60000       30000      400000
 ## CN         Cyanide_(free)    CN       250       300         240        1500
-## 
+##
 ## NOTES:
-## Tox = Toxicant; Resid = Residential; 
+## Tox = Toxicant; Resid = Residential;
 ## Recreat = Recreational / Public Open Space; Industr = Industrial</code></pre>
 <p>We can see from the output above that, for reporting, it would be
 worthwhile using a package (such as <code>flextable</code>, but there
@@ -716,29 +716,29 @@ environmental science classes at The University of Western Australia
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>sedsoil<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">factor</span>(sedsoil<span class="sc">$</span>Year)</span>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>sedsoil<span class="sc">$</span>SampID <span class="ot">&lt;-</span> <span class="fu">as.character</span>(sedsoil<span class="sc">$</span>SampID)</span>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">summary</span>(sedsoil)</span></code></pre></div>
-<pre><code>##    Year       SampID                 Type       DepthType     Longitude    
-##  2019:91   Length:336         Drain_Sed: 61   Core   : 47   Min.   :115.9  
-##  2020:75   Class :character   Lake_Sed :121   Surface:289   1st Qu.:115.9  
-##  2021:65   Mode  :character   Other    : 15                 Median :115.9  
-##  2022:31                      Saltmarsh:139                 Mean   :115.9  
-##  2023:74                                                    3rd Qu.:115.9  
-##                                                             Max.   :115.9  
-##                                                                            
-##     Latitude            As               Cr              Cu        
-##  Min.   :-31.92   Min.   : 0.400   Min.   : 1.00   Min.   :   2.0  
-##  1st Qu.:-31.92   1st Qu.: 4.000   1st Qu.:34.00   1st Qu.:  32.0  
-##  Median :-31.92   Median : 6.050   Median :54.70   Median :  61.0  
-##  Mean   :-31.92   Mean   : 8.159   Mean   :49.33   Mean   : 111.7  
-##  3rd Qu.:-31.92   3rd Qu.: 9.000   3rd Qu.:65.45   3rd Qu.: 165.5  
-##  Max.   :-31.92   Max.   :62.000   Max.   :84.00   Max.   :1007.8  
-##                   NA&#39;s   :13                       NA&#39;s   :9       
-##        Mn               Ni              Pb               Zn        
-##  Min.   :   6.0   Min.   : 1.00   Min.   :  1.00   Min.   :   1.0  
-##  1st Qu.:  55.7   1st Qu.:13.00   1st Qu.: 25.73   1st Qu.: 108.2  
-##  Median :  79.0   Median :19.00   Median : 37.30   Median : 222.5  
-##  Mean   : 143.6   Mean   :19.05   Mean   : 54.91   Mean   : 471.5  
-##  3rd Qu.: 120.5   3rd Qu.:24.80   3rd Qu.: 52.00   3rd Qu.: 359.5  
-##  Max.   :3503.0   Max.   :50.00   Max.   :831.10   Max.   :7556.4  
+<pre><code>##    Year       SampID                 Type       DepthType     Longitude
+##  2019:91   Length:336         Drain_Sed: 61   Core   : 47   Min.   :115.9
+##  2020:75   Class :character   Lake_Sed :121   Surface:289   1st Qu.:115.9
+##  2021:65   Mode  :character   Other    : 15                 Median :115.9
+##  2022:31                      Saltmarsh:139                 Mean   :115.9
+##  2023:74                                                    3rd Qu.:115.9
+##                                                             Max.   :115.9
+##
+##     Latitude            As               Cr              Cu
+##  Min.   :-31.92   Min.   : 0.400   Min.   : 1.00   Min.   :   2.0
+##  1st Qu.:-31.92   1st Qu.: 4.000   1st Qu.:34.00   1st Qu.:  32.0
+##  Median :-31.92   Median : 6.050   Median :54.70   Median :  61.0
+##  Mean   :-31.92   Mean   : 8.159   Mean   :49.33   Mean   : 111.7
+##  3rd Qu.:-31.92   3rd Qu.: 9.000   3rd Qu.:65.45   3rd Qu.: 165.5
+##  Max.   :-31.92   Max.   :62.000   Max.   :84.00   Max.   :1007.8
+##                   NA&#39;s   :13                       NA&#39;s   :9
+##        Mn               Ni              Pb               Zn
+##  Min.   :   6.0   Min.   : 1.00   Min.   :  1.00   Min.   :   1.0
+##  1st Qu.:  55.7   1st Qu.:13.00   1st Qu.: 25.73   1st Qu.: 108.2
+##  Median :  79.0   Median :19.00   Median : 37.30   Median : 222.5
+##  Mean   : 143.6   Mean   :19.05   Mean   : 54.91   Mean   : 471.5
+##  3rd Qu.: 120.5   3rd Qu.:24.80   3rd Qu.: 52.00   3rd Qu.: 359.5
+##  Max.   :3503.0   Max.   :50.00   Max.   :831.10   Max.   :7556.4
 ##                   NA&#39;s   :9                        NA&#39;s   :4</code></pre>
 </div>
 <div id="generate-summary-statistics" class="section level2">
@@ -895,8 +895,8 @@ data table does not get too large! By running <code>table()</code> on
 the <code>Year</code> column, we see that we have 31 samples in 2022,
 which won't be too big.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">table</span>(sedsoil<span class="sc">$</span>Year)</span></code></pre></div>
-<pre><code>## 
-## 2019 2020 2021 2022 2023 
+<pre><code>##
+## 2019 2020 2021 2022 2023
 ##   91   75   65   31   74</code></pre>
 <p>We can then subset the <code>sedsoil</code> data frame to include
 just the 2022 data, using <code>droplevels()</code> to remove any unused
