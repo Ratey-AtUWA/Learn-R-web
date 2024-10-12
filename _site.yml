@@ -65,7 +65,7 @@ navbar:
       menu:
         - text: "Tables & trigger value counts"
           href: tablesPlus.html
-        - text: "Location and Site Plan maps"
+        - text: "Locality and Site Plan maps"
           href: maps-location-siteplan.html
   right:
     - text: "School of Agriculture and Environment"

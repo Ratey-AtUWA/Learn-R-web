@@ -1,5 +1,5 @@
 ---
-title: "Location and Site Plan maps in R"
+title: "Locality and Site Plan maps in R"
 subtitle: "Maps for Environmental reporting"
 author: "Andrew Rate"
 date: "`r Sys.Date()`"
