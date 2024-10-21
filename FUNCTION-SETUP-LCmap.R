@@ -6,7 +6,7 @@
 #' @examples
 LCmap.setup <- function(){
   require(sf); require(prettymapr)
-  git <- "https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/"
+  git <- "https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/"
   source(paste0(git,"scalebar_use_sf_prettymapr.R"))
   LC_site <- st_read(paste0(git, "LC_UWA_study_area.kml"))
   LC_edge <- st_read(paste0(git, "LC_LakeEdge.kml"))
