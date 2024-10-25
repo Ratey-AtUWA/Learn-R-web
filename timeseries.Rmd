@@ -9,15 +9,26 @@ output:
     self_contained: no
     number_sections: no
     smart: no
-    toc: no
+    toc: true
+    toc_depth: 3
+    toc_float: true
 ---
+
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+<p><span style="font-size:14pt;">This guide is organised into 3 main sections:</span></p>
+<ol>
+<li><span style="font-size:14pt;"><a href="#part1">Setting up R to analyse time series data, and the associated data formats</a>;</span></li>
+<li><span style="font-size:14pt;"><a href="#part2">Understanding the concepts, components and features of time series data</a>;</span></li>
+<li><span style="font-size:14pt;"><a href="#part3">Forecasting time series using basic trend analysis and more complex ARIMA (and other) models</a> &ndash; the type of content we would include in reports.</span></li>
+</ol>
+</div>
 
 &nbsp;
 
-# Set up the R environment for time series analysis
+## Set up the R environment for time series analysis
 
-We will need the additional functions in several **R** packages for specialized
-time series and other functions in R...
+We will need the additional functions in several **R** packages for
+specialized time series and other functions in R...
 
 ```{r setup-run, message=FALSE, warning=FALSE, include=TRUE, results='hide'}
 # Load the packages we need 
@@ -32,15 +43,19 @@ library(car)      # for various commonly-used functions
 library(ggplot2)  # alternative to base R plots
 
 # (optional) make a better colour palette than the R default!
-palette(c("black","red3","purple","blue2",
-          "darkcyan","green3","sienna","gray50")) # still not ideal for colourblindness
+# still not ideal for colourblindness (consider using viridis package)
+palette(c("black","purple4","#0041B2","darkslategray4",
+          "gold3","orangered","darkred","dimgray"))
 par(mfrow=c(3,1), mar=c(4,4,1,1), mgp=c(1.7,0.3,0), tcl=0.25, font.lab=2)
 ```
 
-# Data input
+<p id="part1">&nbsp;</p>
 
-Read the data into a data frame &ndash; this is how R often stores data &ndash; it's not the
-format we need but we'll use it for comparison.
+# 1. How R reads and stores time series data
+
+We first read the data into a `data frame` &ndash; this is how R often
+stores data &ndash; it's not the format we need, but we'll use it for
+comparison.
 
 ## Non-time series object for comparison
 
@@ -52,28 +67,40 @@ colnames(soiltemp) <- c("Date","temp")
 
 &nbsp;
 
-### Do some checks of the data
+### Do some checks of the (non-time series) data
 
 ```{r check-dataframe, message=FALSE, warning=FALSE, results='hold'}
 summary(soiltemp) # simple summary of each column
-str(soiltemp) # more detailed information about the R object ('str'=structure)
+str(soiltemp) # more detailed information about the R object 
+# ('str'=structure, i.e. how the data are organised in the R object)
 ```
 
 &nbsp;
 
-### Check with a plot
+We can also check the general form of the data with a plot (Figure 1). 
+From this plot and from the text summary output above, we can see that 
+the `Date` column is not a date or time, or even numeric.
 
-```{r plot-df, out.width="50%", fig.align='center', fig.cap="Figure 1: Plot of soil temperature time series data which is not (yet) formatted as a time series.", message=FALSE, warning=FALSE, results='hold'}
-plot(soiltemp$temp, type = "l", col = 4)
+```{r plot-df, fig.align='center', fig.cap="Figure 1: Plot of soil temperature time series data which is not (yet) formatted as a time series.", fig.height=3.5, fig.width=7, message=FALSE, warning=FALSE, out.width="65%", results='hold'}
+par(mfrow = c(1,1), mar = c(3,3,1,1), mgp=c(1.6,0.3,0), tcl=0.25, oma = c(0,0,0,0), font.lab=2)
+with(soiltemp, plot(temp, type = "l", col = 7))
 ```
 
 &nbsp;
 
-The horizontal axis in Figure 1 is just the row number of the
-data frame, not a date or time. We really want the data in a different type of R
-object! We use the `read.csv.zoo()` function in the `zoo` package to read the
-data in as a time series. This gives a data object of class 'zoo' which is much
-more flexible than the default time series object in R.
+## Reading and storing data as time series
+
+We really want the data in a different type
+of R object! We use the `read.csv.zoo()` function from the `zoo`
+package to read the data in as a **time series**. This gives a data
+object of class `zoo` which is much more flexible than the default
+time series object in R.
+
+We need to specify a format that our date/time information is stored 
+as. The character string `"%Y-%m-%d %H:%M:%S"` looks unusual but it 
+should make sense (`%Y` is 4-digit year, and so on). If we have opened 
+and saved our `.csv` file in Excel, the format will probably change,
+so we should try `format = "%d/%m/%Y %H:%M:%S"`. If in doubt, try to match the format win the actual `.csv` file.
 
 ```{r read-summary-csv2zoo, message=FALSE, warning=FALSE, results='hold'}
 soiltemp_T15_zoo <- read.csv.zoo(paste0(git,"soiltemp2.csv"),
@@ -82,21 +109,26 @@ soiltemp_T15_zoo <- read.csv.zoo(paste0(git,"soiltemp2.csv"),
                                index.column=1,
                                header = TRUE)
 # do some quick checks of the new R object:
-summary(soiltemp_T15_zoo) 
+summary(soiltemp_T15_zoo) ; cat("\n")
 str(soiltemp_T15_zoo) # POSIXct in the output is a date-time format
 ```
 
-It's usually useful to check our data with a plot (Figure 2)
+We can see that the column `Date` has now become `Index`, and it's 
+correctly stored as date/time information, in a format called 
+`POSIXct` (for more information, run `?DateTimeClasses` in the
+Console. Again, it's usually useful to check our data with a plot
+(Figure 2).
 
-```{r plot-zoo, out.width="50%", fig.align='center', fig.cap="Figure 2: Plot of soil temperature time series data which is formatted as a zoo time series object.", results='hold'}
-plot(soiltemp_T15_zoo, col = 2) 
+```{r plot-zoo, fig.align='center', fig.cap="Figure 2: Plot of soil temperature time series data which is formatted as a zoo time series object.", fig.height=3.5, fig.width=7, out.width="65%", results='hold'}
+par(mfrow=c(1,1), mar=c(3,3,1,1), mgp=c(1.6,0.3,0), tcl=0.25, font.lab=2)
+plot(soiltemp_T15_zoo, col = 3) 
 ```
 
 &nbsp;
 
 Sometimes we need to use another time series data format, `xts`
-(e[X]{.underline}tended [T]{.underline}ime [S]{.underline}eries), which allows us
-to use more functions...
+(e<u>X</u>tended <u>T</u>ime <u>S</u>eries), which allows us to use
+more functions...
 
 &nbsp;
 
@@ -107,57 +139,78 @@ soiltemp_T15_xts <- as.xts(soiltemp_T15_zoo)
 str(soiltemp_T15_xts) # just to check
 ```
 
-&nbsp;
+<p id="part2">&nbsp;</p>
 
-# Exploratory data analysis of time series
+# 2. Exploratory data analysis and decomposition of time series
+
+This section is designed to help you understand the features and components of time series, and some of the statistical methods that we use to analyse them. We also look at time series decomposition. The important issues are:
+
+- Do we need to **transform** our time series variable?
+- Is our time series **stationary**?
+- Can we separate out a **trend** in out variable *vs*. time?
+- Is our time series **seasonal** (periodic) and, if so, what is the periodic frequency?
+- Is there significant **autocorrelation** in our data?
+- What is left **unexplained** after we isolate the trend and periodicity?
+
+Not all of these would need to be presented in a Report, but it's 
+useful for us to understand time series concepts. This is especially 
+true for **autocorrelation** and **moving averages**, which both rely 
+[at least partially] on past observations to estimate current 
+observations. From there it follows that we may be able to use past 
+observations to predict **future** observations &ndash; *i.e*., 
+**forecasting**.
 
 We first examine a plot of the data in our time series object (the plot for the `xts` time series object is in Figure 3).
 
-```{r plot-xts, out.width="60%", fig.align='center', fig.cap="Figure 3: Plot of soil temperature time series data which is formatted as an xts time series object.", results='hold'}
+```{r plot-xts, fig.align='center', fig.cap="Figure 3: Plot of soil temperature time series data which is formatted as an `xts` time series object.", fig.height=3.5, fig.width=7, message=FALSE, warning=FALSE, out.width="65%", results='hold'}
+par(mfrow=c(1,1), mar=c(3,3,1,1), mgp=c(1.6,0.3,0), tcl=0.25, font.lab=2)
 plot(soiltemp_T15_xts, col = 3, ylab = "Soil temperature (\u00B0C)") # just to check
 ```
 
 &nbsp;
 
-Plotting the time series variable (with time as the independent variable!) can
-give us some initial clues about the overall trend in the data (in Figure 3, a
-negative overall slope) and if there is any periodicity (there do seem to be
-regular increases and decreases in soil temperature). The plot in Figure 3 also
-shows that plotting an `xts` time series object gives a somewhat more detailed
-plot than for a `zoo` formatted time series object (Figure 2).
+Plotting the time series variable (with time as the independent
+variable!) can give us some initial clues about the overall trend in
+the data (in Figure 3, a negative overall slope) and if there is any
+periodicity (there do seem to be regular increases and decreases in
+soil temperature). The plot in Figure 3 also shows that plotting an
+`xts` time series object gives a somewhat more detailed plot than for
+a `zoo` formatted time series object (Figure 2).
 
 We often want to inspect plots of both the raw data and using common
-transformations (Figure 4). We compare with transformed
-time series data &ndash; we may need to do this to meet later modelling assumptions.
+transformations (Figure 4). We compare with transformed time series
+data &ndash; we may need to do this to meet later modelling
+assumptions.
 
-First we change the default plotting parameters using `par(...)`, then plot the
-object and some transformed versions (with custom axis labels).
+First we change the default plotting parameters using `par(...)`, then
+plot the object and some transformed versions (with custom axis
+labels).
 
-```{r plot-transf, fig.height=7, fig.width=7, out.width="65%", fig.align='center', fig.cap="Figure 4: Plots of soil temperature time series data as untransformed, log10-transformed, and power transformed values.", results='hold'}
-par(mfrow = c(3,1), mar = c(4,4,1,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab=2)
-
+```{r plot-transf, echo=-1, fig.height=7, fig.width=7, out.width="65%", fig.align='center', fig.cap="Figure 4: Plots of soil temperature time series data as untransformed, log₁₀-transformed, and power transformed values.", results='hold'}
+par(mfrow = c(3,1), mar = c(3,3.2,1,1), mgp = c(1.6,0.3,0), tcl = 0.3, font.lab=2)
 plot(soiltemp_T15_zoo, ylab = "Temperature (\u00B0C)",
-     xlab = "Date", col = 7, lwd = 2, cex.lab = 1.4)
-
+     xlab = "Date", col = 2, lwd = 2, cex.lab = 1.4)
+mtext("Untransformed", side=3, line=-1.5, col=2, adj=0.98, font=2)
 plot(log10(soiltemp_T15_zoo), 
      ylab = expression(bold(paste(log[10],"(Temperature, \u00B0C)"))),
      xlab = "Date", col = 3, lwd = 2, cex.lab = 1.4)
-
+mtext("log-transformed", side=3, line=-1.5, col=3, adj=0.98, font=2)
 pt0 <- powerTransform(coredata(soiltemp_T15_zoo))
 if(pt0$lambda<0) {
   plot(
-    -1 * (soiltemp_T15_zoo ^ pt0$lambda),
+    -1 * (soiltemp_T15_zoo ^ pt0$roundlam), # use rounded power term
     ylab = "power-transf. (Temp., \u00B0C)",
     xlab = "Date",
-    col = 4, lwd = 2, cex.lab = 1.4
+    col = 7, lwd = 2, cex.lab = 1.4
   )
 } else {
-  plot((soiltemp_T15_zoo ^ pt0$lambda),
+  plot((soiltemp_T15_zoo ^ pt0$roundlam), # use rounded power term
        ylab = "power-transf. (Temp., \u00B0C)",
        xlab = "Date",
-       col = 4, lwd = 2, cex.lab = 1.4
+       col = 7, lwd = 2, cex.lab = 1.4
   )
 }
+mtext("power-transformed", side=3, line=-1.5, col=7, adj=0.98, font=2)
 ```
 
 ```{r remove-pt0, include=FALSE}
@@ -168,17 +221,24 @@ rm(pt0)
 
 > Which of these plots looks like it might be homoscedastic, *i.e*., have constant variance regardless of time?
 
-The R Cookbook suggests Box-Cox (power) transforming the variable to "stabilize
-the variance" (*i.e*. reduce heteroscedasticity). This does work, but can be
-better to use log~10~[variable], as the values are easier to interpret.
+The R Cookbook (Long and Teetor, 2019) suggests Box-Cox (power)
+transforming the variable to "stabilize the variance" (*i.e*. reduce
+heteroscedasticity). This does work, but can be better to use
+log~10~[variable], as the values are easier to interpret.
 
-If we think a transformation is needed, then run something like the code below
-(which does a square root transformation, *i.e*. variable^0.5^). This
-is just an example &ndash; we may, for example, decide that the
-log~10~-transformation is more suitable.
+There are tests for homoscedasticity, usually based on the residuals 
+from fitting a model (*e.g*. the Breusch-Pagan test). For our purposes 
+visual assessment is enough.
+
+If we think a transformation is needed, then run something like the
+code below (which does a square root transformation, *i.e*.
+variable^0.5^). This is just an example &ndash; we may, for example,
+decide that the log~10~-transformation is more suitable. If we save 
+the results of `powerTransform()` to an object, it's most convenient 
+to use the rounded power term (*e.g*. `pt0$roundlam`).
 
 ```{r transform if needed not run, eval=FALSE, echo=TRUE}
-soiltemp_T15_zoo <- soiltemp_T15_zoo^0.5 ####  don't run this chunk of code...
+soiltemp_T15_zoo <- soiltemp_T15_zoo^0.5 #### don't run this chunk of code...
 # don't forget the xts version either!
 soiltemp_T15_xts <- as.xts(soiltemp_T15_zoo) # ...it's just an example 😊
 ```
@@ -187,22 +247,23 @@ soiltemp_T15_xts <- as.xts(soiltemp_T15_zoo) # ...it's just an example 😊
 
 ## Assessing if a time series variable is stationary
 
-A **stationary** variable's mean and variance are not dependent on time. In
-other words, for a stationary series, the mean and variance at any time are
-representative of the whole series.
+A **stationary** variable's mean and variance are not dependent on
+time. In other words, for a stationary series, the mean and variance
+at any time are representative of the whole series.
 
-If there is a trend for the value of the variable to increase or decrease, or if
-there are periodic fluctuations, we don't have a stationary time series.
+If there is a trend for the value of the variable to increase or
+decrease, or if there are periodic fluctuations, we don't have a
+stationary time series.
 
-Many useful statistical analyses and models for time series models need a
-stationary time series as input, or a time series that can be made stationary
-with transformations or differencing.
+Many useful statistical analyses and models for time series models
+need a stationary time series as input, or a time series that can be
+made stationary with transformations or differencing.
 
 &nbsp;
 
 ### Testing for stationarity
 
-```{r adf tests}
+```{r adf-tests, message=FALSE, warning=FALSE}
 # we need the package 'tseries' for the Augmented Dickey–Fuller (adf) Test
 d0 <- adf.test(soiltemp_T15_zoo); print(d0)
 d1 <- adf.test(diff(soiltemp_T15_zoo,1)); print(d1)
@@ -213,10 +274,11 @@ d2 <- adf.test(diff(diff(soiltemp_T15_zoo,1),1)); print(d2)
 
 ### Plot differencing for stationarity
 
-The plots in Figure 5 below show that constant mean and variance (*i.e*.
-stationarity) is achieved after a single differencing step. The `adf.test`
-p-value suggests that the non-differenced series is already stationary, but the
-first sub-plot in Figure 5 does not support this.
+The plots in Figure 5 below show that constant mean and variance
+(*i.e*. stationarity) is achieved after a single differencing step.
+The `adf.test` p-value suggests that the non-differenced series is
+already stationary, but the first sub-plot in Figure 5 does not seem
+to support this.
 
 ```{r plot-diff, fig.height=8, fig.width=8, out.width="65%", fig.align='center', fig.cap="Figure 5: Plots of soil temperature time series data and its first and second differences, with each sub-plot showing the smoothed (Loess) and linear trends.", results='hold'}
 par(mfrow = c(3,1), mar = c(0,4,0,1), oma = c(4,0,1,0), cex.lab = 1.4,
@@ -224,10 +286,10 @@ par(mfrow = c(3,1), mar = c(0,4,0,1), oma = c(4,0,1,0), cex.lab = 1.4,
 plot(soiltemp_T15_zoo, ylab = "Raw data, no differencing",
      xlab="", xaxt="n", col = 8)
 lines(loess.smooth(index(soiltemp_T15_zoo),coredata(soiltemp_T15_zoo)), 
-      col = 4, lwd = 2)
-abline(lm(coredata(soiltemp_T15_zoo) ~ index(soiltemp_T15_zoo)), col = 2)
+      col = 5, lwd = 3)
+abline(lm(coredata(soiltemp_T15_zoo) ~ index(soiltemp_T15_zoo)), col = 3)
 legend("topright", legend = c("soiltemp_T15_Data", "Loess smoothing","Linear model"),
-       cex = 1.8, col = c(1,4,2), lwd = c(1,2,1), bty = "n")
+       cex = 1.8, col = c(8,5,3), lwd = c(1,3,1), bty = "n")
 mtext(paste("adf.test p value =",signif(d0$p.value,3)), 
       side = 1, line = -1.2, adj = 0.05)
 plot(diff(soiltemp_T15_zoo,1),
@@ -235,9 +297,9 @@ plot(diff(soiltemp_T15_zoo,1),
      xlab="", xaxt="n", col = 8)
 abline(h = 0, col = "grey", lty = 2)
 lines(loess.smooth(index(diff(soiltemp_T15_zoo,1)),coredata(diff(soiltemp_T15_zoo,1))), 
-      col = 4, lwd = 2)
+      col = 5, lwd = 3)
 abline(lm(coredata(diff(soiltemp_T15_zoo,1)) ~
-            index(diff(soiltemp_T15_zoo,1))), col = 2)
+            index(diff(soiltemp_T15_zoo,1))), col = 3)
 mtext(paste("adf.test p value =",signif(d1$p.value,3)), 
       side = 1, line = -1.2, adj = 0.05)
 plot(diff(diff(soiltemp_T15_zoo,1),1),
@@ -247,74 +309,36 @@ mtext("Date",side = 1, line = 2.2, font = 2)
 abline(h = 0, col = "grey", lty = 2)
 lines(loess.smooth(index(diff(diff(soiltemp_T15_zoo,1),1)),
                    coredata(diff(diff(soiltemp_T15_zoo,1),1))), 
-      col = 4, lwd = 2)
+      col = 5, lwd = 3)
 abline(lm(coredata(diff(diff(soiltemp_T15_zoo,1))) ~ 
-            index(diff(diff(soiltemp_T15_zoo,1)))), col = 2)
+            index(diff(diff(soiltemp_T15_zoo,1)))), col = 3)
 mtext(paste("adf.test p value =",signif(d2$p.value,3)), 
       side = 1, line = -1.2, adj = 0.05)
 ```
 
 ```{r reset mfrow 1, message=FALSE, warning=FALSE, include=FALSE}
-par(mfrow = c(1,1), mar = c(4,4,1,1), oma = c(0,0,0,0))
+par(mfrow = c(1,1), mar = c(3,3,1,1), mgp=c(1.6,0.3,0), tcl=0.25, oma = c(0,0,0,0))
 ```
 
 &nbsp;
 
 ## Finding the trend
 
-### 1. Determine if there is actually any trend
+### A. Visualising a trend using a moving average
+
+We create a new time series from a moving average for each 24h to
+remove daily periodicity using the `rollmean()` function from the
+`zoo` package. We know these are hourly data with diurnal fluctuation,
+so a rolling mean for chunks of length 24 should be OK, and this seems
+to be true based on Figure 6. In some cases the `findfrequency()`
+function from the `xts` package can detect the periodic frequency for
+us. A moving average will always smooth our data, so a smooth curve
+doesn't necessarily mean that we have periodicity (seasonality).
 
 <div style="border: 1px solid #039; background-color:#ffffe0; padding: 8px;">
-<span style="font-size:13pt;">Simply **finding whether there is a significant
-trend, and the direction of that trend** (*i.e*. negative = decreasing or positive
-= increasing) may be sufficient from a regulatory perspective.</span> For
-example, when monitoring the attenuation of pollution or checking the
-effectiveness of remediation, showing that the contaminant concentrations are
-decreasing is important information! (see [Australian Government 2023](https://www.waterquality.gov.au/anz-guidelines/monitoring/data-analysis/data-assess-change){target="_blank"}; 
-[Department of Water 2015](https://www.wa.gov.au/government/publications/calculating-trends-nutrient-data){target="_blank"}).</span></div>
-
-&nbsp;
-
-#### 1a. Apply the Mann-Kendall test from the 'trend' package
-
-```{r Mann-Kendall test}
-mk.test(coredata(soiltemp_T15_zoo))
-#    or
-# SeasonalMannKendall(soiltemp_T15_zoo) # needs base R regular time series object
-```
-
-The output from `mk.test()` shows a negative slope (*i.e*. the value of `S`), 
-with the `p-value` definitely < 0.05, so we can reject the null hypothesis of 
-zero slope.
-
-&nbsp;
-
-#### 1b. Estimate the Sen's slope
-
-```{r Sens slope test}
-sens.slope(coredata(soiltemp_T15_zoo))
-```
-
-The output from `sens.slope()` also shows a negative slope (*i.e*. the value of 
-`Sen's slope` at the end of the output block). Again, the `p-value` is < 0.05, 
-so we can reject the null hypothesis of zero slope. 
-The `95 percent confidence interval` does not include zero, also showing that
-the Sen's slope is significantly negative in this example.
-
-&nbsp;
-
-### 2. Visualising a trend using a moving average
-
-We create a new time series from a moving average for each 24h to remove daily
-periodicity using the `rollmean()` function from the `zoo` package. We know
-these are hourly data with diurnal fluctuation, so a rolling mean for chunks of
-length 24 should be OK, and this seems to be true based on Figure 6. In some
-cases the `findfrequency()` function from the `xts` package can detect the
-periodic frequency for us. A moving average will always smooth our data, so a
-smooth curve doesn't necessarily mean that we have periodicity (seasonality).
-
-<div style="border: 1px solid #039; background-color:#ffffe0; padding: 8px;">
-<span style="font-size:12pt;">**Moving averages** are important parts of the **ARIMA** family of predictive models for time series, and that's why we show them here first.</span>
+<span style="font-size:12pt;">**Moving averages** are important parts
+of the **ARIMA** family of predictive models for time series, and
+that's why we show them here first.</span>
 
 There are possibly better ways of drawing smooth curves to represent our time series data... see below.
 </div>
@@ -326,20 +350,22 @@ ff <- findfrequency(soiltemp_T15_xts) # often an approximation!! check the data!
 cat("Estimated frequency is",ff,"\n")
 ```
 
-```{r plot-movAv, out.width="55%", fig.align='center', fig.cap="Figure 6: Plots of soil temperature time series data and the 24-hour moving average.", results='hold'}
+```{r plot-movAv, echo=-1, fig.height=3.5, fig.width=7, fig.align='center', fig.cap="Figure 6: Plots of soil temperature time series data and the 24-hour moving average (ƒ = frequency).", out.width="65%", results='hold'}
+par(mfrow = c(1,1), mar = c(3,3,1,1), mgp=c(1.6,0.3,0), tcl=0.25, oma = c(0,0,0,0))
 soiltemp_T15_movAv <- rollmean(soiltemp_T15_zoo, 24)
 plot(soiltemp_T15_zoo, col=8, type="l") # original data
 # add the moving average
-lines(soiltemp_T15_movAv, lwd = 2)
-legend("topright", legend = c("Data","Moving average"), col = c(8,1), lwd = c(1,2))
+lines(soiltemp_T15_movAv, lwd = 2, col=2)
+legend("topright", bty="n", legend = c("Data","Moving average, \u0192 = 24"), col = c(8,2), lwd = c(1,2))
 ```
 
 &nbsp;
 
-### 3. Showing a trend using a linear (regression) model
+### B. Showing a trend using a linear (regression) model
 
-This is just to **visualize** the trend &ndash; remember, to find if a trend 
-exists, we use the Mann-Kendall test or Sen's Slope test as described above. 
+This is just to **visualize** the trend. To find if a significant 
+trend exists, we use the Mann-Kendall test or Sen's Slope test as
+described <a href="#part3">later</a>.
 
 First we create a linear model of the time series...
 
@@ -351,54 +377,67 @@ summary(lm0)
 ...then use a plot (Figure 7) to look at the linear 
 relationship.
 
-```{r linear-trend, out.width="55%", fig.align='center', fig.cap="Figure 7: Plots of soil temperature time series data and the overall trend shown by a linear model.", results='hold'}
+```{r linear-trend, echo=-1, fig.height=3.5, fig.width=7, out.width="65%", fig.align='center', fig.cap="Figure 7: Plots of soil temperature time series data and the overall trend shown by a linear model.", results='hold'}
+par(mar = c(3,3,1,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab = 2)
 soiltemp_T15_lmfit <- zoo(lm0$fitted.values, index(soiltemp_T15_zoo))
 plot(soiltemp_T15_zoo, col = 8, type = "l")
-lines(soiltemp_T15_lmfit, col = 2, lty = 2)
-legend("topright", legend = c("Data","Linear trend"), col = c(8,2), lty = c(1,2))
+lines(soiltemp_T15_lmfit, col = 2, lty = 2, lwd=2)
+legend("topright", bty="n", legend = c("Data","Linear trend"), col = c(8,2), lty = c(1,2), lwd=c(1,2), seg.len=3)
 ```
 
 &nbsp;
 
-Figure 7 shows that a linear model does not really capture 
-the trend (ignoring the periodicity) very convincingly. The next option 'loess' 
-smoothing option below tries to present the trend more accurately.
+Figure 7 shows that a linear model does not really capture the trend
+(even without considering the periodicity) very convincingly. The next
+option, 'loess' smoothing, shown below tries to represent the trend 
+more accurately.
 
 &nbsp;
 
-### 4. Using Locally Estimated Scatterplot Smoothing (loess)
+### C. Using Locally Estimated Scatterplot Smoothing (loess)
 
 **loess**, sometimes called 'lowess' is a form of locally weighted
-non-parametric regression to fit smooth curves to data). The amount of smoothing
-is controlled by the `span =` parameter in the `loess.smooth()` function (from
-base **R**) &ndash; see the example using the soil temperature data in Figure 8.
+non-parametric regression to fit smooth curves to data. The amount of
+smoothing is controlled by the `span =` parameter in the
+`loess.smooth()` function (from base **R**) &ndash; see the example
+using the soil temperature data in Figure 8.
 
-**NOTE**: loess smoothing does not have the relationship to ARIMA that moving averaging does, but does allow us to separate periodicity from random error in time series decomposition.
+<div style="border: 2px solid #888; padding: 8px;">**NOTE**: loess
+smoothing is **not** a standard technique for time series smoothing,
+but we use it here for convenience. Loess smoothing does not have the
+relationship to ARIMA that moving averaging does, but does allow us to
+separate periodicity from random error in time series
+decomposition.</div>
 
-```{r loess-trend, out.width="55%", fig.align='center', fig.cap="Figure 8: Plots of soil temperature time series data and the overall trend shown by a loess smoothing model.", results='hold'}
+```{r loess-trend, echo=-1, fig.height=3.5, fig.width=7, fig.align='center', fig.cap="Figure 8: Plots of soil temperature time series data and the overall trend shown by a loess smoothing model.", out.width="65%", results='hold'}
+par(mar = c(3,3,1,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab = 2)
 y_trend <- loess.smooth(index(soiltemp_T15_zoo), 
                            coredata(soiltemp_T15_zoo), 
                            span = 0.15, evaluation = length(soiltemp_T15_zoo))
 plot(soiltemp_T15_zoo, col = 8, type = "l")
 soiltemp_T15_trend <- zoo(y_trend$y, index(soiltemp_T15_zoo))
 lines(soiltemp_T15_lmfit, col = 2, lty = 2)
-lines(soiltemp_T15_trend, col = "skyblue", lwd = 3)
+lines(soiltemp_T15_trend, col = 3, lwd = 3)
 legend("topright", bty = "n", inset = 0.02, cex = 1.25, 
        legend = c("actual data","linear model","loess smoothed"), 
-       col = c(8,2,"skyblue"), lty=c(1,2,1), lwd = c(1,1,3))
+       col = c(8,2,3), lty=c(1,2,1), lwd = c(1,1,3))
 ```
 
 &nbsp;
 
 ## Isolating the Time Series Periodicity
 
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
 <span style="font-size:14pt; color:#600080">**NOTE THAT TIME SERIES DON'T ALWAYS HAVE PERIODICITY !**</span>
+</div>
 
-To model the periodicity we need to understand the autocorrelation structure of
-the time series. We can do this graphically, first by plotting the
-autocorrelation function `acf()` which outputs a plot by default:
+&nbsp;<br />To model the periodicity it is useful to understand the
+autocorrelation structure of the time series. We can do this
+graphically, first by plotting the autocorrelation function `acf()`
+which outputs a plot by default:
 
-```{r acf-plot, fig.height=3.5, fig.width=6, out.width='65%', fig.align='center', fig.cap="Figure 9: The autocorrelation function plot for soil temperature time series data (the horizontal axis is in units of seconds).", results='hold'}
+```{r acf-plot, echo=-1, fig.height=3, fig.width=6, out.width='65%', fig.align='center', fig.cap="Figure 9: The autocorrelation function plot for soil temperature time series data (the horizontal axis is in units of seconds).", results='hold'}
+par(mar = c(3,3,1,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab = 2)
 acf(soiltemp_T15_xts, main = "")
 ```
 
@@ -408,23 +447,26 @@ acf(soiltemp_T15_xts, main = "")
 
 Then plot the partial autocorrelation function (`pacf()`)
 
-```{r pacf-plot, fig.height=3.5, fig.width=6, out.width='65%', fig.align='center', fig.cap="Figure 10: The partial autocorrelation function plot for soil temperature time series data (horizontal axis units are seconds).", results='hold'}
+```{r pacf-plot, echo=-1, fig.height=3, fig.width=6, out.width='65%', fig.align='center', fig.cap="Figure 10: The partial autocorrelation function plot for soil temperature time series data (horizontal axis units are seconds).", results='hold'}
+par(mar = c(3,3,1,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab = 2)
 pacf(soiltemp_T15_xts, main = "")
 ```
 
 &nbsp;
 
-Interpreting partial autocorrelations (Figure 10) is more
-complicated &ndash; refer to Long & Teetor (2019, *Section 14.15*). Simplistically,
-partial autocorrelation allows us to identify which and how many
-autocorrelations will be needed to model the time series data.
+Interpreting partial autocorrelations (Figure 10) is more complicated
+&ndash; refer to [Long & Teetor (2019, *Section 14.15*)](https://rc2e.com/timeseriesanalysis#recipe-id083){target="_blank"}.
+Simplistically, partial autocorrelation allows us to identify which
+and how many autocorrelations will be needed to model the time series
+data.
 
 &nbsp;
 
-### Box-Pierce test for autocorrelation
+## Box-Pierce test for autocorrelation
 
-The null hypothesis H~0~ for the Box-Pierce test (`Box.test()`)is that no
-autocorrelation exists at any lag distance (so p&nbsp;&le;&nbsp;0.05 'rejects' H~0~):
+The null hypothesis H~0~ for the Box-Pierce test (`Box.test()`)is that
+no autocorrelation exists at any lag distance (so
+p&nbsp;&le;&nbsp;0.05 'rejects' H~0~):
 
 ```{r box tests}
 Box.test(soiltemp_T15_xts)
@@ -436,24 +478,26 @@ Box.test(diff(diff(soiltemp_T15_xts,1),1)) # 2 differences
 
 ### Make a time series of the loess residuals
 
-Remember that we made a loess model of the time series ... the residuals 
-(Figure 11) can give us the combination of periodicity
+Remember that we made a `loess` model of the time series ... the
+residuals (Figure 11) can give us the combination of periodicity
 component plus any random variation.
 
-```{r loess-resids, out.width='55%', fig.align='center', fig.cap="Figure 11: An incomplete decomposition of the soil temperature time series into smoothed trend and periodicity plus error (noise) components.", results='hold'}
+```{r loess-resids, echo=-1, fig.align='center', fig.cap="Figure 11: An incomplete decomposition of the soil temperature time series into smoothed trend and periodicity plus error (noise) components.", fig.height=3.5, fig.width=7, out.width='65%', results='hold'}
+par(mar = c(3,3,1,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab = 2)
 soiltemp_T15_periodic <- soiltemp_T15_zoo - soiltemp_T15_trend
 plot(soiltemp_T15_trend, ylim = c(-2,20), lty = 3)
-lines(soiltemp_T15_periodic, col = "coral", lwd = 2) # just to check
+lines(soiltemp_T15_periodic, col = 6, lwd = 2) # just to check
 legend("topright", legend = c("LOESS trend", "Periodicity plus noise"), 
-       col = c(1,"coral"), lwd = c(1,2), lty = c(3,1))
+       col = c(1,6), lwd = c(1,2), lty = c(3,1))
 ```
 
 &nbsp;
 
-We can also use *less smoothing* in the loess function to *retain* periodicity;
-we adjust the `span =` option (lower values of `span` give less smoothing;
-we just need to experiment with different values). The difference between the
-data and the less-smoothed loess should be just 'noise' or '**error**'.
+We can also use *less smoothing* in the loess function to *retain*
+periodicity; we adjust the `span =` option (lower values of `span`
+give less smoothing; we just need to experiment with different
+values). The difference between the data and the less-smoothed loess
+should be just 'noise' or '**error**'.
 
 We first generate a loess model which is stored in the object `temp_LOESS2`:
 
@@ -463,15 +507,16 @@ temp_LOESS2 <- loess.smooth(index(soiltemp_T15_zoo),
                            span = 0.012, evaluation = length(soiltemp_T15_zoo))
 ```
 
-We then use the new loess model to make a time series which contains both
-periodic and trend information:
+We then use the new loess model to make a time series which contains
+both periodic and trend information:
 
 ```{r less-smoothed loess time series, results='hold'}
 soiltemp_T15_LOESS2 <- zoo(temp_LOESS2$y, index(soiltemp_T15_zoo))
 ```
 
-The difference between the data and the less-smoothed loess should be just
-'noise' or 'error', so we make a new time series based on this difference:
+The difference between the data and the less-smoothed loess should be
+just 'noise' or 'error', so we make a new time series based on this
+difference:
 
 ```{r error time series, results='hold'}
 soiltemp_T15_err <- soiltemp_T15_zoo - soiltemp_T15_LOESS2
@@ -479,26 +524,42 @@ soiltemp_T15_err <- soiltemp_T15_zoo - soiltemp_T15_LOESS2
 
 &nbsp;
 
-#### Plot, setting y axis limits to similar scale to original data:
-```{r loess-periodic, out.width='55%', fig.align='center', fig.cap="Figure 12: Incomplete decomposition of soil temperature time series data showing the smoothed *trend*, combined *trend + periodicity*, and *error* components.", results='hold'}
-par(mar = c(4,4,1,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab = 2)
+Then plot, setting y axis limits to similar scale to original data:
+
+```{r loess-periodic, echo=-1, out.width='65%', fig.align='center', fig.cap="Figure 12: Incomplete decomposition of soil temperature time series data showing the smoothed *trend*, combined *trend + periodicity*, and *error* components.", results='hold'}
+par(mar = c(3,3,1,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab = 2)
 plot(soiltemp_T15_trend, ylim = c(-2,20), lty = 2, lwd = 2, # from above
      xlab = "2014 Date", ylab = "Soil temperature (\u00B0C)")
 lines(soiltemp_T15_LOESS2, col = 3, lwd = 2)
-lines(soiltemp_T15_err, col = 2) # from a couple of lines above
+lines(soiltemp_T15_err, col = 5) # from a couple of lines above
 legend("left", 
        legend = c("Trend (coarse LOESS)", 
                   "Periodicity + trend (fine LOESS)",
                   "Unexplained variation"), 
-       col = c(1,3,2), lwd = c(2,2,1), lty = c(2,1,1), bty="n")
+       col = c(1,3,5), lwd = c(2,2,1), lty = c(2,1,1), bty="n")
 ```
 
 &nbsp;
 
-The periodicity by itself should be represented by the difference between the
-very smoothed (trend) and less smoothed (trend + periodicity) loess, as
-suggested by the two loess curves in Figure 12. We now
-make yet another time series object to hold this isolated periodicity:
+We're now in a position to estimate homoscedasticity of our time
+series. It's a bit &lsquo;hacky&rsquo;, but we can predict the raw
+time series from the smoothed trend+periodicity, then apply the
+Breusch-Pagan test to our model (we need the `lmtest` package loaded
+earlier for the `bptest()` function):
+
+```{r bptest-time-series, message=FALSE, warning=FALSE, results='hold'}
+lm0 <- lm(coredata(soiltemp_T15_zoo) ~ coredata(soiltemp_T15_LOESS2))
+bptest(lm0) ; rm(lm0)
+```
+
+The `bptest()` p-value is &gt;&nbsp;0.05 so, by this estimate, our 
+time series is homoscedastic.
+
+The periodicity by itself should be represented by the difference
+between the very smoothed (trend) and less smoothed (trend +
+periodicity) loess, as suggested by the two loess curves in Figure 12.
+We now make yet another time series object to hold this isolated
+periodicity:
 
 ```{r make periodic ts}
 soiltemp_T15_periodic2 <- soiltemp_T15_LOESS2 - soiltemp_T15_trend
@@ -506,15 +567,17 @@ soiltemp_T15_periodic2 <- soiltemp_T15_LOESS2 - soiltemp_T15_trend
 
 &nbsp;
 
-### Plot everything to show the components of time series decomposition
+## Show the components of time series decomposition
 
 ```{r decomp-plots, fig.height=9, fig.width=8, fig.align='center', fig.cap="Figure 13: Time series decomposition into the three main components (periodicity, trend, and error; the raw data are at the top) for soil temperature (\u00B0C) at 15 cm depth."}
 plot(cbind(soiltemp_T15_zoo,soiltemp_T15_periodic2,
-     soiltemp_T15_trend, soiltemp_T15_err), main = "", xlab = "Date in 2014", 
+     soiltemp_T15_trend, soiltemp_T15_err), main = "", 
+     xlab = "Date in 2014", 
      cex.main = 1.5, yax.flip = TRUE, col = c(8,3,4,2), 
-     ylim = c(floor(min(soiltemp_T15_periodic2)), ceiling(max(soiltemp_T15_zoo))))
+     ylim = c(floor(min(soiltemp_T15_periodic2)),
+              ceiling(max(soiltemp_T15_zoo))))
 x1 <- (0.5*(par("usr")[2]-par("usr")[1]))+par("usr")[1]
-y <- (c(0.15, 0.3, 0.6, 0.82)*(par("usr")[4]-par("usr")[3]))+par("usr")[3]
+y <- (c(0.18, 0.3, 0.6, 0.82)*(par("usr")[4]-par("usr")[3]))+par("usr")[3]
 text(rep(x1,4), y, 
      labels = c("Unaccounted variation","Trend","Apparent periodicity","Data"), 
      col = c(2,4,3,8))
@@ -522,64 +585,125 @@ text(rep(x1,4), y,
 
 &nbsp;
 
-Figure 13 shows the original time series data, and the 
-three important components of the decomposed time series: the *periodicity*, the
+Figure 13 shows the original time series data, and the three important
+components of the decomposed time series: the *periodicity*, the
 *trend*, and the *error* or unexplained variation. We should remember that:
 
 - this time series was relatively easy to decompose into its components, but not all time series will be so 'well-behaved';
 - there are different ways in which we can describe the trend and periodicity (we have just used the loess smoothing functions for clear visualization).
 
-<p style="text-align: center;">[This ends our exploratory data analysis of time series, which leads us into
-ARIMA forecast modelling.]{style="font-family: serif; font-size:12pt; background-color: #ffff00;"}</p>
+<div
+style="border: 2px solid #039; background-color:#cff; padding: 8px; text-align: center;">
+<span
+style="font-family: serif; font-size:12pt;"><strong>This
+ends our exploratory data analysis of time series, which leads us into time
+series models,<br />including trend and ARIMA forecast modelling.</strong></span>
+</div>
 
 &nbsp;
 
 <hr style="height:2px; background-color:#003087;">
 
+<p id="part3">&nbsp;</p>
+
+# 3. Models for Time Series &ndash; Trends and Forecasts
+
+Trends and forecasts of time series are the types of analyses we would 
+typically report on (see box below).
+
+## Trends in time series
+
+The simplest model for time series is a trend, *i.e*. an overall
+increase or decrease. We don't use the usual correlation or regression
+statistics, as we expect autocorrelation in a time series, so the
+observations are not independent. We need to use statistical tests
+that can handle the autocorrelation dependence between observations,
+and these are described below.
+
+<div style="border: 1px solid #039; background-color:#ffffe0; padding: 8px;">
+<span style="font-size:13pt;">Simply **finding whether there is a
+significant trend, and the direction of that trend** (*i.e*. negative
+= decreasing or positive = increasing) may be sufficient from a
+regulatory perspective.</span> For example, when monitoring the
+attenuation of pollution or checking the effectiveness of remediation,
+showing that the contaminant concentrations are decreasing is
+important information! (see [Australian Government 2023](https://www.waterquality.gov.au/anz-guidelines/monitoring/data-analysis/data-assess-change){target="_blank"}; 
+[Department of Water 2015](https://www.wa.gov.au/government/publications/calculating-trends-nutrient-data){target="_blank"}).
+</span></div>
+
 &nbsp;
 
-# Modelling time series with ARIMA
+### (a) Apply the Mann-Kendall test from the 'trend' package
 
-All the analysis of our data before ARIMA is really exploratory data analysis of
-time series:
+```{r Mann-Kendall test}
+mk.test(coredata(soiltemp_T15_zoo))
+#    or
+# SeasonalMannKendall(soiltemp_T15_zoo) # needs base R regular time series object
+```
 
--   Does our time series have periodicity?
--   Can we get stationarity with a moving average?
+The output from `mk.test()` shows a negative slope (*i.e*. the value
+of `S`), with the `p-value` definitely < 0.05, so we can reject the
+null hypothesis of zero slope.
+
+&nbsp;
+
+### (b) Estimate the Sen's slope
+
+```{r Sens slope test}
+sens.slope(coredata(soiltemp_T15_zoo))
+```
+
+The output from `sens.slope()` also shows a negative slope (*i.e*. the
+value of `Sen's slope` at the end of the output block). Again, the
+`p-value` is < 0.05, so we can reject the null hypothesis of zero
+slope. The `95 percent confidence interval` does not include zero,
+also showing that the Sen's slope is significantly negative in this
+example.
+
+&nbsp;
+
+## Modelling time series with ARIMA
+
+All the analysis of our data before ARIMA is really exploratory data
+analysis of time series:
+
+-   Does our time series have periodicity (seasonality)?
+-   Can we get the trend with a moving average?
 -   Does our time series have autocorrelation?
 -   Can we get stationarity by differencing?
 
-All of these operations are possible components of **ARIMA** models!
+All of these properties are possible components of **ARIMA** models!
 
-[**We recommend using the [xts]{.underline} format of a time series in ARIMA
-model functions and forecasting**.]{style="color: #8000e0;"}
+&nbsp;<br />[**We recommend using the `xts` format of a time series in
+ARIMA model functions and forecasting**.]{style="color: #6000c0;"}
 
 &nbsp;
 
-## Use the `forecast` R package to run an ARIMA model
+## Use the `forecast` R package to create an ARIMA model
 
 ```{r auto arima}
 auto.arima(soiltemp_T15_xts, max.p = 3, max.q = 3, max.d = 0, 
            seasonal = TRUE)
 ```
 
-The `auto.arima()` function runs a complex algorithm (Hyndman *et al*. 2020) to
-automatically select the best ARIMA model on the basis of the **Aikake
-Information Criterion** (AIC), a statistic which estimates how much information
-is 'lost' in the model compared with reality. The AIC combines how well the
-model describes the data with a 'penalty' for increased complexity of the model.
-Using AIC, a better fitting model might not be selected if it has too many
-predictors. The best ARIMA models will have the **lowest** AIC (or AICc) value.
+The `auto.arima()` function runs a complex algorithm (Hyndman *et al*.
+2020) to automatically select the best ARIMA model on the basis of the
+**Aikake Information Criterion** (AIC), a statistic which estimates
+how much information is 'lost' in the model compared with reality. The
+AIC combines how well the model describes the data with a 'penalty'
+for increased complexity of the model. Using AIC, a better fitting
+model might not be selected if it has too many predictors. The best
+ARIMA models will have the **lowest** AIC (or AICc) value.
 
 &nbsp;
 
 ## Use output of `auto.arima()` to run arima
 
-The `auto-arima()` algorithm is not perfect! &ndash; but it does provide a 
-starting point for examining ARIMA models.
-
-The output of the `auto-arima()` function includes a description of the best
-model the algorithm found, shown as `ARIMA(p,d,q)`. The `p`,`d`,`q` are defined
-in Table 1 below:
+The `auto-arima()` algorithm is not perfect! &ndash; but it does
+provide a starting point for examining ARIMA models.
+The output of the `auto-arima()` function includes a description of
+the best model the algorithm found, shown as `ARIMA(p,d,q)`. The
+`p`,`d`,`q` are defined in Table 1 below:
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, results='hold'}
 arimapars <- data.frame(Parameter=c("p","d","q"),
@@ -602,17 +726,16 @@ flextable(arimapars) |> width(j=1:3, width=c(2,7,7), unit="cm") |>
 
 &nbsp;
 
-A periodic or *seasonal* ARIMA model (often called SARIMA) has a more complex
-specification: <br>
-`ARIMA(p,d,q)(P,D,Q)(n)` , <br>
-where the additional parameters refer to the seasonality: `P` is the number of
-seasonal autoregressive predictors, `D` the seasonal differencing, `Q` the
-seasonal moving averages, and `n` is the number of time steps per
+A periodic or *seasonal* ARIMA model (often called SARIMA) has a more
+complex specification: <br> `ARIMA(p,d,q)(P,D,Q)(n)` , <br> where the
+additional parameters refer to the seasonality: `P` is the number of
+seasonal autoregressive predictors, `D` the seasonal differencing, `Q`
+the seasonal moving averages, and `n` is the number of time steps per
 period/season.
 
 &nbsp;
 
-### 1. With no seasonality
+### (a) With no seasonality
 
 ```{r simple arima, results='hold'}
 am0 <- arima(x = soiltemp_T15_xts, order = c(1,0,3))
@@ -620,20 +743,21 @@ summary(am0)
 confint(am0)
 ```
 
-The output from `summary(am0)` shows the values and uncertainties of the model
-parameters (`ar1, ma1, ma2, ma3, intercept`), the goodness-of-fit parameters
-(we're interested in `aic`).
+The output from `summary(am0)` shows the values and uncertainties of
+the model parameters (`ar1, ma1, ma2, ma3, intercept`), the
+goodness-of-fit parameters (we're interested in `aic`).
 
-*Note*: `ar` parameters are auto-regression coefficients, and `ma` are moving
-average coefficients.
+*Note*: `ar` parameters are auto-regression coefficients, and `ma` are 
+moving average coefficients.
 
-The output from `confint(am0)` is a table showing the 95% confidence interval
-for the parameters. The confidence intervals should not include zero! (if so,
-this would mean we can't be sure if the parameter is useful or not).
+The output from `confint(am0)` is a table showing the 95% confidence
+interval for the parameters. The confidence intervals should not
+include zero! (if so, this would mean we can't be sure if the
+parameter is useful or not).
 
 &nbsp;
 
-### 2. With seasonality
+### (b) With seasonality
 
 ```{r seasonal arima, results='hold'}
 ff <- findfrequency(soiltemp_T15_xts)
@@ -644,16 +768,18 @@ summary(am1)
 confint(am1)
 ```
 
-*Note*: `sar` parameters are *seasonal* auto-regression coefficients, and `sma`
-are *seasonal* moving average coefficients.
+*Note*: `sar` parameters are *seasonal* auto-regression coefficients, 
+and `sma` are *seasonal* moving average coefficients.
 
-The model which includes periodicity has the lowest AIC value (which is not
-surprising, since the soil temperature data have clear periodicity).
+The model which includes periodicity has the lowest AIC value (which
+is not surprising, since the soil temperature data have clear
+periodicity).
 
-Checking residuals using the `checkresiduals()` function from the `forecast`
-package is our best diagnostic tool to assess the validity of our models. [This
-is a separate issue from how well the model describes the data, measured by
-AIC.]
+Checking residuals using the `checkresiduals()` function from the
+`forecast` package is our best diagnostic tool to assess the validity
+of our models. [This is a separate issue from how well the model
+describes the data, measured by AIC. Also, we can't use `bptest()` to
+analyse ARIMA residuals.]
 
 In the output (plot and text) from `checkresiduals()`:
 - the residual plot (top) should look like white noise
@@ -661,40 +787,49 @@ In the output (plot and text) from `checkresiduals()`:
 - the p-value from the Ljung-Box test should be > 0.05 (text output)
 - the residuals should be normally distributed (bottom right plot)
 
-```{r diagnostic-arima, out.width="70%", fig.cap="Figure 14: Residual diagnostic plots for a non-seasonal ARIMA model of the  soil temperature time series.", results='hold'}
+```{r diagnostic-arima, out.width="75%", fig.cap="Figure 14: Residual diagnostic plots for a non-seasonal ARIMA model of the  soil temperature time series.", results='hold'}
 checkresiduals(am0)
 ```
 
 &nbsp;
 
-```{r diagnostic-sarima, out.width="70%", fig.cap="Figure 15: Residual diagnostic plots for a seasonal ARIMA (SARIMA) model of the  soil temperature time series.", results='hold'}
+```{r diagnostic-sarima, out.width="75%", fig.cap="Figure 15: Residual diagnostic plots for a seasonal ARIMA (SARIMA) model of the  soil temperature time series.", results='hold'}
 checkresiduals(am1)
 ```
 
 &nbsp;
 
-In both the diagnostic plots (Figure 14 and Figure 15) the residuals appear to
-be random and normally distributed. There seems to be a more obvious
-autocorrelation of residuals for the non-seasonal model, reinforcing the
-conclusion from the AIC value that the **seasonal** ARIMA model is the most 
-appropriate.
+In both the diagnostic plots (Figure 14 and Figure 15) the residuals
+appear to be random and normally distributed. There seems to be a more
+obvious autocorrelation of residuals for the non-seasonal model,
+reinforcing the conclusion from the AIC value that the **seasonal**
+ARIMA model is the most appropriate.
 
 &nbsp;
 
 ## Use the ARIMA model to produce a forecast using both models
 
-The whole point of generating ARIMA models is so that we can attempt to forecast
-the future trajectory of our time series based on our existing time series data.
+**The whole point of generating ARIMA models** is so that we can 
+attempt to forecast the future trajectory of our time series based on 
+our existing time series data.
 
-To do this, we use the appropriately named `forecast()` function from the
-`forecast` package. The option `h =` is to specify how long we want to forecast
-for after the end of our data &ndash; in this case 168 hours (same units as the
-periodicity from `findfrequency()`), that is, one week.
+To do this, we use the appropriately named `forecast()` function from
+the `forecast` package. The option `h =` is to specify how long we
+want to forecast for after the end of our data &ndash; in this case
+168 hours (same units as the periodicity from `findfrequency()`), that
+is, one week.
 
-<div style="border: 1px solid #039; background-color:#ffffe0; padding: 8px;">
-<span style="font-size:12pt;">**One of the problems** we often run into is the issue of **irregular time series**, where the observations are not taken at regularly-spaced time intervals. Features of time series, such as periodicity and the length of time we want to forecast for, may be incorrect if our time series is irregular.</span>
+<div style="border: 1px solid #039; background-color:#ffffe0; padding:
+8px;"> <span style="font-size:12pt;">**One of the problems** we often
+run into is the issue of **irregular time series**, where the
+observations are not taken at regularly-spaced time intervals.
+Features of time series, such as periodicity and the length of time we
+want to forecast for, may be incorrect if our time series is
+irregular.</span>
 
-It is possible to "fill in" a time series so we have observations regularly spaced in time, using interpolation or numerical filtering methods. We won't be covering these methods here, though. 
+It is possible to "fill in" a time series so we have observations 
+regularly spaced in time, using interpolation or numerical filtering 
+methods. We won't be covering these methods here, though. 
 </div>
 
 &nbsp;
@@ -708,14 +843,14 @@ fc1 <- forecast(am1, h = 168)
 
 ### Then, look at forecasts with plots
 
-```{r forecast-plots, fig.height=6, fig.width=7, out.width="70%", fig.align='center', fig.cap="Figure 16: Time series forecasts for soil temperature, based on (a) a non-seasonal ARIMA model and (b) a seasonal ARIMA model.", results='hold'}
+```{r forecast-plots, fig.height=6, fig.width=7, out.width="65%", fig.align='center', fig.cap="Figure 16: Time series forecasts for soil temperature, based on (a) a non-seasonal ARIMA model and (b) a seasonal ARIMA model.", results='hold'}
 par(mfrow = c(2, 1), cex.main = 0.9, mar = c(0,3,0,1), oma = c(3,0,1,0),
     mgp=c(1.6,0.3,0), tcl=0.2, font.lab=2)
 plot(fc0,ylab = "Temperature (\u00B0C)",
-     fcol = 4, xlab="", main = "", xaxt="n")
+     fcol = 7, xlab="", main = "", xaxt="n")
 lines(soiltemp_T15_zoo, col = "grey70")
 mtext("ARIMA with no seasonality", 1, -2.2, adj = 0.1, font = 2)
-mtext(am0$call, 1, -1, adj = 0.1, col = 4, cex = 0.9, 
+mtext(am0$call, 1, -1, adj = 0.1, col = 7, cex = 0.9, 
       family="mono", font = 2)
 mtext("(a)", 3, -1.2, cex = 1.2, font = 2, adj = 0.95)
 
@@ -730,11 +865,12 @@ mtext("(b)", 3, -1.2, cex = 1.2, font = 2, adj = 0.95)
 
 &nbsp;
 
-From the two plots in Figure 16, we observe that the seasonal ARIMA model seems
-to reflect the form of the original data much better, by simulating the diurnal
-fluctuations in soil temperature. Although the forecasting uncertainty shown by
-the shaded area in Figure 16 is large for both types of ARIMA model, the
-interval seems smaller for the seasonal ARIMA model (Figure 16(b)).
+From the two plots in Figure 16, we observe that the seasonal ARIMA
+model seems to reflect the form of the original data much better, by
+simulating the diurnal fluctuations in soil temperature. Although the
+forecasting uncertainty shown by the shaded area in Figure 16 is large
+for both types of ARIMA model, the interval seems smaller for the
+seasonal ARIMA model (Figure 16(b)).
 
 ```{r reset mfrow 2, message=FALSE, warning=FALSE, include=FALSE}
 par(mfrow = c(1, 1))
@@ -743,7 +879,7 @@ par(mfrow = c(1, 1))
 We can also make a slightly 'prettier' time series forecast plot using the 
 `autoplot()` function from the `ggplot2` package (Figure 17):
 
-```{r forecast-ggplot, fig.height=4, fig.width=6, out.width='70%', fig.align='center', fig.cap="Figure 17: Time series forecast for soil temperature, based on  a seasonal ARIMA model, plotted using the ggplot2 `autoplot()` function.", results='hold'}
+```{r forecast-ggplot, fig.height=4, fig.width=6, out.width='65%', fig.align='center', fig.cap="Figure 17: Time series forecast for soil temperature, based on  a seasonal ARIMA model, plotted using the ggplot2 `autoplot()` function.", results='hold'}
 require(ggplot2) # gives best results using autoplot(...)
 autoplot(fc1)+
   ylab("Temperature (\u00B0C)") +
@@ -753,41 +889,42 @@ autoplot(fc1)+
 ```
 
 &nbsp;
-
-[ARIMA models are not the end of the time series modelling and forecasting story!]{style="font-family: serif; font-size: 14pt; background-color: #ffff00;"}
+<div style="border: 2px solid #039; background-color:#ffc; padding: 8px;">
+[ARIMA models are not the end of the time series modelling and forecasting story!]{style="font-family: serif; font-size: 14pt;"}
+</div>
 
 &nbsp;
 
-# Exponential Smoothing Models
+## Exponential Smoothing Models
 
-Sometimes, ARIMA models may not be the best option, and another commonly used
-method is **exponential smoothing**.
+Sometimes, ARIMA models may not be the best option, and another
+commonly used method is **exponential smoothing**.
 
-## Try an exponential smoothing model
+Check `help(forecast::ets)` to correctly specify the model type using 
+the `model =` option!
 
-Check `help(forecast::ets)` to correctly specify the model type using the
-`model =` option!
-
-The easiest option (and the one used here) is to specify `model = "ZZZ"`, which 
-chooses the type of model automatically.
+The easiest option (and the one used here) is to specify 
+`model = "ZZZ"`, which chooses the type of model automatically.
 
 ```{r make ets model}
-soiltemp_T15_ets <- ets(soiltemp_T15_xts, model = "ZZZ")
+soiltemp_T15_ets <- ets(soiltemp_T15_xts, model ="ZZZ")
 summary(soiltemp_T15_ets)
 ```
 
 In this case the `ets()` function has automatically selected a model
-(`ETS(A,Ad,N)`) with additive trend and errors, but no seasonality. We don't do
-it here, but we could manually select a model with seasonality included.
+(`ETS(A,Ad,N)`) with additive trend and errors, but no seasonality. We 
+don't do it here, but we could manually select a model with 
+seasonality included.
 
-The default plot function in R can plot forecasts from exponential smoothing
-models too (Figure 18).
+The default plot function in R can plot forecasts from exponential 
+smoothing models too (Figure 18).
 
-```{r ets-forecast, out.width="70%", fig.align='center', fig.cap="Figure 18: Forecast of soil temperature based on an automatically selected exponential smoothing model without a seasonal component."}
-plot(forecast(soiltemp_T15_ets, h=168), col=3, 
+```{r ets-forecast, echo=-1, out.width="65%", fig.align='center', fig.cap="Figure 18: Forecast of soil temperature based on an automatically selected exponential smoothing model without a seasonal component."}
+par(mfrow = c(1,1), mar = c(3,3,1,1), mgp=c(1.6,0.3,0), tcl=0.25, oma = c(0,0,0,0), font.lab=2)
+plot(forecast(soiltemp_T15_ets, h=168), col=8, fcol=6, 
      xlab = "Time since start (s)", ylab = "Temperature (\u00B0C)", main="")
-mtext(names(soiltemp_T15_ets$par),3,seq(-1,-5,-1), adj = 0.7, col = 4, font = 3)
-mtext(signif(soiltemp_T15_ets$par,3),3,seq(-1,-5,-1), adj = 0.8, col = 4, font = 3)
+mtext(names(soiltemp_T15_ets$par),3,seq(-1,-5,-1), adj = 0.7, col = 6, font = 3)
+mtext(signif(soiltemp_T15_ets$par,3),3,seq(-1,-5,-1), adj = 0.8, col = 6, font = 3)
 ```
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
@@ -796,43 +933,44 @@ par(mfrow = c(1,1), mar = c(4,4,1,1), oma = c(0,0,0,0))
 
 &nbsp;
 
-Exponential smoothing also [decomposes]{.underline} time series in a different
-way, into *level* and *slope* components (Figure 19).
+Exponential smoothing also [decomposes]{.underline} time series in a 
+different way, into *level* and *slope* components (Figure 19).
 
-```{r ets-decomposition, fig.height=6, fig.width=6, out.width='75%', fig.align='center', fig.cap="Figure 19: Exponential smoothing time series decomposition plots for soil temperature data."}
-plot(soiltemp_T15_ets, col = 4, xlab = "Time since start (s)") # ETS decomposition plots
+```{r ets-decomposition, echo=-1, fig.height=6, fig.width=6, out.width='65%', fig.align='center', fig.cap="Figure 19: Exponential smoothing time series decomposition plots for soil temperature data."}
+par(mfrow = c(1,1), mar = c(3,3,1,1), mgp=c(1.6,0.3,0), tcl=0.25, oma = c(0,0,0,0), font.lab=2)
+plot(soiltemp_T15_ets, col=5, xlab="Time since start (s)") # ETS decomposition plots
 ```
 
 &nbsp;
 
-<p style="text-align: center;">[(*Exponential smoothing is maybe not so good for the soil temperature data!*)]{style="font-family: serif; font-size: 13pt"}</p>
+<p style="text-align: center; font-family: serif; font-size: 13pt;">(*Exponential smoothing is maybe not so good for the soil temperature data!*)</p>
 
-&nbsp;
+<p id="References">&nbsp;</p>
 
 # References
 
 Australian Government (2023). [Assessment of change through monitoring data analysis](https://www.waterquality.gov.au/anz-guidelines/monitoring/data-analysis/data-assess-change){target="_blank"}, **In** [*Australian & New Zealand Guidelines for Fresh and Marine Water Quality*](https://www.waterquality.gov.au/anz-guidelines){target="_blank"}, [www.waterquality.gov.au/anz-guidelines/monitoring/data-analysis/data-assess-change](https://www.waterquality.gov.au/anz-guidelines/monitoring/data-analysis/data-assess-change){target="_blank"}.
 
-Department of Water (2015). *Calculating trends in nutrient data*, Government of
-Western Australia, Perth.
+Department of Water (2015). *Calculating trends in nutrient data*, Government of Western Australia, Perth.
 [www.wa.gov.au/.../calculating-trends-nutrient-data](https://www.wa.gov.au/government/publications/calculating-trends-nutrient-data){target="_blank"}.
 
-Hyndman R, Athanasopoulos G, Bergmeir C, Caceres G, Chhay L, O'Hara-Wild M,
-Petropoulos F, Razbash S, Wang E, Yasmeen F (2022). `forecast`:&nbsp;*Forecasting*
+Hyndman R, Athanasopoulos G, Bergmeir C, Caceres G, Chhay L, 
+O'Hara-Wild M, Petropoulos F, Razbash S, Wang E, Yasmeen F (2022). 
+`forecast`:&nbsp;*Forecasting*
 *functions for time series and linear models*. R package version 8.17.0,
 [http://pkg.robjhyndman.com/forecast/](http://pkg.robjhyndman.com/forecast/){target="_blank"}.
 
-Long, J.D., Teetor, P., 2019. Time series analysis. Chapter 14, *The R Cookbook*,
-Second Edition [https://rc2e.com/timeseriesanalysis](https://rc2e.com/timeseriesanalysis){target="_blank"}.
+Long, J.D., Teetor, P., 2019. Time series analysis. Chapter 14, 
+*The R Cookbook*, Second Edition [https://rc2e.com/timeseriesanalysis](https://rc2e.com/timeseriesanalysis){target="_blank"}.
 
-R Core Team (2022). `R`: *A language and environment for statistical computing*. 
-R Foundation for Statistical Computing, Vienna, Austria. URL
+R Core Team (2022). `R`: *A language and environment for statistical computing*. R Foundation for Statistical Computing, Vienna, Austria. URL
 [https://www.R-project.org/](https://www.R-project.org/){target="_blank"}.
 
-Ryan, J.A. and Ulrich, J.M. (2020). `xts`: *eXtensible Time Series*. R package
-version 0.12.1.
+Ryan, J.A. and Ulrich, J.M. (2020). `xts`: *eXtensible Time Series*. 
+R package version 0.12.1.
 [https://CRAN.R-project.org/package=xts](https://CRAN.R-project.org/package=xts){target="_blank"}
 
-Zeileis, A. and Grothendieck, G. (2005). `zoo`: S3 Infrastructure for Regular and
-Irregular Time Series. *Journal of Statistical Software*, **14**(6), 1-27.
+Zeileis, A. and Grothendieck, G. (2005). `zoo`: S3 Infrastructure for 
+Regular and Irregular Time Series. *Journal of Statistical Software*, 
+**14**(6), 1-27.
 [doi:10.18637/jss.v014.i06](https://doi.org/10.18637/jss.v014.i06){target="_blank"}
