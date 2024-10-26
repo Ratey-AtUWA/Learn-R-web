@@ -1,6 +1,6 @@
 ---
-title: "Multivariate analysis"
-subtitle: "Principal Components Analysis for Compositional Data"
+title: "Principal Components Analysis for Compositional Data"
+subtitle: "Multivariate analysis"
 author: "Andrew Rate"
 date: "`r Sys.Date()`"
 output: 
@@ -28,7 +28,7 @@ BorderLt <- fp_border(color = "#FFFFFF", style = "solid", width = 1)
 source("https://github.com/Ratey-AtUWA/learn-R/raw/main/UWAcolgrad.R")
 ```
 
-```{r load packages etc., message=FALSE, warning=FALSE, include=FALSE, results='hide'}
+```{r load-packages-etc, message=FALSE, warning=FALSE, include=FALSE, results='hide'}
 library(stringr)
 library(car)
 library(flextable)
@@ -40,8 +40,8 @@ palette(c("black", "#003087", "#DAAA00", "#8F92C4", "#E5CF7E",
 
 # Understanding Compositional Data
 
-Compositional data, defined as any measurements which are proportions of some
-whole, are common in many disciplines, including (Table 1):
+Compositional data, defined as any measurements which are proportions
+of some whole, are common in many disciplines, including (Table 1):
 
 ```{r table-compositional-data-examples, echo=FALSE}
 CoDas <- data.frame(Discipline = c("Environmental science","Geography",
@@ -59,31 +59,36 @@ flextable(CoDas) |>
 
 &nbsp;
 
-Compositional data have mathematical properties which result in misleading
-conclusions from traditional statistical analyses. Compositional variables
-(including concentrations of substances in water [or air, or rock, or soil, and
-so on] or proportions of land surface coverage) are technically part of a
-**fixed-sum closed set**. For example, with data on percent land use over an urban
-area, all percentages add up to 100%! As Greenacre (2018) points out, we often
-deal with *subcompositions* rather than compositions, because we do not (or can
-not) measure all possible components of a sample. For example, in environmental
-science, when we measure the substances present in water, we probably can't
-measure everything, and we don't usually measure the concentration of water
-itself. Or in politics, we report the proportions of voters who voted for each
-candidate, but not often the proportion of citizens who didn't vote.
+Compositional data have mathematical properties which result in
+misleading conclusions from traditional statistical analyses.
+Compositional variables (including concentrations of substances in
+water [or air, or rock, or soil, and so on] or proportions of land
+surface coverage) are technically part of a
+**fixed-sum closed set**. For example, with data on percent land use 
+over an urban area, all percentages add up to 100%! As Greenacre 
+(2018) points out, we often deal with *subcompositions* rather than
+compositions, because we do not (or can not) measure all possible
+components of a sample. For example, in environmental science, when we
+measure the substances present in water, we probably can't measure
+everything, and we don't usually measure the concentration of water
+itself. Or in politics, we report the proportions of voters who voted
+for each candidate, but not often the proportion of citizens who
+didn't vote.
 
-The issue of subcompositions is not necessarily a problem. For instance, in the 
-political example above, the ratio of voters supporting the two leading 
-candidates will be the same whether we consider the total eligible electors, or 
-only the people who actually voted. As we will see below, a key strategy for 
-analysing compositional data is the use of some sort of *ratio*.
+The issue of subcompositions is not necessarily a problem. For
+instance, in the political example above, the ratio of voters
+supporting the two leading candidates will be the same whether we
+consider the total eligible electors, or only the people who actually
+voted. As we will see below, a key strategy for analysing
+compositional data is the use of some sort of *ratio*.
 
-If uncorrected, analysis of data having fixed-sum closure can lead to very
-misleading conclusions, especially when *relationships* between variables are
-being investigated, as in correlation analyses or *multivariate methods* such as
-principal component analysis. Closed data require specialised transformations to
-remove closure, such as calculation of **centered or additive log ratios**
-(Reimann et al. 2008). The centered log-ratio is defined by:
+If uncorrected, analysis of data having fixed-sum closure can lead to
+very misleading conclusions, especially when *relationships* between
+variables are being investigated, as in correlation analyses or
+*multivariate methods* such as principal component analysis. Closed
+data require specialised transformations to remove closure, such as
+calculation of **centered or additive log ratios** (Reimann et al.
+2008). The centered log-ratio is defined by:
 
 $x_{CLR} = log(\dfrac{x}{geomean(x_{1},...,x_{n})})$, where 
 
@@ -93,19 +98,20 @@ $x_{CLR} = log(\dfrac{x}{geomean(x_{1},...,x_{n})})$, where
 - $x_{1}...x_{n}$ are all the $n$ values contributing to the (sub)composition, including the one ($x$) being transformed;
 - all the components (parts) of the composition need to be in **identical units** (*e.g*. percent, mg/L, incidence per 10,000, *etc*.).
 
-For example, in a soil texture analysis where the proportions of grain size 
-categories gravel (G), sand (S), silt (Z), and clay (C) all add up to 100%, the 
-CLR-transformed sand content (*S~CLR~*) is:
+For example, in a soil texture analysis where the proportions of grain
+size categories gravel (G), sand (S), silt (Z), and clay (C) all add
+up to 100%, the CLR-transformed sand content (*S~CLR~*) is:
 
 $S_{CLR} = log(\dfrac{S}{geomean(G,S,Z,C)})$
 
-The example in Figure 1 shows the relationship between phosphorus (P) and iron
-(Fe) in soil/sediment materials in an acid sulfate environment. Without
-correcting for compositional closure, the P *vs*. Fe plot implies that P
-increases as Fe increases. Correcting for compositional closure, however,
-suggests the opposite, with P negatively related to Fe! In this case, if we had
-used conventional transformations, we might have come to a very wrong conclusion
-about the sediment properties affecting phosphorus.
+The example in Figure 1 shows the relationship between phosphorus (P)
+and iron (Fe) in soil/sediment materials in an acid sulfate
+environment. Without correcting for compositional closure, the P *vs*.
+Fe plot implies that P increases as Fe increases. Correcting for
+compositional closure, however, suggests the opposite, with P
+negatively related to Fe! In this case, if we had used conventional
+transformations, we might have come to a very wrong conclusion about
+the sediment properties affecting phosphorus.
 
 ```{r closed open example P-Fe, echo=FALSE, fig.height=3.5, fig.width=7, message=FALSE, warning=FALSE, out.width="65%", fig.align='center', fig.cap="Figure 1: Comparison of relationships between P and Fe for (a) compositionally closed concentrations showing a positive relationship and (b) concentration variables corrected for compositional closure using centred log ratios showing a negative relationship. Data from Xu et al. (2018).", results='hold'}
 nx.clr <- read.csv("nx_clr.csv", stringsAsFactors = TRUE)
@@ -133,9 +139,9 @@ mtext("(b)", 3, -1.25, adj = 0.95, font = 2, cex = 1.1)
 
 # Principal Components Analysis
 
-To get started with understanding compositional data, and analysing them using
-Principal Components Analysis, we load the packages we need, and set a preferred
-colour palette.
+To get started with understanding compositional data, and analysing
+them using Principal Components Analysis, we load the packages we
+need, and set a preferred colour palette.
 
 ```{r load-packages-notrun, message=FALSE, warning=FALSE, eval=FALSE}
 library(stringr)     # manipulate character strings
@@ -154,9 +160,9 @@ We also need to **read some data**:
 
 *If you were hoping for an example using geochemical-type compositional data &ndash; don't worry, we're going to repeat all the analyses [below using a geochemical dataset](#geochem)*.
 
-After reading the data we make a column containing abbreviated codes for the
-land-use type factor, using the `gsub()` function to substitute character
-strings.
+After reading the data we make a column containing abbreviated codes
+for the land-use type factor, using the `gsub()` function to
+substitute character strings.
 
 ```{r read file and format data, echo=1:2, results='hold'}
 cities <- 
@@ -173,8 +179,8 @@ cities$sType <- gsub("Industrial","I",cities$sType)
 cities$sType <- as.factor(cities$sType)
 ```
 
-We also need to use a log-ratio transform to remove compositional fixed-sum 
-closure:
+We also need to use a log-ratio transform to remove compositional
+fixed-sum closure:
 
 ```{r clr-transform data, paged.print=FALSE, results='hold'}
 cities_clr <- cities
@@ -184,37 +190,41 @@ cities_clr[,2:5] <- t(apply(cities[,2:5], MARGIN = 1,
 
 ## Explanation of principal components analysis
 
-It is quite common to measure many variables in environmental science and other
-disciplines. Using various types of *ordination analysis*, we can use the
-information contained in multiple variables to create a reduced subset of
-variables containing nearly the same amount of information. Ordination methods
-are also referred to, for this reason, as 'data reduction' methods and are
-commonly used for multivariate analysis.
+It is quite common to measure many variables in environmental science
+and other disciplines. Using various types of *ordination analysis*,
+we can use the information contained in multiple variables to create a
+reduced subset of variables containing nearly the same amount of
+information. Ordination methods are also referred to, for this reason,
+as 'data reduction' methods and are commonly used for multivariate
+analysis.
 
-One of the earliest and most widely used ordination methods for exploration and
-dimension-reduction of multivariate data is **principal components analysis**
-(PCA). Imagine a dataset with many samples (rows) and n continuous numeric
-variables (columns) which contain quantitative information about each sample
-such as concentrations, heights, velocities, *etc*. For these *n*
-variables/dimensions, the principal component calculation generates *n* new
-variables, or principal components, which are each a function of the set of all
-the original variables (so each principal component is defined by a weighting or
-coefficient for each of the original variables). We may choose to omit some
-variables from the analysis if they contain too many missing observations or if
-there is another valid reason to doubt their integrity. Since each principal
-component is selected to account for successively smaller proportions of the
-multiple variance, it is usually the first few principal components which
-explain most of the variance and therefore contain the most useful information.
-We conventionally visualize this in a 'scree plot' (Figure 2), a
-kind of bar graph showing the decrease in variance accounted for by each
-component.
+One of the earliest and most widely used ordination methods for
+exploration and dimension-reduction of multivariate data is
+**principal components analysis** (PCA). Imagine a dataset with many
+samples (rows) and n continuous numeric variables (columns) which
+contain quantitative information about each sample such as
+concentrations, heights, velocities, *etc*. For these *n*
+variables/dimensions, the principal component calculation generates
+*n* new variables, or principal components, which are each a function
+of the set of all the original variables (so each principal component
+is defined by a weighting or coefficient for each of the original
+variables). We may choose to omit some variables from the analysis if
+they contain too many missing observations or if there is another
+valid reason to doubt their integrity. Since each principal component
+is selected to account for successively smaller proportions of the
+multiple variance, it is usually the first few principal components
+which explain most of the variance and therefore contain the most
+useful information. We conventionally visualize this in a 'scree plot'
+(Figure 2), a kind of bar graph showing the decrease in variance
+accounted for by each component.
 
-Base-**R** has two functions which perform Principal Components Analysis (PCA).
-We will use the `prcomp()` function which has better numerical accuracy and 
-a more valid variance calculation than the alternative `princomp()` (see 
-**Details** after running `?prcomp` for more information). We include the 
-argument `scale. = TRUE`, as this is better for avoiding unexpected results due 
-to large differences in magnitude of the variables.
+Base-**R** has two functions which perform Principal Components
+Analysis (PCA). We will use the `prcomp()` function which has better
+numerical accuracy and a more valid variance calculation than the
+alternative `princomp()` (see **Details** after running `?prcomp` for
+more information). We include the argument `scale. = TRUE`, as this is
+better for avoiding unexpected results due to large differences in
+magnitude of the variables.
 
 ```{r run and summarise PCA, results='hold'}
 #
@@ -240,29 +250,32 @@ round(pca_cities_open$sdev^2/sum(pca_cities_open$sdev^2),3)
 rm(data0)
 ```
 
-As we should expect, each component accounts for successively less variance. We
-can already see that removing closure has made a noticeable difference to the 
-PCA output, both in the variable weightings and the component variances.
+As we should expect, each component accounts for successively less
+variance. We can already see that removing closure has made a
+noticeable difference to the PCA output, both in the variable
+weightings and the component variances.
 
 ## Principal Components Analysis output
 
-As well as the component variances, the useful results of principal components
-analysis include the variable weightings or 'rotations' for each principal
-component. Referring to just the output for **open data** above, PC1 (which
-explains the most multivariate variance) has its greatest absolute contributions
-from the Lightweight and Industry variables, which act in opposite directions
-(remembering that the sign is arbitrary, but that *relative* sign and magnitude
-are important). PC2 contains mainly variance from the Compact and Open
-variables, PC3 (which explains much less variance) reflects Open/Industry, and
-we can ignore PC4 as it has a negligible component variance.
+As well as the component variances, the useful results of principal
+components analysis include the variable weightings or 'rotations' for
+each principal component. Referring to just the output for **open
+data** above, PC1 (which explains the most multivariate variance) has
+its greatest absolute contributions from the Lightweight and Industry
+variables, which act in opposite directions (remembering that the sign
+is arbitrary, but that *relative* sign and magnitude are important).
+PC2 contains mainly variance from the Compact and Open variables, PC3
+(which explains much less variance) reflects Open/Industry, and we can
+ignore PC4 as it has a negligible component variance.
 
-In addition, every individual observation (sample) is a multivariate point, the
-observation scores for all samples in each principal component based on the
-values of the variables used in PCA for that sample. It is conventional to plot
-both of these two types of output in a principal component **biplot**, as shown
-in Figure 3. Before discussing the biplot, we should note that the
-sign (positive or negative) of variable weightings and observation scores
-(*i.e*. the direction of the axes) is arbitrary and should not affect our
+In addition, every individual observation (sample) is a multivariate
+point, the observation scores for all samples in each principal
+component based on the values of the variables used in PCA for that
+sample. It is conventional to plot both of these two types of output
+in a principal component **biplot**, as shown in Figure 3. Before
+discussing the biplot, we should note that the sign (positive or
+negative) of variable weightings and observation scores (*i.e*. the
+direction of the axes) is arbitrary and should not affect our
 interpretations.
 
 ```{r scree-plots-cities, echo=FALSE, fig.height=2.5, fig.width=6, message=FALSE, warning=FALSE, out.width='60%', fig.align='center', fig.cap="Figure 2: PCA scree plots for urban land-use data, for: (a) compositionally closed proportions; (b) data corrected for closure using CLR-transformation.", results='hold'}
@@ -278,24 +291,26 @@ par(mar = c(3.5,3.5,1,1), mfrow = c(1,2), mgp=c(1.7,0.3,0))
 
 &nbsp;
 
-There are informal 'rules' for deciding which of the principal components 
-contain useful information:
+There are informal 'rules' for deciding which of the principal 
+components contain useful information:
 
 1. Components having variance greater than 1 (the 'Kaiser' criterion)
 2. Components up to a cumulative proportion of variance explained of 0.8 (80%)
 
-For example, for the open data, the component variances are PC1 1.976, PC2
-1.511, PC3 0.513, PC4 1.5E-31 -- so only PC1 and PC2 meet the first criterion.
-Similarly, the *cumulative* proportions of variance explained by each component
-are PC1 0.494, PC1+PC2 0.872, so by criterion 2 no useful information is
-contained in principal components >2. In this example both criteria agree (they
+For example, for the open data, the component variances are PC1 1.976,
+PC2 1.511, PC3 0.513, PC4 1.5E-31 -- so only PC1 and PC2 meet the
+first criterion. Similarly, the *cumulative* proportions of variance
+explained by each component are PC1 0.494, PC1+PC2 0.872, so by
+criterion 2 no useful information is contained in principal 
+components >2. In this example both criteria agree (they
 don't always!).
 
-Another part of the PCA output that we need to know about is the set of
-*observation scores*, essentially showing where each observation (each city, in
-these data) plots in principal component space. We're only interested in PC1 and
-PC2, since they are the only components meeting the criteria. The observation
-scores for the first rows of the data are as follows (Table 2):
+Another part of the PCA output that we need to know about is the set
+of *observation scores*, essentially showing where each observation 
+(each city, in these data) plots in principal component space. We're
+only interested in PC1 and PC2, since they are the only components
+meeting the criteria. The observation scores for the first rows of the
+data are as follows (Table 2):
 
 ```{r table-PCA-obs-scores-cities, results='hold'}
 OScores <- data.frame(City=cities_clr$City[1:8],
@@ -390,23 +405,24 @@ rm(list = c("v1","v2","sf","data0"))
 
 &nbsp;
 
-PCA biplots are useful, because the *variable weightings* group together for
-variables (measurements) that are related to one another. For example, in the
-biplots in Figure 3, the variables are relative land areas under 4
-land-use categories (which have been corrected in Figure 3(b) for
-compositional closure using the CLR transformation). These variables are shown
-as vectors (arrows) in the biplot of principal components PC1 and PC2, and
-variables which are related have vectors of similar length and/or direction. For
-example, the variables 'Compact' and 'Industry' plot closely together on biplot
-(a), suggesting some relationship between these land use categories. Removing
-closure in our data (biplot (b)) seems to remove this relationship, so it is
-probably not real! 
+PCA biplots are useful, because the *variable weightings* group
+together for variables (measurements) that are related to one another.
+For example, in the biplots in Figure 3, the variables are relative
+land areas under 4 land-use categories (which have been corrected in
+Figure 3(b) for compositional closure using the CLR transformation).
+These variables are shown as vectors (arrows) in the biplot of
+principal components PC1 and PC2, and variables which are related have
+vectors of similar length and/or direction. For example, the variables
+'Compact' and 'Industry' plot closely together on biplot (a),
+suggesting some relationship between these land use categories.
+Removing closure in our data (biplot (b)) seems to remove this
+relationship, so it is probably not real!
 
 Often we see the component vectors arranged in an obviously
-*asymmetric pattern* with closed data, and this is more apparent 
-[further down this page](#geochem) when we analyse some geochemical data. (When
-closure is removed, the vectors have a less asymmetric pattern - see 
-[Figure 5](#biplot2) further below.)
+*asymmetric pattern* with closed data, and this is more apparent
+[further down this page](#geochem) when we analyse some geochemical
+data. (When closure is removed, the vectors have a less asymmetric
+pattern - see [Figure 5](#biplot2) further below.)
 
 The other main information we obtain from principal components biplots is from
 the *observation scores* (see above). These will plot at locations similar to
@@ -546,7 +562,7 @@ flextable(OScores) |>
   set_caption(caption="Table 3: PCA observation scores for the first 8 rows of the Ashfield Flats data (closed and open).", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
 ```
 
-&nbsp;
+<p id="biplot2">&nbsp;</p>
 
 ```{r visualise-PCA-ashfield, fig.height=6, fig.width=12, fig.align='center', fig.cap="Figure 6: PCA biplots for Ashfield data, with observations categorised by sample type for: (a) compositionally closed concentrations, log~10~ transformation only; (b) data corrected for closure using CLR-transformation.", results='hold'}
 par(mfrow=c(1,2), mar = c(3.5,3.5,3.5,3.5), oma = c(0,0,0,0), 
@@ -607,7 +623,7 @@ legend("bottomright", bty = "o", inset = 0.03,
 mtext("(b)", side = 3, line = -1.5, font = 2, adj = 0.02, cex = 1.25)
 ```
 
-<p id="biplot2">&nbsp;</p>
+&nbsp;
 
 We can see some interesting effects in Figure 6:
 
@@ -615,18 +631,65 @@ We can see some interesting effects in Figure 6:
 - in the biplot for open (clr-transformed) data (Figure 6(b)), some of the elemental associations make sense (*e.g*. Sr-Na-Mg, the REEs Ce-La-Nd-Gd-(Y), Al with Cr, Th, and V (and possibly REEs), redox-sensitive elements Fe-Mn, *etc*.)
 - some clustering of observations is apparent in Figure 6(b), *e.g*. some Saltmarsh sediments seem to be associated with high REE concentrations; drain sediments are mainly towards the lower left
   - we may see clearer clustering by plotting different pairs of principal components, *e.g*. PC1 *vs*. PC3, PC2 *vs*. PC3. Remember from above that six principal component dimensions possibly contain useful information.
-  - also, the PCA procedure maximises multiple variance, not the separation between groups. There are other multivariate methods that can do that.
+  - also, the PCA procedure maximises multiple variance, not the separation between groups. There are other multivariate methods that can do that, like [discriminant analysis](lda.html).
 
-We might see clearer groupings based on a different factor, such as whether the
-sample location has a tidal influence or not, or a finer categorisation by
-individual wetland pond.
+We might see clearer groupings based on a different factor, such as
+whether the sample location has a tidal influence or not, or a finer
+categorisation by individual wetland pond.
+
+The PCA output should extend the information we get from a correlation 
+matrix (Figure 7). The PCA biplot in Figure 6(b) suggests several 
+groups of correlated elements which is reinforced by Figure 7. For 
+example, the rare earth elements Ce, Gd, La, and Nd are all positively 
+correlated, and their association is also shown in the PCA biplot by 
+the vectors (arrows) for Ce, Gd, La, and Nd pointing in very similar
+directions. Conversely, there is a significant negative correlation
+between Cr and Zn, which is shown on the PCA biplot by the Cr and Zn
+vectors pointing in nearly opposite directions.
+
+The PCA biplot does more than just enhance the correlation matrix, 
+however. We also plot the observations (*i.e*. samples) on the biplot. 
+We can see, for example, that samples close to the Ce, Gd, La, and Nd 
+vectors are mainly saltmarsh and lake sediments, and so we assume that 
+Ce, Gd, La, and Nd concentrations are greater in these environments. 
+(We could also express this by stating that &ldquo;saltmarsh and lake
+sediments are characterised by greater concentrations of Ce, Gd, La,
+and Nd&rdquo;).
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(psych) ; library(corrplot)
+```
+
+```{r corr-matrix-match-pca, fig.height=10, fig.width=12, fig.align='center', fig.cap="Figure 7: Correlation matrix and heatmap for concentrations of selected elements in sediments from Ashfield Flats 2019-2021. Lower triangle of correlation matrix shows Pearson's r values with non-significant correlations (Holm's adjusted p > 0.05) ‘greyed-out’.", message=FALSE, warning=FALSE}
+library(psych) ; library(corrplot)
+par(family="nar")
+data0 <- na.omit(ashfield_clr[,c("pH","Al","Ca","Fe","As","Cd","Cr",
+                                 "Cu","Mn","Na","Ni","P","Pb","S",
+                                 "Sr","Zn","Ce","Gd","La","Nd")])
+cormat <- corTest(data0)
+corPvals <- cormat$p
+corPvals[upper.tri(corPvals)] <- cormat$p.adj
+corPvals <- t(corPvals)
+corPvals[upper.tri(corPvals)] <- cormat$p.adj
+corPvals <- t(corPvals)
+corrplot(cormat$r, method="ellipse", type="upper", diag=F, 
+         tl.col=1, tl.pos="t", mar=c(3,2,1,1), cl.cex=1.4, 
+         tl.cex=1.4)
+corrplot(cormat$r, method="square", type="lower", diag=F, 
+         tl.col=1, tl.pos="l", tl.cex=1.4, addCoef.col="black", 
+         number.cex=1., add=T, p.mat=corPvals, is.corr=F, 
+         insig = "pch", pch=15, pch.col="#ffffffe0", pch.cex = 5, 
+         addCoefasPercent=F, cl.pos="n",
+         col=colorRampPalette(c("tomato","white","steelblue"))(128))
+```
 
 &nbsp;
 
-Let's have a look at plotting other PCA dimensions (just for the clr-transformed data, since that's the correct way to do it). The output of the code below is in 
-Figure 6.
+Let's have a look at plotting other PCA dimensions (just for the
+clr-transformed data, since that's the correct way to do it). The
+output of the code below is in Figure 8.
 
-```{r biplots-PCA-AF-newdims, fig.height=12, fig.width=8, fig.align='center', fig.cap="Figure 7: PCA biplots for Ashfield data, with observations categorised by sample type for: (a) PC3 vs. PC1; (b) PC4 vs. PC1; (c) PC3 vs. PC2; (d) PC4 vs. PC2; (e) PC4 vs. PC3.", results='hold'}
+```{r biplots-PCA-AF-newdims, fig.height=12, fig.width=8, fig.align='center', fig.cap="Figure 8: PCA biplots for Ashfield data, with observations categorised by sample type for: (a) PC3 vs. PC1; (b) PC4 vs. PC1; (c) PC3 vs. PC2; (d) PC4 vs. PC2; (e) PC4 vs. PC3.", results='hold'}
 data0 <- na.omit(ashfield_clr[,c(3,4,11:38)])
 palette(c("black","moccasin","cyan2","navy","gray33"))
 par(mfrow=c(3,2), mar = c(3,3,3,3), oma = c(0,0,0,0), 
@@ -663,9 +726,15 @@ legend("topleft", bty = "o", inset = 0.03,
 
 &nbsp;
 
-Alternatively we could look at a 3D plot (Figure 8) susing the `scatterplot3d` package.
+The higher-order principal components do not add that much to the 
+information we get from PC1 and PC2 in Figure 6. This is expected, 
+since the first two principal components explain about 55% of the 
+multiple variance. The PC3~PC1 and PC4~PC1 biplots suggest that Drain
+sediments have greater Zn than sediments from other areas.
 
-```{r pca-obs-3D, fig.cap="Figure 8: Plot of (a) observation scores and (b) component (variable) loadings for PCA on clr-transformed sediment elemental concentrations from Ashfield Flats 2019-2021.", fig.height=5, fig.width=12}
+Alternatively we could look at a 3D plot (Figure 9) using the `scatterplot3d` package.
+
+```{r pca-obs-3D, fig.cap="Figure 9: Plot of (a) observation scores and (b) component (variable) loadings for PCA on clr-transformed sediment elemental concentrations from Ashfield Flats 2019-2021.", fig.height=5, fig.width=12}
 library(scatterplot3d)
 data0 <- na.omit(ashfield_clr[,c(3,4,11:38)])
 palette(c("black",colorRampPalette(c("navy","cyan2","moccasin"))(7),
