@@ -61,8 +61,8 @@ You can just keep clicking the `Next` button to get to each part of the input se
 
 ## `Geometry Information` 
 
-- Set Length Units to desired value (cm is OK) ![Geometry Information dialog screenshot](./images/05-geometry-info.png){align="right" width=393 height=159}
-- Use one Soil Material for simple transport, but two or more for reactive barriers etc.
+- Set `Length Units` to desired value<br />(we recommend m, but cm is OK) ![Geometry Information dialog screenshot](./images/05-geometry-info.png){align="right" width=393 height=159}
+- Use one Soil Material for simple transport, but two or more for reactive barriers *etc*.
 - For horizontal transport use `Decline from Vertical...` of ≤ 0.1
 - Set `Depth` to desired value &ndash; this represents our flow path length, so choose something realistic for groundwater!
 
@@ -122,6 +122,7 @@ The individual values can be set manually too.
 &nbsp;
 
 ## `Solute Transport`
+- the default `Mass Units` are mmol, but we recommend changing to g.<br />If we set the length units to m earlier, this makes our concentration units g/m^3^, which is equivalent to mg/L
 - Make sure `Number of Solutes` = 1 
 - Choose `Pulse Duration` to be a fraction (*e.g*. 0.1 × the `Final Time` set earlier)  
 ![Solute Transport dialog screenshot](images/12-solute-transport.png){width=414 height=347}
