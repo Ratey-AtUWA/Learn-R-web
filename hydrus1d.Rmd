@@ -59,6 +59,29 @@ You can just keep clicking the `Next` button to get to each part of the input se
 
 # Hints for parameter selection in each input dialog
 
+The instructions below get you a very basic simulation with a single
+substrate ("soil") material, reacting with a single solute. The
+reaction is defined by simple partitioning using a *K*~d~ value, and
+equilibrium is achieved instantaneously.
+
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+For many applications we would want to include more complexity into 
+our simulation. For example, in the ENVT5503 class, we set an 
+assignment to simulate remediation of groundwater contamination with a
+permeable reactive barrier (PRB). In this case we should consider 
+including:
+
+- at least 2 'soil' materials with different properties to represent the aquifer material and the PRB (see the [`Geometry Information` dialog](#geom))
+  * this would be further defined as a depth range in the `Material Distribution` options of the [`Profile Information` dialog](#profile)
+- a One-site sorption model (Chemical Nonequilibrium) (in the [`Solute Transport` dialog](#Solute-Transport))
+- a diffusion coefficient for our solute in water (`Diffus. W.` in the [`Solute Transport Parameters` dialog](#Solute-Transport-Parameters))
+- a `Frac = 1` value of zero to match non-equilibrium conditions (in the [`Solute Transport Parameters` dialog](#Solute-Transport-Parameters))
+- a non-zero `Kd` value for the material representing the PRB (and potentially a lower `Kd` value for the surrounding material) in the [`Solute Transport and Reaction parameters` dialog](#STRP)
+- an `alpha` value (first-order reaction rate constant) for each material (in the [`Solute Transport and Reaction parameters` dialog](#STRP) - scroll to the right; `alpha` is at the end)
+</div>
+
+<p id="geom">&nbsp;</p>
+
 ## `Geometry Information` 
 
 - Set `Length Units` to desired value<br />(we recommend m, but cm is OK) ![Geometry Information dialog screenshot](./images/05-geometry-info.png){align="right" width=393 height=159}
@@ -119,7 +142,7 @@ The individual values can be set manually too.
 - Leave at default settings for now  
 ![Water Flow Boundary Conditions dialog screenshot](images/11-water-flow-BCs.png){width=310 height=311}
 
-&nbsp;
+<p id="Solute-Transport">&nbsp;</p>
 
 ## `Solute Transport`
 - the default `Mass Units` are mmol, but we recommend changing to g.<br />If we set the length units to m earlier, this makes our concentration units g/m^3^, which is equivalent to mg/L
@@ -127,7 +150,7 @@ The individual values can be set manually too.
 - Choose `Pulse Duration` to be a fraction (*e.g*. 0.1 × the `Final Time` set earlier)  
 ![Solute Transport dialog screenshot](images/12-solute-transport.png){width=414 height=347}
 
-&nbsp;
+<p id="Solute-Transport-Parameters">&nbsp;</p>
 
 ## `Solute Transport Parameters`
 - You can leave these at defaults, but FYI: ![Solute Transport Parameters dialog screenshot](images/13-solute-transp-pars.png){align="right" width=413 height=230}  
@@ -143,12 +166,12 @@ The individual values can be set manually too.
 `Diffus.W` = diffusion coefficient in water, *D~w~* [L&sup2;T^&minus;1^]  
 `Diffus.G` = diffusion coefficient in soil air, *D~a~* [L&sup2;T^&minus;1^]
 
-&nbsp;
+<p id="STRP">&nbsp;</p>
 
 ## `Solute Transport and Reaction Parameters`
 - Set partition coefficient `Kd` > 0 for reactive transport (leave `Kd` = 0 for non-reactive) 
 - Click the `Help` button for details!  
-![Solute Transport and Reaction Parameters dialog screenshot](images/14-solute-transp-react-pars.png){width=363 height=231}
+![Solute Transport and Reaction Parameters dialog screenshot](images/14-solute-transp-react-pars.png){width=680 height=231}
 
 &nbsp;
 
@@ -164,7 +187,7 @@ The individual values can be set manually too.
 - Yes, you do!  
 ![PROFILE application screenshot](images/16-run-profile.png){width=298 height=93}
  
-&nbsp;
+<p id="profile">&nbsp;</p>
 
 # `Profile Information` dialog
 
@@ -213,17 +236,135 @@ Various versions of Hydrus manuals are available at [https://www.pc-progress.com
 
 Users of
 [Hydrus-1D](https://www.pc-progress.com/en/Default.aspx?H1d-downloads){target="_blank"}
-either need to use the limited graphics in Hydrus itself, open the output files
-in Excel, or figure out a way of using more flexible software. So here's my code
-to read the node (Profile) information output files from Hydrus-1D
-(`Nod_Inf.out` in the relevant Hydrus-1D project folder) into an **R** data 
-frame.
+either need to use the limited graphics in Hydrus itself, open the
+output files in Excel, or figure out a way of using more flexible
+software. 
 
-```{r message=FALSE, warning=FALSE, include=FALSE}
+## Reading data copied from a Hydrus-1D plot
+
+This is an easier alternative to reading the data stored in the 
+`Nod_Inf.out` file described [below](#reading-data-in-hydrus-1d-output-files).
+
+Right-click on Hydrus-1D plot of Profile Information: Concentration,
+and select Copy; this will copy the data table for the plot in
+tab-separated format.
+
+Then run the following code:
+
+```{r read-hydrus-clipboard, eval=FALSE}
+hydrus0 <- read.table("clipboard", header=TRUE, sep="\t")
+```
+
+On some Mac computers this does not work, giving an error message such as:<br />
+`Error in file(file, "rt") : X11 module cannot be loaded`
+
+In that case, copy the data from the Hydrus-1D plot into Excel, and
+save as a `.csv` file (*e.g*. `hydrus1.csv`) into your current RStudio 
+working directory.
+
+Then just use `read.csv` to input the Hydrus-1D data:
+
+```{r read-hydrus-csv}
+hydrus0 <- read.csv("hydrus1.csv") # remember what name you gave the file!
+```
+
+Then it's useful to input some of the Hydrus-1D information 
+(final &equiv; total time, and number of &lsquo;Print times&rsquo;):
+
+```{r set-finaltime-nprinttimes}
+# specify Final Time here
+# (from Hydrus-1D 'Time Information' input)
+#     👇
+ft <- 365  # run this line!
+
+# specify number of Print times here
+# (from Hydrus-1D 'Print Information' input)
+#    👇
+pt <- 8  # run this line!
+
+(simTimes <- seq(0,ft, len=pt+1))
+```
+
+Then, reformat the data for easier plotting using `melt` from the `reshape2` 
+package. If `Distance` is negative, we make it positive.
+
+```{r melt-pasted-data}
+library(reshape2)
+hydrus1 <- melt(hydrus0[,2:ncol(hydrus0)], 
+                       id.vars = c("C2"), 
+                       measure.vars = paste0("C",seq(1,(2*pt)+1,2)))
+colnames(hydrus1) <- c("Distance","Time","Concentration")
+if(min(hydrus1$Distance)<0) hydrus1$Distance <- -1*hydrus1$Distance
+```
+
+
+Check the data file:
+
+```{r check-melted-data}
+str(hydrus1)
+```
+
+### Plot the data (symbols and lines)
+
+We plot the concentration (*y-axis*) *vs*. distance (*x-axis*) since 
+this is relevant to horizontal transport, such as flow of
+**groundwater** containing solute(s).
+
+```{r plot-melted-1, fig.width=8, fig.height=4, fig.cap="Figure 3: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing individual simulation points), using Hydrus-1D", results='hold'}
+par(mar=c(4,4,1,1), mgp=c(1.7,0.3,0), tcl=0.25, 
+    font.lab=2, cex.lab=1.2)
+palette(c("black",viridis::plasma(pt, alp=0.7)))
+with(hydrus1, plot(Distance, Concentration, type="b",cex=1, lwd=1, 
+                   pch=rep(c(21,22,23,24,25),2)[Time],
+                   bg=seq_along(simTimes)[Time],
+                   xlab="Distance (m)", 
+                   ylab="Solute concentration (mg/L)"))
+legend("topright", bty="n", inset=0.02, ncol=2, 
+       title=expression(italic("Simulation times [days]")), 
+       legend=round(simTimes), pt.bg=seq_along(simTimes), 
+       pch=rep(c(21,22,23,24,25),2), lwd=1, pt.cex=1.2)
+```
+
+&nbsp;
+
+### Plot the data (just the lines)
+
+If you don't like all the symbols in the plot above, try the following
+(or, you can adapt the code to plot concentration on the horizontal
+axis - [see below](#vert)):
+
+```{r plot-melted-2, fig.width=8, fig.height=4, fig.cap="Figure 4: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing smooth lines only), using Hydrus-1D", results='hold'}
+par(mar=c(4,4,1,1), mgp=c(1.7,0.3,0), tcl=0.25, 
+    font.lab=2, cex.lab=1.2)
+palette(c("black",viridis::turbo(pt)))
+with(subset(hydrus1, hydrus1$Time==levels(hydrus1$Time)[1]), 
+     plot(Concentration ~ Distance, type="l", 
+          ylim=c(0, max(hydrus1$Concentration)),
+          xlab="Distance (m)", ylab="Solute concentration (mg/L)") )
+for (i in 2:(pt+1)){
+  with(subset(hydrus1, hydrus1$Time==levels(hydrus1$Time)[i]), 
+       lines(Concentration ~ Distance, col=i,lwd=3,lty=i))
+  }
+legend("topright", bty="n", inset=0.02, ncol=2, 
+       title=expression(italic("Simulation times [days]")), 
+       lty=seq_along(simTimes), seg.len=4.5, legend=round(simTimes), 
+       col=seq_along(simTimes), pch=NA, lwd=c(1,rep(3,pt)), 
+       x.intersp=0.5)
+```
+
+&nbsp;
+
+## Reading data in Hydrus-1D output files
+
+Here's my code to read the node (Profile) information
+output files from Hydrus-1D (`Nod_Inf.out` in the relevant Hydrus-1D
+project folder) into an **R** data frame.
+
+```{r set-hydrus-dir-dontshow, message=FALSE, warning=FALSE, include=FALSE}
 MyPC <- "C:/Users/00028958/OneDrive - The University of Western Australia/My Documents/aaTeaching/"
 ```
 
-```{r}
+```{r read Nod_Inf.out, results='hide'}
 # R code to read Hydrus-1D Nod_Inf.out files into an R data frame
 # set full path to Hydrus-1D project directory (folder)
 # -=-=-=-=- EDIT THIS TO MATCH THE FOLDER ON YOUR COMPUTER ! -=-=-=-=-
@@ -284,7 +425,9 @@ rm(list = c("i","head_rows","Nod_Inf_out","timz","timz0","ends"))
 str(node_data)
 ```
 
-## Plot concentration *vs*. depth
+### Plot concentration *vs*. depth
+
+<p id="vert">This is the type of plot we would use for vertical transport, such as leaching through a soil profile.</p>
 
 ```{r conc-depth, fig.width=4, fig.height=6, fig.cap="Figure 1: Plot of simulated solute concentration vs. vertical depth for each simulation time step, using Hydrus-1D", results='hold'}
 # check it with a plot
@@ -314,7 +457,10 @@ legend("bottomright", legend = levels(node_data$Time),
 
 &nbsp;
 
-## Plot as concentration *vs*. horizontal distance
+### Plot as concentration *vs*. horizontal distance
+
+This type of plot is relevant to horizontal transport, such as flow of
+**groundwater** containing solute(s).
 
 ```{r conc-hdist, fig.width=6, fig.height=4, fig.cap="Figure 2: Plot of simulated solute concentration vs. horizontal distance for each simulation time step, using Hydrus-1D", results='hold'}
 palette(c("black",viridis::plasma(6)))
@@ -338,111 +484,6 @@ legend("topright", legend = levels(node_data$Time),
        lwd = 1,
        pt.cex=0.85, bty = "n", inset = 0.02, 
        title = expression(bold("Time (days)")))
-```
-
-&nbsp;
-
-## Reading data copied from a Hydrus-1D plot
-
-This is an easier alternative to using the `Nod_Inf.out` file described above.
-
-Right-click on Hydrus-1D plot of Profile Information: Concentration,
-and select Copy; this will copy the data table for the plot in
-tab-separated format.
-
-Then run the following code:
-
-```{r read-hydrus-clipboard, eval=FALSE}
-hydrus0 <- read.table("clipboard", header=TRUE, sep="\t")
-```
-
-On some Mac computers this does not work, giving an error message such as:<br />
-`Error in file(file, "rt") : X11 module cannot be loaded`
-
-In that case, copy the data from the Hydrus-1D plot into Excel, and
-save as a `.csv` file (*e.g*. `hydrus1.csv`) into your current RStudio 
-working directory.
-
-Then just use `read.csv` to input the Hydrus-1D data:
-
-```{r read-hydrus-csv}
-hydrus0 <- read.csv("hydrus1.csv") # remember what name you gave the file!
-```
-
-Then it's useful to input some of the Hydrus-1D information 
-(final &equiv; total time, and number of &lsquo;Print times&rsquo;):
-
-```{r}
-# specify Final Time here
-# (from Hydrus-1D 'Time Information' input)
-#     👇
-ft <- 365  # run this line!
-
-# specify number of Print times here
-# (from Hydrus-1D 'Print Information' input)
-#    👇
-pt <- 8  # run this line!
-
-(simTimes <- seq(0,ft, len=pt+1))
-```
-
-Then, reformat the data for easier plotting using `melt` from the `reshape2` 
-package. If `Distance` is negative, we make it positive.
-
-```{r melt-pasted-data}
-library(reshape2)
-hydrus1 <- melt(hydrus0[,2:ncol(hydrus0)], 
-                       id.vars = c("C2"), 
-                       measure.vars = paste0("C",seq(1,(2*pt)+1,2)))
-colnames(hydrus1) <- c("Distance","Time","Concentration")
-if(min(hydrus1$Distance)<0) hydrus1$Distance <- -1*hydrus1$Distance
-```
-
-
-Check the data file:
-
-```{r}
-str(hydrus1)
-```
-
-### Plot the data (preferred option)
-
-```{r plot-melted-1, fig.width=8, fig.height=4, fig.cap="Figure 3: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing individual simulation points), using Hydrus-1D", results='hold'}
-par(mar=c(4,4,1,1), mgp=c(1.7,0.3,0), tcl=0.25, 
-    font.lab=2, cex.lab=1.2)
-palette(c("black",viridis::plasma(pt, alp=0.7)))
-with(hydrus1, plot(Distance, Concentration, type="b",cex=1, lwd=1, 
-                   pch=rep(c(21,22,23,24,25),2)[Time],
-                   bg=seq_along(simTimes)[Time],
-                   xlab="Distance (m)", 
-                   ylab="Solute concentration (mg/L)"))
-legend("topright", bty="n", inset=0.02, ncol=2, 
-       title=expression(italic("Simulation times [days]")), 
-       legend=round(simTimes), pt.bg=seq_along(simTimes), 
-       pch=rep(c(21,22,23,24,25),2), lwd=1, pt.cex=1.2)
-```
-
-&nbsp;
-
-If the plot above is unsatisfactory, try the following:
-
-```{r plot-melted-2, fig.width=8, fig.height=4, fig.cap="Figure 4: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing smooth lines only), using Hydrus-1D", results='hold'}
-par(mar=c(4,4,1,1), mgp=c(1.7,0.3,0), tcl=0.25, 
-    font.lab=2, cex.lab=1.2)
-palette(c("black",viridis::turbo(pt)))
-with(subset(hydrus1, hydrus1$Time==levels(hydrus1$Time)[1]), 
-     plot(Concentration ~ Distance, type="l", 
-          ylim=c(0, max(hydrus1$Concentration)),
-          xlab="Distance (m)", ylab="Solute concentration (mg/L)") )
-for (i in 2:(pt+1)){
-  with(subset(hydrus1, hydrus1$Time==levels(hydrus1$Time)[i]), 
-       lines(Concentration ~ Distance, col=i,lwd=3,lty=i))
-  }
-legend("topright", bty="n", inset=0.02, ncol=2, 
-       title=expression(italic("Simulation times [days]")), 
-       lty=seq_along(simTimes), seg.len=4.5, legend=round(simTimes), 
-       col=seq_along(simTimes), pch=NA, lwd=c(1,rep(3,pt)), 
-       x.intersp=0.5)
 ```
 
 &nbsp;
