@@ -64,22 +64,6 @@ substrate ("soil") material, reacting with a single solute. The
 reaction is defined by simple partitioning using a *K*~d~ value, and
 equilibrium is achieved instantaneously.
 
-<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
-For many applications we would want to include more complexity into 
-our simulation. For example, in the ENVT5503 class, we set an 
-assignment to simulate remediation of groundwater contamination with a
-permeable reactive barrier (PRB). In this case we should consider 
-including:
-
-- at least 2 'soil' materials with different properties to represent the aquifer material and the PRB (see the [`Geometry Information` dialog](#geom))
-  * this would be further defined as a depth range in the `Material Distribution` options of the [`Profile Information` dialog](#profile)
-- a One-site sorption model (Chemical Nonequilibrium) (in the [`Solute Transport` dialog](#Solute-Transport))
-- a diffusion coefficient for our solute in water (`Diffus. W.` in the [`Solute Transport Parameters` dialog](#Solute-Transport-Parameters))
-- a `Frac = 1` value of zero to match non-equilibrium conditions (in the [`Solute Transport Parameters` dialog](#Solute-Transport-Parameters))
-- a non-zero `Kd` value for the material representing the PRB (and potentially a lower `Kd` value for the surrounding material) in the [`Solute Transport and Reaction parameters` dialog](#STRP)
-- an `alpha` value (first-order reaction rate constant) for each material (in the [`Solute Transport and Reaction parameters` dialog](#STRP) - scroll to the right; `alpha` is at the end)
-</div>
-
 <p id="geom">&nbsp;</p>
 
 ## `Geometry Information` 
@@ -203,6 +187,24 @@ The individual values can be set manually too.
 &nbsp;
 
 After a successful Hydrus-1D simulation run, you can use the options in the post-processing window to visualise the output within Hydrus-1D. Alternatively, you can read the data file(s) into Excel® or R and make better graphs!
+
+<div style="border: 2px solid #039; background-color:#f0f0f0; padding: 8px;">
+For many applications we would want to include more complexity into 
+our simulation. For example, in the ENVT5503 class, we set an 
+assignment to simulate remediation of groundwater contamination with a
+permeable reactive barrier (PRB). In this case we should consider 
+including:
+
+- at least 2 'soil' materials with different properties to represent the aquifer material and the PRB (see the [`Geometry Information` dialog](#geom))
+  * this would be further defined as a depth range in the `Material Distribution` options of the [`Profile Information` dialog](#profile)
+- a One-site sorption model (Chemical Nonequilibrium) (in the [`Solute Transport` dialog](#Solute-Transport))
+- a diffusion coefficient for our solute in water (`Diffus. W.` in the [`Solute Transport Parameters` dialog](#Solute-Transport-Parameters))
+- a `Frac = 1` value of zero to match non-equilibrium conditions (in the [`Solute Transport Parameters` dialog](#Solute-Transport-Parameters))
+- a non-zero `Kd` value for the material representing the PRB (and potentially a lower `Kd` value for the surrounding material) in the [`Solute Transport and Reaction parameters` dialog](#STRP)
+- an `alpha` value (first-order reaction rate constant) for each material (in the [`Solute Transport and Reaction parameters` dialog](#STRP) - scroll to the right; `alpha` is at the end)
+</div>
+
+&nbsp;
 
 ```{r table1, message=FALSE, warning=FALSE, echo=FALSE}
 windowsFonts(fixed=windowsFont("Courier New"))
