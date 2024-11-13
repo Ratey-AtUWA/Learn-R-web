@@ -6,7 +6,7 @@ date: "`r Sys.Date()`"
 output: 
   html_document: 
     theme: yeti
-    code_folding: hide
+    code_folding: show
     self_contained: no
     number_sections: no
     smart: no
@@ -24,7 +24,7 @@ output:
 &nbsp;
 
 <p style="text-align:center;">![](./images/pulseAnim.gif){alt="animation of vertical solute transport pulse" width=200 height=300}<br />
-<span style="text-align:center; font-size:10pt;">*Figure 0: Animation representing simulated solute transport, made with the `gganimate`<br />R package. For the `R code` to make this animation and some background information,<br />go to [https://ratey-atuwa.github.io/cybloRg/pulse.html](https://ratey-atuwa.github.io/cybloRg/pulse.html){target="_blank"}.*</span></p>
+<span style="text-align:center; font-size:10pt;">*Figure 1: Animation representing simulated solute transport, made with the `gganimate`<br />R package. For the `R code` to make this animation and some background information,<br />go to [https://ratey-atuwa.github.io/cybloRg/pulse.html](https://ratey-atuwa.github.io/cybloRg/pulse.html){target="_blank"}.*</span></p>
 
 &nbsp;
 
@@ -154,6 +154,7 @@ The individual values can be set manually too.
 
 ## `Solute Transport and Reaction Parameters`
 - Set partition coefficient `Kd` > 0 for reactive transport (leave `Kd` = 0 for non-reactive) 
+- for [more advanced simulations (see below)](#advanced), add a reaction rate constant (`Alpha`) parameter
 - Click the `Help` button for details!  
 ![Solute Transport and Reaction Parameters dialog screenshot](images/14-solute-transp-react-pars.png){width=680 height=231}
 
@@ -188,7 +189,7 @@ The individual values can be set manually too.
 
 After a successful Hydrus-1D simulation run, you can use the options in the post-processing window to visualise the output within Hydrus-1D. Alternatively, you can read the data file(s) into Excel® or R and make better graphs!
 
-<div style="border: 2px solid #039; background-color:#f0f0f0; padding: 8px;">
+<div id="advanced" style="border: 2px solid #039; background-color:#f0f0f0; padding: 8px;">
 For many applications we would want to include more complexity into 
 our simulation. For example, in the ENVT5503 class, we set an 
 assignment to simulate remediation of groundwater contamination with a
@@ -230,7 +231,7 @@ flextable(table1) |> width(j=c(1,2), width=c(6,14), unit="cm") |>
 &nbsp;
 
 More detail is available in the Hydrus-1D manual. We recommend the [Hydrus-1D Tutorial (Rassam *et al*. 2018)](https://www.pc-progress.com/Downloads/Public_Lib_H1D/HYDRUS-1D_Tutorial_V1.00_2018.pdf){target="_blank"}.
-Various versions of Hydrus manuals are available at [https://www.pc-progress.com/](https://www.pc-progress.com/en/Default.aspx?Downloads){target="_blank"}, the mist relevant probably being Šimůnek *et al*. (2008).
+Various versions of Hydrus manuals are available at [https://www.pc-progress.com/](https://www.pc-progress.com/en/Default.aspx?Downloads){target="_blank"}, the most relevant probably being Šimůnek *et al*. (2008).
 
 &nbsp;
 
@@ -239,8 +240,8 @@ Various versions of Hydrus manuals are available at [https://www.pc-progress.com
 Users of
 [Hydrus-1D](https://www.pc-progress.com/en/Default.aspx?H1d-downloads){target="_blank"}
 either need to use the limited graphics in Hydrus itself, open the
-output files in Excel, or figure out a way of using more flexible
-software. 
+output files in Excel, or devise a way of using more flexible
+software like `R`. 
 
 ## Reading data copied from a Hydrus-1D plot
 
@@ -306,13 +307,13 @@ Check the data file:
 str(hydrus1)
 ```
 
-### Plot the data (symbols and lines)
+### Plot the data (option 1: symbols and lines)
 
 We plot the concentration (*y-axis*) *vs*. distance (*x-axis*) since 
 this is relevant to horizontal transport, such as flow of
 **groundwater** containing solute(s).
 
-```{r plot-melted-1, fig.width=8, fig.height=4, fig.cap="Figure 3: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing individual simulation points), using Hydrus-1D", results='hold'}
+```{r plot-melted-1, fig.width=8, fig.height=4, fig.cap="Figure 2: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing individual simulation points), using Hydrus-1D", results='hold'}
 par(mar=c(4,4,1,1), mgp=c(1.7,0.3,0), tcl=0.25, 
     font.lab=2, cex.lab=1.2)
 palette(c("black",viridis::plasma(pt, alp=0.7)))
@@ -329,13 +330,13 @@ legend("topright", bty="n", inset=0.02, ncol=2,
 
 &nbsp;
 
-### Plot the data (just the lines)
+### Plot the data (option 2: just the lines)
 
 If you don't like all the symbols in the plot above, try the following
 (or, you can adapt the code to plot concentration on the horizontal
 axis - [see below](#vert)):
 
-```{r plot-melted-2, fig.width=8, fig.height=4, fig.cap="Figure 4: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing smooth lines only), using Hydrus-1D", results='hold'}
+```{r plot-melted-2, fig.width=8, fig.height=4, fig.cap="Figure 3: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing smooth lines only), using Hydrus-1D", results='hold'}
 par(mar=c(4,4,1,1), mgp=c(1.7,0.3,0), tcl=0.25, 
     font.lab=2, cex.lab=1.2)
 palette(c("black",viridis::turbo(pt)))
@@ -431,7 +432,7 @@ str(node_data)
 
 <p id="vert">This is the type of plot we would use for vertical transport, such as leaching through a soil profile.</p>
 
-```{r conc-depth, fig.width=4, fig.height=6, fig.cap="Figure 1: Plot of simulated solute concentration vs. vertical depth for each simulation time step, using Hydrus-1D", results='hold'}
+```{r conc-depth, fig.width=4, fig.height=6, fig.cap="Figure 4: Plot of simulated solute concentration vs. vertical depth for each simulation time step, using Hydrus-1D", results='hold'}
 # check it with a plot
 # plot as concentration vs. depth
 palette(c("black",viridis::plasma(6, end=0.7)))
@@ -464,7 +465,7 @@ legend("bottomright", legend = levels(node_data$Time),
 This type of plot is relevant to horizontal transport, such as flow of
 **groundwater** containing solute(s).
 
-```{r conc-hdist, fig.width=6, fig.height=4, fig.cap="Figure 2: Plot of simulated solute concentration vs. horizontal distance for each simulation time step, using Hydrus-1D", results='hold'}
+```{r conc-hdist, fig.width=6, fig.height=4, fig.cap="Figure 5: Plot of simulated solute concentration vs. horizontal distance for each simulation time step, using Hydrus-1D", results='hold'}
 palette(c("black",viridis::plasma(6)))
 symz <- rep(21:25,2)
 par(mar = c(4,4,1,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab=2)

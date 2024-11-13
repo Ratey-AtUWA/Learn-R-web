@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-11-12" />
+<meta name="date" content="2024-11-13" />
 
 <title>ENVT5503 Hydrus-1D Beginners` Guide</title>
 
@@ -434,7 +434,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -449,7 +449,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -464,7 +464,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -479,7 +479,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -503,7 +503,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -521,7 +521,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -542,7 +542,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -560,7 +560,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Reporting
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -605,7 +605,7 @@ div.tocify {
 <h1 class="title toc-ignore">ENVT5503 Hydrus-1D Beginners` Guide</h1>
 <h3 class="subtitle">Remediation of Soil and Groundwater</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-11-12</h4>
+<h4 class="date">2024-11-13</h4>
 
 </div>
 
@@ -620,7 +620,7 @@ div.tocify {
 <img src="./images/pulseAnim.gif"
 alt="animation of vertical solute transport pulse" width="200"
 height="300" /><br /> <span
-style="text-align:center; font-size:10pt;"><em>Figure 0: Animation
+style="text-align:center; font-size:10pt;"><em>Figure 1: Animation
 representing simulated solute transport, made with the
 <code>gganimate</code><br />R package. For the <code>R code</code> to
 make this animation and some background information,<br />go to <a
@@ -827,6 +827,8 @@ class="section level2">
 <ul>
 <li>Set partition coefficient <code>Kd</code> &gt; 0 for reactive
 transport (leave <code>Kd</code> = 0 for non-reactive)</li>
+<li>for <a href="#advanced">more advanced simulations (see below)</a>,
+add a reaction rate constant (<code>Alpha</code>) parameter</li>
 <li>Click the <code>Help</code> button for details!<br />
 <img src="images/14-solute-transp-react-pars.png" width="680"
 height="231"
@@ -884,7 +886,7 @@ alt="Profle Information dialog screenshot" /></p>
 in the post-processing window to visualise the output within Hydrus-1D.
 Alternatively, you can read the data file(s) into Excel® or R and make
 better graphs!</p>
-<div
+<div id="advanced"
 style="border: 2px solid #039; background-color:#f0f0f0; padding: 8px;">
 <p>For many applications we would want to include more complexity into
 our simulation. For example, in the ENVT5503 class, we set an assignment
@@ -920,8 +922,8 @@ href="#STRP"><code>Solute Transport and Reaction parameters</code>
 dialog</a> - scroll to the right; <code>alpha</code> is at the end)</li>
 </ul>
 </div>
-<p>&nbsp;</p>
-<div class="tabwid"><style>.cl-3e04a1e6{}.cl-3dfa4368{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3dfa4390{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3dfe5868{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-3dfe587c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-3dfe6e5c{width:2.362in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3dfe6e66{width:5.512in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3dfe6e70{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3dfe6e7a{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3dfe6e84{width:2.362in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3dfe6e8e{width:5.512in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3dfe6e98{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3dfe6ea2{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-3e04a1e6'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: The following HYDRUS-1D output files contain useful data.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-3dfe6e5c"><p class="cl-3dfe5868"><span class="cl-3dfa4368">File name</span></p></th><th class="cl-3dfe6e66"><p class="cl-3dfe5868"><span class="cl-3dfa4368">Contents</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-3dfe6e70"><p class="cl-3dfe587c"><span class="cl-3dfa4390">Nod_Inf.out</span></p></td><td class="cl-3dfe6e7a"><p class="cl-3dfe587c"><span class="cl-3dfa4390">Separate data matrices  at selected `Print times` during simulation.</span><br><span class="cl-3dfa4390">Useful columns: Depth, Conc(1..NS), Sorb(1..NS)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3dfe6e84"><p class="cl-3dfe587c"><span class="cl-3dfa4390">Obs_Node.out</span></p></td><td class="cl-3dfe6e8e"><p class="cl-3dfe587c"><span class="cl-3dfa4390">Side-by side data matrices for each node depth.</span><br><span class="cl-3dfa4390">Useful columns: time, theta, conc</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3dfe6e98"><p class="cl-3dfe587c"><span class="cl-3dfa4390">Solute1.out</span><br><span class="cl-3dfa4390">(&amp; Solute2.out,...)</span></p></td><td class="cl-3dfe6ea2"><p class="cl-3dfe587c"><span class="cl-3dfa4390">Single data matrix for each solute. Contains columns for time, fluxes and concentrations (including cumulative values) at start of flow path (Top), Root zone, end of flow path (Bot).</span></p></td></tr></tbody></table></div>
+<p> </p>
+<div class="tabwid"><style>.cl-f191007a{}.cl-f078ab2a{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f078ab48{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f07d69ee{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-f07d69f8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-f07d8c12{width:2.362in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f07d8c13{width:5.512in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f07d8c1c{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f07d8c26{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f07d8cbc{width:2.362in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f07d8e60{width:5.512in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f07d8e61{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f07d8e6a{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-f191007a'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: The following HYDRUS-1D output files contain useful data.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-f07d8c12"><p class="cl-f07d69ee"><span class="cl-f078ab2a">File name</span></p></th><th class="cl-f07d8c13"><p class="cl-f07d69ee"><span class="cl-f078ab2a">Contents</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-f07d8c1c"><p class="cl-f07d69f8"><span class="cl-f078ab48">Nod_Inf.out</span></p></td><td class="cl-f07d8c26"><p class="cl-f07d69f8"><span class="cl-f078ab48">Separate data matrices  at selected `Print times` during simulation.</span><br><span class="cl-f078ab48">Useful columns: Depth, Conc(1..NS), Sorb(1..NS)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f07d8cbc"><p class="cl-f07d69f8"><span class="cl-f078ab48">Obs_Node.out</span></p></td><td class="cl-f07d8e60"><p class="cl-f07d69f8"><span class="cl-f078ab48">Side-by side data matrices for each node depth.</span><br><span class="cl-f078ab48">Useful columns: time, theta, conc</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f07d8e61"><p class="cl-f07d69f8"><span class="cl-f078ab48">Solute1.out</span><br><span class="cl-f078ab48">(&amp; Solute2.out,...)</span></p></td><td class="cl-f07d8e6a"><p class="cl-f07d69f8"><span class="cl-f078ab48">Single data matrix for each solute. Contains columns for time, fluxes and concentrations (including cumulative values) at start of flow path (Top), Root zone, end of flow path (Bot).</span></p></td></tr></tbody></table></div>
 <p> </p>
 <p>More detail is available in the Hydrus-1D manual. We recommend the <a
 href="https://www.pc-progress.com/Downloads/Public_Lib_H1D/HYDRUS-1D_Tutorial_V1.00_2018.pdf"
@@ -937,8 +939,8 @@ probably being Šimůnek <em>et al</em>. (2008).</p>
 <p>Users of <a
 href="https://www.pc-progress.com/en/Default.aspx?H1d-downloads"
 target="_blank">Hydrus-1D</a> either need to use the limited graphics in
-Hydrus itself, open the output files in Excel, or figure out a way of
-using more flexible software.</p>
+Hydrus itself, open the output files in Excel, or devise a way of using
+more flexible software like <code>R</code>.</p>
 <div id="reading-data-copied-from-a-hydrus-1d-plot"
 class="section level2">
 <h2>Reading data copied from a Hydrus-1D plot</h2>
@@ -988,8 +990,9 @@ negative, we make it positive.</p>
 ##  $ Distance     : num  0 0.2 0.4 0.6 0.8 1 1.2 1.4 1.6 1.8 ...
 ##  $ Time         : Factor w/ 9 levels &quot;C1&quot;,&quot;C3&quot;,&quot;C5&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
 ##  $ Concentration: num  0 0 0 0 0 0 0 0 0 0 ...</code></pre>
-<div id="plot-the-data-symbols-and-lines" class="section level3">
-<h3>Plot the data (symbols and lines)</h3>
+<div id="plot-the-data-option-1-symbols-and-lines"
+class="section level3">
+<h3>Plot the data (option 1: symbols and lines)</h3>
 <p>We plot the concentration (<em>y-axis</em>) <em>vs</em>. distance
 (<em>x-axis</em>) since this is relevant to horizontal transport, such
 as flow of <strong>groundwater</strong> containing solute(s).</p>
@@ -1006,17 +1009,17 @@ as flow of <strong>groundwater</strong> containing solute(s).</p>
 <span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">round</span>(simTimes), <span class="at">pt.bg=</span><span class="fu">seq_along</span>(simTimes), </span>
 <span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>,<span class="dv">24</span>,<span class="dv">25</span>),<span class="dv">2</span>), <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">pt.cex=</span><span class="fl">1.2</span>)</span></code></pre></div>
 <div class="figure">
-<img src="hydrus1d_files/figure-html/plot-melted-1-1.png" alt="Figure 3: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing individual simulation points), using Hydrus-1D" width="768" />
+<img src="hydrus1d_files/figure-html/plot-melted-1-1.png" alt="Figure 2: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing individual simulation points), using Hydrus-1D" width="768" />
 <p class="caption">
-Figure 3: Plot of simulated solute concentration vs. horizontal distance
+Figure 2: Plot of simulated solute concentration vs. horizontal distance
 for each simulation time step (showing individual simulation points),
 using Hydrus-1D
 </p>
 </div>
 <p> </p>
 </div>
-<div id="plot-the-data-just-the-lines" class="section level3">
-<h3>Plot the data (just the lines)</h3>
+<div id="plot-the-data-option-2-just-the-lines" class="section level3">
+<h3>Plot the data (option 2: just the lines)</h3>
 <p>If you don't like all the symbols in the plot above, try the
 following (or, you can adapt the code to plot concentration on the
 horizontal axis - <a href="#vert">see below</a>):</p>
@@ -1037,9 +1040,9 @@ horizontal axis - <a href="#vert">see below</a>):</p>
 <span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">seq_along</span>(simTimes), <span class="at">pch=</span><span class="cn">NA</span>, <span class="at">lwd=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="fu">rep</span>(<span class="dv">3</span>,pt)), </span>
 <span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>       <span class="at">x.intersp=</span><span class="fl">0.5</span>)</span></code></pre></div>
 <div class="figure">
-<img src="hydrus1d_files/figure-html/plot-melted-2-1.png" alt="Figure 4: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing smooth lines only), using Hydrus-1D" width="768" />
+<img src="hydrus1d_files/figure-html/plot-melted-2-1.png" alt="Figure 3: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing smooth lines only), using Hydrus-1D" width="768" />
 <p class="caption">
-Figure 4: Plot of simulated solute concentration vs. horizontal distance
+Figure 3: Plot of simulated solute concentration vs. horizontal distance
 for each simulation time step (showing smooth lines only), using
 Hydrus-1D
 </p>
@@ -1140,9 +1143,9 @@ leaching through a soil profile.
 <span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a>       <span class="at">pt.cex=</span><span class="fl">0.85</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fl">0.02</span>, </span>
 <span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Time (days)&quot;</span>)))</span></code></pre></div>
 <div class="figure">
-<img src="hydrus1d_files/figure-html/conc-depth-1.png" alt="Figure 1: Plot of simulated solute concentration vs. vertical depth for each simulation time step, using Hydrus-1D" width="384" />
+<img src="hydrus1d_files/figure-html/conc-depth-1.png" alt="Figure 4: Plot of simulated solute concentration vs. vertical depth for each simulation time step, using Hydrus-1D" width="384" />
 <p class="caption">
-Figure 1: Plot of simulated solute concentration vs. vertical depth for
+Figure 4: Plot of simulated solute concentration vs. vertical depth for
 each simulation time step, using Hydrus-1D
 </p>
 </div>
@@ -1175,9 +1178,9 @@ of <strong>groundwater</strong> containing solute(s).</p>
 <span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a>       <span class="at">pt.cex=</span><span class="fl">0.85</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fl">0.02</span>, </span>
 <span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Time (days)&quot;</span>)))</span></code></pre></div>
 <div class="figure">
-<img src="hydrus1d_files/figure-html/conc-hdist-1.png" alt="Figure 2: Plot of simulated solute concentration vs. horizontal distance for each simulation time step, using Hydrus-1D" width="576" />
+<img src="hydrus1d_files/figure-html/conc-hdist-1.png" alt="Figure 5: Plot of simulated solute concentration vs. horizontal distance for each simulation time step, using Hydrus-1D" width="576" />
 <p class="caption">
-Figure 2: Plot of simulated solute concentration vs. horizontal distance
+Figure 5: Plot of simulated solute concentration vs. horizontal distance
 for each simulation time step, using Hydrus-1D
 </p>
 </div>
@@ -1251,7 +1254,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
+  window.initializeCodeFolding("show" === "show");
 });
 </script>
 
