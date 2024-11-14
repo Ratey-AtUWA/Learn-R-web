@@ -131,7 +131,7 @@ The individual values can be set manually too.
 ## `Solute Transport`
 - the default `Mass Units` are mmol, but we recommend changing to g.<br />If we set the length units to m earlier, this makes our concentration units g/m^3^, which is equivalent to mg/L
 - Make sure `Number of Solutes` = 1 
-- Choose `Pulse Duration` to be a fraction (*e.g*. 0.1 × the `Final Time` set earlier)  
+- Choose `Pulse Duration` to be a fraction (*e.g*. &le;&nbsp;0.1 × the `Final Time` set earlier)  
 ![Solute Transport dialog screenshot](images/12-solute-transport.png){width=414 height=347}
 
 <p id="Solute-Transport-Parameters">&nbsp;</p>
@@ -186,6 +186,28 @@ The individual values can be set manually too.
 ![](images/17-profile-info.png){alt="Profle Information dialog screenshot"}
 
 &nbsp;
+
+When the `Profile Information` window is saved and closed, the 
+`Soil Profile Summary` will open automatically.
+
+### `Soil Profile Summary`
+
+![](images/18-profile-summary.png){align="right" width=367 height=253 alt="Hydrus-1D Soil Profile Summary screenshot"}This is a good opportunity to check that the profile is set up the way you want it to be.
+
+- for groundwater, all values in the `h [m]` column should be zero (you might have `h [cm]` depending on your length units)
+- scroll down the `Mat` column to check that all soil materials are at the depth/distance (`z [m]`) that you want them to be
+- you can edit the values directly in the `Soil Profile Summary` table
+
+When you click `Next` in the `Soil Profile Summary`, the Hydrus-1D 
+program will ask `Do you want to run HYDRUS-1D application ?` Usually
+you do, so click `OK`.
+
+![](images/19-H1D-calc.png){width=552 height=320 alt="Hydrus-1D Calculation screenshot"}
+
+&nbsp;
+
+Look for the text `Calculations have finished successfully.` If it's 
+there, press Enter or just close the window.
 
 After a successful Hydrus-1D simulation run, you can use the options in the post-processing window to visualise the output within Hydrus-1D. Alternatively, you can read the data file(s) into Excel® or R and make better graphs!
 
@@ -245,12 +267,14 @@ software like `R`.
 
 ## Reading data copied from a Hydrus-1D plot
 
-This is an easier alternative to reading the data stored in the 
+![](images/20-copy-from-H1D-plot.png){width=262 height=315 align="right" alt="Profile information output window opened from Hydrus-1D Post-processing pane, with Concentration selected at Horizontal Variable"} This is an easier alternative to reading the data stored in the 
 `Nod_Inf.out` file described [below](#reading-data-in-hydrus-1d-output-files).
 
 Right-click on Hydrus-1D plot of Profile Information: Concentration,
 and select Copy; this will copy the data table for the plot in
 tab-separated format.
+
+&nbsp;
 
 Then run the following code:
 
@@ -283,9 +307,11 @@ ft <- 365  # run this line!
 # specify number of Print times here
 # (from Hydrus-1D 'Print Information' input)
 #    👇
-pt <- 8  # run this line!
+pt <- 10  # run this line!
 
 (simTimes <- seq(0,ft, len=pt+1))
+colnames(hydrus0)[seq(2,ncol(hydrus0),2)] <- paste("Day",round(simTimes))
+colnames(hydrus0)[seq(3,ncol(hydrus0),2)] <- paste0("T",round(simTimes))
 ```
 
 Then, reformat the data for easier plotting using `melt` from the `reshape2` 
@@ -294,8 +320,8 @@ package. If `Distance` is negative, we make it positive.
 ```{r melt-pasted-data}
 library(reshape2)
 hydrus1 <- melt(hydrus0[,2:ncol(hydrus0)], 
-                       id.vars = c("C2"), 
-                       measure.vars = paste0("C",seq(1,(2*pt)+1,2)))
+                       id.vars = c("T0"), 
+                       measure.vars = paste("Day",round(simTimes)))
 colnames(hydrus1) <- c("Distance","Time","Concentration")
 if(min(hydrus1$Distance)<0) hydrus1$Distance <- -1*hydrus1$Distance
 ```
@@ -353,6 +379,25 @@ legend("topright", bty="n", inset=0.02, ncol=2,
        lty=seq_along(simTimes), seg.len=4.5, legend=round(simTimes), 
        col=seq_along(simTimes), pch=NA, lwd=c(1,rep(3,pt)), 
        x.intersp=0.5)
+```
+
+&nbsp;
+
+### Of course you can use ggplot if you want!
+
+```{r hydrus-plot-gg, fig.width=10, fig.height=4, fig.cap="Figure 4: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (the `ggplot` version), using Hydrus-1D", results='hold'}
+require(ggplot2)
+ggplot(hydrus1) +
+  geom_line(aes(x=Distance, y=Concentration, colour=Time,
+                linetype=Time), linewidth=1.2) +
+  scale_color_manual(values=c("grey",viridis::turbo(9, beg=0.05))) +
+  guides(color=guide_legend(title="Simulation time")) +
+  guides(linetype=guide_legend(title="Simulation time")) +
+  labs(x="Distance (m)", y = "Concentration (mg/m³)") +
+  theme_bw() +
+  theme(axis.title = element_text(face="bold", size=14),
+        legend.key.width = unit(4, "line"),
+        legend.title = element_text(face="bold", size=12))
 ```
 
 &nbsp;
@@ -432,7 +477,7 @@ str(node_data)
 
 <p id="vert">This is the type of plot we would use for vertical transport, such as leaching through a soil profile.</p>
 
-```{r conc-depth, fig.width=4, fig.height=6, fig.cap="Figure 4: Plot of simulated solute concentration vs. vertical depth for each simulation time step, using Hydrus-1D", results='hold'}
+```{r conc-depth, fig.width=4, fig.height=6, fig.cap="Figure 5: Plot of simulated solute concentration vs. vertical depth for each simulation time step, using Hydrus-1D", results='hold'}
 # check it with a plot
 # plot as concentration vs. depth
 palette(c("black",viridis::plasma(6, end=0.7)))
@@ -465,7 +510,7 @@ legend("bottomright", legend = levels(node_data$Time),
 This type of plot is relevant to horizontal transport, such as flow of
 **groundwater** containing solute(s).
 
-```{r conc-hdist, fig.width=6, fig.height=4, fig.cap="Figure 5: Plot of simulated solute concentration vs. horizontal distance for each simulation time step, using Hydrus-1D", results='hold'}
+```{r conc-hdist, fig.width=6, fig.height=4, fig.cap="Figure 6: Plot of simulated solute concentration vs. horizontal distance for each simulation time step, using Hydrus-1D", results='hold'}
 palette(c("black",viridis::plasma(6)))
 symz <- rep(21:25,2)
 par(mar = c(4,4,1,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab=2)

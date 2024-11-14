@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-11-13" />
+<meta name="date" content="2024-11-14" />
 
 <title>ENVT5503 Hydrus-1D Beginners` Guide</title>
 
@@ -605,7 +605,7 @@ div.tocify {
 <h1 class="title toc-ignore">ENVT5503 Hydrus-1D Beginners` Guide</h1>
 <h3 class="subtitle">Remediation of Soil and Groundwater</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-11-13</h4>
+<h4 class="date">2024-11-14</h4>
 
 </div>
 
@@ -782,7 +782,7 @@ our concentration units g/m<sup>3</sup>, which is equivalent to
 mg/L</li>
 <li>Make sure <code>Number of Solutes</code> = 1</li>
 <li>Choose <code>Pulse Duration</code> to be a fraction (<em>e.g</em>.
-0.1 × the <code>Final Time</code> set earlier)<br />
+≤ 0.1 × the <code>Final Time</code> set earlier)<br />
 <img src="images/12-solute-transport.png" width="414" height="347"
 alt="Solute Transport dialog screenshot" /></li>
 </ul>
@@ -882,6 +882,34 @@ then you are ready to run Hydrus – see the video!</p></li>
 <p><img src="images/17-profile-info.png"
 alt="Profle Information dialog screenshot" /></p>
 <p> </p>
+<p>When the <code>Profile Information</code> window is saved and closed,
+the <code>Soil Profile Summary</code> will open automatically.</p>
+<div id="soil-profile-summary" class="section level3">
+<h3><code>Soil Profile Summary</code></h3>
+<p><img src="images/18-profile-summary.png" align="right"
+alt="Hydrus-1D Soil Profile Summary screenshot" width="367"
+height="253" />This is a good opportunity to check that the profile is
+set up the way you want it to be.</p>
+<ul>
+<li>for groundwater, all values in the <code>h [m]</code> column should
+be zero (you might have <code>h [cm]</code> depending on your length
+units)</li>
+<li>scroll down the <code>Mat</code> column to check that all soil
+materials are at the depth/distance (<code>z [m]</code>) that you want
+them to be</li>
+<li>you can edit the values directly in the
+<code>Soil Profile Summary</code> table</li>
+</ul>
+<p>When you click <code>Next</code> in the
+<code>Soil Profile Summary</code>, the Hydrus-1D program will ask
+<code>Do you want to run HYDRUS-1D application ?</code> Usually you do,
+so click <code>OK</code>.</p>
+<p><img src="images/19-H1D-calc.png"
+alt="Hydrus-1D Calculation screenshot" width="552" height="320" /></p>
+<p> </p>
+<p>Look for the text
+<code>Calculations have finished successfully.</code> If it's there,
+press Enter or just close the window.</p>
 <p>After a successful Hydrus-1D simulation run, you can use the options
 in the post-processing window to visualise the output within Hydrus-1D.
 Alternatively, you can read the data file(s) into Excel® or R and make
@@ -923,7 +951,7 @@ dialog</a> - scroll to the right; <code>alpha</code> is at the end)</li>
 </ul>
 </div>
 <p> </p>
-<div class="tabwid"><style>.cl-f191007a{}.cl-f078ab2a{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f078ab48{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f07d69ee{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-f07d69f8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-f07d8c12{width:2.362in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f07d8c13{width:5.512in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f07d8c1c{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f07d8c26{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f07d8cbc{width:2.362in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f07d8e60{width:5.512in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f07d8e61{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f07d8e6a{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-f191007a'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: The following HYDRUS-1D output files contain useful data.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-f07d8c12"><p class="cl-f07d69ee"><span class="cl-f078ab2a">File name</span></p></th><th class="cl-f07d8c13"><p class="cl-f07d69ee"><span class="cl-f078ab2a">Contents</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-f07d8c1c"><p class="cl-f07d69f8"><span class="cl-f078ab48">Nod_Inf.out</span></p></td><td class="cl-f07d8c26"><p class="cl-f07d69f8"><span class="cl-f078ab48">Separate data matrices  at selected `Print times` during simulation.</span><br><span class="cl-f078ab48">Useful columns: Depth, Conc(1..NS), Sorb(1..NS)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f07d8cbc"><p class="cl-f07d69f8"><span class="cl-f078ab48">Obs_Node.out</span></p></td><td class="cl-f07d8e60"><p class="cl-f07d69f8"><span class="cl-f078ab48">Side-by side data matrices for each node depth.</span><br><span class="cl-f078ab48">Useful columns: time, theta, conc</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f07d8e61"><p class="cl-f07d69f8"><span class="cl-f078ab48">Solute1.out</span><br><span class="cl-f078ab48">(&amp; Solute2.out,...)</span></p></td><td class="cl-f07d8e6a"><p class="cl-f07d69f8"><span class="cl-f078ab48">Single data matrix for each solute. Contains columns for time, fluxes and concentrations (including cumulative values) at start of flow path (Top), Root zone, end of flow path (Bot).</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-f9d55e3e{}.cl-f9c36558{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f9c3656c{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f9c99284{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-f9c99298{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-f9c9bd9a{width:2.362in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f9c9bda4{width:5.512in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f9c9bdae{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f9c9bdaf{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f9c9bdb8{width:2.362in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f9c9bdc2{width:5.512in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f9c9bdc3{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f9c9bdcc{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-f9d55e3e'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: The following HYDRUS-1D output files contain useful data.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-f9c9bd9a"><p class="cl-f9c99284"><span class="cl-f9c36558">File name</span></p></th><th class="cl-f9c9bda4"><p class="cl-f9c99284"><span class="cl-f9c36558">Contents</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-f9c9bdae"><p class="cl-f9c99298"><span class="cl-f9c3656c">Nod_Inf.out</span></p></td><td class="cl-f9c9bdaf"><p class="cl-f9c99298"><span class="cl-f9c3656c">Separate data matrices  at selected `Print times` during simulation.</span><br><span class="cl-f9c3656c">Useful columns: Depth, Conc(1..NS), Sorb(1..NS)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f9c9bdb8"><p class="cl-f9c99298"><span class="cl-f9c3656c">Obs_Node.out</span></p></td><td class="cl-f9c9bdc2"><p class="cl-f9c99298"><span class="cl-f9c3656c">Side-by side data matrices for each node depth.</span><br><span class="cl-f9c3656c">Useful columns: time, theta, conc</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f9c9bdc3"><p class="cl-f9c99298"><span class="cl-f9c3656c">Solute1.out</span><br><span class="cl-f9c3656c">(&amp; Solute2.out,...)</span></p></td><td class="cl-f9c9bdcc"><p class="cl-f9c99298"><span class="cl-f9c3656c">Single data matrix for each solute. Contains columns for time, fluxes and concentrations (including cumulative values) at start of flow path (Top), Root zone, end of flow path (Bot).</span></p></td></tr></tbody></table></div>
 <p> </p>
 <p>More detail is available in the Hydrus-1D manual. We recommend the <a
 href="https://www.pc-progress.com/Downloads/Public_Lib_H1D/HYDRUS-1D_Tutorial_V1.00_2018.pdf"
@@ -933,6 +961,7 @@ href="https://www.pc-progress.com/en/Default.aspx?Downloads"
 target="_blank">https://www.pc-progress.com/</a>, the most relevant
 probably being Šimůnek <em>et al</em>. (2008).</p>
 <p> </p>
+</div>
 </div>
 <div id="reading-hydrus-1d-data-into-r" class="section level1">
 <h1>Reading HYDRUS-1D data into <code>R</code></h1>
@@ -944,12 +973,15 @@ more flexible software like <code>R</code>.</p>
 <div id="reading-data-copied-from-a-hydrus-1d-plot"
 class="section level2">
 <h2>Reading data copied from a Hydrus-1D plot</h2>
-<p>This is an easier alternative to reading the data stored in the
+<p><img src="images/20-copy-from-H1D-plot.png" align="right"
+alt="Profile information output window opened from Hydrus-1D Post-processing pane, with Concentration selected at Horizontal Variable"
+width="262" height="315" />This is an easier alternative to reading the data stored in the
 <code>Nod_Inf.out</code> file described <a
 href="#reading-data-in-hydrus-1d-output-files">below</a>.</p>
-<p>Right-click on Hydrus-1D plot of Profile Information: Concentration,
-and select Copy; this will copy the data table for the plot in
-tab-separated format.</p>
+<p> Right-click on Hydrus-1D plot of Profile
+Information: Concentration, and select Copy; this will copy the data
+table for the plot in tab-separated format.</p>
+<p> </p>
 <p>Then run the following code:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>hydrus0 <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;clipboard&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
 <p>On some Mac computers this does not work, giving an error message
@@ -971,24 +1003,26 @@ total time, and number of ‘Print times’):</p>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co"># specify number of Print times here</span></span>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co"># (from Hydrus-1D &#39;Print Information&#39; input)</span></span>
 <span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#    👇</span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>pt <span class="ot">&lt;-</span> <span class="dv">8</span>  <span class="co"># run this line!</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>pt <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># run this line!</span></span>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a></span>
 <span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>(simTimes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,ft, <span class="at">len=</span>pt<span class="sc">+</span><span class="dv">1</span>))</span></code></pre></div>
 <pre><code>## [1]   0.000  45.625  91.250 136.875 182.500 228.125 273.750 319.375 365.000</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">colnames</span>(hydrus0)[<span class="fu">seq</span>(<span class="dv">2</span>,<span class="fu">ncol</span>(hydrus0),<span class="dv">2</span>)] <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;Day&quot;</span>,<span class="fu">round</span>(simTimes))</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">colnames</span>(hydrus0)[<span class="fu">seq</span>(<span class="dv">3</span>,<span class="fu">ncol</span>(hydrus0),<span class="dv">2</span>)] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;T&quot;</span>,<span class="fu">round</span>(simTimes))</span></code></pre></div>
 <p>Then, reformat the data for easier plotting using <code>melt</code>
 from the <code>reshape2</code> package. If <code>Distance</code> is
 negative, we make it positive.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>hydrus1 <span class="ot">&lt;-</span> <span class="fu">melt</span>(hydrus0[,<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(hydrus0)], </span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                       <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">&quot;C2&quot;</span>), </span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>                       <span class="at">measure.vars =</span> <span class="fu">paste0</span>(<span class="st">&quot;C&quot;</span>,<span class="fu">seq</span>(<span class="dv">1</span>,(<span class="dv">2</span><span class="sc">*</span>pt)<span class="sc">+</span><span class="dv">1</span>,<span class="dv">2</span>)))</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">colnames</span>(hydrus1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Distance&quot;</span>,<span class="st">&quot;Time&quot;</span>,<span class="st">&quot;Concentration&quot;</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">min</span>(hydrus1<span class="sc">$</span>Distance)<span class="sc">&lt;</span><span class="dv">0</span>) hydrus1<span class="sc">$</span>Distance <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>hydrus1<span class="sc">$</span>Distance</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>hydrus1 <span class="ot">&lt;-</span> <span class="fu">melt</span>(hydrus0[,<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(hydrus0)], </span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>                       <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">&quot;T0&quot;</span>), </span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>                       <span class="at">measure.vars =</span> <span class="fu">paste</span>(<span class="st">&quot;Day&quot;</span>,<span class="fu">round</span>(simTimes)))</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">colnames</span>(hydrus1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Distance&quot;</span>,<span class="st">&quot;Time&quot;</span>,<span class="st">&quot;Concentration&quot;</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">min</span>(hydrus1<span class="sc">$</span>Distance)<span class="sc">&lt;</span><span class="dv">0</span>) hydrus1<span class="sc">$</span>Distance <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>hydrus1<span class="sc">$</span>Distance</span></code></pre></div>
 <p>Check the data file:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">str</span>(hydrus1)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">str</span>(hydrus1)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    909 obs. of  3 variables:
 ##  $ Distance     : num  0 0.2 0.4 0.6 0.8 1 1.2 1.4 1.6 1.8 ...
-##  $ Time         : Factor w/ 9 levels &quot;C1&quot;,&quot;C3&quot;,&quot;C5&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Time         : Factor w/ 9 levels &quot;Day 0&quot;,&quot;Day 46&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
 ##  $ Concentration: num  0 0 0 0 0 0 0 0 0 0 ...</code></pre>
 <div id="plot-the-data-option-1-symbols-and-lines"
 class="section level3">
@@ -996,18 +1030,18 @@ class="section level3">
 <p>We plot the concentration (<em>y-axis</em>) <em>vs</em>. distance
 (<em>x-axis</em>) since this is relevant to horizontal transport, such
 as flow of <strong>groundwater</strong> containing solute(s).</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, </span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex.lab=</span><span class="fl">1.2</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,viridis<span class="sc">::</span><span class="fu">plasma</span>(pt, <span class="at">alp=</span><span class="fl">0.7</span>)))</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">with</span>(hydrus1, <span class="fu">plot</span>(Distance, Concentration, <span class="at">type=</span><span class="st">&quot;b&quot;</span>,<span class="at">cex=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">1</span>, </span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>                   <span class="at">pch=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>,<span class="dv">24</span>,<span class="dv">25</span>),<span class="dv">2</span>)[Time],</span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>                   <span class="at">bg=</span><span class="fu">seq_along</span>(simTimes)[Time],</span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>                   <span class="at">xlab=</span><span class="st">&quot;Distance (m)&quot;</span>, </span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>                   <span class="at">ylab=</span><span class="st">&quot;Solute concentration (mg/L)&quot;</span>))</span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">inset=</span><span class="fl">0.02</span>, <span class="at">ncol=</span><span class="dv">2</span>, </span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>       <span class="at">title=</span><span class="fu">expression</span>(<span class="fu">italic</span>(<span class="st">&quot;Simulation times [days]&quot;</span>)), </span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">round</span>(simTimes), <span class="at">pt.bg=</span><span class="fu">seq_along</span>(simTimes), </span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>,<span class="dv">24</span>,<span class="dv">25</span>),<span class="dv">2</span>), <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">pt.cex=</span><span class="fl">1.2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, </span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex.lab=</span><span class="fl">1.2</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,viridis<span class="sc">::</span><span class="fu">plasma</span>(pt, <span class="at">alp=</span><span class="fl">0.7</span>)))</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">with</span>(hydrus1, <span class="fu">plot</span>(Distance, Concentration, <span class="at">type=</span><span class="st">&quot;b&quot;</span>,<span class="at">cex=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">1</span>, </span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>                   <span class="at">pch=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>,<span class="dv">24</span>,<span class="dv">25</span>),<span class="dv">2</span>)[Time],</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>                   <span class="at">bg=</span><span class="fu">seq_along</span>(simTimes)[Time],</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>                   <span class="at">xlab=</span><span class="st">&quot;Distance (m)&quot;</span>, </span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>                   <span class="at">ylab=</span><span class="st">&quot;Solute concentration (mg/L)&quot;</span>))</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">inset=</span><span class="fl">0.02</span>, <span class="at">ncol=</span><span class="dv">2</span>, </span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>       <span class="at">title=</span><span class="fu">expression</span>(<span class="fu">italic</span>(<span class="st">&quot;Simulation times [days]&quot;</span>)), </span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">round</span>(simTimes), <span class="at">pt.bg=</span><span class="fu">seq_along</span>(simTimes), </span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>,<span class="dv">24</span>,<span class="dv">25</span>),<span class="dv">2</span>), <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">pt.cex=</span><span class="fl">1.2</span>)</span></code></pre></div>
 <div class="figure">
 <img src="hydrus1d_files/figure-html/plot-melted-1-1.png" alt="Figure 2: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing individual simulation points), using Hydrus-1D" width="768" />
 <p class="caption">
@@ -1023,27 +1057,52 @@ using Hydrus-1D
 <p>If you don't like all the symbols in the plot above, try the
 following (or, you can adapt the code to plot concentration on the
 horizontal axis - <a href="#vert">see below</a>):</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, </span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex.lab=</span><span class="fl">1.2</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,viridis<span class="sc">::</span><span class="fu">turbo</span>(pt)))</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">subset</span>(hydrus1, hydrus1<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(hydrus1<span class="sc">$</span>Time)[<span class="dv">1</span>]), </span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>     <span class="fu">plot</span>(Concentration <span class="sc">~</span> Distance, <span class="at">type=</span><span class="st">&quot;l&quot;</span>, </span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>          <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(hydrus1<span class="sc">$</span>Concentration)),</span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>          <span class="at">xlab=</span><span class="st">&quot;Distance (m)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Solute concentration (mg/L)&quot;</span>) )</span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>(pt<span class="sc">+</span><span class="dv">1</span>)){</span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="fu">with</span>(<span class="fu">subset</span>(hydrus1, hydrus1<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(hydrus1<span class="sc">$</span>Time)[i]), </span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>       <span class="fu">lines</span>(Concentration <span class="sc">~</span> Distance, <span class="at">col=</span>i,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">lty=</span>i))</span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>  }</span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">inset=</span><span class="fl">0.02</span>, <span class="at">ncol=</span><span class="dv">2</span>, </span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>       <span class="at">title=</span><span class="fu">expression</span>(<span class="fu">italic</span>(<span class="st">&quot;Simulation times [days]&quot;</span>)), </span>
-<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>       <span class="at">lty=</span><span class="fu">seq_along</span>(simTimes), <span class="at">seg.len=</span><span class="fl">4.5</span>, <span class="at">legend=</span><span class="fu">round</span>(simTimes), </span>
-<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">seq_along</span>(simTimes), <span class="at">pch=</span><span class="cn">NA</span>, <span class="at">lwd=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="fu">rep</span>(<span class="dv">3</span>,pt)), </span>
-<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>       <span class="at">x.intersp=</span><span class="fl">0.5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, </span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex.lab=</span><span class="fl">1.2</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,viridis<span class="sc">::</span><span class="fu">turbo</span>(pt)))</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">subset</span>(hydrus1, hydrus1<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(hydrus1<span class="sc">$</span>Time)[<span class="dv">1</span>]), </span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>     <span class="fu">plot</span>(Concentration <span class="sc">~</span> Distance, <span class="at">type=</span><span class="st">&quot;l&quot;</span>, </span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>          <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(hydrus1<span class="sc">$</span>Concentration)),</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>          <span class="at">xlab=</span><span class="st">&quot;Distance (m)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Solute concentration (mg/L)&quot;</span>) )</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>(pt<span class="sc">+</span><span class="dv">1</span>)){</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>  <span class="fu">with</span>(<span class="fu">subset</span>(hydrus1, hydrus1<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(hydrus1<span class="sc">$</span>Time)[i]), </span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>       <span class="fu">lines</span>(Concentration <span class="sc">~</span> Distance, <span class="at">col=</span>i,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">lty=</span>i))</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>  }</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">inset=</span><span class="fl">0.02</span>, <span class="at">ncol=</span><span class="dv">2</span>, </span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>       <span class="at">title=</span><span class="fu">expression</span>(<span class="fu">italic</span>(<span class="st">&quot;Simulation times [days]&quot;</span>)), </span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>       <span class="at">lty=</span><span class="fu">seq_along</span>(simTimes), <span class="at">seg.len=</span><span class="fl">4.5</span>, <span class="at">legend=</span><span class="fu">round</span>(simTimes), </span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">seq_along</span>(simTimes), <span class="at">pch=</span><span class="cn">NA</span>, <span class="at">lwd=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="fu">rep</span>(<span class="dv">3</span>,pt)), </span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>       <span class="at">x.intersp=</span><span class="fl">0.5</span>)</span></code></pre></div>
 <div class="figure">
 <img src="hydrus1d_files/figure-html/plot-melted-2-1.png" alt="Figure 3: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing smooth lines only), using Hydrus-1D" width="768" />
 <p class="caption">
 Figure 3: Plot of simulated solute concentration vs. horizontal distance
 for each simulation time step (showing smooth lines only), using
+Hydrus-1D
+</p>
+</div>
+<p> </p>
+</div>
+<div id="of-course-you-can-use-ggplot-if-you-want"
+class="section level3">
+<h3>Of course you can use ggplot if you want!</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">require</span>(ggplot2)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">ggplot</span>(hydrus1) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>Distance, <span class="at">y=</span>Concentration, <span class="at">colour=</span>Time,</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>                <span class="at">linetype=</span>Time), <span class="at">linewidth=</span><span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;grey&quot;</span>,viridis<span class="sc">::</span><span class="fu">turbo</span>(<span class="dv">9</span>, <span class="at">beg=</span><span class="fl">0.05</span>))) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="fu">guide_legend</span>(<span class="at">title=</span><span class="st">&quot;Simulation time&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">linetype=</span><span class="fu">guide_legend</span>(<span class="at">title=</span><span class="st">&quot;Simulation time&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distance (m)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Concentration (mg/m³)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">size=</span><span class="dv">14</span>),</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>        <span class="at">legend.key.width =</span> <span class="fu">unit</span>(<span class="dv">4</span>, <span class="st">&quot;line&quot;</span>),</span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">size=</span><span class="dv">12</span>))</span></code></pre></div>
+<div class="figure">
+<img src="hydrus1d_files/figure-html/hydrus-plot-gg-1.png" alt="Figure 4: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (the `ggplot` version), using Hydrus-1D" width="960" />
+<p class="caption">
+Figure 4: Plot of simulated solute concentration vs. horizontal distance
+for each simulation time step (the <code>ggplot</code> version), using
 Hydrus-1D
 </p>
 </div>
@@ -1055,97 +1114,97 @@ Hydrus-1D
 <p>Here's my code to read the node (Profile) information output files
 from Hydrus-1D (<code>Nod_Inf.out</code> in the relevant Hydrus-1D
 project folder) into an <strong>R</strong> data frame.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># R code to read Hydrus-1D Nod_Inf.out files into an R data frame</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co"># set full path to Hydrus-1D project directory (folder)</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co"># -=-=-=-=- EDIT THIS TO MATCH THE FOLDER ON YOUR COMPUTER ! -=-=-=-=-</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>PCdir <span class="ot">&lt;-</span> <span class="fu">paste0</span>(MyPC,<span class="st">&quot;ENVT5503/Hydrus1D ENVT5503/PRB&quot;</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co"># read Nod_Inf.out file into a vector of character (text) strings</span></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> <span class="fu">readLines</span>(<span class="fu">paste0</span>(PCdir,<span class="st">&quot;/&quot;</span>,<span class="st">&quot;Nod_Inf.out&quot;</span>))</span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co"># View(Nod_Inf_out) # optionally check what we just read</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co"># find indices of some rows we want to delete</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>head_rows <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;Node&quot;</span>, Nod_Inf_out)</span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co"># use indices to delete the rows</span></span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> Nod_Inf_out[<span class="sc">-</span><span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">7</span>),head_rows<span class="dv">-2</span>, head_rows<span class="dv">-1</span>,</span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>                              head_rows<span class="sc">+</span><span class="dv">1</span>, head_rows<span class="sc">+</span><span class="dv">2</span>)]</span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co"># find indices of some more rows we want to delete</span></span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>ends <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;end&quot;</span>,Nod_Inf_out)[<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span><span class="fu">NROW</span>(<span class="fu">grep</span>(<span class="st">&quot;end&quot;</span>,Nod_Inf_out))]</span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co"># use indices to delete the rows</span></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> Nod_Inf_out[<span class="sc">-</span><span class="fu">c</span>(ends, ends<span class="sc">+</span><span class="dv">1</span>, ends<span class="sc">+</span><span class="dv">2</span>)]</span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co"># find indices of rows that have the Hydrus-1D print times</span></span>
-<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a>time_rows <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;Time:&quot;</span>, Nod_Inf_out)</span>
-<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="co"># extract the rows with Hydrus-1D print times into a vector</span></span>
-<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a>timz <span class="ot">&lt;-</span> Nod_Inf_out[time_rows]</span>
-<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co"># get rid of text around the Hydrus-1D print time values...</span></span>
-<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a>timz <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;Time: &quot;</span>,<span class="st">&quot;&quot;</span>,timz)</span>
-<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a>timz <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot; &quot;</span>,<span class="st">&quot;&quot;</span>,timz)</span>
-<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co"># ...and convert to numbers...</span></span>
-<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a>timz <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(timz)</span>
-<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co"># ...then delete the Hydrus-1D print time rows</span></span>
-<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> Nod_Inf_out[<span class="sc">-</span><span class="fu">c</span>(time_rows)]</span>
-<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="co"># find the rows with column names for each block of print data...</span></span>
-<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a>head_rows <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;Node&quot;</span>, Nod_Inf_out)</span>
-<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a><span class="co"># and remove all except the first one</span></span>
-<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> Nod_Inf_out[<span class="sc">-</span><span class="fu">c</span>(head_rows[<span class="sc">-</span><span class="dv">1</span>])]</span>
-<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a><span class="co"># strip out all but single spaces from data...</span></span>
-<span id="cb10-33"><a href="#cb10-33" tabindex="-1"></a><span class="cf">while</span>(<span class="fu">NROW</span>(<span class="fu">grep</span>(<span class="st">&quot;  &quot;</span>, Nod_Inf_out)) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a>  Nod_Inf_out <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;  &quot;</span>,<span class="st">&quot; &quot;</span>, Nod_Inf_out)</span>
-<span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a>}</span>
-<span id="cb10-36"><a href="#cb10-36" tabindex="-1"></a><span class="co"># ...and (finally!) delete the very last row (an &#39;end&#39; statement)</span></span>
-<span id="cb10-37"><a href="#cb10-37" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> Nod_Inf_out[<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span><span class="fu">NROW</span>(Nod_Inf_out)]</span>
-<span id="cb10-38"><a href="#cb10-38" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb10-39"><a href="#cb10-39" tabindex="-1"></a><span class="co"># write the edited output to a file...</span></span>
-<span id="cb10-40"><a href="#cb10-40" tabindex="-1"></a><span class="fu">writeLines</span>(Nod_Inf_out, <span class="at">con=</span><span class="st">&quot;./NodInf3.out&quot;</span>)</span>
-<span id="cb10-41"><a href="#cb10-41" tabindex="-1"></a><span class="co"># ...and read the file in as space-delimited</span></span>
-<span id="cb10-42"><a href="#cb10-42" tabindex="-1"></a>node_data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="at">file =</span> <span class="st">&quot;NodInf3.out&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>)</span>
-<span id="cb10-43"><a href="#cb10-43" tabindex="-1"></a><span class="co"># the is a blank column 1; rename it to &quot;Time&quot;</span></span>
-<span id="cb10-44"><a href="#cb10-44" tabindex="-1"></a><span class="fu">colnames</span>(node_data)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Time&quot;</span></span>
-<span id="cb10-45"><a href="#cb10-45" tabindex="-1"></a><span class="co"># use the print times vector to make a vector with</span></span>
-<span id="cb10-46"><a href="#cb10-46" tabindex="-1"></a><span class="co"># the relevant time repeated for each block</span></span>
-<span id="cb10-47"><a href="#cb10-47" tabindex="-1"></a>timz0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(timz[<span class="dv">1</span>], <span class="fu">NROW</span>(node_data)<span class="sc">/</span><span class="fu">NROW</span>(timz))</span>
-<span id="cb10-48"><a href="#cb10-48" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">NROW</span>(timz)) {</span>
-<span id="cb10-49"><a href="#cb10-49" tabindex="-1"></a>  timz0 <span class="ot">&lt;-</span> <span class="fu">append</span>(timz0, <span class="fu">rep</span>(timz[i], <span class="fu">NROW</span>(node_data)<span class="sc">/</span><span class="fu">NROW</span>(timz)))</span>
-<span id="cb10-50"><a href="#cb10-50" tabindex="-1"></a>}</span>
-<span id="cb10-51"><a href="#cb10-51" tabindex="-1"></a><span class="co"># replace the Time colum with the vector we just made...</span></span>
-<span id="cb10-52"><a href="#cb10-52" tabindex="-1"></a>node_data<span class="sc">$</span>Time <span class="ot">&lt;-</span> timz0</span>
-<span id="cb10-53"><a href="#cb10-53" tabindex="-1"></a><span class="co"># ...and convert Time to a factor</span></span>
-<span id="cb10-54"><a href="#cb10-54" tabindex="-1"></a>node_data<span class="sc">$</span>Time <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(node_data<span class="sc">$</span>Time)</span>
-<span id="cb10-55"><a href="#cb10-55" tabindex="-1"></a><span class="co"># remove temporary objects...</span></span>
-<span id="cb10-56"><a href="#cb10-56" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">c</span>(<span class="st">&quot;i&quot;</span>,<span class="st">&quot;head_rows&quot;</span>,<span class="st">&quot;Nod_Inf_out&quot;</span>,<span class="st">&quot;timz&quot;</span>,<span class="st">&quot;timz0&quot;</span>,<span class="st">&quot;ends&quot;</span>))</span>
-<span id="cb10-57"><a href="#cb10-57" tabindex="-1"></a><span class="co"># ...and check the cleaned-up data</span></span>
-<span id="cb10-58"><a href="#cb10-58" tabindex="-1"></a><span class="fu">str</span>(node_data)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># R code to read Hydrus-1D Nod_Inf.out files into an R data frame</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="co"># set full path to Hydrus-1D project directory (folder)</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co"># -=-=-=-=- EDIT THIS TO MATCH THE FOLDER ON YOUR COMPUTER ! -=-=-=-=-</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>PCdir <span class="ot">&lt;-</span> <span class="fu">paste0</span>(MyPC,<span class="st">&quot;ENVT5503/Hydrus1D ENVT5503/PRB&quot;</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co"># read Nod_Inf.out file into a vector of character (text) strings</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> <span class="fu">readLines</span>(<span class="fu">paste0</span>(PCdir,<span class="st">&quot;/&quot;</span>,<span class="st">&quot;Nod_Inf.out&quot;</span>))</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co"># View(Nod_Inf_out) # optionally check what we just read</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co"># find indices of some rows we want to delete</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>head_rows <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;Node&quot;</span>, Nod_Inf_out)</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co"># use indices to delete the rows</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> Nod_Inf_out[<span class="sc">-</span><span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">7</span>),head_rows<span class="dv">-2</span>, head_rows<span class="dv">-1</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>                              head_rows<span class="sc">+</span><span class="dv">1</span>, head_rows<span class="sc">+</span><span class="dv">2</span>)]</span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co"># find indices of some more rows we want to delete</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>ends <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;end&quot;</span>,Nod_Inf_out)[<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span><span class="fu">NROW</span>(<span class="fu">grep</span>(<span class="st">&quot;end&quot;</span>,Nod_Inf_out))]</span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co"># use indices to delete the rows</span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> Nod_Inf_out[<span class="sc">-</span><span class="fu">c</span>(ends, ends<span class="sc">+</span><span class="dv">1</span>, ends<span class="sc">+</span><span class="dv">2</span>)]</span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="co"># find indices of rows that have the Hydrus-1D print times</span></span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>time_rows <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;Time:&quot;</span>, Nod_Inf_out)</span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a><span class="co"># extract the rows with Hydrus-1D print times into a vector</span></span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a>timz <span class="ot">&lt;-</span> Nod_Inf_out[time_rows]</span>
+<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a><span class="co"># get rid of text around the Hydrus-1D print time values...</span></span>
+<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a>timz <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;Time: &quot;</span>,<span class="st">&quot;&quot;</span>,timz)</span>
+<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a>timz <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot; &quot;</span>,<span class="st">&quot;&quot;</span>,timz)</span>
+<span id="cb12-24"><a href="#cb12-24" tabindex="-1"></a><span class="co"># ...and convert to numbers...</span></span>
+<span id="cb12-25"><a href="#cb12-25" tabindex="-1"></a>timz <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(timz)</span>
+<span id="cb12-26"><a href="#cb12-26" tabindex="-1"></a><span class="co"># ...then delete the Hydrus-1D print time rows</span></span>
+<span id="cb12-27"><a href="#cb12-27" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> Nod_Inf_out[<span class="sc">-</span><span class="fu">c</span>(time_rows)]</span>
+<span id="cb12-28"><a href="#cb12-28" tabindex="-1"></a><span class="co"># find the rows with column names for each block of print data...</span></span>
+<span id="cb12-29"><a href="#cb12-29" tabindex="-1"></a>head_rows <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;Node&quot;</span>, Nod_Inf_out)</span>
+<span id="cb12-30"><a href="#cb12-30" tabindex="-1"></a><span class="co"># and remove all except the first one</span></span>
+<span id="cb12-31"><a href="#cb12-31" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> Nod_Inf_out[<span class="sc">-</span><span class="fu">c</span>(head_rows[<span class="sc">-</span><span class="dv">1</span>])]</span>
+<span id="cb12-32"><a href="#cb12-32" tabindex="-1"></a><span class="co"># strip out all but single spaces from data...</span></span>
+<span id="cb12-33"><a href="#cb12-33" tabindex="-1"></a><span class="cf">while</span>(<span class="fu">NROW</span>(<span class="fu">grep</span>(<span class="st">&quot;  &quot;</span>, Nod_Inf_out)) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb12-34"><a href="#cb12-34" tabindex="-1"></a>  Nod_Inf_out <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;  &quot;</span>,<span class="st">&quot; &quot;</span>, Nod_Inf_out)</span>
+<span id="cb12-35"><a href="#cb12-35" tabindex="-1"></a>}</span>
+<span id="cb12-36"><a href="#cb12-36" tabindex="-1"></a><span class="co"># ...and (finally!) delete the very last row (an &#39;end&#39; statement)</span></span>
+<span id="cb12-37"><a href="#cb12-37" tabindex="-1"></a>Nod_Inf_out <span class="ot">&lt;-</span> Nod_Inf_out[<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span><span class="fu">NROW</span>(Nod_Inf_out)]</span>
+<span id="cb12-38"><a href="#cb12-38" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb12-39"><a href="#cb12-39" tabindex="-1"></a><span class="co"># write the edited output to a file...</span></span>
+<span id="cb12-40"><a href="#cb12-40" tabindex="-1"></a><span class="fu">writeLines</span>(Nod_Inf_out, <span class="at">con=</span><span class="st">&quot;./NodInf3.out&quot;</span>)</span>
+<span id="cb12-41"><a href="#cb12-41" tabindex="-1"></a><span class="co"># ...and read the file in as space-delimited</span></span>
+<span id="cb12-42"><a href="#cb12-42" tabindex="-1"></a>node_data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="at">file =</span> <span class="st">&quot;NodInf3.out&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb12-43"><a href="#cb12-43" tabindex="-1"></a><span class="co"># the is a blank column 1; rename it to &quot;Time&quot;</span></span>
+<span id="cb12-44"><a href="#cb12-44" tabindex="-1"></a><span class="fu">colnames</span>(node_data)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Time&quot;</span></span>
+<span id="cb12-45"><a href="#cb12-45" tabindex="-1"></a><span class="co"># use the print times vector to make a vector with</span></span>
+<span id="cb12-46"><a href="#cb12-46" tabindex="-1"></a><span class="co"># the relevant time repeated for each block</span></span>
+<span id="cb12-47"><a href="#cb12-47" tabindex="-1"></a>timz0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(timz[<span class="dv">1</span>], <span class="fu">NROW</span>(node_data)<span class="sc">/</span><span class="fu">NROW</span>(timz))</span>
+<span id="cb12-48"><a href="#cb12-48" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">NROW</span>(timz)) {</span>
+<span id="cb12-49"><a href="#cb12-49" tabindex="-1"></a>  timz0 <span class="ot">&lt;-</span> <span class="fu">append</span>(timz0, <span class="fu">rep</span>(timz[i], <span class="fu">NROW</span>(node_data)<span class="sc">/</span><span class="fu">NROW</span>(timz)))</span>
+<span id="cb12-50"><a href="#cb12-50" tabindex="-1"></a>}</span>
+<span id="cb12-51"><a href="#cb12-51" tabindex="-1"></a><span class="co"># replace the Time colum with the vector we just made...</span></span>
+<span id="cb12-52"><a href="#cb12-52" tabindex="-1"></a>node_data<span class="sc">$</span>Time <span class="ot">&lt;-</span> timz0</span>
+<span id="cb12-53"><a href="#cb12-53" tabindex="-1"></a><span class="co"># ...and convert Time to a factor</span></span>
+<span id="cb12-54"><a href="#cb12-54" tabindex="-1"></a>node_data<span class="sc">$</span>Time <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(node_data<span class="sc">$</span>Time)</span>
+<span id="cb12-55"><a href="#cb12-55" tabindex="-1"></a><span class="co"># remove temporary objects...</span></span>
+<span id="cb12-56"><a href="#cb12-56" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">c</span>(<span class="st">&quot;i&quot;</span>,<span class="st">&quot;head_rows&quot;</span>,<span class="st">&quot;Nod_Inf_out&quot;</span>,<span class="st">&quot;timz&quot;</span>,<span class="st">&quot;timz0&quot;</span>,<span class="st">&quot;ends&quot;</span>))</span>
+<span id="cb12-57"><a href="#cb12-57" tabindex="-1"></a><span class="co"># ...and check the cleaned-up data</span></span>
+<span id="cb12-58"><a href="#cb12-58" tabindex="-1"></a><span class="fu">str</span>(node_data)</span></code></pre></div>
 <div id="plot-concentration-vs.-depth" class="section level3">
 <h3>Plot concentration <em>vs</em>. depth</h3>
 <p id="vert">
 This is the type of plot we would use for vertical transport, such as
 leaching through a soil profile.
 </p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># check it with a plot</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># plot as concentration vs. depth</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,viridis<span class="sc">::</span><span class="fu">plasma</span>(<span class="dv">6</span>, <span class="at">end=</span><span class="fl">0.7</span>)))</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl =</span> <span class="fl">0.3</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">plot</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>(node_data<span class="sc">$</span>Depth) <span class="sc">~</span> node_data[,<span class="dv">13</span>], </span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="dv">1</span>, </span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(node_data[,<span class="dv">13</span>], <span class="at">na.rm=</span>T)), </span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span><span class="fu">min</span>(node_data<span class="sc">$</span>Depth, <span class="at">na.rm=</span>T), <span class="dv">0</span>), </span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>     <span class="at">subset =</span> node_data<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(node_data<span class="sc">$</span>Time)[<span class="dv">1</span>],</span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>     <span class="at">xaxt =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Depth (cm)&quot;</span>)</span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>)</span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Concentration&quot;</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">1.7</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nlevels</span>(node_data<span class="sc">$</span>Time)) {</span>
-<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="fu">points</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>node_data<span class="sc">$</span>Depth <span class="sc">~</span> node_data[,<span class="dv">13</span>], <span class="at">col =</span> i, </span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>       <span class="at">subset =</span> node_data<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(node_data<span class="sc">$</span>Time)[i],</span>
-<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>       <span class="at">type =</span> <span class="st">&quot;o&quot;</span>, <span class="at">pch =</span> i<span class="dv">-2</span>, <span class="at">cex =</span> <span class="fl">0.6</span>)</span>
-<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a>}</span>
-<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">legend =</span> <span class="fu">levels</span>(node_data<span class="sc">$</span>Time),</span>
-<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">nlevels</span>(node_data<span class="sc">$</span>Time)),</span>
-<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="fu">seq</span>(<span class="dv">0</span>,<span class="fu">nlevels</span>(node_data<span class="sc">$</span>Time))),</span>
-<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">1</span>,</span>
-<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a>       <span class="at">pt.cex=</span><span class="fl">0.85</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fl">0.02</span>, </span>
-<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Time (days)&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># check it with a plot</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co"># plot as concentration vs. depth</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,viridis<span class="sc">::</span><span class="fu">plasma</span>(<span class="dv">6</span>, <span class="at">end=</span><span class="fl">0.7</span>)))</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl =</span> <span class="fl">0.3</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="fu">plot</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>(node_data<span class="sc">$</span>Depth) <span class="sc">~</span> node_data[,<span class="dv">13</span>], </span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="dv">1</span>, </span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(node_data[,<span class="dv">13</span>], <span class="at">na.rm=</span>T)), </span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span><span class="fu">min</span>(node_data<span class="sc">$</span>Depth, <span class="at">na.rm=</span>T), <span class="dv">0</span>), </span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>     <span class="at">subset =</span> node_data<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(node_data<span class="sc">$</span>Time)[<span class="dv">1</span>],</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>     <span class="at">xaxt =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Depth (cm)&quot;</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Concentration&quot;</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">1.7</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nlevels</span>(node_data<span class="sc">$</span>Time)) {</span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="fu">points</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>node_data<span class="sc">$</span>Depth <span class="sc">~</span> node_data[,<span class="dv">13</span>], <span class="at">col =</span> i, </span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>       <span class="at">subset =</span> node_data<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(node_data<span class="sc">$</span>Time)[i],</span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>       <span class="at">type =</span> <span class="st">&quot;o&quot;</span>, <span class="at">pch =</span> i<span class="dv">-2</span>, <span class="at">cex =</span> <span class="fl">0.6</span>)</span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>}</span>
+<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">legend =</span> <span class="fu">levels</span>(node_data<span class="sc">$</span>Time),</span>
+<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">nlevels</span>(node_data<span class="sc">$</span>Time)),</span>
+<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="cn">NA</span>,<span class="fu">seq</span>(<span class="dv">0</span>,<span class="fu">nlevels</span>(node_data<span class="sc">$</span>Time))),</span>
+<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">1</span>,</span>
+<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a>       <span class="at">pt.cex=</span><span class="fl">0.85</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fl">0.02</span>, </span>
+<span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Time (days)&quot;</span>)))</span></code></pre></div>
 <div class="figure">
-<img src="hydrus1d_files/figure-html/conc-depth-1.png" alt="Figure 4: Plot of simulated solute concentration vs. vertical depth for each simulation time step, using Hydrus-1D" width="384" />
+<img src="hydrus1d_files/figure-html/conc-depth-1.png" alt="Figure 5: Plot of simulated solute concentration vs. vertical depth for each simulation time step, using Hydrus-1D" width="384" />
 <p class="caption">
-Figure 4: Plot of simulated solute concentration vs. vertical depth for
+Figure 5: Plot of simulated solute concentration vs. vertical depth for
 each simulation time step, using Hydrus-1D
 </p>
 </div>
@@ -1156,31 +1215,31 @@ class="section level3">
 <h3>Plot as concentration <em>vs</em>. horizontal distance</h3>
 <p>This type of plot is relevant to horizontal transport, such as flow
 of <strong>groundwater</strong> containing solute(s).</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,viridis<span class="sc">::</span><span class="fu">plasma</span>(<span class="dv">6</span>)))</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>symz <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">2</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl =</span> <span class="fl">0.3</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>node_data<span class="sc">$</span>Distance <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>node_data<span class="sc">$</span>Depth</span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="fu">plot</span>(node_data[,<span class="dv">13</span>] <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>node_data<span class="sc">$</span>Distance, </span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="dv">1</span>, </span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(node_data[,<span class="dv">13</span>], <span class="at">na.rm=</span>T)), </span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(node_data<span class="sc">$</span>Distance, <span class="at">na.rm=</span>T)), </span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>     <span class="at">subset =</span> node_data<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(node_data<span class="sc">$</span>Time)[<span class="dv">1</span>],</span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Concentration&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Distance (cm)&quot;</span>)</span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nlevels</span>(node_data<span class="sc">$</span>Time)) {</span>
-<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>  <span class="fu">points</span>(node_data[,<span class="dv">13</span>] <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>node_data<span class="sc">$</span>Distance, <span class="at">bg =</span> i, </span>
-<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>         <span class="at">subset =</span> node_data<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(node_data<span class="sc">$</span>Time)[i],</span>
-<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>         <span class="at">type =</span> <span class="st">&quot;o&quot;</span>, <span class="at">pch =</span> symz[i<span class="dv">-1</span>], <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
-<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a>}</span>
-<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">levels</span>(node_data<span class="sc">$</span>Time),</span>
-<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a>       <span class="at">pt.bg =</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">nlevels</span>(node_data<span class="sc">$</span>Time)),</span>
-<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="cn">NA</span>,symz),</span>
-<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">1</span>,</span>
-<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a>       <span class="at">pt.cex=</span><span class="fl">0.85</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fl">0.02</span>, </span>
-<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Time (days)&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,viridis<span class="sc">::</span><span class="fu">plasma</span>(<span class="dv">6</span>)))</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>symz <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">2</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl =</span> <span class="fl">0.3</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>node_data<span class="sc">$</span>Distance <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>node_data<span class="sc">$</span>Depth</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="fu">plot</span>(node_data[,<span class="dv">13</span>] <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>node_data<span class="sc">$</span>Distance, </span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="dv">1</span>, </span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(node_data[,<span class="dv">13</span>], <span class="at">na.rm=</span>T)), </span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(node_data<span class="sc">$</span>Distance, <span class="at">na.rm=</span>T)), </span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>     <span class="at">subset =</span> node_data<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(node_data<span class="sc">$</span>Time)[<span class="dv">1</span>],</span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Concentration&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Distance (cm)&quot;</span>)</span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nlevels</span>(node_data<span class="sc">$</span>Time)) {</span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a>  <span class="fu">points</span>(node_data[,<span class="dv">13</span>] <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>node_data<span class="sc">$</span>Distance, <span class="at">bg =</span> i, </span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a>         <span class="at">subset =</span> node_data<span class="sc">$</span>Time<span class="sc">==</span><span class="fu">levels</span>(node_data<span class="sc">$</span>Time)[i],</span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a>         <span class="at">type =</span> <span class="st">&quot;o&quot;</span>, <span class="at">pch =</span> symz[i<span class="dv">-1</span>], <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a>}</span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">levels</span>(node_data<span class="sc">$</span>Time),</span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a>       <span class="at">pt.bg =</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">nlevels</span>(node_data<span class="sc">$</span>Time)),</span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="cn">NA</span>,symz),</span>
+<span id="cb14-19"><a href="#cb14-19" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">1</span>,</span>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1"></a>       <span class="at">pt.cex=</span><span class="fl">0.85</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fl">0.02</span>, </span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Time (days)&quot;</span>)))</span></code></pre></div>
 <div class="figure">
-<img src="hydrus1d_files/figure-html/conc-hdist-1.png" alt="Figure 5: Plot of simulated solute concentration vs. horizontal distance for each simulation time step, using Hydrus-1D" width="576" />
+<img src="hydrus1d_files/figure-html/conc-hdist-1.png" alt="Figure 6: Plot of simulated solute concentration vs. horizontal distance for each simulation time step, using Hydrus-1D" width="576" />
 <p class="caption">
-Figure 5: Plot of simulated solute concentration vs. horizontal distance
+Figure 6: Plot of simulated solute concentration vs. horizontal distance
 for each simulation time step, using Hydrus-1D
 </p>
 </div>
