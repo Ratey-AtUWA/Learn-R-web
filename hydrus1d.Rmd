@@ -57,6 +57,8 @@ Double-clicking on `Main Processes` gives a new dialog box &ndash; you should ma
 You can just keep clicking the `Next` button to get to each part of the input set-up:  
 (Remember you can click the `Help` button for assistance on any screen!) 
 
+<p id="geom">&nbsp;</p>
+
 # Hints for parameter selection in each input dialog
 
 The instructions below get you a very basic simulation with a single
@@ -64,14 +66,12 @@ substrate ("soil") material, reacting with a single solute. The
 reaction is defined by simple partitioning using a *K*~d~ value, and
 equilibrium is achieved instantaneously.
 
-<p id="geom">&nbsp;</p>
-
 ## `Geometry Information` 
 
 - Set `Length Units` to desired value<br />(we recommend m, but cm is OK) ![Geometry Information dialog screenshot](./images/05-geometry-info.png){align="right" width=393 height=159}
 - Use one Soil Material for simple transport, but two or more for reactive barriers *etc*.
 - For horizontal transport use `Decline from Vertical...` of ≤ 0.1
-- Set `Depth` to desired value &ndash; this represents our flow path length, so choose something realistic for groundwater!
+- Set `Depth` to desired value &ndash; this represents our flow path length, so choose something realistic for groundwater! (*e.g*. if your units are cm, Depth needs to be &ge;&nbsp;1000)
 
 ## `Time Information`
 
@@ -169,7 +169,7 @@ The individual values can be set manually too.
 &nbsp;
 
 ## `Do you want to run PROFILE application ?`
-- Yes, you do!  
+- Yes, you do! Click [OK].  
 ![PROFILE application screenshot](images/16-run-profile.png){width=298 height=93}
  
 <p id="profile">&nbsp;</p>
@@ -183,11 +183,11 @@ The individual values can be set manually too.
 
 - Make sure you click save 💾 (you might need to press the [`esc`] key first), check the soil profile table display, then you are ready to run Hydrus &ndash; see the video!
 
-![](images/17-profile-info.png){alt="Profle Information dialog screenshot"}
+![](images/17-profile-info.png){alt="Profle Information dialog screenshot" width=1200 height=1131}
 
 &nbsp;
 
-When the `Profile Information` window is saved and closed, the 
+<span style="font-size:14pt;">👉</span>&nbsp;When the `Profile Information` window is saved and closed, the 
 `Soil Profile Summary` will open automatically.
 
 ### `Soil Profile Summary`
@@ -268,11 +268,19 @@ software like `R`.
 ## Reading data copied from a Hydrus-1D plot
 
 ![](images/20-copy-from-H1D-plot.png){width=262 height=315 align="right" alt="Profile information output window opened from Hydrus-1D Post-processing pane, with Concentration selected at Horizontal Variable"} This is an easier alternative to reading the data stored in the 
-`Nod_Inf.out` file described [below](#reading-data-in-hydrus-1d-output-files).
+`Nod_Inf.out` file ([described below](#reading-data-in-hydrus-1d-output-files)).
 
 Right-click on Hydrus-1D plot of Profile Information: Concentration,
 and select Copy; this will copy the data table for the plot in
 tab-separated format.
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
 
 &nbsp;
 
@@ -295,8 +303,8 @@ Then just use `read.csv` to input the Hydrus-1D data:
 hydrus0 <- read.csv("hydrus1.csv") # remember what name you gave the file!
 ```
 
-Then it's useful to input some of the Hydrus-1D information 
-(final &equiv; total time, and number of &lsquo;Print times&rsquo;):
+<p id="settimes">Then it's useful to input some of the Hydrus-1D information 
+(`Final Time` (&equiv; total time), and number of `Print Times`):</p>
 
 ```{r set-finaltime-nprinttimes}
 # specify Final Time here
@@ -311,19 +319,25 @@ pt <- 10  # run this line!
 
 (simTimes <- seq(0,ft, len=pt+1))
 colnames(hydrus0)[seq(2,ncol(hydrus0),2)] <- paste("Day",round(simTimes))
-colnames(hydrus0)[seq(3,ncol(hydrus0),2)] <- paste0("T",round(simTimes))
+colnames(hydrus0)[seq(3,ncol(hydrus0),2)] <- paste0("Dist",round(simTimes))
 ```
 
-Then, reformat the data for easier plotting using `melt` from the `reshape2` 
-package. If `Distance` is negative, we make it positive.
+Then, **reformat the data for easier plotting** using `melt()` from
+the `reshape2` package. If `Distance` is negative, we make it
+positive. To enhance plots, strip off the last concentration at each time step.
 
 ```{r melt-pasted-data}
 library(reshape2)
+# convert to long-form using melt()
 hydrus1 <- melt(hydrus0[,2:ncol(hydrus0)], 
                        id.vars = c("T0"), 
                        measure.vars = paste("Day",round(simTimes)))
 colnames(hydrus1) <- c("Distance","Time","Concentration")
+# reverse sign of distance variable
 if(min(hydrus1$Distance)<0) hydrus1$Distance <- -1*hydrus1$Distance
+# make final concs NA
+hydrus1[which(hydrus1$Distance==max(hydrus1$Distance)),"Concentration"] <- NA
+
 ```
 
 
@@ -333,7 +347,7 @@ Check the data file:
 str(hydrus1)
 ```
 
-### Plot the data (option 1: symbols and lines)
+### Plot the data (option 1: symbols only)
 
 We plot the concentration (*y-axis*) *vs*. distance (*x-axis*) since 
 this is relevant to horizontal transport, such as flow of
@@ -343,15 +357,15 @@ this is relevant to horizontal transport, such as flow of
 par(mar=c(4,4,1,1), mgp=c(1.7,0.3,0), tcl=0.25, 
     font.lab=2, cex.lab=1.2)
 palette(c("black",viridis::plasma(pt, alp=0.7)))
-with(hydrus1, plot(Distance, Concentration, type="b",cex=1, lwd=1, 
-                   pch=rep(c(21,22,23,24,25),2)[Time],
+with(hydrus1, plot(Distance, Concentration, type="b",cex=1, 
+                   pch=rep(c(21:25),3)[Time],
                    bg=seq_along(simTimes)[Time],
                    xlab="Distance (m)", 
                    ylab="Solute concentration (mg/L)"))
 legend("topright", bty="n", inset=0.02, ncol=2, 
        title=expression(italic("Simulation times [days]")), 
-       legend=round(simTimes), pt.bg=seq_along(simTimes), 
-       pch=rep(c(21,22,23,24,25),2), lwd=1, pt.cex=1.2)
+       legend=round(simTimes[-1]), pt.bg=seq_along(simTimes)+1, 
+       pch=c(22:25,21:25,21), pt.cex=1.2)
 ```
 
 &nbsp;
@@ -362,13 +376,13 @@ If you don't like all the symbols in the plot above, try the following
 (or, you can adapt the code to plot concentration on the horizontal
 axis - [see below](#vert)):
 
-```{r plot-melted-2, fig.width=8, fig.height=4, fig.cap="Figure 3: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing smooth lines only), using Hydrus-1D", results='hold'}
+```{r plot-melted-2, fig.cap="Figure 3: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (showing smooth lines only), fig.height=4, fig.width=8, paged.print=FALSE, using Hydrus-1D", results='hold'}
 par(mar=c(4,4,1,1), mgp=c(1.7,0.3,0), tcl=0.25, 
     font.lab=2, cex.lab=1.2)
 palette(c("black",viridis::turbo(pt)))
 with(subset(hydrus1, hydrus1$Time==levels(hydrus1$Time)[1]), 
      plot(Concentration ~ Distance, type="l", 
-          ylim=c(0, max(hydrus1$Concentration)),
+          ylim=c(0, max(hydrus1$Concentration, na.rm=TRUE)),
           xlab="Distance (m)", ylab="Solute concentration (mg/L)") )
 for (i in 2:(pt+1)){
   with(subset(hydrus1, hydrus1$Time==levels(hydrus1$Time)[i]), 
@@ -376,8 +390,8 @@ for (i in 2:(pt+1)){
   }
 legend("topright", bty="n", inset=0.02, ncol=2, 
        title=expression(italic("Simulation times [days]")), 
-       lty=seq_along(simTimes), seg.len=4.5, legend=round(simTimes), 
-       col=seq_along(simTimes), pch=NA, lwd=c(1,rep(3,pt)), 
+       lty=seq_along(simTimes)+1, seg.len=4.5, legend=round(simTimes[-1]), 
+       col=seq_along(simTimes)+1, pch=NA, lwd=rep(3,pt), 
        x.intersp=0.5)
 ```
 
@@ -385,14 +399,16 @@ legend("topright", bty="n", inset=0.02, ncol=2,
 
 ### Of course you can use ggplot if you want!
 
-```{r hydrus-plot-gg, fig.width=10, fig.height=4, fig.cap="Figure 4: Plot of simulated solute concentration vs. horizontal distance for each simulation time step (the `ggplot` version), using Hydrus-1D", results='hold'}
+Note that the legend uses the levels names for the factor `Time` that we made after setting the Final Time and number of Print Times ([above](#settimes)).
+
+```{r hydrus-plot-gg, fig.width=10, fig.height=4, fig.cap="Figure 4: Plot of simulated solute concentration vs. horizontal distance for each simulation time step, using Hydrus-1D (the `ggplot` version).", message=FALSE, warning=FALSE, results='hold'}
 require(ggplot2)
 ggplot(hydrus1) +
   geom_line(aes(x=Distance, y=Concentration, colour=Time,
-                linetype=Time), linewidth=1.2) +
-  scale_color_manual(values=c("grey",viridis::turbo(9, beg=0.05))) +
-  guides(color=guide_legend(title="Simulation time")) +
-  guides(linetype=guide_legend(title="Simulation time")) +
+                linetype=Time), linewidth=1.5) +
+  scale_color_manual(values=c("grey",viridis::turbo(10, beg=0.05))) +
+  guides(color=guide_legend(title="Simulation times")) +
+  guides(linetype=guide_legend(title="Simulation times")) +
   labs(x="Distance (m)", y = "Concentration (mg/m³)") +
   theme_bw() +
   theme(axis.title = element_text(face="bold", size=14),
@@ -480,7 +496,7 @@ str(node_data)
 ```{r conc-depth, fig.width=4, fig.height=6, fig.cap="Figure 5: Plot of simulated solute concentration vs. vertical depth for each simulation time step, using Hydrus-1D", results='hold'}
 # check it with a plot
 # plot as concentration vs. depth
-palette(c("black",viridis::plasma(6, end=0.7)))
+palette(c("black",viridis::rocket(6, beg=0.15, end=0.7)))
 par(mar = c(1,4,4,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab=2)
 plot(-1*(node_data$Depth) ~ node_data[,13], 
      type = "l", col = 1, 
@@ -490,14 +506,15 @@ plot(-1*(node_data$Depth) ~ node_data[,13],
      xaxt = "n", xlab = "", ylab = "Depth (cm)")
 axis(3)
 mtext("Concentration", side = 3, line = 1.7, font = 2)
+symz <- c(15,19,17,8,12,9)
 for (i in 2:nlevels(node_data$Time)) {
 points(-1*node_data$Depth ~ node_data[,13], col = i, 
        subset = node_data$Time==levels(node_data$Time)[i],
-       type = "o", pch = i-2, cex = 0.6)
+       type = "o", pch = symz[i-1], cex = 0.6)
 }
 legend("bottomright", legend = levels(node_data$Time),
        col = seq(1,nlevels(node_data$Time)),
-       pch = c(NA,seq(0,nlevels(node_data$Time))),
+       pch = c(NA,symz),
        lwd = 1,
        pt.cex=0.85, bty = "n", inset = 0.02, 
        title = expression(bold("Time (days)")))
@@ -510,7 +527,7 @@ legend("bottomright", legend = levels(node_data$Time),
 This type of plot is relevant to horizontal transport, such as flow of
 **groundwater** containing solute(s).
 
-```{r conc-hdist, fig.width=6, fig.height=4, fig.cap="Figure 6: Plot of simulated solute concentration vs. horizontal distance for each simulation time step, using Hydrus-1D", results='hold'}
+```{r conc-hdist, fig.width=8, fig.height=4, fig.cap="Figure 6: Plot of simulated solute concentration vs. horizontal distance for each simulation time step, using Hydrus-1D", results='hold'}
 palette(c("black",viridis::plasma(6)))
 symz <- rep(21:25,2)
 par(mar = c(4,4,1,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab=2)
@@ -524,13 +541,13 @@ plot(node_data[,13] ~ -1*node_data$Distance,
 for (i in 2:nlevels(node_data$Time)) {
   points(node_data[,13] ~ -1*node_data$Distance, bg = i, 
          subset = node_data$Time==levels(node_data$Time)[i],
-         type = "o", pch = symz[i-1], cex = 0.8)
+         type = "o", pch = symz[i-1], cex = 1)
 }
 legend("topright", legend = levels(node_data$Time),
        pt.bg = seq(1,nlevels(node_data$Time)),
        pch = c(NA,symz),
        lwd = 1,
-       pt.cex=0.85, bty = "n", inset = 0.02, 
+       pt.cex=1, bty = "n", inset = 0.02, 
        title = expression(bold("Time (days)")))
 ```
 
@@ -541,5 +558,15 @@ legend("topright", legend = levels(node_data$Time),
 Rassam, D., J. Šimůnek, D. Mallants, and M. Th. van Genuchten, *The HYDRUS-1D Software Package for Simulating the One-Dimensional Movement of Water, Heat, and Multiple Solutes in Variably-Saturated Media: Tutorial*, CSIRO Land and Water, Adelaide, Australia, 183 pp., ISBN 978-1-4863-1001-2, 2018. [https://www.pc-progress.com/Downloads/Public_Lib_H1D/HYDRUS-1D_Tutorial_V1.00_2018.pdf](https://www.pc-progress.com/Downloads/Public_Lib_H1D/HYDRUS-1D_Tutorial_V1.00_2018.pdf){target="_blank"}
 
 Šimůnek, J., M. Šejna, H. Saito, M. Sakai, and M. Th. van Genuchten, *The Hydrus-1D Software Package for Simulating the Movement of Water, Heat, and Multiple Solutes in Variably Saturated Media*, Version 4.0, HYDRUS Software Series 3, Department of Environmental Sciences, University of California Riverside, Riverside, California, USA, pp. 315, 2008. ([PDF 2.7MB](https://www.pc-progress.com/downloads/Pgm_Hydrus1D/HYDRUS1D-4.08.pdf){target="_blank"})
+
+&nbsp;
+
+# R packages
+
+Garnier S, Ross N, Rudis R, Camargo AP, Sciaini M, Scherer C (2024). `viridis(Lite)` - Colorblind-Friendly Color Maps for R. `viridis` package version 0.6.5. [https://sjmgarnier.github.io/viridis/](https://sjmgarnier.github.io/viridis/){target="_blank"}
+
+Wickham, H. (2007). Reshaping Data with the `reshape` Package. *Journal of Statistical Software*, **21(12)**, 1-20. URL [http://www.jstatsoft.org/v21/i12/](http://www.jstatsoft.org/v21/i12/){target="_blank"}.
+
+Wickham, H. (2016). `ggplot2`: *Elegant Graphics for Data Analysis*. Springer-Verlag: New York. [https://ggplot2.tidyverse.org](https://ggplot2.tidyverse.org){target="_blank"}
 
 &nbsp;
