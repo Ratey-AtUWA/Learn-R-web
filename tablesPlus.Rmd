@@ -29,7 +29,8 @@ library(officer)
 ```{r setup, eval=FALSE}
 library(flextable)
   set_flextable_defaults(font.family = "Arial", font.size = 11, 
-                       theme_fun = "theme_booktabs", padding = 1)
+                       theme_fun = "theme_booktabs", padding = 1,
+                       na_str = "–")
 library(officer)
 ```
 
@@ -158,12 +159,16 @@ OutputDF$HIL_C <- rep(NA,length(elem0))
 # and populate the data frame
 
 for(i in 1:length(elem0)){
-  OutputDF$DGV[i] <- 
-    length(which(sedsoil[,elem0[i]] > ISQG[elem0[i],"DGV"]))
-  OutputDF$GV_high[i] <- 
-    length(which(sedsoil[,elem0[i]] > ISQG[elem0[i],"GV_high"]))
-  OutputDF$HIL_C[i] <- 
-    length(which(sedsoil[,elem0[i]] > HIL[elem0[i],"Recreational_C"]))
+  if(elem0[i] %in% row.names(ISQG)){    # check if guideline exists!
+    OutputDF$DGV[i] <- 
+      length(which(sedsoil[,elem0[i]] > ISQG[elem0[i],"DGV"]))
+    OutputDF$GV_high[i] <- 
+      length(which(sedsoil[,elem0[i]] > ISQG[elem0[i],"GV_high"]))
+  }
+  if(elem0[i] %in% row.names(HIL)){     # check if guideline exists!
+    OutputDF$HIL_C[i] <- 
+      length(which(sedsoil[,elem0[i]] > HIL[elem0[i],"Recreational_C"]))
+  }
 }
 
 # rename the columns to more understandable names
@@ -236,7 +241,9 @@ we have 31 samples in 2022, which won't be too big.
 ```{r nSamples-by-Year, results='hold'}
 table(sedsoil$Year)
 ```
-We can then subset the `sedsoil` data frame to include just the 2022 data, using `droplevels()` to remove any unused factor levels (*e.g*. years other that 2022):
+We can then subset the `sedsoil` data frame to include just the 2022
+data, using `droplevels()` to remove any unused factor levels (*e.g*.
+years other that 2022):
 
 ```{r subset-to-2022, paged.print=FALSE}
 ss2022 <- droplevels(sedsoil[which(sedsoil$Year=="2022"),])
@@ -254,6 +261,7 @@ We need to use a somewhat complex control structure in our code, as shown below
 ```{r make-data-table-show-exceedances, message=FALSE, warning=FALSE, paged.print=FALSE}
 data0 <- ss2022[ ,colz]
 for(j in 2:ncol(data0)){
+  if(colnames(data0)[j] %in% row.names(ISQG)){ # check guideline exists!
   for(i in 1:nrow(data0)){
     # first check if guideline value or observation not missing!
     if(!is.na(data0[i,j]) & !is.na(ISQG[colnames(data0)[j],1]) 
@@ -265,8 +273,9 @@ for(j in 2:ncol(data0)){
            as.numeric(data0[i,j]) >= ISQG[colnames(data0)[j],1]) {
           data0[i,j] <- paste0(data0[i,j],"\u2191")
         } # close if() sequence for GV.high ≥ observation > DGV or obs ≥ DGV
-    } # close if() statement for missing guideline or observation
-  } # close for(i...) loop
+      } # close if() statement for missing guideline or observation
+    } # close for(i...) loop
+  }
 } # close for(j...) loop
 ```
 
