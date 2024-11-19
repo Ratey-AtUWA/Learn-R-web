@@ -328,7 +328,7 @@ legend("topleft", box.col="grey", inset=c(0.03,0.02), pt.cex=1.2, pch=c(19,22,NA
 &nbsp;
 
 The use of regression model residuals to identify unusually high concentrations 
-has made its way into Australian Guidelines for soil contamination (NEPC, 2013). 
+has made its way into Australian Guidelines for soil contamination (NEPC, 2011). 
 So long as our predictors makes sense in terms of actual biogeochemical controls 
 on contaminant concentrations, this is an approach which would make sense for 
 identifying unusual concentrations for elements which do not yet have guideline 
@@ -345,7 +345,7 @@ version 0.3.0, [https://CRAN.R-project.org/package=maptiles](https://CRAN.R-proj
 
 Hamon, R. E., McLaughlin, M. J., Gilkes, R. J., Rate, A. W., Zarcinas, B., Robertson, A., Cozens, G., Radford, N., & Bettenay, L. (2004). Geochemical indices allow estimation of heavy metal background concentrations in soils. *Global Biogeochemical Cycles*, **18** (GB1014). [doi:10.1029/2003GB002063](https://doi.org/10.1029/2003GB002063){target="_blank"} 
 
-NEPC (National Environment Protection Council). (2013). Schedule B(1): Guideline on the Investigation Levels for Soil and Groundwater. **In** *National Environment Protection (Assessment of Site Contamination) Measure (Amended)*. Commonwealth of Australia. 
+NEPC (National Environment Protection Council). (2011). Schedule B(1): Guideline on the Investigation Levels for Soil and Groundwater. **In** *National Environment Protection (Assessment of Site Contamination) Measure (Amended)*. Commonwealth of Australia. 
 
 Pebesma, E., 2018. Simple Features for R: Standardized Support for Spatial VectorData. *The R Journal* **10** (1), 439-446, [doi:10.32614/RJ-2018-009](https://doi.org/10.32614/RJ-2018-009){target="_blank"} . (**R** package `sf`)
 

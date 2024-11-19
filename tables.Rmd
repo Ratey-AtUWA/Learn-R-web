@@ -56,7 +56,7 @@ In this example we will be looking at data on analysis of sediments and soils,
 for which environmental guideline values exist in Australia. For sediments we
 use the guidelines provided by Water Quality Australia (2024), which were
 derived from the interim sediment quality guidelines (ISQG) (hence the name of
-the file and data frame!). Soil guideline values are from NEPC (2013).
+the file and data frame!). Soil guideline values are from NEPC (2011).
 
 In the code chunk below we make use of the ability to name rows in R data
 frames. This will be useful later on as we can include the row names in indices
@@ -202,7 +202,7 @@ flextable(ft) |>
   set_formatter(As=function(x){sprintf("%.01f",x)},
                 Cr=function(x){sprintf("%.0f",x)},
                 Pb=function(x){sprintf("%.0f",x)}) |> 
-  set_caption(caption="Table 1: Summary statistics for trace element concentrations (mg/kg) in sediment or soil at Ashfield Flats 2019-2023. Abbreviations: n = number of valid observations; nNA = number of missing observations; n > DGV is number of samples exceeding the sediment Default Guideline Value; n > GV-high is number of samples exceeding the sediment upper Guideline Value at which toxicity effects might be expected (Water Quality Australia, 2024). HIL(C) is the human-health based investigation level for Recreational (public open space) land use (NEPC, 2013).", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
+  set_caption(caption="Table 1: Summary statistics for trace element concentrations (mg/kg) in sediment or soil at Ashfield Flats 2019-2023. Abbreviations: n = number of valid observations; nNA = number of missing observations; n > DGV is number of samples exceeding the sediment Default Guideline Value; n > GV-high is number of samples exceeding the sediment upper Guideline Value at which toxicity effects might be expected (Water Quality Australia, 2024). HIL(C) is the human-health based investigation level for Recreational (public open space) land use (NEPC, 2011).", align_with_table=F, fp_p=fp_par(text.align = "left", padding.bottom = 6))
 ```
 
 <p>&nbsp;</p>
@@ -219,7 +219,7 @@ analysis.
 
 ## References
 
-NEPC (National Environment Protection Council). (2013). Schedule B(1): Guideline on the Investigation Levels for Soil and Groundwater. **In** *National Environment Protection (Assessment of Site Contamination) Measure (Amended)*. Commonwealth of Australia. 
+NEPC (National Environment Protection Council). (2011). Schedule B(1): Guideline on the Investigation Levels for Soil and Groundwater. **In** *National Environment Protection (Assessment of Site Contamination) Measure (Amended)*. Commonwealth of Australia. 
 
 Rate, A. W., & McGrath, G. S. (2022). Data for assessment of sediment, soil, and water quality at Ashfield Flats Reserve, Western Australia. *Data in Brief*, **41**, 107970. [https://doi.org/10.1016/j.dib.2022.107970](https://doi.org/10.1016/j.dib.2022.107970){target="_blank"} 
 

@@ -314,7 +314,7 @@ ft <- 365  # run this line!
 
 # specify number of Print times here
 # (from Hydrus-1D 'Print Information' input)
-#    👇
+#     👇
 pt <- 10  # run this line!
 
 (simTimes <- seq(0,ft, len=pt+1))
