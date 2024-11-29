@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-10-09" />
+<meta name="date" content="2024-11-29" />
 
 <title>Basic maps in R</title>
 
@@ -65,7 +65,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -343,7 +343,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -358,7 +358,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -373,7 +373,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -388,7 +388,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -412,7 +412,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -430,7 +430,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -451,7 +451,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -469,7 +469,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Reporting
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -477,7 +477,7 @@ $(document).ready(function () {
       <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
     </li>
     <li>
-      <a href="maps-location-siteplan.html">Location and Site Plan maps</a>
+      <a href="maps-location-siteplan.html">Locality and Site Plan maps</a>
     </li>
   </ul>
 </li>
@@ -506,7 +506,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Basic maps in R</h1>
 <h3 class="subtitle">Data plotted over tile backgrounds</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-10-09</h4>
+<h4 class="date">2024-11-29</h4>
 
 </div>
 
@@ -535,17 +535,17 @@ Objectives and suggested activities on this page</a>
 <p> </p>
 <div id="introduction" class="section level1">
 <h1><img src="./images/whangarei.png" align="right" width="203"
-height="234" /> Introduction</h1>
-<p>This guide shows some of the more common and/or easy
-ways to make maps in <strong>R</strong> using map-tile-based backgrounds
-with data plotted over the base maps. We introduce <em>coordinate
-reference systems</em>, <em>recommended packages</em> which allow
-tile-based map drawing, a few ways of <em>including user data</em>, and
-an Appendix on simple <em>coordinate conversion</em>. <br> The intention
-is to provide options to plot informative maps, which include the type
-of data collected in this class, relatively simply. We <em>will not</em>
-cover vector-based maps, importing GIS shapefiles, interpolation of
-point data, chloropleth maps, and many other map plotting methods.</p>
+height="234" />Introduction</h1>
+<p>This guide shows some of the more common and/or easy ways to make
+maps in <strong>R</strong> using map-tile-based backgrounds with data
+plotted over the base maps. We introduce <em>coordinate reference
+systems</em>, <em>recommended packages</em> which allow tile-based map
+drawing, a few ways of <em>including user data</em>, and an Appendix on
+simple <em>coordinate conversion</em>. <br> The intention is to provide
+options to plot informative maps, which include the type of data
+collected in this class, relatively simply. We <em>will not</em> cover
+vector-based maps, importing GIS shapefiles, interpolation of point
+data, chloropleth maps, and many other map plotting methods.</p>
 <div
 style="border: 2px solid gray; background-color:#fff0e0; padding: 8px;">
 <p><strong>Notes about maps</strong></p>
@@ -624,13 +624,16 @@ website, into an <strong>R</strong> data frame:</p>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="do">##                   stringsAsFactors = TRUE) # use this one</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>afs22 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;afs22S1.csv&quot;</span>), </span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>                  <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p>Before we start downloading map data, we define and save some
-commonly-used coordinate reference systems which describe the map
+<p>Before we start downloading map data, we're going to define and save
+some commonly-used coordinate reference systems which describe the map
 projection of our GPS data. The function <code>st_crs()</code> is from
 the <code>sf</code> package (see explanation below), and as the argument
 for the <code>st_crs()</code> function we use the EPSG code for the
 desired projection. See <a href="https://epsg.io"
-target="_blank">https://epsg.io</a> for more information.</p>
+target="_blank">https://epsg.io</a> for more information. This is
+optional, but makes things a little easier - we can just call
+<code>st_crs()</code> directly when we need to include a
+<code>crs =</code> argument.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>LongLat <span class="ot">&lt;-</span> <span class="fu">st_crs</span>(<span class="dv">4326</span>) <span class="co"># uses Earth ellipsis specs from WGS84 datum</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>UTM50S <span class="ot">&lt;-</span> <span class="fu">st_crs</span>(<span class="dv">32750</span>) <span class="co"># just for Zone 50, S hemisphere!</span></span></code></pre></div>
 <p>We will use these coordinate reference system objects later. For now
@@ -641,37 +644,44 @@ spatial data, using the <strong>R</strong> package <code>sf</code>
 that describes how objects in the real world can be represented in
 computers - see <a
 href="https://r-spatial.github.io/sf/articles/sf1.html"
-class="uri">https://r-spatial.github.io/sf/articles/sf1.html</a>.</p>
+target="_blank">https://r-spatial.github.io/sf/articles/sf1.html</a>.</p>
 <p>We also make equivalents of these two sf-dataframes in the
-longitude--latitude coordinate system, using the
-<code>st_transform</code> function.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>afs19utm <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(afs19[<span class="sc">-</span><span class="dv">9</span>,], <span class="co"># omitting row 9 where coordinates are missing</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>                     <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;Easting&quot;</span>,<span class="st">&quot;Northing&quot;</span>),</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                     <span class="at">crs =</span> UTM50S)</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>afs22utm <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(afs22, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;Easting&quot;</span>,<span class="st">&quot;Northing&quot;</span>),</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>                     <span class="at">crs =</span> UTM50S)</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>afs19ll <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(afs19utm, <span class="at">crs =</span> LongLat)</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>afs22ll <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(afs22utm, <span class="at">crs =</span> LongLat)</span></code></pre></div>
+longitude–latitude coordinate system, using the
+<code>st_transform</code> function. We needed to know (<em>e.g</em>.
+from <code>summary(afs19)</code>) that we have missing coordinate values
+– <strong>always check your data!</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>nogeo <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">is.na</span>(afs19<span class="sc">$</span>Easting))</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>afs19utm <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(afs19[<span class="sc">-</span><span class="dv">9</span>,], <span class="co"># omitting row 9 where coordinates are missing</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                     <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;Easting&quot;</span>,<span class="st">&quot;Northing&quot;</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>                     <span class="at">crs =</span> UTM50S)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>afs22utm <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(afs22, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;Easting&quot;</span>,<span class="st">&quot;Northing&quot;</span>),</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>                     <span class="at">crs =</span> UTM50S)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>afs19ll <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(afs19utm, <span class="at">crs =</span> LongLat)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>afs22ll <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(afs22utm, <span class="at">crs =</span> LongLat)</span></code></pre></div>
 <hr style="height: 2px; background-color: #5560A4;" />
 <p> </p>
 </div>
-<div id="alternative-1----maps-in-r-using-the-maptiles-package"
+<div id="alternative-1-maps-in-r-using-the-maptiles-package"
 class="section level2">
-<h2>Alternative 1 -- Maps in R using the maptiles package</h2>
+<h2>Alternative 1 – Maps in R using the maptiles package</h2>
 <div id="defining-the-mapped-area" class="section level3">
 <h3>Defining the mapped area</h3>
 <p>We define the area we need for our map and save it in a simple
 features object called <code>extent</code>.</p>
 <p>An easy way to get bounding coordinates (in longitude, latitude) is
-by using Google Maps or Google Earth. Google Earth allows the option to
-set the coordinate system to UTM. If we generated latitude--longitude
-coordinates, we would need to convert our <em>Simple Features</em>
-object (see the <strong>Appendix</strong>). If our input coordinates are
-Longitude--Latitude, note that south latitudes (and west longitudes) are
-negative, and we want decimal degrees rather than
+by using <a href="https://epsg.io/map" target="_blank">epsg.io</a>, <a
+href="https://www.google.com/maps/" target="_blank">Google Maps</a> or
+<a href="https://earth.google.com/web/" target="_blank">Google
+Earth</a>. The desktop version of Google Earth allows the option to set
+the coordinate system to UTM (but all files are saved in long–lat
+(WGS84, which is the same as EPSG:4326)). If we generated
+latitude–longitude coordinates, we would need to convert our <em>Simple
+Features</em> object (see the <strong>Appendix</strong>). If our input
+coordinates are Longitude–Latitude, note that south latitudes (and west
+longitudes) are negative, and we want decimal degrees rather than
 degrees-minutes-seconds. Also note that coordinates from Google Maps and
-Google Earth (except in saved <code>.kml</code> files) are in the order
-(Latitude, Longitude); <em>i.e</em>. <span
+Google Earth (<em>except</em> in saved <code>.kml</code> files) are in
+the order (Latitude, Longitude); <em>i.e</em>. <span
 class="math inline">\((y,x)\)</span>, whereas <span
 class="math inline">\((x,y)\)</span> (Longitude, Latitude) seems to make
 more sense.</p>
@@ -703,13 +713,10 @@ target="_blank">stadiamaps.com/stamen</a>.<br> The option
 <code>crop = TRUE</code> is included to crop the tiles to our defined
 area in the <code>extent</code> object. If we leave it out, the map may
 change shape as it will use only square (uncropped) map tiles.</p>
-<p>The map tile style we have selected is the
-<code>OpenStreetmap.HOT</code> style, where the suffix <code>HOT</code>
-reflects its development by the <a
-href="https://www.hotosm.org/updates/2013-09-29_a_new_window_on_openstreetmap_data"
-target="_blank">Humanitarian OpenStreetMap Team</a> in France.</p>
+<p>The map tile style we have selected is the default
+<code>OpenStreetmap</code> style.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: projection of input object e.g. &#39;extent&#39; sets map projection</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>aftiles <span class="ot">&lt;-</span> maptiles<span class="sc">::</span><span class="fu">get_tiles</span>(extent, <span class="at">provider =</span> <span class="st">&quot;OpenStreetMap.HOT&quot;</span>, <span class="at">crop =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>aftiles <span class="ot">&lt;-</span> maptiles<span class="sc">::</span><span class="fu">get_tiles</span>(extent, <span class="at">provider =</span> <span class="st">&quot;OpenStreetMap&quot;</span>, <span class="at">crop =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p> </p>
 </div>
 <div id="plotting-the-map" class="section level3">
@@ -718,7 +725,7 @@ target="_blank">Humanitarian OpenStreetMap Team</a> in France.</p>
 <code>SpatRaster</code> object which needs the <code>maptiles</code> (or
 <code>terra</code>) package loaded to be able to plot it – see Figure
 1.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>aftiles <span class="ot">&lt;-</span> maptiles<span class="sc">::</span><span class="fu">get_tiles</span>(extent, <span class="at">provider =</span> <span class="st">&quot;OpenStreetMap.HOT&quot;</span>, </span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>aftiles <span class="ot">&lt;-</span> maptiles<span class="sc">::</span><span class="fu">get_tiles</span>(extent, <span class="at">provider =</span> <span class="st">&quot;OpenStreetMap&quot;</span>, </span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>                               <span class="at">crop =</span> <span class="cn">TRUE</span>, <span class="at">zoom=</span><span class="dv">16</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">1.3</span>,<span class="fl">1.2</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="sc">-</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">lend=</span><span class="st">&quot;square&quot;</span>)</span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_coordinates</span>(extent), <span class="at">asp=</span><span class="dv">1</span>, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>, <span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>, <span class="at">cex.axis=</span><span class="fl">0.8</span>,</span>
@@ -731,6 +738,13 @@ Figure 1: Map of Ashfield Flats in the UTM projection, generated using
 the <code>maptiles</code> R package, with OpenStreetMap tiles.
 </p>
 </div>
+<p> </p>
+<p>At this stage, after plotting the map in RStudio, you will probably
+need to adjust the size and proportions of your plot area manually, so
+that the map tiles fill the whole plot frame.</p>
+<p><img src="images/resize-Rstudio-graphics-pane.png" /> Figure 2:
+Resizing the RStudio <code>Plots</code> pane to match the size of the
+plot area to the <code>maptiles</code> background.</p>
 <p> </p>
 <p>The next chunk of code adds the <code>prettymapr</code> features
 shown in Figure 2. In this code, <code>plotepsg = 32750</code> refers to
@@ -787,9 +801,9 @@ using WGS84)</li>
 </div>
 <p> </p>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/map-north-scale-1.png" alt="Figure 2: Map of Ashfield Flats (UTM), with added North arrow and scale bar from the `prettymapr` package, over OpenStreetMap tiles acquired using `maptiles`." width="70%" />
+<img src="maps_files/figure-html/map-north-scale-1.png" alt="Figure 3: Map of Ashfield Flats (UTM), with added North arrow and scale bar from the `prettymapr` package, over OpenStreetMap tiles acquired using `maptiles`." width="70%" />
 <p class="caption">
-Figure 2: Map of Ashfield Flats (UTM), with added North arrow and scale
+Figure 3: Map of Ashfield Flats (UTM), with added North arrow and scale
 bar from the <code>prettymapr</code> package, over OpenStreetMap tiles
 acquired using <code>maptiles</code>.
 </p>
@@ -803,7 +817,7 @@ map</strong>, such as the location of samples, often with different
 sizes, shapes, or colours of symbols to represent numerical
 information.</p>
 <p>Since we have a map in UTM coordinates, we can now add plots of our
-data based on UTM locations (with a legend, of course – see Figure 3).
+data based on UTM locations (with a legend, of course – see Figure 4).
 We can plot the points from the non-spatial data frame
 <code>afs19</code>, but here we <code>plot</code> the points from
 <code>afs19utm</code>, with the <code>add=TRUE</code> option. We add a
@@ -817,9 +831,9 @@ legend to the plot in the usual way.</p>
 <span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">rep</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">2</span>), <span class="at">pt.bg =</span> clrz,</span>
 <span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Group&quot;</span>, <span class="at">inset =</span> <span class="fl">0.02</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/add-data-1.png" alt="Figure 3: Map of Ashfield Flats (UTM), with user data plotted, over OpenStreetMap tiles acquired using `maptiles` and North arrow and scale bar from the `prettymapr` package." width="70%" />
+<img src="maps_files/figure-html/add-data-1.png" alt="Figure 4: Map of Ashfield Flats (UTM), with user data plotted, over OpenStreetMap tiles acquired using `maptiles` and North arrow and scale bar from the `prettymapr` package." width="70%" />
 <p class="caption">
-Figure 3: Map of Ashfield Flats (UTM), with user data plotted, over
+Figure 4: Map of Ashfield Flats (UTM), with user data plotted, over
 OpenStreetMap tiles acquired using <code>maptiles</code> and North arrow
 and scale bar from the <code>prettymapr</code> package.
 </p>
@@ -828,14 +842,14 @@ and scale bar from the <code>prettymapr</code> package.
 <p>We can also add digitized map features such as wetland ponds, drains,
 <em>etc</em>., if these are not on the map tiles already. Ideally we
 would add these <strong>before</strong> plotting the data, to avoid the
-type of overplotting shown in Figure 4.</p>
+type of overplotting shown in Figure 5.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># . . . continuing from previous code . . .</span></span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">with</span>(afr_map, <span class="fu">lines</span>(drain_E, drain_N, <span class="at">col =</span> <span class="st">&quot;cadetblue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>))</span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">with</span>(afr_map, <span class="fu">lines</span>(wetland_E, wetland_N, <span class="at">col =</span> <span class="st">&quot;cadetblue&quot;</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/map-annot-1.png" alt="Figure 4: Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items, over OpenStreetMap tiles acquired using `maptiles`." width="70%" />
+<img src="maps_files/figure-html/map-annot-1.png" alt="Figure 5: Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items, over OpenStreetMap tiles acquired using `maptiles`." width="70%" />
 <p class="caption">
-Figure 4: Map of Ashfield Flats (UTM), with added North arrow, scale
+Figure 5: Map of Ashfield Flats (UTM), with added North arrow, scale
 bar, user data, and additional map items, over OpenStreetMap tiles
 acquired using <code>maptiles</code>.
 </p>
@@ -843,15 +857,15 @@ acquired using <code>maptiles</code>.
 <p> </p>
 <p>Finally, we would most likely want to add some text. Text labels
 should also be added <em>before</em> plotting the data. The final map is
-shown in Figure 5.</p>
+shown in Figure 6.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># . . . continuing from previous code . . .</span></span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">c</span>(<span class="dv">400263</span>, <span class="dv">399962</span>, <span class="dv">400047</span>), <span class="fu">c</span>(<span class="dv">6468174</span>, <span class="dv">6468083</span>, <span class="dv">6468237</span>),</span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Chapman Drain&quot;</span>,<span class="st">&quot;Kitchener Drain&quot;</span>, <span class="st">&quot;Woolcock Drain&quot;</span>),</span>
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>     <span class="at">pos =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>), <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">font =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">&quot;cadetblue&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/map-text-labels-1.png" alt="Figure 5: Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items plus text labels, over OpenStreetMap tiles acquired using `maptiles`." width="70%" />
+<img src="maps_files/figure-html/map-text-labels-1.png" alt="Figure 6: Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items plus text labels, over OpenStreetMap tiles acquired using `maptiles`." width="70%" />
 <p class="caption">
-Figure 5: Map of Ashfield Flats (UTM), with added North arrow, scale
+Figure 6: Map of Ashfield Flats (UTM), with added North arrow, scale
 bar, user data, and additional map items plus text labels, over
 OpenStreetMap tiles acquired using <code>maptiles</code>.
 </p>
@@ -868,7 +882,7 @@ map, and <code>inches = FALSE</code> so we can manually scale the
 bubbles. The factor <code>s0</code> used to scale the circles in the
 code for bubbles and legend is found using a simple algorithm to
 estimate a scaling factor from the data). A map like that shown in
-Figure 6 is a good exploratory data analysis tool, as even without the
+Figure 7 is a good exploratory data analysis tool, as even without the
 legend it shows any unevenness in concentrations, including where high
 concentrations are located.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">palette</span>(pal4lite)</span>
@@ -906,9 +920,9 @@ concentrations are located.</p>
 <span id="cb14-33"><a href="#cb14-33" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">c</span>(<span class="dv">400520</span>,<span class="dv">400550</span>,<span class="dv">400550</span>),<span class="fu">c</span>(<span class="dv">6468100</span>,<span class="dv">6468040</span>,<span class="dv">6467980</span>), </span>
 <span id="cb14-34"><a href="#cb14-34" tabindex="-1"></a>     <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Zn (mg/kg)&quot;</span>,bublo,bubhi), <span class="at">cex=</span><span class="fl">0.85</span>, <span class="at">pos =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/map-bubbles-1.png" alt="Figure 6: Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using `maptiles`." width="70%" />
+<img src="maps_files/figure-html/map-bubbles-1.png" alt="Figure 7: Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using `maptiles`." width="70%" />
 <p class="caption">
-Figure 6: Bubble map of zinc concentrations in sediment and soil at
+Figure 7: Bubble map of zinc concentrations in sediment and soil at
 Ashfield Flats in 2019, over OpenStreetMap tiles acquired using
 <code>maptiles</code>.
 </p>
@@ -920,7 +934,7 @@ target="_blank">Detailed Site Investigation</a>, we should also identify
 any samples where environmental guideline values are exceeded. The
 additional code below shows how to do this for Zn in sediments; the
 relevant guideline values are DGV = 200 mg/kg, DGV-high = 410 mg/kg. The
-re-drawn map (Figure 7) shows samples above the 410 mg/kg DGV-high
+re-drawn map (Figure 8) shows samples above the 410 mg/kg DGV-high
 threshold, and could also be adapted to show concentrations greater than
 the DGV, or both.</p>
 <p>Note the double plotting of points, first with a thicker line
@@ -940,9 +954,9 @@ visual contrast.</p>
 <span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">c</span>(<span class="dv">400500</span>,<span class="dv">400530</span>,<span class="dv">400530</span>,<span class="dv">400510</span>),<span class="fu">c</span>(<span class="dv">6468100</span>,<span class="dv">6468040</span>,<span class="dv">6467980</span>,<span class="dv">6467920</span>), </span>
 <span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>     <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Zn (mg/kg)&quot;</span>,bublo,bubhi,<span class="st">&quot;\u2265 DGV-high&quot;</span>), <span class="at">cex=</span><span class="fl">0.85</span>, <span class="at">pos =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/map-bubbles-DGV-1.png" alt="Figure 7: Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using `maptiles`. Locations where Zn concentration exceeds the DGV-high threshold are shown." width="70%" />
+<img src="maps_files/figure-html/map-bubbles-DGV-1.png" alt="Figure 8: Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using `maptiles`. Locations where Zn concentration exceeds the DGV-high threshold are shown." width="70%" />
 <p class="caption">
-Figure 7: Bubble map of zinc concentrations in sediment and soil at
+Figure 8: Bubble map of zinc concentrations in sediment and soil at
 Ashfield Flats in 2019, over OpenStreetMap tiles acquired using
 <code>maptiles</code>. Locations where Zn concentration exceeds the
 DGV-high threshold are shown.
@@ -996,17 +1010,17 @@ class="math inline">\(\backslash\)</span><code>n</code>.</p>
 <span id="cb16-35"><a href="#cb16-35" tabindex="-1"></a>       <span class="at">pt.cex =</span> <span class="fu">c</span>(<span class="fl">0.7</span>,<span class="fl">0.9</span>,<span class="fl">1.1</span>,<span class="fl">1.3</span>,<span class="fl">1.3</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>),</span>
 <span id="cb16-36"><a href="#cb16-36" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.01</span>), <span class="at">cex =</span> <span class="fl">0.85</span>, <span class="at">y.intersp =</span> <span class="fl">1.2</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/PctBubb-1.png" alt="Figure 8: Map showing percentile ranges of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using `maptiles`." width="70%" />
+<img src="maps_files/figure-html/PctBubb-1.png" alt="Figure 9: Map showing percentile ranges of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using `maptiles`." width="70%" />
 <p class="caption">
-Figure 8: Map showing percentile ranges of zinc concentrations in
+Figure 9: Map showing percentile ranges of zinc concentrations in
 sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles
 acquired using <code>maptiles</code>.
 </p>
 </div>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">palette</span>(pal4lite) <span class="co"># change back to non-transparent palette (optional)</span></span>
 <span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>afs19<span class="sc">$</span>QZn <span class="ot">&lt;-</span> <span class="cn">NULL</span> <span class="co"># to delete quantile column (optional; you can leave it in)</span></span></code></pre></div>
-<p>The resulting percentile bubble map (Figure 8) adds value to the
-'standard' bubble map (Figure 6), as it adds some statistical meaning to
+<p>The resulting percentile bubble map (Figure 9) adds value to the
+'standard' bubble map (Figure 7), as it adds some statistical meaning to
 the bubble sizes. A similar map could be created by using the Tukey
 boxplot thresholds instead of percentiles which could show potential
 outliers (<em>i.e</em>. using the <code>boxplot.stats()</code> function
@@ -1022,9 +1036,9 @@ by metafiles in R. To use semi-transparent colours, save as
 <p> </p>
 </div>
 </div>
-<div id="alternative-2----maps-in-r-using-the-ggmap-package"
+<div id="alternative-2-maps-in-r-using-the-ggmap-package"
 class="section level2">
-<h2>Alternative 2 -- Maps in R using the ggmap package</h2>
+<h2>Alternative 2 – Maps in R using the ggmap package</h2>
 <p>The <code>ggmap</code> package (Kahle and Wickham 2013) is an
 extension of <code>ggplot</code>, so it's easier to use if you are
 familiar with <code>ggplot</code> and the associated family of packages.
@@ -1039,8 +1053,8 @@ option:</p>
 <span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="fu">register_google</span>(<span class="at">key =</span> secret[<span class="dv">1</span>,<span class="dv">1</span>]) <span class="co"># you would replace secret[1,1] with your API key</span></span>
 <span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>udubua.gg <span class="ot">&lt;-</span> <span class="fu">get_googlemap</span>(<span class="at">center=</span><span class="fu">c</span>(<span class="fl">115.8213</span>,<span class="sc">-</span><span class="fl">31.98165</span>), </span>
 <span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>                           <span class="at">zoom =</span> <span class="dv">16</span>, <span class="at">maptype =</span> <span class="st">&quot;roadmap&quot;</span>, <span class="at">color =</span> <span class="st">&quot;bw&quot;</span>)</span></code></pre></div>
-<p>This always gives a <strong>square</strong> map (Figure 9) – which we
-might not always want. In theory, the map aspect ratio can be changed
+<p>This always gives a <strong>square</strong> map (Figure 10) – which
+we might not always want. In theory, the map aspect ratio can be changed
 using the <code>size</code> argument in the <code>get_googlemap</code>
 function, but this does not work reliably. We recommend leaving the map
 dimensions and aspect ratio at their default values.</p>
@@ -1068,9 +1082,9 @@ though.</p>
 <span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>),</span>
 <span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>        <span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">11</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/ggmap1-1.png" alt="Figure 9: Map of the University of Western Australia campus at Crawley, showing the location of libraries and cafés, plotted over Google maps tiles acquired using the `R` package `ggmap`." width="75%" />
+<img src="maps_files/figure-html/ggmap1-1.png" alt="Figure 10: Map of the University of Western Australia campus at Crawley, showing the location of libraries and cafés, plotted over Google maps tiles acquired using the `R` package `ggmap`." width="75%" />
 <p class="caption">
-Figure 9: Map of the University of Western Australia campus at Crawley,
+Figure 10: Map of the University of Western Australia campus at Crawley,
 showing the location of libraries and cafés, plotted over Google maps
 tiles acquired using the <code>R</code> package <code>ggmap</code>.
 </p>
@@ -1078,8 +1092,8 @@ tiles acquired using the <code>R</code> package <code>ggmap</code>.
 <p> </p>
 <p>There are numerous possibilities with <code>ggmap</code> and the
 features made possible by <code>ggplot2</code> that are not illustrated
-by Figure 9. For example, we could use <code>size</code> as an aesthetic
-(<em>i.e</em>. include within <code>aes(...)</code> with
+by Figure 10. For example, we could use <code>size</code> as an
+aesthetic (<em>i.e</em>. include within <code>aes(...)</code> with
 <code>size = variableName</code>), to generate something like a bubble
 map.</p>
 <p> </p>
@@ -1092,7 +1106,7 @@ to first register for a free API key at <a
 href="https://stadiamaps.com/stamen"
 target="_blank">stadiamaps.com/stamen</a>.</p>
 <p><span style="size: 14pt"><strong>The next example</strong></span>
-(Figure 10) uses the simple features information in one of the data
+(Figure 11) uses the simple features information in one of the data
 frames we made at the beginning. The <code>sf</code> package introduces
 a new 'geom', <code>geom_sf()</code> for plotting in <code>ggmap.</code>
 We need to use the option <code>inherit.aes = FALSE</code> in
@@ -1141,9 +1155,9 @@ palette.]</p>
 <span id="cb20-26"><a href="#cb20-26" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)) <span class="sc">+</span></span>
 <span id="cb20-27"><a href="#cb20-27" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">4326</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="maps_files/figure-html/ggAF-1.png" alt="Figure 10: Zinc concentration (mg/kg) in sediment sampled in Semester 1, 2021 at Ashfield Flats, Western Australia, plotted over `stamen_terrain` map tiles acquired using the `R` package `ggmap`, with data in a simple features data frame, and with manually added wetland pond locations." width="85%" />
+<img src="maps_files/figure-html/ggAF-1.png" alt="Figure 11: Zinc concentration (mg/kg) in sediment sampled in Semester 1, 2021 at Ashfield Flats, Western Australia, plotted over `stamen_terrain` map tiles acquired using the `R` package `ggmap`, with data in a simple features data frame, and with manually added wetland pond locations." width="85%" />
 <p class="caption">
-Figure 10: Zinc concentration (mg/kg) in sediment sampled in Semester 1,
+Figure 11: Zinc concentration (mg/kg) in sediment sampled in Semester 1,
 2021 at Ashfield Flats, Western Australia, plotted over
 <code>stamen_terrain</code> map tiles acquired using the <code>R</code>
 package <code>ggmap</code>, with data in a simple features data frame,

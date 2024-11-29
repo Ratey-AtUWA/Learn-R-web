@@ -133,12 +133,15 @@ afs22 <- read.csv(file=paste0(git,"afs22S1.csv"),
                   stringsAsFactors = TRUE)
 ```
 
-Before we start downloading map data, we define and save some commonly-used
-coordinate reference systems which describe the map projection of our GPS data.
-The function `st_crs()` is from the `sf` package (see explanation below), and
-as the argument for the `st_crs()` function we use the EPSG code for the desired
-projection. See [https://epsg.io](https://epsg.io){target="_blank"} for more
-information.
+Before we start downloading map data, we're going to define and save
+some commonly-used coordinate reference systems which describe the map
+projection of our GPS data. The function `st_crs()` is from the `sf`
+package (see explanation below), and as the argument for the
+`st_crs()` function we use the EPSG code for the desired projection.
+See [https://epsg.io](https://epsg.io){target="_blank"} for more
+information. This is optional, but makes things a little easier - we
+can just call `st_crs()` directly when we need to include a `crs =`
+argument.
 
 ```{r define CRS, warning=FALSE, error=FALSE, results='hold'}
 LongLat <- st_crs(4326) # uses Earth ellipsis specs from WGS84 datum
@@ -148,16 +151,19 @@ UTM50S <- st_crs(32750) # just for Zone 50, S hemisphere!
 We will use these coordinate reference system objects later. For now
 we're going to work in UTM coordinates.
 
-Next we'll convert our data frames to *Simple Features* spatial data, using the 
-**R** package `sf` (Pebesma, 2018). Simple Features is a formal standard 
-(ISO 19125-1:2004) that describes how objects in the real world can be 
-represented in computers - see
-<https://r-spatial.github.io/sf/articles/sf1.html>.
+Next we'll convert our data frames to *Simple Features* spatial data,
+using the **R** package `sf` (Pebesma, 2018). Simple Features is a
+formal standard (ISO 19125-1:2004) that describes how objects in the
+real world can be represented in computers - see
+[https://r-spatial.github.io/sf/articles/sf1.html](https://r-spatial.github.io/sf/articles/sf1.html){target="_blank"}.
 
-We also make equivalents of these two sf-dataframes in the longitude--latitude
-coordinate system, using the `st_transform` function.
+We also make equivalents of these two sf-dataframes in the
+longitude&ndash;latitude coordinate system, using the `st_transform`
+function. We needed to know (*e.g*. from `summary(afs19)`) that we
+have missing coordinate values &ndash; **always check your data!**
 
 ```{r}
+nogeo <- which(is.na(afs19$Easting))
 afs19utm <- st_as_sf(afs19[-9,], # omitting row 9 where coordinates are missing
                      coords = c("Easting","Northing"),
                      crs = UTM50S)
@@ -171,25 +177,32 @@ afs22ll <- st_transform(afs22utm, crs = LongLat)
 
 &nbsp;
 
-## Alternative 1 -- Maps in R using the maptiles package
+## Alternative 1 &ndash; Maps in R using the maptiles package
 
 ### Defining the mapped area
 
-We define the area we need for our map and save it in a simple features object called `extent`.
+We define the area we need for our map and save it in a simple
+features object called `extent`.
 
-An easy way to get bounding coordinates (in longitude, latitude) is by using
-Google Maps or Google Earth. Google Earth allows the option to set the
-coordinate system to UTM. If we generated latitude--longitude coordinates, we
-would need to convert our *Simple Features* object (see the **Appendix**).
-If our input coordinates are Longitude--Latitude, note that south latitudes (and
-west longitudes) are negative, and we want decimal degrees rather than
-degrees-minutes-seconds. Also note that coordinates from Google Maps and Google
-Earth (except in saved `.kml` files) are in the order (Latitude, Longitude);
-*i.e*. $(y,x)$, whereas $(x,y)$ (Longitude, Latitude) seems to make more sense.
+An easy way to get bounding coordinates (in longitude, latitude) is by
+using [epsg.io](https://epsg.io/map){target="_blank"}, [Google
+Maps](https://www.google.com/maps/){target="_blank"} or [Google
+Earth](https://earth.google.com/web/){target="_blank"}. The desktop
+version of Google Earth allows the option to set the coordinate system
+to UTM (but all files are saved in long&ndash;lat (WGS84, which is the
+same as EPSG:4326)). If we generated latitude&ndash;longitude
+coordinates, we would need to convert our *Simple Features* object
+(see the **Appendix**). If our input coordinates are
+Longitude&ndash;Latitude, note that south latitudes (and west
+longitudes) are negative, and we want decimal degrees rather than
+degrees-minutes-seconds. Also note that coordinates from Google Maps
+and Google Earth (*except* in saved `.kml` files) are in the order
+(Latitude, Longitude); *i.e*. $(y,x)$, whereas $(x,y)$ (Longitude,
+Latitude) seems to make more sense.
 
-For coordinates in the `sf` and `maptiles` packages, $x$ coordinates are
-commonly Eastings or Longitudes, and $y$ coordinates are commonly Northings or
-Latitudes.
+For coordinates in the `sf` and `maptiles` packages, $x$ coordinates
+are commonly Eastings or Longitudes, and $y$ coordinates are commonly
+Northings or Latitudes.
 
 ```{r make map extent object, warning=FALSE, error=FALSE, results='hold'}
 extent <- st_as_sf(data.frame(x=c(399900,400600),y=c(6467900,6468400)),
@@ -215,12 +228,11 @@ The option `crop = TRUE` is included to crop the tiles to our
 defined area in the `extent` object. If we leave it out, the map may change
 shape as it will use only square (uncropped) map tiles.
 
-The map tile style we have selected is the `OpenStreetmap.HOT` style, where the
-suffix `HOT` reflects its development by the [Humanitarian OpenStreetMap Team](https://www.hotosm.org/updates/2013-09-29_a_new_window_on_openstreetmap_data){target="_blank"} in France.
+The map tile style we have selected is the default `OpenStreetmap` style.
 
 ```{r get_tiles, warning=FALSE, error=FALSE, results='hold'}
 # NOTE: projection of input object e.g. 'extent' sets map projection
-aftiles <- maptiles::get_tiles(extent, provider = "OpenStreetMap.HOT", crop = TRUE)
+aftiles <- maptiles::get_tiles(extent, provider = "OpenStreetMap", crop = TRUE)
 ```
 
 &nbsp;
@@ -231,8 +243,8 @@ The `aftiles` object we created is a `SpatRaster` object which needs the
 `maptiles` (or `terra`) package loaded to be able to plot it &ndash; see 
 Figure 1.
 
-```{r plot-map1-axes, fig.align='center', fig.cap="Figure 1: Map of Ashfield Flats in the UTM projection, generated using the `maptiles` R package, with OpenStreetMap tiles.", fig.width=6.8, fig.height=5.1, message=FALSE, warning=FALSE, out.width='70%', results='hold'}
-aftiles <- maptiles::get_tiles(extent, provider = "OpenStreetMap.HOT", 
+```{r plot-map1-axes, fig.align='center', fig.cap="Figure 1: Map of Ashfield Flats in the UTM projection, generated using the `maptiles` R package, with OpenStreetMap tiles.", fig.width=6.8, out.width='70%', results='hold', fig.height=5.1, message=FALSE, warning=FALSE}
+aftiles <- maptiles::get_tiles(extent, provider = "OpenStreetMap", 
                                crop = TRUE, zoom=16)
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
@@ -242,10 +254,21 @@ plot_tiles(aftiles, add=TRUE)
 
 &nbsp;
 
-The next chunk of code adds the `prettymapr` features shown in Figure 2. In this
-code, `plotepsg = 32750` refers to the EPSG code for the UTM projection in Zone
-50 (EPSG 32750), which we need to include so that the scale bar shows the
-correct distances. (Long-Lat is EPSG 4326 in WGS84)
+At this stage, after plotting the map in RStudio, you will probably
+need to adjust the size and proportions of your plot area manually, so
+that the map tiles fill the whole plot frame.
+
+![](images/resize-Rstudio-graphics-pane.png)
+Figure 2: Resizing the RStudio `Plots` pane to match the size of the 
+plot area to the `maptiles` background.
+
+&nbsp;
+
+The next chunk of code adds the `prettymapr` features shown in Figure
+2. In this code, `plotepsg = 32750` refers to the EPSG code for the
+UTM projection in Zone 50 (EPSG 32750), which we need to include so
+that the scale bar shows the correct distances. (Long-Lat is EPSG 4326
+in WGS84)
 
 **NOTE**: If the `addscalebar` function does not work, run this line of code:
 ```{r load-modified-addscalebar-function, eval=FALSE}
@@ -285,7 +308,7 @@ some problems in our experience, so here are some tips:
 
 &nbsp;
 
-```{r map-north-scale, fig.align='center', fig.cap="Figure 2: Map of Ashfield Flats (UTM), with added North arrow and scale bar from the `prettymapr` package, over OpenStreetMap tiles acquired using `maptiles`.", fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, out.width='70%', results='hold',echo=FALSE}
+```{r map-north-scale, fig.align='center', fig.cap="Figure 3: Map of Ashfield Flats (UTM), with added North arrow and scale bar from the `prettymapr` package, over OpenStreetMap tiles acquired using `maptiles`.", fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, out.width='70%', results='hold',echo=FALSE}
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
      xlab="Easting (UTM Zone 50, m)", ylab="Northing (UTM Zone 50, m)")
@@ -304,7 +327,7 @@ as the location of samples, often with different sizes, shapes, or
 colours of symbols to represent numerical information.
 
 Since we have a map in UTM coordinates, we can now add plots of our data based
-on UTM locations (with a legend, of course &ndash; see Figure 3). We can plot
+on UTM locations (with a legend, of course &ndash; see Figure 4). We can plot
 the points from the non-spatial data frame `afs19`, but here we `plot` the
 points from `afs19utm`, with the `add=TRUE` option. We add a legend to the plot
 in the usual way.
@@ -320,7 +343,7 @@ legend("bottomright", legend=levels(as.factor(afs19$Group)),
        title = "Group", inset = 0.02, ncol = 2)
 ```
 
-```{r add-data, eval=TRUE, message=FALSE, warning=FALSE, out.width='70%',echo=FALSE, fig.height=5.1, fig.width=6.8, fig.cap = "Figure 3: Map of Ashfield Flats (UTM), with user data plotted, over OpenStreetMap tiles acquired using `maptiles` and North arrow and scale bar from the `prettymapr` package.", fig.align='center', results='hold'}
+```{r add-data, eval=TRUE, message=FALSE, warning=FALSE, out.width='70%',echo=FALSE, fig.height=5.1, fig.width=6.8, fig.cap = "Figure 4: Map of Ashfield Flats (UTM), with user data plotted, over OpenStreetMap tiles acquired using `maptiles` and North arrow and scale bar from the `prettymapr` package.", fig.align='center', results='hold'}
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
      xlab="Easting (UTM Zone 50, m)", ylab="Northing (UTM Zone 50, m)")
@@ -342,7 +365,7 @@ legend("bottomright", legend=levels(as.factor(afs19$Group)),
 We can also add digitized map features such as wetland ponds, drains,
 *etc*., if these are not on the map tiles already. Ideally we would add
 these **before** plotting the data, to avoid the type of overplotting
-shown in Figure 4.
+shown in Figure 5.
 
 ```{r annot-pretend, eval=FALSE, error=FALSE, warning=FALSE}
 # . . . continuing from previous code . . .
@@ -350,7 +373,7 @@ with(afr_map, lines(drain_E, drain_N, col = "cadetblue", lwd = 2))
 with(afr_map, lines(wetland_E, wetland_N, col = "cadetblue", lwd = 1, lty = 2))
 ```
 
-```{r map-annot, error=FALSE, warning=FALSE, echo=FALSE, fig.height=5.1, fig.width=6.8, fig.align='center', out.width="70%", fig.cap="Figure 4: Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items, over OpenStreetMap tiles acquired using `maptiles`.", results='hold'}
+```{r map-annot, error=FALSE, warning=FALSE, echo=FALSE, fig.height=5.1, fig.width=6.8, fig.align='center', out.width="70%", fig.cap="Figure 5: Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items, over OpenStreetMap tiles acquired using `maptiles`.", results='hold'}
 # everything we did above in the first line
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
@@ -376,7 +399,7 @@ with(afr_map, polygon(wetland_E, wetland_N, border="cadetblue", col="#5F9EA080",
 
 Finally, we would most likely want to add some text. Text labels should
 also be added *before* plotting the data. The final map is shown in
-Figure 5.
+Figure 6.
 
 ```{r map-text-labels-pretend, error=FALSE, warning=FALSE, eval=FALSE}
 # . . . continuing from previous code . . .
@@ -385,7 +408,7 @@ text(c(400263, 399962, 400047), c(6468174, 6468083, 6468237),
      pos = c(2,2,4), cex = 0.8, font = 3, col = "cadetblue")
 ```
 
-```{r map-text-labels, error=FALSE, warning=FALSE, echo=FALSE, fig.height=5.1, fig.width=6.8, fig.align='center', out.width="70%", fig.cap="Figure 5: Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items plus text labels, over OpenStreetMap tiles acquired using `maptiles`.", results='hold'}
+```{r map-text-labels, error=FALSE, warning=FALSE, echo=FALSE, fig.height=5.1, fig.width=6.8, fig.align='center', out.width="70%", fig.cap="Figure 6: Map of Ashfield Flats (UTM), with added North arrow, scale bar, user data, and additional map items plus text labels, over OpenStreetMap tiles acquired using `maptiles`.", results='hold'}
 # everything we did above in the first line
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
@@ -420,11 +443,11 @@ function to make the 'bubbles', making sure that we include the options
 `add = TRUE` so we overplot the map, and `inches = FALSE` so we can manually
 scale the bubbles. The factor `s0` used to scale the circles in the code for
 bubbles and legend is found using a simple algorithm to estimate a scaling
-factor from the data). A map like that shown in Figure 6 is a good exploratory
+factor from the data). A map like that shown in Figure 7 is a good exploratory
 data analysis tool, as even without the legend it shows any unevenness in
 concentrations, including where high concentrations are located.
 
-```{r map-bubbles, fig.align='center', fig.cap="Figure 6: Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using `maptiles`.", fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, out.width='70%', results='hold'}
+```{r map-bubbles, fig.align='center', fig.cap="Figure 7: Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using `maptiles`.", fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, out.width='70%', results='hold'}
 palette(pal4lite)
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
@@ -468,7 +491,7 @@ When reporting on an environmental assessment process such as a
 we should also identify any samples where environmental guideline values are
 exceeded. The additional code below shows how to do this for Zn in sediments;
 the relevant guideline values are DGV&nbsp;=&nbsp;200&nbsp;mg/kg,
-DGV-high&nbsp;=&nbsp;410&nbsp;mg/kg. The re-drawn map (Figure 7) shows samples
+DGV-high&nbsp;=&nbsp;410&nbsp;mg/kg. The re-drawn map (Figure 8) shows samples
 above the 410&nbsp;mg/kg DGV-high threshold, and could also be adapted to show
 concentrations greater than the DGV, or both.
 
@@ -491,7 +514,7 @@ text(c(400500,400530,400530,400510),c(6468100,6468040,6467980,6467920),
      labels=c("Zn (mg/kg)",bublo,bubhi,"\u2265 DGV-high"), cex=0.85, pos = c(1,4,4,4))
 ```
 
-```{r map-bubbles-DGV, fig.align='center', fig.cap="Figure 7: Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using `maptiles`. Locations where Zn concentration exceeds the DGV-high threshold are shown.", fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, out.width='70%', echo=FALSE}
+```{r map-bubbles-DGV, fig.align='center', fig.cap="Figure 8: Bubble map of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using `maptiles`. Locations where Zn concentration exceeds the DGV-high threshold are shown.", fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, out.width='70%', echo=FALSE}
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
      xlab="Easting (UTM Zone 50, m)", ylab="Northing (UTM Zone 50, m)")
@@ -541,7 +564,7 @@ is a factor which identifies which percentile of Zn concentration each sample is
 in. We then use this factor to define symbols, sizes, and colours for each
 sample location. We add a line break to text labels using $\backslash$`n`.
 
-```{r PctBubb, fig.align='center', fig.cap="Figure 8: Map showing percentile ranges of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using `maptiles`.", out.width='70%', fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, results='hold'}
+```{r PctBubb, fig.align='center', fig.cap="Figure 9: Map showing percentile ranges of zinc concentrations in sediment and soil at Ashfield Flats in 2019, over OpenStreetMap tiles acquired using `maptiles`.", out.width='70%', fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, results='hold'}
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
      xlab="Easting (UTM Zone 50, m)", ylab="Northing (UTM Zone 50, m)")
@@ -582,8 +605,8 @@ palette(pal4lite) # change back to non-transparent palette (optional)
 afs19$QZn <- NULL # to delete quantile column (optional; you can leave it in)
 ```
 
-The resulting percentile bubble map (Figure 8) adds value to the 'standard'
-bubble map (Figure 6), as it adds some statistical meaning to the bubble sizes.
+The resulting percentile bubble map (Figure 9) adds value to the 'standard'
+bubble map (Figure 7), as it adds some statistical meaning to the bubble sizes.
 A similar map could be created by using the Tukey boxplot thresholds instead of
 percentiles which could show potential outliers (*i.e*. using the
 `boxplot.stats()` function to generate categories instead of the `quantile()`
@@ -599,7 +622,7 @@ colours, save as `.png` or `.tiff`, or copy as a bitmap.</span>
 
 &nbsp;
 
-## Alternative 2 -- Maps in R using the ggmap package
+## Alternative 2 &ndash; Maps in R using the ggmap package
 
 The `ggmap` package (Kahle and Wickham 2013) is an extension of `ggplot`, so
 it's easier to use if you are familiar with `ggplot` and the associated family
@@ -620,7 +643,7 @@ udubua.gg <- get_googlemap(center=c(115.8213,-31.98165),
 rm(secret)
 ```
 
-This always gives a **square** map (Figure 9) &ndash; which we might not always
+This always gives a **square** map (Figure 10) &ndash; which we might not always
 want. In theory, the map aspect ratio can be changed using the `size` argument
 in the `get_googlemap` function, but this does not work reliably. We recommend
 leaving the map dimensions and aspect ratio at their default values.
@@ -636,7 +659,7 @@ with different shapes and colours, with the categories defined by the factor
 scale bar and north arrow to ggmaps, but it seems buggy and we currently don't
 recommend it - the north arrow seems OK though.
 
-```{r ggmap1, fig.height=4.5, fig.width=6, fig.align='center', fig.cap="Figure 9: Map of the University of Western Australia campus at Crawley, showing the location of libraries and cafés, plotted over Google maps tiles acquired using the `R` package `ggmap`.", out.width='75%', message=FALSE, warning=FALSE, results='hold'}
+```{r ggmap1, fig.height=4.5, fig.width=6, fig.align='center', fig.cap="Figure 10: Map of the University of Western Australia campus at Crawley, showing the location of libraries and cafés, plotted over Google maps tiles acquired using the `R` package `ggmap`.", out.width='75%', message=FALSE, warning=FALSE, results='hold'}
 ggmap(udubua.gg) + 
   labs(y="Latitude (\u00B0S)", x = "Longitude (\u00B0E)") + 
   geom_text(aes(x = 115.825, y = -31.98, label = "Swan\nRiver",
@@ -651,7 +674,7 @@ ggmap(udubua.gg) +
 &nbsp;
 
 There are numerous possibilities with `ggmap` and the features made possible by
-`ggplot2` that are not illustrated by Figure 9. For example, we could use `size`
+`ggplot2` that are not illustrated by Figure 10. For example, we could use `size`
 as an aesthetic (*i.e*. include within `aes(...)` with `size = variableName`),
 to generate something like a bubble map.
 
@@ -664,7 +687,7 @@ Other options available in `ggmap` are some of the *Stamen* map tiles from
 maps, you need to first register for a free API key at
 [stadiamaps.com/stamen](https://stadiamaps.com/stamen){target="_blank"}.
 
-[**The next example**]{style="size: 14pt"} (Figure 10) uses the simple features
+[**The next example**]{style="size: 14pt"} (Figure 11) uses the simple features
 information in one of the data frames we made at the beginning. The `sf` package
 introduces a new 'geom', `geom_sf()` for plotting in `ggmap.` We need to use the
 option `inherit.aes = FALSE` in `geom_sf()`, to override the default aesthetics
@@ -688,7 +711,7 @@ secretSS <- read.csv("../StadiaMaps-API.csv")[1,1]
 register_stadiamaps(key=secretSS)
 ```
 
-```{r ggAF, fig.height=4.5, fig.width=8, fig.align='center', fig.cap="Figure 10: Zinc concentration (mg/kg) in sediment sampled in Semester 1, 2021 at Ashfield Flats, Western Australia, plotted over `stamen_terrain` map tiles acquired using the `R` package `ggmap`, with data in a simple features data frame, and with manually added wetland pond locations.", out.width='85%', message=FALSE, warning=FALSE, results='hold'}
+```{r ggAF, fig.height=4.5, fig.width=8, fig.align='center', fig.cap="Figure 11: Zinc concentration (mg/kg) in sediment sampled in Semester 1, 2021 at Ashfield Flats, Western Australia, plotted over `stamen_terrain` map tiles acquired using the `R` package `ggmap`, with data in a simple features data frame, and with manually added wetland pond locations.", out.width='85%', message=FALSE, warning=FALSE, results='hold'}
 afr.gg <- 
   get_stadiamap(bbox=c(left=115.9393, bottom=-31.9203, 
                        right=115.948, top=-31.916),
