@@ -303,8 +303,14 @@ some problems in our experience, so here are some tips:
 - adjust the height and width of the RStudio plot area to best match the map
 - You may need to adjust the positions of the map annotations like north arrow and scale bar. 
   - these are adjusted with the `padin=` option in the `addnortharrow()` and `addscalebar()` functions
-  - note that the `addscalebar()` function needs the option `plotepsg=...`, where the value is the EPSG code for the coordinate reference system you are using (we specify `plotepsg=32750` which is the EPSG code for UTM Zone 50S using WGS84)
+  - note that the `addscalebar()` function needs the option `plotepsg=...`, where the value is the EPSG code for the coordinate reference system you are using (we specify `plotepsg=32750` which is the EPSG code for UTM Zone 50S using WGS84). 
+  - note also that the `addscalebar()` function depends on the older spatial package `sp` which is scheduled for retirement. If it doesn't work on your computer, run the following code to create a replacement `addscalebar()` function which uses the `sf` package instead of `sp`:
 </div>
+
+```{r addscalebar-using-sf, message=FALSE, warning=FALSE}
+git <- "https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/"
+source(paste0(git, "scalebar_use_sf_prettymapr.R"))
+```
 
 &nbsp;
 
@@ -428,9 +434,9 @@ with(afr_map,
      lines(drain_E, drain_N, col = "cadetblue", lwd = 2))
 with(afr_map, polygon(wetland_E, wetland_N, border="cadetblue", col="#5F9EA080", 
                     lwd = 1, lty = 1))
-text(c(400263, 399962, 400047), c(6468174, 6468083, 6468237),
-     labels = c("Chapman Drain","Kitchener Drain", "Woolcock Drain"),
-     pos = c(2,2,4), cex = 0.8, font = 3, col = "cadetblue")
+text(c(400263, 399982, 400047), c(6468174, 6468143, 6468237),
+     labels = c("Chapman Drain","Kitchener\nDrain", "Woolcock Drain"),
+     pos = c(2,1,4), cex = 0.8, font = 3, col = "cadetblue")
 ```
 
 &nbsp;
@@ -460,9 +466,9 @@ with(afr_map,
      lines(drain_E, drain_N, col = "cadetblue", lwd = 2))
 with(afr_map, polygon(wetland_E, wetland_N, border="cadetblue", col="#5F9EA080", 
                     lwd = 1, lty = 1))
-text(c(400263, 399962, 400047), c(6468174, 6468083, 6468237),
-     labels = c("Chapman Drain","Kitchener Drain", "Woolcock Drain"),
-     pos = c(2,2,4), cex = 0.8, font = 3, col = "cadetblue")
+text(c(400263, 399982, 400047), c(6468174, 6468143, 6468237),
+     labels = c("Chapman Drain","Kitchener\nDrain", "Woolcock Drain"),
+     pos = c(2,1,4), cex = 0.8, font = 3, col = "cadetblue")
 # plot bubbles using the symbols() function
   # first use a simple algorithm to estimate a scale factor for bubbles
   axrg <- par("usr")[2]-par("usr")[1]
@@ -526,9 +532,9 @@ with(afr_map,
      lines(drain_E, drain_N, col = "cadetblue", lwd = 2))
 with(afr_map, polygon(wetland_E, wetland_N, border="cadetblue", col="#5F9EA080", 
                     lwd = 1, lty = 1))
-text(c(400263, 399962, 400047), c(6468174, 6468083, 6468237),
-     labels = c("Chapman Drain","Kitchener Drain", "Woolcock Drain"),
-     pos = c(2,2,4), cex = 0.8, font = 3, col = "cadetblue")
+text(c(400263, 399982, 400047), c(6468174, 6468143, 6468237),
+     labels = c("Chapman Drain","Kitchener\nDrain", "Woolcock Drain"),
+     pos = c(2,1,4), cex = 0.8, font = 3, col = "cadetblue")
 # plot bubbles using the symbols() function
   # first use a simple algorithm to estimate a scale factor for bubbles
   axrg <- par("usr")[2]-par("usr")[1]
@@ -576,9 +582,9 @@ with(afr_map,
      lines(drain_E, drain_N, col = "cadetblue", lwd = 2))
 with(afr_map, polygon(wetland_E, wetland_N, border="cadetblue", col="#5F9EA080", 
                     lwd = 1, lty = 1))
-text(c(400263, 399962, 400047), c(6468174, 6468083, 6468237),
-     labels = c("Chapman Drain","Kitchener Drain", "Woolcock Drain"),
-     pos = c(2,2,4), cex = 0.8, font = 3, col = "cadetblue")
+text(c(400263, 399982, 400047), c(6468174, 6468143, 6468237),
+     labels = c("Chapman Drain","Kitchener\nDrain", "Woolcock Drain"),
+     pos = c(2,1,4), cex = 0.8, font = 3, col = "cadetblue")
 
 # Percentile plot
 #   make a factor column which categorizes each sample by 
