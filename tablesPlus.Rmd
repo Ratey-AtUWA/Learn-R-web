@@ -15,7 +15,7 @@ output:
     toc_float: true
 ---
 
-# Summary statistics tables which include sample counts above environmental thresholds
+# **Summary statistics** tables which include sample counts above environmental thresholds
 
 Load the R packages we need and set a default table style (&lsquo;`theme`&rsquo;):
 
@@ -146,7 +146,7 @@ function and the customised column and row names we generated earlier, *e.g*.,
 * The code `ISQG[elem0[i],"DGV"]` find the desired value from the ISQG table using the row index `elem0[i]`, and the column index `"DGV"`.  So, the variable names in the data must match the toxicant names in the thresholds table!!
 * So, `which(sedsoil[,elem0[i]] > ISQG[elem0[i],"DGV"])` will give the row indices in `sedsoil` for which the condition is `TRUE`, and the code then simply counts these using `length(which(sedsoil[,elem0[i]] > ISQG[elem0[i],"DGV"]))`
 
-```{r make-output-DF, paged.print=FALSE}
+```{r make-output-DF, paged.print=FALSE, resize.width=120}
 OutputDF <- summ0
 
 # add blank columns in data frame for environmental thresholds
@@ -224,7 +224,7 @@ analysis.
 
 &nbsp;
 
-# Raw data tabulation
+# **Raw data** tabulation
 
 In environmental consultancy reports, it's common to tabulate the raw data and 
 indicate which individual samples exceed environmental guidelines 

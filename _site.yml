@@ -63,6 +63,8 @@ navbar:
           href: hydrus1d.html
     - text: "Reporting"
       menu:
+        - text: "Resources for reporting"
+          href: report-resources.html
         - text: "Tables & trigger value counts"
           href: tablesPlus.html
         - text: "Locality and Site Plan maps"
