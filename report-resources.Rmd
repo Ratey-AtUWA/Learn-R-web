@@ -1,0 +1,67 @@
+---
+title: "Reporting Resources"
+subtitle: "Links to material helpful for report writing in R"
+author: "Andrew Rate"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    highlight: kate
+    toc_depth: 3
+    toc_float: TRUE
+    fig_width: 6
+    fig_height: 5
+    fig_caption: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+&nbsp;
+
+## R Markdown
+
+- [Chapter 8 Reproducible reports with R markdown](https://intro2r.com/rmarkdown_r.html){target="_blank"} from the free [Introduction to R ebook](https://intro2r.com/){target="_blank"} (Douglas *et al*. 2024)
+
+- [R Markdown PDF Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/main/rmarkdown-2.0.pdf){target="_blank"}
+
+- ['Official' R Markdown pages from RStudio](https://rmarkdown.rstudio.com/lesson-1.html){target="_blank"}
+
+- [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/){target="_blank"} (Xie *et al*. 2023)
+
+&nbsp;
+
+## Tables
+
+- Gohel D (2024). *Using the flextable R package*. [https://ardata-fr.github.io/flextable-book/index.html](https://ardata-fr.github.io/flextable-book/index.html){target="_blank"})<br />
+(This is the package we will use, but there are multiple options)
+
+- [Section 8.5.5 of *Introduction to R*](https://intro2r.com/r-markdown-anatomy.html#adding-tables){target="_blank"} (Douglas *et al*. 2024)<br />
+(doesn't mention `flextable` at all!)
+
+&nbsp;
+
+## Maps
+
+- [PDF Cheatsheet for `sf` package](https://github.com/rstudio/cheatsheets/blob/main/sf.pdf){target="_blank"}
+
+- [Simple Features for R](https://r-spatial.github.io/sf/){target="_blank"} (Pebesma, 2024)
+
+- [r-spatial blog](https://r-spatial.org/){target="_blank"}
+  - useful posts on [combining `sf` with `ggplot`](https://r-spatial.org/r/2018/10/25/ggplot2-sf.html){target="_blank"}
+
+&nbsp;
+
+## References
+
+Douglas A, Roos D, Mancini F, Couto A, Lusseau D (2024). 
+*An Introduction to R*. 
+[https://intro2r.com/](https://intro2r.com/){target="_blank"}
+
+Pebesma, E. (2024) *Simple Features for R*. [https://r-spatial.github.io/sf/](https://r-spatial.github.io/sf/){target="_blank"}
+
+Xie Y, Allaire JJ, Grolemund G (2023). 
+*R Markdown: The Definitive Guide*.
+[https://bookdown.org/yihui/rmarkdown/](https://bookdown.org/yihui/rmarkdown/){target="_blank"}
+
+&nbsp;
