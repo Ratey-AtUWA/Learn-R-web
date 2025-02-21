@@ -58,7 +58,7 @@ output:                      # line break after 'output:' if we want options for
   html_document:             # indent each output format by 2 spaces, followed by colon
     theme: yeti              # built in themes control fonts, colours, etc. indent options 4 spaces
     code_folding: show       # show (or hide) code chunks in output
-    self_contained: no       # self_contained output does not need to link to associated files such as images
+    self_contained: no       # self_contained output doesn't need to link to any files e.g. images
     number_sections: no      # yes/no if we want to auto munber headings
     smart: no                # smart formatting: convert "" to “”, -- to an 'en dash', etc. 
     toc: true                # do we want a Table Of Contents? (true or false)
