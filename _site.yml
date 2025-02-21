@@ -70,7 +70,7 @@ navbar:
         - text: "Locality and Site Plan maps"
           href: maps-location-siteplan.html
         - text: "Brief essentials of R markdown"
-          href: One-page_R-markdown.html
+          href: One-page_R-Markdown.html
   right:
     - text: "School of Agriculture and Environment"
       href: https://www.uwa.edu.au/schools/agriculture-and-environment
