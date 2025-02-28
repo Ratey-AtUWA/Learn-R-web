@@ -1,0 +1,496 @@
+---
+title: "Workshops 1 and 2"
+author: "Andrew Rate"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  word_document: default
+---
+
+**Scope from LMS Class Schedule**
+
+#### Workshop 1
+
+* Getting started with R Projects and R Markdown
+* R operators, classes
+* R data structures
+* Input/output
+
+#### Workshop 2
+* row/column names
+* indices - locating values inside R objects
+* coercions - forcing an R object to be another class
+* summaries of data objects
+
+## R Classes and data structures
+
+R works with *objects*, which are named pieces of information held in
+your computer's memory or *workspace*. Objects can hold different
+*classes* of information, such as numbers, text, or logical
+(TRUE/FALSE) values. The code chunks below let you practice doing some
+of this.
+
+Note that any line of code beginning with `#` is a *comment* in R, and
+does not do anything except provide information to the reader.
+
+We put any code (and comments) in _code chunks_ which begin with
+‵‵‵{r} and end with ‵‵‵ (sometimes additional options can go after the
+`r` in `{r}`). Code chunks are in shaded boxes in the R markdown file.
+The code chunks can be run (click ▶ ), 
+and any output will appear in the unshaded box below each code chunk.
+
+```{r}
+# make an object x with a single number in it
+
+# the symbol `<-` means 'is assigned the value' or 'becomes'
+
+# so x <- 12 means "the object x is assigned the value 12"
+
+x <- 12
+x
+class(x)
+```
+
+Some notes here:
+
+* if we type the name of an object, we display its contents.
+  Running the name `x` as R code is a shortcut for `print(x)`.
+  
+* `class(x)` is our first use of an R *function*.
+  Functions do something for us when we run them -- in this case, the
+  function `class()` produces output telling us what class of object 
+  we have. `class` is the function name, and it is always followed by
+  parentheses `()` which contain the *argument(s)* or input to the
+  function.
+
+```{r}
+# make an object y with several numbers in it
+# the simple function c() means "combine"
+y <- c(12, 31, 8, 51, 59, 23)
+y
+class(y)
+```
+
+```{r}
+# make an object z with several strings (text values) in it
+z <- c("Monday", "Tuesday", "Hydrogen", "Helium", "Mercury", "Venus")
+z
+class(z)
+```
+
+```{r}
+# make an object q with several logical (TRUE/FALSE) values in it
+q <- c(TRUE, FALSE, T, F)
+# we can use T and F as abbreviated forms of logical values
+q
+class(q)
+```
+
+```{r}
+# make an object k with a mix of numbers, logical, and strings
+k <- c(1, 2, TRUE, FALSE, "Mercury", "Venus")
+k
+class(k)
+```
+
+This shows that the object that we create with the `c()` function can
+not store different types of values, just a single class.
+
+The objects we have created are *vectors*, or one-dimensional arrays
+of values belonging to only one class.
+
+Later, in the Section below "**Different types of data objects**", we
+will use different types of objects that can store different classes.
+
+## R Operators
+
+### Mathematical operators
+
+Operators are symbols that perform mathematical calculations and other 
+operations.
+
+In basic arithmetic we use + (addition), - (subtraction), 
+× (multiplication), ÷ (division).
+
+The × and ÷ symbols are not on computer keyboards, so we 
+substitute `*` for ×, and `/` for ÷.
+
+```{r}
+2 + 2
+```
+
+```{r}
+4 - 2
+```
+
+```{r}
+11 * 12
+```
+
+```{r}
+22/7
+```
+
+There are numerous other operators in R as well, such as `<-`, `:`, `()`, `[]`, `^`, `&`, `|`, `==`, `%in%`, . . .
+
+We also use simple mathematical functions like `log()`, `log10()`,
+`sqrt()`, and so on.  
+Remember that function names are always followed by parentheses `()`,
+and within the parentheses we put the *arguments*, the input and 
+information that the function needs.
+
+The following chunks of code should help you understand how these
+operators and simple functions work. 
+*If you have any questions, please ask!*
+
+#### The : operator
+
+```{r}
+# using the `:` operator
+x <- 1:10
+x
+y <- 42:1
+y
+```
+
+(Remember that we created objects called `x` and `y` before, so we 
+have just replaced them with new values.)
+
+#### Indexing using [ ] -- the square brackets operator
+
+You will notice that each line of output above is preceded by `[1]` 
+or another value.
+
+The values in square brackets `[]` are the *index* of the value at the
+beginning of each line of output. We can use the index to extract a
+subset of values in an object (*make sure you understand* what is
+happening here):
+
+```{r}
+y[3]
+y[33:42]
+```
+
+#### Parentheses operator
+
+```{r}
+# using parentheses to control the order of operations
+(8+1)/3
+8+(1/3)
+```
+
+#### 'To the power of' caret (^) operator
+
+```{r}
+# using the `^` operator (raise to the power of)
+10^3
+```
+
+We can calculate roots of numbers by raising to a reciprocal power. For example for the cube root of 8:
+
+```{r}
+# fractional powers give roots
+8^(1/3)
+```
+
+#### The == operator
+
+```{r}
+# using the `==` operator (exactly equal to)
+
+# we don't use `=` as this substitutes for `<-`, 
+# and `=` is also used to set values for function arguments
+a <- 5
+a == 2+3
+a == 6
+```
+
+#### The logical AND '&' operator
+
+```{r}
+# using the `&` operator (logical AND)
+a <- 5
+a == 2+3 & a == 10-5
+a == 2+3 & a == 13-7
+a == 4+3 & a == 10-5
+```
+#### The logical OR '|' operator
+
+```{r}
+# using the `|` operator (logical OR)
+a <- 5
+a == 2+3 | a == 10-5
+a == 5 | a == 99
+a == 7 | a == 3
+```
+
+### Simple mathematical functions
+
+```{r}
+# using simple mathematical functions
+sqrt(64)
+log(10)    # natural log (to base e ≈ 2.718282)
+log10(10)  # log to base 10
+```
+
+### The %in% operator
+
+The `%in%` operator checks if there is a match between one value or
+vector, and a second vector or matrix.
+
+```{r}
+# in other words, the operator `%in%` asks "is a subset of"
+
+j <- 2*(1:10)  # just even numbers up to 20
+j
+12 %in% j
+17 %in% j
+```
+
+```{r}
+# %in% works with character values too (note case-sensitivity)
+z
+"Helium" %in% z
+"helium" %in% z
+"Mars" %in% z
+```
+
+```{r}
+# %in% works with multiple values (i.e. vectors) too
+c("Tuesday", "Lithium", "Venus") %in% z
+```
+
+## Different types of data objects
+
+### Matrices
+
+We have just been using one-dimensional *vectors* so far.
+
+Two-dimensional objects include *matrices*, *lists* and *data frames*.
+
+```{r}
+mymatrix <- matrix(101:109, ncol=3, byrow=TRUE)
+mymatrix
+```
+
+Note that we included more than one argument in the `matrix()` 
+function to make our 3×3 matrix:
+
+| Argument  | Meaning                                      |
+|:----------|:---------------------------------------------|
+| `101:109` | Sequence of numbers 101, 102, ... 109        |
+| `ncol`    | Number of columns                            |
+| `byrow`   | If TRUE, put values in the matrix row by row |
+
+A matrix can also be indexed but, since it is a two-dimensional array,
+our index needs to have two values `[row,column]`, one of which can be
+blank. Try the following and see if you can understand what is
+happening:
+
+```{r}
+mymatrix[1,1]
+mymatrix[1,3]
+mymatrix[3,]
+mymatrix[,1]
+```
+
+### Data frames
+
+The final type of data object in this session is the *data frame*.  
+This will be the most common type of data object we use in R, as it 
+can store several different types of information.
+
+```{r}
+# making a data frame by directly inputting values
+brightstars <- data.frame(Star=c("Alpha Centauri","Betelgeuse","Canopus","Sirius"),
+                   Magnitude=c(-0.1, 0.42, -0.74, -1.46),
+                   Light.Years=c(4.395, 427.5, 312.7, 8.611),
+                   Planets=c(TRUE,FALSE,FALSE,FALSE))
+brightstars
+```
+
+We can get useful information about a data frame with the `str()` 
+(*structure*) or `summary()` functions:
+
+```{r}
+# `str()` (structure) function
+str(brightstars)
+```
+
+```{r}
+# summary() function
+summary(brightstars)
+```
+
+In a data frame, it's common for the columns to be named (column
+numbers are still present but invisible). We can use names or numbers
+to index a data frame, remembering that it has two dimensions. Each
+column behaves like a vector.
+
+```{r}
+brightstars[2,3]
+brightstars[,"Star"]
+brightstars[2:3,"Magnitude"]
+```
+
+NOTE -- see also how `%in%` works with data frames:
+
+```{r}
+"Sirius" %in% brightstars       # brightstars is a data frame
+"Sirius" %in% brightstars$Star  # brightstars$Star is a vector
+```
+
+### Reading data from a file
+
+More commonly we read data into an R data frame from a file. You will
+need to download the data file `cities.csv` from LMS and save it into
+your R project working directory (folder). (The data are for different
+areas of land use in global cities).
+
+You can also download the file from <https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/cities_Hu_etal_2021.csv>. Save it in your R project working directory (folder) as `cities.csv` (use right-click » Save link as).
+
+```{r paged.print=FALSE}
+cities <- read.csv("cities.csv", stringsAsFactors = TRUE)
+cities
+```
+
+When we display the object `cities` by typing its name, the values at 
+left are the *row numbers*. 
+
+Let's check the *structure* of the data frame `cities` using `str()`:
+
+```{r}
+str(cities)
+```
+
+The effect of the argument `stringsAsFactors = TRUE` above was to
+convert all "string" (i.e. text) information into *factors*, which
+is how R stores categorical information. This makes sense for the
+columns `Type`, `Global`, and `Region`, which classify each city into
+two of more categories. The column `City`, however, is just unique
+names, so doesn't need to be a factor (although this won't affect most
+data analysis we might do). We can convert the`City` column back to
+text (*character*):
+
+Note that we can define a data frame column in two ways, e.g. for
+the `City` column: `cities$City` is equivalent to `cities[,"City"]`  
+(both are also equivalent to `cities[,1]`). 
+
+```{r}
+cities$City <- as.character(cities$City)
+str(cities)
+```
+
+The function `as.character()` is an example of *coercion* in R; we try
+to force an object into another class. In this case we have the column
+object `City` within the data frame object `cities`, which is
+initially of class `Factor`, and `as.character()` converts it to class
+`chr` (character).
+
+[A *list* is a more general type of data object than a data frame --
+not all columns need to be the same length. The output of some R
+functions can be a list.]
+
+### Writing data to files
+
+#### Saving your workspace
+
+If we have a lot of objects in our workspace and we don’t want to have
+to re-create them each time we use R, we can save our workspace. This
+is especially useful if we have started an *R project* (which you
+should have done already!).
+
+To save the workspace there are two options:
+
+1. In the RStudio `Environment` tab (top-right of the screen,
+usually), click the 'Save workspace as' icon (💾). You should name the
+file *without a prefix*, just the extension (i.e. nothing before the
+period `.` character. So, in the Save As dialog box, the file name
+should be `.RData`.
+
+2. Run this code:
+```{r}
+save.image()
+```
+
+|         By default the `save.image()` function saves your workspace 
+|         as `.Rdata`, which is what we want. With R Projects, any 
+|         file called `.RData` will be loaded automatically when you 
+|         open the project! This is very convenient.
+
+#### Saving individual data objects
+
+Sometimes we may want to save a copy of a data frame we’ve been
+working on, especially if we have made substantial changes (e.g.
+calculated new columns, which we will learn how to do later). We can
+save in various formats, but we recommend the simple .csv format. To
+save a `.csv` file, we use the function `write.csv()`:
+
+```{r}
+write.csv(cities, file = "cities_edited.csv")
+```
+
+You should now be able to see the file `cities_edited.csv` in the
+Files pane at the lower right of the RStudio window. (The file name
+can be anything you like, but it makes sense to keep the `.csv`
+suffix.)
+
+#### Saving our markdown file(s)
+
+We should always save any R markdown files that we create by clicking
+the 💾 icon, typing Ctrl-S (⌘-S on Mac), or clicking File/Save in the
+menu. By default, R markdown files will be saved into our project
+folder (i.e. working directory), and will have the extension `.Rmd`
+after the name.
+
+#### Saving our markdown as a document
+
+One of the main reasons we write R code in R Markdown is that we can
+convert or *'knit'* our files to document formats. At the top of this
+RStudio pane there is a `Knit ▼` button. Clicking this will save a
+copy of our R markdown file as the default format (html) into our
+project folder, or by clicking directly on the `▼` we can select
+another format. Try it!  
+(Note that `Knit to PDF` will not work unless we have a Latex app 
+installed).
+
+Knitting `.Rmd` files into documents is one of the coolest things
+about R Markdown, and an excellent way to prepare *reports*, as we
+have all the data analysis for the report included with the report
+text. With advanced use of R markdown we can hide the R code and only
+include the output we want!
+
+## Getting Help
+
+RStudio has an excellent help system. For help on any function, try
+running code like `?function.name`  
+(this is the equivalent of `help(function.name))`. Try it:
+
+```{r}
+?write.csv
+```
+
+The help topic will open in the `Help` pane at the right of the 
+RStudio window.
+
+More general help on many R topics can be obtained by running the
+following code (try this too):
+
+```{r}
+help.start()
+```
+
+You will get a short message in the output box above, and a page with
+links to a number of R help topics will open in the Help pane at the
+right of the RStudio window.
+
+You may also notice, when typing **code**, that RStudio has
+*predictive text* that can help you get what you need. A pop-up should also appear, which shows the general form of the function you’re 
+typing (i.e. the various inputs and options).
+
+Finally, there is another useful advantage to using R Markdown in
+RStudio – when typing **text** there is a *spell-checker*, shown as wavy
+underlines beneath misspelled words. Right-clicking on the misspelled
+word will show a list of correct options, just like a word processor.
+
+🔚
