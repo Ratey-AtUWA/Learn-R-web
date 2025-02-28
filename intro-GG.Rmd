@@ -42,7 +42,7 @@ will always be using **R** in the RStudio environment (Posit Software, 2022).
 
 We use the `read.csv()` function &ndash; we will mostly supply data to you as 
 `.csv` files. Sometimes you need to download these into your working directory 
-to use them, and sometimes you can read them directly from a web URL (*e.g*. [`https://github.com/.../afs19.csv`](https://github.com/Ratey-AtUWA/learningR/raw/main/afs19.csv){target="_blank"}).
+to use them, and sometimes you can read them directly from a web URL (*e.g*. [`https://github.com/.../afs19.csv`](https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/afs19.csv){target="_blank"}).
 
 With the type of dataset we usually use, there are columns containing
 categorical information, which **R** calls `factors`. These are typically stored
