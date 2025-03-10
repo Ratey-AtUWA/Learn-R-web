@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Andrew Rate" />
+
+<meta name="date" content="2025-03-10" />
+
+<title>Workshop 4</title>
+
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="site_libs/tabwid-1.1.3/tabwid.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Sessions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">For beginners</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Intro</a>
+    </li>
+    <li>
+      <a href="intro-GG.html">Intro+ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plots.html">Plots-baseR</a>
+    </li>
+    <li>
+      <a href="plots-GG.html">Plots-ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Compare
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="means.html">Compare means (parametric)</a>
+    </li>
+    <li>
+      <a href="nonparam.html">Non-parametric comparisons</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="correl.html">Correlation</a>
+    </li>
+    <li>
+      <a href="regression.html">Simple linear regression</a>
+    </li>
+    <li>
+      <a href="reg-group.html">Grouped linear regression</a>
+    </li>
+    <li>
+      <a href="reg-multi.html">Multiple linear regression</a>
+    </li>
+    <li>
+      <a href="timeseries.html">Time series analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Maps
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="maps.html">Map data with tile backgrounds</a>
+    </li>
+    <li>
+      <a href="spatial.html">Spatial statistics</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">Spatial interpolation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Multi
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pca.html">Principal components analysis</a>
+    </li>
+    <li>
+      <a href="vegan.html">Analysis of species presence-absence data</a>
+    </li>
+    <li>
+      <a href="lda.html">Linear discriminant analysis</a>
+    </li>
+    <li>
+      <a href="cluster.html">Cluster analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Util
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="distributions.html">Distribution checking</a>
+    </li>
+    <li>
+      <a href="residuals.html">Regression residuals to identify contamination</a>
+    </li>
+    <li>
+      <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Reporting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="report-resources.html">Resources for reporting</a>
+    </li>
+    <li>
+      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="maps-location-siteplan.html">Locality and Site Plan maps</a>
+    </li>
+    <li>
+      <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!DOCTYPE html>
+
+<html>
+<body>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
+</body>
+</html>
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Workshop 4</h1>
+<h3 class="subtitle">R programming and high-quality tables</h3>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2025-03-10</h4>
+
+</div>
+
+
+<p><strong>Scope from LMS Class Schedule</strong></p>
+<div id="learning-goals" class="section level3">
+<h3>Learning goals</h3>
+<ul>
+<li>Simple R programming: <code>for()</code> loops</li>
+<li>Indexing using <code>which()</code>; transposing using
+<code>t()</code></li>
+<li>Making <strong>reporting tables</strong> in R and/or Excel</li>
+</ul>
+<h3>
+Downloads
+</h3>
+<p>
+<a alt="" href="../Data Analysis ENVT4461/Week 4.Rmd" target="_blank" rel="noopener"><img src="../../../users/00028958/icons/Rmarkdown file icon.png" alt="R markdown file icon" style="border: 0px solid #000000;" height="32" width="32" /> Week
+4.Rmd</a>  
+</p>
+</div>
+<div id="simple-programming-concepts" class="section level2">
+<h2>Simple programming concepts</h2>
+<p>There are two key features of programming that enable us to perform
+quite complex tasks using R (or any programming language). These
+are:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Loops</strong>, which are sections of code that are
+repeated for a selected number of times;</p></li>
+<li><p><strong>Conditional statements</strong>, where different code
+gets run depending on the value of a variable or the results of a
+calculation (<em>i.e</em>. whether the R code <em>expression</em>
+testing if the condition is met results in <code>TRUE</code> or
+<code>FALSE</code>).</p></li>
+</ol>
+<p>Loops and conditional statements are examples of “<em>control
+structures</em>” in programming. If you are familiar with another
+programming language, you will probably recognise some similarities!</p>
+</div>
+<div id="loops" class="section level2">
+<h2>Loops</h2>
+<p>In ENVT4461 we will use loops generated with the function
+<code>for()</code>. Here's a very simple example for illustration. Take
+your time with the code so that you understand what is happening.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>my.vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&#39;B&#39;</span>,<span class="st">&#39;C&#39;</span>,<span class="st">&#39;D&#39;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;G&quot;</span>,<span class="st">&quot;H&quot;</span>,<span class="st">&quot;I&quot;</span>,<span class="st">&quot;J&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>){</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="fu">print</span>(my.vector[i])</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## [1] &quot;A&quot;
+## [1] &quot;B&quot;
+## [1] &quot;C&quot;
+## [1] &quot;D&quot;
+## [1] &quot;E&quot;
+## [1] &quot;F&quot;
+## [1] &quot;G&quot;
+## [1] &quot;H&quot;
+## [1] &quot;I&quot;
+## [1] &quot;J&quot;</code></pre>
+<blockquote>
+<p>💡 Try changing <code>1:10</code> to <code>1:5</code> or
+<code>c(2,4,6,8,10)</code> to see what happens</p>
+</blockquote>
+<p>Let's examine how <code>for(i in 1:10) ...</code> works:</p>
+<ol style="list-style-type: decimal">
+<li><p>We include in the <code>for()</code> function a count variable
+<code>i</code> ...</p></li>
+<li><p>... which takes values <code>in</code> (that is, <em>from</em>)
+...</p></li>
+<li><p>... a vector defined by 1:10<br />
+(this is shorthand for <code>c(1,2,3,4,5,6,7,8,9,10)</code>)</p></li>
+<li><p>After the <code>for()</code> function, we enclose the
+<em>expression</em> to be repeated within curly brackets
+<code>{ }</code></p></li>
+<li><p>The opening curly bracket <code>{</code> goes on the same line
+and after the <code>for()</code> statement</p></li>
+<li><p>The closing curly bracket <code>}</code> goes on a new line at
+the end<br />
+(this is conventional and makes the code easier to read.<br />
+The format <code>for(i in 1:10){print(my.vector[i])}</code> works, but
+is congested, and we may want several lines of code between the
+<code>{ }</code>)</p></li>
+<li><p>The code repeats for all the values in <code>1:10</code>, and i
+takes the i<sup>th</sup> value of the vector in each iteration
+...</p></li>
+<li><p>... so the expression <code>print(my.vector[i])</code> outputs
+the i<sup>th</sup> item in <code>my.vector</code> each iteration of the
+loop, since we have made the index <code>[i]</code> 😊</p></li>
+</ol>
+</div>
+<div id="conditional-statements" class="section level2">
+<h2>Conditional statements</h2>
+<p>The conditional statements we will use have an
+<strong>if-then-else</strong> structure. They are built around the R
+function <code>if()</code>. Let's look at a simple example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>letter <span class="ot">&lt;-</span> <span class="st">&quot;L&quot;</span>            <span class="co"># can be upper or lower case in this example!</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>FIRST13 <span class="ot">&lt;-</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>] <span class="co"># LETTERS and letters are built-in to R</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>first13 <span class="ot">&lt;-</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>]</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="cf">if</span>(letter <span class="sc">%in%</span> FIRST13 <span class="sc">|</span> letter <span class="sc">%in%</span> first13){</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;The letter&quot;</span>,letter,<span class="st">&quot;is in the first half of the alphabet&quot;</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;The letter&quot;</span>,letter,<span class="st">&quot;is in the second half of the alphabet&quot;</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## The letter L is in the first half of the alphabet</code></pre>
+<blockquote>
+<p>💡 Try changing the letter (<em>e.g</em>.
+<code>letter &lt;- "X"</code>) to see what happens</p>
+</blockquote>
+<p>Important things to notice about the <code>if</code> code example
+above:</p>
+<ol style="list-style-type: decimal">
+<li><p>We include an expression to be evaluated inside the
+<code>if()</code> function</p></li>
+<li><p>The code expression(s) to be run depending on the outcome of
+<code>if()</code> go between <code>{ }</code>, similar to the
+<code>for()</code> function</p></li>
+<li><p>In our case, we check if a letter exists in (<code>%in%</code>)
+either of the vectors <code>FIRST13</code> or <code>first13</code> (the
+<code>|</code> operator indicates <strong>or</strong>)</p></li>
+<li><p>If the result of
+<code>letter %in% FIRST13 | letter %in% first13</code> is
+<code>TRUE</code>, R runs the next line of code, which is<br />
+<code>cat("The letter",letter,"is in the first half of the alphabet")</code></p></li>
+<li><p>If the result of
+<code>letter %in% FIRST13 | letter %in% first13</code> is
+<code>FALSE</code>, R runs the line of code after <code>} else {</code>,
+which is<br />
+<code>cat("The letter",letter,"is in the second half of the alphabet")</code></p></li>
+<li><p><strong>Note</strong> that <code>} else {</code>
+<strong>must</strong> go on its own line</p></li>
+</ol>
+<p> </p>
+<p>We can stack several <code>} else {</code> lines (combined with
+<code>if()</code>) as in the following example:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>char1 <span class="ot">&lt;-</span> <span class="st">&quot;2&quot;</span>  <span class="co"># can any character string in this example!</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="cf">if</span>(char1 <span class="sc">%in%</span> LETTERS){</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">&quot;The character string &#39;&quot;</span>, char1,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>             <span class="st">&quot;&#39; is a single upper case letter.&quot;</span>),<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(char1 <span class="sc">%in%</span> letters){</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">&quot;The character string &#39;&quot;</span>,char1,</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>             <span class="st">&quot;&#39; is a single lower case letter.&quot;</span>),<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">&quot;The character string &#39;&quot;</span>,char1,</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>             <span class="st">&quot;&#39; is not a single letter.&quot;</span>),<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## The character string &#39;2&#39; is not a single letter.</code></pre>
+<blockquote>
+<p>💡 Try changing the <code>2</code> in the code
+<code>char1 &lt;- "2"</code> to another character from your keyboard,
+and see what happens</p>
+</blockquote>
+<p>With this type of <em>control structure</em>, our computer is even
+starting to look a little intelligent 😉!</p>
+<p>Before we start making tables in R, there are a few other things we
+need to know or revise.</p>
+</div>
+<div id="using-the-which-function" class="section level2">
+<h2>Using the <code>which()</code> function</h2>
+<p>Remember from the last session that which finds the observations
+(e.g. elements in a vector or rows in a data frame) that meet a certain
+condition. For our examples, we read in some data from a previous
+session -- here we're reading directly from a URL or internet
+address.</p>
+<ul>
+<li>The URL is a long string, so we combine the path <code>git</code>
+and file name using the <code>paste0()</code> function which does not
+include spaces.</li>
+<li>We enclose the line creating the <code>gitURL</code> object
+completely in parentheses -- this will automatically <code>print</code>
+the object so we can check it.</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/&quot;</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>(gitURL <span class="ot">&lt;-</span> <span class="fu">paste0</span>(git,<span class="st">&quot;cities_Hu_etal_2021.csv&quot;</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>cities <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(gitURL, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>cities<span class="sc">$</span>City <span class="ot">&lt;-</span> <span class="fu">as.character</span>(cities<span class="sc">$</span>City)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">str</span>(cities)</span></code></pre></div>
+<pre><code>## [1] &quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/cities_Hu_etal_2021.csv&quot;
+## &#39;data.frame&#39;:    40 obs. of  8 variables:
+##  $ City       : chr  &quot;New York&quot; &quot;Sao Paulo&quot; &quot;Shanghai&quot; &quot;Beijing&quot; ...
+##  $ Compact    : num  610 1122 166 543 1196 ...
+##  $ Open       : num  1041.1 619.8 833 1039 12.3 ...
+##  $ Lightweight: num  0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 ...
+##  $ Industry   : num  318 219 947 289 520 ...
+##  $ Type       : Factor w/ 5 levels &quot;Compact&quot;,&quot;Compact-Open&quot;,..: 2 2 3 2 1 1 1 4 4 4 ...
+##  $ Global     : Factor w/ 2 levels &quot;North&quot;,&quot;South&quot;: 1 2 2 2 2 2 1 1 1 1 ...
+##  $ Region     : Factor w/ 8 levels &quot;Africa&quot;,&quot;Australia&quot;,..: 5 6 3 3 7 3 2 4 4 4 ...</code></pre>
+<p>Now let's revise the use of the <code>which()</code> function. Check
+that you understand what is happening in each example.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># show row indices for observations matching the condition</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">which</span>(cities<span class="sc">$</span>Industry <span class="sc">&gt;</span> <span class="dv">500</span>)</span></code></pre></div>
+<pre><code>## [1] 3 5 6</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># count observations matching condition</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">which</span>(cities<span class="sc">$</span>Industry <span class="sc">&gt;</span> <span class="dv">500</span>))</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># use which in rows part of index to display observations that</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co"># match the condition</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>cities[<span class="fu">which</span>(cities<span class="sc">$</span>Industry <span class="sc">&gt;</span> <span class="dv">500</span>), <span class="fu">c</span>(<span class="st">&quot;City&quot;</span>,<span class="st">&quot;Type&quot;</span>)]</span></code></pre></div>
+<pre><code>##        City       Type
+## 3  Shanghai Industrial
+## 5   Jakarta    Compact
+## 6 Guangzhou    Compact</code></pre>
+</div>
+<div id="using-the-transpose-function-t" class="section level2">
+<h2>Using the transpose function <code>t()</code></h2>
+<p>Sometimes a table is easier to interpret if we 'flip' it to make the
+rows into columns and the columns into rows. This is what the
+<code>t()</code> function does to two-dimensional objects like data
+frames and matrices. Here's an example:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>(m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>], <span class="at">ncol=</span><span class="dv">3</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>) <span class="co"># insert blank line</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">t</span>(m)</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,] &quot;A&quot;  &quot;D&quot;  &quot;G&quot; 
+## [2,] &quot;B&quot;  &quot;E&quot;  &quot;H&quot; 
+## [3,] &quot;C&quot;  &quot;F&quot;  &quot;I&quot; 
+## 
+##      [,1] [,2] [,3]
+## [1,] &quot;A&quot;  &quot;B&quot;  &quot;C&quot; 
+## [2,] &quot;D&quot;  &quot;E&quot;  &quot;F&quot; 
+## [3,] &quot;G&quot;  &quot;H&quot;  &quot;I&quot;</code></pre>
+<p>We need to be careful when transposing data frames, as these can
+contain multiple classes in separate columns. A session or two ago we
+made the <code>brightstars</code> data frame:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># making a data frame by directly inputting values</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>brightstars <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Star=</span><span class="fu">c</span>(<span class="st">&quot;Alpha Centauri&quot;</span>,<span class="st">&quot;Betelgeuse&quot;</span>,<span class="st">&quot;Canopus&quot;</span>,<span class="st">&quot;Sirius&quot;</span>),</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>                   <span class="at">Magnitude=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.1</span>, <span class="fl">0.42</span>, <span class="sc">-</span><span class="fl">0.74</span>, <span class="sc">-</span><span class="fl">1.46</span>),</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>                   <span class="at">Light.Years=</span><span class="fu">c</span>(<span class="fl">4.395</span>, <span class="fl">427.5</span>, <span class="fl">312.7</span>, <span class="fl">8.611</span>),</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>                   <span class="at">Planets=</span><span class="fu">c</span>(<span class="cn">TRUE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>,<span class="cn">FALSE</span>))</span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>brightstars</span></code></pre></div>
+<pre><code>##             Star Magnitude Light.Years Planets
+## 1 Alpha Centauri     -0.10       4.395    TRUE
+## 2     Betelgeuse      0.42     427.500   FALSE
+## 3        Canopus     -0.74     312.700   FALSE
+## 4         Sirius     -1.46       8.611   FALSE</code></pre>
+<p>Look what happens when we transpose:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">t</span>(brightstars)</span></code></pre></div>
+<pre><code>##             [,1]             [,2]         [,3]      [,4]     
+## Star        &quot;Alpha Centauri&quot; &quot;Betelgeuse&quot; &quot;Canopus&quot; &quot;Sirius&quot; 
+## Magnitude   &quot;-0.10&quot;          &quot; 0.42&quot;      &quot;-0.74&quot;   &quot;-1.46&quot;  
+## Light.Years &quot;  4.395&quot;        &quot;427.500&quot;    &quot;312.700&quot; &quot;  8.611&quot;
+## Planets     &quot;TRUE&quot;           &quot;FALSE&quot;      &quot;FALSE&quot;   &quot;FALSE&quot;</code></pre>
+<p>At first glance it looks like transposing worked; the column names
+have become row names, which we can use an an alternative index
+(<em>e.g</em>. try running <code>t(brightstars)["Star",]</code> and
+<code>t(brightstars)[1,]</code>)</p>
+<p>We notice, however, that all the values have been changed to
+<code>character</code>, since each column now contains at least one
+character value. We can get around this by transposing data frame
+columns separately (especially if we have large blocks of numeric
+columns). Also note that the transposed data frame is now a
+<code>matrix</code> object, which we will need to remember for
+later.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">t</span>(brightstars[,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>])</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">The transposed object is of class&quot;</span>,<span class="fu">class</span>(<span class="fu">t</span>(brightstars)))</span></code></pre></div>
+<pre><code>##               [,1]   [,2]   [,3]   [,4]
+## Magnitude   -0.100   0.42  -0.74 -1.460
+## Light.Years  4.395 427.50 312.70  8.611
+## 
+## The transposed object is of class matrix array</code></pre>
+<p>There is one more thing to look at before we start making reporting
+tables – <strong>R packages</strong>.</p>
+</div>
+<div id="r-packages" class="section level2">
+<h2>R Packages</h2>
+<p>Packages in R are libraries that contain additional functions, which
+makes R more powerful, allowing us to complete additional tasks. There
+are thousands of packages which all provide additional functions,
+usually with a theme. For example, we're going to use the
+<strong><code>flextable</code></strong> package which has many functions
+for formatting publication-quality tables.</p>
+<p>You might not have noticed, but R comes with several packages when
+you first install it: for example</p>
+<table>
+<colgroup>
+<col width="14%" />
+<col width="85%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Package</th>
+<th align="left">Contains...</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>base</code></td>
+<td align="left">basic arithmetic, input/output, basic programming
+functions, <em>etc</em>.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>stats</code></td>
+<td align="left">functions for statistical calculations</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>graphics</code></td>
+<td align="left">functions for ‘base’ graphics and plotting</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>Before we can use a package we need to do two things:</p>
+<div id="installing-r-packages" class="section level3">
+<h3>1. Installing R packages</h3>
+<p>We can do this from the <code>Packages</code> tab in RStudio – click
+<code>Install</code>, and type in the package name that you want
+(<em>e.g</em>. <code>flextable</code>).</p>
+<p>You only need to do this <strong>once</strong> -- the package files
+are now stored on your computer, so you don't need to install again
+unless the package needs updating.</p>
+<p>We can also install with code:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;flextable&quot;</span>)</span></code></pre></div>
+<p>If you think you might have a package installed and don't want to do
+it again just in case, you can make the installation conditional using
+an <code>if()</code> control function:<br />
+<code>if(!require(flextable)) install.packages("flextable")</code></p>
+</div>
+<div id="loading-r-packages" class="section level3">
+<h3>2. Loading R packages</h3>
+<p>Each time we use R we need to load the packages we want to use (we
+must have installed them previously!). We do this using the
+<code>library()</code> function which loads the package into our current
+R session, and makes all its functions and help available.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">library</span>(flextable)</span></code></pre></div>
+</div>
+</div>
+<div id="making-tables" class="section level2">
+<h2>Making Tables</h2>
+<p>Before using the <code>flextable</code> package we need to generate
+the contents of the table by analysing some data. We will use data of
+the type you will generate in this unit, from Ashfield Flats in
+2023.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>afs23 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;afs23.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">str</span>(afs23)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    74 obs. of  50 variables:
+##  $ Unit           : Factor w/ 2 levels &quot;ENVT3361&quot;,&quot;ENVT4461&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Type           : Factor w/ 2 levels &quot;Core&quot;,&quot;Surface&quot;: 2 2 2 2 2 2 2 2 2 1 ...
+##  $ Easting        : int  400440 400443 400444 400320 400320 400328 400228 400249 400267 400228 ...
+##  $ Northing       : int  6468269 6468255 6468241 6468293 6468283 6468256 6468191 6468200 6468201 6467997 ...
+##  $ UTM_E_OnBag    : int  400441 400444 400445 400320 400320 400328 400222 400247 400270 400228 ...
+##  $ UTM_N_OnBag    : int  646870 6468255 6468242 6468293 6468283 6468246 6468209 6468196 6468202 6467997 ...
+##  $ Depth_upper    : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ Depth_lower    : int  10 10 10 10 10 10 10 10 10 15 ...
+##  $ Lab.Field.Group: int  1 1 1 2 2 2 3 3 3 4 ...
+##  $ Sample_ID      : Factor w/ 74 levels &quot;S2023_1.1&quot;,&quot;S2023_1.2&quot;,..: 1 2 3 41 42 43 44 45 46 47 ...
+##  $ location_note  : Factor w/ 19 levels &quot;CORE east of N pond&quot;,..: 16 16 16 14 14 14 15 15 15 4 ...
+##  $ pH             : num  4.52 5.03 5.06 6.28 6.35 6.3 7.13 7.55 7.17 5.91 ...
+##  $ EC             : num  8.46 12.16 5.36 6.03 4.34 ...
+##  $ EC_units       : Factor w/ 3 levels &quot;µS/cm&quot;,&quot;ms/cm&quot;,..: 2 2 2 2 2 2 3 3 3 3 ...
+##  $ Fibres         : int  0 1917 486 NA NA NA 5000 7500 6500 4500 ...
+##  $ Fragments      : int  0 0 0 NA NA NA 20500 0 1000 0 ...
+##  $ Beads          : int  0 0 0 NA NA NA 7000 6000 0 0 ...
+##  $ Film           : int  0 0 0 NA NA NA 0 0 0 0 ...
+##  $ Al             : int  43286 34731 37810 44481 53703 55791 35485 38020 28944 40283 ...
+##  $ As             : int  8 11 9 12 9 7 7 6 6 4 ...
+##  $ Ba             : int  115 69 81 99 116 113 38 48 37 59 ...
+##  $ Ca             : int  1790 1398 1891 3353 3204 4282 4901 11704 9405 1567 ...
+##  $ Cd             : num  NA NA NA NA 0.18 0.11 0.05 0.24 0.34 NA ...
+##  $ Ce             : int  121 73 170 117 192 247 108 124 79 117 ...
+##  $ Co             : num  5.5 7 6.3 10.9 12.2 14.5 11 12.7 10.2 12.1 ...
+##  $ Cr             : int  56 62 63 52 59 68 58 61 46 67 ...
+##  $ Cu             : int  93 98 80 72 89 142 199 270 200 45 ...
+##  $ Fe             : int  54449 69316 63005 78003 69163 45944 37581 36439 28747 42845 ...
+##  $ Ga             : int  25 32 29 40 35 24 16 16 12 18 ...
+##  $ Gd             : int  9 5 10 8 14 14 6 7 5 7 ...
+##  $ K              : int  4979 3987 3214 5343 5515 4593 4850 6123 4276 3664 ...
+##  $ La             : int  49 29 69 54 77 115 49 57 37 54 ...
+##  $ Li             : int  29 18 23 39 49 63 31 35 24 31 ...
+##  $ Mg             : int  5121 5248 4606 4298 4607 5671 7404 14360 10184 5771 ...
+##  $ Mn             : int  50 77 65 109 76 69 79 124 84 215 ...
+##  $ Mo             : int  2 1 1 5 5 3 2 2 3 3 ...
+##  $ Na             : int  22218 20222 9797 14833 12877 17206 29467 66489 50125 22281 ...
+##  $ Nd             : int  53 34 67 47 79 87 38 43 28 44 ...
+##  $ Ni             : int  18 19 19 19 29 38 21 23 18 22 ...
+##  $ P              : int  633 525 535 422 613 648 378 431 338 317 ...
+##  $ Pb             : int  39 23 29 33 35 47 40 49 38 39 ...
+##  $ Rb             : int  65 69 60 63 61 74 82 102 70 66 ...
+##  $ S              : int  6625 4108 2168 5458 5797 4882 8038 14885 13914 2194 ...
+##  $ Sc             : int  8 9 9 9 9 10 9 9 7 10 ...
+##  $ Sr             : int  144 48 57 360 399 190 65 136 105 34 ...
+##  $ Th             : int  14 19 17 15 16 17 18 20 15 20 ...
+##  $ Ti             : int  296 372 350 199 291 367 332 379 290 410 ...
+##  $ V              : int  74 74 74 64 76 76 67 69 54 83 ...
+##  $ Y              : int  23 12 33 24 42 61 24 29 18 25 ...
+##  $ Zn             : int  40 27 38 91 156 197 206 286 169 64 ...</code></pre>
+<p>Our task is to make a table which summarizes the concentrations of
+potential contaminants arsenic (As), chromium (Cr), copper (Cu),
+manganese (Mn), nickel (Ni), lead (Pb), and zinc (Zn). We also want to
+present the number of samples which exceed relevant environmental
+guidelines.</p>
+<p>We also need to load the <code>officer</code> package to make use of
+some additional formatting options in <code>flextable</code>. The code
+actually used to make the summary table object(s) makes use of some
+functions in base R, with the <code>apply()</code> and
+<code>which()</code> functions doing most of the hard work.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">library</span>(officer)</span></code></pre></div>
+<div id="importing-environmental-guideline-data" class="section level3">
+<h3>Importing environmental guideline data</h3>
+<p>In this example we are looking at data on analysis of sediments and
+soils, for which environmental guideline values exist in Australia. For
+<em>sediments</em> we use the guidelines provided by Water Quality
+Australia (2024), which were derived from the interim sediment quality
+guidelines (ISQG) (hence the name of the file and data frame!).
+<em>Soil</em> guideline values are from NEPC (2011).</p>
+<p>In the code chunk below we make use of the ability to name rows in R
+data frames. This will be useful later on as we can include the row
+names in indices to interrogate the data frame for the correct
+environmental threshold.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>ISQG <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://github.com/Ratey-AtUWA/bookChapters/raw/main/ISQG.csv&quot;</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="fu">row.names</span>(ISQG) <span class="ot">&lt;-</span> ISQG<span class="sc">$</span>Tox</span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>HIL <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://github.com/Ratey-AtUWA/bookChapters/raw/main/HIL_NEPM.csv&quot;</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="fu">row.names</span>(HIL) <span class="ot">&lt;-</span> HIL<span class="sc">$</span>Tox</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">print</span>(ISQG)</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">NOTES:</span><span class="sc">\n</span><span class="st">DGV = Default Guideline Value; GV_high = Upper Guideline Value; </span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Tox = Toxicant</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>##       DGV GV_high Tox
+## Ag   1.00       4  Ag
+## As  20.00      70  As
+## Cd   1.50      10  Cd
+## Cr  80.00     370  Cr
+## Cu  65.00     270  Cu
+## Hg   0.15       1  Hg
+## Pb  50.00     220  Pb
+## Ni  21.00      52  Ni
+## Sb   2.00      25  Sb
+## Zn 200.00     410  Zn
+## 
+## NOTES:
+## DGV = Default Guideline Value; GV_high = Upper Guideline Value; 
+## Tox = Toxicant</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="fu">print</span>(HIL)</span></code></pre></div>
+<pre><code>##                   Element   Tox Resid...A Resid...B Recreat...C Industr...D
+## As                Arsenic    As       100       500         300        3000
+## Be              Beryllium    Be        60        90          90         500
+## B                   Boron     B      4500     40000       20000      300000
+## Cd                Cadmium    Cd        20       150          90         900
+## Cr           Chromium(VI)    Cr       100       500         300        3600
+## Co                 Cobalt    Co       100       600         300        4000
+## Cu                 Copper    Cu      6000     30000       17000      240000
+## Pb                   Lead    Pb       300      1200         600        1500
+## Mn              Manganese    Mn      3800     14000       19000       60000
+## Hg    Mercury_(inorganic)    Hg        40       120          80         730
+## CH3Hg      Methyl_mercury CH3Hg        10        30          13         180
+## Ni                 Nickel    Ni       400      1200        1200        6000
+## Se               Selenium    Se       200      1400         700       10000
+## Zn                   Zinc    Zn      7400     60000       30000      400000
+## CN         Cyanide_(free)    CN       250       300         240        1500
+## 
+## NOTES:
+## Tox = Toxicant; Resid = Residential; 
+## Recreat = Recreational / Public Open Space; Industr = Industrial</code></pre>
+</div>
+</div>
+<div id="generate-summary-statistics" class="section level2">
+<h2>Generate summary statistics</h2>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co"># first define the variables we want to summarise, and </span></span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="co"># make the basic summary</span></span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>elem0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;As&quot;</span>,<span class="st">&quot;Cr&quot;</span>,<span class="st">&quot;Cu&quot;</span>,<span class="st">&quot;Mn&quot;</span>,<span class="st">&quot;Ni&quot;</span>,<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;Zn&quot;</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>(summ0 <span class="ot">&lt;-</span> </span>
+<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">tox=</span>elem0,</span>
+<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a>      <span class="at">mean=</span><span class="fu">apply</span>(afs23[,elem0], <span class="dv">2</span>, <span class="cf">function</span>(x){<span class="fu">mean</span>(x, <span class="at">na.rm=</span>T)}),</span>
+<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a>      <span class="at">sd =</span> <span class="fu">apply</span>(afs23[,elem0], <span class="dv">2</span>, <span class="cf">function</span>(x){<span class="fu">sd</span>(x, <span class="at">na.rm=</span>T)}),</span>
+<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a>      <span class="at">min =</span> <span class="fu">apply</span>(afs23[,elem0], <span class="dv">2</span>, <span class="cf">function</span>(x){<span class="fu">min</span>(x, <span class="at">na.rm=</span>T)}),</span>
+<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a>      <span class="at">median =</span> <span class="fu">apply</span>(afs23[,elem0], <span class="dv">2</span>, <span class="cf">function</span>(x){<span class="fu">median</span>(x, <span class="at">na.rm=</span>T)}),</span>
+<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a>      <span class="at">max =</span> <span class="fu">apply</span>(afs23[,elem0], <span class="dv">2</span>, <span class="cf">function</span>(x){<span class="fu">max</span>(x, <span class="at">na.rm=</span>T)}),</span>
+<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a>      <span class="at">n =</span> <span class="fu">apply</span>(afs23[,elem0], <span class="dv">2</span>, <span class="cf">function</span>(x){<span class="fu">length</span>(<span class="fu">na.omit</span>(x))}),</span>
+<span id="cb33-12"><a href="#cb33-12" tabindex="-1"></a>      <span class="at">nNA =</span> <span class="fu">apply</span>(afs23[,elem0], <span class="dv">2</span>, <span class="cf">function</span>(x){<span class="fu">sum</span>(<span class="fu">is.na</span>(x))})))</span></code></pre></div>
+<pre><code>##    tox       mean         sd min median  max  n nNA
+## As  As   7.178082   4.042629   1    6.0   24 73   1
+## Cr  Cr  50.364865  19.583733   1   56.5   81 74   0
+## Cu  Cu  66.416667  63.711000   5   46.0  444 72   2
+## Mn  Mn 109.878378  97.883066   7   70.0  438 74   0
+## Ni  Ni  17.694444   6.662146   1   19.0   38 72   2
+## Pb  Pb  34.527027  16.005327   1   34.5  114 74   0
+## Zn  Zn 197.297297 173.952499   1  153.0 1018 74   0</code></pre>
+<p>We use a <strong>function</strong> to implement each summary
+statistic function like <code>mean()</code>, since the form of the
+<code>apply()</code> function doesn't allow us to include options such
+as <code>na.rm=TRUE</code>, which we need. We have used
+<code>apply()</code> to calculate column statistics since the second
+option is <code>2</code>, shorthand for <code>MARGIN=2</code>.</p>
+<p>If you want more information on writing functions, see <a
+href="https://rstudio.github.io/r-manuals/r-intro/Writing-your-own-functions.html"
+target="_blank">R Manuals :: An Introduction to R</a>. (You can also
+find this by running <code>help.start()</code> from the RStudio
+console.)</p>
+<div style="border: 2px solid #fa2; padding: 8px;">
+<p>Instead of making multiple usage of the <code>apply()</code>
+function, we could use the convenient <code>numSummary()</code> function
+in the <code>RcmdrMisc::</code> package (Fox &amp; Marquez 2023). To
+look at how that's done, look at the <a
+href="https://ratey-atuwa.github.io/Learn-R-web/tablesRCM.html"
+target="_blank">alternative version of this page</a>.</p>
+</div>
+<p> </p>
+</div>
+<div id="add-the-count-information" class="section level2">
+<h2>Add the count information</h2>
+<p>To perform the actual counting of sample numbers, we use base R's
+<code>which()</code> function and the customised column and row names we
+generated earlier, <em>e.g</em>.,
+<code>which(afs23[,elem0[i]] &gt; ISQG[elem0[i],"DGV"])</code>.</p>
+<ul>
+<li>The code <code>afs23[,elem0[i]]</code> selects the column from
+<code>afs23</code> with the same name as the i<sup>th</sup> element of
+the list of variables <code>elem0</code>, <em>i.e</em>.
+<code>elem0[i]</code>.<br />
+</li>
+<li>The code <code>ISQG[elem0[i],"DGV"]</code> find the desired value
+from the ISQG table using the row index <code>elem0[i]</code>, and the
+column index <code>"DGV"</code>. So, the variable names in the data must
+match the toxicant names in the thresholds table!!</li>
+<li>So, <code>which(afs23[,elem0[i]] &gt; ISQG[elem0[i],"DGV"])</code>
+will give the row indices in <code>afs23</code> for which the condition
+is <code>TRUE</code>, and the code then simply counts these using
+<code>length(which(afs23[,elem0[i]] &gt; ISQG[elem0[i],"DGV"]))</code></li>
+</ul>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>OutputDF <span class="ot">&lt;-</span> summ0</span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a><span class="co"># add blank columns in data frame for environmental thresholds</span></span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a>OutputDF<span class="sc">$</span>DGV <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,<span class="fu">length</span>(elem0))</span>
+<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a>OutputDF<span class="sc">$</span>GV_high <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,<span class="fu">length</span>(elem0))</span>
+<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a>OutputDF<span class="sc">$</span>HIL_C <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,<span class="fu">length</span>(elem0))</span>
+<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a><span class="co"># count the values for each element exceeding the various thresholds</span></span>
+<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a><span class="co"># and populate the data frame</span></span>
+<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a></span>
+<span id="cb35-12"><a href="#cb35-12" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(elem0)){</span>
+<span id="cb35-13"><a href="#cb35-13" tabindex="-1"></a>  <span class="cf">if</span>(elem0[i] <span class="sc">%in%</span> <span class="fu">row.names</span>(ISQG)){    <span class="co"># check if guideline exists!</span></span>
+<span id="cb35-14"><a href="#cb35-14" tabindex="-1"></a>    OutputDF<span class="sc">$</span>DGV[i] <span class="ot">&lt;-</span> </span>
+<span id="cb35-15"><a href="#cb35-15" tabindex="-1"></a>      <span class="fu">length</span>(<span class="fu">which</span>(afs23[,elem0[i]] <span class="sc">&gt;</span> ISQG[elem0[i],<span class="st">&quot;DGV&quot;</span>]))</span>
+<span id="cb35-16"><a href="#cb35-16" tabindex="-1"></a>    OutputDF<span class="sc">$</span>GV_high[i] <span class="ot">&lt;-</span> </span>
+<span id="cb35-17"><a href="#cb35-17" tabindex="-1"></a>      <span class="fu">length</span>(<span class="fu">which</span>(afs23[,elem0[i]] <span class="sc">&gt;</span> ISQG[elem0[i],<span class="st">&quot;GV_high&quot;</span>]))</span>
+<span id="cb35-18"><a href="#cb35-18" tabindex="-1"></a>  }</span>
+<span id="cb35-19"><a href="#cb35-19" tabindex="-1"></a>  <span class="cf">if</span>(elem0[i] <span class="sc">%in%</span> <span class="fu">row.names</span>(HIL)){     <span class="co"># check if guideline exists!</span></span>
+<span id="cb35-20"><a href="#cb35-20" tabindex="-1"></a>    OutputDF<span class="sc">$</span>HIL_C[i] <span class="ot">&lt;-</span> </span>
+<span id="cb35-21"><a href="#cb35-21" tabindex="-1"></a>      <span class="fu">length</span>(<span class="fu">which</span>(afs23[,elem0[i]] <span class="sc">&gt;</span> HIL[elem0[i],<span class="st">&quot;Recreational_C&quot;</span>]))</span>
+<span id="cb35-22"><a href="#cb35-22" tabindex="-1"></a>  }</span>
+<span id="cb35-23"><a href="#cb35-23" tabindex="-1"></a>}</span>
+<span id="cb35-24"><a href="#cb35-24" tabindex="-1"></a></span>
+<span id="cb35-25"><a href="#cb35-25" tabindex="-1"></a><span class="co"># rename the columns to more understandable names</span></span>
+<span id="cb35-26"><a href="#cb35-26" tabindex="-1"></a></span>
+<span id="cb35-27"><a href="#cb35-27" tabindex="-1"></a><span class="fu">colnames</span>(OutputDF)[<span class="dv">9</span><span class="sc">:</span><span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;n &gt; DGV&quot;</span>,<span class="st">&quot;n &gt; GV-high&quot;</span>, <span class="st">&quot;n &gt; HIL(C)&quot;</span>)</span>
+<span id="cb35-28"><a href="#cb35-28" tabindex="-1"></a><span class="fu">print</span>(OutputDF, <span class="at">row.names =</span> F)</span></code></pre></div>
+<pre><code>##  tox       mean         sd min median  max  n nNA n &gt; DGV n &gt; GV-high n &gt; HIL(C)
+##   As   7.178082   4.042629   1    6.0   24 73   1       2           0          0
+##   Cr  50.364865  19.583733   1   56.5   81 74   0       1           0          0
+##   Cu  66.416667  63.711000   5   46.0  444 72   2      22           1          0
+##   Mn 109.878378  97.883066   7   70.0  438 74   0      NA          NA          0
+##   Ni  17.694444   6.662146   1   19.0   38 72   2      21           0          0
+##   Pb  34.527027  16.005327   1   34.5  114 74   0       7           0          0
+##   Zn 197.297297 173.952499   1  153.0 1018 74   0      30           5          0</code></pre>
+<p>We could stop here, but this is not an attractively-formatted table.
+To make a publication-quality table, we first make a new data frame with
+columns and rows transposed (using <code>t()</code>), with the previous
+column names as the first column.</p>
+</div>
+<div id="publication-quality-table" class="section level2">
+<h2>Publication-quality table</h2>
+<p>To avoid lots of nesting of <code>flextable</code> functions, we find
+it easiest to pipe the successive lines of code containing formatting
+modifications, using the R pipe operator <code>|&gt;</code> (show the
+hidden code chunk below):</p>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode r fold-hide"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="co"># PIPES</span></span>
+<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a><span class="fu">which</span>(afs23<span class="sc">$</span>Zn <span class="sc">&gt;</span> <span class="dv">410</span>) <span class="sc">|&gt;</span> <span class="fu">length</span>()</span>
+<span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a>                           <span class="co"># gives the same result as</span></span>
+<span id="cb37-4"><a href="#cb37-4" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">which</span>(afs23<span class="sc">$</span>Zn <span class="sc">&gt;</span> <span class="dv">410</span>))</span>
+<span id="cb37-5"><a href="#cb37-5" tabindex="-1"></a><span class="co"># run ?pipeOp for more information</span></span></code></pre></div>
+<p>Where we need the <code>officer</code> package is to interpret the
+formatting option
+<code>fp_p=fp_par(text.align = "left", padding.bottom = 6)</code> in the
+<code>set_caption()</code> function.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="co"># make a new data frame with columns and rows transposed, and the </span></span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a><span class="co"># previous column names as the first column:</span></span>
+<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Statistic=</span><span class="fu">colnames</span>(OutputDF[,<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(OutputDF)]),</span>
+<span id="cb38-4"><a href="#cb38-4" tabindex="-1"></a>                 <span class="fu">t</span>(<span class="fu">signif</span>(OutputDF[,<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(OutputDF)],<span class="dv">3</span>)))</span>
+<span id="cb38-5"><a href="#cb38-5" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" tabindex="-1"></a><span class="co"># Then, use flextable to output a table in publication-quality form</span></span>
+<span id="cb38-7"><a href="#cb38-7" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" tabindex="-1"></a><span class="fu">flextable</span>(ft) <span class="sc">|&gt;</span></span>
+<span id="cb38-9"><a href="#cb38-9" tabindex="-1"></a>  <span class="fu">width</span>(<span class="at">j=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>), <span class="at">width=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="fu">rep</span>(<span class="fl">2.2</span>,<span class="dv">6</span>)), <span class="at">unit=</span><span class="st">&quot;cm&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb38-10"><a href="#cb38-10" tabindex="-1"></a>  <span class="fu">set_header_labels</span>(<span class="at">values=</span><span class="fu">list</span>(<span class="at">V1=</span><span class="st">&quot;&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb38-11"><a href="#cb38-11" tabindex="-1"></a>  <span class="fu">align</span>(<span class="at">j=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">8</span>, <span class="at">align=</span><span class="st">&quot;right&quot;</span>, <span class="at">part=</span><span class="st">&quot;all&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb38-12"><a href="#cb38-12" tabindex="-1"></a>  <span class="fu">padding</span>(<span class="at">i=</span><span class="dv">8</span>, <span class="at">padding.top =</span> <span class="dv">8</span>) <span class="sc">|&gt;</span></span>
+<span id="cb38-13"><a href="#cb38-13" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb38-14"><a href="#cb38-14" tabindex="-1"></a>  <span class="fu">set_formatter</span>(<span class="at">As=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.03g&quot;</span>,x)},</span>
+<span id="cb38-15"><a href="#cb38-15" tabindex="-1"></a>                <span class="at">Cr=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.0f&quot;</span>,x)},</span>
+<span id="cb38-16"><a href="#cb38-16" tabindex="-1"></a>                <span class="at">Cu=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.03g&quot;</span>,x)},</span>
+<span id="cb38-17"><a href="#cb38-17" tabindex="-1"></a>                <span class="at">Mn=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.03g&quot;</span>,x)},</span>
+<span id="cb38-18"><a href="#cb38-18" tabindex="-1"></a>                <span class="at">Ni=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.03g&quot;</span>,x)},</span>
+<span id="cb38-19"><a href="#cb38-19" tabindex="-1"></a>                <span class="at">Pb=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.0f&quot;</span>,x)}) <span class="sc">|&gt;</span> </span>
+<span id="cb38-20"><a href="#cb38-20" tabindex="-1"></a>  <span class="fu">set_caption</span>(<span class="at">caption=</span><span class="st">&quot;Table 1: Summary statistics for trace element concentrations (mg/kg) in sediment or soil at Ashfield Flats in 2023. Abbreviations: n = number of valid observations; nNA = number of missing observations; n &gt; DGV is number of samples exceeding the sediment Default Guideline Value; n &gt; GV-high is number of samples exceeding the sediment upper Guideline Value at which toxicity effects might be expected (Water Quality Australia, 2024). HIL(C) is the human-health based investigation level for Recreational (public open space) land use (NEPC, 2011).&quot;</span>, <span class="at">align_with_table=</span>F, <span class="at">fp_p=</span><span class="fu">fp_par</span>(<span class="at">text.align =</span> <span class="st">&quot;left&quot;</span>, <span class="at">padding.bottom =</span> <span class="dv">6</span>))</span></code></pre></div>
+<div class="tabwid"><style>.cl-3b041aae{}.cl-3afa6cf2{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3afa6cfc{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3afe10c8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3afe10d2{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3afe10e6{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:8pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3afe10e7{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:8pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3afe27fc{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3afe2806{width:0.866in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3afe2810{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3afe2811{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3afe281a{width:0.866in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3afe281b{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3afe2824{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3afe2825{width:0.866in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3afe2826{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-3b041aae'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Summary statistics for trace element concentrations (mg/kg) in sediment or soil at Ashfield Flats in 2023. Abbreviations: n = number of valid observations; nNA = number of missing observations; n &gt; DGV is number of samples exceeding the sediment Default Guideline Value; n &gt; GV-high is number of samples exceeding the sediment upper Guideline Value at which toxicity effects might be expected (Water Quality Australia, 2024). HIL(C) is the human-health based investigation level for Recreational (public open space) land use (NEPC, 2011).</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-3afe27fc"><p class="cl-3afe10c8"><span class="cl-3afa6cf2">Statistic</span></p></th><th class="cl-3afe2806"><p class="cl-3afe10d2"><span class="cl-3afa6cf2">As</span></p></th><th class="cl-3afe2806"><p class="cl-3afe10d2"><span class="cl-3afa6cf2">Cr</span></p></th><th class="cl-3afe2806"><p class="cl-3afe10d2"><span class="cl-3afa6cf2">Cu</span></p></th><th class="cl-3afe2806"><p class="cl-3afe10d2"><span class="cl-3afa6cf2">Mn</span></p></th><th class="cl-3afe2806"><p class="cl-3afe10d2"><span class="cl-3afa6cf2">Ni</span></p></th><th class="cl-3afe2806"><p class="cl-3afe10d2"><span class="cl-3afa6cf2">Pb</span></p></th><th class="cl-3afe2810"><p class="cl-3afe10d2"><span class="cl-3afa6cf2">Zn</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-3afe2811"><p class="cl-3afe10c8"><span class="cl-3afa6cfc">mean</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">7.18</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">50</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">66.4</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">110</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">17.7</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">34</span></p></td><td class="cl-3afe281b"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">197</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3afe2811"><p class="cl-3afe10c8"><span class="cl-3afa6cfc">sd</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">4.04</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">20</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">63.7</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">97.9</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">6.66</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">16</span></p></td><td class="cl-3afe281b"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">174</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3afe2811"><p class="cl-3afe10c8"><span class="cl-3afa6cfc">min</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">1</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">1</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">5</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">7</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">1</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">1</span></p></td><td class="cl-3afe281b"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3afe2811"><p class="cl-3afe10c8"><span class="cl-3afa6cfc">median</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">6</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">56</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">46</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">70</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">19</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">34</span></p></td><td class="cl-3afe281b"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">153</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3afe2811"><p class="cl-3afe10c8"><span class="cl-3afa6cfc">max</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">24</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">81</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">444</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">438</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">38</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">114</span></p></td><td class="cl-3afe281b"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">1,020</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3afe2811"><p class="cl-3afe10c8"><span class="cl-3afa6cfc">n</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">73</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">74</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">72</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">74</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">72</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">74</span></p></td><td class="cl-3afe281b"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">74</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3afe2811"><p class="cl-3afe10c8"><span class="cl-3afa6cfc">nNA</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">1</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">0</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">2</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">0</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">2</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">0</span></p></td><td class="cl-3afe281b"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3afe2811"><p class="cl-3afe10e6"><span class="cl-3afa6cfc">n &gt; DGV</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10e7"><span class="cl-3afa6cfc">2</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10e7"><span class="cl-3afa6cfc">1</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10e7"><span class="cl-3afa6cfc">22</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10e7"><span class="cl-3afa6cfc">NA</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10e7"><span class="cl-3afa6cfc">21</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10e7"><span class="cl-3afa6cfc">7</span></p></td><td class="cl-3afe281b"><p class="cl-3afe10e7"><span class="cl-3afa6cfc">30</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3afe2811"><p class="cl-3afe10c8"><span class="cl-3afa6cfc">n &gt; GV-high</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">0</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">0</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">1</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">NA</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">0</span></p></td><td class="cl-3afe281a"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">0</span></p></td><td class="cl-3afe281b"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">5</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3afe2824"><p class="cl-3afe10c8"><span class="cl-3afa6cfc">n &gt; HIL(C)</span></p></td><td class="cl-3afe2825"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">0</span></p></td><td class="cl-3afe2825"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">0</span></p></td><td class="cl-3afe2825"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">0</span></p></td><td class="cl-3afe2825"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">0</span></p></td><td class="cl-3afe2825"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">0</span></p></td><td class="cl-3afe2825"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">0</span></p></td><td class="cl-3afe2826"><p class="cl-3afe10d2"><span class="cl-3afa6cfc">0</span></p></td></tr></tbody></table></div>
+<p>
+ 
+</p>
+<p>The final table could now go into a report, and most readers would be
+happy with its appearance. We could probably do something about the
+alignment of the numeric columns, but decimal point alignment is not
+available in <code>flextable</code> yet.</p>
+<p>The next really useful type of information to obtain would be
+<strong>where</strong> the samples which exceed environmental thresholds
+are. That question leads us to another more basic question: “<em>How can
+we map our data in R</em>,” and so other sessions cover preparing maps
+in R, and from there we can move on to spatial analysis.</p>
+<p> </p>
+</div>
+<div id="raw-data-tabulation" class="section level2">
+<h2><strong>Raw data</strong> tabulation</h2>
+<p>In environmental consultancy reports, it's common to tabulate the raw
+data and indicate which individual samples exceed environmental
+guidelines (“<em>assessment criteria</em>”). This final section shows a
+way we can do this in R, using similar concepts to the summary
+statistics table above, but also including some R programming structures
+such as <code>for()</code> and <code>if()</code> functions.</p>
+<div id="defining-input-data" class="section level3">
+<h3>Defining input data</h3>
+<p>We will use a subset of the data we've already used, so that our raw
+data table does not get too large! By running <code>table()</code> on
+the <code>Type</code> column, we see that we have 21 Core samples, which
+won't be too big.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="fu">table</span>(afs23<span class="sc">$</span>Type)</span></code></pre></div>
+<pre><code>## 
+##    Core Surface 
+##      21      53</code></pre>
+<p>We can then subset the <code>afs23</code> data frame to include just
+the Core data, using <code>droplevels()</code> to remove any unused
+factor levels (<em>e.g</em>. Types other than Core):</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a>core23 <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(afs23[<span class="fu">which</span>(afs23<span class="sc">$</span>Type<span class="sc">==</span><span class="st">&quot;Core&quot;</span>),])</span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a><span class="fu">str</span>(core23) <span class="co"># check it</span></span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    21 obs. of  50 variables:
+##  $ Unit           : Factor w/ 2 levels &quot;ENVT3361&quot;,&quot;ENVT4461&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Type           : Factor w/ 1 level &quot;Core&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Easting        : int  400228 400228 400228 400228 399975 399995 399995 399995 399996 399996 ...
+##  $ Northing       : int  6467997 6467997 6467997 6467997 6468029 6468054 6468054 6468054 6468050 6468050 ...
+##  $ UTM_E_OnBag    : int  400228 400228 400228 400228 399975 399995 399995 399995 399975 399975 ...
+##  $ UTM_N_OnBag    : int  6467997 6467997 6467997 6467997 6468054 6468054 6468054 6468054 6468066 6468066 ...
+##  $ Depth_upper    : int  0 15 30 45 0 10 20 30 0 11 ...
+##  $ Depth_lower    : int  15 30 45 60 10 20 30 40 10 20 ...
+##  $ Lab.Field.Group: int  4 4 4 4 6 6 6 6 8 8 ...
+##  $ Sample_ID      : Factor w/ 21 levels &quot;S2023_10.1&quot;,&quot;S2023_10.2&quot;,..: 9 10 11 12 13 14 15 16 17 18 ...
+##  $ location_note  : Factor w/ 5 levels &quot;CORE east of N pond&quot;,..: 4 4 4 4 5 5 5 5 3 3 ...
+##  $ pH             : num  5.91 5.4 5.07 4.99 6.34 6.81 6.86 6.75 6.78 6.76 ...
+##  $ EC             : num  4.57 2.8 2.54 4.63 4.66 7.5 4.52 7.55 3.11 7.25 ...
+##  $ EC_units       : Factor w/ 2 levels &quot;µS/cm&quot;,&quot;mS/cm&quot;: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ Fibres         : int  4500 3500 5000 5500 NA NA NA NA NA NA ...
+##  $ Fragments      : int  0 0 1000 0 NA NA NA NA NA NA ...
+##  $ Beads          : int  0 0 0 0 NA NA NA NA NA NA ...
+##  $ Film           : int  0 0 0 0 NA NA NA NA NA NA ...
+##  $ Al             : int  40283 53042 44986 14483 33376 35842 30761 42522 1699 366 ...
+##  $ As             : int  4 8 9 2 6 6 5 7 1 NA ...
+##  $ Ba             : int  59 33 111 35 55 51 46 73 2 3 ...
+##  $ Ca             : int  1567 1068 901 560 3130 2026 1646 2292 1028 23 ...
+##  $ Cd             : num  NA NA NA NA 0.06 0.27 0.16 0.58 NA NA ...
+##  $ Ce             : int  117 153 86 30 71 105 87 120 3 2 ...
+##  $ Co             : num  12.1 10.2 6.5 2.3 8.7 18.9 11.8 33.3 NA 0.4 ...
+##  $ Cr             : int  67 74 69 24 55 65 46 66 3 1 ...
+##  $ Cu             : int  45 33 24 7 72 53 40 67 NA NA ...
+##  $ Fe             : int  42845 49583 56490 12822 36959 36354 28596 44423 1284 532 ...
+##  $ Ga             : int  18 26 25 NA 19 20 14 24 NA NA ...
+##  $ Gd             : int  7 10 6 2 4 6 5 7 NA NA ...
+##  $ K              : int  3664 3622 2725 1322 3215 3794 2747 3965 28 122 ...
+##  $ La             : int  54 63 33 14 33 54 45 60 2 1 ...
+##  $ Li             : int  31 51 38 11 29 35 34 45 NA NA ...
+##  $ Mg             : int  5771 3853 3491 1518 6770 4945 3609 5174 84 11 ...
+##  $ Mn             : int  215 174 102 57 46 53 38 59 7 25 ...
+##  $ Mo             : int  3 7 11 3 5 2 2 4 NA NA ...
+##  $ Na             : int  22281 10443 8207 5646 20206 11085 8899 12835 31 30 ...
+##  $ Nd             : int  44 60 36 11 28 38 30 42 1 1 ...
+##  $ Ni             : int  22 22 15 5 17 24 18 31 NA NA ...
+##  $ P              : int  317 278 204 40 448 373 313 410 14 3 ...
+##  $ Pb             : int  39 36 21 8 41 34 22 35 1 2 ...
+##  $ Rb             : int  66 65 52 15 56 68 42 68 NA NA ...
+##  $ S              : int  2194 1217 1201 1248 19225 3113 3157 4756 57 NA ...
+##  $ Sc             : int  10 13 11 4 9 10 7 11 NA NA ...
+##  $ Sr             : int  34 24 24 14 71 45 37 55 7 NA ...
+##  $ Th             : int  20 20 23 12 18 21 14 21 1 1 ...
+##  $ Ti             : int  410 382 402 562 251 267 230 289 88 440 ...
+##  $ V              : int  83 96 113 31 63 77 59 87 8 1 ...
+##  $ Y              : int  25 33 19 4 15 22 20 27 NA NA ...
+##  $ Zn             : int  64 24 18 6 282 695 397 1018 3 1 ...</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a>colz <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Sample_ID&quot;</span>,<span class="st">&quot;Depth_upper&quot;</span>,<span class="st">&quot;Depth_lower&quot;</span>,</span>
+<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a>          <span class="st">&quot;As&quot;</span>,<span class="st">&quot;Cr&quot;</span>,<span class="st">&quot;Cu&quot;</span>,<span class="st">&quot;Mn&quot;</span>,<span class="st">&quot;Ni&quot;</span>,<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;Zn&quot;</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" tabindex="-1"></a><span class="fu">head</span>(core23[,colz])</span>
+<span id="cb43-4"><a href="#cb43-4" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> core23[ ,colz]</span></code></pre></div>
+<pre><code>##    Sample_ID Depth_upper Depth_lower As Cr Cu  Mn Ni Pb  Zn
+## 10 S2023_4.1           0          15  4 67 45 215 22 39  64
+## 11 S2023_4.2          15          30  8 74 33 174 22 36  24
+## 12 S2023_4.3          30          45  9 69 24 102 15 21  18
+## 13 S2023_4.4          45          60  2 24  7  57  5  8   6
+## 19 S2023_6.1           0          10  6 55 72  46 17 41 282
+## 20 S2023_6.2          10          20  6 65 53  53 24 34 695</code></pre>
+</div>
+<div id="making-the-data-table-showing-samples-exceeding-guidelines"
+class="section level3">
+<h3>Making the data table showing samples exceeding guidelines</h3>
+<p>We need to use a somewhat complex control structure in our code, as
+shown below</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> core23[ ,colz]</span>
+<span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(data0)){</span>
+<span id="cb45-3"><a href="#cb45-3" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">colnames</span>(data0)[j] <span class="sc">%in%</span> <span class="fu">row.names</span>(ISQG)){ <span class="co"># check guideline exists!</span></span>
+<span id="cb45-4"><a href="#cb45-4" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(data0)){</span>
+<span id="cb45-5"><a href="#cb45-5" tabindex="-1"></a>    <span class="co"># first check if guideline value or observation not missing!</span></span>
+<span id="cb45-6"><a href="#cb45-6" tabindex="-1"></a>    <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.na</span>(data0[i,j]) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(ISQG[<span class="fu">colnames</span>(data0)[j],<span class="dv">1</span>]) </span>
+<span id="cb45-7"><a href="#cb45-7" tabindex="-1"></a>                          <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(ISQG[<span class="fu">colnames</span>(data0)[j],<span class="dv">2</span>])) {</span>
+<span id="cb45-8"><a href="#cb45-8" tabindex="-1"></a>      <span class="co"># then add symbols to observations exceeding GV-high or DGV</span></span>
+<span id="cb45-9"><a href="#cb45-9" tabindex="-1"></a>      <span class="cf">if</span>(<span class="fu">as.numeric</span>(data0[i,j]) <span class="sc">&gt;=</span> ISQG[<span class="fu">colnames</span>(data0)[j],<span class="dv">2</span>]) {</span>
+<span id="cb45-10"><a href="#cb45-10" tabindex="-1"></a>        data0[i,j] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(data0[i,j],<span class="st">&quot;\u26A0&quot;</span>)</span>
+<span id="cb45-11"><a href="#cb45-11" tabindex="-1"></a>      } <span class="cf">else</span> <span class="cf">if</span>(<span class="fu">as.numeric</span>(data0[i,j]) <span class="sc">&lt;</span> ISQG[<span class="fu">colnames</span>(data0)[j],<span class="dv">2</span>] <span class="sc">&amp;</span></span>
+<span id="cb45-12"><a href="#cb45-12" tabindex="-1"></a>           <span class="fu">as.numeric</span>(data0[i,j]) <span class="sc">&gt;=</span> ISQG[<span class="fu">colnames</span>(data0)[j],<span class="dv">1</span>]) {</span>
+<span id="cb45-13"><a href="#cb45-13" tabindex="-1"></a>          data0[i,j] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(data0[i,j],<span class="st">&quot;\u2191&quot;</span>)</span>
+<span id="cb45-14"><a href="#cb45-14" tabindex="-1"></a>        } <span class="co"># close if() sequence for GV.high ≥ observation &gt; DGV or obs ≥ DGV</span></span>
+<span id="cb45-15"><a href="#cb45-15" tabindex="-1"></a>      } <span class="co"># close if() statement for missing guideline or observation</span></span>
+<span id="cb45-16"><a href="#cb45-16" tabindex="-1"></a>    } <span class="co"># close for(i...) loop</span></span>
+<span id="cb45-17"><a href="#cb45-17" tabindex="-1"></a>  }</span>
+<span id="cb45-18"><a href="#cb45-18" tabindex="-1"></a>} <span class="co"># close for(j...) loop</span></span></code></pre></div>
+<p>Once we have made the table with values exceeding guidelines
+identified, we again use <code>flextable()</code> to format our output
+nicely (Table 2).</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="fu">flextable</span>(data0) <span class="sc">|&gt;</span> <span class="fu">bold</span>(<span class="at">bold=</span>T, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a>  <span class="fu">width</span>(<span class="at">width=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="fu">rep</span>(<span class="dv">2</span>,<span class="dv">9</span>)), <span class="at">unit=</span><span class="st">&quot;cm&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb46-3"><a href="#cb46-3" tabindex="-1"></a>  <span class="fu">set_header_labels</span>(<span class="at">Sample_ID=</span><span class="st">&quot;Sample code&quot;</span>, <span class="at">Depth_upper=</span><span class="st">&quot;Top&quot;</span>,</span>
+<span id="cb46-4"><a href="#cb46-4" tabindex="-1"></a>                    <span class="at">Depth_lower=</span><span class="st">&quot;Bottom&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb46-5"><a href="#cb46-5" tabindex="-1"></a>  <span class="fu">align</span>(<span class="at">align=</span><span class="st">&quot;left&quot;</span>, <span class="at">part=</span><span class="st">&quot;all&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb46-6"><a href="#cb46-6" tabindex="-1"></a>  <span class="fu">valign</span>(<span class="at">valign =</span> <span class="st">&quot;bottom&quot;</span>, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb46-7"><a href="#cb46-7" tabindex="-1"></a>  <span class="fu">set_header_labels</span>(<span class="at">Sample_ID=</span><span class="st">&quot;Sample ID&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb46-8"><a href="#cb46-8" tabindex="-1"></a>  <span class="fu">set_caption</span>(<span class="at">caption=</span><span class="st">&quot;Table 2: Concentrations of selected elements (mg/kg) in Ashfield Flats sediment cores sampled in March 2023. Concentrations followed by (↑) exceed the Default Guideline Value (DGV), or with (⚠) exceed the GV-high value for that column&#39;s element (sediment guidelines from Water Quality Australia, 2024).&quot;</span>, <span class="at">align_with_table=</span>F, <span class="at">fp_p=</span><span class="fu">fp_par</span>(<span class="at">text.align =</span> <span class="st">&quot;left&quot;</span>, <span class="at">padding.bottom =</span> <span class="dv">6</span>))</span></code></pre></div>
+<div class="tabwid"><style>.cl-3b430dd6{}.cl-3b39c79e{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3b39c7a8{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3b3d1692{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3b3d169c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3b3d2aa6{width:1.181in;background-color:transparent;vertical-align: bottom;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b3d2ab0{width:0.787in;background-color:transparent;vertical-align: bottom;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b3d2ab1{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b3d2aba{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b3d2ac4{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b3d2ac5{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-3b430dd6'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 2: Concentrations of selected elements (mg/kg) in Ashfield Flats sediment cores sampled in March 2023. Concentrations followed by (↑) exceed the Default Guideline Value (DGV), or with (⚠) exceed the GV-high value for that column's element (sediment guidelines from Water Quality Australia, 2024).</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-3b3d2aa6"><p class="cl-3b3d1692"><span class="cl-3b39c79e">Sample ID</span></p></th><th class="cl-3b3d2ab0"><p class="cl-3b3d1692"><span class="cl-3b39c79e">Top</span></p></th><th class="cl-3b3d2ab0"><p class="cl-3b3d1692"><span class="cl-3b39c79e">Bottom</span></p></th><th class="cl-3b3d2ab0"><p class="cl-3b3d1692"><span class="cl-3b39c79e">As</span></p></th><th class="cl-3b3d2ab0"><p class="cl-3b3d1692"><span class="cl-3b39c79e">Cr</span></p></th><th class="cl-3b3d2ab0"><p class="cl-3b3d1692"><span class="cl-3b39c79e">Cu</span></p></th><th class="cl-3b3d2ab0"><p class="cl-3b3d1692"><span class="cl-3b39c79e">Mn</span></p></th><th class="cl-3b3d2ab0"><p class="cl-3b3d1692"><span class="cl-3b39c79e">Ni</span></p></th><th class="cl-3b3d2ab0"><p class="cl-3b3d1692"><span class="cl-3b39c79e">Pb</span></p></th><th class="cl-3b3d2ab0"><p class="cl-3b3d1692"><span class="cl-3b39c79e">Zn</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_4.1</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">0</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">15</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">4</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">67</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">45</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">215</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">22↑</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">39</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">64</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_4.2</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">15</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">30</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">8</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">74</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">33</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">174</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">22↑</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">36</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">24</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_4.3</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">30</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">45</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">9</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">69</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">24</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">102</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">15</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">21</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">18</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_4.4</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">45</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">60</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">2</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">24</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">7</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">57</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">5</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">8</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_6.1</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">0</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">10</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">6</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">55</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">72↑</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">46</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">17</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">41</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">282↑</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_6.2</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">10</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">20</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">6</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">65</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">53</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">53</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">24↑</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">34</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">695⚠</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_6.3</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">20</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">30</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">5</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">46</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">40</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">38</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">18</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">22</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">397↑</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_6.4</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">30</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">40</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">7</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">66</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">67↑</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">59</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">31↑</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">35</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">1018⚠</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_8.1</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">0</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">10</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">1</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">3</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8"></span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">7</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8"></span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">1</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">3</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_8.2</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">11</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">20</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8"></span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">1</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8"></span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">25</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8"></span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">2</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_8.3</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">21</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">30</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">7</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">81↑</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">47</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">71</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">25↑</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">38</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">150</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_8.4</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">31</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">40</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">4</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">76</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">48</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">60</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">23↑</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">41</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">148</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_8.5</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">41</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">50</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">4</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">75</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">42</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">59</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">23↑</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">31</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">123</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_10.1</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">0</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">5</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">9</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">43</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">45</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">73</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">19</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">28</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">510⚠</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_10.2</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">5</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">10</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">6</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">67</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">49</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">60</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">22↑</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">36</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">310↑</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_10.3</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">10</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">15</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">6</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">71</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">49</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">59</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">21↑</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">35</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">202↑</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_10.4</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">15</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">20</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">7</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">69</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">41</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">54</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">19</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">34</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">153</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_10.5</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">20</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">30</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">8</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">68</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">31</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">52</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">18</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">30</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">329↑</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_10.6</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">30</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">34</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">10</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">62</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">23</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">52</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">17</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">30</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">824⚠</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ab1"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_17.1</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">0</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">20</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">10</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">36</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">112↑</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">43</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">10</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">64↑</span></p></td><td class="cl-3b3d2aba"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">127</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b3d2ac4"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">S2023_17.2</span></p></td><td class="cl-3b3d2ac5"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">0</span></p></td><td class="cl-3b3d2ac5"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">20</span></p></td><td class="cl-3b3d2ac5"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">11</span></p></td><td class="cl-3b3d2ac5"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">28</span></p></td><td class="cl-3b3d2ac5"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">72↑</span></p></td><td class="cl-3b3d2ac5"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">34</span></p></td><td class="cl-3b3d2ac5"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">8</span></p></td><td class="cl-3b3d2ac5"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">38</span></p></td><td class="cl-3b3d2ac5"><p class="cl-3b3d169c"><span class="cl-3b39c7a8">79</span></p></td></tr></tbody></table></div>
+<p>Tables 1 and 2 are the main types of Table which might be presented
+in environmental consultancy reports such as a Detailed Site
+Investigation, or reports on ongoing monitoring.</p>
+<p> </p>
+</div>
+<div
+id="different-ways-to-make-a-raw-data-table-showing-guideline-exceedances"
+class="section level3">
+<h3>Different ways to make a raw data table, showing guideline
+exceedances</h3>
+<div id="using-flextable-conditional-formatting" class="section level4">
+<h4>1. Using <code>flextable()</code> conditional formatting</h4>
+<p>This is logical, but the code gets a bit lengthy since there are
+different conditions for each column&gt; We also need to [conditionally]
+apply the different formats for each condition separately (<em>i.e</em>.
+<code>bg()</code>, <code>bold()</code>). Here we also use the
+<code>flextable</code> <code>set_fomatter()</code> function to round to
+a fixed number (0 or 1) decimal places, but this is optional.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a><span class="fu">flextable</span>(core23[ ,colz]) <span class="sc">|&gt;</span> <span class="fu">bold</span>(<span class="at">bold=</span>T, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-2"><a href="#cb47-2" tabindex="-1"></a>  <span class="fu">width</span>(<span class="at">width=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="fu">rep</span>(<span class="dv">2</span>,<span class="dv">9</span>)), <span class="at">unit=</span><span class="st">&quot;cm&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-3"><a href="#cb47-3" tabindex="-1"></a>  <span class="fu">set_header_labels</span>(<span class="at">Sample_ID=</span><span class="st">&quot;Sample code&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-4"><a href="#cb47-4" tabindex="-1"></a>  <span class="fu">align</span>(<span class="at">align=</span><span class="st">&quot;center&quot;</span>, <span class="at">j=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">8</span>, <span class="at">part=</span><span class="st">&quot;all&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-5"><a href="#cb47-5" tabindex="-1"></a>  <span class="fu">valign</span>(<span class="at">valign =</span> <span class="st">&quot;bottom&quot;</span>, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-6"><a href="#cb47-6" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> As <span class="sc">&gt;</span> ISQG[<span class="st">&quot;As&quot;</span>,<span class="st">&quot;DGV&quot;</span>], <span class="at">j=</span><span class="st">&quot;As&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffff60&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-7"><a href="#cb47-7" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> Cr <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Cr&quot;</span>,<span class="st">&quot;DGV&quot;</span>], <span class="at">j=</span><span class="st">&quot;Cr&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffff60&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-8"><a href="#cb47-8" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> Cu <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Cu&quot;</span>,<span class="st">&quot;DGV&quot;</span>], <span class="at">j=</span><span class="st">&quot;Cu&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffff60&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-9"><a href="#cb47-9" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> Ni <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Ni&quot;</span>,<span class="st">&quot;DGV&quot;</span>], <span class="at">j=</span><span class="st">&quot;Ni&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffff60&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-10"><a href="#cb47-10" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> Pb <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;DGV&quot;</span>], <span class="at">j=</span><span class="st">&quot;Pb&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffff60&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-11"><a href="#cb47-11" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> Zn <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Zn&quot;</span>,<span class="st">&quot;DGV&quot;</span>], <span class="at">j=</span><span class="st">&quot;Zn&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffff60&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-12"><a href="#cb47-12" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="sc">~</span> As <span class="sc">&gt;</span> ISQG[<span class="st">&quot;As&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;As&quot;</span>, <span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-13"><a href="#cb47-13" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="sc">~</span> Cr <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Cr&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Cr&quot;</span>, <span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-14"><a href="#cb47-14" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="sc">~</span> Cu <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Cu&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Cu&quot;</span>, <span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-15"><a href="#cb47-15" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="sc">~</span> Ni <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Ni&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Ni&quot;</span>, <span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-16"><a href="#cb47-16" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="sc">~</span> Pb <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Pb&quot;</span>, <span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-17"><a href="#cb47-17" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="sc">~</span> Zn <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Zn&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Zn&quot;</span>, <span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-18"><a href="#cb47-18" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> As <span class="sc">&gt;</span> ISQG[<span class="st">&quot;As&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;As&quot;</span>, <span class="at">bg=</span><span class="st">&quot;orange&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-19"><a href="#cb47-19" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> Cr <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Cr&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Cr&quot;</span>, <span class="at">bg=</span><span class="st">&quot;orange&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-20"><a href="#cb47-20" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> Cu <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Cu&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Cu&quot;</span>, <span class="at">bg=</span><span class="st">&quot;orange&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-21"><a href="#cb47-21" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> Ni <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Ni&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Ni&quot;</span>, <span class="at">bg=</span><span class="st">&quot;orange&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-22"><a href="#cb47-22" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> Pb <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Pb&quot;</span>, <span class="at">bg=</span><span class="st">&quot;orange&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-23"><a href="#cb47-23" tabindex="-1"></a>  <span class="fu">bg</span>(<span class="sc">~</span> Zn <span class="sc">&gt;</span> ISQG[<span class="st">&quot;Zn&quot;</span>,<span class="st">&quot;GV_high&quot;</span>], <span class="at">j=</span><span class="st">&quot;Zn&quot;</span>, <span class="at">bg=</span><span class="st">&quot;orange&quot;</span>, <span class="at">part=</span><span class="st">&quot;body&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-24"><a href="#cb47-24" tabindex="-1"></a>  <span class="fu">set_formatter</span>(<span class="at">As=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.03g&quot;</span>,x)},</span>
+<span id="cb47-25"><a href="#cb47-25" tabindex="-1"></a>                <span class="at">Cr=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.03g&quot;</span>,x)},</span>
+<span id="cb47-26"><a href="#cb47-26" tabindex="-1"></a>                <span class="at">Cu=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.03g&quot;</span>,x)},</span>
+<span id="cb47-27"><a href="#cb47-27" tabindex="-1"></a>                <span class="at">Mn=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.03g&quot;</span>,x)},</span>
+<span id="cb47-28"><a href="#cb47-28" tabindex="-1"></a>                <span class="at">Ni=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.03g&quot;</span>,x)},</span>
+<span id="cb47-29"><a href="#cb47-29" tabindex="-1"></a>                <span class="at">Pb=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.03g&quot;</span>,x)},</span>
+<span id="cb47-30"><a href="#cb47-30" tabindex="-1"></a>                <span class="at">Zn=</span><span class="cf">function</span>(x){<span class="fu">sprintf</span>(<span class="st">&quot;%.04g&quot;</span>,x)}) <span class="sc">|&gt;</span></span>
+<span id="cb47-31"><a href="#cb47-31" tabindex="-1"></a>  <span class="fu">set_caption</span>(<span class="at">caption=</span><span class="st">&quot;Table 3: Concentrations of selected elements (mg/kg) in Ashfield Flats sediments sampled in March 2022. Light shaded (yellow) cells show concentrations exceeding the Default Guideline Value (DGV); darker shading (orange) + bold exceed the GV-high value for that column&#39;s element (sediment guidelines from Water Quality Australia, 2024).&quot;</span>, <span class="at">align_with_table=</span>F, <span class="at">fp_p=</span><span class="fu">fp_par</span>(<span class="at">text.align =</span> <span class="st">&quot;left&quot;</span>, <span class="at">padding.bottom =</span> <span class="dv">6</span>))</span></code></pre></div>
+<div class="tabwid"><style>.cl-3b6aeac2{}.cl-3b610386{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3b61039a{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3b647b60{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3b647b6a{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3b647b6b{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3b647b7e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3b647b7f{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3b647b88{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3b6493a2{width:1.181in;background-color:transparent;vertical-align: bottom;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b6493ac{width:0.787in;background-color:transparent;vertical-align: bottom;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b6493b6{width:0.787in;background-color:transparent;vertical-align: bottom;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b6493b7{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b6493b8{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b6493c0{width:0.787in;background-color:rgba(255, 255, 96, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b6493c1{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b6493ca{width:0.787in;background-color:rgba(255, 255, 96, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b6493d4{width:0.787in;background-color:rgba(255, 165, 0, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b6493d5{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b6493de{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b6493df{width:0.787in;background-color:rgba(255, 255, 96, 1.00);vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3b6493e8{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-3b6aeac2'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 3: Concentrations of selected elements (mg/kg) in Ashfield Flats sediments sampled in March 2022. Light shaded (yellow) cells show concentrations exceeding the Default Guideline Value (DGV); darker shading (orange) + bold exceed the GV-high value for that column's element (sediment guidelines from Water Quality Australia, 2024).</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-3b6493a2"><p class="cl-3b647b60"><span class="cl-3b610386">Sample code</span></p></th><th class="cl-3b6493ac"><p class="cl-3b647b6a"><span class="cl-3b610386">Depth_upper</span></p></th><th class="cl-3b6493ac"><p class="cl-3b647b6a"><span class="cl-3b610386">Depth_lower</span></p></th><th class="cl-3b6493ac"><p class="cl-3b647b6a"><span class="cl-3b610386">As</span></p></th><th class="cl-3b6493ac"><p class="cl-3b647b6a"><span class="cl-3b610386">Cr</span></p></th><th class="cl-3b6493ac"><p class="cl-3b647b6a"><span class="cl-3b610386">Cu</span></p></th><th class="cl-3b6493ac"><p class="cl-3b647b6a"><span class="cl-3b610386">Mn</span></p></th><th class="cl-3b6493ac"><p class="cl-3b647b6a"><span class="cl-3b610386">Ni</span></p></th><th class="cl-3b6493b6"><p class="cl-3b647b6b"><span class="cl-3b610386">Pb</span></p></th><th class="cl-3b6493b6"><p class="cl-3b647b6b"><span class="cl-3b610386">Zn</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_4.1</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">0</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">15</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">4</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">67</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">45</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">215</span></p></td><td class="cl-3b6493c0"><p class="cl-3b647b7f"><span class="cl-3b61039a">22</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">39</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">64</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_4.2</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">15</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">30</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">8</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">74</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">33</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">174</span></p></td><td class="cl-3b6493c0"><p class="cl-3b647b7f"><span class="cl-3b61039a">22</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">36</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">24</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_4.3</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">30</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">45</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">9</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">69</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">24</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">102</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">15</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">21</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">18</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_4.4</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">45</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">60</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">2</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">24</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">7</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">57</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">5</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">8</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_6.1</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">0</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">10</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">6</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">55</span></p></td><td class="cl-3b6493c0"><p class="cl-3b647b7f"><span class="cl-3b61039a">72</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">46</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">17</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">41</span></p></td><td class="cl-3b6493ca"><p class="cl-3b647b88"><span class="cl-3b61039a">282</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_6.2</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">10</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">20</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">6</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">65</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">53</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">53</span></p></td><td class="cl-3b6493c0"><p class="cl-3b647b7f"><span class="cl-3b61039a">24</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">34</span></p></td><td class="cl-3b6493d4"><p class="cl-3b647b88"><span class="cl-3b610386">695</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_6.3</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">20</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">30</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">5</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">46</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">40</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">38</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">18</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">22</span></p></td><td class="cl-3b6493ca"><p class="cl-3b647b88"><span class="cl-3b61039a">397</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_6.4</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">30</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">40</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">7</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">66</span></p></td><td class="cl-3b6493c0"><p class="cl-3b647b7f"><span class="cl-3b61039a">67</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">59</span></p></td><td class="cl-3b6493c0"><p class="cl-3b647b7f"><span class="cl-3b61039a">31</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">35</span></p></td><td class="cl-3b6493d4"><p class="cl-3b647b88"><span class="cl-3b610386">1018</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_8.1</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">0</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">10</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">1</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">3</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">NA</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">7</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">NA</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">1</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">3</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_8.2</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">11</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">20</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">NA</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">1</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">NA</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">25</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">NA</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">2</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_8.3</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">21</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">30</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">7</span></p></td><td class="cl-3b6493c0"><p class="cl-3b647b7f"><span class="cl-3b61039a">81</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">47</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">71</span></p></td><td class="cl-3b6493c0"><p class="cl-3b647b7f"><span class="cl-3b61039a">25</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">38</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">150</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_8.4</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">31</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">40</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">4</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">76</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">48</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">60</span></p></td><td class="cl-3b6493c0"><p class="cl-3b647b7f"><span class="cl-3b61039a">23</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">41</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">148</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_8.5</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">41</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">50</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">4</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">75</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">42</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">59</span></p></td><td class="cl-3b6493c0"><p class="cl-3b647b7f"><span class="cl-3b61039a">23</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">31</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">123</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_10.1</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">0</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">5</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">9</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">43</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">45</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">73</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">19</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">28</span></p></td><td class="cl-3b6493d4"><p class="cl-3b647b88"><span class="cl-3b610386">510</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_10.2</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">5</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">10</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">6</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">67</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">49</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">60</span></p></td><td class="cl-3b6493c0"><p class="cl-3b647b7f"><span class="cl-3b61039a">22</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">36</span></p></td><td class="cl-3b6493ca"><p class="cl-3b647b88"><span class="cl-3b61039a">310</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_10.3</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">10</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">15</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">6</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">71</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">49</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">59</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">21</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">35</span></p></td><td class="cl-3b6493ca"><p class="cl-3b647b88"><span class="cl-3b61039a">202</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_10.4</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">15</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">20</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">7</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">69</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">41</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">54</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">19</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">34</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">153</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_10.5</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">20</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">30</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">8</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">68</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">31</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">52</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">18</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">30</span></p></td><td class="cl-3b6493ca"><p class="cl-3b647b88"><span class="cl-3b61039a">329</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_10.6</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">30</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">34</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">10</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">62</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">23</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">52</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">17</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">30</span></p></td><td class="cl-3b6493d4"><p class="cl-3b647b88"><span class="cl-3b610386">824</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493b7"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_17.1</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">0</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">20</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">10</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">36</span></p></td><td class="cl-3b6493c0"><p class="cl-3b647b7f"><span class="cl-3b61039a">112</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">43</span></p></td><td class="cl-3b6493b8"><p class="cl-3b647b7f"><span class="cl-3b61039a">10</span></p></td><td class="cl-3b6493ca"><p class="cl-3b647b88"><span class="cl-3b61039a">64</span></p></td><td class="cl-3b6493c1"><p class="cl-3b647b88"><span class="cl-3b61039a">127</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3b6493d5"><p class="cl-3b647b7e"><span class="cl-3b61039a">S2023_17.2</span></p></td><td class="cl-3b6493de"><p class="cl-3b647b7f"><span class="cl-3b61039a">0</span></p></td><td class="cl-3b6493de"><p class="cl-3b647b7f"><span class="cl-3b61039a">20</span></p></td><td class="cl-3b6493de"><p class="cl-3b647b7f"><span class="cl-3b61039a">11</span></p></td><td class="cl-3b6493de"><p class="cl-3b647b7f"><span class="cl-3b61039a">28</span></p></td><td class="cl-3b6493df"><p class="cl-3b647b7f"><span class="cl-3b61039a">72</span></p></td><td class="cl-3b6493de"><p class="cl-3b647b7f"><span class="cl-3b61039a">34</span></p></td><td class="cl-3b6493de"><p class="cl-3b647b7f"><span class="cl-3b61039a">8</span></p></td><td class="cl-3b6493e8"><p class="cl-3b647b88"><span class="cl-3b61039a">38</span></p></td><td class="cl-3b6493e8"><p class="cl-3b647b88"><span class="cl-3b61039a">79</span></p></td></tr></tbody></table></div>
+<p> </p>
+</div>
+<div id="using-conditional-formatting-in-microsoft-excel"
+class="section level4">
+<h4>2. Using conditional formatting in Microsoft Excel®</h4>
+<ol style="list-style-type: decimal">
+<li><p>Create an Excel workbook containing the table (<em>e.g</em>.
+values as in Table 2 or Table 3 above)</p></li>
+<li><p>Select the range of your Excel worksheet to be formatted
+(<em>i.e</em>. one of the concentration columns)</p></li>
+<li><p>In the upper ‘ribbon’ menu select Home » Conditional Formatting »
+<u>H</u>ighlight cells rules » <strong><u>G</u>reater
+than...</strong></p></li>
+<li><p>In the dialog box which appears, enter the value relevant to the
+column selected (<em>e.g</em>. DGV from the Sediment quality
+Guidelines), and choose a highlight style</p></li>
+</ol>
+<div class="float">
+<img src="./images/ConditionalFormatExel.gif" width="600" height="450"
+alt="Figure 1: Animation of conditional formatting in Excel showing highlighting of zinc concentrations above both the DGV and GV-high guideline values." />
+<div class="figcaption">Figure 1: Animation of conditional formatting in
+Excel showing highlighting of zinc concentrations above both the DGV and
+GV-high guideline values.</div>
+</div>
+<p> </p>
+</div>
+</div>
+</div>
+<div id="references-and-r-packages" class="section level2">
+<h2>References and R packages</h2>
+<p>Fox J, Marquez M (2023). <code>RcmdrMisc</code>: <em>R Commander
+Miscellaneous Functions</em>. R package version 2.9-1, <a
+href="https://CRAN.R-project.org/package=RcmdrMisc"
+target="_blank">https://CRAN.R-project.org/package=RcmdrMisc</a>.</p>
+<p>Gohel D, Moog S (2024). <code>officer</code>: <em>Manipulation of
+Microsoft Word and PowerPoint Documents</em>. R package version 0.6.6,
+<a href="https://CRAN.R-project.org/package=officer"
+target="_blank">https://CRAN.R-project.org/package=officer</a>.</p>
+<p>Gohel D, Skintzos P (2024). <code>flextable</code>: <em>Functions for
+Tabular Reporting</em>. R package version 0.9.6, <a
+href="https://CRAN.R-project.org/package=flextable"
+target="_blank">https://CRAN.R-project.org/package=flextable</a>. (see
+also <a href="https://ardata-fr.github.io/flextable-book/index.html"
+target="_blank">David Gohel's free eBook <strong>Using the flextable R
+package</strong></a>)</p>
+<p>NEPC (National Environment Protection Council). (2011). Schedule
+B(1): Guideline on the Investigation Levels for Soil and Groundwater.
+<strong>In</strong> <em>National Environment Protection (Assessment of
+Site Contamination) Measure (Amended)</em>. Commonwealth of
+Australia.</p>
+<p>Water Quality Australia. (2024). <em>Toxicant default guideline
+values for sediment quality.</em> Department of Climate Change, Energy,
+the Environment and Water, Government of Australia. Retrieved 2024-04-11
+from <a
+href="https://www.waterquality.gov.au/anz-guidelines/guideline-values/default/sediment-quality-toxicants"
+target="_blank">https://www.waterquality.gov.au/anz-guidelines/guideline-values/default/sediment-quality-toxicants</a></p>
+<p>🔚</p>
+</div>
+
+<!DOCTYPE html>
+
+<html>
+<body>
+<hr style="height: 2px; background-color: #003087;" />
+<p><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>. Currently using the free <a href="https://bootswatch.com/yeti/" target="_blank"><span style="font-family: monospace;">yeti</span> theme from Bootswatch</a>.</span></p>
+</body>
+</html>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
