@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Andrew Rate" />
+
+<meta name="date" content="2025-03-21" />
+
+<title>Use geotagged jpeg images as map backgrounds</title>
+
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Sessions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">For beginners</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Intro</a>
+    </li>
+    <li>
+      <a href="intro-GG.html">Intro+ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plots.html">Plots-baseR</a>
+    </li>
+    <li>
+      <a href="plots-GG.html">Plots-ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Compare
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="means.html">Compare means (parametric)</a>
+    </li>
+    <li>
+      <a href="nonparam.html">Non-parametric comparisons</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="correl.html">Correlation</a>
+    </li>
+    <li>
+      <a href="regression.html">Simple linear regression</a>
+    </li>
+    <li>
+      <a href="reg-group.html">Grouped linear regression</a>
+    </li>
+    <li>
+      <a href="reg-multi.html">Multiple linear regression</a>
+    </li>
+    <li>
+      <a href="timeseries.html">Time series analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Maps
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="maps.html">Map data with tile backgrounds</a>
+    </li>
+    <li>
+      <a href="spatial.html">Spatial statistics</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">Spatial interpolation</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">Spatial interpolation</a>
+    </li>
+    <li>
+      <a href="google-kml.html">Using Google Earth objects</a>
+    </li>
+    <li>
+      <a href="georef-images.html">Using georeferenced images</a>
+    </li>
+    <li>
+      <a href="shapefiles.html">Using shapefiles</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Multi
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pca.html">Principal components analysis</a>
+    </li>
+    <li>
+      <a href="vegan.html">Analysis of species presence-absence data</a>
+    </li>
+    <li>
+      <a href="lda.html">Linear discriminant analysis</a>
+    </li>
+    <li>
+      <a href="cluster.html">Cluster analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Util
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="distributions.html">Distribution checking</a>
+    </li>
+    <li>
+      <a href="residuals.html">Regression residuals to identify contamination</a>
+    </li>
+    <li>
+      <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Reporting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="report-resources.html">Resources for reporting</a>
+    </li>
+    <li>
+      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="maps-location-siteplan.html">Locality and Site Plan maps</a>
+    </li>
+    <li>
+      <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!DOCTYPE html>
+
+<html>
+<body>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
+</body>
+</html>
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Use geotagged jpeg images as map
+backgrounds</h1>
+<h3 class="subtitle">Maps with better aerial photographs</h3>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2025-03-21</h4>
+
+</div>
+
+
+<style type="text/css">
+  body{
+  font-size: 11pt;
+}
+</style>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Sometimes we can obtain the best map background images in the form of
+georeferenced images, such as geoTIFF or jpeg. In this example we'll use
+a jpeg file downloaded from the excellent <a
+href="https://www.nearmap.com/au/en" target="_blank">NearMap</a> site
+(my university has a subscription 😊). Specialist mapping websites may
+have better resolution, or have aerial photographs from the most
+appropriate time of year for our mapping exercise.</p>
+<p>First we load the packages that we need:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(stars)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(prettymapr)</span></code></pre></div>
+<p>We should note that the <code>jpeg</code> file itself doesn't have
+spatial information, even though we may have downloaded it as a
+georeferenced image. With jpeg images, georeferencing comes in the form
+of a companion ('sidecar') file, with the same name but having the
+<code>.jgw</code> extension. We can read this directly, but the
+functions we will use below will look for this file and use the spatial
+information directly. The <code>.jgw</code> file has 6 lines:</p>
+<ol style="list-style-type: decimal">
+<li>length of a pixel in the x direction (horizontal)</li>
+<li>angle of rotation (is usually 0 or ignored)</li>
+<li>angle of rotation (is usually 0 or ignored)</li>
+<li>negative length of a pixel in the y direction (vertical)</li>
+<li>x coordinate at centre of pixel in the top left corner of the
+image</li>
+<li>y coordinate at centre of pixel in the top left corner of the
+image</li>
+</ol>
+<p>So long as the file names of the <code>.jpg</code> and
+<code>.jpw</code> files match, the raster extent and coordinates are
+obtained or calculated from the values in the <code>.jpw</code>
+file.</p>
+</div>
+<div
+id="reading-the-raster-spatial-information-in-the-georeferenced-jpeg-image"
+class="section level1">
+<h1>Reading the raster spatial information in the georeferenced jpeg
+image</h1>
+<p>We use the <code>stars</code> package, which plays nicely with the
+<code>sf</code> package, to do most of the work (the <code>sf</code>
+package was introduced on <a href="Rmaps.html">another page on maps in
+<strong>R</strong></a>. The <code>read_stars()</code> function will find
+and use the information in the <code>.jpw</code> file without us
+specifying that file explicitly.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>(AF_nearmap <span class="ot">&lt;-</span> </span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">read_stars</span>(<span class="st">&quot;EPSG32750_Date20230226_Lat-31.918263_Lon115.944872_Mpp0.597.jpg&quot;</span>))</span></code></pre></div>
+<pre><code>## stars object with 3 dimensions and 1 attribute
+## attribute(s), summary of first 1e+05 cells:
+##                                 Min. 1st Qu. Median     Mean 3rd Qu. Max.
+## EPSG32750_Date20230226_Lat-...     0      85    143 139.6958     200  255
+## dimension(s):
+##      from   to  offset   delta x/y
+## x       1 1267  399868  0.5972 [x]
+## y       1  795 6468376 -0.5972 [y]
+## band    1    3      NA      NA</code></pre>
+<p>We notice that, apart from the long and informative filename, the
+resulting <code>stars</code> object does not have a coordinate reference
+system included, so we need to add the appropriate one manually:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">st_crs</span>(AF_nearmap) <span class="ot">&lt;-</span> <span class="fu">st_crs</span>(<span class="dv">32750</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">strtrim</span>(<span class="fu">st_crs</span>(AF_nearmap),<span class="dv">30</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;EPSG:32750&quot;                      &quot;PROJCRS[\&quot;WGS 84 / UTM zone 50S&quot;</code></pre>
+<p>The messy output above shows that we have what we expect: UTM Zone 50
+(south), based on the <a
+href="https://support.virtual-surveyor.com/en/support/solutions/articles/1000261351-what-is-wgs84-"
+target="_blank">WGS84 datum</a>.</p>
+<p>From the summary of the <code>read_stars()</code> output above
+(<em>i.e</em>. <code>band    1    3</code>), we can see that the image
+has three bands of information, corresponding to the red, green and blue
+colour channels in the jpeg image.</p>
+<p>To plot as a combined colour image we need to merge these 3 channels
+into in single data layer of colour information; fortunately, there is a
+function for this in the <code>stars</code> package:
+<code>st_rgb()</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>AF_rgb <span class="ot">&lt;-</span> <span class="fu">st_rgb</span>(AF_nearmap)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">print</span>(AF_rgb)</span></code></pre></div>
+<pre><code>## stars object with 2 dimensions and 1 attribute
+## attribute(s), summary of first 1e+05 cells:
+##  EPSG32750_Date20230226_Lat-... 
+##  Length:100000                  
+##  Class :character               
+##  Mode  :character               
+## dimension(s):
+##   from   to  offset   delta                refsys x/y
+## x    1 1267  399868  0.5972 WGS 84 / UTM zone 50S [x]
+## y    1  795 6468376 -0.5972 WGS 84 / UTM zone 50S [y]</code></pre>
+<p>We need some data to plot, so let's read some</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/cybloRg/raw/main/&quot;</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>afs1922 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;afs1922edit.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>afs1922<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(afs1922<span class="sc">$</span>Year)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>(afsREE <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(<span class="at">x =</span> afs1922[,<span class="fu">c</span>(<span class="st">&quot;Year&quot;</span>,<span class="st">&quot;Easting&quot;</span>, <span class="st">&quot;Northing&quot;</span>,<span class="st">&quot;Al&quot;</span>,<span class="st">&quot;Fe&quot;</span>,<span class="st">&quot;REE&quot;</span>)],</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>         <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;Easting&quot;</span>, <span class="st">&quot;Northing&quot;</span>), <span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">32750</span>)))</span></code></pre></div>
+<pre><code>## Simple feature collection with 262 features and 4 fields
+## Geometry type: POINT
+## Dimension:     XY
+## Bounding box:  xmin: 399908 ymin: 6467930 xmax: 400577 ymax: 6468346
+## Projected CRS: WGS 84 / UTM zone 50S
+## First 10 features:
+##    Year    Al     Fe    REE               geometry
+## 1  2019  8996  28836  25.74 POINT (399989 6468038)
+## 2  2019 37131  44687 184.71 POINT (399981 6468037)
+## 3  2019 28699  48561 161.33 POINT (399971 6468035)
+## 4  2019 33882  53061 161.90 POINT (399958 6468028)
+## 5  2019 31222  71546 166.20 POINT (399944 6468023)
+## 6  2019 34765  38441 142.29 POINT (399930 6468017)
+## 7  2019 27926  59783 129.82 POINT (399919 6468014)
+## 8  2019 29650  37017 117.57 POINT (399908 6468006)
+## 9  2019 17946 135488  71.19 POINT (399971 6468021)
+## 10 2019  4114   9255  10.46 POINT (399981 6468052)</code></pre>
+<p>Now we can plot a map with some data on it! We use the
+<code>image()</code> function to plot the stars raster; we could also
+use <code>plot()</code> if we specify the argument
+<code>reset = FALSE</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;white&quot;</span>, <span class="fu">mako</span>(<span class="dv">8</span>, <span class="at">dir=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">alpha=</span><span class="fl">0.7</span>), <span class="st">&quot;black&quot;</span>,<span class="st">&quot;transparent&quot;</span>)) <span class="co"># custom palette</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="sc">-</span><span class="fl">0.2</span>, </span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex.lab=</span><span class="fl">1.2</span>, <span class="at">lend=</span><span class="st">&quot;square&quot;</span>, <span class="at">ljoin=</span><span class="st">&quot;mitre&quot;</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># Plot an empty frame, same size as the stars object</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">matrix</span>(<span class="fu">st_bbox</span>(AF_rgb), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span>T), <span class="at">asp=</span><span class="dv">1</span>, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, </span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>     <span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>, <span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>,                      <span class="co"># no space around data range</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Easting (m)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Northing (m)&quot;</span>) </span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="fu">image</span>(AF_rgb, <span class="at">add=</span><span class="cn">TRUE</span>) <span class="co"># add the georeferenced image, and</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="fu">box</span>()                   <span class="co"># re-draw the box in case of overlap</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co"># plot the points, symbols varying by Year:</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#   1. first black unfilled to create &#39;shadow&#39; behind for better contrast... </span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">st_coordinates</span>(afsREE), <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">5</span>,<span class="dv">2</span>)[afsREE<span class="sc">$</span>Year], <span class="at">col=</span><span class="dv">10</span>, <span class="at">lwd=</span><span class="dv">2</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>       <span class="at">cex=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">1.6</span>,<span class="fl">1.6</span>,<span class="fl">1.6</span>)[afsREE<span class="sc">$</span>Year])</span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#   2.  then overplot  with white border. </span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">st_coordinates</span>(afsREE), <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">24</span>)[afsREE<span class="sc">$</span>Year], <span class="at">col=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="fl">1.5</span>,</span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>       <span class="at">bg=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">8</span>)[afsREE<span class="sc">$</span>Year], <span class="at">cex=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">1.4</span>,<span class="fl">1.4</span>,<span class="fl">1.4</span>)[afsREE<span class="sc">$</span>Year])</span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co"># double plot north arrow with small offset to create shadow behind</span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="fu">addnortharrow</span>(<span class="at">pos=</span><span class="st">&quot;topright&quot;</span>,<span class="at">padin =</span> <span class="fu">c</span>(<span class="fl">0.22</span>,<span class="fl">0.22</span>), </span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>              <span class="at">text.col =</span> <span class="dv">10</span>, <span class="at">border =</span> <span class="dv">10</span>, <span class="at">scale=</span><span class="fl">1.4</span>)</span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="fu">addnortharrow</span>(<span class="at">pos=</span><span class="st">&quot;topright&quot;</span>,<span class="at">padin =</span> <span class="fu">c</span>(<span class="fl">0.2</span>,<span class="fl">0.2</span>), </span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a>              <span class="at">text.col =</span> <span class="dv">1</span>, <span class="at">border =</span> <span class="dv">1</span>, <span class="at">scale=</span><span class="fl">1.4</span>)</span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="fu">addscalebar</span>(<span class="at">plotepsg=</span><span class="dv">32750</span>, <span class="at">pos=</span><span class="st">&quot;bottomleft&quot;</span>,<span class="at">linecol =</span> <span class="dv">1</span>,<span class="at">label.col =</span> <span class="dv">1</span>,</span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a>            <span class="at">padin =</span> <span class="fu">c</span>(<span class="fl">0.22</span>,<span class="fl">0.18</span>),<span class="at">htin =</span> <span class="fl">0.2</span>, <span class="at">label.cex =</span> <span class="fl">1.5</span>, <span class="at">widthhint =</span> <span class="fl">0.15</span>)</span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co"># add legend for map image and projection information</span></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">title=</span><span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Ashfield Flats Reserve&quot;</span>)),</span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Photo map source: NearMap Feb 2023 &quot;</span>,</span>
+<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a>                <span class="st">&quot;EPSG: 32750&quot;</span>,</span>
+<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a>                <span class="st">&quot;(UTM Zone 50 S, WGS84)&quot;</span>),</span>
+<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a>       <span class="at">box.col=</span><span class="st">&quot;white&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffffffd0&quot;</span>, <span class="at">inset=</span><span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.01</span>), </span>
+<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a>       <span class="at">title.cex =</span> <span class="fl">1.4</span>, <span class="at">cex=</span><span class="fl">0.9</span>, <span class="at">y.intersp=</span><span class="fl">0.9</span>)</span>
+<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a><span class="co"># add legend to identify points by year</span></span>
+<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">title=</span><span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Year&quot;</span>)),</span>
+<span id="cb10-33"><a href="#cb10-33" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">levels</span>(afsREE<span class="sc">$</span>Year), <span class="at">text.col =</span> <span class="dv">1</span>, <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>,<span class="dv">24</span>), </span>
+<span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a>       <span class="at">pt.bg=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">8</span>), <span class="at">col=</span><span class="dv">1</span>, <span class="at">box.col=</span><span class="dv">1</span>, <span class="at">pt.lwd=</span><span class="dv">2</span>, <span class="at">pt.cex=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">1.4</span>,<span class="fl">1.4</span>,<span class="fl">1.4</span>), </span>
+<span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a>       <span class="at">bg =</span> <span class="st">&quot;#707062&quot;</span>,<span class="at">inset=</span><span class="fu">c</span>(<span class="fl">0.03</span>,<span class="fl">0.1</span>), <span class="at">cex=</span><span class="fl">1.2</span>, <span class="at">y.intersp =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="georef-images_files/figure-html/afr-nearmap-1.png" alt="Figure 1: Map of sampling locations at Ashfield Flats Reserve from 2019-2022 plotted on a Nearmap spatial raster." width="961.92" />
+<p class="caption">
+Figure 1: Map of sampling locations at Ashfield Flats Reserve from
+2019-2022 plotted on a Nearmap spatial raster.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>For comparison we can also use the <code>add.geom =</code> argument
+in the <code>image()</code> or <code>plot()</code> function as an
+alternative way to plot the points.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;white&quot;</span>,<span class="fu">plasma</span>(<span class="dv">8</span>, <span class="at">alpha=</span><span class="fl">0.7</span>, <span class="at">beg=</span><span class="fl">0.4</span>), <span class="st">&quot;black&quot;</span>,<span class="st">&quot;transparent&quot;</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>    <span class="at">lend=</span><span class="st">&quot;square&quot;</span>, <span class="at">ljoin=</span><span class="st">&quot;mitre&quot;</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">matrix</span>(<span class="fu">st_bbox</span>(AF_rgb), <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">byrow=</span>T), <span class="at">asp=</span><span class="dv">1</span>, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, </span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>     <span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>, <span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Easting (m)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Northing (m)&quot;</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co"># note use of add.geom=... in image() function</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="fu">image</span>(AF_rgb, <span class="at">add=</span><span class="cn">TRUE</span>, </span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>      <span class="at">add.geom=</span><span class="fu">list</span>(afsREE, <span class="at">col=</span><span class="dv">10</span>, </span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>                    <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">24</span>)[afsREE<span class="sc">$</span>Year], </span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>                    <span class="at">bg=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>)[afsREE<span class="sc">$</span>Year], </span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>                    <span class="at">cex=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">1.4</span>,<span class="fl">1.4</span>,<span class="fl">1.4</span>)[afsREE<span class="sc">$</span>Year]))</span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="fu">box</span>()</span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="fu">addnortharrow</span>(<span class="at">pos=</span><span class="st">&quot;topright&quot;</span>,<span class="at">padin =</span> <span class="fu">c</span>(<span class="fl">0.22</span>,<span class="fl">0.22</span>), </span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>              <span class="at">text.col =</span> <span class="dv">10</span>, <span class="at">border =</span> <span class="dv">10</span>, <span class="at">scale=</span><span class="fl">1.4</span>)</span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="fu">addnortharrow</span>(<span class="at">pos=</span><span class="st">&quot;topright&quot;</span>,<span class="at">padin =</span> <span class="fu">c</span>(<span class="fl">0.2</span>,<span class="fl">0.2</span>), </span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a>              <span class="at">text.col =</span> <span class="dv">1</span>, <span class="at">border =</span> <span class="dv">1</span>, <span class="at">scale=</span><span class="fl">1.4</span>)</span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="fu">addscalebar</span>(<span class="at">plotepsg=</span><span class="dv">32750</span>, <span class="at">pos=</span><span class="st">&quot;bottomleft&quot;</span>,<span class="at">linecol =</span> <span class="dv">1</span>,<span class="at">label.col =</span> <span class="dv">1</span>,</span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a>            <span class="at">padin =</span> <span class="fu">c</span>(<span class="fl">0.22</span>,<span class="fl">0.18</span>),<span class="at">htin =</span> <span class="fl">0.2</span>, <span class="at">label.cex =</span> <span class="fl">1.5</span>, <span class="at">widthhint =</span> <span class="fl">0.15</span>)</span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="co"># add legend for map image and projection information</span></span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">title=</span><span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Ashfield Flats Reserve&quot;</span>)),</span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Photo map source: NearMap Feb 2023 &quot;</span>,</span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a>                <span class="st">&quot;EPSG: 32750&quot;</span>,</span>
+<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a>                <span class="st">&quot;(UTM Zone 50 S, WGS84)&quot;</span>),</span>
+<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a>       <span class="at">box.col=</span><span class="st">&quot;white&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffffffd0&quot;</span>, <span class="at">inset=</span><span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.01</span>), </span>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a>       <span class="at">title.cex =</span> <span class="fl">1.4</span>, <span class="at">cex=</span><span class="fl">0.9</span>, <span class="at">y.intersp=</span><span class="fl">0.9</span>)</span>
+<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a><span class="co"># add legend to identify points by year</span></span>
+<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="at">title=</span><span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;Year&quot;</span>)),</span>
+<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">levels</span>(afsREE<span class="sc">$</span>Year), <span class="at">text.col =</span> <span class="dv">1</span>, <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">22</span>,<span class="dv">23</span>,<span class="dv">24</span>), </span>
+<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a>       <span class="at">pt.bg=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>), <span class="at">col=</span><span class="dv">10</span>, <span class="at">box.col=</span><span class="dv">1</span>, <span class="at">pt.lwd=</span><span class="dv">1</span>, <span class="at">pt.cex=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">1.4</span>,<span class="fl">1.4</span>,<span class="fl">1.4</span>), </span>
+<span id="cb11-31"><a href="#cb11-31" tabindex="-1"></a>       <span class="at">bg =</span> <span class="st">&quot;#606054c0&quot;</span>,<span class="at">inset=</span><span class="fu">c</span>(<span class="fl">0.03</span>,<span class="fl">0.1</span>), <span class="at">cex=</span><span class="fl">1.2</span>, <span class="at">y.intersp =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="georef-images_files/figure-html/afr-nearmap-addgeom-1.png" alt="Figure 2: Map of sampling locations at Ashfield Flats Reserve from 2019-2022 plotted on a Nearmap spatial raster using `plot.geom` as an argument to `image()`." width="961.92" />
+<p class="caption">
+Figure 2: Map of sampling locations at Ashfield Flats Reserve from
+2019-2022 plotted on a Nearmap spatial raster using
+<code>plot.geom</code> as an argument to <code>image()</code>.
+</p>
+</div>
+<p>
+ 
+</p>
+<p>The result is similar to adding points separately using
+<code>points()</code>, but we have somewhat less control over plot
+appearance. We could also add our data in a way that shows values of a
+variable, as described in the <a href="Rmaps.html">page on maps in
+<strong>R</strong></a>.</p>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>Bivand R, Keitt T, Rowlingson B (2022). <em>rgdal: Bindings for the
+'Geospatial' Data Abstraction</em> <em>Library</em>. R package version
+1.6-2, <a href="https://CRAN.R-project.org/package=rgdal"
+target="_blank">https://CRAN.R-project.org/package=rgdal</a>.</p>
+<p>Dunnington D (2022). <em>prettymapr: Scale Bar, North Arrow, and
+Pretty Margins in R</em>. R package version 0.2.4, <a
+href="https://CRAN.R-project.org/package=prettymapr"
+target="_blank">https://CRAN.R-project.org/package=prettymapr</a>.</p>
+<p>Garnier S., Ross N., Rudis R., Camargo A.P., Sciaini M., and Scherer
+C. (2021). <em>Rvision - Colorblind-Friendly Color Maps for R</em>. R
+package version 0.6.2. <a href="https://sjmgarnier.github.io/viridis/"
+target="_blank">https://sjmgarnier.github.io/viridis/</a></p>
+<p>Hijmans R (2022). <em>raster: Geographic Data Analysis and
+Modeling</em>. R package version 3.6-11, <a
+href="https://CRAN.R-project.org/package=raster"
+target="_blank">https://CRAN.R-project.org/package=raster</a>.</p>
+<p>Pebesma, E., 2018. Simple Features for R: Standardized Support for
+Spatial Vector Data. <em>The R</em> <em>Journal</em> <strong>10</strong>
+(1), 439-446, <a href="https://doi.org/10.32614/RJ-2018-009"
+target="_blank">https://doi.org/10.32614/RJ-2018-009</a></p>
+<p>Pebesma E (2022). <em>stars: Spatiotemporal Arrays, Raster and Vector
+Data Cubes</em>. R package version 0.6-0, <a
+href="https://CRAN.R-project.org/package=stars"
+target="_blank">https://CRAN.R-project.org/package=stars</a>.</p>
+</div>
+</div>
+
+<!DOCTYPE html>
+
+<html>
+<body>
+<hr style="height: 2px; background-color: #003087;" />
+<p><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>. Currently using the free <a href="https://bootswatch.com/yeti/" target="_blank"><span style="font-family: monospace;">yeti</span> theme from Bootswatch</a>.</span></p>
+</body>
+</html>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
