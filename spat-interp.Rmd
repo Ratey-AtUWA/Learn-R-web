@@ -141,7 +141,7 @@ ngsaWAbord_sf <- st_as_sf(NGSAWA_border, coords = c("Long.est","Lat.est"),
 WA_extent <- st_as_sf(data.frame(Longitude = c(108, 129),
                                  Latitude = c(-38, -13)),
                       coords=c("Longitude","Latitude"), crs=LongLat) 
-WAtiles <- get_tiles(WA_extent, provider = "OpenStreetMap.HOT", 
+WAtiles <- get_tiles(WA_extent, provider = "OpenStreetMap", 
                      crop = TRUE, zoom = 5) # make map object
 ```
 
