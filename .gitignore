@@ -29,6 +29,7 @@ docs/sandbox*
 sandbox-themes/
 *.docx
 *.lnk
+*.R
 
 # Output files from R CMD check
 /*.Rcheck/
