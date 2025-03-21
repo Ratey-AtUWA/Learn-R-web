@@ -43,8 +43,6 @@ navbar:
           href: spatial.html
         - text: "Spatial interpolation"
           href: spat-interp.html
-        - text: "Spatial interpolation"
-          href: spat-interp.html
         - text: "Using Google Earth objects"
           href: google-kml.html
         - text: "Using georeferenced images"
