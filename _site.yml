@@ -43,6 +43,14 @@ navbar:
           href: spatial.html
         - text: "Spatial interpolation"
           href: spat-interp.html
+        - text: "Spatial interpolation"
+          href: spat-interp.html
+        - text: "Using Google Earth objects"
+          href: google-kml.html
+        - text: "Using georeferenced images"
+          href: georef-images.html
+        - text: "Using shapefiles"
+          href: shapefiles.html
     - text: "Multi"
       menu:
         - text: "Principal components analysis"
