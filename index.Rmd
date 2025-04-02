@@ -51,6 +51,9 @@ output:
   - [Map data with tile backgrounds](maps.html)
   - [Spatial statistics](spatial.html)
   - [Spatial interpolation](spat-interp.html)
+  - [Using Google Earth objects](google-kml.html)
+  - [Using georeferenced images](georef-images.html)
+  - [Using shapefiles](shapefiles.html)
 
 9. [**Utilities and other R goodies**](distributions.html)
   - [Distribution checking](distributions.html)
