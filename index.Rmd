@@ -28,6 +28,7 @@ output:
 4. [**Plots**](plots.html)
   - [Plots with base-R](plots.html)
   - [Plots with `ggplot`](plots-GG.html)
+  - [Enhanced boxplots](boxplots-plus.html)
 
 5. [**Comparisons**](means.html)
   - [Compare means (parametric)](means.html)
