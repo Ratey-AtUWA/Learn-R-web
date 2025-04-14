@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-10-10" />
+<meta name="date" content="2025-04-14" />
 
 <title>Statistics for Comparisons</title>
 
@@ -67,7 +67,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -370,6 +370,9 @@ $(document).ready(function () {
     <li>
       <a href="plots-GG.html">Plots-ggplot</a>
     </li>
+    <li>
+      <a href="boxplots-plus.html">Enhanced boxplots</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -427,6 +430,15 @@ $(document).ready(function () {
     <li>
       <a href="spat-interp.html">Spatial interpolation</a>
     </li>
+    <li>
+      <a href="google-kml.html">Using Google Earth objects</a>
+    </li>
+    <li>
+      <a href="georef-images.html">Using georeferenced images</a>
+    </li>
+    <li>
+      <a href="shapefiles.html">Using shapefiles</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -476,10 +488,16 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="report-resources.html">Resources for reporting</a>
+    </li>
+    <li>
       <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
     </li>
     <li>
-      <a href="maps-location-siteplan.html">Location and Site Plan maps</a>
+      <a href="maps-location-siteplan.html">Locality and Site Plan maps</a>
+    </li>
+    <li>
+      <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
     </li>
   </ul>
 </li>
@@ -508,7 +526,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistics for Comparisons</h1>
 <h3 class="subtitle">Parametric mean comparison tests</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-10-10</h4>
+<h4 class="date">2025-04-14</h4>
 
 </div>
 
@@ -548,9 +566,7 @@ compare means for 3 or more groups<br> </li>
 (if there's time – we can leave this until the next session).</li>
 </ol>
 </div>
-<p>
- 
-</p>
+<p> </p>
 <div id="code-and-data" class="section level3"
 style="border: 2px solid #039; background-color:#ffc; padding: 8px;">
 <h3>Code and Data</h3>
@@ -571,9 +587,7 @@ style="font-size: 12pt;">📊 Smith's Lake / Veryard Reserve data (sv2017)
 in CSV format</span></a>
 </p>
 </div>
-<p>
- 
-</p>
+<p> </p>
 <div id="intro-comparisons-of-means-between-groups"
 class="section level2">
 <h2>Intro: Comparisons of means between groups</h2>
@@ -605,9 +619,7 @@ between means in each/any groups).</p>
 comparing means, to be used when our variable(s) don't meet all of the
 requirements of conventional (parametric) statistical tests.</em></p>
 </div>
-<p>
- 
-</p>
+<p> </p>
 <p>In this session we're going to use the 2017 Smith's Lake – Charles
 Veryard Reserves dataset (see Figure 1) to compare means between groups
 for factors having:</p>
@@ -623,9 +635,7 @@ and Smiths Lake Reserve, North Perth, Western Australia (these were the
 locations sampled for the sv2017 dataset).
 </p>
 </div>
-<p>
- 
-</p>
+<p> </p>
 <div
 id="create-a-factor-separating-the-two-reserves-into-groups-and-limit-the-data-to-only-soil"
 class="section level3">
@@ -642,9 +652,7 @@ Street.</p>
 <pre><code>## Number of soil samples in each reserve</code></pre>
 <pre><code>##  Smiths Veryard 
 ##      21      52</code></pre>
-<p>
- 
-</p>
+<p> </p>
 </div>
 <div id="check-the-newly-created-factor-with-a-plot"
 class="section level3">
@@ -703,9 +711,7 @@ locations of soil samples at Charles Veryard and Smiths Lake Reserves.
 song <em>2112 (The Temples of Syrinx)</em></p>
 </blockquote>
 <hr style="height: 2px; background-color: #008060;" />
-<p>
- 
-</p>
+<p> </p>
 </div>
 </div>
 <div id="means-comparisons-for-exactly-two-groups"
@@ -790,9 +796,7 @@ plot.
 soil is similar to that at Smith's Lake, illustrating the conclusion
 from the statistical tests.</p>
 </div>
-<p>
- 
-</p>
+<p> </p>
 <p>The power term from <code>powerTransform()</code> is ≃ 0.127, so we
 make a new power-transformed column <code>Na.pow</code> using this
 value. The <code>shapiro.test()</code> shows that <code>Na.pow</code> is
@@ -818,9 +822,7 @@ Figure 5. My favourite is the boxplot with <em>means included</em> as
 extra information - with a bit of additional coding we can include the
 95% confidence intervals as well! (but this is not shown in this
 document).</p>
-<p>
- 
-</p>
+<p> </p>
 <h3 id="Fig5">
 Visualising differences in means - 2 groups
 </h3>
@@ -854,9 +856,7 @@ group. You would not include both options in a report!
 </div>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">rm</span>(meanz) <span class="co"># tidy up</span></span></code></pre></div>
 <p>[skip to <a href="#Fig8">Figure 8</a> for a 3-group comparison]</p>
-<p>
- 
-</p>
+<p> </p>
 <p>The <code>ggplot</code> connoisseurs can also draw such a boxplot
 (Figure 6):</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># there&#39;s probably a more efficient way to do this in ggplot!</span></span>
@@ -878,9 +878,7 @@ Figure 6 Boxplot for 2-group comparison, showing means, and drawn with
 <code>ggplot2</code>.
 </p>
 </div>
-<p>
- 
-</p>
+<p> </p>
 </div>
 <div id="effect-size-for-means-comparisons-cohens-d"
 class="section level2">
@@ -907,10 +905,8 @@ not include zero, so we can probably rely on it.</p>
 More recently than Cohen, <strong>Sawilowsky (2009) proposed that for
 Cohen's d:</strong>
 </p>
-<div class="tabwid"><style>.cl-247041e8{}.cl-24608924{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-2464da10{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2464da1a{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2464da24{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2464f78e{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2464f7a2{width:0.197in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2464f7a3{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2464f7ac{width:0.984in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2464f7ad{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2464f7b6{width:0.197in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2464f7c0{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2464f7c1{width:0.984in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2464f7c2{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2464f7ca{width:0.197in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2464f7d4{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2464f7e8{width:0.984in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2464f7f2{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2464f7f3{width:0.197in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2464f806{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2464f810{width:0.984in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-247041e8'><tbody><tr style="overflow-wrap:break-word;"><td class="cl-2464f78e"><p class="cl-2464da10"><span class="cl-24608924">0.01 ≤</span></p></td><td class="cl-2464f7a2"><p class="cl-2464da1a"><span class="cl-24608924">d</span></p></td><td class="cl-2464f7a3"><p class="cl-2464da24"><span class="cl-24608924">&lt; 0.2</span></p></td><td class="cl-2464f7ac"><p class="cl-2464da24"><span class="cl-24608924">very small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2464f7ad"><p class="cl-2464da10"><span class="cl-24608924">0.2 ≤</span></p></td><td class="cl-2464f7b6"><p class="cl-2464da1a"><span class="cl-24608924">d</span></p></td><td class="cl-2464f7c0"><p class="cl-2464da24"><span class="cl-24608924">&lt; 0.5</span></p></td><td class="cl-2464f7c1"><p class="cl-2464da24"><span class="cl-24608924">small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2464f7c2"><p class="cl-2464da10"><span class="cl-24608924">0.5 ≤</span></p></td><td class="cl-2464f7ca"><p class="cl-2464da1a"><span class="cl-24608924">d</span></p></td><td class="cl-2464f7d4"><p class="cl-2464da24"><span class="cl-24608924">&lt; 0.8</span></p></td><td class="cl-2464f7e8"><p class="cl-2464da24"><span class="cl-24608924">medium</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2464f7ad"><p class="cl-2464da10"><span class="cl-24608924">0.8 ≤</span></p></td><td class="cl-2464f7b6"><p class="cl-2464da1a"><span class="cl-24608924">d</span></p></td><td class="cl-2464f7c0"><p class="cl-2464da24"><span class="cl-24608924">&lt; 1.2</span></p></td><td class="cl-2464f7c1"><p class="cl-2464da24"><span class="cl-24608924">large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2464f7c2"><p class="cl-2464da10"><span class="cl-24608924">1.2 ≤</span></p></td><td class="cl-2464f7ca"><p class="cl-2464da1a"><span class="cl-24608924">d</span></p></td><td class="cl-2464f7d4"><p class="cl-2464da24"><span class="cl-24608924">&lt; 2.0</span></p></td><td class="cl-2464f7e8"><p class="cl-2464da24"><span class="cl-24608924">very large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2464f7f2"><p class="cl-2464da10"><span class="cl-24608924"></span></p></td><td class="cl-2464f7f3"><p class="cl-2464da1a"><span class="cl-24608924">d</span></p></td><td class="cl-2464f806"><p class="cl-2464da24"><span class="cl-24608924">&gt; 2.0</span></p></td><td class="cl-2464f810"><p class="cl-2464da24"><span class="cl-24608924">huge</span></p></td></tr></tbody></table></div>
-<p>
- 
-</p>
+<div class="tabwid"><style>.cl-989632e2{}.cl-9886e65c{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-988ccf18{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-988ccf40{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-988ccf41{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-988cf1f0{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf1fa{width:0.197in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf204{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf20e{width:0.984in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf20f{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf222{width:0.197in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf223{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf236{width:0.984in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf237{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf240{width:0.197in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf24a{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf25e{width:0.984in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf268{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf269{width:0.197in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf26a{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf272{width:0.984in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-989632e2'><tbody><tr style="overflow-wrap:break-word;"><td class="cl-988cf1f0"><p class="cl-988ccf18"><span class="cl-9886e65c">0.01 ≤</span></p></td><td class="cl-988cf1fa"><p class="cl-988ccf40"><span class="cl-9886e65c">d</span></p></td><td class="cl-988cf204"><p class="cl-988ccf41"><span class="cl-9886e65c">&lt; 0.2</span></p></td><td class="cl-988cf20e"><p class="cl-988ccf41"><span class="cl-9886e65c">very small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-988cf20f"><p class="cl-988ccf18"><span class="cl-9886e65c">0.2 ≤</span></p></td><td class="cl-988cf222"><p class="cl-988ccf40"><span class="cl-9886e65c">d</span></p></td><td class="cl-988cf223"><p class="cl-988ccf41"><span class="cl-9886e65c">&lt; 0.5</span></p></td><td class="cl-988cf236"><p class="cl-988ccf41"><span class="cl-9886e65c">small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-988cf237"><p class="cl-988ccf18"><span class="cl-9886e65c">0.5 ≤</span></p></td><td class="cl-988cf240"><p class="cl-988ccf40"><span class="cl-9886e65c">d</span></p></td><td class="cl-988cf24a"><p class="cl-988ccf41"><span class="cl-9886e65c">&lt; 0.8</span></p></td><td class="cl-988cf25e"><p class="cl-988ccf41"><span class="cl-9886e65c">medium</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-988cf20f"><p class="cl-988ccf18"><span class="cl-9886e65c">0.8 ≤</span></p></td><td class="cl-988cf222"><p class="cl-988ccf40"><span class="cl-9886e65c">d</span></p></td><td class="cl-988cf223"><p class="cl-988ccf41"><span class="cl-9886e65c">&lt; 1.2</span></p></td><td class="cl-988cf236"><p class="cl-988ccf41"><span class="cl-9886e65c">large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-988cf237"><p class="cl-988ccf18"><span class="cl-9886e65c">1.2 ≤</span></p></td><td class="cl-988cf240"><p class="cl-988ccf40"><span class="cl-9886e65c">d</span></p></td><td class="cl-988cf24a"><p class="cl-988ccf41"><span class="cl-9886e65c">&lt; 2.0</span></p></td><td class="cl-988cf25e"><p class="cl-988ccf41"><span class="cl-9886e65c">very large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-988cf268"><p class="cl-988ccf18"><span class="cl-9886e65c"></span></p></td><td class="cl-988cf269"><p class="cl-988ccf40"><span class="cl-9886e65c">d</span></p></td><td class="cl-988cf26a"><p class="cl-988ccf41"><span class="cl-9886e65c">&gt; 2.0</span></p></td><td class="cl-988cf272"><p class="cl-988ccf41"><span class="cl-9886e65c">huge</span></p></td></tr></tbody></table></div>
+<p> </p>
 </div>
 <div id="means-comparisons-for-3-or-more-groups" class="section level2">
 <h2>Means comparisons for 3 or more groups</h2>
@@ -975,9 +971,7 @@ interpretation:</p>
 ##     Sediment         Soil  Street dust 
 ## 0.0047080391 0.0018348117 0.0005551313</code></pre>
 </div>
-<p>
- 
-</p>
+<p> </p>
 <p>We now know that we can use a parametric test (based on
 <code>Ca.pow</code> being normally distributed) which corrects for
 unequal variance (since we found that <code>Ca.pow</code> is
@@ -1009,9 +1003,7 @@ is less than 0.05 based on the large value for the <code>F</code>
 statistic. This allows us to reject the null hypothesis of equal means.
 As for a two-group comparison, we can visualize the differences in means
 in different ways (Figure @ref(fig:meancomp-plots-3groups))</p>
-<p>
- 
-</p>
+<p> </p>
 <h3 id="Fig8">
 Visualising differences in means - 3 or more groups
 </h3>
@@ -1045,14 +1037,12 @@ group. You would not include both options in a report!
 </p>
 </div>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">rm</span>(meanz) <span class="co"># tidy up</span></span></code></pre></div>
-<p>Look back at <a href="#Fig5">Figure 5</a>. Why is Figure 8 better?
-(<em>Hint</em>: it's <em>not</em> the notches in Figure 8a – these are
-larger than the interquartile range boxes for 2 groups, so they look
-kind of weird. If this happens, it's best to leave them out using
-<code>notch=FALSE</code>.)</p>
-<p>
- 
-</p>
+<p> </p>
+<p><em>Note</em> the notches in Figure 8a – these are larger than the
+interquartile range boxes for 2 groups, so they look kind of weird. If
+this happens, it's best to leave them out using
+<code>notch=FALSE</code>.</p>
+<p> </p>
 <div id="visualising-3-group-differences-with-ggplot2"
 class="section level3">
 <h3>Visualising 3-group differences with <code>ggplot2</code></h3>
@@ -1082,9 +1072,7 @@ convenient method of arranging the arithmetic."</p>
 target="_blank">Ronald Fisher</a>, the developer of ANOVA</p>
 </blockquote>
 <hr style="height: 2px; background-color: #008060;" />
-<p>
- 
-</p>
+<p> </p>
 </div>
 <div id="effect-sizes-for-3-or-more-groups" class="section level3"
 style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
@@ -1095,9 +1083,7 @@ which include only two groups** (<em>e.g</em>., with only Soil and
 Sediment), and then run <code>cohen.d()</code> from the 'effsize' R
 package. <em>Or we could do some custom coding</em>...</p>
 </div>
-<p>
- 
-</p>
+<p> </p>
 </div>
 <div id="pairwise-comparisons" class="section level2">
 <h2>Pairwise comparisons</h2>
@@ -1184,9 +1170,7 @@ letters; Sediment (<code>"a"</code>) is different from Soil and Street
 dust (both <code>"b"</code>). Since Soil and Street dust have the same
 letter (<code>"b"</code>), they are not significantly different, which
 matches the p-value (<code>0.3634</code>).</p>
-<p>
- 
-</p>
+<p> </p>
 <div id="optional-pairwise-compact-letters-alternative"
 class="section level3">
 <h3>OPTIONAL: Pairwise compact letters alternative</h3>
@@ -1207,9 +1191,7 @@ from each other).</p>
 <p>We can get the confidence intervals and p-values for each pairwise
 comparison using the <code>TukeyHSD()</code> function (HSD='Honestly
 Significant Difference'):</p>
-<p>
- 
-</p>
+<p> </p>
 </div>
 <div id="optional-pairwise-tukey-multiple-comparisons-of-means"
 class="section level3">
@@ -1267,8 +1249,8 @@ used in this document.</h3>
 <span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;multcompView&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## To cite package &#39;car&#39; in publications use:
 ## 
-##   Fox J, Weisberg S, Price B (2023). _car: Companion to Applied Regression_. R package
-##   version 3.1-2, &lt;https://CRAN.R-project.org/package=car&gt;.
+##   Fox J, Weisberg S, Price B (2023). _car: Companion to Applied Regression_.
+##   R package version 3.1-2, &lt;https://CRAN.R-project.org/package=car&gt;.
 ## 
 ## A BibTeX entry for LaTeX users is
 ## 
@@ -1281,10 +1263,10 @@ used in this document.</h3>
 ##   }
 ## To cite package &#39;ggplot2&#39; in publications use:
 ## 
-##   Wickham H, Chang W, Henry L, Pedersen T, Takahashi K, Wilke C, Woo K, Yutani H,
-##   Dunnington D, van den Brand T (2024). _ggplot2: Create Elegant Data Visualisations
-##   Using the Grammar of Graphics_. R package version 3.5.1,
-##   &lt;https://CRAN.R-project.org/package=ggplot2&gt;.
+##   Wickham H, Chang W, Henry L, Pedersen T, Takahashi K, Wilke C, Woo K,
+##   Yutani H, Dunnington D, van den Brand T (2024). _ggplot2: Create Elegant
+##   Data Visualisations Using the Grammar of Graphics_. R package version
+##   3.5.1, &lt;https://CRAN.R-project.org/package=ggplot2&gt;.
 ## 
 ## A BibTeX entry for LaTeX users is
 ## 
@@ -1297,8 +1279,8 @@ used in this document.</h3>
 ##   }
 ## To cite package &#39;effsize&#39; in publications use:
 ## 
-##   Torchiano M (2020). _effsize: Efficient Effect Size Computation_. R package version
-##   0.8.1, &lt;https://CRAN.R-project.org/package=effsize&gt;.
+##   Torchiano M (2020). _effsize: Efficient Effect Size Computation_. R
+##   package version 0.8.1, &lt;https://CRAN.R-project.org/package=effsize&gt;.
 ## 
 ## A BibTeX entry for LaTeX users is
 ## 
@@ -1311,8 +1293,8 @@ used in this document.</h3>
 ##   }
 ## To cite package &#39;multcomp&#39; in publications use:
 ## 
-##   Hothorn T, Bretz F, Westfall P (2023). _multcomp: Simultaneous Inference in General
-##   Parametric Models_. R package version 1.4-25,
+##   Hothorn T, Bretz F, Westfall P (2023). _multcomp: Simultaneous Inference
+##   in General Parametric Models_. R package version 1.4-25,
 ##   &lt;https://CRAN.R-project.org/package=multcomp&gt;.
 ## 
 ## A BibTeX entry for LaTeX users is
@@ -1326,8 +1308,8 @@ used in this document.</h3>
 ##   }
 ## To cite package &#39;rcompanion&#39; in publications use:
 ## 
-##   Mangiafico S (2024). _rcompanion: Functions to Support Extension Education Program
-##   Evaluation_. R package version 2.4.36,
+##   Mangiafico S (2024). _rcompanion: Functions to Support Extension Education
+##   Program Evaluation_. R package version 2.4.36,
 ##   &lt;https://CRAN.R-project.org/package=rcompanion&gt;.
 ## 
 ## A BibTeX entry for LaTeX users is
@@ -1341,8 +1323,8 @@ used in this document.</h3>
 ##   }
 ## To cite package &#39;multcompView&#39; in publications use:
 ## 
-##   Graves S, Piepho H, Dorai-Raj LSwhfS (2024). _multcompView: Visualizations of Paired
-##   Comparisons_. R package version 0.1-10,
+##   Graves S, Piepho H, Dorai-Raj LSwhfS (2024). _multcompView: Visualizations
+##   of Paired Comparisons_. R package version 0.1-10,
 ##   &lt;https://CRAN.R-project.org/package=multcompView&gt;.
 ## 
 ## A BibTeX entry for LaTeX users is
@@ -1355,11 +1337,10 @@ used in this document.</h3>
 ##     url = {https://CRAN.R-project.org/package=multcompView},
 ##   }
 ## 
-## ATTENTION: This citation information has been auto-generated from the package
-## DESCRIPTION file and may need manual editing, see &#39;help(&quot;citation&quot;)&#39;.</code></pre>
-<p>
- 
-</p>
+## ATTENTION: This citation information has been auto-generated from the
+## package DESCRIPTION file and may need manual editing, see
+## &#39;help(&quot;citation&quot;)&#39;.</code></pre>
+<p> </p>
 </div>
 </div>
 

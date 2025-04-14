@@ -49,7 +49,7 @@ href="nonparam.html" style="color:#04b;">Non-parametric tests</a></p>
 7. Generate a pairwise comparison of means from the analysis in step 6 (if there's time – we can leave this until the next session).
 </div>
 
-<p>&nbsp;</p>
+&nbsp;
 
 <div style="border: 2px solid #039; background-color:#ffc; padding: 8px;">
 ### Code and Data
@@ -60,7 +60,7 @@ href="nonparam.html" style="color:#04b;">Non-parametric tests</a></p>
 <p><a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/sv2017_original.csv"><span style="font-size: 12pt;">📊&nbsp;Smith's Lake / Veryard Reserve data (sv2017) in CSV format</span></a></p>
 </div>
 
-<p>&nbsp;</p>
+&nbsp;
 
 ```{r load workspace and packages, echo=FALSE, include=FALSE}
 # load("//uniwa.uwa.edu.au/userhome/staff8/00028958/My Documents/_R Projects/Learning R/.RData")
@@ -69,7 +69,6 @@ sv2017 <- read.csv(paste0(git,"sv2017_original.csv"), stringsAsFactors = TRUE)
 library(png)
 library(ggplot2)
 library(car)
-library(RcmdrMisc)
 library(rcompanion)
 library(multcompView)
 library(effsize)
@@ -109,7 +108,7 @@ be used when our variable(s) don't meet all of the requirements of conventional
 (parametric) statistical tests.</em>
 </div>
 
-<p>&nbsp;</p>
+&nbsp;
 
 In this session we're going to use the 2017 Smith's Lake &ndash; Charles Veryard
 Reserves dataset (see Figure 1) to compare means between groups for factors
@@ -127,23 +126,22 @@ library(TeachingDemos) # for shadowtext() function
 ```{r SLCVR-map, echo=FALSE, fig.width=5, fig.height=4.7, fig.cap="Figure 1: Map showing locations of the adjacent Charles Veryard Reserve and Smiths Lake Reserve, North Perth, Western Australia (these were the locations sampled for the sv2017 dataset).", fig.align='center', results='hold',warning=FALSE}
 extent <- st_as_sf(data.frame(x=c(390910,391550),y=c(6466220,6466800)),
                    coords = c("x","y"), crs = st_crs(32750))
-SLtiles <- get_tiles(extent, provider = "OpenStreetMap.HOT", 
-                     zoom=16, crop = TRUE)
+SLtiles <- get_tiles(extent, zoom=16, crop = TRUE)
 par(oma=c(0,0,0,0), mgp=c(1.6,0.3,0), tcl=-0.25, lend="square", xpd=TRUE)
 plot_tiles(SLtiles, axes=TRUE, mar=c(3,3,0.1,0.1))
 mtext("Easting (UTM Zone 50, m)", side = 1, line = 3, font=2)
 mtext("Northing (UTM Zone 50, m)", side = 2, line = 2.4, font=2)
 lines(st_bbox(SLtiles)[c(1,3)],rep(6466530,2), lty=1, lwd=10, col="#FFFFFFC0")
 lines(st_bbox(SLtiles)[c(1,3)],rep(6466530,2), lty="23", lwd=3, col="#7D26CDA0")
-shadowtext(c(391365,391235,391070), c(6466370,6466652,6466530),
-     labels=c("Smith's\nLake\nReserve","Charles Veryard\nReserve","Bourke Street"),
-     col=c("darkgreen","darkgreen","dimgrey"), bg="white", font=c(3,3,2), cex=c(1,1,0.8))
+shadowtext(c(391365,391070), c(6466370,6466530),
+     labels=c("Smith's\nLake\nReserve","Bourke Street"),
+     col=c("forestgreen","dimgrey"), bg="white", font=c(3,2), cex=c(0.9,0.8))
 shadowtext(391480,6466532,label="Northing\n6466530", 
            col="#7D26CDA0", bg="#FFFFFFA0")
 par(xpd=FALSE)
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 ### Create a factor separating the two Reserves into groups AND limit the data to only soil
 
@@ -158,7 +156,7 @@ sv17_soil <- subset(sv2017, subset=sv2017$Type=="Soil")
 cat("Number of soil samples in each reserve\n"); summary(sv17_soil$Reserve)
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 ### Check the newly-created factor with a plot
 
@@ -208,7 +206,7 @@ ggplot(sv17_soil, aes(x=Easting, y=Northing, shape=Reserve, color=Reserve)) +
 
 <hr style="height: 2px; background-color: #008060;" />
 
-<p>&nbsp;</p>
+&nbsp;
 
 ## Means comparisons for exactly two groups
 
@@ -263,7 +261,7 @@ similar to that at Smith's Lake, illustrating the conclusion from the
 statistical tests.
 </div>
 
-<p>&nbsp;</p>
+&nbsp;
 
 The power term from `powerTransform()` is &sime;&nbsp;0.127, so we make a new
 power-transformed column `Na.pow` using this value. The `shapiro.test()` shows
@@ -281,7 +279,7 @@ My favourite is the boxplot with *means included* as extra information - with a
 bit of additional coding we can include the 95% confidence intervals as well!
 (but this is not shown in this document).
 
-<p>&nbsp;</p>
+&nbsp;
 
 <h3 id="Fig5">Visualising differences in means - 2 groups</h3>
 ```{r meancomp-plots-2-groups, fig.height=3, fig.width=6, message=FALSE, warning=FALSE, fig.cap="Figure 5: Graphical comparison of means between groups using: (a) a standard box plot; (b) a box plot also showing mean values in each group. You would not include both options in a report!"}
@@ -310,7 +308,7 @@ rm(meanz) # tidy up
 
 [skip to <a href="#Fig8">Figure 8</a> for a 3-group comparison]
 
-<p>&nbsp;</p>
+&nbsp;
 
 The `ggplot` connoisseurs can also draw such a boxplot (Figure 6):
 
@@ -329,7 +327,7 @@ ggplot(sv17_soil, aes(x=Reserve, y=Na.pow)) +
   theme(axis.title = element_text(face="bold"))
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 ## Effect size for means comparisons: Cohens d
 
@@ -359,7 +357,7 @@ flextable(cohens) |> theme_zebra(odd_body = "#e8e8e8") |> delete_part(part="head
   border_outer(border=fp_border(color="#e0e0e0", width=2),part="all")
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 ## Means comparisons for 3 or more groups
 
@@ -415,7 +413,7 @@ with(sv2017, tapply(Ca.pow, Type, var, na.rm=TRUE))
 ```
 </div>
 
-<p>&nbsp;</p>
+&nbsp;
 
 We now know that we can use a parametric test (based on `Ca.pow` being normally 
 distributed) which corrects for unequal variance (since we found that `Ca.pow` 
@@ -438,7 +436,7 @@ null hypothesis of equal means. As for a two-group comparison, we can visualize
 the differences in means in different ways (Figure
 \@ref(fig:meancomp-plots-3groups))
 
-<p>&nbsp;</p>
+&nbsp;
 
 <h3 id="Fig8">Visualising differences in means - 3 or more groups</h3>
 
@@ -466,12 +464,13 @@ legend("bottomright", legend="Mean values", cex=0.9, y.int=0.2,
 rm(meanz) # tidy up
 ```
 
-Look back at <a href="#Fig5">Figure 5</a>. Why is Figure 8 better? (*Hint*: it's
-*not* the notches in Figure 8a &ndash; these are larger than the interquartile
-range boxes for 2 groups, so they look kind of weird. If this happens, it's best
-to leave them out using `notch=FALSE`.)
+&nbsp;
 
-<p>&nbsp;</p>
+*Note* the notches in Figure 8a &ndash; these are larger than the interquartile
+range boxes for 2 groups, so they look kind of weird. If this happens, it's best
+to leave them out using `notch=FALSE`.
+
+&nbsp;
 
 ### Visualising 3-group differences with `ggplot2`
 
@@ -499,7 +498,7 @@ ggplot(sv2017, aes(x=Type, y=Ca.pow)) +
 
 <hr style="height: 2px; background-color: #008060;" />
 
-<p>&nbsp;</p>
+&nbsp;
 
 <div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
 
@@ -508,7 +507,7 @@ ggplot(sv2017, aes(x=Type, y=Ca.pow)) +
 **It's not possible to calculate Effect sizes for 3 or more groups directly**. We would need to create subsets of our dataset which include only two groups** (*e.g*., with only Soil and Sediment), and then run `cohen.d()` from the 'effsize' R package. *Or we could do some custom coding*...
 </div>
 
-<p>&nbsp;</p>
+&nbsp;
 
 ## Pairwise comparisons
 
@@ -570,7 +569,7 @@ and Street dust (both `"b"`). Since Soil and Street dust have the same letter
 (`"b"`), they are not significantly different, which matches the p-value
 (`0.3634`).
 
-<p>&nbsp;</p>
+&nbsp;
 
 ### OPTIONAL: Pairwise compact letters alternative
 
@@ -593,7 +592,7 @@ in sediment (`a`) is significantly different from both Soil and Street dust
 We can get the confidence intervals and p-values for each pairwise comparison
 using the `TukeyHSD()` function (HSD='Honestly Significant Difference'):
 
-<p>&nbsp;</p>
+&nbsp;
 
 ### OPTIONAL: Pairwise Tukey multiple comparisons of means
 
@@ -637,4 +636,4 @@ citation("rcompanion", auto = TRUE)
 citation("multcompView", auto = TRUE)
 ```
 
-<p>&nbsp;</p>
+&nbsp;
