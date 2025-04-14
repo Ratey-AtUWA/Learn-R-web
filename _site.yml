@@ -17,6 +17,8 @@ navbar:
           href: plots.html
         - text: "Plots-ggplot"
           href: plots-GG.html
+        - text: "Enhanced boxplots"
+          href: boxplots-plus.html
     - text: "Compare"
       menu:
         - text: "Compare means (parametric)"
