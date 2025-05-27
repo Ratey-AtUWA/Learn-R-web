@@ -19,6 +19,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 &nbsp;
 
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 4px;">
+**On this site**: [Tables & trigger value counts](tablesPlus.html) | [Locality and Site Plan maps](maps-location-siteplan.html) | [Brief essentials of R markdown](One-page_R-Markdown.html)
+</div>
+
+&nbsp;
+
 ## R Markdown
 
 - [Chapter 8 Reproducible reports with R markdown](https://intro2r.com/rmarkdown_r.html){target="_blank"} from the free [Introduction to R ebook](https://intro2r.com/){target="_blank"} (Douglas *et al*. 2024)
@@ -34,7 +40,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Tables
 
 - Gohel D (2024). *Using the flextable R package*. [https://ardata-fr.github.io/flextable-book/index.html](https://ardata-fr.github.io/flextable-book/index.html){target="_blank"})<br />
-(This is the package we will use, but there are multiple options)
+(`flextable` is the package we will use, but there are multiple other options)
 
 - [Section 8.5.5 of *Introduction to R*](https://intro2r.com/r-markdown-anatomy.html#adding-tables){target="_blank"} (Douglas *et al*. 2024)<br />
 (doesn't mention `flextable` at all!)
