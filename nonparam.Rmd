@@ -83,7 +83,7 @@ c. Make *relevant high-quality graphics* to illustrate means comparisons (*e.g*.
 As usual, we first need to read the data and load the necessary packages:
 
 ```{r load workspace and packages invisibly, echo=FALSE, include=FALSE}
-sv2017 <- read.csv("../Learn-R/sv2017_original.csv", stringsAsFactors = TRUE)
+sv2017 <- read.csv("../Learn-R-LMS/sv2017_original.csv", stringsAsFactors = TRUE)
 sv2017$Reserve <- cut(sv2017$Northing,
                       breaks = c(0,6466530,9999999),
                       labels = c("Smiths","Veryard"))
