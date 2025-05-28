@@ -18,6 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r load-packages-etc, include=FALSE}
 library(flextable)
+library(officer)
 library(viridis)
 library(png)
 library(car)
