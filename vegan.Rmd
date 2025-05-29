@@ -19,6 +19,12 @@ output:
 1. Students are able to appropriately analyse data from an eDNA field sampling campaign;
 2. Students are able to interpret and understand statistical outputs from the R package `vegan`.
 
+```{r load-pkgs-hide, include=FALSE}
+library(sf)
+library(maptiles)
+library(prettymapr)
+```
+
 ```{r set up, message=FALSE, warning=FALSE, results='hide'}
 library(vegan)          # ecological multivariate analysis
 library(flextable)      # publication-quality tables
@@ -249,17 +255,43 @@ AF_nmds_all3
 Figure 1 below mimics the nmmds plot in Deirdre's original `PRIMER` handout
 (note that the sign of dimension MDS2 is reversed)
 
-```{r plot-nmds-all-Jaccard-2D, fig.height=6, fig.width=6, fig.cap="Figure 1: 2D NMDS ordination plot based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022.", out.width="60%"}
-palette(c("black", viridis(10))) # a viridis palette
-par(mfrow=c(1,1), mar=c(3,3,2,0.5), mgp=c(1.5,0.2,0), tcl=0.2, font.lab=2)
+```{r plot-nmds-all-Jaccard-2D, echo=1:6, fig.height=6, fig.width=11.6, fig.cap="Figure 1: (a) 2D NMDS ordination plot based on Jaccard (dis)similarities in eDNA species presence-absence data for water sampled from Ashfield Flats in 2022; (b) for reference, an Ashfield Flats map showing Site locations.", out.width="100%"}
+palette(c("black", viridis(10, alpha=0.75))) # a viridis palette
+par(mfrow=c(1,2), mar=c(3,3,2,0.5), mgp=c(1.5,0.2,0), tcl=-0.2, font.lab=2)
 plot(AF_nmds_all$points, pch=c(rep(21:25, 2),21)[eDNA2022$Site], 
      xlim = c(-1.6,2.2), ylim = c(1.2,-1.2), 
      bg=seq(1,11)[eDNA2022$Site], 
      cex = 1.4, main = "All species", col.main = "steelblue")
-text(AF_nmds_all, display = "species", col = "#a0006080", font=3, cex = 1)
+text(AF_nmds_all, display = "species", col = "#a00060a0", font=3, cex = 1)
+mtext("(a)", 3, -1.2, adj=0.98, font=2, cex=1.4)
 legend("bottomright", box.col="grey", bg="transparent", ncol=4, title = "Site", 
        legend=seq(1,11), pch=c(rep(21:25, 2),21), 
        inset=0.01, pt.bg=seq(1,11), pt.cex=1.4, cex=1.2)
+
+extent <- st_as_sf(data.frame(x=c(399920,400670), y=c(6467870,6468600)),
+                   coords = c("x","y"), crs=st_crs(32750))
+afmap <- get_tiles(extent, "CartoDB.Voyager", 17, crop=TRUE)
+git <- "https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R-web/main/"
+afr_map <- read.csv(file=paste0(git,"afr_map_v2.csv"), stringsAsFactors = TRUE)
+palette(c("black", plasma(8, alpha=0.7), "white","transparent"))
+plot(st_coordinates(extent), type="n", asp=1, xaxs="i", yaxs="i",
+     xlab="Easting (m)", ylab="Northing (m)")
+plot_tiles(afmap, add=TRUE) ; box()
+lines(afr_map$drain_E, afr_map$drain_N, lwd=2, col="cadetblue")
+with(afr_map, polygon(wetland_E, wetland_N, col="#5F9EA080",border="cadetblue"))
+mtext("UTM Zone 50, WGS84, EPSG:32750", 1, -1.3, col=10, cex=0.65, adj=0.4)
+addnortharrow(pos="topleft", scale=0.8)
+addscalebar(pos="bottomleft", plotepsg=32750, widthhint=0.15, padin=c(0.2,0.3))
+with(eDNA2022[seq(1,nrow(eDNA2022),4),], 
+     points(Easting, Northing, pch=21, col=1, bg=8, cex=2))
+with(eDNA2022[seq(1,nrow(eDNA2022),4),], 
+     shadowtext(Easting, Northing, labels=Site, col=1, bg=10, 
+          pos=c(2,4,2,4,2,2,4,4,2,4,2)))
+mtext("(b)", 3, -1.2, adj=0.98, font=2, cex=1.4)
+legend("bottomleft", bg="#ffffffb0", box.col=11, y.intersp=0.5, cex=0.7, inset=0.01, 
+       legend="UTM Zone 50 South, WGS84 (EPSG:32750", text.col="dimgrey")
+legend("bottomright", bg=11, pch=c(21,NA), pt.bg=8, pt.cex=2, inset=c(0.05,0.08),
+       box.col="grey", legend=c("eDNA sample locations","showing Site numbers"))
 ```
 
 &nbsp;
@@ -460,9 +492,6 @@ eDNA2022$Zone <- factor(eDNA2022$Zone, levels=c("North","South")) # re-order
 ```
 
 ```{r map-N-S-factor, fig.height=5.8, fig.width=6.4, message=FALSE, warning=FALSE, echo=FALSE, fig.cap="Figure 5: Map of the Ashfield Flats study area showing eDNA water sample locations categorised into South and North zones.", out.width="70%"}
-library(sf)
-library(maptiles)
-library(prettymapr)
 extent <- st_as_sf(data.frame(x=c(399920,400670), y=c(6467890,6468580)),
                    coords = c("x","y"), crs=st_crs(32750))
 afmap <- get_tiles(extent, "Esri.WorldImagery", 17, crop=TRUE)
@@ -479,9 +508,12 @@ rect(st_bbox(afmap)[1],6468500,399980,st_bbox(afmap)[4], col="#00000080", border
 addnortharrow(pos="topleft", border=10, text.col=10, scale=0.8)
 addscalebar(pos="bottomleft", plotepsg=32750, label.col=10, 
                         linecol=10, widthhint=0.15, padin=c(0.2,0.1))
-with(eDNA2022, points(Easting, Northing, pch=c(21,22)[Zone], bg=c(3,8)[Zone],
+with(eDNA2022[seq(1,nrow(eDNA2022),4),], points(Easting, Northing, pch=c(21,22)[Zone], bg=c(3,8)[Zone],
      col=c(9,10)[Zone], cex=1.6))
 abline(h=6468100, col=10, lty=2)
+with(eDNA2022[seq(1,nrow(eDNA2022),4),], 
+     shadowtext(Easting, Northing, labels=Site, col=10, bg=1, 
+          pos=c(2,4,2,4,2,2,4,4,2,4,2)))
 text(400640, 6468093, labels="North\nSouth", pos=2, col=10, font=3)
 legend("bottomright", legend=levels(eDNA2022$Zone), pch=c(21,22), col=c(9,10),
        pt.bg=c(3,8), pt.cex=1.6, bg="#000000a0", box.col="#00000060",
