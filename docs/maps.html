@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-11-29" />
+<meta name="date" content="2025-05-29" />
 
 <title>Basic maps in R</title>
 
@@ -343,7 +343,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -358,7 +358,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -368,12 +368,15 @@ $(document).ready(function () {
     <li>
       <a href="plots-GG.html">Plots-ggplot</a>
     </li>
+    <li>
+      <a href="boxplots-plus.html">Enhanced boxplots</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -388,7 +391,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -412,7 +415,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -439,7 +442,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -460,7 +463,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -478,15 +481,21 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Reporting
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="report-resources.html">Resources for reporting</a>
+    </li>
     <li>
       <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
     </li>
     <li>
       <a href="maps-location-siteplan.html">Locality and Site Plan maps</a>
+    </li>
+    <li>
+      <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
     </li>
   </ul>
 </li>
@@ -515,7 +524,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Basic maps in R</h1>
 <h3 class="subtitle">Data plotted over tile backgrounds</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-11-29</h4>
+<h4 class="date">2025-05-29</h4>
 
 </div>
 
@@ -631,8 +640,7 @@ target="_blank">J. R. R. Tolkien</a></p>
 website, into an <strong>R</strong> data frame:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="do">## afs19 &lt;- read.csv(file=paste0(git,&quot;afs19.csv&quot;), </span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="do">##                   stringsAsFactors = TRUE) # use this one</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>afs22 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;afs22S1.csv&quot;</span>), </span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>                  <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>afs21ll <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;afs21ll.csv&quot;</span>, <span class="at">stringsAsFactors =</span> T)</span></code></pre></div>
 <p>Before we start downloading map data, we're going to define and save
 some commonly-used coordinate reference systems which describe the map
 projection of our GPS data. The function <code>st_crs()</code> is from
@@ -659,14 +667,13 @@ longitude–latitude coordinate system, using the
 <code>st_transform</code> function. We needed to know (<em>e.g</em>.
 from <code>summary(afs19)</code>) that we have missing coordinate values
 – <strong>always check your data!</strong></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>nogeo <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">is.na</span>(afs19<span class="sc">$</span>Easting))</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>afs19utm <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(afs19[<span class="sc">-</span><span class="dv">9</span>,], <span class="co"># omitting row 9 where coordinates are missing</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                     <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;Easting&quot;</span>,<span class="st">&quot;Northing&quot;</span>),</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>                     <span class="at">crs =</span> UTM50S)</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>afs22utm <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(afs22, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;Easting&quot;</span>,<span class="st">&quot;Northing&quot;</span>),</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>                     <span class="at">crs =</span> UTM50S)</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>afs19ll <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(afs19utm, <span class="at">crs =</span> LongLat)</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>afs22ll <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(afs22utm, <span class="at">crs =</span> LongLat)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>afs19utm <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(afs19[<span class="sc">-</span><span class="dv">9</span>,], <span class="co"># omitting row 9 where coordinates are missing</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>                     <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;Easting&quot;</span>,<span class="st">&quot;Northing&quot;</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                     <span class="at">crs =</span> UTM50S)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>afs21ll <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(afs21ll, <span class="at">coords=</span><span class="fu">c</span>(<span class="st">&quot;Longitude&quot;</span>, <span class="st">&quot;Latitude&quot;</span>), </span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>                    <span class="at">crs=</span>LongLat)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>afs19ll <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(afs19utm, <span class="at">crs =</span> LongLat)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>afs21utm <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(afs21ll, <span class="at">crs =</span> UTM50S)</span></code></pre></div>
 <hr style="height: 2px; background-color: #5560A4;" />
 <p> </p>
 </div>
@@ -699,7 +706,7 @@ packages, <span class="math inline">\(x\)</span> coordinates are
 commonly Eastings or Longitudes, and <span
 class="math inline">\(y\)</span> coordinates are commonly Northings or
 Latitudes.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>extent <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(<span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">399900</span>,<span class="dv">400600</span>),<span class="at">y=</span><span class="fu">c</span>(<span class="dv">6467900</span>,<span class="dv">6468400</span>)),</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>extent <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(<span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">399900</span>,<span class="dv">400600</span>),<span class="at">y=</span><span class="fu">c</span>(<span class="dv">6467870</span>,<span class="dv">6468370</span>)),</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>                   <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>), <span class="at">crs =</span> UTM50S)</span></code></pre></div>
 <p><strong>NOTE</strong>: The projection we specify here will be the one
 the map plots in!</p>
@@ -725,7 +732,7 @@ change shape as it will use only square (uncropped) map tiles.</p>
 <p>The map tile style we have selected is the default
 <code>OpenStreetmap</code> style.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: projection of input object e.g. &#39;extent&#39; sets map projection</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>aftiles <span class="ot">&lt;-</span> maptiles<span class="sc">::</span><span class="fu">get_tiles</span>(extent, <span class="at">provider =</span> <span class="st">&quot;OpenStreetMap&quot;</span>, <span class="at">crop =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>aftiles <span class="ot">&lt;-</span> <span class="fu">get_tiles</span>(extent, <span class="at">provider =</span> <span class="st">&quot;OpenStreetMap&quot;</span>, <span class="at">crop =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p> </p>
 </div>
 <div id="plotting-the-map" class="section level3">
@@ -734,7 +741,7 @@ change shape as it will use only square (uncropped) map tiles.</p>
 <code>SpatRaster</code> object which needs the <code>maptiles</code> (or
 <code>terra</code>) package loaded to be able to plot it – see Figure
 1.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>aftiles <span class="ot">&lt;-</span> maptiles<span class="sc">::</span><span class="fu">get_tiles</span>(extent, <span class="at">provider =</span> <span class="st">&quot;OpenStreetMap&quot;</span>, </span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>aftiles <span class="ot">&lt;-</span> <span class="fu">get_tiles</span>(extent, <span class="at">provider =</span> <span class="st">&quot;OpenStreetMap&quot;</span>, </span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>                               <span class="at">crop =</span> <span class="cn">TRUE</span>, <span class="at">zoom=</span><span class="dv">16</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">1.3</span>,<span class="fl">1.2</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="sc">-</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">lend=</span><span class="st">&quot;square&quot;</span>)</span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_coordinates</span>(extent), <span class="at">asp=</span><span class="dv">1</span>, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>, <span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>, <span class="at">cex.axis=</span><span class="fl">0.8</span>,</span>
@@ -786,7 +793,12 @@ some tips:</p>
 which you plot the <code>maptiles</code> object. We do this by:
 <ul>
 <li>setting margins and so on using the <code>par()</code> function</li>
-<li></li>
+<li>setting <code>asp=1</code> as an option in the <code>plot()</code>
+function to make <span class="math inline">\(x\)</span> and <span
+class="math inline">\(y\)</span> distances equivalent on the map</li>
+<li>setting <code>xaxs="i"</code> and <code>yaxs="i"</code> as options
+in the <code>plot()</code> function, so axis ranges exactly match the
+size of the map tiles raster</li>
 </ul></li>
 <li>use the option <code>add=TRUE</code> in the
 <code>plot_tiles()</code> function<br />
@@ -887,6 +899,11 @@ OpenStreetMap tiles acquired using <code>maptiles</code>.
 </p>
 </div>
 <p> </p>
+<div style="border: 2px solid #fd0; padding: 5px;">
+<p>Figure 6 should be plotted with the data symbols on top of the added
+map features like drains. We have provided code for this in the <a
+href="#bonus-material">Bonus Material</a> at the end!</p>
+</div>
 </div>
 <div id="making-a-bubble-map" class="section level3">
 <h3>Making a bubble map</h3>
@@ -1066,7 +1083,7 @@ target="_blank">https://developers.google.com/maps</a></em></span></p>
 central coordinate with the extent controlled by the <code>zoom</code>
 option:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="do">## library(ggmap)</span></span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">register_google</span>(<span class="at">key =</span> secret[<span class="dv">1</span>,<span class="dv">1</span>]) <span class="co"># you would replace secret[1,1] with your API key</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">register_google</span>(<span class="at">key =</span> secret) <span class="co"># you would replace secret with your API key</span></span>
 <span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>udubua.gg <span class="ot">&lt;-</span> <span class="fu">get_googlemap</span>(<span class="at">center=</span><span class="fu">c</span>(<span class="fl">115.8213</span>,<span class="sc">-</span><span class="fl">31.98165</span>), </span>
 <span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>                           <span class="at">zoom =</span> <span class="dv">16</span>, <span class="at">maptype =</span> <span class="st">&quot;roadmap&quot;</span>, <span class="at">color =</span> <span class="st">&quot;bw&quot;</span>)</span></code></pre></div>
 <p>This always gives a <strong>square</strong> map (Figure 10) – which
@@ -1143,33 +1160,34 @@ single <code>viridis</code> palette option, we choose one at random
 using <code>option=sample(LETTERS[1:8],1)</code>. [If you don't like
 this, change the code to <code>option="D"</code>, the standard viridis
 palette.]</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>afr.gg <span class="ot">&lt;-</span> </span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>  <span class="fu">get_stadiamap</span>(<span class="at">bbox=</span><span class="fu">c</span>(<span class="at">left=</span><span class="fl">115.9393</span>, <span class="at">bottom=</span><span class="sc">-</span><span class="fl">31.9203</span>, </span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>                       <span class="at">right=</span><span class="fl">115.948</span>, <span class="at">top=</span><span class="sc">-</span><span class="fl">31.916</span>),</span>
-<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>                <span class="at">maptype=</span><span class="st">&quot;stamen_terrain&quot;</span>, <span class="at">zoom=</span><span class="dv">17</span>)</span>
-<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>bb <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">unlist</span>(<span class="fu">as.vector</span>(<span class="fu">attr</span>(afr.gg, <span class="st">&quot;bb&quot;</span>))))</span>
-<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="fu">ggmap</span>(afr.gg) <span class="sc">+</span> </span>
-<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Latitude (\u00B0S)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Longitude (\u00B0E)&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">115.944</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">31.918</span>, <span class="at">label =</span> <span class="st">&quot;Ashfield</span><span class="sc">\n</span><span class="st">Flats&quot;</span>,</span>
-<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>                <span class="at">fontface =</span> <span class="st">&quot;italic&quot;</span>, <span class="at">family=</span><span class="st">&quot;sans&quot;</span>), </span>
-<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>            <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color=</span><span class="st">&quot;khaki4&quot;</span>, <span class="at">lineheight=</span><span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">115.942</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">31.9199</span>, <span class="at">label =</span> <span class="st">&quot;Swan River&quot;</span>,</span>
-<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>                <span class="at">fontface=</span><span class="st">&quot;italic&quot;</span>, <span class="at">family=</span><span class="st">&quot;sans&quot;</span>), <span class="at">size=</span><span class="dv">4</span>, <span class="at">color=</span><span class="st">&quot;steelblue&quot;</span>) <span class="sc">+</span></span>
-<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="fu">aes</span>(<span class="at">x =</span> drain_lon, <span class="at">y=</span>drain_lat), <span class="at">data=</span>afr_map, </span>
-<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">size =</span> <span class="fl">1.25</span>) <span class="sc">+</span></span>
-<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="fu">aes</span>(<span class="at">x=</span>wetland_lon, <span class="at">y=</span>wetland_lat), <span class="at">data =</span> afr_map,</span>
-<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">fill=</span><span class="st">&quot;#4682B480&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> afs21ll, <span class="fu">aes</span>(<span class="at">bg=</span>Zn, <span class="at">size=</span>Zn), <span class="at">shape=</span><span class="dv">21</span>, <span class="at">inherit.aes=</span><span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> I, <span class="at">limits=</span><span class="fu">c</span>(bb[<span class="dv">2</span>],bb[<span class="dv">4</span>]), </span>
-<span id="cb21-19"><a href="#cb21-19" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))) <span class="sc">+</span></span>
-<span id="cb21-20"><a href="#cb21-20" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> I, <span class="at">limits=</span><span class="fu">c</span>(bb[<span class="dv">1</span>],bb[<span class="dv">3</span>]), </span>
-<span id="cb21-21"><a href="#cb21-21" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))) <span class="sc">+</span></span>
-<span id="cb21-22"><a href="#cb21-22" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>,<span class="at">option=</span><span class="fu">sample</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>],<span class="dv">1</span>)) <span class="sc">+</span> </span>
-<span id="cb21-23"><a href="#cb21-23" tabindex="-1"></a>  <span class="fu">scale_size_area</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">30</span>,<span class="dv">100</span>,<span class="dv">300</span>,<span class="dv">1000</span>,<span class="dv">3000</span>,<span class="dv">5000</span>), <span class="at">max_size =</span> <span class="dv">9</span>) <span class="sc">+</span></span>
-<span id="cb21-24"><a href="#cb21-24" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb21-25"><a href="#cb21-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>),</span>
-<span id="cb21-26"><a href="#cb21-26" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb21-27"><a href="#cb21-27" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">4326</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">register_stadiamaps</span>(<span class="at">key=</span>secret2)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>afr.gg <span class="ot">&lt;-</span> </span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  <span class="fu">get_stadiamap</span>(<span class="at">bbox=</span><span class="fu">c</span>(<span class="at">left=</span><span class="fl">115.9393</span>, <span class="at">bottom=</span><span class="sc">-</span><span class="fl">31.9203</span>, </span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>                       <span class="at">right=</span><span class="fl">115.948</span>, <span class="at">top=</span><span class="sc">-</span><span class="fl">31.916</span>),</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>                <span class="at">maptype=</span><span class="st">&quot;stamen_terrain&quot;</span>, <span class="at">zoom=</span><span class="dv">17</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>bb <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">unlist</span>(<span class="fu">as.vector</span>(<span class="fu">attr</span>(afr.gg, <span class="st">&quot;bb&quot;</span>))))</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="fu">ggmap</span>(afr.gg) <span class="sc">+</span> </span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Latitude (\u00B0S)&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Longitude (\u00B0E)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">115.944</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">31.918</span>, <span class="at">label =</span> <span class="st">&quot;Ashfield</span><span class="sc">\n</span><span class="st">Flats&quot;</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>                <span class="at">fontface =</span> <span class="st">&quot;italic&quot;</span>, <span class="at">family=</span><span class="st">&quot;sans&quot;</span>), </span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>            <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color=</span><span class="st">&quot;khaki4&quot;</span>, <span class="at">lineheight=</span><span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fl">115.942</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">31.9199</span>, <span class="at">label =</span> <span class="st">&quot;Swan River&quot;</span>,</span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>                <span class="at">fontface=</span><span class="st">&quot;italic&quot;</span>, <span class="at">family=</span><span class="st">&quot;sans&quot;</span>), <span class="at">size=</span><span class="dv">4</span>, <span class="at">color=</span><span class="st">&quot;steelblue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="fu">aes</span>(<span class="at">x =</span> drain_lon, <span class="at">y=</span>drain_lat), <span class="at">data=</span>afr_map, </span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">size =</span> <span class="fl">1.25</span>) <span class="sc">+</span></span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="fu">aes</span>(<span class="at">x=</span>wetland_lon, <span class="at">y=</span>wetland_lat), <span class="at">data =</span> afr_map,</span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">fill=</span><span class="st">&quot;#4682B480&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> afs21ll, <span class="fu">aes</span>(<span class="at">bg=</span>Zn, <span class="at">size=</span>Zn), <span class="at">shape=</span><span class="dv">21</span>, <span class="at">inherit.aes=</span><span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb21-19"><a href="#cb21-19" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> I, <span class="at">limits=</span><span class="fu">c</span>(bb[<span class="dv">2</span>],bb[<span class="dv">4</span>]), </span>
+<span id="cb21-20"><a href="#cb21-20" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))) <span class="sc">+</span></span>
+<span id="cb21-21"><a href="#cb21-21" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> I, <span class="at">limits=</span><span class="fu">c</span>(bb[<span class="dv">1</span>],bb[<span class="dv">3</span>]), </span>
+<span id="cb21-22"><a href="#cb21-22" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))) <span class="sc">+</span></span>
+<span id="cb21-23"><a href="#cb21-23" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>,<span class="at">option=</span><span class="fu">sample</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>],<span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb21-24"><a href="#cb21-24" tabindex="-1"></a>  <span class="fu">scale_size_area</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">30</span>,<span class="dv">100</span>,<span class="dv">300</span>,<span class="dv">1000</span>,<span class="dv">3000</span>,<span class="dv">5000</span>), <span class="at">max_size =</span> <span class="dv">9</span>) <span class="sc">+</span></span>
+<span id="cb21-25"><a href="#cb21-25" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb21-26"><a href="#cb21-26" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb21-27"><a href="#cb21-27" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb21-28"><a href="#cb21-28" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">4326</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="maps_files/figure-html/ggAF-1.png" alt="Figure 11: Zinc concentration (mg/kg) in sediment sampled in Semester 1, 2021 at Ashfield Flats, Western Australia, plotted over `stamen_terrain` map tiles acquired using the `R` package `ggmap`, with data in a simple features data frame, and with manually added wetland pond locations." width="85%" />
 <p class="caption">
@@ -1330,9 +1348,10 @@ Good luck!
 </div>
 </div>
 <p> </p>
+<div id="bonus-material"
+style="border: 2px solid #039; background-color:#e8e8e8; padding: 5px;">
 <div id="r-mapping---supporting-learning-materials"
-class="section level2"
-style="border: 2px solid #039; background-color:#fec; padding: 8px;">
+class="section level2">
 <h2>R Mapping - supporting learning materials</h2>
 <p>↓The best code for mapping using state-of-the-art <b>R</b> packages
 is in the code in the rest of this page (below) ↓</p>
@@ -1342,7 +1361,7 @@ is in the code in the rest of this page (below) ↓</p>
 src="./images/csv.png" alt="csv file icon" width="32"
 height="32" />Ashfield Flats sediment soil data
 <strong>2021</strong></a>    
-<a href="Maps_in_R_2025.R" target="_blank" rel="noreferrer noopener"><img
+<a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/Learn-R-CODE-Maps.R" target="_blank" rel="noreferrer noopener"><img
 src="./images/rcode.png" alt="R code file icon" width="32"
 height="32" /> Just the code used in this web page</a></p>
 <p><a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/afs19.csv"><img
@@ -1382,6 +1401,15 @@ interpolations)<br /> 
 <p><span
 style="font-family: cambria, serif; background-color:#ffa; text-align: center;"> (Currently
 on UWA LMS, so you will need to be logged in) </span></p>
+<div class="figure" style="text-align: center">
+<img src="maps_files/figure-html/map-text-labels-correct-1.png" alt="Figure 12: Map of Ashfield Flats (UTM), with added North arrow, scale bar, additional map features, text labels, and user data (data plotted last), over OpenStreetMap tiles acquired using `maptiles`." width="70%" />
+<p class="caption">
+Figure 12: Map of Ashfield Flats (UTM), with added North arrow, scale
+bar, additional map features, text labels, and user data (data plotted
+last), over OpenStreetMap tiles acquired using <code>maptiles</code>.
+</p>
+</div>
+</div>
 </div>
 </div>
 <p> </p>
