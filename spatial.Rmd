@@ -156,21 +156,20 @@ WA_extent <- st_as_sf(data.frame(Longitude = c(108, 129),
 
 We now need some functions from the `maptiles` package (Giraud 2021). The 
 `get_tiles` function downloads map tiles from the provider selected into an 
-object of class `SpatRaster`. Then we plot using the `plot_tiles` function, 
-specifying `axes=TRUE` and setting margins using `mar=` 
-(Figure 1).
+object of class `SpatRaster`. Then we plot using the `plot_tiles` function,
+specifying `axes=TRUE` and setting margins using `mar=`. We use a map tile style
+with minimal detail, so that we can more easily see our data on the map (Figure
+1).
 
-```{r base-WA-map, fig.height=7.6, fig.width=6, fig.align='center', fig.cap="Figure 1: Map of Western Australia (rectangular Long-Lat projection) used subsequently as the base map for spatial analyses. Generated using the `maptiles` R package, with OpenTopoMap tiles.", out.width="55%", warning=FALSE, message=FALSE, results='hide'}
-WAtiles <- get_tiles(WA_extent, provider = "OpenTopoMap", 
+```{r base-WA-map, fig.height=7.6, fig.width=6, fig.align='center', fig.cap="Figure 1: Map of Western Australia (rectangular Long-Lat projection) used subsequently as the base map for spatial analyses. Generated using the `maptiles` R package, with CartoDB Voyager tiles.", out.width="55%", warning=FALSE, message=FALSE, results='hide'}
+WAtiles <- get_tiles(WA_extent, provider="CartoDB.Voyager", 
                      crop = TRUE, zoom = 5) # make map object
 
 par(oma=c(0,0,0,0), mar=c(3,3,0.5,0.5), mgp=c(1.4,0.3,0), 
-    lend=2, ljoin=1, tcl=0.3)
-plot_tiles(WAtiles, axes=TRUE, mar=c(3,3,0.5,0.5))
-mtext(side=1, line=1.6, text="Longitude (\u00B0 E)",
-      font=2, cex=1.2)
-mtext(side=2, line=1.6, text="Latitude (\u00B0 S)",
-      font=2, cex=1.2)
+    lend=2, ljoin=1, tcl=0.3, cex.lab=1.2, font.lab=2, xpd=F)
+plot(st_coordinates(WA_extent), type="n", asp=1.1, xaxs="i", yaxs="i", 
+     xlab="Longitude (\u00B0 E)", ylab="Latitude (\u00B0 S)")
+plot_tiles(WAtiles, add=TRUE) ; box()
 ```
 
 <p>&nbsp;</p>
@@ -215,21 +214,20 @@ ggplot() +
 plot the locations of samples in 
 the NGSA data (Figure 3):
 
-```{r ngsa-points-map, fig.height=7.6, fig.width=6, fig.align='center', fig.cap="Figure 3: Sample locations for the Western Australia subset of the NGSA data plotted over a `maptiles` raster background.", out.width="55%"}
+```{r ngsa-points-map, fig.height=7.65, fig.width=6, fig.align='center', fig.cap="Figure 3: Sample locations for the Western Australia subset of the NGSA data plotted over a `maptiles` raster background.", out.width="55%"}
 par(oma=c(0,0,0,0), mar=c(3,3,0.5,0.5), mgp=c(1.4,0.3,0), 
-    lend=2, ljoin=1, tcl=0.3)
-plot_tiles(WAtiles, axes=TRUE, mar=c(3,3,0.5,0.5))
-mtext(side=1, line=1.6, text="Longitude (\u00B0 E)",
-      font=2, cex=1.2)
-mtext(side=2, line=1.6, text="Latitude (\u00B0 S)",
-      font=2, cex=1.2)
+    lend=2, ljoin=1, tcl=0.3, cex.lab=1.2, font.lab=2, xpd=F)
+plot(st_coordinates(WA_extent), type="n", asp=1.1, xaxs="i", yaxs="i", 
+     xlab="Longitude (\u00B0 E)", ylab="Latitude (\u00B0 S)")
+plot_tiles(WAtiles, add=TRUE) ; box()
 
-points(st_coordinates(ngsaWAsf)[,1:2], pch=3)
-legend("topleft", bty="n", legend="Sample locations for\nNGSA data in WA",
-       pch = 3)
-addnortharrow(pos="topright", border=1, lwd=1, text.col=1, padin=c(0.2,0.2))
-legend("bottom", bty="n", 
-       legend = c("Omitting scale bar, as scale on map varies by\nmore than 5%, so scale bar may be inaccurate\n \n "),
+points(st_coordinates(ngsaWAsf)[,1:2], pch=21, bg="#00308780", lwd=1.5)
+legend("topleft", bty="n", inset=c(0.2,0.01), 
+       y.intersp=1.2, legend="Sample locations for\nNGSA data in WA",
+       pch = 21, pt.bg="#00308780")
+addnortharrow(pos="topleft", border=1, lwd=1, text.col=1, padin=c(0.2,0.2))
+legend("bottom", bty="n", inset=0.005, 
+       legend = c(" Omitting scale bar, as scale on map varies by","more than 5%, so scale bar may be inaccurate"),
        y.intersp=0.9)
 ```
 
@@ -289,7 +287,7 @@ mtext(side=1, line=1.6, text="Longitude (\u00B0 E)",
 mtext(side=2, line=1.6, text="Latitude (\u00B0 S)",
       font=2, cex=1.2)
 addnortharrow(pos="topleft", border=1, lwd=1, text.col=1,  
-              padin=c(0.2,0.2), scale=1.2)
+              padin=c(0.2,0.2))
 legend("bottomright", bty="n", 
        legend = c("Omitting scale bar, as scale","on map varies by more than 5%",
                   "so scalebar may be inaccurate"),
