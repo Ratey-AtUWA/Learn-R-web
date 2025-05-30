@@ -74,12 +74,8 @@ chloropleth maps, and many other map plotting methods.
 
 ### load packages needed to make maps
 
-```{r load data invisibly, message=FALSE, warning=FALSE, include=FALSE}
-library(sf)
-afs21ll <- read.csv("afs21ll.csv", stringsAsFactors = T)
-afs21ll <- st_as_sf(afs21ll, coords=c("Longitude", "Latitude"), 
-                    crs=st_crs(4326))
-secret <- read.csv("../Learn-R/tfapi.csv")
+```{r load-apikey-invisibly, message=FALSE, warning=FALSE, include=FALSE}
+secret <- readLines("../thunderforest-API-key.txt")
 ```
 
 ```{r load packages and data show code but DO NOT RUN, eval=FALSE, results='hide'}
@@ -129,8 +125,7 @@ data frame:
 ```{r read AFR data, warning=FALSE, error=FALSE, results='hold',eval=-1}
 afs19 <- read.csv(file=paste0(git,"afs19.csv"), 
                   stringsAsFactors = TRUE) # use this one
-afs22 <- read.csv(file=paste0(git,"afs22S1.csv"), 
-                  stringsAsFactors = TRUE)
+afs21ll <- read.csv("afs21ll.csv", stringsAsFactors = T)
 ```
 
 Before we start downloading map data, we're going to define and save
@@ -162,15 +157,14 @@ longitude&ndash;latitude coordinate system, using the `st_transform`
 function. We needed to know (*e.g*. from `summary(afs19)`) that we
 have missing coordinate values &ndash; **always check your data!**
 
-```{r}
-nogeo <- which(is.na(afs19$Easting))
+```{r read-data, message=FALSE, warning=FALSE, results='hide'}
 afs19utm <- st_as_sf(afs19[-9,], # omitting row 9 where coordinates are missing
                      coords = c("Easting","Northing"),
                      crs = UTM50S)
-afs22utm <- st_as_sf(afs22, coords = c("Easting","Northing"),
-                     crs = UTM50S)
+afs21ll <- st_as_sf(afs21ll, coords=c("Longitude", "Latitude"), 
+                    crs=LongLat)
 afs19ll <- st_transform(afs19utm, crs = LongLat)
-afs22ll <- st_transform(afs22utm, crs = LongLat)
+afs21utm <- st_transform(afs21ll, crs = UTM50S)
 ```
 
 <hr style="height: 2px; background-color: #5560A4;" />
@@ -205,7 +199,7 @@ are commonly Eastings or Longitudes, and $y$ coordinates are commonly
 Northings or Latitudes.
 
 ```{r make map extent object, warning=FALSE, error=FALSE, results='hold'}
-extent <- st_as_sf(data.frame(x=c(399900,400600),y=c(6467900,6468400)),
+extent <- st_as_sf(data.frame(x=c(399900,400600),y=c(6467870,6468370)),
                    coords = c("x","y"), crs = UTM50S)
 ```
 
@@ -232,7 +226,7 @@ The map tile style we have selected is the default `OpenStreetmap` style.
 
 ```{r get_tiles, warning=FALSE, error=FALSE, results='hold'}
 # NOTE: projection of input object e.g. 'extent' sets map projection
-aftiles <- maptiles::get_tiles(extent, provider = "OpenStreetMap", crop = TRUE)
+aftiles <- get_tiles(extent, provider = "OpenStreetMap", crop = TRUE)
 ```
 
 &nbsp;
@@ -244,12 +238,13 @@ The `aftiles` object we created is a `SpatRaster` object which needs the
 Figure 1.
 
 ```{r plot-map1-axes, fig.align='center', fig.cap="Figure 1: Map of Ashfield Flats in the UTM projection, generated using the `maptiles` R package, with OpenStreetMap tiles.", fig.width=6.8, out.width='70%', results='hold', fig.height=5.1, message=FALSE, warning=FALSE}
-aftiles <- maptiles::get_tiles(extent, provider = "OpenStreetMap", 
+aftiles <- get_tiles(extent, provider = "OpenStreetMap", 
                                crop = TRUE, zoom=16)
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
      xlab="Easting (UTM Zone 50, m)", ylab="Northing (UTM Zone 50, m)")
 plot_tiles(aftiles, add=TRUE)
+box() # re-draw box in case tiles overlap
 ```
 
 &nbsp;
@@ -271,7 +266,7 @@ that the scale bar shows the correct distances. (Long-Lat is EPSG 4326
 in WGS84)
 
 **NOTE**: If the `addscalebar` function does not work, run this line of code:
-```{r load-modified-addscalebar-function, eval=FALSE}
+```{r load-modified-addscalebar-function}
 source("https://github.com/Ratey-AtUWA/Learn-R/raw/main/scalebar_use_sf_prettymapr.R")
 ```
 (This will replace the function in the `prettymapr` package with a modified 
@@ -297,7 +292,8 @@ some problems in our experience, so here are some tips:
 - Draw a `'base-R'` plot which is an empty frame, over which you plot the 
 `maptiles` object. We do this by:
   - setting margins and so on using the `par()` function
-  - 
+  - setting `asp=1` as an option in the `plot()` function to make $x$ and $y$ distances equivalent on the map
+  - setting `xaxs="i"` and `yaxs="i"` as options in the `plot()` function, so axis ranges exactly match the size of the map tiles raster 
 - use the option `add=TRUE` in the `plot_tiles()` function  
   (this overplots the `maptiles` object onto your empty plot frame)
 - adjust the height and width of the RStudio plot area to best match the map
@@ -318,7 +314,7 @@ source(paste0(git, "scalebar_use_sf_prettymapr.R"))
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
      xlab="Easting (UTM Zone 50, m)", ylab="Northing (UTM Zone 50, m)")
-plot_tiles(aftiles, add=TRUE)
+plot_tiles(aftiles, add=TRUE) ; box()
 addnortharrow(text.col=1, border=1)
 addscalebar(plotepsg = 32750, label.col = 1, linecol = 1, 
             label.cex = 1.2, htin=0.15, widthhint = 0.15)
@@ -353,7 +349,7 @@ legend("bottomright", legend=levels(as.factor(afs19$Group)),
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
      xlab="Easting (UTM Zone 50, m)", ylab="Northing (UTM Zone 50, m)")
-plot_tiles(aftiles, add=TRUE)
+plot_tiles(aftiles, add=TRUE) ; box()
 addnortharrow(text.col=1, border=1)
 addscalebar(plotepsg = 32750, label.col = 1, linecol = 1, 
             label.cex = 1.2, htin=0.15, widthhint = 0.15)
@@ -384,7 +380,7 @@ with(afr_map, lines(wetland_E, wetland_N, col = "cadetblue", lwd = 1, lty = 2))
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
      xlab="Easting (UTM Zone 50, m)", ylab="Northing (UTM Zone 50, m)")
-plot_tiles(aftiles, add=TRUE)
+plot_tiles(aftiles, add=TRUE) ; box()
 addnortharrow(text.col=1, border=1)
 addscalebar(plotepsg = 32750, label.col = 1, linecol = 1, 
             label.cex = 1.2, htin=0.15, widthhint = 0.15)
@@ -419,7 +415,7 @@ text(c(400263, 399962, 400047), c(6468174, 6468083, 6468237),
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
      xlab="Easting (UTM Zone 50, m)", ylab="Northing (UTM Zone 50, m)")
-plot_tiles(aftiles, add=TRUE)
+plot_tiles(aftiles, add=TRUE) ; box()
 addnortharrow(text.col=1, border=1)
 addscalebar(plotepsg = 32750, label.col = 1, linecol = 1, 
             label.cex = 1.2, htin=0.15, widthhint = 0.15)
@@ -441,6 +437,13 @@ text(c(400263, 399982, 400047), c(6468174, 6468143, 6468237),
 
 &nbsp;
 
+<div style="border: 2px solid #fd0; padding: 5px;">
+Figure 6 should be plotted with the data symbols on top of the added map
+features like drains. We have provided code for this in the [Bonus Material](#bonus-material) at
+the end!
+</div>
+
+
 ### Making a bubble map
 
 We use essentially the same code as for the maps above (except plotting the
@@ -458,7 +461,7 @@ palette(pal4lite)
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
      xlab="Easting (UTM Zone 50, m)", ylab="Northing (UTM Zone 50, m)")
-plot_tiles(aftiles, add=TRUE)
+plot_tiles(aftiles, add=TRUE) ; box()
 addnortharrow(text.col=1, border=1)
 addscalebar(plotepsg = 32750, label.col = 1, linecol = 1, 
             label.cex = 1.2, htin=0.15, widthhint = 0.15)
@@ -524,7 +527,7 @@ text(c(400500,400530,400530,400510),c(6468100,6468040,6467980,6467920),
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
      xlab="Easting (UTM Zone 50, m)", ylab="Northing (UTM Zone 50, m)")
-plot_tiles(aftiles, add=TRUE)
+plot_tiles(aftiles, add=TRUE) ; box()
 addnortharrow(text.col=1, border=1)
 addscalebar(plotepsg = 32750, label.col = 1, linecol = 1, 
             label.cex = 1.2, htin=0.15, widthhint = 0.15)
@@ -574,7 +577,7 @@ sample location. We add a line break to text labels using $\backslash$`n`.
 par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
 plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
      xlab="Easting (UTM Zone 50, m)", ylab="Northing (UTM Zone 50, m)")
-plot_tiles(aftiles, add=TRUE)
+plot_tiles(aftiles, add=TRUE) ; box()
 addnortharrow(text.col=1, border=1)
 addscalebar(plotepsg = 32750, label.col = 1, linecol = 1, 
             label.cex = 1.2, htin=0.15, widthhint = 0.15)
@@ -602,10 +605,12 @@ with(afs19,
             lwd = c(1,1,1,2,2,1,1)[QZn], 
             cex = c(0.7,0.9,1.1,1.3,1.3,2,3,4)[QZn])
      )
-legend("bottomright", legend = levels(afs19$QZn), title=expression(bold("Zn")),
-       pch = c(22,22,22,3,4,21,21,21), col = c(1,1,1,4,5,1,1,1),
-       pt.lwd = c(1,1,1,2,2,1,1), pt.bg = c(2:9), 
-       pt.cex = c(0.7,0.9,1.1,1.3,1.3,2,3,4),
+# use rev() in the legend to reverse order to greatest values at top
+legend("bottomright", legend = rev(levels(afs19$QZn)), 
+       title=expression(bold("Zn")),
+       pch = rev(c(22,22,22,3,4,21,21,21)), col = rev(c(1,1,1,4,5,1,1,1)),
+       pt.lwd = rev(c(1,1,1,2,2,1,1)), pt.bg = rev(c(2:9)), 
+       pt.cex = rev(c(0.7,0.9,1.1,1.3,1.3,2,3,4)),
        bty = "n", inset = c(0.01,0.01), cex = 0.85, y.intersp = 1.2)
 palette(pal4lite) # change back to non-transparent palette (optional)
 afs19$QZn <- NULL # to delete quantile column (optional; you can leave it in)
@@ -635,7 +640,7 @@ it's easier to use if you are familiar with `ggplot` and the associated family
 of packages. [*You will need a Google maps API key which you can get by registering at [https://developers.google.com/maps](https://developers.google.com/maps){target="_blank"}*]{style="color: #A00000;"}
 
 ```{r get-api-key, include=FALSE}
-secret <- read.csv("../Learn-R/gmapskey.csv")
+secret <- read.csv("../gmapskey.csv")[1,1]
 ```
 
 First we make a `ggmap` object, locating the map by its central coordinate with
@@ -643,7 +648,7 @@ the extent controlled by the `zoom` option:
 
 ```{r make ggmap object, message=FALSE, warning=FALSE, eval=-1, results='hold', echo=-4}
 library(ggmap)
-register_google(key = secret[1,1]) # you would replace secret[1,1] with your API key
+register_google(key = secret) # you would replace secret with your API key
 udubua.gg <- get_googlemap(center=c(115.8213,-31.98165), 
                            zoom = 16, maptype = "roadmap", color = "bw")
 rm(secret)
@@ -713,11 +718,11 @@ option, we choose one at random using `option=sample(LETTERS[1:8],1)`. [If you
 don't like this, change the code to `option="D"`, the standard viridis palette.]
 
 ```{r register-stadia, include=FALSE}
-secretSS <- read.csv("../StadiaMaps-API.csv")[1,1]
-register_stadiamaps(key=secretSS)
+secret2 <- read.csv("../StadiaMaps-API.csv")[1,1]
 ```
 
 ```{r ggAF, fig.height=4.5, fig.width=8, fig.align='center', fig.cap="Figure 11: Zinc concentration (mg/kg) in sediment sampled in Semester 1, 2021 at Ashfield Flats, Western Australia, plotted over `stamen_terrain` map tiles acquired using the `R` package `ggmap`, with data in a simple features data frame, and with manually added wetland pond locations.", out.width='85%', message=FALSE, warning=FALSE, results='hold'}
+register_stadiamaps(key=secret2)
 afr.gg <- 
   get_stadiamap(bbox=c(left=115.9393, bottom=-31.9203, 
                        right=115.948, top=-31.916),
@@ -895,7 +900,7 @@ For activities today we suggest:
 
 &nbsp;
 
-<div style="border: 2px solid #039; background-color:#fec; padding: 8px;"> 
+<div id="bonus-material" style="border: 2px solid #039; background-color:#e8e8e8; padding: 5px;"> 
 ## R Mapping - supporting learning materials
 
 &darr;The best code for mapping using state-of-the-art <b>R</b> packages is in the code in the rest of this page (below) &darr;
@@ -916,6 +921,30 @@ For activities today we suggest:
 <p><a href="https://ratey-atuwa.github.io/cybloRg/geostats.html" target="_blank" rel="noopener">Advanced Spatial Analysis</a> (spatial autocorrelation, variograms, and kriging interpolations)<br />&nbsp;</p>
 
 <span style="font-family: cambria, serif; background-color:#ffa; text-align: center;">&nbsp;(Currently on UWA LMS, so you will need to be logged in)&nbsp;</span>
+
+```{r map-text-labels-correct, fig.align='center', fig.height=5.1, fig.width=6.8, message=FALSE, warning=FALSE, out.width="70%", fig.cap="Figure 12: Map of Ashfield Flats (UTM), with added North arrow, scale bar, additional map features, text labels, and user data (data plotted last), over OpenStreetMap tiles acquired using `maptiles`.", results='hold'}
+par(mar=c(3,3,1.3,1.2), mgp=c(1.6,0.2,0), tcl=-0.2, font.lab=2, lend="square")
+plot(st_coordinates(extent), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
+     xlab="Easting (UTM Zone 50, m)", ylab="Northing (UTM Zone 50, m)")
+plot_tiles(aftiles, add=TRUE); box()
+addnortharrow(text.col=1, border=1, pos="topleft", scale=0.85)
+addscalebar(plotepsg = 32750, label.col = 1, linecol = 1, 
+            label.cex = 1.1, htin=0.14, widthhint = 0.15)
+clrz <- plasma(14, alpha=0.75, direction = -1)
+legend("bottomright", legend=levels(as.factor(afs19$Group)),
+       pch = rep(21:25,2), pt.bg = clrz,
+       title = "Group", inset = 0.02, ncol = 2)
+with(afr_map, 
+     lines(drain_E, drain_N, col = "cadetblue", lwd = 2))
+with(afr_map, polygon(wetland_E, wetland_N, border="cadetblue", col="#5F9EA080", 
+                    lwd = 1, lty = 1))
+text(c(400263, 399982, 400047), c(6468174, 6468143, 6468237),
+     labels = c("Chapman Drain","Kitchener\nDrain", "Woolcock Drain"),
+     pos = c(2,1,4), cex = 0.8, font = 3, col = "cadetblue")
+with(afs19utm, plot(geometry, add=TRUE,  
+                    pch = rep(21:25,2)[Group], 
+                    bg = clrz[Group]))
+```
 
 </div>
 

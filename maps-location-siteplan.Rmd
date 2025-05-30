@@ -90,7 +90,7 @@ library(prettymapr)    # for making north arrow and scale bar
 library(TeachingDemos) # for shadowtext() function (outlined text)
 library(viridis)       # for accessible colour palettes
 palette(c("black", viridis(8), "royalblue", 
-          "white", "transparent", "firebrick", "grey44")) # custom colours
+          "white", "transparent", "firebrick", "grey25")) # custom colours
 library(ggmap)
 library(ggplot2)
 library(ggspatial)
@@ -156,14 +156,14 @@ Find coordinates by:
 
 **⚠ THESE COORDINATES 👇 ARE NOT REAL! - PLEASE FIND YOUR OWN!**
 
-```{r eval=FALSE}
+```{r locality-extent-notrun, eval=FALSE}
 locality <- st_as_sf(data.frame(x=c(123456,123456), y=c(1234567,1234567)),
                      coords=c("x","y"), crs=st_ evalcrs(32750))
 locality # check it worked: should include 'Projected CRS: WGS 84 / UTM zone 50S'
 ```
 
-```{r include=FALSE}
-locality <- st_as_sf(data.frame(x=c(382000,386500), y=c(6460430,6462970)),
+```{r locality-extent-runButDontShow, include=FALSE}
+locality <- st_as_sf(data.frame(x=c(382050,386550), y=c(6460430,6462970)),
                      coords=c("x","y"), crs=st_crs(32750))
 locality # check it worked: should include 'Projected CRS: WGS 84 / UTM zone 50S'
 ```
@@ -352,7 +352,7 @@ ggplot() +
         legend.text = element_text(size=12))
 ```
 
-Some additional notes on this code:
+Some additional notes on this `ggmap` code:
 
 - `scale_x_continuous(expand = c(0,0), limits=c(ll[1],ll[3]))` (and `scale_y_continuous()`) allow us to have axis limits that exactly fit the `ggmap` raster
 - `geom_sf()` allows us to add layers. The layer information eeds to be in a `sf` object
