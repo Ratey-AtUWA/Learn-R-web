@@ -234,7 +234,7 @@ windowsFonts(fixed=windowsFont("Courier New"))
 library(flextable)
 library(officer)
 set_flextable_defaults(theme_fun = "theme_zebra", 
-                       font.size = 11, font.family = "Arial",
+                       font.size = 10, font.family = "Consolas",
                        padding = 2, text.align = "right")
 BorderDk <- officer::fp_border(color = "#B5C3DF", style = "solid", width = 1)
 BorderLt <- officer::fp_border(color = "#FFFFFF", style = "solid", width = 1)
@@ -330,7 +330,7 @@ positive. To enhance plots, strip off the last concentration at each time step.
 library(reshape2)
 # convert to long-form using melt()
 hydrus1 <- melt(hydrus0[,2:ncol(hydrus0)], 
-                       id.vars = c("T0"), 
+                       id.vars = "Dist0", 
                        measure.vars = paste("Day",round(simTimes)))
 colnames(hydrus1) <- c("Distance","Time","Concentration")
 # reverse sign of distance variable
