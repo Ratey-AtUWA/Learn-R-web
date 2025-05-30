@@ -63,7 +63,7 @@ afr_map <-
            stringsAsFactors = TRUE)
 extent <- st_as_sf(data.frame(x=c(399900,400600),y=c(6467900,6468400)),
                    coords = c("x","y"), crs = UTM50S)
-aftiles <- get_tiles(extent, provider = "OpenStreetMap.HOT", crop = TRUE)
+aftiles <- get_tiles(extent, provider = "CartoDB.Voyager", crop = TRUE)
 ```
 
 It's good practice to remove missing observations from the data we use to
