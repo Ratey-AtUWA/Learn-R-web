@@ -158,7 +158,7 @@ Find coordinates by:
 
 ```{r locality-extent-notrun, eval=FALSE}
 locality <- st_as_sf(data.frame(x=c(123456,123456), y=c(1234567,1234567)),
-                     coords=c("x","y"), crs=st_ evalcrs(32750))
+                     coords=c("x","y"), crs=st_crs(32750))
 locality # check it worked: should include 'Projected CRS: WGS 84 / UTM zone 50S'
 ```
 
@@ -181,8 +181,8 @@ level, map tiles are squares, so we use `crop=TRUE` to trim any
 unneeded parts of the map tile images.
 
 ```{r get-map-tiles, echo=-1, eval=-2}
-claremontMap <- get_tiles(locality, provider="OpenStreetMap", crop=TRUE,
-                          zoom=15, forceDownload = TRUE, cachedir="./maptilecache/")
+claremontMap <- get_tiles(locality, crop=TRUE,
+                    zoom=15, forceDownload = TRUE, cachedir="./maptilecache/")
 claremontMap <- get_tiles(locality, provider="OpenStreetMap", crop=TRUE,
                           zoom=15)
 ```
@@ -447,7 +447,25 @@ We also identify and plot the samples with P concentrations greater
 than the threshold for total P in wetlands in SW Australia
 (ANZECC, 2000), which is 60&nbsp;µg/L = 0.06&nbsp;mg/L
 
-```{r siteplan-bubbles, fig.width=5.1, fig.height=7, echo=-1, message=FALSE, warning=FALSE, fig.cap="Figure 7: Site Plan map made with georeferenced tiles obtained with `maptiles`, with `prettymapr` north arrow and scale bar, and stormwater drains. Phosphorus concentrations in water are shown are area-proportional circle symbols at sample locations, with samples having phosphorus concentrations exceeding the Water Quality Australia guideline shown by bold plus (+) symbols."}
+First we read in the water quality guidelines:
+
+```{r read-water-guidelines, message=FALSE, warning=FALSE, paged.print=FALSE}
+WQ <- read.csv(paste0(git,"WQ_guide_freshwater_modified.csv"), 
+               stringsAsFactors = TRUE)
+```
+
+```{r split-water-guidelines, message=FALSE, warning=FALSE, paged.print=FALSE}
+wqg <- WQ[1:19,]
+row.names(wqg) <- wqg$Element
+stressors <- WQ[20:29,]
+colnames(stressors)[2:5] <- c("Upland river", "Lowland River", "Lakes", "Wetlands")
+row.names(stressors) <- stressors$Element
+row.names(stressors)[2] <- "P" # rename to match our data (OPTIONAL)
+stressors$Note <- NULL # we don't need this any more
+cat("■ WQA Water Toxicants ■\n"); wqg; cat("\n■ SW-WA Stressors ■\n"); stressors
+```
+
+```{r siteplan-bubbles, fig.width=5.1, fig.height=7, echo=-1, message=FALSE, warning=FALSE, fig.cap="Figure 7: Site Plan map made with georeferenced tiles obtained with `maptiles`, with `prettymapr` north arrow and scale bar, and stormwater drains. Phosphorus concentrations in water are shown as area-proportional circle symbols at sample locations, with samples having phosphorus concentrations exceeding the Water Quality Australia guideline shown by bold plus (+) symbols."}
 par(mar=c(3,3,1,1), mgp=c(1.5,0.3,0), font.lab=2); plot(st_coordinates(LC_site), type="n", asp=1, xaxs="i", yaxs="i", xlab="Easting", ylab="Northing"); plot_tiles(LC_siteMap, add=TRUE); box(); addnortharrow(); addscalebar(plotepsg = 32750, pos="bottomright", label.col = 1, linecol = 1, label.cex = 1.2, htin=0.15, widthhint=0.3, padin=c(0.15,0.2)); mtext("UTM Zone 50S, WGS84 (EPSG:32750)", side=1, line=-1.1, font=2, col=14, cex=0.7, adj=0.98); plot(Claremont_drains[2], add=T, type="l", col=4, lwd=1.5, lty=3); shadowtext(c(384450), c(6462180), labels=c("Rehabilitated bushland"), bg=11, col=6, srt=30);  shadowtext(c(384300,384650,384680), c(6461500,6461850,6461440), labels=c("Scotch College\nsports fields","Grassed\nParkland", "Golf\ncourse"), bg=11, col=c(14,6,6), font=3)
 # ...continuing previous code...
   # first use a simple algorithm to estimate a scale factor `s0` for the bubbles
@@ -471,11 +489,12 @@ with(lcw24, symbols(Easting, Northing, add=TRUE, circles=sqrt(P)*s0,
 # next we identify and plot the samples with P concentrations greater than 
 # the ANZECC threshold for total P in wetlands in SW Australia, which is
 # 60µg/L = 0.06mg/L
-with(lcw24[which(lcw24$P>=0.06),c("Easting","Northing","P")],
+trigger <- stressors["P","Wetlands"]
+with(lcw24[which(lcw24$P >= trigger),c("Easting","Northing","P")],
      points(Easting, Northing, pch=3, col=1, lwd=2.5))
 # manual legend
 rect(384400, 6462190, 384620, 6462330, lwd=2, 
-     col="#ffffffb0", border="#80808080")
+     col="#ffffffd8", border="#80808080")
 symbols(c(384450,384550),c(6462250,6462250), circles=s0*sqrt(c(bublo,bubhi)), add=T,
         lwd=1, inches=F, fg = "purple", bg = "#8000FF40")
 text(c(384500,384450,384550),c(6462320,6462230,6462250), cex=0.85, 
@@ -483,8 +502,9 @@ text(c(384500,384450,384550),c(6462320,6462230,6462250), cex=0.85,
      offset=0)
 
 # "normal" legend
-legend("topleft", inset=0.01, bg="#ffffffa0", box.col=12, y.intersp=1.75,
-       legend=c("Water\nsamples", "Samples\nP ≥ 0.06mg/L", "Stormwater\ndrains"),
+legend("topleft", inset=0.01, bg="#ffffffd8", box.col=12, y.intersp=1.75,
+       legend=c("Water\nsamples", paste("Samples\nP ≥",trigger,"mg/L"), 
+                "Stormwater\ndrains"),
        pch=c(21,3,NA), lty=c(NA,NA,3), col=c(2,1,4), lwd=c(NA,NA,1.5),
        pt.cex=c(3,1,NA), pt.lwd=c(1,2.5,NA), pt.bg="#A020F080", cex=0.85)
 ```
@@ -497,6 +517,10 @@ To plot a different element (*e.g*. Al) you would need to
 
 1. Replace 'P' with 'Al' in ALL the right places in the code
 2. Change the guideline concentration from 0.06 to the relevant value for the next element (see Water Quality Australia, 2024)
+
+Another option is to present the points in categories, such as those defined by 
+Tukey boxplots, or by percentiles. We'll look at how to do this further down 
+this page.
 
 <hr style="height: 2px; background-color: #5560A4;" />
 
@@ -579,6 +603,76 @@ Notes on the `ggplot` Site Plan map code:
 
 &nbsp;
 
+## Site Plan map with concentration classes
+
+The alternative to area-proportional bubbles is to plot data on a map using
+different symbols which represent statistical classes of the data (Reimann et
+al., 2008, Chapter 5). The classes may be based on percentiles, but we think a
+better option is to use the thresholds defined by Tukey box plots, since this
+can identify potential outliers – the upper outliers in particular are
+interesting as these may represent contamination.
+
+We do this by adding a new factor column to our data using the `cut()` function, with the breaks for `cut()` defined using the `boxplot.stats()` function.
+
+Some other things to note about the code:
+
+* We use the water quality guidelines read previously to plot points exceeding the relevant guideline – `wqg["As","GV95"]` is the arsenic concentration allowing 95% species protection (Water Quality Australia, 2024)
+
+* The legend reverses the order of symbols, labels, *etc*. so we can have the higher concentrations at the top (this is probably more intuitive)
+
+```{r plot-tukey-categories-map, fig.width=5.1, fig.height=7, message=FALSE, warning=FALSE, fig.cap="Figure 9: Site Plan map made with georeferenced tiles obtained with `maptiles`, with `prettymapr` north arrow and scale bar, and stormwater drains. Phosphorus concentrations in water are shown in ranges defined by Tukey boxplot thresholds, with samples having phosphorus concentrations exceeding the Water Quality Australia guideline shown by red circle (○) symbols."}
+par(mar=c(3,3,1.3,1.2), oma=c(0,0,0,0), mgp=c(1.6,0.2,0), tcl=-0.2, 
+    font.lab=2, lend="square")
+plot(st_coordinates(LC_site), asp=1, type="n", xaxs="i", yaxs="i", cex.axis=0.8,
+     xlab="Easting (UTM Zone 50, m)", ylab="Northing (UTM Zone 50, m)")
+plot_tiles(LC_siteMap, add=TRUE) ; box()
+addscalebar(plotepsg=32750, htin=0.125, label.cex=1.1)
+addnortharrow(pos="topleft", scale=0.85)
+plot(Claremont_drains[2], add=T, type="l", col=4, lwd=1.5, lty=3)
+shadowtext(c(384450), c(6462180), labels=c("Rehabilitated bushland"), 
+           bg=11, col=6, srt=30, cex=0.9)
+shadowtext(c(384300,384650,384680), c(6461500,6461850,6461440), 
+  labels=c("Scotch College\nsports fields","Grassed\nParkland", "Golf\ncourse"), 
+  bg=11, col=c(14,6,6), font=3, cex=0.9)
+data0 <- st_drop_geometry(na.omit(lcw24[,c("Easting","Northing","As")]))
+data0[which(data0$As<=0),"As"] <- NA
+b0 <- boxplot.stats(data0$As)$stats # extract just the boxplot thresholds
+data0$q0 <- cut(data0$As, # new factor based on boxplot statistics
+                breaks=c(-1,b0,999999),
+                labels=c("lowOutliers","lowWhisk","Q1-median",
+                         "median-Q3","upperWhisk","upperOutliers"))
+# points with different symbol shape/size/colour depending on factor level
+with(data0, 
+     points(Easting, Northing, pch=c(25,25,22,22,24,24)[q0], 
+            bg=plasma(6, end=0.7, alpha=0.5)[q0], 
+            cex=seq(0.7,2.8,0.4)[q0])
+     )
+trigger <- ifelse(!is.na(c), wqg["As","GV95"], NA) # guideline value
+
+with(data0[which(data0$As>trigger),], # use just the points exceeding guideline
+     points(Easting, Northing, pch=21,
+            lwd=1.5, col="#ffffffc0", bg="#ff0000c0")
+)
+legend("topright", inset=0.002, bg="#ffffffc0", box.col=12, cex=0.85, 
+       legend=c(paste(rev(levels(data0$q0)),
+                    c(paste0(">",b0[5]), 
+                      paste0(b0[4],"-",b0[5]), 
+                      paste0(b0[3],"-",b0[4]), 
+                      paste0(b0[2],"-",b0[3]), 
+                      paste0(b0[1],"-",b0[2]),
+                      paste0("<",b0[1]))),
+                paste0("Exceeds trigger (",trigger,")")), 
+       pch=c(24,24,22,22,25,25,21), pt.cex=c(seq(2.7,0.7,-0.4,),1),
+       col=c(rep(1,6),"#ffffffc0"), pt.lwd=c(rep(1,6),1.5), 
+       pt.bg=c(plasma(6, dir=-1, end=0.7, alpha=0.5),"#ff0000c0"),
+       title = expression(bold("As (mg/L)")), y.intersp=1.25)
+```
+&nbsp;
+
+The map in Figure 9 shows that all of the water sampled in Lake Claremont had 
+arsenic concentrations exceeding the guideline, with unusually high concentrations near the north-western and central eastern margins. We don't know 
+the reason for high As concentrations, but it may be related to the historical use of the Lake Claremont basin for waste disposal by landfill (Simpson and Newsome, 2017).
+
 ## References and R packages
 
 ANZECC/ARMCANZ. (2000). *Australian and New Zealand Guidelines for Fresh*
@@ -608,6 +702,10 @@ Kahle, D. and Wickham, H. `ggmap`: Spatial Visualization with `ggplot2`. *The R 
 NEPC (National Environment Protection Council). (2011). *Schedule B2: Guideline on Site Characterisation*, National Environment Protection (Assessment of Site Contamination) Measure (Amended). Commonwealth of Australia, Canberra. [https://www.nepc.gov.au/.../schedule-b2-guideline-site-characterisation-sep10.pdf](https://www.nepc.gov.au/sites/default/files/2022-09/schedule-b2-guideline-site-characterisation-sep10.pdf){target="_blank"}.
 
 Pebesma, E., 2018. Simple Features for R: Standardized Support for Spatial VectorData. *The R Journal* **10** (1), 439-446, [https://doi.org/10.32614/RJ-2018-009](https://doi.org/10.32614/RJ-2018-009){target="_blank"} . (package `sf`)
+
+Reimann, C., Filzmoser, P., Garrett, R. G., & Dutter, R. (2008). *Statistical Data Analysis Explained: Applied Environmental Statistics with R* (First ed.). John Wiley & Sons, Chichester, UK.
+
+Simpson, G., & Newsome, D. (2017). Environmental history of an urban wetland: from degraded colonial resource to nature conservation area. *Geo: Geography and Environment*, **4**(1), e00030 [https://doi.org/10.1002/geo2.30](https://doi.org/10.1002/geo2.30){target="_blank"}
 
 Water Quality Australia. (2024). Search for toxicant default guideline values for the protection of aquatic ecosystems. Department of Climate Change, Energy, the Environment and Water, Government of Australia. [https://www.waterquality.gov.au/anz-guidelines/guideline-values/default/water-quality-toxicants/search](https://www.waterquality.gov.au/anz-guidelines/guideline-values/default/water-quality-toxicants/search){target="_blank"}.
 

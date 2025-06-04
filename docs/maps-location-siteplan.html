@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-02-21" />
+<meta name="date" content="2025-06-04" />
 
 <title>Locality and Site Plan maps in R</title>
 
@@ -457,6 +457,9 @@ div.tocify {
     <li>
       <a href="plots-GG.html">Plots-ggplot</a>
     </li>
+    <li>
+      <a href="boxplots-plus.html">Enhanced boxplots</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -513,6 +516,15 @@ div.tocify {
     </li>
     <li>
       <a href="spat-interp.html">Spatial interpolation</a>
+    </li>
+    <li>
+      <a href="google-kml.html">Using Google Earth objects</a>
+    </li>
+    <li>
+      <a href="georef-images.html">Using georeferenced images</a>
+    </li>
+    <li>
+      <a href="shapefiles.html">Using shapefiles</a>
     </li>
   </ul>
 </li>
@@ -609,7 +621,7 @@ div.tocify {
 <h1 class="title toc-ignore">Locality and Site Plan maps in R</h1>
 <h3 class="subtitle">Maps for Environmental reporting</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-02-21</h4>
+<h4 class="date">2025-06-04</h4>
 
 </div>
 
@@ -675,7 +687,7 @@ RStudio.</p>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">library</span>(TeachingDemos) <span class="co"># for shadowtext() function (outlined text)</span></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">library</span>(viridis)       <span class="co"># for accessible colour palettes</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="fu">viridis</span>(<span class="dv">8</span>), <span class="st">&quot;royalblue&quot;</span>, </span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>          <span class="st">&quot;white&quot;</span>, <span class="st">&quot;transparent&quot;</span>, <span class="st">&quot;firebrick&quot;</span>, <span class="st">&quot;grey44&quot;</span>)) <span class="co"># custom colours</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>          <span class="st">&quot;white&quot;</span>, <span class="st">&quot;transparent&quot;</span>, <span class="st">&quot;firebrick&quot;</span>, <span class="st">&quot;grey25&quot;</span>)) <span class="co"># custom colours</span></span>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="fu">library</span>(ggspatial)</span></code></pre></div>
@@ -738,7 +750,7 @@ Add Placemark 📌</li>
 <p><strong>⚠ THESE COORDINATES 👇 ARE NOT REAL! - PLEASE FIND YOUR
 OWN!</strong></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>locality <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(<span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">123456</span>,<span class="dv">123456</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="dv">1234567</span>,<span class="dv">1234567</span>)),</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>                     <span class="at">coords=</span><span class="fu">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>), <span class="at">crs=</span>st_ <span class="fu">evalcrs</span>(<span class="dv">32750</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>                     <span class="at">coords=</span><span class="fu">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>), <span class="at">crs=</span><span class="fu">st_crs</span>(<span class="dv">32750</span>))</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>locality <span class="co"># check it worked: should include &#39;Projected CRS: WGS 84 / UTM zone 50S&#39;</span></span></code></pre></div>
 <p> </p>
 </div>
@@ -869,7 +881,7 @@ the CRS required by <code>ggmap</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Find long-lat bounding coordinates for ggmap raster background:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## Find long-lat bounding coordinates for ggmap raster background:</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>(ll <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(locality, <span class="at">crs=</span><span class="fu">st_crs</span>(<span class="dv">4326</span>)) <span class="sc">|&gt;</span> <span class="fu">st_bbox</span>() <span class="sc">|&gt;</span> <span class="fu">as.numeric</span>())</span></code></pre></div>
-<pre><code>## [1] 115.75097 -31.98604 115.79889 -31.96359</code></pre>
+<pre><code>## [1] 115.75149 -31.98605 115.79942 -31.96360</code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># transform the site boundary data to new CRS </span></span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>LC_siteLL <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(LC_site, <span class="at">crs=</span><span class="fu">st_crs</span>(<span class="dv">4326</span>))</span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co"># convert to sf:: object of class `polygon`</span></span>
@@ -939,7 +951,7 @@ Figure 4: Locality map for Lake Claremont made using
 <code>ggplot2</code> and <code>ggmap</code>.
 </p>
 </div>
-<p>Some additional notes on this code:</p>
+<p>Some additional notes on this <code>ggmap</code> code:</p>
 <ul>
 <li><code>scale_x_continuous(expand = c(0,0), limits=c(ll[1],ll[3]))</code>
 (and <code>scale_y_continuous()</code>) allow us to have axis limits
@@ -1054,51 +1066,98 @@ function: <code>add=TRUE</code>, <code>inches=FALSE</code>.</p>
 <p>We also identify and plot the samples with P concentrations greater
 than the threshold for total P in wetlands in SW Australia (ANZECC,
 2000), which is 60 µg/L = 0.06 mg/L</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co"># ...continuing previous code...</span></span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="co"># first use a simple algorithm to estimate a scale factor `s0` for the bubbles</span></span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  axrg <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">2</span>]<span class="sc">-</span><span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">1</span>]</span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  <span class="co"># first make small legend bubble, checking if it&#39;s zero </span></span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">pretty</span>(lcw24<span class="sc">$</span>P)[<span class="dv">1</span>] <span class="sc">&lt;</span> <span class="fl">0.001</span>) {</span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>    bublo <span class="ot">&lt;-</span> <span class="fu">pretty</span>(lcw24<span class="sc">$</span>P)[<span class="dv">2</span>]<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>    bublo <span class="ot">&lt;-</span> <span class="fu">pretty</span>(lcw24<span class="sc">$</span>P)[<span class="dv">1</span>]</span>
-<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>  }</span>
-<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a>  bubhi <span class="ot">&lt;-</span> <span class="fu">pretty</span>(lcw24<span class="sc">$</span>P)[<span class="fu">length</span>(<span class="fu">pretty</span>(lcw24<span class="sc">$</span>P))]</span>
-<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a>  s0 <span class="ot">&lt;-</span> <span class="fu">signif</span>(<span class="fl">0.05</span><span class="sc">*</span>axrg<span class="sc">/</span><span class="fu">sqrt</span>(bubhi),<span class="dv">2</span>)</span>
-<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a>  </span>
-<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a><span class="co"># add the scaled symbols (&quot;bubbles&quot;)</span></span>
-<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a><span class="co"># note we make bubble radius proportional to square root concentration</span></span>
-<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a><span class="co"># this makes bubble area proportional to concentration, since human perception</span></span>
-<span id="cb20-16"><a href="#cb20-16" tabindex="-1"></a><span class="co"># considers size as area rather than diameter or radius</span></span>
-<span id="cb20-17"><a href="#cb20-17" tabindex="-1"></a><span class="fu">with</span>(lcw24, <span class="fu">symbols</span>(Easting, Northing, <span class="at">add=</span><span class="cn">TRUE</span>, <span class="at">circles=</span><span class="fu">sqrt</span>(P)<span class="sc">*</span>s0, </span>
-<span id="cb20-18"><a href="#cb20-18" tabindex="-1"></a>                    <span class="at">inches=</span><span class="cn">FALSE</span>, <span class="at">fg=</span><span class="dv">2</span>, <span class="at">bg=</span><span class="st">&quot;#A020F080&quot;</span>))</span>
-<span id="cb20-19"><a href="#cb20-19" tabindex="-1"></a></span>
-<span id="cb20-20"><a href="#cb20-20" tabindex="-1"></a><span class="co"># next we identify and plot the samples with P concentrations greater than </span></span>
-<span id="cb20-21"><a href="#cb20-21" tabindex="-1"></a><span class="co"># the ANZECC threshold for total P in wetlands in SW Australia, which is</span></span>
-<span id="cb20-22"><a href="#cb20-22" tabindex="-1"></a><span class="co"># 60µg/L = 0.06mg/L</span></span>
-<span id="cb20-23"><a href="#cb20-23" tabindex="-1"></a><span class="fu">with</span>(lcw24[<span class="fu">which</span>(lcw24<span class="sc">$</span>P<span class="sc">&gt;=</span><span class="fl">0.06</span>),<span class="fu">c</span>(<span class="st">&quot;Easting&quot;</span>,<span class="st">&quot;Northing&quot;</span>,<span class="st">&quot;P&quot;</span>)],</span>
-<span id="cb20-24"><a href="#cb20-24" tabindex="-1"></a>     <span class="fu">points</span>(Easting, Northing, <span class="at">pch=</span><span class="dv">3</span>, <span class="at">col=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="fl">2.5</span>))</span>
-<span id="cb20-25"><a href="#cb20-25" tabindex="-1"></a><span class="co"># manual legend</span></span>
-<span id="cb20-26"><a href="#cb20-26" tabindex="-1"></a><span class="fu">rect</span>(<span class="dv">384400</span>, <span class="dv">6462190</span>, <span class="dv">384620</span>, <span class="dv">6462330</span>, <span class="at">lwd=</span><span class="dv">2</span>, </span>
-<span id="cb20-27"><a href="#cb20-27" tabindex="-1"></a>     <span class="at">col=</span><span class="st">&quot;#ffffffb0&quot;</span>, <span class="at">border=</span><span class="st">&quot;#80808080&quot;</span>)</span>
-<span id="cb20-28"><a href="#cb20-28" tabindex="-1"></a><span class="fu">symbols</span>(<span class="fu">c</span>(<span class="dv">384450</span>,<span class="dv">384550</span>),<span class="fu">c</span>(<span class="dv">6462250</span>,<span class="dv">6462250</span>), <span class="at">circles=</span>s0<span class="sc">*</span><span class="fu">sqrt</span>(<span class="fu">c</span>(bublo,bubhi)), <span class="at">add=</span>T,</span>
-<span id="cb20-29"><a href="#cb20-29" tabindex="-1"></a>        <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">inches=</span>F, <span class="at">fg =</span> <span class="st">&quot;purple&quot;</span>, <span class="at">bg =</span> <span class="st">&quot;#8000FF40&quot;</span>)</span>
-<span id="cb20-30"><a href="#cb20-30" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">c</span>(<span class="dv">384500</span>,<span class="dv">384450</span>,<span class="dv">384550</span>),<span class="fu">c</span>(<span class="dv">6462320</span>,<span class="dv">6462230</span>,<span class="dv">6462250</span>), <span class="at">cex=</span><span class="fl">0.85</span>, </span>
-<span id="cb20-31"><a href="#cb20-31" tabindex="-1"></a>     <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;P (mg/L)&quot;</span>,bublo,bubhi), <span class="at">pos =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">font=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
-<span id="cb20-32"><a href="#cb20-32" tabindex="-1"></a>     <span class="at">offset=</span><span class="dv">0</span>)</span>
-<span id="cb20-33"><a href="#cb20-33" tabindex="-1"></a></span>
-<span id="cb20-34"><a href="#cb20-34" tabindex="-1"></a><span class="co"># &quot;normal&quot; legend</span></span>
-<span id="cb20-35"><a href="#cb20-35" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">inset=</span><span class="fl">0.01</span>, <span class="at">bg=</span><span class="st">&quot;#ffffffa0&quot;</span>, <span class="at">box.col=</span><span class="dv">12</span>, <span class="at">y.intersp=</span><span class="fl">1.75</span>,</span>
-<span id="cb20-36"><a href="#cb20-36" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Water</span><span class="sc">\n</span><span class="st">samples&quot;</span>, <span class="st">&quot;Samples</span><span class="sc">\n</span><span class="st">P ≥ 0.06mg/L&quot;</span>, <span class="st">&quot;Stormwater</span><span class="sc">\n</span><span class="st">drains&quot;</span>),</span>
-<span id="cb20-37"><a href="#cb20-37" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">3</span>,<span class="cn">NA</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="cn">NA</span>,<span class="dv">3</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">4</span>), <span class="at">lwd=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="cn">NA</span>,<span class="fl">1.5</span>),</span>
-<span id="cb20-38"><a href="#cb20-38" tabindex="-1"></a>       <span class="at">pt.cex=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">1</span>,<span class="cn">NA</span>), <span class="at">pt.lwd=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">2.5</span>,<span class="cn">NA</span>), <span class="at">pt.bg=</span><span class="st">&quot;#A020F080&quot;</span>, <span class="at">cex=</span><span class="fl">0.85</span>)</span></code></pre></div>
+<p>First we read in the water quality guidelines:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>WQ <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;WQ_guide_freshwater_modified.csv&quot;</span>), </span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>               <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>wqg <span class="ot">&lt;-</span> WQ[<span class="dv">1</span><span class="sc">:</span><span class="dv">19</span>,]</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">row.names</span>(wqg) <span class="ot">&lt;-</span> wqg<span class="sc">$</span>Element</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>stressors <span class="ot">&lt;-</span> WQ[<span class="dv">20</span><span class="sc">:</span><span class="dv">29</span>,]</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="fu">colnames</span>(stressors)[<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Upland river&quot;</span>, <span class="st">&quot;Lowland River&quot;</span>, <span class="st">&quot;Lakes&quot;</span>, <span class="st">&quot;Wetlands&quot;</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="fu">row.names</span>(stressors) <span class="ot">&lt;-</span> stressors<span class="sc">$</span>Element</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="fu">row.names</span>(stressors)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">&quot;P&quot;</span> <span class="co"># rename to match our data (OPTIONAL)</span></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>stressors<span class="sc">$</span>Note <span class="ot">&lt;-</span> <span class="cn">NULL</span> <span class="co"># we don&#39;t need this any more</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;■ WQA Water Toxicants ■</span><span class="sc">\n</span><span class="st">&quot;</span>); wqg; <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">■ SW-WA Stressors ■</span><span class="sc">\n</span><span class="st">&quot;</span>); stressors</span></code></pre></div>
+<pre><code>## ■ WQA Water Toxicants ■</code></pre>
+<pre><code>##    Element    GV99    GV95   GV90   GV80         Note   Reference
+## Ag      Ag 2.0e-05 0.00005 0.0001 0.0002         &lt;NA&gt; WQA website
+## Al      Al 2.7e-02 0.05500 0.0800 0.1500       pH&gt;6.5 WQA website
+## As      As 8.0e-04 0.01300 0.0420 0.1400        As(V) WQA website
+## B        B 3.4e-01 0.94000 1.5000 2.5000         &lt;NA&gt; WQA website
+## Cd      Cd 6.0e-05 0.00020 0.0004 0.0008         &lt;NA&gt; WQA website
+## Co      Co 5.0e-06 0.00100 0.0140 0.1500       marine WQA website
+## Cr      Cr 1.0e-05 0.00100 0.0060 0.0400       Cr(VI) WQA website
+## Cu      Cu 1.0e-03 0.00140 0.0018 0.0025         &lt;NA&gt; WQA website
+## Hg      Hg 6.0e-05 0.00060 0.0019 0.0054         &lt;NA&gt; WQA website
+## Mn      Mn 1.2e+00 1.90000 2.5000 3.6000         &lt;NA&gt; WQA website
+## Mo      Mo      NA 0.03400     NA     NA LOSP unknown WQA website
+## Ni      Ni 8.0e-03 0.01100 0.0130 0.0170         &lt;NA&gt; WQA website
+## Pb      Pb 1.0e-03 0.00340 0.0056 0.0094         &lt;NA&gt; WQA website
+## Sb      Sb      NA 0.00900     NA     NA LOSP unknown WQA website
+## Se      Se 5.0e-03 0.01100 0.0180 0.0340         &lt;NA&gt; WQA website
+## Tl      Tl      NA 0.00003     NA     NA LOSP unknown WQA website
+## U        U      NA 0.00050     NA     NA LOSP unknown WQA website
+## V        V 5.0e-02 0.10000 0.1600 0.2800       marine WQA website
+## Zn      Zn 2.4e-03 0.00800 0.0150 0.0310         &lt;NA&gt; WQA website</code></pre>
+<pre><code>## 
+## ■ SW-WA Stressors ■</code></pre>
+<pre><code>##         Element Upland river Lowland River  Lakes Wetlands                 Reference
+## Chl_a     Chl_a           NA         0.004  0.004     0.03 ANZECC (2000) Table 3.3.6
+## P            TP         0.02         0.065  0.010     0.06 ANZECC (2000) Table 3.3.6
+## FRP         FRP         0.01         0.040  0.005     0.03 ANZECC (2000) Table 3.3.6
+## TN           TN         0.45         1.200  0.350     1.50 ANZECC (2000) Table 3.3.6
+## NOx         NOx         0.20         0.150  0.010     0.10 ANZECC (2000) Table 3.3.6
+## NH4         NH4         0.06         0.080  0.010     0.04 ANZECC (2000) Table 3.3.6
+## DO           DO        90.00        80.000 90.000    90.00 ANZECC (2000) Table 3.3.6
+## DO_high DO_high           NA       120.000     NA   120.00 ANZECC (2000) Table 3.3.6
+## pH           pH         6.50         6.500  6.500     7.00 ANZECC (2000) Table 3.3.6
+## pH_high pH_high         8.00         8.000  8.000     8.50 ANZECC (2000) Table 3.3.6</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># ...continuing previous code...</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>  <span class="co"># first use a simple algorithm to estimate a scale factor `s0` for the bubbles</span></span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>  axrg <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">2</span>]<span class="sc">-</span><span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">1</span>]</span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>  <span class="co"># first make small legend bubble, checking if it&#39;s zero </span></span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">pretty</span>(lcw24<span class="sc">$</span>P)[<span class="dv">1</span>] <span class="sc">&lt;</span> <span class="fl">0.001</span>) {</span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>    bublo <span class="ot">&lt;-</span> <span class="fu">pretty</span>(lcw24<span class="sc">$</span>P)[<span class="dv">2</span>]<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a>    bublo <span class="ot">&lt;-</span> <span class="fu">pretty</span>(lcw24<span class="sc">$</span>P)[<span class="dv">1</span>]</span>
+<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a>  }</span>
+<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a>  bubhi <span class="ot">&lt;-</span> <span class="fu">pretty</span>(lcw24<span class="sc">$</span>P)[<span class="fu">length</span>(<span class="fu">pretty</span>(lcw24<span class="sc">$</span>P))]</span>
+<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a>  s0 <span class="ot">&lt;-</span> <span class="fu">signif</span>(<span class="fl">0.05</span><span class="sc">*</span>axrg<span class="sc">/</span><span class="fu">sqrt</span>(bubhi),<span class="dv">2</span>)</span>
+<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a>  </span>
+<span id="cb26-13"><a href="#cb26-13" tabindex="-1"></a><span class="co"># add the scaled symbols (&quot;bubbles&quot;)</span></span>
+<span id="cb26-14"><a href="#cb26-14" tabindex="-1"></a><span class="co"># note we make bubble radius proportional to square root concentration</span></span>
+<span id="cb26-15"><a href="#cb26-15" tabindex="-1"></a><span class="co"># this makes bubble area proportional to concentration, since human perception</span></span>
+<span id="cb26-16"><a href="#cb26-16" tabindex="-1"></a><span class="co"># considers size as area rather than diameter or radius</span></span>
+<span id="cb26-17"><a href="#cb26-17" tabindex="-1"></a><span class="fu">with</span>(lcw24, <span class="fu">symbols</span>(Easting, Northing, <span class="at">add=</span><span class="cn">TRUE</span>, <span class="at">circles=</span><span class="fu">sqrt</span>(P)<span class="sc">*</span>s0, </span>
+<span id="cb26-18"><a href="#cb26-18" tabindex="-1"></a>                    <span class="at">inches=</span><span class="cn">FALSE</span>, <span class="at">fg=</span><span class="dv">2</span>, <span class="at">bg=</span><span class="st">&quot;#A020F080&quot;</span>))</span>
+<span id="cb26-19"><a href="#cb26-19" tabindex="-1"></a></span>
+<span id="cb26-20"><a href="#cb26-20" tabindex="-1"></a><span class="co"># next we identify and plot the samples with P concentrations greater than </span></span>
+<span id="cb26-21"><a href="#cb26-21" tabindex="-1"></a><span class="co"># the ANZECC threshold for total P in wetlands in SW Australia, which is</span></span>
+<span id="cb26-22"><a href="#cb26-22" tabindex="-1"></a><span class="co"># 60µg/L = 0.06mg/L</span></span>
+<span id="cb26-23"><a href="#cb26-23" tabindex="-1"></a>trigger <span class="ot">&lt;-</span> stressors[<span class="st">&quot;P&quot;</span>,<span class="st">&quot;Wetlands&quot;</span>]</span>
+<span id="cb26-24"><a href="#cb26-24" tabindex="-1"></a><span class="fu">with</span>(lcw24[<span class="fu">which</span>(lcw24<span class="sc">$</span>P <span class="sc">&gt;=</span> trigger),<span class="fu">c</span>(<span class="st">&quot;Easting&quot;</span>,<span class="st">&quot;Northing&quot;</span>,<span class="st">&quot;P&quot;</span>)],</span>
+<span id="cb26-25"><a href="#cb26-25" tabindex="-1"></a>     <span class="fu">points</span>(Easting, Northing, <span class="at">pch=</span><span class="dv">3</span>, <span class="at">col=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="fl">2.5</span>))</span>
+<span id="cb26-26"><a href="#cb26-26" tabindex="-1"></a><span class="co"># manual legend</span></span>
+<span id="cb26-27"><a href="#cb26-27" tabindex="-1"></a><span class="fu">rect</span>(<span class="dv">384400</span>, <span class="dv">6462190</span>, <span class="dv">384620</span>, <span class="dv">6462330</span>, <span class="at">lwd=</span><span class="dv">2</span>, </span>
+<span id="cb26-28"><a href="#cb26-28" tabindex="-1"></a>     <span class="at">col=</span><span class="st">&quot;#ffffffd8&quot;</span>, <span class="at">border=</span><span class="st">&quot;#80808080&quot;</span>)</span>
+<span id="cb26-29"><a href="#cb26-29" tabindex="-1"></a><span class="fu">symbols</span>(<span class="fu">c</span>(<span class="dv">384450</span>,<span class="dv">384550</span>),<span class="fu">c</span>(<span class="dv">6462250</span>,<span class="dv">6462250</span>), <span class="at">circles=</span>s0<span class="sc">*</span><span class="fu">sqrt</span>(<span class="fu">c</span>(bublo,bubhi)), <span class="at">add=</span>T,</span>
+<span id="cb26-30"><a href="#cb26-30" tabindex="-1"></a>        <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">inches=</span>F, <span class="at">fg =</span> <span class="st">&quot;purple&quot;</span>, <span class="at">bg =</span> <span class="st">&quot;#8000FF40&quot;</span>)</span>
+<span id="cb26-31"><a href="#cb26-31" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">c</span>(<span class="dv">384500</span>,<span class="dv">384450</span>,<span class="dv">384550</span>),<span class="fu">c</span>(<span class="dv">6462320</span>,<span class="dv">6462230</span>,<span class="dv">6462250</span>), <span class="at">cex=</span><span class="fl">0.85</span>, </span>
+<span id="cb26-32"><a href="#cb26-32" tabindex="-1"></a>     <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;P (mg/L)&quot;</span>,bublo,bubhi), <span class="at">pos =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">font=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb26-33"><a href="#cb26-33" tabindex="-1"></a>     <span class="at">offset=</span><span class="dv">0</span>)</span>
+<span id="cb26-34"><a href="#cb26-34" tabindex="-1"></a></span>
+<span id="cb26-35"><a href="#cb26-35" tabindex="-1"></a><span class="co"># &quot;normal&quot; legend</span></span>
+<span id="cb26-36"><a href="#cb26-36" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">inset=</span><span class="fl">0.01</span>, <span class="at">bg=</span><span class="st">&quot;#ffffffd8&quot;</span>, <span class="at">box.col=</span><span class="dv">12</span>, <span class="at">y.intersp=</span><span class="fl">1.75</span>,</span>
+<span id="cb26-37"><a href="#cb26-37" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Water</span><span class="sc">\n</span><span class="st">samples&quot;</span>, <span class="fu">paste</span>(<span class="st">&quot;Samples</span><span class="sc">\n</span><span class="st">P ≥&quot;</span>,trigger,<span class="st">&quot;mg/L&quot;</span>), </span>
+<span id="cb26-38"><a href="#cb26-38" tabindex="-1"></a>                <span class="st">&quot;Stormwater</span><span class="sc">\n</span><span class="st">drains&quot;</span>),</span>
+<span id="cb26-39"><a href="#cb26-39" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">3</span>,<span class="cn">NA</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="cn">NA</span>,<span class="dv">3</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">4</span>), <span class="at">lwd=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="cn">NA</span>,<span class="fl">1.5</span>),</span>
+<span id="cb26-40"><a href="#cb26-40" tabindex="-1"></a>       <span class="at">pt.cex=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">1</span>,<span class="cn">NA</span>), <span class="at">pt.lwd=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">2.5</span>,<span class="cn">NA</span>), <span class="at">pt.bg=</span><span class="st">&quot;#A020F080&quot;</span>, <span class="at">cex=</span><span class="fl">0.85</span>)</span></code></pre></div>
 <div class="figure">
-<img src="maps-location-siteplan_files/figure-html/siteplan-bubbles-1.png" alt="Figure 7: Site Plan map made with georeferenced tiles obtained with `maptiles`, with `prettymapr` north arrow and scale bar, and stormwater drains. Phosphorus concentrations in water are shown are area-proportional circle symbols at sample locations, with samples having phosphorus concentrations exceeding the Water Quality Australia guideline shown by bold plus (+) symbols." width="489.6" />
+<img src="maps-location-siteplan_files/figure-html/siteplan-bubbles-1.png" alt="Figure 7: Site Plan map made with georeferenced tiles obtained with `maptiles`, with `prettymapr` north arrow and scale bar, and stormwater drains. Phosphorus concentrations in water are shown as area-proportional circle symbols at sample locations, with samples having phosphorus concentrations exceeding the Water Quality Australia guideline shown by bold plus (+) symbols." width="489.6" />
 <p class="caption">
 Figure 7: Site Plan map made with georeferenced tiles obtained with
 <code>maptiles</code>, with <code>prettymapr</code> north arrow and
 scale bar, and stormwater drains. Phosphorus concentrations in water are
-shown are area-proportional circle symbols at sample locations, with
+shown as area-proportional circle symbols at sample locations, with
 samples having phosphorus concentrations exceeding the Water Quality
 Australia guideline shown by bold plus (+) symbols.
 </p>
@@ -1112,6 +1171,9 @@ report.</p>
 <li>Change the guideline concentration from 0.06 to the relevant value
 for the next element (see Water Quality Australia, 2024)</li>
 </ol>
+<p>Another option is to present the points in categories, such as those
+defined by Tukey boxplots, or by percentiles. We'll look at how to do
+this further down this page.</p>
 <hr style="height: 2px; background-color: #5560A4;" />
 </div>
 <div id="site-plan-map-using-ggplot2-and-ggmap" class="section level2">
@@ -1124,55 +1186,55 @@ href="https://github.com/Ratey-AtUWA/Learn-R-web/blob/main/FUNCTION-pad_bbox.R"
 target="_blank">custom function</a> <code>pad_bbox()</code> to do this
 simply (<code>pad_bbox()</code> expands the bounding box by 5% in all
 directions by default; we can change the expansion factor).</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co">#    (pad_bbox() is a custom function to expand a sf:: object in </span></span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="co">#     all directions by a specified proportion)</span></span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/FUNCTION-pad_bbox.R&quot;</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>l2 <span class="ot">&lt;-</span> <span class="fu">st_bbox</span>(<span class="fu">pad_bbox</span>(LC_siteLL)) <span class="sc">|&gt;</span> <span class="fu">as.numeric</span>()</span>
-<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>sitegg <span class="ot">&lt;-</span> </span>
-<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>  <span class="fu">get_stadiamap</span>(<span class="at">bbox=</span><span class="fu">c</span>(<span class="at">left=</span>l2[<span class="dv">1</span>], <span class="at">bottom=</span>l2[<span class="dv">2</span>], <span class="at">right=</span>l2[<span class="dv">3</span>], <span class="at">top=</span>l2[<span class="dv">4</span>]),</span>
-<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>                     <span class="at">maptype =</span> <span class="st">&quot;stamen_terrain&quot;</span>, <span class="at">zoom=</span><span class="dv">16</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co">#    (pad_bbox() is a custom function to expand a sf:: object in </span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="co">#     all directions by a specified proportion)</span></span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/FUNCTION-pad_bbox.R&quot;</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>l2 <span class="ot">&lt;-</span> <span class="fu">st_bbox</span>(<span class="fu">pad_bbox</span>(LC_siteLL)) <span class="sc">|&gt;</span> <span class="fu">as.numeric</span>()</span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>sitegg <span class="ot">&lt;-</span> </span>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a>  <span class="fu">get_stadiamap</span>(<span class="at">bbox=</span><span class="fu">c</span>(<span class="at">left=</span>l2[<span class="dv">1</span>], <span class="at">bottom=</span>l2[<span class="dv">2</span>], <span class="at">right=</span>l2[<span class="dv">3</span>], <span class="at">top=</span>l2[<span class="dv">4</span>]),</span>
+<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a>                     <span class="at">maptype =</span> <span class="st">&quot;stamen_terrain&quot;</span>, <span class="at">zoom=</span><span class="dv">16</span>)</span></code></pre></div>
 <p>We need our data in the right format, so we need to do some
 conversions (data frame to <code>sf</code> data frame, and UTM Zone 50
 (EPSG 32750) to Longitude-Latitude WGS 84 (EPSG:4326):</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>lcw24LL <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(lcw24, <span class="at">coords=</span><span class="fu">c</span>(<span class="st">&quot;Easting&quot;</span>, <span class="st">&quot;Northing&quot;</span>),</span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>                    <span class="at">crs=</span><span class="fu">st_crs</span>(<span class="dv">32750</span>), <span class="at">remove=</span><span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs=</span><span class="fu">st_crs</span>(<span class="dv">4326</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>lcw24LL <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(lcw24, <span class="at">coords=</span><span class="fu">c</span>(<span class="st">&quot;Easting&quot;</span>, <span class="st">&quot;Northing&quot;</span>),</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>                    <span class="at">crs=</span><span class="fu">st_crs</span>(<span class="dv">32750</span>), <span class="at">remove=</span><span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs=</span><span class="fu">st_crs</span>(<span class="dv">4326</span>))</span></code></pre></div>
 <p>Here's how we use <code>ggplot</code> to plot the map background,
 additional map layers, annotations, and <strong>data</strong> (Figure
 8).</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co"># make an object to contain custom plot colours</span></span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Storm_Drains&quot;</span><span class="ot">=</span><span class="st">&quot;darkcyan&quot;</span>, <span class="st">&quot;Study_Area&quot;</span><span class="ot">=</span><span class="st">&quot;#800080b0&quot;</span>)</span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="co"># plot the `ggmap` raster starting with an empty `ggplot()`</span></span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="fu">ggplot</span>(LC_siteLL) <span class="sc">+</span></span>
-<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>  <span class="fu">annotation_raster</span>(sitegg, <span class="at">xmin=</span>l2[<span class="dv">1</span>], <span class="at">ymin=</span>l2[<span class="dv">2</span>], <span class="at">xmax=</span>l2[<span class="dv">3</span>], <span class="at">ymax=</span>l2[<span class="dv">4</span>]) <span class="sc">+</span></span>
-<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">limits=</span><span class="fu">c</span>(l2[<span class="dv">1</span>],l2[<span class="dv">3</span>])) <span class="sc">+</span> </span>
-<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">limits=</span><span class="fu">c</span>(l2[<span class="dv">2</span>],l2[<span class="dv">4</span>])) <span class="sc">+</span></span>
-<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>study, <span class="at">fill=</span><span class="cn">NA</span>, <span class="at">lwd=</span><span class="fl">1.3</span>, <span class="at">color=</span><span class="st">&quot;#800080b0&quot;</span>) <span class="sc">+</span></span>
-<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>Claremont_drains, <span class="at">lwd=</span><span class="fl">0.8</span>, <span class="at">lty=</span><span class="st">&quot;21&quot;</span>, <span class="at">col=</span><span class="st">&quot;darkcyan&quot;</span>) <span class="sc">+</span></span>
-<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>lcw24LL, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">size=</span>P, <span class="at">fill=</span>P), <span class="at">pch=</span><span class="dv">21</span>, <span class="at">color=</span><span class="st">&quot;#00000080&quot;</span>) <span class="sc">+</span></span>
-<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span><span class="fu">subset</span>(lcw24LL, lcw24LL<span class="sc">$</span>P<span class="sc">&gt;=</span><span class="fl">0.06</span>), <span class="at">pch=</span><span class="dv">3</span>, <span class="at">col=</span><span class="st">&quot;#ffffff40&quot;</span>, <span class="at">stroke=</span><span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span><span class="fu">subset</span>(lcw24LL, lcw24LL<span class="sc">$</span>P<span class="sc">&gt;=</span><span class="fl">0.06</span>), <span class="at">pch=</span><span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">alpha=</span><span class="fl">0.7</span>, <span class="at">option=</span><span class="st">&quot;plasma&quot;</span>, </span>
-<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>                       <span class="at">breaks=</span><span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.02</span>, <span class="fl">0.05</span>,<span class="fl">0.1</span>,<span class="fl">0.2</span>,<span class="fl">0.4</span>), </span>
-<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a>                       <span class="at">guide=</span><span class="st">&quot;legend&quot;</span>, <span class="at">name=</span><span class="st">&quot;P (mg/L)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a>  <span class="fu">scale_size_continuous</span>(<span class="at">range=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">12</span>), <span class="at">breaks=</span><span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.02</span>, <span class="fl">0.05</span>,<span class="fl">0.1</span>,<span class="fl">0.2</span>,<span class="fl">0.4</span>), </span>
-<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a>                        <span class="at">name=</span><span class="st">&quot;P (mg/L)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Longitude&quot;</span>, <span class="at">y=</span><span class="st">&quot;Latitude&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fl">115.7755</span>, <span class="at">y=</span><span class="sc">-</span><span class="fl">31.9765</span>, <span class="at">label =</span> <span class="st">&quot;Sports</span><span class="sc">\n</span><span class="st">Fields&quot;</span>),</span>
-<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a>            <span class="at">fontface=</span><span class="st">&quot;italic&quot;</span>, <span class="at">family=</span><span class="st">&quot;sans&quot;</span>, <span class="at">color=</span><span class="st">&quot;#205000&quot;</span>, </span>
-<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a>            <span class="at">size.unit=</span><span class="st">&quot;pt&quot;</span>, <span class="at">size=</span><span class="dv">10</span>, <span class="at">vjust=</span><span class="fl">0.5</span>, <span class="at">hjust=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb23-22"><a href="#cb23-22" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fl">115.78</span>, <span class="at">y=</span><span class="sc">-</span><span class="fl">31.9775</span>, <span class="at">label =</span> <span class="st">&quot;Golf and</span><span class="sc">\n</span><span class="st">Swimming</span><span class="sc">\n</span><span class="st">Complex&quot;</span>),</span>
-<span id="cb23-23"><a href="#cb23-23" tabindex="-1"></a>            <span class="at">fontface=</span><span class="st">&quot;italic&quot;</span>, <span class="at">family=</span><span class="st">&quot;sans&quot;</span>, <span class="at">color=</span><span class="st">&quot;#205000&quot;</span>, </span>
-<span id="cb23-24"><a href="#cb23-24" tabindex="-1"></a>            <span class="at">size.unit=</span><span class="st">&quot;pt&quot;</span>, <span class="at">size=</span><span class="dv">10</span>, <span class="at">vjust=</span><span class="fl">0.5</span>, <span class="at">hjust=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb23-25"><a href="#cb23-25" tabindex="-1"></a>  <span class="fu">annotation_scale</span>(<span class="at">location=</span><span class="st">&quot;bl&quot;</span>, <span class="at">width_hint=</span><span class="fl">0.25</span>, <span class="at">text_cex=</span><span class="fl">0.9</span>, </span>
-<span id="cb23-26"><a href="#cb23-26" tabindex="-1"></a>                   <span class="at">height =</span> <span class="fu">unit</span>(<span class="fl">0.25</span>, <span class="st">&quot;cm&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb23-27"><a href="#cb23-27" tabindex="-1"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">location=</span><span class="st">&quot;tl&quot;</span>, <span class="at">which_north=</span><span class="st">&quot;true&quot;</span>, </span>
-<span id="cb23-28"><a href="#cb23-28" tabindex="-1"></a>                         <span class="at">pad_x=</span><span class="fu">unit</span>(<span class="fl">0.2</span>, <span class="st">&quot;cm&quot;</span>), <span class="at">pad_y=</span><span class="fu">unit</span>(<span class="fl">0.2</span>, <span class="st">&quot;cm&quot;</span>), </span>
-<span id="cb23-29"><a href="#cb23-29" tabindex="-1"></a>                         <span class="at">width=</span><span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;cm&quot;</span>), <span class="at">height=</span><span class="fu">unit</span>(<span class="fl">1.2</span>, <span class="st">&quot;cm&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb23-30"><a href="#cb23-30" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb23-31"><a href="#cb23-31" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">size=</span><span class="dv">11</span>),</span>
-<span id="cb23-32"><a href="#cb23-32" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>),</span>
-<span id="cb23-33"><a href="#cb23-33" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co"># make an object to contain custom plot colours</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Storm_Drains&quot;</span><span class="ot">=</span><span class="st">&quot;darkcyan&quot;</span>, <span class="st">&quot;Study_Area&quot;</span><span class="ot">=</span><span class="st">&quot;#800080b0&quot;</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="co"># plot the `ggmap` raster starting with an empty `ggplot()`</span></span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a><span class="fu">ggplot</span>(LC_siteLL) <span class="sc">+</span></span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>  <span class="fu">annotation_raster</span>(sitegg, <span class="at">xmin=</span>l2[<span class="dv">1</span>], <span class="at">ymin=</span>l2[<span class="dv">2</span>], <span class="at">xmax=</span>l2[<span class="dv">3</span>], <span class="at">ymax=</span>l2[<span class="dv">4</span>]) <span class="sc">+</span></span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">limits=</span><span class="fu">c</span>(l2[<span class="dv">1</span>],l2[<span class="dv">3</span>])) <span class="sc">+</span> </span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">limits=</span><span class="fu">c</span>(l2[<span class="dv">2</span>],l2[<span class="dv">4</span>])) <span class="sc">+</span></span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>study, <span class="at">fill=</span><span class="cn">NA</span>, <span class="at">lwd=</span><span class="fl">1.3</span>, <span class="at">color=</span><span class="st">&quot;#800080b0&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>Claremont_drains, <span class="at">lwd=</span><span class="fl">0.8</span>, <span class="at">lty=</span><span class="st">&quot;21&quot;</span>, <span class="at">col=</span><span class="st">&quot;darkcyan&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>lcw24LL, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">size=</span>P, <span class="at">fill=</span>P), <span class="at">pch=</span><span class="dv">21</span>, <span class="at">color=</span><span class="st">&quot;#00000080&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span><span class="fu">subset</span>(lcw24LL, lcw24LL<span class="sc">$</span>P<span class="sc">&gt;=</span><span class="fl">0.06</span>), <span class="at">pch=</span><span class="dv">3</span>, <span class="at">col=</span><span class="st">&quot;#ffffff40&quot;</span>, <span class="at">stroke=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span><span class="fu">subset</span>(lcw24LL, lcw24LL<span class="sc">$</span>P<span class="sc">&gt;=</span><span class="fl">0.06</span>), <span class="at">pch=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">alpha=</span><span class="fl">0.7</span>, <span class="at">option=</span><span class="st">&quot;plasma&quot;</span>, </span>
+<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a>                       <span class="at">breaks=</span><span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.02</span>, <span class="fl">0.05</span>,<span class="fl">0.1</span>,<span class="fl">0.2</span>,<span class="fl">0.4</span>), </span>
+<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a>                       <span class="at">guide=</span><span class="st">&quot;legend&quot;</span>, <span class="at">name=</span><span class="st">&quot;P (mg/L)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a>  <span class="fu">scale_size_continuous</span>(<span class="at">range=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">12</span>), <span class="at">breaks=</span><span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.02</span>, <span class="fl">0.05</span>,<span class="fl">0.1</span>,<span class="fl">0.2</span>,<span class="fl">0.4</span>), </span>
+<span id="cb29-17"><a href="#cb29-17" tabindex="-1"></a>                        <span class="at">name=</span><span class="st">&quot;P (mg/L)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Longitude&quot;</span>, <span class="at">y=</span><span class="st">&quot;Latitude&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fl">115.7755</span>, <span class="at">y=</span><span class="sc">-</span><span class="fl">31.9765</span>, <span class="at">label =</span> <span class="st">&quot;Sports</span><span class="sc">\n</span><span class="st">Fields&quot;</span>),</span>
+<span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a>            <span class="at">fontface=</span><span class="st">&quot;italic&quot;</span>, <span class="at">family=</span><span class="st">&quot;sans&quot;</span>, <span class="at">color=</span><span class="st">&quot;#205000&quot;</span>, </span>
+<span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a>            <span class="at">size.unit=</span><span class="st">&quot;pt&quot;</span>, <span class="at">size=</span><span class="dv">10</span>, <span class="at">vjust=</span><span class="fl">0.5</span>, <span class="at">hjust=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fl">115.78</span>, <span class="at">y=</span><span class="sc">-</span><span class="fl">31.9775</span>, <span class="at">label =</span> <span class="st">&quot;Golf and</span><span class="sc">\n</span><span class="st">Swimming</span><span class="sc">\n</span><span class="st">Complex&quot;</span>),</span>
+<span id="cb29-23"><a href="#cb29-23" tabindex="-1"></a>            <span class="at">fontface=</span><span class="st">&quot;italic&quot;</span>, <span class="at">family=</span><span class="st">&quot;sans&quot;</span>, <span class="at">color=</span><span class="st">&quot;#205000&quot;</span>, </span>
+<span id="cb29-24"><a href="#cb29-24" tabindex="-1"></a>            <span class="at">size.unit=</span><span class="st">&quot;pt&quot;</span>, <span class="at">size=</span><span class="dv">10</span>, <span class="at">vjust=</span><span class="fl">0.5</span>, <span class="at">hjust=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb29-25"><a href="#cb29-25" tabindex="-1"></a>  <span class="fu">annotation_scale</span>(<span class="at">location=</span><span class="st">&quot;bl&quot;</span>, <span class="at">width_hint=</span><span class="fl">0.25</span>, <span class="at">text_cex=</span><span class="fl">0.9</span>, </span>
+<span id="cb29-26"><a href="#cb29-26" tabindex="-1"></a>                   <span class="at">height =</span> <span class="fu">unit</span>(<span class="fl">0.25</span>, <span class="st">&quot;cm&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb29-27"><a href="#cb29-27" tabindex="-1"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">location=</span><span class="st">&quot;tl&quot;</span>, <span class="at">which_north=</span><span class="st">&quot;true&quot;</span>, </span>
+<span id="cb29-28"><a href="#cb29-28" tabindex="-1"></a>                         <span class="at">pad_x=</span><span class="fu">unit</span>(<span class="fl">0.2</span>, <span class="st">&quot;cm&quot;</span>), <span class="at">pad_y=</span><span class="fu">unit</span>(<span class="fl">0.2</span>, <span class="st">&quot;cm&quot;</span>), </span>
+<span id="cb29-29"><a href="#cb29-29" tabindex="-1"></a>                         <span class="at">width=</span><span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;cm&quot;</span>), <span class="at">height=</span><span class="fu">unit</span>(<span class="fl">1.2</span>, <span class="st">&quot;cm&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb29-30"><a href="#cb29-30" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb29-31"><a href="#cb29-31" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">size=</span><span class="dv">11</span>),</span>
+<span id="cb29-32"><a href="#cb29-32" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>),</span>
+<span id="cb29-33"><a href="#cb29-33" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>))</span></code></pre></div>
 <div class="figure">
 <img src="maps-location-siteplan_files/figure-html/plot-gg-sitemap-1.png" alt="Figure 8: Site Plan map for Lake Claremont made using `ggplot2` and `ggmap`, showing concentration of P as area-proportional symbols. Samples for which total P concentration exceed the stressor value (ANZECC/ARMCANZ 2000) are identified with + symbols." width="528" />
 <p class="caption">
@@ -1200,6 +1262,93 @@ colour</li>
 instead of one for size and one for fill colour</li>
 </ul>
 <p> </p>
+</div>
+<div id="site-plan-map-with-concentration-classes"
+class="section level2">
+<h2>Site Plan map with concentration classes</h2>
+<p>The alternative to area-proportional bubbles is to plot data on a map
+using different symbols which represent statistical classes of the data
+(Reimann et al., 2008, Chapter 5). The classes may be based on
+percentiles, but we think a better option is to use the thresholds
+defined by Tukey box plots, since this can identify potential outliers –
+the upper outliers in particular are interesting as these may represent
+contamination.</p>
+<p>We do this by adding a new factor column to our data using the
+<code>cut()</code> function, with the breaks for <code>cut()</code>
+defined using the <code>boxplot.stats()</code> function.</p>
+<p>Some other things to note about the code:</p>
+<ul>
+<li><p>We use the water quality guidelines read previously to plot
+points exceeding the relevant guideline – <code>wqg["As","GV95"]</code>
+is the arsenic concentration allowing 95% species protection (Water
+Quality Australia, 2024)</p></li>
+<li><p>The legend reverses the order of symbols, labels, <em>etc</em>.
+so we can have the higher concentrations at the top (this is probably
+more intuitive)</p></li>
+</ul>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">1.3</span>,<span class="fl">1.2</span>), <span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="sc">-</span><span class="fl">0.2</span>, </span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>    <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">lend=</span><span class="st">&quot;square&quot;</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_coordinates</span>(LC_site), <span class="at">asp=</span><span class="dv">1</span>, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>, <span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>, <span class="at">cex.axis=</span><span class="fl">0.8</span>,</span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Easting (UTM Zone 50, m)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Northing (UTM Zone 50, m)&quot;</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a><span class="fu">plot_tiles</span>(LC_siteMap, <span class="at">add=</span><span class="cn">TRUE</span>) ; <span class="fu">box</span>()</span>
+<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a><span class="fu">addscalebar</span>(<span class="at">plotepsg=</span><span class="dv">32750</span>, <span class="at">htin=</span><span class="fl">0.125</span>, <span class="at">label.cex=</span><span class="fl">1.1</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a><span class="fu">addnortharrow</span>(<span class="at">pos=</span><span class="st">&quot;topleft&quot;</span>, <span class="at">scale=</span><span class="fl">0.85</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a><span class="fu">plot</span>(Claremont_drains[<span class="dv">2</span>], <span class="at">add=</span>T, <span class="at">type=</span><span class="st">&quot;l&quot;</span>, <span class="at">col=</span><span class="dv">4</span>, <span class="at">lwd=</span><span class="fl">1.5</span>, <span class="at">lty=</span><span class="dv">3</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a><span class="fu">shadowtext</span>(<span class="fu">c</span>(<span class="dv">384450</span>), <span class="fu">c</span>(<span class="dv">6462180</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Rehabilitated bushland&quot;</span>), </span>
+<span id="cb30-10"><a href="#cb30-10" tabindex="-1"></a>           <span class="at">bg=</span><span class="dv">11</span>, <span class="at">col=</span><span class="dv">6</span>, <span class="at">srt=</span><span class="dv">30</span>, <span class="at">cex=</span><span class="fl">0.9</span>)</span>
+<span id="cb30-11"><a href="#cb30-11" tabindex="-1"></a><span class="fu">shadowtext</span>(<span class="fu">c</span>(<span class="dv">384300</span>,<span class="dv">384650</span>,<span class="dv">384680</span>), <span class="fu">c</span>(<span class="dv">6461500</span>,<span class="dv">6461850</span>,<span class="dv">6461440</span>), </span>
+<span id="cb30-12"><a href="#cb30-12" tabindex="-1"></a>  <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Scotch College</span><span class="sc">\n</span><span class="st">sports fields&quot;</span>,<span class="st">&quot;Grassed</span><span class="sc">\n</span><span class="st">Parkland&quot;</span>, <span class="st">&quot;Golf</span><span class="sc">\n</span><span class="st">course&quot;</span>), </span>
+<span id="cb30-13"><a href="#cb30-13" tabindex="-1"></a>  <span class="at">bg=</span><span class="dv">11</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="dv">14</span>,<span class="dv">6</span>,<span class="dv">6</span>), <span class="at">font=</span><span class="dv">3</span>, <span class="at">cex=</span><span class="fl">0.9</span>)</span>
+<span id="cb30-14"><a href="#cb30-14" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> <span class="fu">st_drop_geometry</span>(<span class="fu">na.omit</span>(lcw24[,<span class="fu">c</span>(<span class="st">&quot;Easting&quot;</span>,<span class="st">&quot;Northing&quot;</span>,<span class="st">&quot;As&quot;</span>)]))</span>
+<span id="cb30-15"><a href="#cb30-15" tabindex="-1"></a>data0[<span class="fu">which</span>(data0<span class="sc">$</span>As<span class="sc">&lt;=</span><span class="dv">0</span>),<span class="st">&quot;As&quot;</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb30-16"><a href="#cb30-16" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">boxplot.stats</span>(data0<span class="sc">$</span>As)<span class="sc">$</span>stats <span class="co"># extract just the boxplot thresholds</span></span>
+<span id="cb30-17"><a href="#cb30-17" tabindex="-1"></a>data0<span class="sc">$</span>q0 <span class="ot">&lt;-</span> <span class="fu">cut</span>(data0<span class="sc">$</span>As, <span class="co"># new factor based on boxplot statistics</span></span>
+<span id="cb30-18"><a href="#cb30-18" tabindex="-1"></a>                <span class="at">breaks=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,b0,<span class="dv">999999</span>),</span>
+<span id="cb30-19"><a href="#cb30-19" tabindex="-1"></a>                <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;lowOutliers&quot;</span>,<span class="st">&quot;lowWhisk&quot;</span>,<span class="st">&quot;Q1-median&quot;</span>,</span>
+<span id="cb30-20"><a href="#cb30-20" tabindex="-1"></a>                         <span class="st">&quot;median-Q3&quot;</span>,<span class="st">&quot;upperWhisk&quot;</span>,<span class="st">&quot;upperOutliers&quot;</span>))</span>
+<span id="cb30-21"><a href="#cb30-21" tabindex="-1"></a><span class="co"># points with different symbol shape/size/colour depending on factor level</span></span>
+<span id="cb30-22"><a href="#cb30-22" tabindex="-1"></a><span class="fu">with</span>(data0, </span>
+<span id="cb30-23"><a href="#cb30-23" tabindex="-1"></a>     <span class="fu">points</span>(Easting, Northing, <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">25</span>,<span class="dv">25</span>,<span class="dv">22</span>,<span class="dv">22</span>,<span class="dv">24</span>,<span class="dv">24</span>)[q0], </span>
+<span id="cb30-24"><a href="#cb30-24" tabindex="-1"></a>            <span class="at">bg=</span><span class="fu">plasma</span>(<span class="dv">6</span>, <span class="at">end=</span><span class="fl">0.7</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)[q0], </span>
+<span id="cb30-25"><a href="#cb30-25" tabindex="-1"></a>            <span class="at">cex=</span><span class="fu">seq</span>(<span class="fl">0.7</span>,<span class="fl">2.8</span>,<span class="fl">0.4</span>)[q0])</span>
+<span id="cb30-26"><a href="#cb30-26" tabindex="-1"></a>     )</span>
+<span id="cb30-27"><a href="#cb30-27" tabindex="-1"></a>trigger <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(c), wqg[<span class="st">&quot;As&quot;</span>,<span class="st">&quot;GV95&quot;</span>], <span class="cn">NA</span>) <span class="co"># guideline value</span></span>
+<span id="cb30-28"><a href="#cb30-28" tabindex="-1"></a></span>
+<span id="cb30-29"><a href="#cb30-29" tabindex="-1"></a><span class="fu">with</span>(data0[<span class="fu">which</span>(data0<span class="sc">$</span>As<span class="sc">&gt;</span>trigger),], <span class="co"># use just the points exceeding guideline</span></span>
+<span id="cb30-30"><a href="#cb30-30" tabindex="-1"></a>     <span class="fu">points</span>(Easting, Northing, <span class="at">pch=</span><span class="dv">21</span>,</span>
+<span id="cb30-31"><a href="#cb30-31" tabindex="-1"></a>            <span class="at">lwd=</span><span class="fl">1.5</span>, <span class="at">col=</span><span class="st">&quot;#ffffffc0&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ff0000c0&quot;</span>)</span>
+<span id="cb30-32"><a href="#cb30-32" tabindex="-1"></a>)</span>
+<span id="cb30-33"><a href="#cb30-33" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">inset=</span><span class="fl">0.002</span>, <span class="at">bg=</span><span class="st">&quot;#ffffffc0&quot;</span>, <span class="at">box.col=</span><span class="dv">12</span>, <span class="at">cex=</span><span class="fl">0.85</span>, </span>
+<span id="cb30-34"><a href="#cb30-34" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="fu">paste</span>(<span class="fu">rev</span>(<span class="fu">levels</span>(data0<span class="sc">$</span>q0)),</span>
+<span id="cb30-35"><a href="#cb30-35" tabindex="-1"></a>                    <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;&gt;&quot;</span>,b0[<span class="dv">5</span>]), </span>
+<span id="cb30-36"><a href="#cb30-36" tabindex="-1"></a>                      <span class="fu">paste0</span>(b0[<span class="dv">4</span>],<span class="st">&quot;-&quot;</span>,b0[<span class="dv">5</span>]), </span>
+<span id="cb30-37"><a href="#cb30-37" tabindex="-1"></a>                      <span class="fu">paste0</span>(b0[<span class="dv">3</span>],<span class="st">&quot;-&quot;</span>,b0[<span class="dv">4</span>]), </span>
+<span id="cb30-38"><a href="#cb30-38" tabindex="-1"></a>                      <span class="fu">paste0</span>(b0[<span class="dv">2</span>],<span class="st">&quot;-&quot;</span>,b0[<span class="dv">3</span>]), </span>
+<span id="cb30-39"><a href="#cb30-39" tabindex="-1"></a>                      <span class="fu">paste0</span>(b0[<span class="dv">1</span>],<span class="st">&quot;-&quot;</span>,b0[<span class="dv">2</span>]),</span>
+<span id="cb30-40"><a href="#cb30-40" tabindex="-1"></a>                      <span class="fu">paste0</span>(<span class="st">&quot;&lt;&quot;</span>,b0[<span class="dv">1</span>]))),</span>
+<span id="cb30-41"><a href="#cb30-41" tabindex="-1"></a>                <span class="fu">paste0</span>(<span class="st">&quot;Exceeds trigger (&quot;</span>,trigger,<span class="st">&quot;)&quot;</span>)), </span>
+<span id="cb30-42"><a href="#cb30-42" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">24</span>,<span class="dv">24</span>,<span class="dv">22</span>,<span class="dv">22</span>,<span class="dv">25</span>,<span class="dv">25</span>,<span class="dv">21</span>), <span class="at">pt.cex=</span><span class="fu">c</span>(<span class="fu">seq</span>(<span class="fl">2.7</span>,<span class="fl">0.7</span>,<span class="sc">-</span><span class="fl">0.4</span>,),<span class="dv">1</span>),</span>
+<span id="cb30-43"><a href="#cb30-43" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">6</span>),<span class="st">&quot;#ffffffc0&quot;</span>), <span class="at">pt.lwd=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">6</span>),<span class="fl">1.5</span>), </span>
+<span id="cb30-44"><a href="#cb30-44" tabindex="-1"></a>       <span class="at">pt.bg=</span><span class="fu">c</span>(<span class="fu">plasma</span>(<span class="dv">6</span>, <span class="at">dir=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">end=</span><span class="fl">0.7</span>, <span class="at">alpha=</span><span class="fl">0.5</span>),<span class="st">&quot;#ff0000c0&quot;</span>),</span>
+<span id="cb30-45"><a href="#cb30-45" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">bold</span>(<span class="st">&quot;As (mg/L)&quot;</span>)), <span class="at">y.intersp=</span><span class="fl">1.25</span>)</span></code></pre></div>
+<div class="figure">
+<img src="maps-location-siteplan_files/figure-html/plot-tukey-categories-map-1.png" alt="Figure 9: Site Plan map made with georeferenced tiles obtained with `maptiles`, with `prettymapr` north arrow and scale bar, and stormwater drains. Phosphorus concentrations in water are shown in ranges defined by Tukey boxplot thresholds, with samples having phosphorus concentrations exceeding the Water Quality Australia guideline shown by red circle (○) symbols." width="489.6" />
+<p class="caption">
+Figure 9: Site Plan map made with georeferenced tiles obtained with
+<code>maptiles</code>, with <code>prettymapr</code> north arrow and
+scale bar, and stormwater drains. Phosphorus concentrations in water are
+shown in ranges defined by Tukey boxplot thresholds, with samples having
+phosphorus concentrations exceeding the Water Quality Australia
+guideline shown by red circle (○) symbols.
+</p>
+</div>
+<p> </p>
+<p>The map in Figure 9 shows that all of the water sampled in Lake
+Claremont had arsenic concentrations exceeding the guideline, with
+unusually high concentrations near the north-western and central eastern
+margins. We don't know the reason for high As concentrations, but it may
+be related to the historical use of the Lake Claremont basin for waste
+disposal by landfill (Simpson and Newsome, 2017).</p>
 </div>
 <div id="references-and-r-packages" class="section level2">
 <h2>References and R packages</h2>
@@ -1249,6 +1398,15 @@ Spatial VectorData. <em>The R Journal</em> <strong>10</strong> (1),
 439-446, <a href="https://doi.org/10.32614/RJ-2018-009"
 target="_blank">https://doi.org/10.32614/RJ-2018-009</a> . (package
 <code>sf</code>)</p>
+<p>Reimann, C., Filzmoser, P., Garrett, R. G., &amp; Dutter, R. (2008).
+<em>Statistical Data Analysis Explained: Applied Environmental
+Statistics with R</em> (First ed.). John Wiley &amp; Sons, Chichester,
+UK.</p>
+<p>Simpson, G., &amp; Newsome, D. (2017). Environmental history of an
+urban wetland: from degraded colonial resource to nature conservation
+area. <em>Geo: Geography and Environment</em>, <strong>4</strong>(1),
+e00030 <a href="https://doi.org/10.1002/geo2.30"
+target="_blank">https://doi.org/10.1002/geo2.30</a></p>
 <p>Water Quality Australia. (2024). Search for toxicant default
 guideline values for the protection of aquatic ecosystems. Department of
 Climate Change, Energy, the Environment and Water, Government of
