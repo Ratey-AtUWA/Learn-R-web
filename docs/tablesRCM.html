@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2024-10-10" />
+<meta name="date" content="2025-05-28" />
 
 <title>Counting samples with R</title>
 
@@ -71,7 +71,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -434,7 +434,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -449,7 +449,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -459,12 +459,15 @@ div.tocify {
     <li>
       <a href="plots-GG.html">Plots-ggplot</a>
     </li>
+    <li>
+      <a href="boxplots-plus.html">Enhanced boxplots</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -479,7 +482,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -503,7 +506,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -516,12 +519,21 @@ div.tocify {
     <li>
       <a href="spat-interp.html">Spatial interpolation</a>
     </li>
+    <li>
+      <a href="google-kml.html">Using Google Earth objects</a>
+    </li>
+    <li>
+      <a href="georef-images.html">Using georeferenced images</a>
+    </li>
+    <li>
+      <a href="shapefiles.html">Using shapefiles</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -542,7 +554,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -560,15 +572,21 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Reporting
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="report-resources.html">Resources for reporting</a>
+    </li>
+    <li>
       <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
     </li>
     <li>
-      <a href="maps-location-siteplan.html">Location and Site Plan maps</a>
+      <a href="maps-location-siteplan.html">Locality and Site Plan maps</a>
+    </li>
+    <li>
+      <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
     </li>
   </ul>
 </li>
@@ -606,7 +624,7 @@ div.tocify {
 <h3 class="subtitle">Informative summary tables for environmental
 investigations</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2024-10-10</h4>
+<h4 class="date">2025-05-28</h4>
 
 </div>
 
@@ -677,9 +695,9 @@ environmental threshold.</p>
 ## Ni  21.00      52  Ni
 ## Sb   2.00      25  Sb
 ## Zn 200.00     410  Zn
-##
+## 
 ## NOTES:
-## DGV = Default Guideline Value; GV_high = Upper Guideline Value;
+## DGV = Default Guideline Value; GV_high = Upper Guideline Value; 
 ## Tox = Toxicant</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">print</span>(HIL)</span></code></pre></div>
 <pre><code>##                   Element   Tox Resid...A Resid...B Recreat...C Industr...D
@@ -698,9 +716,9 @@ environmental threshold.</p>
 ## Se               Selenium    Se       200      1400         700       10000
 ## Zn                   Zinc    Zn      7400     60000       30000      400000
 ## CN         Cyanide_(free)    CN       250       300         240        1500
-##
+## 
 ## NOTES:
-## Tox = Toxicant; Resid = Residential;
+## Tox = Toxicant; Resid = Residential; 
 ## Recreat = Recreational / Public Open Space; Industr = Industrial</code></pre>
 <p>We can see from the output above that, for reporting, it would be
 worthwhile using a package (such as <code>flextable</code>, but there
@@ -719,29 +737,29 @@ environmental science classes at The University of Western Australia
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>sedsoil<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">factor</span>(sedsoil<span class="sc">$</span>Year)</span>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>sedsoil<span class="sc">$</span>SampID <span class="ot">&lt;-</span> <span class="fu">as.character</span>(sedsoil<span class="sc">$</span>SampID)</span>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">summary</span>(sedsoil)</span></code></pre></div>
-<pre><code>##    Year       SampID                 Type       DepthType     Longitude
-##  2019:91   Length:336         Drain_Sed: 61   Core   : 47   Min.   :115.9
-##  2020:75   Class :character   Lake_Sed :121   Surface:289   1st Qu.:115.9
-##  2021:65   Mode  :character   Other    : 15                 Median :115.9
-##  2022:31                      Saltmarsh:139                 Mean   :115.9
-##  2023:74                                                    3rd Qu.:115.9
-##                                                             Max.   :115.9
-##
-##     Latitude            As               Cr              Cu
-##  Min.   :-31.92   Min.   : 0.400   Min.   : 1.00   Min.   :   2.0
-##  1st Qu.:-31.92   1st Qu.: 4.000   1st Qu.:34.00   1st Qu.:  32.0
-##  Median :-31.92   Median : 6.050   Median :54.70   Median :  61.0
-##  Mean   :-31.92   Mean   : 8.159   Mean   :49.33   Mean   : 111.7
-##  3rd Qu.:-31.92   3rd Qu.: 9.000   3rd Qu.:65.45   3rd Qu.: 165.5
-##  Max.   :-31.92   Max.   :62.000   Max.   :84.00   Max.   :1007.8
-##                   NA&#39;s   :13                       NA&#39;s   :9
-##        Mn               Ni              Pb               Zn
-##  Min.   :   6.0   Min.   : 1.00   Min.   :  1.00   Min.   :   1.0
-##  1st Qu.:  55.7   1st Qu.:13.00   1st Qu.: 25.73   1st Qu.: 108.2
-##  Median :  79.0   Median :19.00   Median : 37.30   Median : 222.5
-##  Mean   : 143.6   Mean   :19.05   Mean   : 54.91   Mean   : 471.5
-##  3rd Qu.: 120.5   3rd Qu.:24.80   3rd Qu.: 52.00   3rd Qu.: 359.5
-##  Max.   :3503.0   Max.   :50.00   Max.   :831.10   Max.   :7556.4
+<pre><code>##    Year       SampID                 Type       DepthType     Longitude    
+##  2019:91   Length:336         Drain_Sed: 61   Core   : 46   Min.   :115.9  
+##  2020:75   Class :character   Lake_Sed :121   Surface:290   1st Qu.:115.9  
+##  2021:65   Mode  :character   Other    : 15                 Median :115.9  
+##  2022:31                      Saltmarsh:139                 Mean   :115.9  
+##  2023:74                                                    3rd Qu.:115.9  
+##                                                             Max.   :115.9  
+##                                                                            
+##     Latitude            As               Cr              Cu        
+##  Min.   :-31.92   Min.   : 0.400   Min.   : 1.00   Min.   :   2.0  
+##  1st Qu.:-31.92   1st Qu.: 4.000   1st Qu.:34.00   1st Qu.:  32.0  
+##  Median :-31.92   Median : 6.050   Median :54.70   Median :  61.0  
+##  Mean   :-31.92   Mean   : 8.159   Mean   :49.33   Mean   : 111.7  
+##  3rd Qu.:-31.92   3rd Qu.: 9.000   3rd Qu.:65.45   3rd Qu.: 165.5  
+##  Max.   :-31.92   Max.   :62.000   Max.   :84.00   Max.   :1007.8  
+##                   NA&#39;s   :13                       NA&#39;s   :9       
+##        Mn               Ni              Pb               Zn        
+##  Min.   :   6.0   Min.   : 1.00   Min.   :  1.00   Min.   :   1.0  
+##  1st Qu.:  55.7   1st Qu.:13.00   1st Qu.: 25.73   1st Qu.: 108.2  
+##  Median :  79.0   Median :19.00   Median : 37.30   Median : 222.5  
+##  Mean   : 143.6   Mean   :19.05   Mean   : 54.91   Mean   : 471.5  
+##  3rd Qu.: 120.5   3rd Qu.:24.80   3rd Qu.: 52.00   3rd Qu.: 359.5  
+##  Max.   :3503.0   Max.   :50.00   Max.   :831.10   Max.   :7556.4  
 ##                   NA&#39;s   :9                        NA&#39;s   :4</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># first define the variables we want to summarise, and make the basic summary</span></span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>elem0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;As&quot;</span>,<span class="st">&quot;Cr&quot;</span>,<span class="st">&quot;Cu&quot;</span>,<span class="st">&quot;Mn&quot;</span>,<span class="st">&quot;Ni&quot;</span>,<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;Zn&quot;</span>)</span>
@@ -877,7 +895,7 @@ operator <code>%&gt;%</code> would work if you prefer. Where we need the
 <span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>  <span class="fu">padding</span>(<span class="at">i=</span><span class="dv">8</span>, <span class="at">padding.top =</span> <span class="dv">8</span>) <span class="sc">|&gt;</span></span>
 <span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span></span>
 <span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>  <span class="fu">set_caption</span>(<span class="at">caption=</span><span class="st">&quot;Table 1: Summary statistics for trace element concentrations (mg/kg) in sediment or soil at Ashfield Flats 2019-2023. Abbreviations: n = number of valid observations; NAs = number of missing observations; n &gt; DGV is number of samples exceeding the sediment Default Guideline Value; n &gt; GV-high is number of samples exceeding the sediment upper Guideline Value at which toxicity effects might be expected (Water Quality Australia, 2024). HIL(C) is the human-health based investigation level for Recreational (public open space) land use (NEPC, 2011).&quot;</span>, <span class="at">align_with_table=</span>F, <span class="at">fp_p=</span><span class="fu">fp_par</span>(<span class="at">text.align =</span> <span class="st">&quot;left&quot;</span>, <span class="at">padding.bottom =</span> <span class="dv">6</span>))</span></code></pre></div>
-<div class="tabwid"><style>.cl-b489262c{}.cl-b47c9cb8{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-b47c9ccc{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-b48068b6{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-b48068c0{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-b48068ca{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:8pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-b48068cb{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:8pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-b4808148{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b4808152{width:0.866in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b4808153{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b480815c{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b480815d{width:0.866in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b480815e{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b4808166{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b4808167{width:0.866in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b4808168{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-b489262c'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Summary statistics for trace element concentrations (mg/kg) in sediment or soil at Ashfield Flats 2019-2023. Abbreviations: n = number of valid observations; NAs = number of missing observations; n &gt; DGV is number of samples exceeding the sediment Default Guideline Value; n &gt; GV-high is number of samples exceeding the sediment upper Guideline Value at which toxicity effects might be expected (Water Quality Australia, 2024). HIL(C) is the human-health based investigation level for Recreational (public open space) land use (NEPC, 2011).</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-b4808148"><p class="cl-b48068b6"><span class="cl-b47c9cb8"></span></p></th><th class="cl-b4808152"><p class="cl-b48068c0"><span class="cl-b47c9cb8">As</span></p></th><th class="cl-b4808152"><p class="cl-b48068c0"><span class="cl-b47c9cb8">Cr</span></p></th><th class="cl-b4808152"><p class="cl-b48068c0"><span class="cl-b47c9cb8">Cu</span></p></th><th class="cl-b4808152"><p class="cl-b48068c0"><span class="cl-b47c9cb8">Mn</span></p></th><th class="cl-b4808152"><p class="cl-b48068c0"><span class="cl-b47c9cb8">Ni</span></p></th><th class="cl-b4808152"><p class="cl-b48068c0"><span class="cl-b47c9cb8">Pb</span></p></th><th class="cl-b4808153"><p class="cl-b48068c0"><span class="cl-b47c9cb8">Zn</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-b480815c"><p class="cl-b48068b6"><span class="cl-b47c9ccc">mean</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">8.16</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">49.3</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">112</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">144</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">19</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">54.9</span></p></td><td class="cl-b480815e"><p class="cl-b48068c0"><span class="cl-b47c9ccc">471</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b480815c"><p class="cl-b48068b6"><span class="cl-b47c9ccc">sd</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">7.71</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">20.6</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">121</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">309</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">8</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">84.6</span></p></td><td class="cl-b480815e"><p class="cl-b48068c0"><span class="cl-b47c9ccc">1020</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b480815c"><p class="cl-b48068b6"><span class="cl-b47c9ccc">min</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">0.4</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">1</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">2</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">6</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">1</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">1</span></p></td><td class="cl-b480815e"><p class="cl-b48068c0"><span class="cl-b47c9ccc">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b480815c"><p class="cl-b48068b6"><span class="cl-b47c9ccc">median</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">6.05</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">54.7</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">61</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">79</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">19</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">37.3</span></p></td><td class="cl-b480815e"><p class="cl-b48068c0"><span class="cl-b47c9ccc">222</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b480815c"><p class="cl-b48068b6"><span class="cl-b47c9ccc">max</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">62</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">84</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">1010</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">3500</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">50</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">831</span></p></td><td class="cl-b480815e"><p class="cl-b48068c0"><span class="cl-b47c9ccc">7560</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b480815c"><p class="cl-b48068b6"><span class="cl-b47c9ccc">n</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">323</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">336</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">327</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">336</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">327</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">336</span></p></td><td class="cl-b480815e"><p class="cl-b48068c0"><span class="cl-b47c9ccc">332</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b480815c"><p class="cl-b48068b6"><span class="cl-b47c9ccc">NAs</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">13</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">0</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">9</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">0</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">9</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">0</span></p></td><td class="cl-b480815e"><p class="cl-b48068c0"><span class="cl-b47c9ccc">4</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b480815c"><p class="cl-b48068ca"><span class="cl-b47c9ccc">n &gt; DGV</span></p></td><td class="cl-b480815d"><p class="cl-b48068cb"><span class="cl-b47c9ccc">26</span></p></td><td class="cl-b480815d"><p class="cl-b48068cb"><span class="cl-b47c9ccc">6</span></p></td><td class="cl-b480815d"><p class="cl-b48068cb"><span class="cl-b47c9ccc">156</span></p></td><td class="cl-b480815d"><p class="cl-b48068cb"><span class="cl-b47c9ccc">0</span></p></td><td class="cl-b480815d"><p class="cl-b48068cb"><span class="cl-b47c9ccc">137</span></p></td><td class="cl-b480815d"><p class="cl-b48068cb"><span class="cl-b47c9ccc">91</span></p></td><td class="cl-b480815e"><p class="cl-b48068cb"><span class="cl-b47c9ccc">185</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b480815c"><p class="cl-b48068b6"><span class="cl-b47c9ccc">n &gt; GV-high</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">0</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">0</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">26</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">0</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">0</span></p></td><td class="cl-b480815d"><p class="cl-b48068c0"><span class="cl-b47c9ccc">9</span></p></td><td class="cl-b480815e"><p class="cl-b48068c0"><span class="cl-b47c9ccc">73</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b4808166"><p class="cl-b48068b6"><span class="cl-b47c9ccc">n &gt; HIL(C)</span></p></td><td class="cl-b4808167"><p class="cl-b48068c0"><span class="cl-b47c9ccc">0</span></p></td><td class="cl-b4808167"><p class="cl-b48068c0"><span class="cl-b47c9ccc">0</span></p></td><td class="cl-b4808167"><p class="cl-b48068c0"><span class="cl-b47c9ccc">0</span></p></td><td class="cl-b4808167"><p class="cl-b48068c0"><span class="cl-b47c9ccc">0</span></p></td><td class="cl-b4808167"><p class="cl-b48068c0"><span class="cl-b47c9ccc">0</span></p></td><td class="cl-b4808167"><p class="cl-b48068c0"><span class="cl-b47c9ccc">4</span></p></td><td class="cl-b4808168"><p class="cl-b48068c0"><span class="cl-b47c9ccc">0</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-b0a92b98{}.cl-b09eb762{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-b09eb76c{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-b0a2a4da{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-b0a2a4ee{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-b0a2a4f8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:8pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-b0a2a502{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:8pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-b0a2bcae{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0a2bcb8{width:0.866in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0a2bcb9{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0a2bcc2{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0a2bcc3{width:0.866in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0a2bccc{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0a2bccd{width:1.181in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0a2bcce{width:0.866in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b0a2bcd6{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-b0a92b98'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Summary statistics for trace element concentrations (mg/kg) in sediment or soil at Ashfield Flats 2019-2023. Abbreviations: n = number of valid observations; NAs = number of missing observations; n &gt; DGV is number of samples exceeding the sediment Default Guideline Value; n &gt; GV-high is number of samples exceeding the sediment upper Guideline Value at which toxicity effects might be expected (Water Quality Australia, 2024). HIL(C) is the human-health based investigation level for Recreational (public open space) land use (NEPC, 2011).</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-b0a2bcae"><p class="cl-b0a2a4da"><span class="cl-b09eb762"></span></p></th><th class="cl-b0a2bcb8"><p class="cl-b0a2a4ee"><span class="cl-b09eb762">As</span></p></th><th class="cl-b0a2bcb8"><p class="cl-b0a2a4ee"><span class="cl-b09eb762">Cr</span></p></th><th class="cl-b0a2bcb8"><p class="cl-b0a2a4ee"><span class="cl-b09eb762">Cu</span></p></th><th class="cl-b0a2bcb8"><p class="cl-b0a2a4ee"><span class="cl-b09eb762">Mn</span></p></th><th class="cl-b0a2bcb8"><p class="cl-b0a2a4ee"><span class="cl-b09eb762">Ni</span></p></th><th class="cl-b0a2bcb8"><p class="cl-b0a2a4ee"><span class="cl-b09eb762">Pb</span></p></th><th class="cl-b0a2bcb9"><p class="cl-b0a2a4ee"><span class="cl-b09eb762">Zn</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-b0a2bcc2"><p class="cl-b0a2a4da"><span class="cl-b09eb76c">mean</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">8.16</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">49.3</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">112</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">144</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">19</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">54.9</span></p></td><td class="cl-b0a2bccc"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">471</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b0a2bcc2"><p class="cl-b0a2a4da"><span class="cl-b09eb76c">sd</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">7.71</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">20.6</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">121</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">309</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">8</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">84.6</span></p></td><td class="cl-b0a2bccc"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">1020</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b0a2bcc2"><p class="cl-b0a2a4da"><span class="cl-b09eb76c">min</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">0.4</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">1</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">2</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">6</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">1</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">1</span></p></td><td class="cl-b0a2bccc"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b0a2bcc2"><p class="cl-b0a2a4da"><span class="cl-b09eb76c">median</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">6.05</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">54.7</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">61</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">79</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">19</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">37.3</span></p></td><td class="cl-b0a2bccc"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">222</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b0a2bcc2"><p class="cl-b0a2a4da"><span class="cl-b09eb76c">max</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">62</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">84</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">1010</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">3500</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">50</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">831</span></p></td><td class="cl-b0a2bccc"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">7560</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b0a2bcc2"><p class="cl-b0a2a4da"><span class="cl-b09eb76c">n</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">323</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">336</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">327</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">336</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">327</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">336</span></p></td><td class="cl-b0a2bccc"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">332</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b0a2bcc2"><p class="cl-b0a2a4da"><span class="cl-b09eb76c">NAs</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">13</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">0</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">9</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">0</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">9</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">0</span></p></td><td class="cl-b0a2bccc"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">4</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b0a2bcc2"><p class="cl-b0a2a4f8"><span class="cl-b09eb76c">n &gt; DGV</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a502"><span class="cl-b09eb76c">26</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a502"><span class="cl-b09eb76c">6</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a502"><span class="cl-b09eb76c">156</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a502"><span class="cl-b09eb76c">0</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a502"><span class="cl-b09eb76c">137</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a502"><span class="cl-b09eb76c">91</span></p></td><td class="cl-b0a2bccc"><p class="cl-b0a2a502"><span class="cl-b09eb76c">185</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b0a2bcc2"><p class="cl-b0a2a4da"><span class="cl-b09eb76c">n &gt; GV-high</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">0</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">0</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">26</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">0</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">0</span></p></td><td class="cl-b0a2bcc3"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">9</span></p></td><td class="cl-b0a2bccc"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">73</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b0a2bccd"><p class="cl-b0a2a4da"><span class="cl-b09eb76c">n &gt; HIL(C)</span></p></td><td class="cl-b0a2bcce"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">0</span></p></td><td class="cl-b0a2bcce"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">0</span></p></td><td class="cl-b0a2bcce"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">0</span></p></td><td class="cl-b0a2bcce"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">0</span></p></td><td class="cl-b0a2bcce"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">0</span></p></td><td class="cl-b0a2bcce"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">4</span></p></td><td class="cl-b0a2bcd6"><p class="cl-b0a2a4ee"><span class="cl-b09eb76c">0</span></p></td></tr></tbody></table></div>
 <p>
  
 </p>
