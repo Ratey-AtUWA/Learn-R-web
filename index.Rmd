@@ -61,9 +61,11 @@ output:
   - [Regression residuals to identify contamination](residuals.html)
   - [HYDRUS-1D basics and usage with R](hydrus1d.html)
   
-10. [**Reporting tools**](tablesPlus.html)
+10. [**Reporting tools**](report-resources.html)
+  - [Resources for reporting](tablesPlus.html)
   - [Tables to count &amp; identify over-guideline samples](tablesPlus.html)
   - [Maps of Locality and Site Plan](maps-location-siteplan.html)
+  - [Brief essentials of R markdown](One-page_R-Markdown.html)
 
 11. [**UWA School of Agriculture and Environment**](https://www.uwa.edu.au/schools/agriculture-and-environment){target="_blank"}
 
