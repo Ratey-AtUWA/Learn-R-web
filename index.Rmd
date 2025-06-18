@@ -66,6 +66,7 @@ output:
   - [Tables to count &amp; identify over-guideline samples](tablesPlus.html)
   - [Maps of Locality and Site Plan](maps-location-siteplan.html)
   - [Brief essentials of R markdown](One-page_R-Markdown.html)
+  - [Modifying output with R markdown chunk options](chunk-options.html)
 
 11. [**UWA School of Agriculture and Environment**](https://www.uwa.edu.au/schools/agriculture-and-environment){target="_blank"}
 
