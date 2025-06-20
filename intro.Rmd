@@ -110,7 +110,7 @@ mtext("Experimental sub-catchments at\nHubbard Brook Experimental Forest.",
 1,01.1, cex=1.2)
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 ## First proper check - summarise some of the data
 
@@ -122,7 +122,7 @@ formatted, *etc*.).
 summary(hubbard[,1:9]) # just the first 9 columns to save space!
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 The `summary()` function creates a little table for each column - note that
 these little tables do not all look the same. `Integer` or `numeric` columns get a
@@ -132,7 +132,7 @@ each category (unless there are too many categories). These summaries are useful
 to check if there are zero or negative values in columns, how many missing
 observations there might be, and if the data have been read correctly into R.
 
-<p>&nbsp;</p>
+&nbsp;
 
 <div style="border: 2px solid #039; padding: 8px;">
 **Note**: You would usually check the **whole data frame**, without restricting 
@@ -143,7 +143,7 @@ rows or columns, by running `summary(hubbard)`. We could also:
 - summarise a defined range of both rows and columns, *e.g*. `summary(hubbard[1:20,6:10])`, which would summarise only the first 20 rows of columns 6 to 10.
 </div>
 
-<p>&nbsp;</p>
+&nbsp;
 
 ## Final checks of the data frame
 
@@ -180,7 +180,7 @@ needing any additional packages. If you would like to try making plots in the
 widely-used package `ggplot2`, then [go to this page](intro-GG.html). 
 </div>
 
-<p>&nbsp;</p>
+&nbsp;
 
 # Base R plotting: x-y plot using `plot()`
 
@@ -207,7 +207,7 @@ with(hubbard,
 with(hubbard, plot(EXCH_Al ~ PH))
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 2. <u>Specifying the data frame using the dollar-sign operator</u>
 
@@ -215,7 +215,7 @@ with(hubbard, plot(EXCH_Al ~ PH))
 plot(hubbard$EXCH_Al ~ hubbard$PH) # look at axis titles!
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 3. <u>Specifying the data frame using</u> `attach()` <u>and</u> `detach()` <u>**(not recommended)**</u>
 
@@ -231,7 +231,7 @@ plot(EXCH_Al ~ PH)
 detach(hubbard)
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 Without changing any of the (numerous) options or parameters in 
 the `plot()` function, the plot is not very attractive (*e.g*. axis titles!).
@@ -256,7 +256,7 @@ with(hubbard,
      )
 ```
  
-<p>&nbsp;</p>
+&nbsp;
 
 This is starting to look a lot better!
 
@@ -280,7 +280,7 @@ with(hubbard,
      )
 ``` 
 
-<p>&nbsp;</p>
+&nbsp;
 
 The parameter `pch=c(1,16)[Rel.To.Brook]` separates the points by the
 information in the Factor column `Rel.To.Brook`, shown inside `[ ]`. This column
@@ -335,7 +335,7 @@ scatterplot(EXCH_Al ~ PH, data=hubbard, smooth=FALSE,
             cex=1.5, cex.lab=1.5, cex.axis=1.2)
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 Note that we get some additional graph features by default:
 
@@ -367,7 +367,7 @@ scatterplot(EXCH_Al ~ PH | Rel.To.Brook, data=hubbard, smooth=FALSE,
             pch=c(16,0,2), cex=1.2, cex.lab=1.3, cex.axis=1.0)
 ```
  
-<p>&nbsp;</p>
+&nbsp;
 
 The `scatterplot()` function creates a legend automatically if we plot by factor 
 groupings (note the different way that the legend position is specified within 
@@ -396,7 +396,7 @@ will be clearer if we have more observations.
 with(hubbard, hist(MOISTURE.pct))
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 For histograms, try the following:
 
@@ -444,7 +444,7 @@ text(c(rep(2.7,5),2), c(bps$stats, 19.7), pos=4,
      col="steelblue")
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 For box plots, try the following:
 
@@ -464,7 +464,7 @@ variable.
 stripchart(hubbard$OM.pct)
 ```
  
-<p>&nbsp;</p>
+&nbsp;
 
 For stripcharts, try the following:
 
@@ -473,8 +473,7 @@ For stripcharts, try the following:
 - make the strip chart vertical instead of horizontal;
 - apply some 'jitter' (noise) to the symbols so that overlapping points are easier to see;
 - log~10~-transform the numerical axis, so that overlapping points are easier to see;
-- rotate the y-axis titles 90° clockwise (make sure the left margin is wide enough!);
-- remove the titles above the graphs (this information would usually go in caption/s)<br>...and so on.
+- rotate the y-axis titles 90° clockwise (make sure the left margin is wide enough!) <br>...and so on.
 
 <hr style="height: 1px; background-color: #5560A4;" />
 
@@ -504,7 +503,7 @@ with(hubbard, tapply(X = EXCH_Ni,
        FUN=mean, na.rm=TRUE))
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 For `tapply()` tables, try the following:
 
@@ -571,17 +570,19 @@ flextable(data.frame(Statistic=row.names(mytable),signif(mytable,3))) |>
   set_caption(caption="Table 1: Table created by the `flextable` R package. Many more table formatting, text formatting, and number formatting options are available in this package.")
 ```
 
-<p>&nbsp;</p>
+&nbsp;
+
+For more detail on producing high-quality tables for reports, see the [relevant page on the R for Environmental Science website](https://ratey-atuwa.github.io/Learn-R-web/tablesPlus.html){target="_blank"}.
 
 <div style="border: 2px solid #039; padding: 8px;">
 <span style="font-size: 14pt;">The following two excellent websites can extend your basic knowledge of using **R** and RStudio:</span>
 
-- A great free resource for **R** beginners is [An Introduction to R](https://intro2r.com/) by Alex Douglas, Deon Roos, Francesca Mancini, Ana Couto & David Lusseau.
+- A great free resource for **R** beginners is [An Introduction to R](https://intro2r.com/){target="_blank"} by Alex Douglas, Deon Roos, Francesca Mancini, Ana Couto & David Lusseau.
  
 - [Getting used to R, RStudio, and R Markdown](https://bookdown.org/chesterismay/rbasics/){target="_blank"} is an awesome (and free) eBook by Chester Ismay which is super-helpful if you want to start using **R Markdown** for reproducible coding and reporting.
 </div>
 
-<p>&nbsp;</p>
+&nbsp;
 
 ## References
 
@@ -593,4 +594,4 @@ Posit Software (2023) *RStudio 2023.09.1 "Desert Sunflower" Release*. [https://p
 
 R Core Team (2022). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL [https://www.R-project.org/](https://www.R-project.org/){target="_blank"}.
 
-<p>&nbsp;</p>
+&nbsp;
