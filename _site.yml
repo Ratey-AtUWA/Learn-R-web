@@ -19,6 +19,8 @@ navbar:
           href: plots-GG.html
         - text: "Enhanced boxplots"
           href: boxplots-plus.html
+        - text: "Depth profiles"
+          href: depth-profiles.html
     - text: "Compare"
       menu:
         - text: "Compare means (parametric)"
@@ -79,6 +81,9 @@ navbar:
           href: maps-location-siteplan.html
         - text: "Brief essentials of R markdown"
           href: One-page_R-Markdown.html
+        - text: "Custom output with R markdown chunk options"
+          href: chunk-options.html
+
   right:
     - text: "School of Agriculture and Environment"
       href: https://www.uwa.edu.au/schools/agriculture-and-environment

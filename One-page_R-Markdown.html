@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Andrew Rate" />
+
+<meta name="date" content="2025-06-19" />
+
+<title>One page of R Markdown</title>
+
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Sessions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">For beginners</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Intro</a>
+    </li>
+    <li>
+      <a href="intro-GG.html">Intro+ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plots.html">Plots-baseR</a>
+    </li>
+    <li>
+      <a href="plots-GG.html">Plots-ggplot</a>
+    </li>
+    <li>
+      <a href="boxplots-plus.html">Enhanced boxplots</a>
+    </li>
+    <li>
+      <a href="depth-profiles.html">Depth profiles</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Compare
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="means.html">Compare means (parametric)</a>
+    </li>
+    <li>
+      <a href="nonparam.html">Non-parametric comparisons</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="correl.html">Correlation</a>
+    </li>
+    <li>
+      <a href="regression.html">Simple linear regression</a>
+    </li>
+    <li>
+      <a href="reg-group.html">Grouped linear regression</a>
+    </li>
+    <li>
+      <a href="reg-multi.html">Multiple linear regression</a>
+    </li>
+    <li>
+      <a href="timeseries.html">Time series analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Maps
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="maps.html">Map data with tile backgrounds</a>
+    </li>
+    <li>
+      <a href="spatial.html">Spatial statistics</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">Spatial interpolation</a>
+    </li>
+    <li>
+      <a href="google-kml.html">Using Google Earth objects</a>
+    </li>
+    <li>
+      <a href="georef-images.html">Using georeferenced images</a>
+    </li>
+    <li>
+      <a href="shapefiles.html">Using shapefiles</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Multi
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pca.html">Principal components analysis</a>
+    </li>
+    <li>
+      <a href="vegan.html">Analysis of species presence-absence data</a>
+    </li>
+    <li>
+      <a href="lda.html">Linear discriminant analysis</a>
+    </li>
+    <li>
+      <a href="cluster.html">Cluster analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Util
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="distributions.html">Distribution checking</a>
+    </li>
+    <li>
+      <a href="residuals.html">Regression residuals to identify contamination</a>
+    </li>
+    <li>
+      <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Reporting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="report-resources.html">Resources for reporting</a>
+    </li>
+    <li>
+      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="maps-location-siteplan.html">Locality and Site Plan maps</a>
+    </li>
+    <li>
+      <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
+    </li>
+    <li>
+      <a href="chunk-options.html">Custom output with R markdown chunk options</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!DOCTYPE html>
+
+<html>
+<body>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
+</body>
+</html>
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">One page of R Markdown</h1>
+<h3 class="subtitle">A brief summary of useful features</h3>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2025-06-19</h4>
+
+</div>
+
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+<div id="the-yaml-header" class="section level1">
+<h1>The yaml header</h1>
+<p>The “yaml” header sets up how the markdown will “knit” to a document
+format such as HTML or MS Word. The default yaml header we get from
+making a new basic R markdown file (always between 2 lines of <span
+style="font-family: monospace;">‑‑‑</span>) looks something like:</p>
+<pre><code>---
+title: &quot;One page of R Markdown&quot;
+author: &quot;Andrew Rate&quot;
+date: &quot;2025-06-19&quot; 
+output: html_document
+---</code></pre>
+<p>We can add to, or change, these options for more control over
+document appearance. Some of the options can be changed by clicking on
+⚙ <span style="font-size:7pt;">▼</span> at the top of the RStudio
+<code>Source</code> pane, then selecting
+<code>Output options...</code>.</p>
+<p>We can also type in the options manually, paying attention to the
+exact spacing of indents. Here's an example with explanatory
+comments:</p>
+<pre><code>---
+title: &quot;One Page of R Markdown&quot;
+subtitle: &quot;A brief summary of useful features&quot;        # a subtitle which will appear below the title
+author: &quot;Andrew Rate&quot;
+date: &quot;2025-06-19&quot; 
+output:                      # line break after &#39;output:&#39; if we want options for each format
+  html_document:             # indent each output format by 2 spaces, followed by colon
+    theme: yeti              # built in themes control fonts, colours, etc. indent options 4 spaces
+    code_folding: show       # show (or hide) code chunks in output
+    self_contained: no       # self_contained output doesn&#39;t need to link to any files e.g. images
+    number_sections: no      # yes/no if we want to auto munber headings
+    smart: no                # smart formatting: convert &quot;&quot; to “”, -- to an &#39;en dash&#39;, etc. 
+    toc: true                # do we want a Table Of Contents? (true or false)
+    toc_depth: 3             # how many Heading levels for table of contents?
+    toc_float: true          # Should table of contents stay in place while page is scrolled?
+  word_document:             # we can include options for additional formats
+    toc: false
+    highlight: kate          # theme for formatting code in outputted chunks
+---</code></pre>
+<p> </p>
+</div>
+<div id="in-general" class="section level1">
+<h1>In General</h1>
+<p>In R Markdown text:</p>
+<ul>
+<li>A blank line inserts a paragraph break</li>
+<li>A new line is ignored and treated as a space, unless there are 2
+spaces at the end of the previous line, in which case a line break is
+inserted</li>
+<li>multiple spaces are counted as single spaces</li>
+</ul>
+</div>
+<div id="formatting-text-as-headings" class="section level1">
+<h1>Formatting text as headings</h1>
+<p><code># Heading Level 1</code> becomes</p>
+<p><span style="font-size:26pt;">Heading Level 1</span></p>
+<p><code>## Heading Level 2</code> becomes</p>
+<p><span style="font-size:22pt;">Heading Level 2</span></p>
+<p>and so on.</p>
+<hr style="height: 2px; background-color: #b0b0b0;" />
+</div>
+<div id="text-formatting" class="section level1">
+<h1>Text formatting</h1>
+<p>To make text <em>italic</em>, we enclose it between asterisks or
+underscores:</p>
+<p><span style="font-family: monospace;">∗emphasised∗ </span> becomes
+<em>emphasised</em></p>
+<p><span style="font-family: monospace;">_italicised_ </span> becomes
+<em>italicised</em></p>
+<p>To make text <strong>bold</strong>, we enclose it between double
+asterisks:</p>
+<p><span style="font-family: monospace;">∗∗obvious∗∗ </span> becomes
+<strong>obvious</strong></p>
+<p>To format text as inline <code>code</code>, we enclose it between
+backticks:</p>
+<p><span style="font-family: monospace;">՝function()՝ </span> becomes
+<code>function()</code></p>
+<hr style="height: 2px; background-color: #b0b0b0;" />
+<div id="subscripts-and-superscripts" class="section level3">
+<h3>Subscripts and superscripts</h3>
+<p>To make text <sub>subscript</sub>, we enclose it in tildes
+<code>~</code>:</p>
+<p><code>H~2~O</code> becomes H<sub>2</sub>O</p>
+<p>To make text <sup>superscript</sup>, we enclose it in carets
+<code>^</code>:</p>
+<p><code>E = mc^2^</code> becomes E = mc<sup>2</sup></p>
+<p><code>*h* = 6.626 × 10^-34^</code> becomes <em>h</em> = 6.626 ×
+10<sup>-34</sup></p>
+<p><code>H~2~PO~4~^−^</code> becomes
+H<sub>2</sub>PO<sub>4</sub><sup>−</sup></p>
+<hr style="height: 2px; background-color: #b0b0b0;" />
+</div>
+<div id="inserting-links" class="section level2">
+<h2>Inserting links</h2>
+<p>The link text goes within <code>[]</code>, and the URL goes within
+<code>()</code>; the URL can be followed by options within
+<code>{}</code> (note that there are <em>no spaces</em> in between). For
+example:</p>
+<p><code>[click here for map](https://link.mazemap.com/x6Gi6x2Y){target="_blank"}</code>
+becomes <a href="https://link.mazemap.com/x6Gi6x2Y"
+target="_blank">click here for map</a>.</p>
+<p>The phrase ‘click here for map’ becomes the hyperlink, and the URL
+<code>https://link.mazemap.com/x6Gi6x2Y</code> is opened in a new
+browser tab since the following text within <code>{}</code> is
+<code>target="_blank"</code>.</p>
+<hr style="height: 2px; background-color: #b0b0b0;" />
+</div>
+<div id="inserting-images" class="section level2">
+<h2>Inserting images</h2>
+<p>Usually we will insert images as plots that are the output of code
+chunks. We can also insert images from other sources:</p>
+<p>We use <code>![]</code> to insert an image followed immediately by
+the image URL within <code>()</code>, and any image options following
+immediately within <code>{}</code>. For example,
+<code>![](https://upload.wikimedia.org/wikipedia/commons/c/c1/Rlogo.png){width="10%"}</code><br />
+will result in:</p>
+<p><img
+src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Rlogo.png"
+style="width:10.0%" /></p>
+<p>If we include text within the <code>![]</code>, this will become a
+caption and the alt-text for the image:
+<code>![R logo](https://upload.wikimedia.org/wikipedia/commons/c/c1/Rlogo.png){width="10%"}</code><br />
+will result in:</p>
+<div class="float">
+<img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Rlogo.png"
+style="width:10.0%" alt="R logo" />
+<div class="figcaption">R logo</div>
+</div>
+<p>We should <em>always include alt-text</em> for accessibility. If we
+don't want the caption (or are making a caption in another way), the way
+to do this would be<br />
+<code>![](https://upload.wikimedia.org/wikipedia/commons/c/c1/Rlogo.png){width="10%" alt="R logo"}</code></p>
+<hr style="height: 2px; background-color: #b0b0b0;" />
+</div>
+<div id="lists" class="section level2">
+<h2>Lists</h2>
+<p>We can make bulleted lists by preceding lines of text with
+<code>*</code> or <code>-</code>:</p>
+<pre><code>* first bullet
+* second bullet
+* last bullet</code></pre>
+<p>would be formatted as</p>
+<ul>
+<li>first bullet</li>
+<li>second bullet</li>
+<li>last bullet</li>
+</ul>
+<p>We can make numbered lists by preceding lines of text with numbers
+with periods:</p>
+<pre><code>1. first list item
+1. second list item  # we could make this &#39;2. second list item&#39; if we want
+1. last list item    # we could make this &#39;3. third list item&#39; if we want</code></pre>
+<p>would be formatted as</p>
+<ol style="list-style-type: decimal">
+<li>first list item</li>
+<li>second list item</li>
+<li>last list item</li>
+</ol>
+<p>Lists can have nested levels using 4-space indents, for example:</p>
+<pre><code>* level 1 bullet
+    * level 2 bullet
+        * level 3 bullet</code></pre>
+<ul>
+<li>level 1 bullet
+<ul>
+<li>level 2 bullet
+<ul>
+<li>level 3 bullet</li>
+</ul></li>
+</ul></li>
+</ul>
+<pre><code>1. first list item
+    a. sub-item a
+    a. sub-item b
+        i. sub-sub item i
+        
+1. second list item
+
+1. last list item</code></pre>
+<ol style="list-style-type: decimal">
+<li><p>first list item</p>
+<ol style="list-style-type: lower-alpha">
+<li>sub-item a</li>
+<li>sub-item b
+<ol style="list-style-type: lower-roman">
+<li>sub-sub item i</li>
+</ol></li>
+</ol></li>
+<li><p>second list item</p></li>
+<li><p>last list item</p></li>
+</ol>
+<p>Notice the change in list item line spacing! (and how it doesn't work
+perfectly)</p>
+<hr style="height: 2px; background-color: #b0b0b0;" />
+</div>
+</div>
+<div id="additional-formatting-using-html" class="section level1">
+<h1>Additional Formatting using HTML</h1>
+<p>We don't need to know a lot of html code to enhance our R Markdown
+output (this works for both HTML and MS Word outputs). We can insert
+html code using the RStudio Visual Editor (the other tab on the source
+pane), but we usually still need to know the code to insert. Here are a
+few code snippets that I have found useful:</p>
+<div id="font-size-and-colour" class="section level2">
+<h2>Font size and colour</h2>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>The next sentence (not this one) is blue 9 pt font. </span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> style</span><span class="op">=</span><span class="st">&quot;font-size:10pt; color:blue;&quot;</span><span class="dt">&gt;</span>This sentence is in blue 9pt font.<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>The next sentence (not this one) is blue 9 pt font. <span
+style="font-size:10pt; color:blue;">This sentence is in blue 9pt
+font.</span></p>
+</div>
+<div id="font-shading-and-typeface" class="section level2">
+<h2>Font shading and typeface</h2>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>The next sentence (not this one) is serif font in cyan shading. </span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> style</span><span class="op">=</span><span class="st">&quot;font-family: cambria, serif; background-color:cyan;&quot;</span><span class="dt">&gt;</span>This sentence is serif font in cyan shading.<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>The next sentence (not this one) is serif font in cyan shading. <span
+style="font-family: cambria, serif; background-color:cyan;">This
+sentence is serif font in cyan shading.</span></p>
+</div>
+<div id="div-tags" class="section level2">
+<h2><code>&lt;div…&gt;</code> tags</h2>
+<p>Use in preference to html tables for boxed text, for better
+accessibility.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> style</span><span class="op">=</span><span class="st">&quot;border: 2px solid #039; background-color:#f8e8d8; padding: 8px;&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>Text  </span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>inside  </span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>box</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
+<div
+style="border: 2px solid #039; background-color:#f8e8d8; padding: 8px;">
+<p>Text<br />
+inside<br />
+box</p>
+</div>
+</div>
+<div id="table-formatting" class="section level2">
+<h2>Table formatting</h2>
+<p><strong>Only use tables for tabular data or information</strong>.
+Rather than write html directly, it's usually better to use a specific
+table package, such as <code>flextable</code>, which we will look at
+later.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">table</span><span class="ot"> width</span><span class="op">=</span><span class="st">&quot;90%&quot;</span><span class="ot"> border</span><span class="op">=</span><span class="st">&quot;1&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> align</span><span class="op">=</span><span class="st">&quot;center&quot;</span><span class="ot"> colspan</span><span class="op">=</span><span class="st">2</span><span class="dt">&gt;</span>**double-width cell value**<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> align</span><span class="op">=</span><span class="st">&quot;left&quot;</span><span class="ot"> style</span><span class="op">=</span><span class="st">&quot;background-color: #e0e0e0;&quot;</span><span class="dt">&gt;</span>*grey-shaded* cell<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">tr</span><span class="ot"> style</span><span class="op">=</span><span class="st">&quot;background-color: #c0c0f0;&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> align</span><span class="op">=</span><span class="st">&quot;right&quot;</span><span class="dt">&gt;</span>right-aligned<span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span>(whole row shaded blue)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> align</span><span class="op">=</span><span class="st">&quot;center&quot;</span><span class="dt">&gt;</span>center-aligned<span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span>(whole row shaded blue)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> align</span><span class="op">=</span><span class="st">&quot;left&quot;</span><span class="dt">&gt;</span>left-aligned<span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span>(whole row shaded blue)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">table</span><span class="dt">&gt;</span></span></code></pre></div>
+<table width="90%" border="1">
+<tr>
+<td align="center" colspan="2">
+<strong>double-width cell value</strong>
+</td>
+<td align="left" style="background-color: #e0e0e0;">
+<em>grey-shaded</em> cell
+</td>
+</tr>
+<tr style="background-color: #c0c0f0;">
+<td align="right">
+right-aligned<br>(whole row shaded blue)
+</td>
+<td align="center">
+center-aligned<br>(whole row shaded blue)
+</td>
+<td align="left">
+left-aligned<br>(whole row shaded blue)
+</td>
+</tr>
+</table>
+<div id="individual-table-cells-can-have-custom-borders-e.g."
+class="section level3">
+<h3>Individual table cells can have custom borders, <em>e.g</em>.:</h3>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> style</span><span class="op">=</span><span class="st">&quot;. . .; border-bottom: 1px solid black;&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>We can specify border-top, border-bottom, border-left, <span class="er">&amp;</span> border-right.</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>Instead of solid, can have dotted, dashed, double, groove, ridge,...</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span>                                                             # (no output shown)</span></code></pre></div>
+</div>
+</div>
+<div id="special-characters" class="section level2">
+<h2>Special characters</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="11%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr>
+<th align="right"><code>code</code></th>
+<th align="left">symbol</th>
+<th align="right"><code>code</code></th>
+<th align="left">symbol</th>
+<th align="right"><code>code</code></th>
+<th align="left">symbol</th>
+<th align="right"><code>code</code></th>
+<th align="left">symbol</th>
+<th align="right"><code>code</code></th>
+<th align="left">symbol</th>
+<th align="right"><code>code</code></th>
+<th align="left">symbol</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right"><code>&amp;lt;</code></td>
+<td align="left">&lt;</td>
+<td align="right"><code>&amp;gt;</code></td>
+<td align="left">&gt;</td>
+<td align="right"><code>&amp;le;</code></td>
+<td align="left">≤</td>
+<td align="right"><code>&amp;ge;</code></td>
+<td align="left">≥</td>
+<td align="right"><code>&amp;asymp;</code></td>
+<td align="left">≈</td>
+<td align="right"><code>&amp;ne;</code></td>
+<td align="left">≠</td>
+</tr>
+<tr>
+<td align="right"><code>&amp;equiv;</code></td>
+<td align="left">≡</td>
+<td align="right"><code>&amp;frac12;</code></td>
+<td align="left">½</td>
+<td align="right"><code>&amp;frac14;</code></td>
+<td align="left">¼</td>
+<td align="right"><code>&amp;frac34;</code></td>
+<td align="left">¾</td>
+<td align="right"><code>&amp;#8652;</code></td>
+<td align="left">⇌</td>
+<td align="right"><code>&amp;#8680;</code></td>
+<td align="left">⇨</td>
+</tr>
+<tr>
+<td align="right"><code>&amp;alpha;</code></td>
+<td align="left">α</td>
+<td align="right"><code>&amp;beta;</code></td>
+<td align="left">β</td>
+<td align="right"><code>&amp;gamma;</code></td>
+<td align="left">γ</td>
+<td align="right"><code>&amp;theta;</code></td>
+<td align="left">θ</td>
+<td align="right"><code>&amp;mu;</code></td>
+<td align="left">μ</td>
+<td align="right"><code>&amp;pi;</code></td>
+<td align="left">π</td>
+</tr>
+<tr>
+<td align="right"><code>&amp;deg;</code></td>
+<td align="left">°</td>
+<td align="right"><code>&amp;plusmn;</code></td>
+<td align="left">±</td>
+<td align="right"><code>&amp;#185;</code></td>
+<td align="left">¹</td>
+<td align="right"><code>&amp;#178;</code></td>
+<td align="left">²</td>
+<td align="right"><code>&amp;#179;</code></td>
+<td align="left">³</td>
+<td align="right"><code>&amp;times;</code></td>
+<td align="left">×</td>
+</tr>
+<tr>
+<td align="right"><code>&amp;sum;</code></td>
+<td align="left">∑</td>
+<td align="right"><code>&amp;infin;</code></td>
+<td align="left">∞</td>
+<td align="right"><code>&amp;prop;</code></td>
+<td align="left">∝</td>
+<td align="right"><code>&amp;isin;</code></td>
+<td align="left">∈</td>
+<td align="right"><code>&amp;minus;</code></td>
+<td align="left">−</td>
+<td align="right"><code>&amp;divide;</code></td>
+<td align="left">÷</td>
+</tr>
+<tr>
+<td align="right"><code>&amp;ndash;</code></td>
+<td align="left">–</td>
+<td align="right"><code>&amp;mdash;</code></td>
+<td align="left">—</td>
+<td align="right"><code>&amp;bull;</code></td>
+<td align="left">•</td>
+<td align="right"><code>&amp;permil;</code></td>
+<td align="left">‰</td>
+<td align="right"><code>&amp;there4;</code></td>
+<td align="left">∴</td>
+<td align="right"><code>&amp;Delta;</code></td>
+<td align="left">Δ</td>
+</tr>
+<tr>
+<td align="right"><code>&amp;lsquo;</code></td>
+<td align="left">‘</td>
+<td align="right"><code>&amp;rsquo;</code></td>
+<td align="left">’</td>
+<td align="right"><code>&amp;ldquo;</code></td>
+<td align="left">“</td>
+<td align="right"><code>&amp;rdquo;</code></td>
+<td align="left">”</td>
+<td align="right"><code>&amp;sime;</code></td>
+<td align="left">≃</td>
+<td align="right"><code>&amp;nbsp;</code></td>
+<td align="left"><sup>non-break space</sup></td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="https://www.toptal.com/designers/htmlarrows/"
+class="uri">https://www.toptal.com/designers/htmlarrows/</a> for a
+complete list.</p>
+</div>
+<div id="miscellaneous-but-no-less-useful" class="section level2">
+<h2>Miscellaneous but no less useful</h2>
+<p>This sets default font size for knitting R markdown to html documents
+– include directly after yaml header</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">style</span><span class="ot"> type</span><span class="op">=</span><span class="st">&quot;text/css&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  body{</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="kw">font-size</span><span class="ch">:</span> <span class="dv">12</span><span class="dt">pt</span><span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>}</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">style</span><span class="dt">&gt;</span></span></code></pre></div>
+<div id="line-breaks" class="section level3">
+<h3>Line breaks</h3>
+<p>Line breaks can be added with <code>&lt;br&gt;</code>, and this may
+be a better option than leaving a double space at the end of lines which
+is the ‘R Markdown’ method, since the <code>&lt;br&gt;</code> is visible
+on-screen. For example:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>This is a sentence where<span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span>this section starts on a new line</span></code></pre></div>
+<p><em>results in</em></p>
+<p>This is a sentence where<br>this section starts on a new line</p>
+</div>
+</div>
+<div id="horizontal-rule-with-defined-color-and-thickness"
+class="section level2">
+<h2>Horizontal rule with defined color and thickness</h2>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">hr</span><span class="ot"> style</span><span class="op">=</span><span class="st">&quot;height: 5px; background-color: blue;&quot;</span><span class="ot"> </span><span class="dt">/&gt;</span></span></code></pre></div>
+<hr style="height: 5px; background-color: blue;" />
+<p> </p>
+<hr style="height: 2px; background-color: #b0b0b0;" />
+<p> </p>
+<p>We will deal with <a
+href="https://bookdown.org/yihui/rmarkdown-cookbook/chunk-options.html"
+target="_blank"><strong>R Markdown code chunk options</strong></a> in a
+subsequent section.</p>
+<p>Here's a <a
+href="https://rstudio.github.io/cheatsheets/html/rmarkdown.html"
+target="_blank">useful R Markdown Cheat Sheet</a>.</p>
+<p> </p>
+<p><span style="font-size:16pt;">🔚</span></p>
+</div>
+</div>
+
+<!DOCTYPE html>
+
+<html>
+<body>
+<hr style="height: 2px; background-color: #003087;" />
+<p><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>. Currently using the free <a href="https://bootswatch.com/yeti/" target="_blank"><span style="font-family: monospace;">yeti</span> theme from Bootswatch</a>.</span></p>
+</body>
+</html>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
