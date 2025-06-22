@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-04-14" />
+<meta name="date" content="2025-06-19" />
 
 <title>RStudio graphics and plotting</title>
 
@@ -371,6 +371,9 @@ $(document).ready(function () {
     <li>
       <a href="boxplots-plus.html">Enhanced boxplots</a>
     </li>
+    <li>
+      <a href="depth-profiles.html">Depth profiles</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -497,6 +500,9 @@ $(document).ready(function () {
     <li>
       <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
     </li>
+    <li>
+      <a href="chunk-options.html">Custom output with R markdown chunk options</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -524,7 +530,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">RStudio graphics and plotting</h1>
 <h3 class="subtitle">The base-R version</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-04-14</h4>
+<h4 class="date">2025-06-19</h4>
 
 </div>
 
@@ -1158,7 +1164,7 @@ depth</em>, but we can't use a formula (<em>i.e</em>. anything in
 use comma instead of <code>~</code> to allow us to put a calculation in:
 </p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">plot</span>(((sv18<span class="sc">$</span>Depth_upper<span class="sc">+</span>sv18<span class="sc">$</span>Depth_lower)<span class="sc">/</span><span class="dv">2</span>), sv18<span class="sc">$</span>Fe)</span></code></pre></div>
-<p><img src="plots_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="plots_files/figure-html/mean-depth-1.png" width="672" /></p>
 <p>
  
 </p>
@@ -1234,6 +1240,10 @@ axis scale reversed, tidy axis labels, and x-axis label and ticks at the
 top.
 </p>
 </div>
+<p>For more advanced options for <a
+href="https://ratey-atuwa.github.io/cybloRg/profiles.html"
+target="_blank"><strong>plotting depth profiles in R</strong>, click
+this link</a>.</p>
 <p>
  
 </p>
