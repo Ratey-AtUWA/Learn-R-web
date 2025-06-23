@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Andrew Rate" />
+
+<meta name="date" content="2025-06-19" />
+
+<title>Using R for soil profile diagrams</title>
+
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Sessions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">For beginners</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Intro</a>
+    </li>
+    <li>
+      <a href="intro-GG.html">Intro+ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plots.html">Plots-baseR</a>
+    </li>
+    <li>
+      <a href="plots-GG.html">Plots-ggplot</a>
+    </li>
+    <li>
+      <a href="boxplots-plus.html">Enhanced boxplots</a>
+    </li>
+    <li>
+      <a href="depth-profiles.html">Depth profiles</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Compare
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="means.html">Compare means (parametric)</a>
+    </li>
+    <li>
+      <a href="nonparam.html">Non-parametric comparisons</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="correl.html">Correlation</a>
+    </li>
+    <li>
+      <a href="regression.html">Simple linear regression</a>
+    </li>
+    <li>
+      <a href="reg-group.html">Grouped linear regression</a>
+    </li>
+    <li>
+      <a href="reg-multi.html">Multiple linear regression</a>
+    </li>
+    <li>
+      <a href="timeseries.html">Time series analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Maps
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="maps.html">Map data with tile backgrounds</a>
+    </li>
+    <li>
+      <a href="spatial.html">Spatial statistics</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">Spatial interpolation</a>
+    </li>
+    <li>
+      <a href="google-kml.html">Using Google Earth objects</a>
+    </li>
+    <li>
+      <a href="georef-images.html">Using georeferenced images</a>
+    </li>
+    <li>
+      <a href="shapefiles.html">Using shapefiles</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Multi
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pca.html">Principal components analysis</a>
+    </li>
+    <li>
+      <a href="vegan.html">Analysis of species presence-absence data</a>
+    </li>
+    <li>
+      <a href="lda.html">Linear discriminant analysis</a>
+    </li>
+    <li>
+      <a href="cluster.html">Cluster analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Util
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="distributions.html">Distribution checking</a>
+    </li>
+    <li>
+      <a href="residuals.html">Regression residuals to identify contamination</a>
+    </li>
+    <li>
+      <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Reporting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="report-resources.html">Resources for reporting</a>
+    </li>
+    <li>
+      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="maps-location-siteplan.html">Locality and Site Plan maps</a>
+    </li>
+    <li>
+      <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
+    </li>
+    <li>
+      <a href="chunk-options.html">Custom output with R markdown chunk options</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!DOCTYPE html>
+
+<html>
+<body>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
+</body>
+</html>
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Using R for soil profile diagrams</h1>
+<h3 class="subtitle">A selection of methods</h3>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2025-06-19</h4>
+
+</div>
+
+
+<p>We're going to illustrate all the methods using some made-up data.
+You would need to adapt the <strong>R</strong> code examples to match
+your dataset and variable names.</p>
+<p>Just so we don't need to read in a file, we're going to make a
+dataframe using R code:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>profile <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Sample =</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>),</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>                      <span class="at">Horizon =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;A&quot;</span>,<span class="st">&quot;A2&quot;</span>,<span class="st">&quot;A2&quot;</span>,<span class="st">&quot;B1&quot;</span>,<span class="st">&quot;B1&quot;</span>,<span class="st">&quot;B1&quot;</span>,<span class="st">&quot;B2&quot;</span>,<span class="st">&quot;B2&quot;</span>,<span class="st">&quot;B3&quot;</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>                      <span class="at">Depth_upper =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">5</span>,<span class="dv">9</span>,<span class="dv">14</span>,<span class="dv">20</span>,<span class="dv">26</span>,<span class="dv">31</span>,<span class="dv">35</span>,<span class="dv">43</span>,<span class="dv">49</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>                      <span class="at">Depth_lower =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">9</span>,<span class="dv">14</span>,<span class="dv">20</span>,<span class="dv">26</span>,<span class="dv">31</span>,<span class="dv">35</span>,<span class="dv">43</span>,<span class="dv">49</span>,<span class="dv">55</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>                      <span class="at">Sand =</span> <span class="fu">c</span>(<span class="fl">81.8</span>, <span class="fl">89.6</span>, <span class="fl">80.4</span>, <span class="fl">72.9</span>, <span class="fl">45.1</span>, <span class="fl">65.5</span>, <span class="fl">56.6</span>, <span class="fl">55.9</span>, <span class="fl">39.4</span>, <span class="fl">37.9</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>                      <span class="at">Silt =</span> <span class="fu">c</span>(<span class="fl">13.8</span>, <span class="fl">4.3</span>, <span class="fl">5.8</span>, <span class="fl">6.0</span>, <span class="fl">18.2</span>, <span class="fl">13.8</span>, <span class="fl">15.8</span>, <span class="fl">14.0</span>, <span class="fl">21.7</span>, <span class="fl">19.5</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>                      <span class="at">Clay =</span> <span class="fu">c</span>(<span class="fl">4.4</span>, <span class="fl">6.1</span>, <span class="fl">13.8</span>, <span class="fl">21.1</span>, <span class="fl">36.7</span>, <span class="fl">20.7</span>, <span class="fl">27.6</span>, <span class="fl">30.1</span>, <span class="fl">38.9</span>, <span class="fl">42.6</span>))</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>profile<span class="sc">$</span>Horizon <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(profile<span class="sc">$</span>Horizon)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="fu">str</span>(profile)</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Sum of sand + silt + clay in each sample:</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="fu">with</span>(profile, Sand<span class="sc">+</span>Silt<span class="sc">+</span>Clay)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    10 obs. of  7 variables:
+##  $ Sample     : int  1 2 3 4 5 6 7 8 9 10
+##  $ Horizon    : Factor w/ 5 levels &quot;A&quot;,&quot;A2&quot;,&quot;B1&quot;,..: 1 1 2 2 3 3 3 4 4 5
+##  $ Depth_upper: num  0 5 9 14 20 26 31 35 43 49
+##  $ Depth_lower: num  5 9 14 20 26 31 35 43 49 55
+##  $ Sand       : num  81.8 89.6 80.4 72.9 45.1 65.5 56.6 55.9 39.4 37.9
+##  $ Silt       : num  13.8 4.3 5.8 6 18.2 13.8 15.8 14 21.7 19.5
+##  $ Clay       : num  4.4 6.1 13.8 21.1 36.7 20.7 27.6 30.1 38.9 42.6
+## 
+## Sum of sand + silt + clay in each sample:
+##  [1] 100 100 100 100 100 100 100 100 100 100</code></pre>
+<div id="inverted-scatter-plot-the-most-basic-option"
+class="section level2">
+<h2>Inverted scatter plot (the most basic option)</h2>
+<p>To invert a scatter plot t make it suitable for soil depth profile
+plotting, we:</p>
+<ul>
+<li>use <span
+style="font-family: monospace; background-color:#e8e8e8;">par(mar = c( .
+. . ))</span> to make the upper margin larger to fit in axis and tick
+labels</li>
+<li>calculate mean depth for each sample = (upper + lower)/2</li>
+<li>plot Depth <em>vs</em>. variable (which is inverted)</li>
+<li>suppress the x axis (<span
+style="font-family: monospace; background-color:#e8e8e8;">xaxt="n"</span>)
+and have no x-axis label (<span
+style="font-family: monospace; background-color:#e8e8e8;">xlab=""</span>)</li>
+<li>plot the depth axis backwards by putting the deepest limit first
+(<span
+style="font-family: monospace; background-color:#e8e8e8;">ylim=c(55,0)</span>)</li>
+<li>rotate the labels using the <span
+style="font-family: monospace; background-color:#e8e8e8;">las = 1</span>
+option in <span
+style="font-family: monospace; background-color:#e8e8e8;">par()</span>
+or <span
+style="font-family: monospace; background-color:#e8e8e8;">plot()</span></li>
+<li>add a manual x axis at the top using <span
+style="font-family: monospace; background-color:#e8e8e8;">axis(3)</span></li>
+<li>add a manual x axis title at top using the <span
+style="font-family: monospace; background-color:#e8e8e8;">mtext()</span>
+function</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># omit axis plotting and axis label...</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># ... then plot axis manually, first adjusting plot margins</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl =</span> <span class="fl">0.3</span>, <span class="at">font.lab =</span> <span class="dv">2</span>) <span class="co"># won&#39;t change anything except margins</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">plot</span>(profile<span class="sc">$</span>Clay, ((profile<span class="sc">$</span>Depth_upper<span class="sc">+</span>profile<span class="sc">$</span>Depth_lower)<span class="sc">/</span><span class="dv">2</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">las =</span> <span class="dv">1</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">90</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">55</span>,<span class="dv">0</span>), </span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Mean depth (cm)&quot;</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co"># we need two functions / code lines for manual axis, plus label</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="fu">mtext</span>(<span class="at">side=</span><span class="dv">3</span>, <span class="at">line=</span><span class="fl">1.6</span>, <span class="at">font=</span><span class="dv">2</span>, <span class="at">text=</span><span class="st">&quot;Clay (% of &lt;2mm fraction)&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="depth-profiles_files/figure-html/simple%20depth%20profile-1.png" alt="Figure 1. Depth profile of clay in soil as a scatter plot with inverted axes" width="288" />
+<p class="caption">
+Figure 1. Depth profile of clay in soil as a scatter plot with inverted
+axes
+</p>
+</div>
+<p>The depth profile plot in Figure 1 is quite a common way to represent
+soil profile data. It has the advantage of being relatively simple, but
+implies a continuous change in the variable (Clay in Figure 1) which we
+usually do not have data for, since we collect samples in discrete depth
+increments. We will address how to deal with discrete increments
+later.</p>
+<p>Unless we have replicate samples from the same depth increment, we
+don't have an estimate of sampling+measurement uncertainty. The next
+section uses an interpolation method to generate a standard error around
+a smoothed depth profile relationship.</p>
+</div>
+<div id="smoothed-depth-profiles-with-uncertainties"
+class="section level2">
+<h2>Smoothed Depth Profiles with uncertainties</h2>
+<p>To generate smoothed curves of soil properties down a profile,
+we:</p>
+<ul>
+<li>first plot just the measurements <em>vs</em>. mean depth as
+above</li>
+<li>create an 'empty' data frame to hold the smoothed interpolated
+results</li>
+<li>for each series, create a smoothing model using the <span
+style="font-family: monospace; background-color:#e8e8e8;">loess()</span>
+function (<em>LOESS</em> is <u>L</u>ocally <u>E</u>stimated
+<u>S</u>catterplot <u>S</u>moothing)</li>
+<li>generate an object containing predictions and standard errors from
+the LOESS models using the <span
+style="font-family: monospace; background-color:#e8e8e8;">predict()</span>
+function</li>
+<li>plot the smooth (interpolated) lines and their standard errors</li>
+<li>add a legend</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl =</span> <span class="fl">0.3</span>, <span class="at">font.lab =</span> <span class="dv">2</span>, <span class="at">lend=</span><span class="dv">2</span>, <span class="at">ljoin=</span><span class="dv">1</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>profile<span class="sc">$</span>Depth_mean <span class="ot">&lt;-</span> (profile<span class="sc">$</span>Depth_upper <span class="sc">+</span> profile<span class="sc">$</span>Depth_lower)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">with</span>(profile, <span class="fu">plot</span>(Depth_mean <span class="sc">~</span> Clay, <span class="at">xaxt =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Mean depth (cm)&quot;</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>                   <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="dv">4</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">55</span>,<span class="dv">0</span>), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">90</span>), </span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>                   <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">cex.lab =</span> <span class="fl">1.5</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="fu">with</span>(profile, <span class="fu">points</span>(Depth_mean <span class="sc">~</span> Sand, <span class="at">pch =</span> <span class="dv">0</span>, <span class="at">col =</span> <span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>))</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fu">grid</span>()</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">expression</span>(<span class="fu">bold</span>(<span class="fu">paste</span>(<span class="st">&quot;Size fraction (%)&quot;</span>))),</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>      <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">1.5</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co"># set up data.frame to store interpolation results</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>interps <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fixdepth =</span> <span class="fu">seq</span>(<span class="fl">2.5</span>,<span class="dv">60</span>,<span class="dv">5</span>),</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>                      <span class="at">Clay =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(<span class="fu">seq</span>(<span class="fl">2.5</span>,<span class="dv">60</span>,<span class="dv">5</span>))),</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>                      <span class="at">Clay_lo =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(<span class="fu">seq</span>(<span class="fl">2.5</span>,<span class="dv">60</span>,<span class="dv">5</span>))),</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>                      <span class="at">Clay_hi =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(<span class="fu">seq</span>(<span class="fl">2.5</span>,<span class="dv">60</span>,<span class="dv">5</span>))),</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>                      <span class="at">Sand =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(<span class="fu">seq</span>(<span class="fl">2.5</span>,<span class="dv">60</span>,<span class="dv">5</span>))),</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>                      <span class="at">Sand_lo =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(<span class="fu">seq</span>(<span class="fl">2.5</span>,<span class="dv">60</span>,<span class="dv">5</span>))),</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>                      <span class="at">Sand_hi =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(<span class="fu">seq</span>(<span class="fl">2.5</span>,<span class="dv">60</span>,<span class="dv">5</span>))))</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co"># generate Clay values interpolated to fixed depth using LOESS</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>loessMod1 <span class="ot">&lt;-</span> <span class="fu">loess</span>(Clay <span class="sc">~</span> Depth_mean, <span class="at">data =</span> profile)</span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>loessPred1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(loessMod1, <span class="at">newdata=</span>interps<span class="sc">$</span>fixdepth, <span class="at">se =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>interps<span class="sc">$</span>Clay <span class="ot">&lt;-</span> loessPred1<span class="sc">$</span>fit</span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>interps<span class="sc">$</span>Clay_lo <span class="ot">&lt;-</span> loessPred1<span class="sc">$</span>fit <span class="sc">-</span> loessPred1<span class="sc">$</span>se.fit</span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>interps<span class="sc">$</span>Clay_hi <span class="ot">&lt;-</span> loessPred1<span class="sc">$</span>fit <span class="sc">+</span> loessPred1<span class="sc">$</span>se.fit</span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co"># generate Core 2 values interpolated to fixed depth using LOESS</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a>loessMod2 <span class="ot">&lt;-</span> <span class="fu">loess</span>(Sand <span class="sc">~</span> Depth_mean, profile)</span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a>loessPred2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(loessMod2, <span class="at">newdata=</span>interps<span class="sc">$</span>fixdepth, <span class="at">se =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a>interps<span class="sc">$</span>Sand <span class="ot">&lt;-</span> loessPred2<span class="sc">$</span>fit</span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a>interps<span class="sc">$</span>Sand_lo <span class="ot">&lt;-</span> loessPred2<span class="sc">$</span>fit <span class="sc">-</span> loessPred2<span class="sc">$</span>se.fit</span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a>interps<span class="sc">$</span>Sand_hi <span class="ot">&lt;-</span> loessPred2<span class="sc">$</span>fit <span class="sc">+</span> loessPred2<span class="sc">$</span>se.fit</span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a><span class="co"># add interpolations to plot</span></span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="fu">lines</span>(interps<span class="sc">$</span>Clay, interps<span class="sc">$</span>fixdepth, <span class="at">col =</span> <span class="dv">4</span>)</span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a><span class="fu">lines</span>(interps<span class="sc">$</span>Clay_lo, interps<span class="sc">$</span>fixdepth, <span class="at">col =</span> <span class="dv">4</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="fu">lines</span>(interps<span class="sc">$</span>Clay_hi, interps<span class="sc">$</span>fixdepth, <span class="at">col =</span> <span class="dv">4</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a><span class="fu">lines</span>(interps<span class="sc">$</span>Sand, interps<span class="sc">$</span>fixdepth, <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a><span class="fu">lines</span>(interps<span class="sc">$</span>Sand_lo, interps<span class="sc">$</span>fixdepth, <span class="at">col =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a><span class="fu">lines</span>(interps<span class="sc">$</span>Sand_hi, interps<span class="sc">$</span>fixdepth, <span class="at">col =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a></span>
+<span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;top&quot;</span>, <span class="at">bty =</span> <span class="st">&quot;o&quot;</span>, <span class="at">inset =</span> <span class="fl">0.02</span>,</span>
+<span id="cb4-45"><a href="#cb4-45" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">box.col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">box.lwd =</span> <span class="dv">1</span>, </span>
+<span id="cb4-46"><a href="#cb4-46" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Clay&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;Sand&quot;</span>,<span class="st">&quot;&quot;</span>), </span>
+<span id="cb4-47"><a href="#cb4-47" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">pt.lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb4-48"><a href="#cb4-48" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">19</span>,<span class="cn">NA</span>,<span class="dv">0</span>,<span class="cn">NA</span>), <span class="at">pt.cex =</span> <span class="fu">c</span>(<span class="fl">1.2</span>,<span class="cn">NA</span>,<span class="dv">1</span>,<span class="cn">NA</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="depth-profiles_files/figure-html/interp%20depth%20profile-1.png" alt="Figure 2. Depth profiles of clay and sand in soil as smoothed scatter plots with standard error intervals; actual measurements are shown by plot symbols." width="288" />
+<p class="caption">
+Figure 2. Depth profiles of clay and sand in soil as smoothed scatter
+plots with standard error intervals; actual measurements are shown by
+plot symbols.
+</p>
+</div>
+<p>The depth profile plot in Figure 2 is a nice way to represent soil
+profile data. It tries to predict the uncertainty in measurement with
+depth, assuming a continuous smooth relationship (which might not be a
+valid assumption!). We can plot our depth profile with no assumptions
+about how out variable(s) change between measurements using a variation
+on a bar plot.</p>
+</div>
+<div id="soil-depth-profile-plots-as-cumulative-stepped-plots"
+class="section level2">
+<h2>Soil depth profile plots as cumulative stepped plots</h2>
+<p>To make stepped plots makes use of the <span
+style="font-family: monospace; background-color:#e8e8e8;">type =
+"s"</span> option in the functions <span
+style="font-family: monospace; background-color:#e8e8e8;">plot()</span>
+or <span
+style="font-family: monospace; background-color:#e8e8e8;">lines()</span>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl =</span> <span class="fl">0.3</span>, <span class="at">font.lab =</span> <span class="dv">2</span>, <span class="at">lend=</span><span class="dv">2</span>, <span class="at">ljoin=</span><span class="dv">1</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">0</span>, profile<span class="sc">$</span>Depth_mean) <span class="sc">~</span> <span class="fu">c</span>(profile<span class="sc">$</span>Clay[<span class="dv">1</span>], profile<span class="sc">$</span>Clay), </span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;s&quot;</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">105</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">70</span>,<span class="dv">0</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">xaxt =</span> <span class="st">&quot;n&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Depth (cm)&quot;</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>,profile<span class="sc">$</span>Depth_mean) <span class="sc">~</span> <span class="fu">c</span>(<span class="fu">c</span>(profile<span class="sc">$</span>Silt[<span class="dv">1</span>],profile<span class="sc">$</span>Silt) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>                                    <span class="fu">c</span>(profile<span class="sc">$</span>Clay[<span class="dv">1</span>], profile<span class="sc">$</span>Clay)), </span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>      <span class="at">type=</span><span class="st">&quot;s&quot;</span>, <span class="at">col=</span><span class="st">&quot;red3&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>,profile<span class="sc">$</span>Depth_mean) <span class="sc">~</span> <span class="fu">c</span>(<span class="fu">c</span>(profile<span class="sc">$</span>Sand[<span class="dv">1</span>],profile<span class="sc">$</span>Sand) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>                                    <span class="fu">c</span>(profile<span class="sc">$</span>Silt[<span class="dv">1</span>],profile<span class="sc">$</span>Silt) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>                                    <span class="fu">c</span>(profile<span class="sc">$</span>Clay[<span class="dv">1</span>], profile<span class="sc">$</span>Clay)), </span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>      <span class="at">type=</span><span class="st">&quot;s&quot;</span>, <span class="at">col=</span><span class="st">&quot;blue3&quot;</span>, <span class="at">lty =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lend=</span><span class="st">&quot;round&quot;</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>); <span class="fu">mtext</span>(<span class="st">&quot;Cumulative (%)&quot;</span>, <span class="at">side=</span><span class="dv">3</span>, <span class="at">line=</span><span class="fl">1.6</span>, <span class="at">font=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="dv">1</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottom&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Clay&quot;</span>,<span class="st">&quot;Clay+Silt&quot;</span>,<span class="st">&quot;Clay+Silt+Sand&quot;</span>),</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>       <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;red3&quot;</span>,<span class="st">&quot;blue3&quot;</span>), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="depth-profiles_files/figure-html/stepped%20depth%20profile-1.png" alt="Figure 3. Depth profile of clay, silt, and sand in soil as a stepped line plot." width="288" />
+<p class="caption">
+Figure 3. Depth profile of clay, silt, and sand in soil as a stepped
+line plot.
+</p>
+</div>
+<p>The plot in Figure 3 is a more "honest" representation of the way
+that we typically present soil profile data, but it is somewhat hard to
+interpret as drawn (a cumulative composition plot), and the legend is
+messy. It would be better to represent the stepped lines as polygons,
+similar to stacked bars.</p>
+</div>
+<div id="soil-depth-profile-plots-as-filled-cumulative-stacked-plots"
+class="section level2">
+<h2>Soil depth profile plots as <strong>filled</strong> cumulative
+stacked plots</h2>
+<p>This type of plot obviously works best for fixed-sum compositions,
+where we have measured all the components, such as soil texture (sand,
+silt, clay).</p>
+<p>The basis of this plot is to use loops to draw rectangles for each
+series using the <span
+style="font-family: monospace; background-color:#e8e8e8;">rect()</span>
+function. Except for the first series, we add the previous series so the
+rectangles 'stack' horizontally. We add stepped lines with <span
+style="font-family: monospace; background-color:#e8e8e8;">type =
+"s"</span> to outline the adjoined boxes for each series. We use a <span
+style="font-family: monospace; background-color:#e8e8e8;">layout</span>
+so we can plot in frames of different sizes (in this example,
+<strong>2</strong> frames, with the left twice as wide as the right). In
+the right frame we plot a dummy plot with no plot elements drawn, and
+over this we draw a nice legend (it's probably also possible with a wide
+right margin, if <span
+style="font-family: monospace; background-color:#e8e8e8;">xpd =
+TRUE</span> is set in <span
+style="font-family: monospace; background-color:#e8e8e8;">par()</span>).</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">3.5</span>,<span class="fl">3.5</span>,<span class="dv">1</span>), <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl =</span> <span class="fl">0.25</span>, <span class="at">font.lab =</span> <span class="dv">2</span>, </span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>    <span class="at">las =</span> <span class="dv">1</span>, <span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>, <span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>, <span class="at">xpd =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, </span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>          <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">&quot;antiquewhite&quot;</span>,<span class="st">&quot;chocolate4&quot;</span>), <span class="at">space =</span> <span class="st">&quot;rgb&quot;</span>)(<span class="dv">3</span>),<span class="st">&quot;sienna&quot;</span>, </span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>          <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">&quot;blue3&quot;</span>,<span class="st">&quot;white&quot;</span>), <span class="at">space =</span> <span class="st">&quot;rgb&quot;</span>)(<span class="dv">4</span>),<span class="st">&quot;transparent&quot;</span>))</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">3</span>))</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">0</span>, profile<span class="sc">$</span>Depth_lower) <span class="sc">~</span> <span class="fu">c</span>(profile<span class="sc">$</span>Clay[<span class="dv">1</span>], profile<span class="sc">$</span>Clay), </span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">55</span>,<span class="dv">0</span>), <span class="at">ylab =</span> <span class="st">&quot;Depth (cm)&quot;</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>     <span class="at">cex.lab =</span> <span class="fl">1.5</span>, <span class="at">cex.axis =</span> <span class="fl">1.2</span>, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">xaxt =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>, <span class="at">cex.axis =</span> <span class="fl">1.2</span>, <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>))</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Fraction of fine earth (%)&quot;</span>, <span class="at">side=</span><span class="dv">3</span>, <span class="at">line=</span><span class="fl">1.6</span>, <span class="at">family=</span><span class="st">&quot;sans&quot;</span>, <span class="at">font=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="dv">1</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">NROW</span>(profile)) {</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="dv">0</span>, profile[i, <span class="st">&quot;Depth_lower&quot;</span>], </span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>       profile[i,<span class="st">&quot;Clay&quot;</span>], profile[i, <span class="st">&quot;Depth_upper&quot;</span>],</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">2</span>, <span class="at">border =</span> <span class="dv">10</span>)}</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">NROW</span>(profile)) {</span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>  <span class="fu">rect</span>(profile[i,<span class="st">&#39;Clay&#39;</span>], profile[i, <span class="st">&quot;Depth_lower&quot;</span>], </span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>       profile[i,<span class="st">&quot;Clay&quot;</span>]<span class="sc">+</span>profile[i,<span class="st">&quot;Silt&quot;</span>], profile[i, <span class="st">&quot;Depth_upper&quot;</span>],</span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">3</span>, <span class="at">border =</span> <span class="dv">10</span>)}</span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">NROW</span>(profile)) {</span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a>  <span class="fu">rect</span>(profile[i,<span class="st">&#39;Clay&#39;</span>]<span class="sc">+</span>profile[i,<span class="st">&quot;Silt&quot;</span>], profile[i, <span class="st">&quot;Depth_lower&quot;</span>], </span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a>       profile[i,<span class="st">&quot;Clay&quot;</span>]<span class="sc">+</span>profile[i,<span class="st">&quot;Silt&quot;</span>]<span class="sc">+</span>profile[i,<span class="st">&quot;Sand&quot;</span>], profile[i, <span class="st">&quot;Depth_upper&quot;</span>],</span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">4</span>, <span class="at">border =</span> <span class="dv">10</span>)}</span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="fu">box</span>()</span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at =</span> <span class="fu">seq</span>(<span class="dv">10</span>,<span class="dv">50</span>,<span class="dv">10</span>), <span class="at">labels =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(<span class="fu">seq</span>(<span class="dv">10</span>,<span class="dv">50</span>,<span class="dv">10</span>))), <span class="at">tcl=</span><span class="fl">0.4</span>)</span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">3</span>, <span class="at">at =</span> <span class="fu">seq</span>(<span class="dv">20</span>,<span class="dv">80</span>,<span class="dv">20</span>), <span class="at">labels =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(<span class="fu">seq</span>(<span class="dv">20</span>,<span class="dv">80</span>,<span class="dv">20</span>))), <span class="at">tcl=</span><span class="fl">0.4</span>)</span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>, profile<span class="sc">$</span>Depth_lower) <span class="sc">~</span> <span class="fu">c</span>(profile<span class="sc">$</span>Clay[<span class="dv">1</span>], profile<span class="sc">$</span>Clay), </span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a>      <span class="at">type =</span> <span class="st">&quot;s&quot;</span>)</span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>,profile<span class="sc">$</span>Depth_lower) <span class="sc">~</span> <span class="fu">c</span>(<span class="fu">c</span>(profile<span class="sc">$</span>Silt[<span class="dv">1</span>],profile<span class="sc">$</span>Silt) <span class="sc">+</span></span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a>                                  <span class="fu">c</span>(profile<span class="sc">$</span>Clay[<span class="dv">1</span>], profile<span class="sc">$</span>Clay)), </span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a>      <span class="at">type=</span><span class="st">&quot;s&quot;</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>,profile<span class="sc">$</span>Depth_lower) <span class="sc">~</span> <span class="fu">c</span>(<span class="fu">c</span>(profile<span class="sc">$</span>Sand[<span class="dv">1</span>],profile<span class="sc">$</span>Sand) <span class="sc">+</span></span>
+<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a>                                  <span class="fu">c</span>(profile<span class="sc">$</span>Silt[<span class="dv">1</span>],profile<span class="sc">$</span>Silt) <span class="sc">+</span></span>
+<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a>                                  <span class="fu">c</span>(profile<span class="sc">$</span>Clay[<span class="dv">1</span>], profile<span class="sc">$</span>Clay)), </span>
+<span id="cb6-39"><a href="#cb6-39" tabindex="-1"></a>      <span class="at">type=</span><span class="st">&quot;s&quot;</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb6-40"><a href="#cb6-40" tabindex="-1"></a></span>
+<span id="cb6-41"><a href="#cb6-41" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">axes=</span>F, <span class="at">ann=</span>F, <span class="at">type=</span><span class="st">&quot;n&quot;</span>)</span>
+<span id="cb6-42"><a href="#cb6-42" tabindex="-1"></a><span class="fu">legend</span>(<span class="fl">0.05</span>, <span class="fl">0.65</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Clay&quot;</span>,<span class="st">&quot;Silt&quot;</span>,<span class="st">&quot;Sand&quot;</span>), </span>
+<span id="cb6-43"><a href="#cb6-43" tabindex="-1"></a>       <span class="at">cex =</span> <span class="dv">2</span>, <span class="at">pch =</span> <span class="dv">22</span>, <span class="at">pt.bg=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), <span class="at">pt.cex =</span> <span class="dv">8</span>,</span>
+<span id="cb6-44"><a href="#cb6-44" tabindex="-1"></a>       <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">bg =</span> <span class="dv">9</span>, <span class="at">box.col =</span> <span class="dv">1</span>, <span class="at">inset=</span><span class="dv">0</span>,</span>
+<span id="cb6-45"><a href="#cb6-45" tabindex="-1"></a>       <span class="at">xjust=</span><span class="fl">0.5</span>, <span class="at">x.intersp=</span><span class="fl">1.2</span>, <span class="at">y.intersp=</span><span class="fl">1.5</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="depth-profiles_files/figure-html/stacked%20depth%20profile-1.png" alt="Figure 4. Depth profiles of clay, silt, and sand in soil as a horizontal stacked plot." width="432" />
+<p class="caption">
+Figure 4. Depth profiles of clay, silt, and sand in soil as a horizontal
+stacked plot.
+</p>
+</div>
+<p>The resulting horizontally stacked plot in Figure 4 also presents a
+more "honest" representation of soil profile data, and it is easier to
+interpret than Figure 3, with a much tidier legend. It would be hard to
+indicate measurement variability on this type of plot, but it's
+potentially an attractive option.</p>
+<div class="figure" style="text-align: center">
+<img src="depth-profiles_files/figure-html/art-1.png" alt="Some soil-themed geneRative R art (Rtistry) just for fun and decoration." width="720" />
+<p class="caption">
+Some soil-themed geneRative R art (Rtistry) just for fun and decoration.
+</p>
+</div>
+</div>
+
+<!DOCTYPE html>
+
+<html>
+<body>
+<hr style="height: 2px; background-color: #003087;" />
+<p><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>. Currently using the free <a href="https://bootswatch.com/yeti/" target="_blank"><span style="font-family: monospace;">yeti</span> theme from Bootswatch</a>.</span></p>
+</body>
+</html>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
