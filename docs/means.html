@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-04-14" />
+<meta name="date" content="2025-06-19" />
 
 <title>Statistics for Comparisons</title>
 
@@ -373,6 +373,9 @@ $(document).ready(function () {
     <li>
       <a href="boxplots-plus.html">Enhanced boxplots</a>
     </li>
+    <li>
+      <a href="depth-profiles.html">Depth profiles</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -499,6 +502,9 @@ $(document).ready(function () {
     <li>
       <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
     </li>
+    <li>
+      <a href="chunk-options.html">Custom output with R markdown chunk options</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -526,7 +532,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistics for Comparisons</h1>
 <h3 class="subtitle">Parametric mean comparison tests</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-04-14</h4>
+<h4 class="date">2025-06-19</h4>
 
 </div>
 
@@ -905,7 +911,7 @@ not include zero, so we can probably rely on it.</p>
 More recently than Cohen, <strong>Sawilowsky (2009) proposed that for
 Cohen's d:</strong>
 </p>
-<div class="tabwid"><style>.cl-989632e2{}.cl-9886e65c{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-988ccf18{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-988ccf40{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-988ccf41{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-988cf1f0{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf1fa{width:0.197in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf204{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf20e{width:0.984in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf20f{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf222{width:0.197in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf223{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf236{width:0.984in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf237{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf240{width:0.197in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf24a{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf25e{width:0.984in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf268{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf269{width:0.197in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf26a{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-988cf272{width:0.984in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-989632e2'><tbody><tr style="overflow-wrap:break-word;"><td class="cl-988cf1f0"><p class="cl-988ccf18"><span class="cl-9886e65c">0.01 ≤</span></p></td><td class="cl-988cf1fa"><p class="cl-988ccf40"><span class="cl-9886e65c">d</span></p></td><td class="cl-988cf204"><p class="cl-988ccf41"><span class="cl-9886e65c">&lt; 0.2</span></p></td><td class="cl-988cf20e"><p class="cl-988ccf41"><span class="cl-9886e65c">very small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-988cf20f"><p class="cl-988ccf18"><span class="cl-9886e65c">0.2 ≤</span></p></td><td class="cl-988cf222"><p class="cl-988ccf40"><span class="cl-9886e65c">d</span></p></td><td class="cl-988cf223"><p class="cl-988ccf41"><span class="cl-9886e65c">&lt; 0.5</span></p></td><td class="cl-988cf236"><p class="cl-988ccf41"><span class="cl-9886e65c">small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-988cf237"><p class="cl-988ccf18"><span class="cl-9886e65c">0.5 ≤</span></p></td><td class="cl-988cf240"><p class="cl-988ccf40"><span class="cl-9886e65c">d</span></p></td><td class="cl-988cf24a"><p class="cl-988ccf41"><span class="cl-9886e65c">&lt; 0.8</span></p></td><td class="cl-988cf25e"><p class="cl-988ccf41"><span class="cl-9886e65c">medium</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-988cf20f"><p class="cl-988ccf18"><span class="cl-9886e65c">0.8 ≤</span></p></td><td class="cl-988cf222"><p class="cl-988ccf40"><span class="cl-9886e65c">d</span></p></td><td class="cl-988cf223"><p class="cl-988ccf41"><span class="cl-9886e65c">&lt; 1.2</span></p></td><td class="cl-988cf236"><p class="cl-988ccf41"><span class="cl-9886e65c">large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-988cf237"><p class="cl-988ccf18"><span class="cl-9886e65c">1.2 ≤</span></p></td><td class="cl-988cf240"><p class="cl-988ccf40"><span class="cl-9886e65c">d</span></p></td><td class="cl-988cf24a"><p class="cl-988ccf41"><span class="cl-9886e65c">&lt; 2.0</span></p></td><td class="cl-988cf25e"><p class="cl-988ccf41"><span class="cl-9886e65c">very large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-988cf268"><p class="cl-988ccf18"><span class="cl-9886e65c"></span></p></td><td class="cl-988cf269"><p class="cl-988ccf40"><span class="cl-9886e65c">d</span></p></td><td class="cl-988cf26a"><p class="cl-988ccf41"><span class="cl-9886e65c">&gt; 2.0</span></p></td><td class="cl-988cf272"><p class="cl-988ccf41"><span class="cl-9886e65c">huge</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-09d842c8{}.cl-094788d2{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-096106e0{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-096106fe{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-09610712{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-09613e6c{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09613e80{width:0.197in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09613e8a{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09613e94{width:0.984in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 2pt solid rgba(224, 224, 224, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09613e9e{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09613ea8{width:0.197in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09613ea9{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09613eb2{width:0.984in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09613ebc{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09613ec6{width:0.197in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09613ec7{width:0.591in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09613ed0{width:0.984in;background-color:rgba(232, 232, 232, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09613eda{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 2pt solid rgba(224, 224, 224, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09613ee4{width:0.197in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09613eee{width:0.591in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-09613ef8{width:0.984in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(224, 224, 224, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 2pt solid rgba(224, 224, 224, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-09d842c8'><tbody><tr style="overflow-wrap:break-word;"><td class="cl-09613e6c"><p class="cl-096106e0"><span class="cl-094788d2">0.01 ≤</span></p></td><td class="cl-09613e80"><p class="cl-096106fe"><span class="cl-094788d2">d</span></p></td><td class="cl-09613e8a"><p class="cl-09610712"><span class="cl-094788d2">&lt; 0.2</span></p></td><td class="cl-09613e94"><p class="cl-09610712"><span class="cl-094788d2">very small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-09613e9e"><p class="cl-096106e0"><span class="cl-094788d2">0.2 ≤</span></p></td><td class="cl-09613ea8"><p class="cl-096106fe"><span class="cl-094788d2">d</span></p></td><td class="cl-09613ea9"><p class="cl-09610712"><span class="cl-094788d2">&lt; 0.5</span></p></td><td class="cl-09613eb2"><p class="cl-09610712"><span class="cl-094788d2">small</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-09613ebc"><p class="cl-096106e0"><span class="cl-094788d2">0.5 ≤</span></p></td><td class="cl-09613ec6"><p class="cl-096106fe"><span class="cl-094788d2">d</span></p></td><td class="cl-09613ec7"><p class="cl-09610712"><span class="cl-094788d2">&lt; 0.8</span></p></td><td class="cl-09613ed0"><p class="cl-09610712"><span class="cl-094788d2">medium</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-09613e9e"><p class="cl-096106e0"><span class="cl-094788d2">0.8 ≤</span></p></td><td class="cl-09613ea8"><p class="cl-096106fe"><span class="cl-094788d2">d</span></p></td><td class="cl-09613ea9"><p class="cl-09610712"><span class="cl-094788d2">&lt; 1.2</span></p></td><td class="cl-09613eb2"><p class="cl-09610712"><span class="cl-094788d2">large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-09613ebc"><p class="cl-096106e0"><span class="cl-094788d2">1.2 ≤</span></p></td><td class="cl-09613ec6"><p class="cl-096106fe"><span class="cl-094788d2">d</span></p></td><td class="cl-09613ec7"><p class="cl-09610712"><span class="cl-094788d2">&lt; 2.0</span></p></td><td class="cl-09613ed0"><p class="cl-09610712"><span class="cl-094788d2">very large</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-09613eda"><p class="cl-096106e0"><span class="cl-094788d2"></span></p></td><td class="cl-09613ee4"><p class="cl-096106fe"><span class="cl-094788d2">d</span></p></td><td class="cl-09613eee"><p class="cl-09610712"><span class="cl-094788d2">&gt; 2.0</span></p></td><td class="cl-09613ef8"><p class="cl-09610712"><span class="cl-094788d2">huge</span></p></td></tr></tbody></table></div>
 <p> </p>
 </div>
 <div id="means-comparisons-for-3-or-more-groups" class="section level2">
@@ -1249,24 +1255,28 @@ used in this document.</h3>
 <span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;multcompView&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## To cite package &#39;car&#39; in publications use:
 ## 
-##   Fox J, Weisberg S, Price B (2023). _car: Companion to Applied Regression_.
-##   R package version 3.1-2, &lt;https://CRAN.R-project.org/package=car&gt;.
+##   Fox J, Weisberg S, Price B (2024). _car: Companion to Applied Regression_.
+##   doi:10.32614/CRAN.package.car &lt;https://doi.org/10.32614/CRAN.package.car&gt;, R
+##   package version 3.1-3, &lt;https://CRAN.R-project.org/package=car&gt;.
 ## 
 ## A BibTeX entry for LaTeX users is
 ## 
 ##   @Manual{,
 ##     title = {car: Companion to Applied Regression},
 ##     author = {John Fox and Sanford Weisberg and Brad Price},
-##     year = {2023},
-##     note = {R package version 3.1-2},
+##     year = {2024},
+##     note = {R package version 3.1-3},
 ##     url = {https://CRAN.R-project.org/package=car},
+##     doi = {10.32614/CRAN.package.car},
 ##   }
 ## To cite package &#39;ggplot2&#39; in publications use:
 ## 
-##   Wickham H, Chang W, Henry L, Pedersen T, Takahashi K, Wilke C, Woo K,
-##   Yutani H, Dunnington D, van den Brand T (2024). _ggplot2: Create Elegant
-##   Data Visualisations Using the Grammar of Graphics_. R package version
-##   3.5.1, &lt;https://CRAN.R-project.org/package=ggplot2&gt;.
+##   Wickham H, Chang W, Henry L, Pedersen T, Takahashi K, Wilke C, Woo K, Yutani H,
+##   Dunnington D, van den Brand T (2024). _ggplot2: Create Elegant Data
+##   Visualisations Using the Grammar of Graphics_.
+##   doi:10.32614/CRAN.package.ggplot2
+##   &lt;https://doi.org/10.32614/CRAN.package.ggplot2&gt;, R package version 3.5.1,
+##   &lt;https://CRAN.R-project.org/package=ggplot2&gt;.
 ## 
 ## A BibTeX entry for LaTeX users is
 ## 
@@ -1276,11 +1286,14 @@ used in this document.</h3>
 ##     year = {2024},
 ##     note = {R package version 3.5.1},
 ##     url = {https://CRAN.R-project.org/package=ggplot2},
+##     doi = {10.32614/CRAN.package.ggplot2},
 ##   }
 ## To cite package &#39;effsize&#39; in publications use:
 ## 
-##   Torchiano M (2020). _effsize: Efficient Effect Size Computation_. R
-##   package version 0.8.1, &lt;https://CRAN.R-project.org/package=effsize&gt;.
+##   Torchiano M (2020). _effsize: Efficient Effect Size Computation_.
+##   doi:10.32614/CRAN.package.effsize
+##   &lt;https://doi.org/10.32614/CRAN.package.effsize&gt;, R package version 0.8.1,
+##   &lt;https://CRAN.R-project.org/package=effsize&gt;.
 ## 
 ## A BibTeX entry for LaTeX users is
 ## 
@@ -1290,11 +1303,13 @@ used in this document.</h3>
 ##     year = {2020},
 ##     note = {R package version 0.8.1},
 ##     url = {https://CRAN.R-project.org/package=effsize},
+##     doi = {10.32614/CRAN.package.effsize},
 ##   }
 ## To cite package &#39;multcomp&#39; in publications use:
 ## 
-##   Hothorn T, Bretz F, Westfall P (2023). _multcomp: Simultaneous Inference
-##   in General Parametric Models_. R package version 1.4-25,
+##   Hothorn T, Bretz F, Westfall P (2023). _multcomp: Simultaneous Inference in
+##   General Parametric Models_. doi:10.32614/CRAN.package.multcomp
+##   &lt;https://doi.org/10.32614/CRAN.package.multcomp&gt;, R package version 1.4-25,
 ##   &lt;https://CRAN.R-project.org/package=multcomp&gt;.
 ## 
 ## A BibTeX entry for LaTeX users is
@@ -1305,11 +1320,13 @@ used in this document.</h3>
 ##     year = {2023},
 ##     note = {R package version 1.4-25},
 ##     url = {https://CRAN.R-project.org/package=multcomp},
+##     doi = {10.32614/CRAN.package.multcomp},
 ##   }
 ## To cite package &#39;rcompanion&#39; in publications use:
 ## 
 ##   Mangiafico S (2024). _rcompanion: Functions to Support Extension Education
-##   Program Evaluation_. R package version 2.4.36,
+##   Program Evaluation_. doi:10.32614/CRAN.package.rcompanion
+##   &lt;https://doi.org/10.32614/CRAN.package.rcompanion&gt;, R package version 2.4.36,
 ##   &lt;https://CRAN.R-project.org/package=rcompanion&gt;.
 ## 
 ## A BibTeX entry for LaTeX users is
@@ -1320,11 +1337,13 @@ used in this document.</h3>
 ##     year = {2024},
 ##     note = {R package version 2.4.36},
 ##     url = {https://CRAN.R-project.org/package=rcompanion},
+##     doi = {10.32614/CRAN.package.rcompanion},
 ##   }
 ## To cite package &#39;multcompView&#39; in publications use:
 ## 
-##   Graves S, Piepho H, Dorai-Raj LSwhfS (2024). _multcompView: Visualizations
-##   of Paired Comparisons_. R package version 0.1-10,
+##   Graves S, Piepho H, Dorai-Raj LSwhfS (2024). _multcompView: Visualizations of
+##   Paired Comparisons_. doi:10.32614/CRAN.package.multcompView
+##   &lt;https://doi.org/10.32614/CRAN.package.multcompView&gt;, R package version 0.1-10,
 ##   &lt;https://CRAN.R-project.org/package=multcompView&gt;.
 ## 
 ## A BibTeX entry for LaTeX users is
@@ -1335,11 +1354,11 @@ used in this document.</h3>
 ##     year = {2024},
 ##     note = {R package version 0.1-10},
 ##     url = {https://CRAN.R-project.org/package=multcompView},
+##     doi = {10.32614/CRAN.package.multcompView},
 ##   }
 ## 
-## ATTENTION: This citation information has been auto-generated from the
-## package DESCRIPTION file and may need manual editing, see
-## &#39;help(&quot;citation&quot;)&#39;.</code></pre>
+## ATTENTION: This citation information has been auto-generated from the package
+## DESCRIPTION file and may need manual editing, see &#39;help(&quot;citation&quot;)&#39;.</code></pre>
 <p> </p>
 </div>
 </div>

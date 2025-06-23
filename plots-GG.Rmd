@@ -415,7 +415,7 @@ in the `aes()` statement.
 If we associate a variable with `size`, we can create a bubble plot &ndash; this
 is useful for [making distribution maps of variables](https://lms.uwa.edu.au/bbcswebdav/xid-45554160_1){target="_blank"}. Try it!
 
-```{r Zn-Fe-gg-by-groups, fig.height=3, fig.width=4.5, fig.cap="Figure 10: Plot of Ca *vs*. pH using `ggplot2`, showing how to separate points into different groups based on factor levels.", message=FALSE, warning=FALSE}
+```{r Zn-Fe-gg-by-groups, fig.height=3, fig.width=4.5, fig.cap="Figure 10: Plot of Zn *vs*. Fe using `ggplot2`, showing how to separate points into different groups based on factor levels.", message=FALSE, warning=FALSE}
 ggplot(data=sv18, mapping=aes(x=Fe, y=Zn, colour=Type, shape=Type)) +
   geom_point() + 
   scale_x_log10() + scale_y_log10() +
@@ -436,7 +436,7 @@ The code for the plot in Figure 11 uses `scale_color_manual` to specify custom
 colours for the points. If we didn't include enough colours for the levels in
 the factor (*i.e*. 3 levels in `Type`), we would get an error message.
 
-```{r Zn-Fe-gg-groups-recol, fig.height=3, fig.width=4.5, fig.cap="Figure 11: Plot of Ca *vs*. pH using `ggplot2`, showing how to separate points into different groups based on factor levels.", message=FALSE, warning=FALSE}
+```{r Zn-Fe-gg-groups-recol, fig.height=3, fig.width=4.5, fig.cap="Figure 11: Plot of Zn *vs*. Fe using `ggplot2`, showing how to separate points into different groups based on factor levels and define custom colours.", message=FALSE, warning=FALSE}
 ggplot(data=sv18, mapping=aes(x=Fe, y=Zn, colour=Type, shape=Type)) +
   geom_point(size=2) + 
   scale_color_manual(values=c("darkred","gold3","royalblue")) +
@@ -534,7 +534,7 @@ downwards, as we would expect in the real world. Note:
 - `scale_y_reverse()` so depth increases **downwards**
 - `scale_x_continuous(position="top")` gets the *x*-axis on the top
 
-```{r gg-depth-profile, fig.height=5, fig.width=3.6, fig.cap="Figure 17: Plots of Fe vs. depth measurements in the sv18 data."}
+```{r gg-depth-profile, fig.height=5, fig.width=3.6, fig.cap="Figure 17: ‘Depth profile’ plots of Fe concentration vs. depth measurements in the sv18 data."}
 sv18$Depth.mean <- (sv18$Depth_upper+sv18$Depth_lower)/2
 ggplot(data=sv18, mapping=aes(x=Fe, y=Depth.mean, col=Group, shape=Group)) + 
   labs(x="Fe (mg/kg)", y="Mean sample depth (cm)") +
@@ -547,6 +547,8 @@ ggplot(data=sv18, mapping=aes(x=Fe, y=Depth.mean, col=Group, shape=Group)) +
 ```
 
 <p>&nbsp;</p>
+
+For more advanced options for [**plotting depth profiles in R**, click this link](https://ratey-atuwa.github.io/cybloRg/profiles.html){target="_blank"}.
 
 ### Scatterplot matrices
 
@@ -599,7 +601,7 @@ ggpairs(sv18, columns = c("Al","Ca","Fe","S"), aes(color=Type, shape=Type)) +
 
 ```{r ggmap-fyi, fig.height=4, fig.width=4.5, message=FALSE, warning=FALSE, echo=FALSE}
 library(ggmap)
-register_google(key=read.csv("../Learn-R/gmapskey.csv")[1,1])
+register_google(key=read.csv("../gmapskey.csv")[1,1])
 slmap <- get_googlemap(center=c(115.851,-31.9325), zoom = 19, maptype="terrain")
 SL_water_ll <- st_transform(SL_water_sf, crs=st_crs(4326))
 SL_water_ll$lon <- st_coordinates(SL_water_ll)[,1]

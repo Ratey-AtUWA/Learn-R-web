@@ -549,7 +549,7 @@ use a formula (*i.e*. anything in **R** that uses ` ~ `) in another formula!
 ...so we change the syntax for the variables in `plot()` to use comma instead 
 of `~` to allow us to put a calculation in:</p>
 
-```{r}
+```{r mean-depth}
 plot(((sv18$Depth_upper+sv18$Depth_lower)/2), sv18$Fe)
 ```
 
@@ -557,7 +557,7 @@ plot(((sv18$Depth_upper+sv18$Depth_lower)/2), sv18$Fe)
 
 We could also do this by calculating a new variable, *e.g*.:
 
-```{r, eval=FALSE}
+```{r add-mean-depth-to-data, eval=FALSE}
 sv18$Depth.mean <- (sv18$Depth_upper+sv18$Depth_lower)/2
 ```
 
@@ -611,6 +611,8 @@ axis(3)
 mtext(side=3, line=2.5, font=2, text="Fe (mg/kg)")
 ```
 
+For more advanced options for [**plotting depth profiles in R**, click this link](https://ratey-atuwa.github.io/cybloRg/profiles.html){target="_blank"}.
+
 <p>&nbsp;</p>
 
 <table width="100%" border="1">
@@ -623,7 +625,7 @@ function when setting margins, *e.g*. `mar=c(4,4,1,1)`, the margins are set with
 ```{r axis-positions, fig.height=3, fig.width=3, fig.cap="", message=FALSE, warning=FALSE, echo=FALSE}
 par(mar=c(3,3,3,3)-0.5, cex.lab=1.4)
 plot(c(0,1), c(0,1), type="n", xaxt="n",yaxt="n",xlab="",ylab="");box(lwd=2)
-text(0.5,0.5,labels="(plot\narea)",cex=1.8,family="mono")
+text(0.5,0.5,labels="(plot\n area)",cex=1.8,family="mono")
 mtext("Bottom axis = 1",1,0.75, cex=1.6)
 mtext("Left axis = 2",2,0.75, cex=1.6)
 mtext("Top axis = 3",3,0.75, cex=1.6)

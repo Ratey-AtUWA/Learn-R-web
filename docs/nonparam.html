@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-04-14" />
+<meta name="date" content="2025-06-19" />
 
 <title>Statistics for Comparisons</title>
 
@@ -371,6 +371,9 @@ $(document).ready(function () {
     <li>
       <a href="boxplots-plus.html">Enhanced boxplots</a>
     </li>
+    <li>
+      <a href="depth-profiles.html">Depth profiles</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -497,6 +500,9 @@ $(document).ready(function () {
     <li>
       <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
     </li>
+    <li>
+      <a href="chunk-options.html">Custom output with R markdown chunk options</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -524,7 +530,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistics for Comparisons</h1>
 <h3 class="subtitle">Non-parametric tests</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-04-14</h4>
+<h4 class="date">2025-06-19</h4>
 
 </div>
 
@@ -900,7 +906,7 @@ R package</p>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">interpret_epsilon_squared</span>(resFe<span class="sc">$</span>r)</span></code></pre></div>
 <pre><code>Epsilon2 (rank) |       95% CI
 ------------------------------
-0.09            | [0.06, 1.00]
+0.09            | [0.05, 1.00]
 
 - One-sided CIs: upper bound fixed at [1.00].
 
@@ -938,22 +944,26 @@ packages used in</strong> <strong>this document</strong>.</p>
 <span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;multcompView&quot;</span>, <span class="at">auto =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>To cite package &#39;car&#39; in publications use:
 
-  Fox J, Weisberg S, Price B (2023). _car: Companion to Applied Regression_.
-  R package version 3.1-2, &lt;https://CRAN.R-project.org/package=car&gt;.
+  Fox J, Weisberg S, Price B (2024). _car: Companion to Applied Regression_.
+  doi:10.32614/CRAN.package.car &lt;https://doi.org/10.32614/CRAN.package.car&gt;, R
+  package version 3.1-3, &lt;https://CRAN.R-project.org/package=car&gt;.
 
 A BibTeX entry for LaTeX users is
 
   @Manual{,
     title = {car: Companion to Applied Regression},
     author = {John Fox and Sanford Weisberg and Brad Price},
-    year = {2023},
-    note = {R package version 3.1-2},
+    year = {2024},
+    note = {R package version 3.1-3},
     url = {https://CRAN.R-project.org/package=car},
+    doi = {10.32614/CRAN.package.car},
   }
 To cite package &#39;RcmdrMisc&#39; in publications use:
 
   Fox J, Marquez M (2023). _RcmdrMisc: R Commander Miscellaneous Functions_.
-  R package version 2.9-1, &lt;https://CRAN.R-project.org/package=RcmdrMisc&gt;.
+  doi:10.32614/CRAN.package.RcmdrMisc
+  &lt;https://doi.org/10.32614/CRAN.package.RcmdrMisc&gt;, R package version 2.9-1,
+  &lt;https://CRAN.R-project.org/package=RcmdrMisc&gt;.
 
 A BibTeX entry for LaTeX users is
 
@@ -963,26 +973,31 @@ A BibTeX entry for LaTeX users is
     year = {2023},
     note = {R package version 2.9-1},
     url = {https://CRAN.R-project.org/package=RcmdrMisc},
+    doi = {10.32614/CRAN.package.RcmdrMisc},
   }
 To cite package &#39;effectsize&#39; in publications use:
 
-  Ben-Shachar M, Makowski D, Lüdecke D, Patil I, Wiernik B, Thériault R,
-  Waggoner P (2024). _effectsize: Indices of Effect Size_. R package version
-  0.8.9, &lt;https://CRAN.R-project.org/package=effectsize&gt;.
+  Ben-Shachar M, Makowski D, Lüdecke D, Patil I, Wiernik B, Thériault R, Waggoner
+  P (2025). _effectsize: Indices of Effect Size_.
+  doi:10.32614/CRAN.package.effectsize
+  &lt;https://doi.org/10.32614/CRAN.package.effectsize&gt;, R package version 1.0.1,
+  &lt;https://CRAN.R-project.org/package=effectsize&gt;.
 
 A BibTeX entry for LaTeX users is
 
   @Manual{,
     title = {effectsize: Indices of Effect Size},
     author = {Mattan S. Ben-Shachar and Dominique Makowski and Daniel Lüdecke and Indrajeet Patil and Brenton M. Wiernik and Rémi Thériault and Philip Waggoner},
-    year = {2024},
-    note = {R package version 0.8.9},
+    year = {2025},
+    note = {R package version 1.0.1},
     url = {https://CRAN.R-project.org/package=effectsize},
+    doi = {10.32614/CRAN.package.effectsize},
   }
 To cite package &#39;multcomp&#39; in publications use:
 
-  Hothorn T, Bretz F, Westfall P (2023). _multcomp: Simultaneous Inference
-  in General Parametric Models_. R package version 1.4-25,
+  Hothorn T, Bretz F, Westfall P (2023). _multcomp: Simultaneous Inference in
+  General Parametric Models_. doi:10.32614/CRAN.package.multcomp
+  &lt;https://doi.org/10.32614/CRAN.package.multcomp&gt;, R package version 1.4-25,
   &lt;https://CRAN.R-project.org/package=multcomp&gt;.
 
 A BibTeX entry for LaTeX users is
@@ -993,11 +1008,13 @@ A BibTeX entry for LaTeX users is
     year = {2023},
     note = {R package version 1.4-25},
     url = {https://CRAN.R-project.org/package=multcomp},
+    doi = {10.32614/CRAN.package.multcomp},
   }
 To cite package &#39;PMCMRplus&#39; in publications use:
 
-  Pohlert T (2023). _PMCMRplus: Calculate Pairwise Multiple Comparisons of
-  Mean Rank Sums Extended_. R package version 1.9.10,
+  Pohlert T (2023). _PMCMRplus: Calculate Pairwise Multiple Comparisons of Mean
+  Rank Sums Extended_. doi:10.32614/CRAN.package.PMCMRplus
+  &lt;https://doi.org/10.32614/CRAN.package.PMCMRplus&gt;, R package version 1.9.10,
   &lt;https://CRAN.R-project.org/package=PMCMRplus&gt;.
 
 A BibTeX entry for LaTeX users is
@@ -1009,11 +1026,13 @@ Extended},
     year = {2023},
     note = {R package version 1.9.10},
     url = {https://CRAN.R-project.org/package=PMCMRplus},
+    doi = {10.32614/CRAN.package.PMCMRplus},
   }
 To cite package &#39;rcompanion&#39; in publications use:
 
   Mangiafico S (2024). _rcompanion: Functions to Support Extension Education
-  Program Evaluation_. R package version 2.4.36,
+  Program Evaluation_. doi:10.32614/CRAN.package.rcompanion
+  &lt;https://doi.org/10.32614/CRAN.package.rcompanion&gt;, R package version 2.4.36,
   &lt;https://CRAN.R-project.org/package=rcompanion&gt;.
 
 A BibTeX entry for LaTeX users is
@@ -1024,11 +1043,13 @@ A BibTeX entry for LaTeX users is
     year = {2024},
     note = {R package version 2.4.36},
     url = {https://CRAN.R-project.org/package=rcompanion},
+    doi = {10.32614/CRAN.package.rcompanion},
   }
 To cite package &#39;multcompView&#39; in publications use:
 
-  Graves S, Piepho H, Dorai-Raj LSwhfS (2024). _multcompView: Visualizations
-  of Paired Comparisons_. R package version 0.1-10,
+  Graves S, Piepho H, Dorai-Raj LSwhfS (2024). _multcompView: Visualizations of
+  Paired Comparisons_. doi:10.32614/CRAN.package.multcompView
+  &lt;https://doi.org/10.32614/CRAN.package.multcompView&gt;, R package version 0.1-10,
   &lt;https://CRAN.R-project.org/package=multcompView&gt;.
 
 A BibTeX entry for LaTeX users is
@@ -1039,11 +1060,11 @@ A BibTeX entry for LaTeX users is
     year = {2024},
     note = {R package version 0.1-10},
     url = {https://CRAN.R-project.org/package=multcompView},
+    doi = {10.32614/CRAN.package.multcompView},
   }
 
-ATTENTION: This citation information has been auto-generated from the
-package DESCRIPTION file and may need manual editing, see
-&#39;help(&quot;citation&quot;)&#39;.</code></pre>
+ATTENTION: This citation information has been auto-generated from the package
+DESCRIPTION file and may need manual editing, see &#39;help(&quot;citation&quot;)&#39;.</code></pre>
 </div>
 
 <!DOCTYPE html>
