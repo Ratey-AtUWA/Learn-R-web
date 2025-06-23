@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Andrew Rate" />
+
+<meta name="date" content="2025-06-19" />
+
+<title>Workshops 1 and 2</title>
+
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Sessions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">For beginners</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Intro</a>
+    </li>
+    <li>
+      <a href="intro-GG.html">Intro+ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plots.html">Plots-baseR</a>
+    </li>
+    <li>
+      <a href="plots-GG.html">Plots-ggplot</a>
+    </li>
+    <li>
+      <a href="boxplots-plus.html">Enhanced boxplots</a>
+    </li>
+    <li>
+      <a href="depth-profiles.html">Depth profiles</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Compare
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="means.html">Compare means (parametric)</a>
+    </li>
+    <li>
+      <a href="nonparam.html">Non-parametric comparisons</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="correl.html">Correlation</a>
+    </li>
+    <li>
+      <a href="regression.html">Simple linear regression</a>
+    </li>
+    <li>
+      <a href="reg-group.html">Grouped linear regression</a>
+    </li>
+    <li>
+      <a href="reg-multi.html">Multiple linear regression</a>
+    </li>
+    <li>
+      <a href="timeseries.html">Time series analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Maps
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="maps.html">Map data with tile backgrounds</a>
+    </li>
+    <li>
+      <a href="spatial.html">Spatial statistics</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">Spatial interpolation</a>
+    </li>
+    <li>
+      <a href="google-kml.html">Using Google Earth objects</a>
+    </li>
+    <li>
+      <a href="georef-images.html">Using georeferenced images</a>
+    </li>
+    <li>
+      <a href="shapefiles.html">Using shapefiles</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Multi
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pca.html">Principal components analysis</a>
+    </li>
+    <li>
+      <a href="vegan.html">Analysis of species presence-absence data</a>
+    </li>
+    <li>
+      <a href="lda.html">Linear discriminant analysis</a>
+    </li>
+    <li>
+      <a href="cluster.html">Cluster analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Util
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="distributions.html">Distribution checking</a>
+    </li>
+    <li>
+      <a href="residuals.html">Regression residuals to identify contamination</a>
+    </li>
+    <li>
+      <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Reporting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="report-resources.html">Resources for reporting</a>
+    </li>
+    <li>
+      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="maps-location-siteplan.html">Locality and Site Plan maps</a>
+    </li>
+    <li>
+      <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
+    </li>
+    <li>
+      <a href="chunk-options.html">Custom output with R markdown chunk options</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Workshops 1 and 2</h1>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2025-06-19</h4>
+
+</div>
+
+
+<p><strong>Scope from LMS Class Schedule</strong></p>
+<div id="workshop-1" class="section level4">
+<h4>Workshop 1</h4>
+<ul>
+<li>Getting started with R Projects and R Markdown</li>
+<li>R operators, classes</li>
+<li>R data structures</li>
+<li>Input/output</li>
+</ul>
+</div>
+<div id="workshop-2" class="section level4">
+<h4>Workshop 2</h4>
+<ul>
+<li>row/column names</li>
+<li>indices - locating values inside R objects</li>
+<li>coercions - forcing an R object to be another class</li>
+<li>summaries of data objects</li>
+</ul>
+</div>
+<div id="r-classes-and-data-structures" class="section level2">
+<h2>R Classes and data structures</h2>
+<p>R works with <em>objects</em>, which are named pieces of information
+held in your computer’s memory or <em>workspace</em>. Objects can hold
+different <em>classes</em> of information, such as numbers, text, or
+logical (TRUE/FALSE) values. The code chunks below let you practice
+doing some of this.</p>
+<p>Note that any line of code beginning with <code>#</code> is a
+<em>comment</em> in R, and does not do anything except provide
+information to the reader.</p>
+<p>We put any code (and comments) in <em>code chunks</em> which begin
+with ‵‵‵{r} and end with ‵‵‵ (sometimes additional options can go after
+the <code>r</code> in <code>{r}</code>). Code chunks are in shaded boxes
+in the R markdown file. The code chunks can be run (click ▶ ), and any
+output will appear in the unshaded box below each code chunk.</p>
+<pre class="r"><code># make an object x with a single number in it
+
+# the symbol `&lt;-` means &#39;is assigned the value&#39; or &#39;becomes&#39;
+
+# so x &lt;- 12 means &quot;the object x is assigned the value 12&quot;
+
+x &lt;- 12
+x</code></pre>
+<pre><code>## [1] 12</code></pre>
+<pre class="r"><code>class(x)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<p>Some notes here:</p>
+<ul>
+<li><p>if we type the name of an object, we display its contents.
+Running the name <code>x</code> as R code is a shortcut for
+<code>print(x)</code>.</p></li>
+<li><p><code>class(x)</code> is our first use of an R <em>function</em>.
+Functions do something for us when we run them – in this case, the
+function <code>class()</code> produces output telling us what class of
+object we have. <code>class</code> is the function name, and it is
+always followed by parentheses <code>()</code> which contain the
+<em>argument(s)</em> or input to the function.</p></li>
+</ul>
+<pre class="r"><code># make an object y with several numbers in it
+# the simple function c() means &quot;combine&quot;
+y &lt;- c(12, 31, 8, 51, 59, 23)
+y</code></pre>
+<pre><code>## [1] 12 31  8 51 59 23</code></pre>
+<pre class="r"><code>class(y)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code># make an object z with several strings (text values) in it
+z &lt;- c(&quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Hydrogen&quot;, &quot;Helium&quot;, &quot;Mercury&quot;, &quot;Venus&quot;)
+z</code></pre>
+<pre><code>## [1] &quot;Monday&quot;   &quot;Tuesday&quot;  &quot;Hydrogen&quot; &quot;Helium&quot;   &quot;Mercury&quot;  &quot;Venus&quot;</code></pre>
+<pre class="r"><code>class(z)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code># make an object q with several logical (TRUE/FALSE) values in it
+q &lt;- c(TRUE, FALSE, T, F)
+# we can use T and F as abbreviated forms of logical values
+q</code></pre>
+<pre><code>## [1]  TRUE FALSE  TRUE FALSE</code></pre>
+<pre class="r"><code>class(q)</code></pre>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<pre class="r"><code># make an object k with a mix of numbers, logical, and strings
+k &lt;- c(1, 2, TRUE, FALSE, &quot;Mercury&quot;, &quot;Venus&quot;)
+k</code></pre>
+<pre><code>## [1] &quot;1&quot;       &quot;2&quot;       &quot;TRUE&quot;    &quot;FALSE&quot;   &quot;Mercury&quot; &quot;Venus&quot;</code></pre>
+<pre class="r"><code>class(k)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<p>This shows that the object that we create with the <code>c()</code>
+function can not store different types of values, just a single
+class.</p>
+<p>The objects we have created are <em>vectors</em>, or one-dimensional
+arrays of values belonging to only one class.</p>
+<p>Later, in the Section below “<strong>Different types of data
+objects</strong>”, we will use different types of objects that can store
+different classes.</p>
+</div>
+<div id="r-operators" class="section level2">
+<h2>R Operators</h2>
+<div id="mathematical-operators" class="section level3">
+<h3>Mathematical operators</h3>
+<p>Operators are symbols that perform mathematical calculations and
+other operations.</p>
+<p>In basic arithmetic we use + (addition), - (subtraction), ×
+(multiplication), ÷ (division).</p>
+<p>The × and ÷ symbols are not on computer keyboards, so we substitute
+<code>*</code> for ×, and <code>/</code> for ÷.</p>
+<pre class="r"><code>2 + 2</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>4 - 2</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>11 * 12</code></pre>
+<pre><code>## [1] 132</code></pre>
+<pre class="r"><code>22/7</code></pre>
+<pre><code>## [1] 3.142857</code></pre>
+<p>There are numerous other operators in R as well, such as
+<code>&lt;-</code>, <code>:</code>, <code>()</code>, <code>[]</code>,
+<code>^</code>, <code>&amp;</code>, <code>|</code>, <code>==</code>,
+<code>%in%</code>, . . .</p>
+<p>We also use simple mathematical functions like <code>log()</code>,
+<code>log10()</code>, <code>sqrt()</code>, and so on.<br />
+Remember that function names are always followed by parentheses
+<code>()</code>, and within the parentheses we put the
+<em>arguments</em>, the input and information that the function
+needs.</p>
+<p>The following chunks of code should help you understand how these
+operators and simple functions work. <em>If you have any questions,
+please ask!</em></p>
+<div id="the-operator" class="section level4">
+<h4>The : operator</h4>
+<pre class="r"><code># using the `:` operator
+x &lt;- 1:10
+x</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>y &lt;- 42:1
+y</code></pre>
+<pre><code>##  [1] 42 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5
+## [39]  4  3  2  1</code></pre>
+<p>(Remember that we created objects called <code>x</code> and
+<code>y</code> before, so we have just replaced them with new
+values.)</p>
+</div>
+<div id="indexing-using-the-square-brackets-operator"
+class="section level4">
+<h4>Indexing using [ ] – the square brackets operator</h4>
+<p>You will notice that each line of output above is preceded by
+<code>[1]</code> or another value.</p>
+<p>The values in square brackets <code>[]</code> are the <em>index</em>
+of the value at the beginning of each line of output. We can use the
+index to extract a subset of values in an object (<em>make sure you
+understand</em> what is happening here):</p>
+<pre class="r"><code>y[3]</code></pre>
+<pre><code>## [1] 40</code></pre>
+<pre class="r"><code>y[33:42]</code></pre>
+<pre><code>##  [1] 10  9  8  7  6  5  4  3  2  1</code></pre>
+</div>
+<div id="parentheses-operator" class="section level4">
+<h4>Parentheses operator</h4>
+<pre class="r"><code># using parentheses to control the order of operations
+(8+1)/3</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code>8+(1/3)</code></pre>
+<pre><code>## [1] 8.333333</code></pre>
+</div>
+<div id="to-the-power-of-caret-operator" class="section level4">
+<h4>‘To the power of’ caret (^) operator</h4>
+<pre class="r"><code># using the `^` operator (raise to the power of)
+10^3</code></pre>
+<pre><code>## [1] 1000</code></pre>
+<p>We can calculate roots of numbers by raising to a reciprocal power.
+For example for the cube root of 8:</p>
+<pre class="r"><code># fractional powers give roots
+8^(1/3)</code></pre>
+<pre><code>## [1] 2</code></pre>
+</div>
+<div id="the-operator-1" class="section level4">
+<h4>The == operator</h4>
+<pre class="r"><code># using the `==` operator (exactly equal to)
+
+# we don&#39;t use `=` as this substitutes for `&lt;-`, 
+# and `=` is also used to set values for function arguments
+a &lt;- 5
+a == 2+3</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>a == 6</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+</div>
+<div id="the-logical-and-operator" class="section level4">
+<h4>The logical AND ‘&amp;’ operator</h4>
+<pre class="r"><code># using the `&amp;` operator (logical AND)
+a &lt;- 5
+a == 2+3 &amp; a == 10-5</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>a == 2+3 &amp; a == 13-7</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>a == 4+3 &amp; a == 10-5</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+</div>
+<div id="the-logical-or-operator" class="section level4">
+<h4>The logical OR ‘|’ operator</h4>
+<pre class="r"><code># using the `|` operator (logical OR)
+a &lt;- 5
+a == 2+3 | a == 10-5</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>a == 5 | a == 99</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>a == 7 | a == 3</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+</div>
+</div>
+<div id="simple-mathematical-functions" class="section level3">
+<h3>Simple mathematical functions</h3>
+<pre class="r"><code># using simple mathematical functions
+sqrt(64)</code></pre>
+<pre><code>## [1] 8</code></pre>
+<pre class="r"><code>log(10)    # natural log (to base e ≈ 2.718282)</code></pre>
+<pre><code>## [1] 2.302585</code></pre>
+<pre class="r"><code>log10(10)  # log to base 10</code></pre>
+<pre><code>## [1] 1</code></pre>
+</div>
+<div id="the-in-operator" class="section level3">
+<h3>The %in% operator</h3>
+<p>The <code>%in%</code> operator checks if there is a match between one
+value or vector, and a second vector or matrix.</p>
+<pre class="r"><code># in other words, the operator `%in%` asks &quot;is a subset of&quot;
+
+j &lt;- 2*(1:10)  # just even numbers up to 20
+j</code></pre>
+<pre><code>##  [1]  2  4  6  8 10 12 14 16 18 20</code></pre>
+<pre class="r"><code>12 %in% j</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>17 %in% j</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code># %in% works with character values too (note case-sensitivity)
+z</code></pre>
+<pre><code>## [1] &quot;Monday&quot;   &quot;Tuesday&quot;  &quot;Hydrogen&quot; &quot;Helium&quot;   &quot;Mercury&quot;  &quot;Venus&quot;</code></pre>
+<pre class="r"><code>&quot;Helium&quot; %in% z</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>&quot;helium&quot; %in% z</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>&quot;Mars&quot; %in% z</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code># %in% works with multiple values (i.e. vectors) too
+c(&quot;Tuesday&quot;, &quot;Lithium&quot;, &quot;Venus&quot;) %in% z</code></pre>
+<pre><code>## [1]  TRUE FALSE  TRUE</code></pre>
+</div>
+</div>
+<div id="different-types-of-data-objects" class="section level2">
+<h2>Different types of data objects</h2>
+<div id="matrices" class="section level3">
+<h3>Matrices</h3>
+<p>We have just been using one-dimensional <em>vectors</em> so far.</p>
+<p>Two-dimensional objects include <em>matrices</em>, <em>lists</em> and
+<em>data frames</em>.</p>
+<pre class="r"><code>mymatrix &lt;- matrix(101:109, ncol=3, byrow=TRUE)
+mymatrix</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]  101  102  103
+## [2,]  104  105  106
+## [3,]  107  108  109</code></pre>
+<p>Note that we included more than one argument in the
+<code>matrix()</code> function to make our 3×3 matrix:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Argument</th>
+<th align="left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>101:109</code></td>
+<td align="left">Sequence of numbers 101, 102, … 109</td>
+</tr>
+<tr>
+<td align="left"><code>ncol</code></td>
+<td align="left">Number of columns</td>
+</tr>
+<tr>
+<td align="left"><code>byrow</code></td>
+<td align="left">If TRUE, put values in the matrix row by row</td>
+</tr>
+</tbody>
+</table>
+<p>A matrix can also be indexed but, since it is a two-dimensional
+array, our index needs to have two values <code>[row,column]</code>, one
+of which can be blank. Try the following and see if you can understand
+what is happening:</p>
+<pre class="r"><code>mymatrix[1,1]</code></pre>
+<pre><code>## [1] 101</code></pre>
+<pre class="r"><code>mymatrix[1,3]</code></pre>
+<pre><code>## [1] 103</code></pre>
+<pre class="r"><code>mymatrix[3,]</code></pre>
+<pre><code>## [1] 107 108 109</code></pre>
+<pre class="r"><code>mymatrix[,1]</code></pre>
+<pre><code>## [1] 101 104 107</code></pre>
+</div>
+<div id="data-frames" class="section level3">
+<h3>Data frames</h3>
+<p>The final type of data object in this session is the <em>data
+frame</em>.<br />
+This will be the most common type of data object we use in R, as it can
+store several different types of information.</p>
+<pre class="r"><code># making a data frame by directly inputting values
+brightstars &lt;- data.frame(Star=c(&quot;Alpha Centauri&quot;,&quot;Betelgeuse&quot;,&quot;Canopus&quot;,&quot;Sirius&quot;),
+                   Magnitude=c(-0.1, 0.42, -0.74, -1.46),
+                   Light.Years=c(4.395, 427.5, 312.7, 8.611),
+                   Planets=c(TRUE,FALSE,FALSE,FALSE))
+brightstars</code></pre>
+<pre><code>##             Star Magnitude Light.Years Planets
+## 1 Alpha Centauri     -0.10       4.395    TRUE
+## 2     Betelgeuse      0.42     427.500   FALSE
+## 3        Canopus     -0.74     312.700   FALSE
+## 4         Sirius     -1.46       8.611   FALSE</code></pre>
+<p>We can get useful information about a data frame with the
+<code>str()</code> (<em>structure</em>) or <code>summary()</code>
+functions:</p>
+<pre class="r"><code># `str()` (structure) function
+str(brightstars)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    4 obs. of  4 variables:
+##  $ Star       : chr  &quot;Alpha Centauri&quot; &quot;Betelgeuse&quot; &quot;Canopus&quot; &quot;Sirius&quot;
+##  $ Magnitude  : num  -0.1 0.42 -0.74 -1.46
+##  $ Light.Years: num  4.39 427.5 312.7 8.61
+##  $ Planets    : logi  TRUE FALSE FALSE FALSE</code></pre>
+<pre class="r"><code># summary() function
+summary(brightstars)</code></pre>
+<pre><code>##      Star             Magnitude      Light.Years       Planets       
+##  Length:4           Min.   :-1.46   Min.   :  4.395   Mode :logical  
+##  Class :character   1st Qu.:-0.92   1st Qu.:  7.557   FALSE:3        
+##  Mode  :character   Median :-0.42   Median :160.655   TRUE :1        
+##                     Mean   :-0.47   Mean   :188.302                  
+##                     3rd Qu.: 0.03   3rd Qu.:341.400                  
+##                     Max.   : 0.42   Max.   :427.500</code></pre>
+<p>In a data frame, it’s common for the columns to be named (column
+numbers are still present but invisible). We can use names or numbers to
+index a data frame, remembering that it has two dimensions. Each column
+behaves like a vector.</p>
+<pre class="r"><code>brightstars[2,3]</code></pre>
+<pre><code>## [1] 427.5</code></pre>
+<pre class="r"><code>brightstars[,&quot;Star&quot;]</code></pre>
+<pre><code>## [1] &quot;Alpha Centauri&quot; &quot;Betelgeuse&quot;     &quot;Canopus&quot;        &quot;Sirius&quot;</code></pre>
+<pre class="r"><code>brightstars[2:3,&quot;Magnitude&quot;]</code></pre>
+<pre><code>## [1]  0.42 -0.74</code></pre>
+<p>NOTE – see also how <code>%in%</code> works with data frames:</p>
+<pre class="r"><code>&quot;Sirius&quot; %in% brightstars       # brightstars is a data frame</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>&quot;Sirius&quot; %in% brightstars$Star  # brightstars$Star is a vector</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+<div id="reading-data-from-a-file" class="section level3">
+<h3>Reading data from a file</h3>
+<p>More commonly we read data into an R data frame from a file. You will
+need to download the data file <code>cities.csv</code> from LMS and save
+it into your R project working directory (folder). (The data are for
+different areas of land use in global cities).</p>
+<p>You can also download the file from <a
+href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/cities_Hu_etal_2021.csv"
+class="uri">https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/cities_Hu_etal_2021.csv</a>.
+Save it in your R project working directory (folder) as
+<code>cities.csv</code> (use right-click » Save link as).</p>
+<pre class="r"><code>cities &lt;- read.csv(&quot;cities.csv&quot;, stringsAsFactors = TRUE)
+cities</code></pre>
+<pre><code>##                 City Compact    Open Lightweight Industry             Type Global        Region
+## 1           New York  610.41 1041.08        0.01   317.63     Compact-Open  North North America
+## 2          Sao Paulo 1122.36  619.80        0.01   218.86     Compact-Open  South South America
+## 3           Shanghai  165.96  832.96        0.01   947.26       Industrial  South  Eastern Asia
+## 4            Beijing  542.90 1038.96        0.01   288.76     Compact-Open  South  Eastern Asia
+## 5            Jakarta 1195.50   12.31        0.01   519.77          Compact  South    South Asia
+## 6          Guangzhou  736.99  203.64        0.01   766.71          Compact  South  Eastern Asia
+## 7          Melbourne  939.52  265.05        0.01   382.67          Compact  North     Australia
+## 8              Paris  180.03 1121.70        0.01   147.88             Open  North        Europe
+## 9             London   11.25 1031.39        0.01   128.99             Open  North        Europe
+## 10            Moscow   28.13  894.69        0.01   124.67             Open  North        Europe
+## 11             Cairo  559.77  131.49        0.01   357.58          Compact  South        Africa
+## 12            Sydney  371.31  399.30        0.01   135.20     Compact-Open  North     Australia
+## 13           Nanjing   39.38  366.90        0.01   484.69       Industrial  South  Eastern Asia
+## 14          Istanbul  486.64  245.11        0.01   145.72     Compact-Open  South  Western Asia
+## 15             Milan  222.22  268.26        0.01   337.07       Industrial  North        Europe
+## 16     Washington DC  160.34  511.50        0.01   147.61             Open  North North America
+## 17           Qingdao  120.96  320.94        0.01   262.85       Industrial  South  Eastern Asia
+## 18             Wuhan   14.06  311.25        0.01   360.54       Industrial  South  Eastern Asia
+## 19            Berlin   36.57  526.78        0.01    64.49             Open  North        Europe
+## 20 Santiago de Chile  444.44   68.70        0.01    91.75          Compact  South South America
+## 21         Cape Town  126.58  292.65       23.75   149.78 Open-Lightweight  South        Africa
+## 22            Mumbai   81.58  292.32       36.70   151.13 Open-Lightweight  South    South Asia
+## 23            Madrid   67.51  366.29        0.01   110.37             Open  North        Europe
+## 24         Vancouver  334.74   35.91        0.01   165.42          Compact  North North America
+## 25            Tehran  272.86   49.22        0.01   189.71          Compact  South  Western Asia
+## 26          Changsha  115.33  163.03        0.01   198.35       Industrial  South  Eastern Asia
+## 27              Rome   95.64  341.40        0.01    41.01             Open  North        Europe
+## 28     San Francisco  272.86   18.46        0.01   169.20          Compact  North North America
+## 29    Rio de Janeiro  334.74   56.96        0.01    64.76          Compact  South South America
+## 30         Islamabad  202.53   82.30       50.20    36.43 Open-Lightweight  South    South Asia
+## 31         Amsterdam   14.06   97.51        0.01   246.39       Industrial  North        Europe
+## 32           Nairobi   67.51  202.75       20.24    58.02 Open-Lightweight  South        Africa
+## 33            Lisbon  168.78  107.96        0.01    59.63     Compact-Open  North        Europe
+## 34            Munich   14.06  214.09        0.01    70.43             Open  North        Europe
+## 35          Dongying   28.13  164.41        0.01    57.47             Open  South  Eastern Asia
+## 36           Cologne    0.01  179.57        0.01    51.54             Open  North        Europe
+## 37             Kyoto  168.78    5.95        0.01    49.65          Compact  North  Eastern Asia
+## 38          Shenzhen   36.57   97.67        0.01    73.94       Industrial  South  Eastern Asia
+## 39            Zurich   14.06  155.80        0.01    26.17             Open  North        Europe
+## 40         Hong Kong   67.51   58.64        0.01    18.61     Compact-Open  South  Eastern Asia</code></pre>
+<p>When we display the object <code>cities</code> by typing its name,
+the values at left are the <em>row numbers</em>.</p>
+<p>Let’s check the <em>structure</em> of the data frame
+<code>cities</code> using <code>str()</code>:</p>
+<pre class="r"><code>str(cities)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    40 obs. of  8 variables:
+##  $ City       : Factor w/ 40 levels &quot;Amsterdam&quot;,&quot;Beijing&quot;,..: 25 32 33 2 13 9 18 26 16 20 ...
+##  $ Compact    : num  610 1122 166 543 1196 ...
+##  $ Open       : num  1041.1 619.8 833 1039 12.3 ...
+##  $ Lightweight: num  0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 ...
+##  $ Industry   : num  318 219 947 289 520 ...
+##  $ Type       : Factor w/ 5 levels &quot;Compact&quot;,&quot;Compact-Open&quot;,..: 2 2 3 2 1 1 1 4 4 4 ...
+##  $ Global     : Factor w/ 2 levels &quot;North&quot;,&quot;South&quot;: 1 2 2 2 2 2 1 1 1 1 ...
+##  $ Region     : Factor w/ 8 levels &quot;Africa&quot;,&quot;Australia&quot;,..: 5 6 3 3 7 3 2 4 4 4 ...</code></pre>
+<p>The effect of the argument <code>stringsAsFactors = TRUE</code> above
+was to convert all “string” (i.e. text) information into
+<em>factors</em>, which is how R stores categorical information. This
+makes sense for the columns <code>Type</code>, <code>Global</code>, and
+<code>Region</code>, which classify each city into two of more
+categories. The column <code>City</code>, however, is just unique names,
+so doesn’t need to be a factor (although this won’t affect most data
+analysis we might do). We can convert the<code>City</code> column back
+to text (<em>character</em>):</p>
+<p>Note that we can define a data frame column in two ways, e.g. for the
+<code>City</code> column: <code>cities$City</code> is equivalent to
+<code>cities[,"City"]</code><br />
+(both are also equivalent to <code>cities[,1]</code>).</p>
+<pre class="r"><code>cities$City &lt;- as.character(cities$City)
+str(cities)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    40 obs. of  8 variables:
+##  $ City       : chr  &quot;New York&quot; &quot;Sao Paulo&quot; &quot;Shanghai&quot; &quot;Beijing&quot; ...
+##  $ Compact    : num  610 1122 166 543 1196 ...
+##  $ Open       : num  1041.1 619.8 833 1039 12.3 ...
+##  $ Lightweight: num  0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 ...
+##  $ Industry   : num  318 219 947 289 520 ...
+##  $ Type       : Factor w/ 5 levels &quot;Compact&quot;,&quot;Compact-Open&quot;,..: 2 2 3 2 1 1 1 4 4 4 ...
+##  $ Global     : Factor w/ 2 levels &quot;North&quot;,&quot;South&quot;: 1 2 2 2 2 2 1 1 1 1 ...
+##  $ Region     : Factor w/ 8 levels &quot;Africa&quot;,&quot;Australia&quot;,..: 5 6 3 3 7 3 2 4 4 4 ...</code></pre>
+<p>The function <code>as.character()</code> is an example of
+<em>coercion</em> in R; we try to force an object into another class. In
+this case we have the column object <code>City</code> within the data
+frame object <code>cities</code>, which is initially of class
+<code>Factor</code>, and <code>as.character()</code> converts it to
+class <code>chr</code> (character).</p>
+<p>[A <em>list</em> is a more general type of data object than a data
+frame – not all columns need to be the same length. The output of some R
+functions can be a list.]</p>
+</div>
+<div id="writing-data-to-files" class="section level3">
+<h3>Writing data to files</h3>
+<div id="saving-your-workspace" class="section level4">
+<h4>Saving your workspace</h4>
+<p>If we have a lot of objects in our workspace and we don’t want to
+have to re-create them each time we use R, we can save our workspace.
+This is especially useful if we have started an <em>R project</em>
+(which you should have done already!).</p>
+<p>To save the workspace there are two options:</p>
+<ol style="list-style-type: decimal">
+<li><p>In the RStudio <code>Environment</code> tab (top-right of the
+screen, usually), click the ‘Save workspace as’ icon (💾). You should
+name the file <em>without a prefix</em>, just the extension
+(i.e. nothing before the period <code>.</code> character. So, in the
+Save As dialog box, the file name should be
+<code>.RData</code>.</p></li>
+<li><p>Run this code:</p></li>
+</ol>
+<pre class="r"><code>save.image()</code></pre>
+<div class="line-block">        By default the <code>save.image()</code>
+function saves your workspace<br />
+        as <code>.Rdata</code>, which is what we want. With R Projects,
+any<br />
+        file called <code>.RData</code> will be loaded automatically
+when you<br />
+        open the project! This is very convenient.</div>
+</div>
+<div id="saving-individual-data-objects" class="section level4">
+<h4>Saving individual data objects</h4>
+<p>Sometimes we may want to save a copy of a data frame we’ve been
+working on, especially if we have made substantial changes (e.g.
+calculated new columns, which we will learn how to do later). We can
+save in various formats, but we recommend the simple .csv format. To
+save a <code>.csv</code> file, we use the function
+<code>write.csv()</code>:</p>
+<pre class="r"><code>write.csv(cities, file = &quot;cities_edited.csv&quot;)</code></pre>
+<p>You should now be able to see the file <code>cities_edited.csv</code>
+in the Files pane at the lower right of the RStudio window. (The file
+name can be anything you like, but it makes sense to keep the
+<code>.csv</code> suffix.)</p>
+</div>
+<div id="saving-our-markdown-files" class="section level4">
+<h4>Saving our markdown file(s)</h4>
+<p>We should always save any R markdown files that we create by clicking
+the 💾 icon, typing Ctrl-S (⌘-S on Mac), or clicking File/Save in the
+menu. By default, R markdown files will be saved into our project folder
+(i.e. working directory), and will have the extension <code>.Rmd</code>
+after the name.</p>
+</div>
+<div id="saving-our-markdown-as-a-document" class="section level4">
+<h4>Saving our markdown as a document</h4>
+<p>One of the main reasons we write R code in R Markdown is that we can
+convert or <em>‘knit’</em> our files to document formats. At the top of
+this RStudio pane there is a <code>Knit ▼</code> button. Clicking this
+will save a copy of our R markdown file as the default format (html)
+into our project folder, or by clicking directly on the <code>▼</code>
+we can select another format. Try it!<br />
+(Note that <code>Knit to PDF</code> will not work unless we have a Latex
+app installed).</p>
+<p>Knitting <code>.Rmd</code> files into documents is one of the coolest
+things about R Markdown, and an excellent way to prepare
+<em>reports</em>, as we have all the data analysis for the report
+included with the report text. With advanced use of R markdown we can
+hide the R code and only include the output we want!</p>
+</div>
+</div>
+</div>
+<div id="getting-help" class="section level2">
+<h2>Getting Help</h2>
+<p>RStudio has an excellent help system. For help on any function, try
+running code like <code>?function.name</code><br />
+(this is the equivalent of <code>help(function.name))</code>. Try
+it:</p>
+<pre class="r"><code>?write.csv</code></pre>
+<p>The help topic will open in the <code>Help</code> pane at the right
+of the RStudio window.</p>
+<p>More general help on many R topics can be obtained by running the
+following code (try this too):</p>
+<pre class="r"><code>help.start()</code></pre>
+<pre><code>## If nothing happens, you should open
+## &#39;http://127.0.0.1:10955/doc/html/index.html&#39; yourself</code></pre>
+<p>You will get a short message in the output box above, and a page with
+links to a number of R help topics will open in the Help pane at the
+right of the RStudio window.</p>
+<p>You may also notice, when typing <strong>code</strong>, that RStudio
+has <em>predictive text</em> that can help you get what you need. A
+pop-up should also appear, which shows the general form of the function
+you’re typing (i.e. the various inputs and options).</p>
+<p>Finally, there is another useful advantage to using R Markdown in
+RStudio – when typing <strong>text</strong> there is a
+<em>spell-checker</em>, shown as wavy underlines beneath misspelled
+words. Right-clicking on the misspelled word will show a list of correct
+options, just like a word processor.</p>
+<p>🔚</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
