@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-03-21" />
+<meta name="date" content="2025-06-19" />
 
 <title>Use geotagged jpeg images as map backgrounds</title>
 
@@ -343,7 +343,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -358,7 +358,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -368,12 +368,18 @@ $(document).ready(function () {
     <li>
       <a href="plots-GG.html">Plots-ggplot</a>
     </li>
+    <li>
+      <a href="boxplots-plus.html">Enhanced boxplots</a>
+    </li>
+    <li>
+      <a href="depth-profiles.html">Depth profiles</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -388,7 +394,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -412,7 +418,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -439,7 +445,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -460,7 +466,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -478,7 +484,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Reporting
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -493,6 +499,9 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
+    </li>
+    <li>
+      <a href="chunk-options.html">Custom output with R markdown chunk options</a>
     </li>
   </ul>
 </li>
@@ -522,7 +531,7 @@ $(document).ready(function () {
 backgrounds</h1>
 <h3 class="subtitle">Maps with better aerial photographs</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-03-21</h4>
+<h4 class="date">2025-06-19</h4>
 
 </div>
 
@@ -613,10 +622,10 @@ function for this in the <code>stars</code> package:
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">print</span>(AF_rgb)</span></code></pre></div>
 <pre><code>## stars object with 2 dimensions and 1 attribute
 ## attribute(s), summary of first 1e+05 cells:
-##  EPSG32750_Date20230226_Lat-...
-##  Length:100000
-##  Class :character
-##  Mode  :character
+##  EPSG32750_Date20230226_Lat-... 
+##  Length:100000                  
+##  Class :character               
+##  Mode  :character               
 ## dimension(s):
 ##   from   to  offset   delta                refsys x/y
 ## x    1 1267  399868  0.5972 WGS 84 / UTM zone 50S [x]
