@@ -10,6 +10,12 @@ output:
 
 We're going to illustrate all the methods using some made-up data. You would need to adapt the **R** code examples to match your dataset and variable names.
 
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+For more options for plotting depth profiles, including for multiple cores, go to [**this page**](depth-profiles-more.html).
+</div>
+
+&nbsp;
+
 Just so we don't need to read in a file, we're going to make a dataframe using R code:
 
 ```{r make the data, results='hold'}

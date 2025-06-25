@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-06-19" />
+<meta name="date" content="2025-06-25" />
 
 <title>Using R for soil profile diagrams</title>
 
@@ -530,7 +530,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Using R for soil profile diagrams</h1>
 <h3 class="subtitle">A selection of methods</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-06-19</h4>
+<h4 class="date">2025-06-25</h4>
 
 </div>
 
@@ -538,6 +538,13 @@ $(document).ready(function () {
 <p>We're going to illustrate all the methods using some made-up data.
 You would need to adapt the <strong>R</strong> code examples to match
 your dataset and variable names.</p>
+<div
+style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+<p>For more options for plotting depth profiles, including for multiple
+cores, go to <a href="depth-profiles-more.html"><strong>this
+page</strong></a>.</p>
+</div>
+<p> </p>
 <p>Just so we don't need to read in a file, we're going to make a
 dataframe using R code:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>profile <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Sample =</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">10</span>),</span>
