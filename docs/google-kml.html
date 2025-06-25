@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-05-28" />
+<meta name="date" content="2025-06-19" />
 
 <title>From Google Earth, to kml, to R</title>
 
@@ -371,6 +371,9 @@ $(document).ready(function () {
     <li>
       <a href="boxplots-plus.html">Enhanced boxplots</a>
     </li>
+    <li>
+      <a href="depth-profiles.html">Depth profiles</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -497,6 +500,9 @@ $(document).ready(function () {
     <li>
       <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
     </li>
+    <li>
+      <a href="chunk-options.html">Custom output with R markdown chunk options</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -525,7 +531,7 @@ $(document).ready(function () {
 <h3 class="subtitle">Manually digitising map features and adding to
 maps</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-05-28</h4>
+<h4 class="date">2025-06-19</h4>
 
 </div>
 
@@ -613,7 +619,8 @@ handle many types of input file, including Google Earth
 <code>.kml</code> files.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>Lake1_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;https://github.com/Ratey-AtUWA/spatial/raw/main/Lake1.kml&quot;</span>)</span></code></pre></div>
-<pre><code>## Reading layer `Lake1.kml&#39; from data source `https://github.com/Ratey-AtUWA/spatial/raw/main/Lake1.kml&#39; using driver `KML&#39;
+<pre><code>## Reading layer `Lake1.kml&#39; from data source 
+##   `https://github.com/Ratey-AtUWA/spatial/raw/main/Lake1.kml&#39; using driver `KML&#39;
 ## Simple feature collection with 1 feature and 2 fields
 ## Geometry type: POLYGON
 ## Dimension:     XYZ
