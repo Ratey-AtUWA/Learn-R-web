@@ -57,7 +57,7 @@ file.
 
 We use the `stars` package, which plays nicely with the `sf` package, to do most
 of the work (the `sf` package was introduced on [another page on maps in
-**R**](Rmaps.html). The `read_stars()` function will find and use the
+**R**](fmaps.html). The `read_stars()` function will find and use the
 information in the `.jpw` file without us specifying that file explicitly.
 
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
@@ -186,7 +186,7 @@ legend("bottomright", title=expression(bold("Year")),
 The result is similar to adding points separately using `points()`, but we have
 somewhat less control over plot appearance. We could also add our data in a way
 that shows values of a variable, as described in the [page on maps in
-**R**](Rmaps.html).
+**R**](maps.html).
 
 ## Packages
 
