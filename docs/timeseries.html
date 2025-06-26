@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-05-28" />
+<meta name="date" content="2025-06-19" />
 
 <title>Time Series Analysis</title>
 
@@ -462,6 +462,9 @@ div.tocify {
     <li>
       <a href="boxplots-plus.html">Enhanced boxplots</a>
     </li>
+    <li>
+      <a href="depth-profiles.html">Depth profiles</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -588,6 +591,9 @@ div.tocify {
     <li>
       <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
     </li>
+    <li>
+      <a href="chunk-options.html">Custom output with R markdown chunk options</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -623,7 +629,7 @@ div.tocify {
 <h1 class="title toc-ignore">Time Series Analysis</h1>
 <h3 class="subtitle">Concepts using soil temperature data</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-05-28</h4>
+<h4 class="date">2025-06-19</h4>
 
 </div>
 
@@ -754,7 +760,7 @@ format win the actual <code>.csv</code> file.</p>
 ## 
 ## &#39;zoo&#39; series from 2014-04-01 to 2014-05-31 23:00:00
 ##   Data: num [1:1464] 20.1 19.8 19.6 19.2 19 ...
-##   Index:  POSIXct[1:1464], format: &quot;2014-04-01 00:00:00&quot; &quot;2014-04-01 01:00:00&quot; &quot;2014-04-01 02:00:00&quot; &quot;2014-04-01 03:00:00&quot; ...</code></pre>
+##   Index:  POSIXct[1:1464], format: &quot;2014-04-01 00:00:00&quot; &quot;2014-04-01 01:00:00&quot; &quot;2014-04-01 02:00:00&quot; ...</code></pre>
 <p>We can see that the column <code>Date</code> has now become
 <code>Index</code>, and it's correctly stored as date/time information,
 in a format called <code>POSIXct</code> (for more information, run
@@ -1428,7 +1434,7 @@ provide a starting point for examining ARIMA models. The output of the
 model the algorithm found, shown as <code>ARIMA(p,d,q)</code>. The
 <code>p</code>,<code>d</code>,<code>q</code> are defined in Table 1
 below:</p>
-<div class="tabwid"><style>.cl-958ca8ac{}.cl-9583480c{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-95834816{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-9586e6f6{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-95870172{width:0.787in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9587017c{width:2.756in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-95870186{width:2.756in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-95870190{width:0.787in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-95870191{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-95870192{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-9587019a{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-958701a4{width:2.756in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-958701a5{width:2.756in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-958701a6{width:0.787in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-958701b8{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-958701b9{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-958ca8ac'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Definition of p, d, and q parameters in ARIMA time series forecasting models.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-95870172"><p class="cl-9586e6f6"><span class="cl-9583480c">Parameter</span></p></th><th class="cl-9587017c"><p class="cl-9586e6f6"><span class="cl-9583480c">Meaning</span></p></th><th class="cl-95870186"><p class="cl-9586e6f6"><span class="cl-9583480c">Informed by</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-95870190"><p class="cl-9586e6f6"><span class="cl-95834816">p</span></p></td><td class="cl-95870191"><p class="cl-9586e6f6"><span class="cl-95834816">The number of autoregressive predictors</span></p></td><td class="cl-95870192"><p class="cl-9586e6f6"><span class="cl-95834816">Partial autocorrelation</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-9587019a"><p class="cl-9586e6f6"><span class="cl-95834816">d</span></p></td><td class="cl-958701a4"><p class="cl-9586e6f6"><span class="cl-95834816">The number of differencing steps</span></p></td><td class="cl-958701a5"><p class="cl-9586e6f6"><span class="cl-95834816">Stationarity tests ± differencing</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-958701a6"><p class="cl-9586e6f6"><span class="cl-95834816">q</span></p></td><td class="cl-958701b8"><p class="cl-9586e6f6"><span class="cl-95834816">The number of moving average predictors</span></p></td><td class="cl-958701b9"><p class="cl-9586e6f6"><span class="cl-95834816">Stationarity tests ± moving averages</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-4bafa564{}.cl-4ba61440{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4ba61454{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4ba9b4c4{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-4ba9cc98{width:0.787in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccac{width:2.756in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccad{width:2.756in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccb6{width:0.787in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccc0{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccc1{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccca{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9cccb{width:2.756in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccd4{width:2.756in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccde{width:0.787in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9cce8{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9cce9{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-4bafa564'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Definition of p, d, and q parameters in ARIMA time series forecasting models.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-4ba9cc98"><p class="cl-4ba9b4c4"><span class="cl-4ba61440">Parameter</span></p></th><th class="cl-4ba9ccac"><p class="cl-4ba9b4c4"><span class="cl-4ba61440">Meaning</span></p></th><th class="cl-4ba9ccad"><p class="cl-4ba9b4c4"><span class="cl-4ba61440">Informed by</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-4ba9ccb6"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">p</span></p></td><td class="cl-4ba9ccc0"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">The number of autoregressive predictors</span></p></td><td class="cl-4ba9ccc1"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">Partial autocorrelation</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4ba9ccca"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">d</span></p></td><td class="cl-4ba9cccb"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">The number of differencing steps</span></p></td><td class="cl-4ba9ccd4"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">Stationarity tests ± differencing</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4ba9ccde"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">q</span></p></td><td class="cl-4ba9cce8"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">The number of moving average predictors</span></p></td><td class="cl-4ba9cce9"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">Stationarity tests ± moving averages</span></p></td></tr></tbody></table></div>
 <p> </p>
 <p>A periodic or <em>seasonal</em> ARIMA model (often called SARIMA) has
 a more complex specification: <br> <code>ARIMA(p,d,q)(P,D,Q)(n)</code> ,
@@ -1455,8 +1461,10 @@ period/season.</p>
 ## sigma^2 estimated as 0.1184:  log likelihood = -517.87,  aic = 1047.73
 ## 
 ## Training set error measures:
-##                        ME      RMSE       MAE         MPE     MAPE     MASE          ACF1
-## Training set -0.005215705 0.3441525 0.2467179 -0.08670514 1.716531 0.980305 -0.0001019764
+##                        ME      RMSE       MAE         MPE     MAPE     MASE
+## Training set -0.005215705 0.3441525 0.2467179 -0.08670514 1.716531 0.980305
+##                       ACF1
+## Training set -0.0001019764
 ##                 2.5 %     97.5 %
 ## ar1        0.98017359  0.9963265
 ## ma1        0.04074353  0.1438382
@@ -1497,8 +1505,10 @@ parameter is useful or not).</p>
 ## sigma^2 estimated as 0.09073:  log likelihood = -355.68,  aic = 725.35
 ## 
 ## Training set error measures:
-##                       ME    RMSE       MAE        MPE     MAPE      MASE         ACF1
-## Training set -0.01572894 0.30122 0.2169846 -0.1427709 1.504911 0.8621632 0.0006582706
+##                       ME    RMSE       MAE        MPE     MAPE      MASE
+## Training set -0.01572894 0.30122 0.2169846 -0.1427709 1.504911 0.8621632
+##                      ACF1
+## Training set 0.0006582706
 ##                2.5 %      97.5 %
 ## ar1        0.9928401  1.00080710
 ## ma1       -0.1990623 -0.09412079
@@ -1680,8 +1690,10 @@ automatically.</p>
 ## 7588.660 7588.718 7620.394 
 ## 
 ## Training set error measures:
-##                        ME      RMSE       MAE         MPE     MAPE       MASE      ACF1
-## Training set -0.003041526 0.3475639 0.2472475 -0.03856289 1.719534 0.01664266 0.0146761</code></pre>
+##                        ME      RMSE       MAE         MPE     MAPE       MASE
+## Training set -0.003041526 0.3475639 0.2472475 -0.03856289 1.719534 0.01664266
+##                   ACF1
+## Training set 0.0146761</code></pre>
 <p>In this case the <code>ets()</code> function has automatically
 selected a model (<code>ETS(A,Ad,N)</code>) with additive trend and
 errors, but no seasonality. We don't do it here, but we could manually
