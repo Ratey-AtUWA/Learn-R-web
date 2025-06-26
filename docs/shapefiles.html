@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-03-21" />
+<meta name="date" content="2025-06-26" />
 
 <title>Using GIS shapefiles in R</title>
 
@@ -343,7 +343,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -358,7 +358,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -368,12 +368,18 @@ $(document).ready(function () {
     <li>
       <a href="plots-GG.html">Plots-ggplot</a>
     </li>
+    <li>
+      <a href="boxplots-plus.html">Enhanced boxplots</a>
+    </li>
+    <li>
+      <a href="depth-profiles.html">Depth profiles</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -388,7 +394,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -412,7 +418,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -439,7 +445,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -460,7 +466,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -478,7 +484,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Reporting
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -493,6 +499,9 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
+    </li>
+    <li>
+      <a href="chunk-options.html">Custom output with R markdown chunk options</a>
     </li>
   </ul>
 </li>
@@ -521,7 +530,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Using GIS shapefiles in R</h1>
 <h3 class="subtitle">Downloading, reading into R, and using in maps</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-03-21</h4>
+<h4 class="date">2025-06-26</h4>
 
 </div>
 
@@ -600,8 +609,8 @@ information in the shapefile, such as points, lines, polygons,
 <em>etc</em>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>assrisk <span class="ot">&lt;-</span> </span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">st_read</span>(<span class="st">&quot;../shapefiles/ASS-risk/Acid_Sulfate_Risk_Swan_Coastal_Plain_DWER_055.shp&quot;</span>)</span></code></pre></div>
-<pre><code>## Reading layer `Acid_Sulfate_Risk_Swan_Coastal_Plain_DWER_055&#39; from data source
-##   `C:\Users\00028958\OneDrive - The University of Western Australia\R Projects\shapefiles\ASS-risk\Acid_Sulfate_Risk_Swan_Coastal_Plain_DWER_055.shp&#39;
+<pre><code>## Reading layer `Acid_Sulfate_Risk_Swan_Coastal_Plain_DWER_055&#39; from data source 
+##   `C:\Users\00028958\OneDrive - The University of Western Australia\R Projects\shapefiles\ASS-risk\Acid_Sulfate_Risk_Swan_Coastal_Plain_DWER_055.shp&#39; 
 ##   using driver `ESRI Shapefile&#39;
 ## Simple feature collection with 46 features and 9 fields
 ## Geometry type: MULTIPOLYGON
