@@ -29,6 +29,8 @@ output:
   - [Plots with base-R](plots.html)
   - [Plots with `ggplot`](plots-GG.html)
   - [Enhanced boxplots](boxplots-plus.html)
+  - [Depth profiles](depth-profiles.html)
+  - [More depth profiles](depth-profiles-more.html)
 
 5. [**Comparisons**](means.html)
   - [Compare means (parametric)](means.html)
