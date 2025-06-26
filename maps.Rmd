@@ -88,12 +88,14 @@ library(ggmap)         # plotting spatial data with ggplot syntax
 ```
 
 ```{r load packages and data invisibly, error=FALSE, warning=FALSE, include=FALSE, results='hide'}
-library(sf)
+suppressPackageStartupMessages(
+{library(sf)
 library(maptiles)
 library(prettymapr)
 library(viridis)
 library(scico)
-library(ggmap)
+library(ggmap)}
+)
 ```
 
 ...also read some *data* we need for map annotations, make some *colour*
