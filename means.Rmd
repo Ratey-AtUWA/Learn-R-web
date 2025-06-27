@@ -67,6 +67,7 @@ href="nonparam.html" style="color:#04b;">Non-parametric tests</a></p>
 git <- "https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/"
 sv2017 <- read.csv(paste0(git,"sv2017_original.csv"), stringsAsFactors = TRUE)
 library(png)
+library(viridis)
 library(ggplot2)
 library(car)
 library(rcompanion)
@@ -120,25 +121,31 @@ having:
 ```{r load map packages, include=FALSE}
 library(sf)            # Simple Features spatial data in R
 library(maptiles)      # get open-source map tiles for background maps
+library(prettymapr)    # north arrow and scale bar
 library(TeachingDemos) # for shadowtext() function
 ```
 
-```{r SLCVR-map, echo=FALSE, fig.width=5, fig.height=4.7, fig.cap="Figure 1: Map showing locations of the adjacent Charles Veryard Reserve and Smiths Lake Reserve, North Perth, Western Australia (these were the locations sampled for the sv2017 dataset).", fig.align='center', results='hold',warning=FALSE}
-extent <- st_as_sf(data.frame(x=c(390910,391550),y=c(6466220,6466800)),
+```{r SLCVR-map, echo=FALSE, fig.width=4.7, fig.height=5.7, fig.cap="Map showing locations of Charles Veryard and Smiths Lake Reserves, North Perth, Western Australia.", results='hold',warning=FALSE}
+extent <- st_as_sf(data.frame(x=c(391000,391490),y=c(6466220,6466800)),
                    coords = c("x","y"), crs = st_crs(32750))
-SLtiles <- get_tiles(extent, zoom=16, crop = TRUE)
-par(oma=c(0,0,0,0), mgp=c(1.6,0.3,0), tcl=-0.25, lend="square", xpd=TRUE)
-plot_tiles(SLtiles, axes=TRUE, mar=c(3,3,0.1,0.1))
-mtext("Easting (UTM Zone 50, m)", side = 1, line = 3, font=2)
-mtext("Northing (UTM Zone 50, m)", side = 2, line = 2.4, font=2)
-lines(st_bbox(SLtiles)[c(1,3)],rep(6466530,2), lty=1, lwd=10, col="#FFFFFFC0")
-lines(st_bbox(SLtiles)[c(1,3)],rep(6466530,2), lty="23", lwd=3, col="#7D26CDA0")
-shadowtext(c(391365,391070), c(6466370,6466530),
-     labels=c("Smith's\nLake\nReserve","Bourke Street"),
-     col=c("forestgreen","dimgrey"), bg="white", font=c(3,2), cex=c(0.9,0.8))
-shadowtext(391480,6466532,label="Northing\n6466530", 
-           col="#7D26CDA0", bg="#FFFFFFA0")
-par(xpd=FALSE)
+secret <- readLines("../thunderforest-API-key.txt")[1]
+SLtiles <- get_tiles(extent, provider = "Thunderforest.Transport", 
+                     zoom=17, crop = TRUE, apikey = secret,
+                     forceDownload = TRUE)
+par(mar=c(3,3,2,0.5), mgp=c(1.6,0.3,0), tcl=-0.25, lend="square", font.lab=2,
+    lheight=0.8)
+plot(st_coordinates(extent), asp=1, type="n",, xaxs="i", yaxs="i",
+     xlab="Easting (UTM Zone 50, m)", ylab="Northing (UTM Zone 50, m)")
+plot_tiles(SLtiles, add=T); box()
+addnortharrow(scale=0.7)
+addscalebar(plotepsg=32750, pos="topleft")
+shadowtext(c(391355,391240), c(6466385,6466660), 
+           labels=c("Smith's\nLake\nReserve","Charles Veryard\nReserve"),
+     col="#409240", bg="honeydew2", font=3, cex = 1)
+abline(h=6466530, lty=1, lwd=7, col="#FFFFFFC0")
+abline(h=6466530, lty="23", lwd=3, col="purple3")
+shadowtext(391250,6466510,label="Northing 6466530", 
+           col="purple3", bg="white", cex=1.2)
 ```
 
 &nbsp;
@@ -500,12 +507,35 @@ ggplot(sv2017, aes(x=Type, y=Ca.pow)) +
 
 &nbsp;
 
-<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
-
 ### Effect sizes for 3 or more groups
 
-**It's not possible to calculate Effect sizes for 3 or more groups directly**. We would need to create subsets of our dataset which include only two groups** (*e.g*., with only Soil and Sediment), and then run `cohen.d()` from the 'effsize' R package. *Or we could do some custom coding*...
-</div>
+Effect sizes for ANOVAs are conceptually similar to R^2^ values for regression 
+&ndash; they represent the amount of variance explained by the factor(s). We're 
+only covering one-way analysis of variance, so we will end up with a single 
+effect size which is calculated as the *&eta;*^2^ (eta-squared) parameter. 
+The `effectsize` package has the `eta_squared()` function we need, so first we 
+do an analysis of variance on a variable we know is normally distributed and 
+homoscedastic, then calculate *&eta;*^2^.
+
+```{r eta2-follow-anova, message=FALSE, warning=FALSE, results='hold'}
+cat(paste("Shapiro-Wilk p =",signif(shapiro.test(sv2017$pH)$p.value,3), 
+  "& Bartlett p =", signif(bartlett.test(sv2017$pH ~ sv2017$Type)$p.value,3),"\n\n"))
+aov_pH <- aov(pH ~ Type, data = sv2017)
+cat(paste(aov_pH$call,"\n")); summary(aov_pH)
+effectsize::eta_squared(aov_pH) |> effectsize::interpret_eta_squared()
+```
+
+As with Cohen's d, there are rules-of thumb to categorise the effect size value 
+into a size. The `effectsize` package functions tell you which rule(s) are being 
+used to interpret the calculated effect size value.
+
+Also by analogy with regression R^2^, the effect size can be adjusted for 
+degrees of freedom, which can be important if we have small sample sizes. One 
+adjusted *&eta;*^2^ parameter is called epsilon squared (*&epsilon;*^2^):
+ 
+```{r epsilon2-follow-anova, message=FALSE, warning=FALSE, results='hold'}
+effectsize::epsilon_squared(aov_pH) |> effectsize::interpret_epsilon_squared()
+```
 
 &nbsp;
 
@@ -571,6 +601,8 @@ and Street dust (both `"b"`). Since Soil and Street dust have the same letter
 
 &nbsp;
 
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 8px;">
+
 ### OPTIONAL: Pairwise compact letters alternative
 
 This method using the `cld()` function is way harder to make sense of... it's
@@ -615,6 +647,9 @@ This conclusion is supported by the last column of output, showing an adjusted
 p-value of 0.633 (*i.e*. > 0.05) for the Street dust-Soil comparison. Also, as
 indicated by the 'compact letter display' from `cld()` above, any comparison
 including Sediment has p &le; 0.05.
+</div>
+
+&nbsp;
 
 <center>![](./images/distributions-clique.png){width=500 height=240}</center>
 
