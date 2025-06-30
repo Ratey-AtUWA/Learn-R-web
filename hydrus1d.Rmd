@@ -6,7 +6,6 @@ date: "`r Sys.Date()`"
 output: 
   html_document: 
     theme: yeti
-    code_folding: show
     self_contained: no
     number_sections: no
     smart: no
@@ -69,7 +68,7 @@ equilibrium is achieved instantaneously.
 ## `Geometry Information` 
 
 - Set `Length Units` to desired value<br />(we recommend m, but cm is OK) ![Geometry Information dialog screenshot](./images/05-geometry-info.png){align="right" width=393 height=159}
-- Use one Soil Material for simple transport, but two or more for reactive barriers *etc*.
+- Use one Soil Material for simple transport, but<br><span style="background-color: #fe5;">two or more for reactive barriers *etc*.</span>
 - For horizontal transport use `Decline from Vertical...` of ≤ 0.1
 - Set `Depth` to desired value &ndash; this represents our flow path length, so choose something realistic for groundwater! (*e.g*. if your units are cm, Depth needs to be &ge;&nbsp;1000)
 
@@ -110,7 +109,7 @@ You may need to return to the `Time Information` dialog later depending on the o
 &nbsp;
 
 ## `Water Flow Parameters`
-- Select the desired pre-set from the `Soil Catalog` ![Water Flow Parameters dialog screenshot](images/10-water-flow.png){align="right" width=414 height=229}  
+- Select the desired pre-set for each soil material from the `Soil Catalog` ![Water Flow Parameters dialog screenshot](images/10-water-flow.png){align="right" width=414 height=229}  
 `Qr` = Residual soil water content, *q~r~*  
 `Qs` = Saturated soil water content, *q~s~*  
 `Alpha` = Parameter *a* in the soil water retention function [L^&minus;1^]  
@@ -118,7 +117,9 @@ You may need to return to the `Time Information` dialog later depending on the o
 `Ks` = Saturated hydraulic conductivity, *K~s~* [LT^&minus;1^]  
 `l` = Tortuosity parameter in the conductivity function [-]
 
-The individual values can be set manually too.
+The individual values can be set manually too. For a **permeable reactive barrier**, 
+`Ks` should not be much different from the surrounding soil material &ndash; we 
+want the barrier to be **permeable**.
 
 &nbsp;
 
@@ -153,7 +154,7 @@ The individual values can be set manually too.
 <p id="STRP">&nbsp;</p>
 
 ## `Solute Transport and Reaction Parameters`
-- Set partition coefficient `Kd` > 0 for reactive transport (leave `Kd` = 0 for non-reactive) 
+- Set partition coefficient `Kd` > 0 for reactive transport (leave `Kd` = 0 for non-reactive) &ndash; this is important for features like a permeable reactive barrier
 - for [more advanced simulations (see below)](#advanced), add a reaction rate constant (`Alpha`) parameter
 - Click the `Help` button for details!  
 ![Solute Transport and Reaction Parameters dialog screenshot](images/14-solute-transp-react-pars.png){width=680 height=231}
@@ -195,19 +196,22 @@ The individual values can be set manually too.
 ![](images/18-profile-summary.png){align="right" width=367 height=253 alt="Hydrus-1D Soil Profile Summary screenshot"}This is a good opportunity to check that the profile is set up the way you want it to be.
 
 - for groundwater, all values in the `h [m]` column should be zero (you might have `h [cm]` depending on your length units)
-- scroll down the `Mat` column to check that all soil materials are at the depth/distance (`z [m]`) that you want them to be
+- scroll down the `Mat` column to check that all soil materials are at the depth/distance (`z [m]`) that you want them to be (*e.g*. the location of a permeable reactive barrier)
 - you can edit the values directly in the `Soil Profile Summary` table
+
+## Running your simulation
 
 When you click `Next` in the `Soil Profile Summary`, the Hydrus-1D 
 program will ask `Do you want to run HYDRUS-1D application ?` Usually
-you do, so click `OK`.
+you do, so click `OK` 😊.
 
 ![](images/19-H1D-calc.png){width=552 height=320 alt="Hydrus-1D Calculation screenshot"}
 
 &nbsp;
 
-Look for the text `Calculations have finished successfully.` If it's 
-there, press Enter or just close the window.
+Near the bottom of the output, look for the text 
+`Calculations have finished successfully.` If it's there, press Enter or just 
+close the window.
 
 After a successful Hydrus-1D simulation run, you can use the options in the post-processing window to visualise the output within Hydrus-1D. Alternatively, you can read the data file(s) into Excel® or R and make better graphs!
 
@@ -215,7 +219,7 @@ After a successful Hydrus-1D simulation run, you can use the options in the post
 For many applications we would want to include more complexity into 
 our simulation. For example, in the ENVT5503 class, we set an 
 assignment to simulate remediation of groundwater contamination with a
-permeable reactive barrier (PRB). In this case we should consider 
+**permeable reactive barrier** (PRB). In this case we should consider 
 including:
 
 - at least 2 'soil' materials with different properties to represent the aquifer material and the PRB (see the [`Geometry Information` dialog](#geom))
@@ -228,6 +232,8 @@ including:
 </div>
 
 &nbsp;
+
+### Output files
 
 ```{r table1, message=FALSE, warning=FALSE, echo=FALSE}
 windowsFonts(fixed=windowsFont("Courier New"))
@@ -268,7 +274,8 @@ software like `R`.
 ## Reading data copied from a Hydrus-1D plot
 
 ![](images/20-copy-from-H1D-plot.png){width=262 height=315 align="right" alt="Profile information output window opened from Hydrus-1D Post-processing pane, with Concentration selected at Horizontal Variable"} This is an easier alternative to reading the data stored in the 
-`Nod_Inf.out` file ([described below](#reading-data-in-hydrus-1d-output-files)).
+`Nod_Inf.out` file ([described below](#reading-data-in-hydrus-1d-output-files)), 
+and it′s what we recommend.
 
 Right-click on Hydrus-1D plot of Profile Information: Concentration,
 and select Copy; this will copy the data table for the plot in
