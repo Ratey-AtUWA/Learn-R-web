@@ -375,16 +375,17 @@ This is a sentence where<br>this section starts on a new line
 
 <hr style="height: 5px; background-color: blue;" />
 
+For a thinner line, use a lower pixel value, *e.g*. `height: 2px`. The line 
+colour set by `background-color:` can be any valid html colour name, or a 3- or 
+6-character hexadecimal colour code (*e.g*. `background-color: #039;`).
+
 &nbsp;
 
-<hr style="height: 2px; background-color: #b0b0b0;" />
+💡 We deal with [**R Markdown code chunk options** in another page on this site](chunk-options.html){target="_blank"}.
 
 &nbsp;
 
-We will deal with [**R Markdown code chunk options**](https://bookdown.org/yihui/rmarkdown-cookbook/chunk-options.html){target="_blank"} 
-in a subsequent section.
-
-Here's a [useful R Markdown Cheat Sheet](https://rstudio.github.io/cheatsheets/html/rmarkdown.html){target="_blank"}.
+💡 Here's a [useful R Markdown Cheat Sheet](https://rstudio.github.io/cheatsheets/html/rmarkdown.html){target="_blank"}.
 
 &nbsp;
 

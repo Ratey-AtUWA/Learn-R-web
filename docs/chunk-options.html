@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-06-19" />
+<meta name="date" content="2025-06-30" />
 
 <title>R markdown chunk options</title>
 
@@ -532,21 +532,24 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">R markdown chunk options</h1>
 <h3 class="subtitle">More control over reports</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-06-19</h4>
+<h4 class="date">2025-06-30</h4>
 
 </div>
 
 
+<p>This brief guide follows on from a previous page on this site, the <a
+href="One-page_R-Markdown.html">Brief Essentials of R Markdown</a></p>
 <div id="hiding-both-code-and-output" class="section level2">
 <h2>Hiding both code and output</h2>
 <p>If we want R code to run, but not show either the code nor any
 output, we include the option <code>include=FALSE</code></p>
 <div
 style="border: 2px solid #cccccc; padding: 5px; font-family: &#39;Courier New&#39;, monospace;">
-<span style="color: #644A9B;">```{r hide-code-and-output,
-include=FALSE}</span><br> <em># the R markdown chunk option include =
-FALSE is used when it's not</em><br> <em># helpful to see the code and
-output, for example loading packages</em><br> <span
+<span style="color: #644A9B;">```{r hide-code-and-output, <span
+style="background-color: #FF8;">include=FALSE</span>}</span><br> <em>#
+the R markdown chunk option include = FALSE is used when it's
+not</em><br> <em># helpful to see the code and output, for example
+loading packages</em><br> <span
 style="color: #644A9B;">library</span>(car)<br> <span
 style="color: #644A9B;">library</span>(lmtest)<br> <span
 style="color: #644A9B;">library</span>(robustbase)<br> <span
@@ -562,8 +565,9 @@ code in reports either, so we would also include
 <code>warning=FALSE</code> and <code>include=FALSE</code>:</p>
 <div
 style="border: 2px solid #cccccc; padding: 5px; font-family: &#39;Courier New&#39;, monospace;">
-```{r hide-code-output-warnings-messages, include=FALSE, warning=FALSE,
-message=FALSE}<br> ⋮<br> ```
+```{r hide-code-output-warnings-messages, include=FALSE, <span
+style="background-color: #FF8;">warning=FALSE, message=FALSE</span>}<br>
+⋮<br> ```
 </div>
 <p> </p>
 </div>
@@ -575,8 +579,9 @@ reports, we normally don't want to display the code or any warnings or
 messages, so we could include all these options in each chunk:</p>
 <div
 style="border: 2px solid #cccccc; padding: 5px; font-family: &#39;Courier New&#39;, monospace;">
-<span style="color: #644A9B;">```{r co2-plot-hide-code, echo=FALSE,
-warning=FALSE, message=FALSE}</span><br> <span
+<span style="color: #644A9B;">```{r co2-plot-hide-code, <span
+style="background-color: #FF8;">echo=FALSE</span>, warning=FALSE,
+message=FALSE}</span><br> <span
 style="color: #644A9B;">par</span>(mar=c(<span
 style="color: #B08000;">3,3,1,1</span>), mgp=c(<span
 style="color: #B08000;">1.7,0.3,0</span>), tcl=0.2)<br> <span
@@ -777,7 +782,8 @@ place in our text.</p>
 slashes; words should just be separated by hyphens (<code>-</code>), and
 all chunk names must be unique</li>
 <li>we don't need to include the word <code>Figure</code> or a figure
-number at the start of the <code>fig.cap=</code> text string</li>
+number at the start of the <code>fig.cap=</code> text string in the
+chunk header (<code>{r . . . }</code>)</li>
 </ol>
 <p>Similarly, table captions can be cross-referenced using
 <code>Table \@ref(tab:table-chunk-name)</code> in the text outside of
@@ -789,7 +795,7 @@ caption options from those packages.</p>
 </div>
 <div id="other-chunk-options" class="section level2">
 <h2>Other chunk options</h2>
-<div class="tabwid"><style>.cl-a9f4332c{}.cl-a9e198d4{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-a9e198fc{font-family:'Courier New';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(100, 74, 155, 1.00);background-color:transparent;}.cl-a9e19910{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-a9e8843c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-a9e88450{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-a9e8afe8{width:2in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a9e8aff2{width:6in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a9e8aff3{width:2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a9e8aff4{width:6in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a9e8affc{width:2in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a9e8b006{width:6in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a9e8b007{width:2in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a9e8b01a{width:6in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-a9f4332c'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Some useful options for controlling the output from code chunks in R markdown.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-a9e8afe8"><p class="cl-a9e8843c"><span class="cl-a9e198d4">Option</span></p></th><th class="cl-a9e8aff2"><p class="cl-a9e8843c"><span class="cl-a9e198d4">Purpose</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-a9e8aff3"><p class="cl-a9e88450"><span class="cl-a9e198fc">out.width=</span></p></td><td class="cl-a9e8aff4"><p class="cl-a9e88450"><span class="cl-a9e19910">Sets the width of a figure as a proportion of the output page width,</span><br><span class="cl-a9e19910">e.g. out.width='50%'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a9e8affc"><p class="cl-a9e88450"><span class="cl-a9e198fc">fig.align=</span></p></td><td class="cl-a9e8b006"><p class="cl-a9e88450"><span class="cl-a9e19910">Aligns the figure on the output page</span><br><span class="cl-a9e19910">e.g. fig.align='center'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a9e8aff3"><p class="cl-a9e88450"><span class="cl-a9e198fc">results='hold'</span></p></td><td class="cl-a9e8aff4"><p class="cl-a9e88450"><span class="cl-a9e19910">Waits until all the code in a chunk has run before printing any text output</span><br><span class="cl-a9e19910">(other choices are 'markup', 'hide', 'asis')</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a9e8b007"><p class="cl-a9e88450"><span class="cl-a9e198fc">paged.print=</span></p></td><td class="cl-a9e8b01a"><p class="cl-a9e88450"><span class="cl-a9e19910">If TRUE (the default) adds html format to printed data frames;</span><br><span class="cl-a9e19910">if FALSE output is just text</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-aac00bbe{}.cl-aab05de0{font-family:'Consolas';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-aab05e08{font-family:'Courier New';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(100, 74, 155, 1.00);background-color:transparent;}.cl-aab05e09{font-family:'Consolas';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-aab6f466{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-aab6f470{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-aab72b0c{width:2in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-aab72b20{width:6in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-aab72b21{width:2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-aab72b22{width:6in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-aab72b2a{width:2in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-aab72b48{width:6in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-aab72b49{width:2in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-aab72b52{width:6in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-aac00bbe'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Some useful options for controlling the output from code chunks in R markdown.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-aab72b0c"><p class="cl-aab6f466"><span class="cl-aab05de0">Option</span></p></th><th class="cl-aab72b20"><p class="cl-aab6f466"><span class="cl-aab05de0">Purpose</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-aab72b21"><p class="cl-aab6f470"><span class="cl-aab05e08">out.width=</span></p></td><td class="cl-aab72b22"><p class="cl-aab6f470"><span class="cl-aab05e09">Sets the width of a figure as a proportion of the output page width,</span><br><span class="cl-aab05e09">e.g. out.width='50%'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-aab72b2a"><p class="cl-aab6f470"><span class="cl-aab05e08">fig.align=</span></p></td><td class="cl-aab72b48"><p class="cl-aab6f470"><span class="cl-aab05e09">Aligns the figure on the output page</span><br><span class="cl-aab05e09">e.g. fig.align='center'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-aab72b21"><p class="cl-aab6f470"><span class="cl-aab05e08">results='hold'</span></p></td><td class="cl-aab72b22"><p class="cl-aab6f470"><span class="cl-aab05e09">Waits until all the code in a chunk has run before printing any text output</span><br><span class="cl-aab05e09">(other choices are 'markup', 'hide', 'asis')</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-aab72b49"><p class="cl-aab6f470"><span class="cl-aab05e08">paged.print=</span></p></td><td class="cl-aab72b52"><p class="cl-aab6f470"><span class="cl-aab05e09">If TRUE (the default) adds html format to printed data frames;</span><br><span class="cl-aab05e09">if FALSE output is just text</span></p></td></tr></tbody></table></div>
 <p>You can see a more complete table in the <a
 href="https://rstudio.github.io/cheatsheets/html/rmarkdown.html#chunk-options"
 target="_blank">R Markdown Cheatsheet</a>.</p>
