@@ -234,11 +234,12 @@ We also made a grouped box plot like the one in Figure 3 in a previous session.
 Cu_means <- data.frame(meanCu=tapply(log10(sv2017$Cu), sv2017$Type, mean, na.rm=T))
 # plot the boxplot with nice axis titles etc.
 ggbx <- ggplot(data=sv2017, mapping = aes(x=Type, y=log10(Cu))) +
-  geom_boxplot(fill="seashell")
+  geom_boxplot(fill="seashell",staplewidth = 0.2)
 ggbx <- ggbx + geom_point(data=Cu_means, mapping=aes(x=c(1:nrow(Cu_means)),
-                  y=meanCu), shape=3, size=2.5, col="royalblue", stroke=1)
+                  y=meanCu), shape=3, size=2.5, col="royalblue", stroke=1.5)
 ggbx + geom_hline(yintercept = log10(65), col="red3",size=0.3,
-                  linetype="dashed") + 
+                  linetype="dashed") +
+  labs(y=expression(paste("log"[10],"(Cu)"))) + 
   annotate("text", x=2.9, y = log10(65), label = "Sediment DGV Cu 65 mg/kg", 
            vjust = -0.5, col="red3", size=3) + 
   annotate("text", x=2.2, y=0.4, label = "+", 
