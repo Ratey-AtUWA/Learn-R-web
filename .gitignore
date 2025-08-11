@@ -30,6 +30,7 @@ sandbox-themes/
 *.docx
 *.lnk
 *.R
+*.jpg
 
 # Output files from R CMD check
 /*.Rcheck/
