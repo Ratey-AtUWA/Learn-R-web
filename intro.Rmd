@@ -74,7 +74,10 @@ hubbard <- read.csv(file = paste0(git,"hubbard.csv"), stringsAsFactors = TRUE)
 is.data.frame(hubbard) # check that it worked; if so, the result should be TRUE
 ```
 
-These data are from the [Hubbard Brook Experimental Forest](https://hubbardbrook.org/experimental-watersheds-research-sites/){target="_blank"} near Woodstock in New Hampshire, USA (Figure 1).
+These data are from the [Hubbard Brook Experimental Forest](https://hubbardbrook.org/experimental-watersheds-research-sites/){target="_blank"}
+near Woodstock in New Hampshire, USA (Figure 1). Geological map units used to
+generate the factor `Rocktype` are from 
+[the US Geological Survey](https://ngmdb.usgs.gov/Prodesc/proddesc_37099.htm){target="_blank"}.
 
 ```{r make map extent object, echo=FALSE, warning=FALSE, error=FALSE, results='hide'}
 library(sf)
@@ -157,10 +160,10 @@ You should look at structure for the whole data frame using `str(hubbard)`
 str(hubbard[,1:15]) # 'str' gives the structure of an object
 ```
 
-We can see that some columns are integer (`int`) values (*e.g*. PLOT, UTM_EASTING),
+We can see that some columns are integer (`int`) values (*e.g*. `PLOT`, `UTM_EASTING`),
 some columns contain `Factor` values *i.e*. in fixed categories
-(*e.g*. Rel.To.Brook, Transect), and some columns are numeric (`num`)
-(*e.g*. PH, OM.pct, Ni). Applying the `str()` function to a data
+(*e.g*. `Rocktype`, `Transect`), and some columns are numeric (`num`)
+(*e.g*. `PH`, `OM.pct`, `Ni`). Applying the `str()` function to a data
 object is **always** a good idea, to check that the data have read correctly
 into R. [NOTE that other variable types are possible such as character
 `chr`, date (`Date` or `POSIXct`), `logical`, *etc*.]
@@ -275,16 +278,16 @@ par(mar=c(4,4,1,1), mgp=c(2,0.6,0), font.lab=2)
 with(hubbard,
      plot(EXCH_Al ~ PH, xlab="Soil pH",
           ylab="Exchangeable Al (centimoles/kg)",
-          pch=c(1,16)[Rel.To.Brook], 
-          col=c("blue","darkred")[Rel.To.Brook])
+          pch=c(1,16)[Rocktype], 
+          col=c("blue","darkred")[Rocktype])
      )
 ``` 
 
 &nbsp;
 
-The parameter `pch=c(1,16)[Rel.To.Brook]` separates the points by the
-information in the Factor column `Rel.To.Brook`, shown inside `[ ]`. This column
-is a 2-level factor, so can be one of two categories (North or South), and so we
+The parameter `pch=c(1,16)[Rocktype]` separates the points by the information in
+the Factor column `Rocktype`, shown inside `[ ]`. This column is a 2-level
+factor, so can be one of two categories (`Igneous` or `Metamorphic`), and so we
 need a vector with two numbers in it (`pch=c(1,16)`). The code for specifying
 colour is very similar, except our vector has 2 colour names in it.
 
@@ -292,26 +295,26 @@ There is still one thing missing; a **graph legend**. We can add one using
 the `legend()` function. We will use the following options:
 
 - `"topleft"` position of legend -- run `help(legend)` for options, or we can use x-y coordinates
-- `legend =` a vector of names identifying the plot symbols - we have used the categories in the factor 'Rel.To.Brook', `levels(hubbard$Rel.To.Brook)`, but we could have used `legend=c("North","South")` instead
+- `legend =` a vector of names identifying the plot symbols - we have used the categories in the factor 'Rocktype', `levels(hubbard$Rocktype)`, but we could have used `legend=c("Igneous", "Metamorphic")` instead
 - `pch =` plot symbols - should be exactly the same vector as in the plot function
 - `col =` plot colours - should be exactly the same vector as in the plot function
 - `title =` a title for the legend - optional
 
-```{r plot-add-legend, fig.width=4, fig.height=4, fig.cap="Figure 7: Plot of exchangeable Al vs. pH by sample location, with custom graphics parameters and axis titles, and a legend to explain the plot symbols.", message=FALSE, warning=FALSE, results='hold'}
+```{r plot-add-legend, fig.width=4, fig.height=4, fig.cap="Figure 7: Plot of exchangeable Al vs. pH by broad rock type, with custom graphics parameters and axis titles, and a legend to explain the plot symbols.", message=FALSE, warning=FALSE, results='hold'}
 par(mar=c(4,4,1,1), mgp=c(2,0.6,0), font.lab=2)
 with(hubbard,
        plot(EXCH_Al ~ PH, xlab="Soil pH", 
             ylab="Exchangeable Al (centimoles/kg)",
-            pch=c(1,16)[Rel.To.Brook], 
-            col=c("blue","darkred")[Rel.To.Brook])
+            pch=c(1,16)[Rocktype], 
+            col=c("blue","darkred")[Rocktype])
        )
-legend("topleft", legend=levels(hubbard$Rel.To.Brook), pch=c(1,16), 
-       col=c("blue","darkred"), title="Location")
+legend("topleft", legend=levels(hubbard$Rocktype), pch=c(1,16), 
+       col=c("blue","darkred"), title="Rock Type")
 ```
 
 <hr style="height: 3px; background-color: #5560A4;" />
 
-# Alternative to base-R plot: `scatterplot()` (from the `car` package) 
+# An alternative to base-R plot: `scatterplot()` (from the `car` package) 
 
 The R package `car` (Companion to Applied Regression) has many useful 
 additional functions that extend the capability of **R**. 
@@ -351,7 +354,7 @@ Also, we separately specify the dataset to be used as a function argument,
 
 ### Scatterplot (`car`) with groups, Hubbard Brook soil data
 
-```{r car-sp-2, fig.width=3.5, fig.height=3.5, fig.cap="Figure 9: Plot of exchangeable Al vs. pH with points grouped by location, made using the car::scatterplot() function.", message=FALSE, warning=FALSE, results='hold'}
+```{r car-sp-2, fig.width=4, fig.height=4, fig.cap="Figure 9: Plot of exchangeable Al vs. pH with points grouped by rock type, made using the car::scatterplot() function.", message=FALSE, warning=FALSE, results='hold'}
 # 'require()' loads package(s) if they haven't already been loaded
 require(car)
 # adjust overall plot appearance using options within par()
@@ -361,8 +364,8 @@ par(font.lab=2, mar=c(4,4,1,1), mgp=c(2.2,0.7,0.0))
 # create custom palette with nice colours :)
 # this lets us specify colours using numbers - try it!
 palette(c("black","red3","blue3","darkgreen","sienna"))
-# draw scatterplot with points grouped by a factor (Rel.To.Brook) 
-scatterplot(EXCH_Al ~ PH | Rel.To.Brook, data=hubbard, smooth=FALSE,
+# draw scatterplot with points grouped by a factor (Rocktype) 
+scatterplot(EXCH_Al ~ PH | Rocktype, data=hubbard, smooth=FALSE,
             legend = c(coords="topleft"), col=c(5,3,1), 
             pch=c(16,0,2), cex=1.2, cex.lab=1.3, cex.axis=1.0)
 ```
@@ -428,19 +431,19 @@ plotted separately and represent **potential outliers**.
 ^a^**IQR** is the interquartile range between the upper and lower quartiles (25^th^ and 75^th^ percentiles)
 
 ```{r basic-boxplot-notRun, eval=FALSE}
-boxplot(MOISTURE.pct ~ Rel.To.Brook, data=hubbard)
+boxplot(MOISTURE.pct ~ Rocktype, data=hubbard)
 ```
 
 ```{r basic-boxplot, fig.width=5.5, fig.height=4, fig.cap="Figure 11: Box plot of percent soil moisture content at Hubbard Brook. Only default `boxplot()` arguments have been used (except for the annotations explaining the boxplot features).", message=FALSE, warning=FALSE, echo=FALSE, results='hold'}
 par(mar=c(4,4,1,1))
-boxplot(MOISTURE.pct ~ Rel.To.Brook, data=hubbard, xlim=c(0.4,3.8))
-bps <- with(hubbard[which(hubbard$Rel.To.Brook=="South"),], 
+boxplot(MOISTURE.pct ~ Rocktype, data=hubbard, xlim=c(-0.8,2.4))
+bps <- with(hubbard[which(hubbard$Rocktype=="Igneous"),], 
             boxplot.stats(MOISTURE.pct))
-arrows(rep(2.7,5), bps$stats, c(2.22,2.4,2.4,2.4,2.22), bps$stats, angle=15, 
+arrows(rep(0,5), bps$stats, c(0.78,0.6,0.6,0.6,0.78), bps$stats, angle=15, 
        length=0.08, col="steelblue")
-text(c(rep(2.7,5),2), c(bps$stats, 19.7), pos=4, 
+text(c(rep(0,5),0.9), c(bps$stats, 19.7), pos=2, 
      labels=c("lower whisker","lower hinge","median","upper hinge",
-              "upper whisker","\u2510\nsymbols\nare\npotential\noutliers\n\u2518"), 
+              "upper whisker","\u250C\nsymbols\nare\npotential\noutliers\n\u2514"), 
      col="steelblue")
 ```
 
@@ -499,7 +502,7 @@ with(hubbard, tapply(X = EXCH_Ni, INDEX=Transect,
        FUN=mean, na.rm=TRUE))
 cat("\nTwo-way table of means\n")
 with(hubbard, tapply(X = EXCH_Ni, 
-       INDEX=list(Transect,Rel.To.Brook), 
+       INDEX=list(Transect,Rocktype), 
        FUN=mean, na.rm=TRUE))
 ```
 
@@ -519,8 +522,8 @@ require(RcmdrMisc)
 #   (\n is a line break)
 cat("Summary statistics for EXCH_Ni\n")
 numSummary(hubbard$EXCH_Ni)
-cat("\nSummary statistics for EXCH_Ni grouped by Rel.To.Brook\n")
-numSummary(hubbard$EXCH_Ni, groups=hubbard$Rel.To.Brook)
+cat("\nSummary statistics for EXCH_Ni grouped by Rocktype\n")
+numSummary(hubbard$EXCH_Ni, groups=hubbard$Rocktype)
 ```
 
 For `numSummary()` tables, try the following:

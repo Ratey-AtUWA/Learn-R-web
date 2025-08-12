@@ -11,11 +11,11 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-06-19" />
+<meta name="date" content="2025-08-12" />
 
 <title>RStudio introduction</title>
 
-<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -532,7 +532,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">RStudio introduction</h1>
 <h3 class="subtitle">Reading files, checking data, and making plots</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-06-19</h4>
+<h4 class="date">2025-08-12</h4>
 
 </div>
 
@@ -593,7 +593,10 @@ in RStudio.</p>
 <p>These data are from the <a
 href="https://hubbardbrook.org/experimental-watersheds-research-sites/"
 target="_blank">Hubbard Brook Experimental Forest</a> near Woodstock in
-New Hampshire, USA (Figure 1).</p>
+New Hampshire, USA (Figure 1). Geological map units used to generate the
+factor <code>Rocktype</code> are from <a
+href="https://ngmdb.usgs.gov/Prodesc/proddesc_37099.htm"
+target="_blank">the US Geological Survey</a>.</p>
 <div class="figure">
 <img src="intro_files/figure-html/hubbard-pix-1.png" alt="Figure 1: Location of the Hubbard Brook Experimental Forest in New Hampshire, USA. The data used in this workshop were generated at this site." width="1305.6" />
 <p class="caption">
@@ -611,22 +614,22 @@ class="section level2">
 of our data, to make sure the file has read correctly (this may not
 happen if the file is improperly formatted, <em>etc</em>.).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">summary</span>(hubbard[,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]) <span class="co"># just the first 9 columns to save space!</span></span></code></pre></div>
-<pre><code>##       PLOT       Rel.To.Brook    Transect   UTM_EASTING      UTM_NORTHING    
-##  Min.   :  1.0   North:135    E278000:44   Min.   :276000   Min.   :4866300  
-##  1st Qu.:126.8   South:125    E277000:43   1st Qu.:277000   1st Qu.:4867800  
-##  Median :254.5                E280000:37   Median :279000   Median :4869000  
-##  Mean   :249.2                E276000:35   Mean   :278996   Mean   :4868769  
-##  3rd Qu.:392.2                E279000:34   3rd Qu.:281000   3rd Qu.:4869700  
-##  Max.   :460.0                E282000:25   Max.   :283000   Max.   :4871100  
-##                               (Other):42                                     
-##        PH         MOISTURE.pct        OM.pct             Cd        
-##  Min.   :2.510   Min.   : 0.510   Min.   : 2.240   Min.   :0.0980  
-##  1st Qu.:4.168   1st Qu.: 3.068   1st Qu.: 9.188   1st Qu.:0.3070  
-##  Median :4.350   Median : 4.131   Median :11.162   Median :0.6350  
-##  Mean   :4.322   Mean   : 5.367   Mean   :12.009   Mean   :0.7426  
-##  3rd Qu.:4.503   3rd Qu.: 6.324   3rd Qu.:13.582   3rd Qu.:1.1310  
-##  Max.   :4.870   Max.   :26.262   Max.   :50.177   Max.   :1.8890  
-##                                                    NA&#39;s   :167</code></pre>
+<pre><code>##       PLOT              Rocktype   Rel.To.Brook    Transect    Longitude         Latitude    
+##  Min.   :  1.0   Igneous    : 95   North:135    E278000:44   Min.   :-71.79   Min.   :43.92  
+##  1st Qu.:126.8   Metamorphic:165   South:125    E277000:43   1st Qu.:-71.78   1st Qu.:43.93  
+##  Median :254.5                                  E280000:37   Median :-71.75   Median :43.94  
+##  Mean   :249.2                                  E276000:35   Mean   :-71.75   Mean   :43.94  
+##  3rd Qu.:392.2                                  E279000:34   3rd Qu.:-71.73   3rd Qu.:43.95  
+##  Max.   :460.0                                  E282000:25   Max.   :-71.70   Max.   :43.96  
+##                                                 (Other):42                                   
+##   UTM_EASTING      UTM_NORTHING           PH       
+##  Min.   :276000   Min.   :4866300   Min.   :2.510  
+##  1st Qu.:277000   1st Qu.:4867800   1st Qu.:4.168  
+##  Median :279000   Median :4869000   Median :4.350  
+##  Mean   :278996   Mean   :4868769   Mean   :4.322  
+##  3rd Qu.:281000   3rd Qu.:4869700   3rd Qu.:4.503  
+##  Max.   :283000   Max.   :4871100   Max.   :4.870  
+## </code></pre>
 <p> </p>
 <p>The <code>summary()</code> function creates a little table for each
 column - note that these little tables do not all look the same.
@@ -665,8 +668,11 @@ columns), not 15.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">str</span>(hubbard[,<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>]) <span class="co"># &#39;str&#39; gives the structure of an object</span></span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    260 obs. of  15 variables:
 ##  $ PLOT        : int  1 2 3 5 6 7 8 9 10 11 ...
+##  $ Rocktype    : Factor w/ 2 levels &quot;Igneous&quot;,&quot;Metamorphic&quot;: 2 2 2 2 2 2 2 2 2 2 ...
 ##  $ Rel.To.Brook: Factor w/ 2 levels &quot;North&quot;,&quot;South&quot;: 1 1 1 1 1 1 1 1 1 1 ...
 ##  $ Transect    : Factor w/ 8 levels &quot;E276000&quot;,&quot;E277000&quot;,..: 5 5 5 5 5 5 5 5 5 5 ...
+##  $ Longitude   : num  -71.7 -71.7 -71.7 -71.7 -71.7 ...
+##  $ Latitude    : num  43.9 43.9 43.9 43.9 43.9 ...
 ##  $ UTM_EASTING : int  280000 280000 280000 280000 280000 280000 280000 280000 280000 280000 ...
 ##  $ UTM_NORTHING: int  4868400 4868500 4868700 4869000 4869100 4869300 4869400 4869600 4869700 4869900 ...
 ##  $ PH          : num  4.29 4.66 4.23 4.15 4.49 4.79 4.11 4.52 4.51 4.43 ...
@@ -675,15 +681,13 @@ columns), not 15.</p>
 ##  $ Cd          : num  0.498 0.207 1.359 0.913 0.099 ...
 ##  $ Cu          : num  22.1 27.1 18.6 7 17 ...
 ##  $ Ni          : num  12.25 20.5 14.43 8.72 10.62 ...
-##  $ Cr          : num  21.1 28.2 19.6 21.3 22.8 ...
-##  $ Co          : num  14.4 17 13.1 11.1 11.4 ...
-##  $ Zn          : num  47.6 63.1 47.5 18.2 31.9 ...
-##  $ Mn          : num  490 453 578 261 335 ...</code></pre>
+##  $ Cr          : num  21.1 28.2 19.6 21.3 22.8 ...</code></pre>
 <p>We can see that some columns are integer (<code>int</code>) values
-(<em>e.g</em>. PLOT, UTM_EASTING), some columns contain
-<code>Factor</code> values <em>i.e</em>. in fixed categories
-(<em>e.g</em>. Rel.To.Brook, Transect), and some columns are numeric
-(<code>num</code>) (<em>e.g</em>. PH, OM.pct, Ni). Applying the
+(<em>e.g</em>. <code>PLOT</code>, <code>UTM_EASTING</code>), some
+columns contain <code>Factor</code> values <em>i.e</em>. in fixed
+categories (<em>e.g</em>. <code>Rocktype</code>, <code>Transect</code>),
+and some columns are numeric (<code>num</code>) (<em>e.g</em>.
+<code>PH</code>, <code>OM.pct</code>, <code>Ni</code>). Applying the
 <code>str()</code> function to a data object is <strong>always</strong>
 a good idea, to check that the data have read correctly into R. [NOTE
 that other variable types are possible such as character
@@ -817,8 +821,8 @@ page from YaRrr</a>).</p></li>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">with</span>(hubbard,</span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>     <span class="fu">plot</span>(EXCH_Al <span class="sc">~</span> PH, <span class="at">xlab=</span><span class="st">&quot;Soil pH&quot;</span>,</span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>          <span class="at">ylab=</span><span class="st">&quot;Exchangeable Al (centimoles/kg)&quot;</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>          <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">16</span>)[Rel.To.Brook], </span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>          <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;darkred&quot;</span>)[Rel.To.Brook])</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>          <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">16</span>)[Rocktype], </span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>          <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;darkred&quot;</span>)[Rocktype])</span>
 <span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>     )</span></code></pre></div>
 <div class="figure">
 <img src="intro_files/figure-html/plot-by-groups-1.png" alt="Figure 6: Plot of exchangeable Al vs. pH with custom graphics parameters and axis titles, improved by separating points by a Factor." width="384" />
@@ -828,13 +832,13 @@ and axis titles, improved by separating points by a Factor.
 </p>
 </div>
 <p> </p>
-<p>The parameter <code>pch=c(1,16)[Rel.To.Brook]</code> separates the
-points by the information in the Factor column
-<code>Rel.To.Brook</code>, shown inside <code>[ ]</code>. This column is
-a 2-level factor, so can be one of two categories (North or South), and
-so we need a vector with two numbers in it (<code>pch=c(1,16)</code>).
-The code for specifying colour is very similar, except our vector has 2
-colour names in it.</p>
+<p>The parameter <code>pch=c(1,16)[Rocktype]</code> separates the points
+by the information in the Factor column <code>Rocktype</code>, shown
+inside <code>[ ]</code>. This column is a 2-level factor, so can be one
+of two categories (<code>Igneous</code> or <code>Metamorphic</code>),
+and so we need a vector with two numbers in it
+(<code>pch=c(1,16)</code>). The code for specifying colour is very
+similar, except our vector has 2 colour names in it.</p>
 <p>There is still one thing missing; a <strong>graph legend</strong>. We
 can add one using the <code>legend()</code> function. We will use the
 following options:</p>
@@ -843,9 +847,9 @@ following options:</p>
 <code>help(legend)</code> for options, or we can use x-y
 coordinates</li>
 <li><code>legend =</code> a vector of names identifying the plot symbols
-- we have used the categories in the factor 'Rel.To.Brook',
-<code>levels(hubbard$Rel.To.Brook)</code>, but we could have used
-<code>legend=c("North","South")</code> instead</li>
+- we have used the categories in the factor 'Rocktype',
+<code>levels(hubbard$Rocktype)</code>, but we could have used
+<code>legend=c("Igneous", "Metamorphic")</code> instead</li>
 <li><code>pch =</code> plot symbols - should be exactly the same vector
 as in the plot function</li>
 <li><code>col =</code> plot colours - should be exactly the same vector
@@ -856,15 +860,15 @@ as in the plot function</li>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">with</span>(hubbard,</span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>       <span class="fu">plot</span>(EXCH_Al <span class="sc">~</span> PH, <span class="at">xlab=</span><span class="st">&quot;Soil pH&quot;</span>, </span>
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>            <span class="at">ylab=</span><span class="st">&quot;Exchangeable Al (centimoles/kg)&quot;</span>,</span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>            <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">16</span>)[Rel.To.Brook], </span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>            <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;darkred&quot;</span>)[Rel.To.Brook])</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>            <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">16</span>)[Rocktype], </span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>            <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;darkred&quot;</span>)[Rocktype])</span>
 <span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>       )</span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend=</span><span class="fu">levels</span>(hubbard<span class="sc">$</span>Rel.To.Brook), <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">16</span>), </span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;darkred&quot;</span>), <span class="at">title=</span><span class="st">&quot;Location&quot;</span>)</span></code></pre></div>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">legend=</span><span class="fu">levels</span>(hubbard<span class="sc">$</span>Rocktype), <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">16</span>), </span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;darkred&quot;</span>), <span class="at">title=</span><span class="st">&quot;Rock Type&quot;</span>)</span></code></pre></div>
 <div class="figure">
-<img src="intro_files/figure-html/plot-add-legend-1.png" alt="Figure 7: Plot of exchangeable Al vs. pH by sample location, with custom graphics parameters and axis titles, and a legend to explain the plot symbols." width="384" />
+<img src="intro_files/figure-html/plot-add-legend-1.png" alt="Figure 7: Plot of exchangeable Al vs. pH by broad rock type, with custom graphics parameters and axis titles, and a legend to explain the plot symbols." width="384" />
 <p class="caption">
-Figure 7: Plot of exchangeable Al vs. pH by sample location, with custom
+Figure 7: Plot of exchangeable Al vs. pH by broad rock type, with custom
 graphics parameters and axis titles, and a legend to explain the plot
 symbols.
 </p>
@@ -872,9 +876,9 @@ symbols.
 <hr style="height: 3px; background-color: #5560A4;" />
 </div>
 </div>
-<div id="alternative-to-base-r-plot-scatterplot-from-the-car-package"
+<div id="an-alternative-to-base-r-plot-scatterplot-from-the-car-package"
 class="section level1">
-<h1>Alternative to base-R plot: <code>scatterplot()</code> (from the
+<h1>An alternative to base-R plot: <code>scatterplot()</code> (from the
 <code>car</code> package)</h1>
 <p>The R package <code>car</code> (Companion to Applied Regression) has
 many useful additional functions that extend the capability of
@@ -930,15 +934,15 @@ data</h3>
 <span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co"># create custom palette with nice colours :)</span></span>
 <span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co"># this lets us specify colours using numbers - try it!</span></span>
 <span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;red3&quot;</span>,<span class="st">&quot;blue3&quot;</span>,<span class="st">&quot;darkgreen&quot;</span>,<span class="st">&quot;sienna&quot;</span>))</span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="co"># draw scatterplot with points grouped by a factor (Rel.To.Brook) </span></span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="fu">scatterplot</span>(EXCH_Al <span class="sc">~</span> PH <span class="sc">|</span> Rel.To.Brook, <span class="at">data=</span>hubbard, <span class="at">smooth=</span><span class="cn">FALSE</span>,</span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="co"># draw scatterplot with points grouped by a factor (Rocktype) </span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="fu">scatterplot</span>(EXCH_Al <span class="sc">~</span> PH <span class="sc">|</span> Rocktype, <span class="at">data=</span>hubbard, <span class="at">smooth=</span><span class="cn">FALSE</span>,</span>
 <span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>            <span class="at">legend =</span> <span class="fu">c</span>(<span class="at">coords=</span><span class="st">&quot;topleft&quot;</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">1</span>), </span>
 <span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>            <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">16</span>,<span class="dv">0</span>,<span class="dv">2</span>), <span class="at">cex=</span><span class="fl">1.2</span>, <span class="at">cex.lab=</span><span class="fl">1.3</span>, <span class="at">cex.axis=</span><span class="fl">1.0</span>)</span></code></pre></div>
 <div class="figure">
-<img src="intro_files/figure-html/car-sp-2-1.png" alt="Figure 9: Plot of exchangeable Al vs. pH with points grouped by location, made using the car::scatterplot() function." width="336" />
+<img src="intro_files/figure-html/car-sp-2-1.png" alt="Figure 9: Plot of exchangeable Al vs. pH with points grouped by rock type, made using the car::scatterplot() function." width="384" />
 <p class="caption">
-Figure 9: Plot of exchangeable Al vs. pH with points grouped by
-location, made using the car::scatterplot() function.
+Figure 9: Plot of exchangeable Al vs. pH with points grouped by rock
+type, made using the car::scatterplot() function.
 </p>
 </div>
 <p> </p>
@@ -1011,7 +1015,7 @@ outliers</strong>.</p>
 <p><sup>a</sup><strong>IQR</strong> is the interquartile range between
 the upper and lower quartiles (25<sup>th</sup> and 75<sup>th</sup>
 percentiles)</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">boxplot</span>(MOISTURE.pct <span class="sc">~</span> Rel.To.Brook, <span class="at">data=</span>hubbard)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">boxplot</span>(MOISTURE.pct <span class="sc">~</span> Rocktype, <span class="at">data=</span>hubbard)</span></code></pre></div>
 <div class="figure">
 <img src="intro_files/figure-html/basic-boxplot-1.png" alt="Figure 11: Box plot of percent soil moisture content at Hubbard Brook. Only default `boxplot()` arguments have been used (except for the annotations explaining the boxplot features)." width="528" />
 <p class="caption">
@@ -1084,24 +1088,22 @@ tables:</p>
 <span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>       <span class="at">FUN=</span>mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span>
 <span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Two-way table of means</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a><span class="fu">with</span>(hubbard, <span class="fu">tapply</span>(<span class="at">X =</span> EXCH_Ni, </span>
-<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>       <span class="at">INDEX=</span><span class="fu">list</span>(Transect,Rel.To.Brook), </span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>       <span class="at">INDEX=</span><span class="fu">list</span>(Transect,Rocktype), </span>
 <span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>       <span class="at">FUN=</span>mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## One-way table of means
-##     E276000     E277000     E278000     E279000     E280000     E281000     E282000 
-## 0.002588815 0.002136418 0.002827809 0.002813563 0.002528296 0.002262386 0.002221885 
-##     E283000 
-## 0.002957922 
+##     E276000     E277000     E278000     E279000     E280000     E281000     E282000     E283000 
+## 0.002588815 0.002136418 0.002827809 0.002813563 0.002528296 0.002262386 0.002221885 0.002957922 
 ## 
 ## Two-way table of means
-##               North       South
-## E276000 0.002652212 0.002559759
-## E277000 0.002154745 0.002117219
-## E278000 0.003133112 0.002360874
-## E279000 0.002733461 0.002927993
-## E280000 0.002176569 0.002861511
-## E281000 0.002537732 0.001962009
-## E282000 0.002219457 0.002224313
-## E283000 0.003542597 0.002039146</code></pre>
+##             Igneous Metamorphic
+## E276000 0.002477888 0.002693580
+## E277000 0.002156119 0.002113763
+## E278000 0.002901344 0.002374343
+## E279000 0.002437618 0.003189507
+## E280000          NA 0.002528296
+## E281000          NA 0.002262386
+## E282000          NA 0.002221885
+## E283000          NA 0.002957922</code></pre>
 <p> </p>
 <p>For <code>tapply()</code> tables, try the following:</p>
 <ul>
@@ -1121,21 +1123,19 @@ package</h3>
 <span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="co">#   (\n is a line break)</span></span>
 <span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Summary statistics for EXCH_Ni</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="fu">numSummary</span>(hubbard<span class="sc">$</span>EXCH_Ni)</span>
-<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Summary statistics for EXCH_Ni grouped by Rel.To.Brook</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="fu">numSummary</span>(hubbard<span class="sc">$</span>EXCH_Ni, <span class="at">groups=</span>hubbard<span class="sc">$</span>Rel.To.Brook)</span></code></pre></div>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Summary statistics for EXCH_Ni grouped by Rocktype</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="fu">numSummary</span>(hubbard<span class="sc">$</span>EXCH_Ni, <span class="at">groups=</span>hubbard<span class="sc">$</span>Rocktype)</span></code></pre></div>
 <pre><code>## Summary statistics for EXCH_Ni
-##         mean          sd         IQR         0%         25%         50%         75%
-##  0.002536502 0.001382344 0.001126141 0.00070457 0.001829135 0.002246775 0.002955276
-##        100%   n NA
-##  0.01784169 257  3
+##         mean          sd         IQR         0%         25%         50%         75%       100%   n NA
+##  0.002536502 0.001382344 0.001126141 0.00070457 0.001829135 0.002246775 0.002955276 0.01784169 257  3
 ## 
-## Summary statistics for EXCH_Ni grouped by Rel.To.Brook
-##              mean          sd         IQR          0%         25%         50%         75%
-## North 0.002635924 0.001605190 0.001114533 0.001120626 0.001933342 0.002277016 0.003047875
-## South 0.002431513 0.001096042 0.001170948 0.000704570 0.001719421 0.002174767 0.002890369
-##              100% data:n data:NA
-## North 0.017841689    132       3
-## South 0.008483806    125       0</code></pre>
+## Summary statistics for EXCH_Ni grouped by Rocktype
+##                    mean           sd         IQR          0%         25%         50%         75%
+## Igneous     0.002558554 0.0008877544 0.001097433 0.001016643 0.001995040 0.002368455 0.003092473
+## Metamorphic 0.002523785 0.0016021169 0.001142543 0.000704570 0.001754511 0.002174767 0.002897054
+##                    100% data:n data:NA
+## Igneous     0.005404474     94       1
+## Metamorphic 0.017841689    163       2</code></pre>
 <p>For <code>numSummary()</code> tables, try the following:</p>
 <ul>
 <li>generating summary tables for more than one variable at a time</li>
@@ -1190,7 +1190,7 @@ the table object <code>mytable</code> made above:</p>
 <span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">flextable</span>(<span class="fu">data.frame</span>(<span class="at">Statistic=</span><span class="fu">row.names</span>(mytable),<span class="fu">signif</span>(mytable,<span class="dv">3</span>))) <span class="sc">|&gt;</span></span>
 <span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>  <span class="fu">bold</span>(<span class="at">bold=</span><span class="cn">TRUE</span>, <span class="at">part=</span><span class="st">&quot;header&quot;</span>) <span class="sc">|&gt;</span></span>
 <span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>  <span class="fu">set_caption</span>(<span class="at">caption=</span><span class="st">&quot;Table 1: Table created by the `flextable` R package. Many more table formatting, text formatting, and number formatting options are available in this package.&quot;</span>)</span></code></pre></div>
-<div class="tabwid"><style>.cl-6937616e{}.cl-69297d38{font-family:'Consolas';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-69297d42{font-family:'Consolas';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-692f538e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-692f5398{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-692f6cfc{width:0.75in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-692f6d10{width:0.75in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-692f6d1a{width:0.75in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-692f6d1b{width:0.75in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-692f6d24{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-692f6d25{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-6937616e'><caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;"><span>Table 1: Table created by the `flextable` R package. Many more table formatting, text formatting, and number formatting options are available in this package.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-692f6cfc"><p class="cl-692f538e"><span class="cl-69297d38">Statistic</span></p></th><th class="cl-692f6d10"><p class="cl-692f5398"><span class="cl-69297d38">PH</span></p></th><th class="cl-692f6d10"><p class="cl-692f5398"><span class="cl-69297d38">MOISTURE.pct</span></p></th><th class="cl-692f6d10"><p class="cl-692f5398"><span class="cl-69297d38">OM.pct</span></p></th><th class="cl-692f6d10"><p class="cl-692f5398"><span class="cl-69297d38">Al.pct</span></p></th><th class="cl-692f6d10"><p class="cl-692f5398"><span class="cl-69297d38">Ca.pct</span></p></th><th class="cl-692f6d10"><p class="cl-692f5398"><span class="cl-69297d38">Fe.pct</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-692f6d1a"><p class="cl-692f538e"><span class="cl-69297d42">Mean</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">4.320</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">5.37</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">12.00</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">1.640</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">0.208</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">3.160</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-692f6d24"><p class="cl-692f538e"><span class="cl-69297d42">Std.dev.</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">0.293</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">3.83</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">5.17</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">1.480</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">0.214</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">1.110</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-692f6d1a"><p class="cl-692f538e"><span class="cl-69297d42">Min.</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">2.510</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">0.51</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">2.24</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">0.155</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">0.002</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">0.497</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-692f6d24"><p class="cl-692f538e"><span class="cl-69297d42">Median</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">4.350</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">4.13</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">11.20</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">0.970</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">0.139</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">3.170</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-692f6d1a"><p class="cl-692f538e"><span class="cl-69297d42">Max.</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">4.870</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">26.30</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">50.20</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">7.130</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">1.110</span></p></td><td class="cl-692f6d1b"><p class="cl-692f5398"><span class="cl-69297d42">7.710</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-692f6d24"><p class="cl-692f538e"><span class="cl-69297d42">Missing</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">0.000</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">0.00</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">0.00</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">60.000</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">62.000</span></p></td><td class="cl-692f6d25"><p class="cl-692f5398"><span class="cl-69297d42">60.000</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-f6b86e3a{}.cl-f6ad5cd4{font-family:'Arial';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f6ad5cde{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f6b1f4ba{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f6b1f4c4{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f6b23330{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f6b23344{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f6b2334e{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f6b2334f{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f6b23362{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f6b23380{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-f6b86e3a'><caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;"><span>Table 1: Table created by the `flextable` R package. Many more table formatting, text formatting, and number formatting options are available in this package.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-f6b23330"><p class="cl-f6b1f4ba"><span class="cl-f6ad5cd4">Statistic</span></p></th><th class="cl-f6b23344"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cd4">PH</span></p></th><th class="cl-f6b23344"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cd4">MOISTURE.pct</span></p></th><th class="cl-f6b23344"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cd4">OM.pct</span></p></th><th class="cl-f6b23344"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cd4">Al.pct</span></p></th><th class="cl-f6b23344"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cd4">Ca.pct</span></p></th><th class="cl-f6b23344"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cd4">Fe.pct</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-f6b2334e"><p class="cl-f6b1f4ba"><span class="cl-f6ad5cde">Mean</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">4.320</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">5.37</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">12.00</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">1.640</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">0.208</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">3.160</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f6b2334e"><p class="cl-f6b1f4ba"><span class="cl-f6ad5cde">Std.dev.</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">0.293</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">3.83</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">5.17</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">1.480</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">0.214</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">1.110</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f6b2334e"><p class="cl-f6b1f4ba"><span class="cl-f6ad5cde">Min.</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">2.510</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">0.51</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">2.24</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">0.155</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">0.002</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">0.497</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f6b2334e"><p class="cl-f6b1f4ba"><span class="cl-f6ad5cde">Median</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">4.350</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">4.13</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">11.20</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">0.970</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">0.139</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">3.170</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f6b2334e"><p class="cl-f6b1f4ba"><span class="cl-f6ad5cde">Max.</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">4.870</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">26.30</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">50.20</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">7.130</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">1.110</span></p></td><td class="cl-f6b2334f"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">7.710</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f6b23362"><p class="cl-f6b1f4ba"><span class="cl-f6ad5cde">Missing</span></p></td><td class="cl-f6b23380"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">0.000</span></p></td><td class="cl-f6b23380"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">0.00</span></p></td><td class="cl-f6b23380"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">0.00</span></p></td><td class="cl-f6b23380"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">60.000</span></p></td><td class="cl-f6b23380"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">62.000</span></p></td><td class="cl-f6b23380"><p class="cl-f6b1f4c4"><span class="cl-f6ad5cde">60.000</span></p></td></tr></tbody></table></div>
 <p> </p>
 <p>For more detail on producing high-quality tables for reports, see the
 <a href="https://ratey-atuwa.github.io/Learn-R-web/tablesPlus.html"
