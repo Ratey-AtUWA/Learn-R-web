@@ -40,7 +40,7 @@ will always be using **R** in the RStudio environment (Posit Software, 2022).
 
 ## Reading the data
 
-We use the `read.csv()` function &ndash; we will mostly supply data to you as 
+We use the `read.csv()` function – we will mostly supply data to you as 
 `.csv` files. Sometimes you need to download these into your working directory 
 to use them, and sometimes you can read them directly from a web URL (*e.g*. [`https://github.com/.../afs19.csv`](https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/afs19.csv){target="_blank"}).
 
@@ -167,7 +167,7 @@ legend("center", bg="#B4C69C", box.col="#A4B28D", ncol=2, cex=1.8,
 
 &nbsp;
 
-## First proper check - summarise some of the data
+## First proper check – summarise some of the data
 
 We can use the `summary()` function to make a quick check of our data, to make 
 sure the file has read correctly (this may not happen if the file is improperly
@@ -179,7 +179,7 @@ summary(hubbard[,1:9]) # just the first 9 columns to save space!
 
 &nbsp;
 
-The `summary()` function creates a little table for each column - note that
+The `summary()` function creates a little table for each column – note that
 these little tables do not all look the same. `Integer` or `numeric` columns get a
 numeric summary with minimum, mean *etc.*, and sometime the number of missing
 (`NA`) values. Categorical (`Factor`) columns show the number of samples (rows) in
@@ -246,7 +246,7 @@ of data object) called `hubbard`.
 
 The following 3 styles of code do exactly the same thing:
 
-1. <u>Specifying the data frame using `with()` syntax -- (we recommend this one!)</u>
+1. <u>Specifying the data frame using `with()` syntax – (we recommend this one!)</u>
 
 ```{r, eval=FALSE}
 with(hubbard,
@@ -310,7 +310,7 @@ automatically, and come with a default table style, or `theme`.
 * `mar=` sets **mar**gins in 'lines' units: `c(bottom,left,top,right)` *e.g*. `c(4,4,3,1)`
 * `mgp=` sets distance of text from axes: `c(titles, tickLabels, ticks)`
 * `font.lab=` sets font style for axis titles: 2=**bold**, 3=*italic*, *etc*.<br>
-    - and within the `plot()` function itself, `xlab=` and `ylab=` set axis titles
+    – and within the `plot()` function itself, `xlab=` and `ylab=` set axis titles
 
 ```{r plot-with-options, fig.width=4, fig.height=4, fig.cap="Figure 6: Plot of exchangeable Al vs. pH improved by changing graphics parameters and including custom axis titles.", message=FALSE, warning=FALSE, results='hold'}
 par(mar=c(4,4,1,1), mgp=c(2,0.6,0), font.lab=2)
@@ -330,10 +330,10 @@ We can still add more information to the graph; for example,
 by making use of the factors (categories) in the dataset. 
 We also need to learn these graphics parameters:
 
-- `col =` plotting colour(s) - it's easiest to use words like "red", "darkblue" and so on<br>
+- `col =` plotting colour(s) – it's easiest to use words like "red", "darkblue" and so on<br>
 see [this R colour chart](https://github.com/Ratey-AtUWA/Learn-R-web/blob/main/RcolorChartNames.pdf){target="_blank"}, or just run the R function `colors()` for a list of all 657 names!
 
-- `pch =` plot character(s) - numbers from 0 to 24 (run `help(points)` or see <a href="https://bookdown.org/ndphillips/YaRrr/scatterplot-plot.html#symbol-types-pch" target="_blank">this page from YaRrr</a>).
+- `pch =` plot character(s) – numbers from 0 to 24 (run `help(points)` or see <a href="https://bookdown.org/ndphillips/YaRrr/scatterplot-plot.html#symbol-types-pch" target="_blank">this page from YaRrr</a>).
  
 ```{r plot-by-groups, fig.width=4, fig.height=4, fig.cap="Figure 7: Plot of exchangeable Al vs. pH with custom graphics parameters and axis titles, improved by separating points by a Factor.", message=FALSE, warning=FALSE, results='hold'}
 par(mar=c(4,4,1,1), mgp=c(2,0.6,0), font.lab=2)
@@ -356,11 +356,11 @@ colour is very similar, except our vector has 2 colour names in it.
 There is still one thing missing; a **graph legend**. We can add one using 
 the `legend()` function. We will use the following options:
 
-- `"topleft"` position of legend -- run `help(legend)` for options, or we can use x-y coordinates
-- `legend =` a vector of names identifying the plot symbols - we have used the categories in the factor 'Rocktype', `levels(hubbard$Rocktype)`, but we could have used `legend=c("Igneous","Metamorphic")` instead
-- `pch =` plot symbols - should be exactly the same vector as in the plot function
-- `col =` plot colours - should be exactly the same vector as in the plot function
-- `title =` a title for the legend - optional
+- `"topleft"` position of legend – run `help(legend)` for options, or we can use x-y coordinates
+- `legend =` a vector of names identifying the plot symbols – we have used the categories in the factor 'Rocktype', `levels(hubbard$Rocktype)`, but we could have used `legend=c("Igneous","Metamorphic")` instead
+- `pch =` plot symbols – should be exactly the same vector as in the plot function
+- `col =` plot colours – should be exactly the same vector as in the plot function
+- `title =` a title for the legend – optional
 
 ```{r plot-add-legend, fig.width=4, fig.height=4, fig.cap="Figure 8: Plot of exchangeable Al vs. pH by broad rock type, with custom graphics parameters and axis titles, and a legend to explain the plot symbols.", message=FALSE, warning=FALSE, results='hold'}
 par(mar=c(4,4,1,1), mgp=c(2,0.6,0), font.lab=2)
@@ -423,11 +423,11 @@ scatterplot(EXCH_Al ~ PH, data=hubbard, smooth=FALSE,
 
 Note that we get some additional graph features by default:
 
-1. boxplots for each variable in the plot margins &ndash; these are useful for evaluating the distribution of our variables and any extreme values 
+1. boxplots for each variable in the plot margins – these are useful for evaluating the distribution of our variables and any extreme values 
 2. a linear regression line showing the trend of the relationship (it's possible to add this in base R plots, too) 
 3. grid lines in the plot area (also available in base R)
 
-We can turn all of these features off if we want - run `help(scatterplot)` in 
+We can turn all of these features off if we want – run `help(scatterplot)` in 
 the RStudio Console, and look under **Arguments** and **Details**.
 
 Also, we separately specify the dataset to be used as a function argument, 
@@ -443,7 +443,7 @@ require(car)
 #   labels from axis
 par(font.lab=2, mar=c(4,4,1,1), mgp=c(2.2,0.7,0.0))
 # create custom palette with nice colours :)
-# this lets us specify colours using numbers - try it!
+# this lets us specify colours using numbers – try it!
 palette(c("black","red3","blue3","darkgreen","sienna"))
 # draw scatterplot with points grouped by a factor (Rocktype) 
 scatterplot(EXCH_Al ~ PH | Rocktype, data=hubbard, smooth=FALSE,
@@ -622,7 +622,7 @@ with(hubbard, tapply(X = EXCH_Ni,
 
 For `tapply()` tables, try the following:
 
-- we have used the `mean` function (`FUN=mean`) &ndash; try another function to get minima, maxima, standard deviations, *etc*.
+- we have used the `mean` function (`FUN=mean`) – try another function to get minima, maxima, standard deviations, *etc*.
 - try copying the output to Word or Excel and using this to make a table in that software<br>
 ...and so on.
 
