@@ -30,7 +30,7 @@ addImg <- function(obj, x = NULL, y = NULL, width = NULL, interpolate = TRUE){
 defpar <- par(no.readonly = TRUE)
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 <div style="border: 2px solid #039; background-color: #fec; padding: 8px;">
 #### Suggested Activities
@@ -56,7 +56,7 @@ defpar <- par(no.readonly = TRUE)
 </ul>
 </div>
 
-<p>&nbsp;</p>
+&nbsp;
 
 # More basic information on plots in **R**
 
@@ -68,7 +68,7 @@ For the **videos and other materials**, you can visit the UWA LMS page for the
 unit you're enrolled in. Or, go to the [base-R graphics page](plots.html) if
 you're not interested in using `ggplot2`.
 
-<p>&nbsp;</p>
+&nbsp;
 
 <div style="border: 2px solid #039; background-color: #e8e8e8; padding: 8px;">
 ## Graphical Excellence
@@ -99,7 +99,7 @@ This means:</span>
 </span>
 </div>
 
-<p>&nbsp;</p>
+&nbsp;
 
 <div style="border: 2px solid #600; padding: 8px;">
 ## Colours in R
@@ -139,7 +139,7 @@ or `.tiff`, or copy as a bitmap.
 can also be useful for fine-tuning colours using `ggplot2`.)</span>
 </div>
 
-<p>&nbsp;</p>
+&nbsp;
 
 ## Getting started
 
@@ -167,20 +167,34 @@ sv2017 <- read.csv(file=paste0(git,"sv2017_original.csv"), stringsAsFactors = TR
 sv2017$Group <- as.factor(sv2017$Group)
 ```
 
-We then make an *xy*-plot (Figure 1) using the `geom_point()` function from the
-`ggplot2` package, making a custom palette with `scale_color_viridis_d()`.
+With any plot using `ggplot`, we add layers or properties to the plot with
+successive functions; each layer needs the preceding line to finish with `+`.
+The data to plot is controlled by options in the initial `ggplot()` function, 
+particularly `data=` and `aes()`. The type of plot is controlled by different 
+`geom_...` functions, as in the example below (Figure 1).
 
-```{r ggplot-scatter-reglines, fig.height=3.5, fig.width=5, message=FALSE, warning=FALSE, fig.cap="Figure 1: Plot of calcium (Ca) vs. pH for different sample types from Smith's Lake and Charles Veryards Reserves in 2017 (`sv2017`), showing regression lines by Type."}
-spgg <- ggplot(sv2017, aes(x=pH, y=Ca, col=Type, shape=Type)) +
+```{r ggplot-scatter-reglines, fig.height=3.5, fig.width=5, message=FALSE, warning=FALSE, fig.cap="Figure 1: X-Y (scatter) plot of calcium (Ca) vs. pH for different sample types from Smith's Lake and Charles Veryards Reserves in 2017 (`sv2017`), showing regression lines by Type."}
+ggplot(data=sv2017, mapping=aes(x=pH, y=Ca, col=Type, shape=Type)) +
   geom_point(size=2.2) +
   scale_y_log10() + 
   scale_color_viridis_d(end=0.55, 
-                      option="inferno") +
+                      option="inferno") + 
+  geom_smooth(method="lm", se=F, linewidth=0.5) +
   theme_bw()
-spgg + geom_smooth(method="lm", se=F, linewidth=0.5)
 ```
 
-<p>&nbsp;</p>
+&nbsp;
+
+In Figure 1, we use the `ggplot2` package to:
+
+* specify the data to be plotted in the `ggplot()` function, including a data frame with the `data=` option, and which variables control the location and appearance of points with the options in `mapping=aes(...)` (`aes` is short for “aesthetic”)
+* make an *xy*-plot layer using the `geom_point()` function 
+* log~10~-transform the y-axis scale using `scale_y_log10()`
+* use a custom palette by including `scale_color_viridis_d()`
+* add a layer of regression “best fit” lines using `geom_smooth(method="lm")` with options
+* style the plot using the non-default `theme_bw()`
+
+We will cover these concepts in the examples to follow.
 
 <div style="border: 2px solid #039; padding: 8px;">
 ### Plot symbols
@@ -207,7 +221,7 @@ ggpubr::show_point_shapes() + theme_void()
 ```
 </div>
 
-<p>&nbsp;</p>
+&nbsp;
 
 ### Histogram with density line
 
@@ -223,7 +237,7 @@ ggh <- ggplot(data=sv2017, mapping=aes(x=log10(EC))) +
 ggh + geom_density(col="blue3")
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 ### Boxplot by groups
 
@@ -275,7 +289,7 @@ ggplot(data=sv2017, mapping = aes(x=Type, y=log10(Cu))) +
 rm(Cu_means)
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 ### Scatterplot of water sample points by group
 
@@ -315,7 +329,7 @@ ggplot(data=SL_water_sf,
   scale_fill_viridis_d(alpha=0.8) + theme_bw()
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 <hr />
 
@@ -357,7 +371,7 @@ ggplot(data=sv18, mapping=aes(x=pH, y=Ca)) +
     geom_point()
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 ### 2. Resizing axis labels in `ggplot2`
 
@@ -371,7 +385,7 @@ ggplot(data=sv18, mapping=aes(x=pH, y=Ca)) +
   theme(axis.title = element_text(size=18, colour="red2")) # text size in points
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 ### 3. Resizing axis labels, tick labels, and symbol sizes in `ggplot2`
 
@@ -386,7 +400,7 @@ ggplot(data=sv18, mapping=aes(x=pH, y=Ca)) +
         axis.text = element_text(size=16)) # axis.text is the tick labels
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 ### 4. Transforming plot axes in `ggplot2`
 
@@ -403,7 +417,7 @@ ggplot(data=sv18, mapping=aes(x=pH, y=Ca)) +
   theme(axis.title = element_text(face="bold")) # # axis.title is axis label
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 ### 5. Plots in `ggplot2` which show grouping by factor levels
 
@@ -424,9 +438,9 @@ ggplot(data=sv18, mapping=aes(x=Fe, y=Zn, colour=Type, shape=Type)) +
   theme(axis.title = element_text(face="bold"))
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
-### 5. Using custom colours in `ggplot2` 
+### 6. Using custom colours in `ggplot2` 
 
 If we're not happy with the default colours, there are many different ways to
 customise plot colours in `ggplot2`. The statements needed are all of the type
@@ -446,9 +460,46 @@ ggplot(data=sv18, mapping=aes(x=Fe, y=Zn, colour=Type, shape=Type)) +
   theme(axis.title = element_text(face="bold"))
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
-### 5. Multiple-frame plots in `ggplot2` 
+### 7. Adding a regression (&ldquo;best fit&rdquo;) line
+
+Sometimes adding a regression line is useful to confirm trends (in a later
+session we'll cover linear regression in more detail). We use the function 
+`geom_smooth(method="lm")` in `ggplot` to add a regression line:
+
+```{r gg-regline, fig.width=4, fig.height=4, fig.cap="Plot of Zn vs. Fe, with no grouping and an added regression line.", message=FALSE, warning=FALSE, results='hold'}
+ggplot(data=sv18, aes(x= Fe, y = Zn)) +
+  geom_point() +
+  geom_smooth(method="lm") +
+  labs(x="Fe (mg/kg)", y="Zn (mg/kg)") +
+  scale_x_log10() + scale_y_log10() +
+  theme_bw() +
+  theme(axis.title = element_text(face="bold"))
+```
+
+&nbsp;
+
+The grey shaded area around the regression line in Figure \@ref(fig:gg-regline)
+is the 95% confidence interval, which is included by default.
+
+We can also include trend lines for grouped scatterplots (Figure 
+\@ref(fig:gg-reglines-grouped)):
+
+```{r gg-reglines-grouped, fig.width=5.5, fig.height=4, fig.cap="Plot of Zn vs. Fe, with added regression lines for data grouped by a sample Type.", message=FALSE, warning=FALSE, results='hold'}
+ggplot(data=sv18, aes(x=Fe, y=Zn, colour=Type, shape=Type)) +
+  geom_point(size=2.5) +
+  geom_smooth(method="lm") +
+  labs(x="Fe (mg/kg)", y="Zn (mg/kg)") +
+  scale_x_log10() + scale_y_log10() +
+  theme_bw() +
+  theme(axis.title = element_text(face="bold"))
+
+```
+
+&nbsp;
+
+### 8. Multiple-frame plots in `ggplot2` 
 <p>If we want to plot multiple plots on a page, we can't do this in `ggplot2` 
 using the `mfrow` argument in `par()`.</p>
 <p>Instead, we would need to use another **R** package in the `gg` family 
@@ -463,7 +514,7 @@ histo <- ggplot(data=sv18, mapping=aes(x=Al)) + geom_histogram()
 ggarrange(scatter, boxes, histo, nrow=1)
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 ### Plots of variable distributions
 
@@ -477,7 +528,7 @@ ggplot(sv18, aes(pH)) + stat_ecdf(geom="step") +
   labs(y="Proportion of samples with pH \u2264 x")
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 A better cumulative plot is the normal quantile or 'q-q' plot
 specially transformed axes mean that a normally distributed variable
@@ -489,7 +540,7 @@ ggplot(data=sv18, aes(sample=pH)) + geom_qq() + geom_qq_line() +
   labs(x="Theoretical normal distribution quantiles", y="pH") + theme_bw()
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 We can group q-q&ndash;plots by a factor:
 
@@ -502,7 +553,7 @@ ggplot(data=sv18, aes(sample=Fe, col=Type)) + geom_qq() + geom_qq_line() +
 #        ylab="Soil pH"))
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 Here's another customization of **histograms** &ndash; we've seen these in a previous
 Workshop. Adding a reference concentration shows what proportion of samples have
@@ -520,7 +571,7 @@ ggplot(data=sv18, aes(x=log10(Zn))) +
   theme_classic()
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 ### Depth profile scatter plots in `ggplot2`
 
@@ -535,7 +586,7 @@ downwards, as we would expect in the real world. Note:
 - `scale_y_reverse()` so depth increases **downwards**
 - `scale_x_continuous(position="top")` gets the *x*-axis on the top
 
-```{r gg-depth-profile, fig.height=5, fig.width=3.6, fig.cap="Figure 17: ‘Depth profile’ plots of Fe concentration vs. depth measurements in the sv18 data."}
+```{r gg-depth-profile, fig.cap="Figure 17: ‘Depth profile’ plots of Fe concentration vs. depth measurements in the sv18 data.", fig.height=5, fig.width=3.6, message=FALSE, warning=FALSE}
 sv18$Depth.mean <- (sv18$Depth_upper+sv18$Depth_lower)/2
 ggplot(data=sv18, mapping=aes(x=Fe, y=Depth.mean, col=Group, shape=Group)) + 
   labs(x="Fe (mg/kg)", y="Mean sample depth (cm)") +
@@ -547,7 +598,7 @@ ggplot(data=sv18, mapping=aes(x=Fe, y=Depth.mean, col=Group, shape=Group)) +
   theme_bw() + theme(axis.title = element_text(face="bold"))
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 For more advanced options for [**plotting depth profiles in R**, click this link](https://ratey-atuwa.github.io/cybloRg/profiles.html){target="_blank"}.
 
@@ -577,7 +628,7 @@ ggpairs(sv18, columns = c("Al","Ca","Fe","S")) +
   scale_x_log10() + scale_y_log10() + theme_bw()
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 To distinguish the points according to the categories in a Factor variable, we
 (as usual) associate the factor with plot properties within `aes(...)`. 
@@ -587,8 +638,9 @@ looks a bit weird (Figure 19), unfortunately (probably because we used
 
 Separating the plots by a factor allows us to see if trends are consistent
 between groups, or if groups behave very differently. [If you don't want to
-bother with the `scico` package, use `col = c("#EDB256", "#AC4A44", "#191900")`
-for the same result.]
+bother with the `viridis` package to use the `plasma` palette, use  
+`scale_color_manual(values = c("#6A00A8", "#BF3984", "#F1844B"))` for the same 
+result.]
 
 ```{r spm-by-group, fig.height=6, fig.width=6, fig.cap="Figure 19: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in samples from Smith's Lake and Charles Veryard Reserves, North Perth, WA, sampled in 2018 and grouped by sample type (sediment, soil, or street dust). Note the log10-transformed axes.", message=FALSE, warning=FALSE}
 ggpairs(sv18, columns = c("Al","Ca","Fe","S"), aes(color=Type, shape=Type)) +
@@ -596,7 +648,7 @@ ggpairs(sv18, columns = c("Al","Ca","Fe","S"), aes(color=Type, shape=Type)) +
   scale_x_log10() + scale_y_log10() + theme_bw()
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 ### Simple maps
 
@@ -619,14 +671,14 @@ ggmap(slmap) +
   theme(panel.border = element_rect(color="grey40", linewidth=0.5, fill="#ffffff00"))
 ```
 
-<p>&nbsp;</p>
+&nbsp;
 
 Maps are [mostly] just scatterplots with a map background &ndash; we will spend 
 a [separate session on maps in R later](maps.html) making use of the `ggmap`
 **R** package, which has a lot in common with `ggplot2` including use of
 `geom_sf()`.
 
-<p>&nbsp;</p>
+&nbsp;
 
 ### Pretty palettes
 
@@ -634,11 +686,11 @@ a [separate session on maps in R later](maps.html) making use of the `ggmap`
 
 ![](./images/pretty-palettes.png){align="center"}
 
-<p>&nbsp;</p>
+&nbsp;
 
 > Go to the [base-R graphics page here](plots.html).
 
-<p>&nbsp;</p>
+&nbsp;
 
 ## References and R Packages
 
@@ -658,7 +710,7 @@ Schloerke B, Cook D, Larmarange J, Briatte F, Marbach M, Thoen E, Elberg A, Crow
 
 Wickham, H. (2016). *`ggplot2`: Elegant Graphics for Data Analysis*. Springer-Verlag New York. [https://ggplot2.tidyverse.org](https://ggplot2.tidyverse.org){target="_blank"}.
 
-<p>&nbsp;</p>
+&nbsp;
 
 ```{r fave-palettes-notrun, eval=FALSE}
 # first load and run code to make UWAcolgrad() function
@@ -685,4 +737,4 @@ points(seq(0,1,l=np),rep(-0.05,np),pch=22,bg=UWAcolgrad(np, saturated = TRUE),ce
 text(0.5,-0.07,labels=paste0("UWAcolgrad(",np,", saturated=TRUE)"),pos=1, cex=1.4, family="mono")
 ```
 
-<p>&nbsp;</p>
+&nbsp;
