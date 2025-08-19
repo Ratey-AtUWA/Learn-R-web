@@ -343,7 +343,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -358,7 +358,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -379,7 +379,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -394,7 +394,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -418,7 +418,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -445,7 +445,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -466,7 +466,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -484,7 +484,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Reporting
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -977,8 +977,10 @@ the <code>gg</code> family called <code>ggpubr</code>, which has the
 <code>ggarrange</code> function allowing multiple ggplots on the same
 page. An example is shown in Figure 10.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>scatter <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>Al, <span class="at">y=</span>Fe)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>boxes <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>Type, <span class="at">y=</span>Fe)) <span class="sc">+</span>   <span class="fu">geom_boxplot</span>()</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>scatter <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>Al, <span class="at">y=</span>Fe)) <span class="sc">+</span> <span class="fu">scale_x_log10</span>() <span class="sc">+</span>
+  <span class="fu">scale_y_log10</span>() + <span class="fu">geom_point</span>()</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>boxes <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>Type, <span class="at">y=</span>Fe)) <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span>
+  <span class="fu">geom_boxplot</span>()</span>
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>histo <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>Al)) <span class="sc">+</span> <span class="fu">geom_histogram</span>()</span>
 <span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">ggarrange</span>(scatter, boxes, histo, <span class="at">nrow=</span><span class="dv">1</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">

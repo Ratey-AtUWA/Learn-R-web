@@ -371,8 +371,10 @@ the same page. An example is shown in Figure 10.
 
 ```{r ggplot-3x1, fig.height=3, fig.width=9, fig.align='center', fig.cap="Figure 10: Example of multiple `ggplot2` plots per frame using `ggarrange()` from the `ggpubr` package.", message=FALSE, warning=FALSE}
 library(ggpubr)
-scatter <- ggplot(data=sv2017, mapping=aes(x=Al, y=Fe)) + geom_point()
-boxes <- ggplot(data=sv2017, mapping = aes(x=Type, y=Fe)) +   geom_boxplot()
+scatter <- ggplot(data=sv2017, mapping=aes(x=Al, y=Fe)) + scale_x_log10() + 
+  scale_y_log10() + geom_point()
+boxes <- ggplot(data=sv2017, mapping = aes(x=Type, y=Fe)) + scale_y_log10() + 
+  geom_boxplot()
 histo <- ggplot(data=sv2017, mapping=aes(x=Al)) + geom_histogram()
 ggarrange(scatter, boxes, histo, nrow=1)
 ```
