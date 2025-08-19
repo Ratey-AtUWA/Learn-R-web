@@ -654,6 +654,229 @@ visual display of quantitative information</em>. Graphics Press,
 Cheshire, Connecticut, USA. </span></p>
 </div>
 <p> </p>
+<div id="getting-started" class="section level2">
+<h2>Getting started</h2>
+<p>Before we start we load some <strong>packages</strong> (which we need
+to have installed previously). We also need to load a
+<strong>dataset</strong> that we may have seen before (the Smith's Lake
+&amp; Charles Veryard Reserves data from 2017 – we use it a lot for
+illustrating environmental statistics and plotting – the code below
+reads it directly from github).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)  <span class="co"># the plotting package used in this page</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(viridis)  <span class="co"># colourblind-friendly colour palettes</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(scico)    <span class="co"># &#39;scientific&#39; colour palettes</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>sv2017 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;sv2017_original.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>sv2017<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sv2017<span class="sc">$</span>Group)</span></code></pre></div>
+<div id="the-components-of-a-ggplot-plot" class="section level3">
+<h3>The components of a <code>ggplot</code> plot</h3>
+<p>With any plot using <code>ggplot</code>, we add layers or properties
+to the plot with successive functions; each layer needs the preceding
+line to finish with <code>+</code>. The data to plot is controlled by
+options in the initial <code>ggplot()</code> function, particularly
+<code>data=</code> and <code>aes()</code>. The type of plot is
+controlled by different <code>geom_...</code> functions, as in the
+example below (Figure 1).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>pH, <span class="at">y=</span>Ca, <span class="at">col=</span>Type, <span class="at">shape=</span>Type)) <span class="sc">+</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="fl">2.2</span>) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span> </span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option=</span><span class="st">&quot;inferno&quot;</span>, <span class="at">end=</span><span class="fl">0.55</span>) <span class="sc">+</span> </span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="fu">stat_ellipse</span>(<span class="at">level=</span><span class="fl">0.95</span>) <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/ggplot-scatter-reglines-1.png" alt="Figure 1: X-Y (scatter) plot of calcium (Ca) vs. pH for different sample types from Smith's Lake and Charles Veryards Reserves in 2017 (`sv2017`), showing regression lines by Type." width="480" />
+<p class="caption">
+Figure 1: X-Y (scatter) plot of calcium (Ca) vs. pH for different sample
+types from Smith's Lake and Charles Veryards Reserves in 2017
+(<code>sv2017</code>), showing regression lines by Type.
+</p>
+</div>
+<p> </p>
+<p>In Figure 1, we use the <code>ggplot2</code> package to:</p>
+<ul>
+<li>specify the data to be plotted in the <code>ggplot()</code>
+function, including
+<ul>
+<li>a data frame with the <code>data=</code> option</li>
+<li>which variables control the location and appearance of points with
+the options in <code>mapping=aes(...)</code><br />
+(<code>aes</code> is short for “aesthetic”)</li>
+</ul></li>
+<li>make an <em>xy</em>-plot layer using the <code>geom_point()</code>
+function</li>
+<li>log<sub>10</sub>-transform the y-axis scale using
+<code>scale_y_log10()</code></li>
+<li>use a custom palette by including
+<code>scale_color_viridis_d()</code></li>
+<li>add a layer of data ellipses using <code>stat_ellipse()</code></li>
+<li>style the plot using the non-default <code>theme_bw()</code></li>
+</ul>
+<p>We will cover these concepts in the examples to follow.</p>
+</div>
+</div>
+<div id="customising-ggplot2-features" class="section level2">
+<h2>Customising <code>ggplot2</code> features</h2>
+<p>In contrast with <code>base-R</code> plotting, we don't use the
+<code>par()</code> function to control any plotting features. One of the
+ideas of <code>ggplot2</code> is to produce plots which look good
+without customisation – but we still often need to “tweak” the output.
+Actually, we have done this with Figure 1 above already.</p>
+<p>In the plots that follow, our "default setting" will be to use the
+<code>theme_bw()</code> theme to set the plot appearance. Otherwise we
+will build on the usual <code>ggplot2</code> default settings. The most
+basic plot is in Figure 2.</p>
+<div
+id="using-xy-plot-geom_point-to-explore-ways-of-changing-plot-features"
+class="section level3">
+<h3>1. Using <em>xy</em>-plot (<code>geom_point</code>) to explore ways
+of changing plot features</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>pH, <span class="at">y=</span>Ca)) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/Ca-pH-gg-basic-1.png" alt="Figure 2: Default ggplot of Ca *vs*. pH." width="480" />
+<p class="caption">
+Figure 2: Default ggplot of Ca <em>vs</em>. pH.
+</p>
+</div>
+<p> </p>
+</div>
+<div id="resizing-axis-labels-in-ggplot2" class="section level3">
+<h3>2. Resizing axis labels in <code>ggplot2</code></h3>
+<p>For many plot features in <code>ggplot2</code> we need to customise
+the plot <code>theme</code>. An axis label is referred to as an
+<strong><code>axis.title</code></strong> in <code>ggplot2</code>. The
+resized (and recoloured) axis titles are shown in Figure 3.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>pH, <span class="at">y=</span>Ca)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">18</span>, <span class="at">colour=</span><span class="st">&quot;red2&quot;</span>)) <span class="co"># size in points</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/Ca-pH-gg-big-labels-1.png" alt="Figure 3: Plot of Ca *vs*. pH using `ggplot2`, showing how to resize axis labels (we've also made them a different colour to be really obvious)." width="480" />
+<p class="caption">
+Figure 3: Plot of Ca <em>vs</em>. pH using <code>ggplot2</code>, showing
+how to resize axis labels (we've also made them a different colour to be
+really obvious).
+</p>
+</div>
+<p> </p>
+</div>
+<div id="resizing-axis-labels-tick-labels-and-symbol-sizes-in-ggplot2"
+class="section level3">
+<h3>3. Resizing axis labels, tick labels, and symbol sizes in
+<code>ggplot2</code></h3>
+<p>To get the larger symbol sizes shown in Figure 4, we have included
+<code>size=2.5</code> in <code>geom_point()</code>,
+<strong>outside</strong> <code>aes()</code> so it applies to all
+symbols.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>pH, <span class="at">y=</span>Ca)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="fl">2.5</span>) <span class="sc">+</span> <span class="co"># default size = 1.5 </span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">18</span>), <span class="co"># axis.title is axis label</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">16</span>)) <span class="co"># axis.text is the tick labels</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/Ca-pH-gg-resizing-1.png" alt="Figure 4: Plot of Ca *vs*. pH using `ggplot2`, showing how to resize axis labels (and symbol sizes)." width="480" />
+<p class="caption">
+Figure 4: Plot of Ca <em>vs</em>. pH using <code>ggplot2</code>, showing
+how to resize axis labels (and symbol sizes).
+</p>
+</div>
+<p> </p>
+</div>
+<div id="transforming-plot-axes-in-ggplot2" class="section level3">
+<h3>4. Transforming plot axes in <code>ggplot2</code></h3>
+<p>To log<sub>10</sub>-transform axis scales in <code>ggplot2</code>
+(Figure 5) we add a statement using the <code>scale_x_log10()</code>
+and/or the <code>scale_y_log10()</code> functions. There are several
+different types of scaling function available, <em>e.g</em>.,
+<code>scale_x_sqrt()</code>, <code>scale_y_reverse()</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>pH, <span class="at">y=</span>Ca)) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour=</span><span class="st">&quot;dodgerblue&quot;</span>) <span class="sc">+</span> <span class="co"># changing the default symbol colour too! </span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>)) <span class="co"># # axis.title is axis label</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/Ca-pH-gg-logy-1.png" alt="Figure 5: Plot of Ca *vs*. pH using `ggplot2`, showing how to log10-transform an axis scale." width="384" />
+<p class="caption">
+Figure 5: Plot of Ca <em>vs</em>. pH using <code>ggplot2</code>, showing
+how to log10-transform an axis scale.
+</p>
+</div>
+<p> </p>
+</div>
+<div id="plots-in-ggplot2-which-show-grouping-by-factor-levels"
+class="section level3">
+<h3>5. Plots in <code>ggplot2</code> which show grouping by factor
+levels</h3>
+<p>To group points or other plot features by a factor, we need to
+associate that factor with the property we want to change (<em>e.g</em>.
+<code>colour</code>, <code>shape</code>, <code>size</code>) in the
+<code>aes()</code> statement. In Figure 6 below, we plot zinc (Zn)
+<em>vs</em>. iron (Fe), showing points in different sample types by
+including <code>colour=Type, shape=Type</code> in the <code>aes()</code>
+statement.</p>
+<p>If we associate a variable with <code>size</code>, we can create a
+bubble plot – this is useful for <a
+href="https://lms.uwa.edu.au/bbcswebdav/xid-45554160_1"
+target="_blank">making distribution maps of variables</a>. Try it!</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>Fe, <span class="at">y=</span>Zn, <span class="at">colour=</span>Type, <span class="at">shape=</span>Type)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/Zn-Fe-gg-by-groups-1.png" alt="Figure 6: Plot of Zn *vs*. Fe using `ggplot2`, showing how to separate points into different groups based on factor levels." width="432" />
+<p class="caption">
+Figure 6: Plot of Zn <em>vs</em>. Fe using <code>ggplot2</code>, showing
+how to separate points into different groups based on factor levels.
+</p>
+</div>
+<p> </p>
+</div>
+<div id="plot-symbols" class="section level3"
+style="border: 2px solid #039; padding: 8px;">
+<h3>Plot symbols</h3>
+<p><strong>R</strong> has a set of 26 built-in plotting symbols which
+can be specified using the <code>shape =</code> argument in many
+<code>ggplot2</code> functions.<br /> In <code>base-R</code>, the
+outline colour is set for symbols 0-20 using the argument
+<code>col =</code>. For symbols 21-25 <code>col =</code> sets the border
+colour, and the fill colour is set with <code>bg =</code>.</p>
+<img src="plots-GG_files/figure-html/pch-map-png-1.png" width="1843.2" />
+<center>
+For all symbols above, <code>col="navy"</code> and for pch 21-25
+<code>bg="gold"</code>.
+</center>
+</div>
+<p> </p>
+<div id="using-custom-colours-in-ggplot2" class="section level3">
+<h3>6. Using custom colours in <code>ggplot2</code></h3>
+<p>If we're not happy with the default colours, there are many different
+ways to customise plot colours in <code>ggplot2</code>. The statements
+needed are all of the type <code>scale_color_xxxxx()</code>, depending
+on what type of colour scale or palette is needed.</p>
+<p>The code for the plot in Figure 7 uses
+<code>scale_color_manual</code> to specify custom colours for the
+points. If we didn't include enough colours for the levels in the factor
+(<em>i.e</em>. 3 levels in <code>Type</code>), we would get an error
+message.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>Fe, <span class="at">y=</span>Zn, <span class="at">colour=</span>Type, <span class="at">shape=</span>Type)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;darkred&quot;</span>,<span class="st">&quot;gold3&quot;</span>,<span class="st">&quot;royalblue&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/Zn-Fe-gg-groups-recol-1.png" alt="Figure 7: Plot of Zn *vs*. Fe using `ggplot2`, showing how to separate points into different groups based on factor levels and define custom colours." width="432" />
+<p class="caption">
+Figure 7: Plot of Zn <em>vs</em>. Fe using <code>ggplot2</code>, showing
+how to separate points into different groups based on factor levels and
+define custom colours.
+</p>
+</div>
+<p> </p>
+</div>
+</div>
 <div id="colours-in-r" class="section level2"
 style="border: 2px solid #600; padding: 8px;">
 <h2>Colours in R</h2>
@@ -700,91 +923,91 @@ supported by metafiles in R. To use semi-transparent colours, save as
 using <code>ggplot2</code>.)</span></p>
 </div>
 <p> </p>
-<div id="getting-started" class="section level2">
-<h2>Getting started</h2>
-<p>Before we start we load some <strong>packages</strong> (which we need
-to have installed previously). We also need to load a
-<strong>dataset</strong> that we may have seen before (the Smith's Lake
-&amp; Charles Veryard Reserves data from 2017 – we use it a lot for
-illustrating environmental statistics and plotting – you'll need to
-download it to your working directory first).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)  <span class="co"># the plotting package used in this page</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(viridis)  <span class="co"># colourblind-friendly colour palettes</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(scico)    <span class="co"># &#39;scientific&#39; colour palettes</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/&quot;</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>sv2017 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git,<span class="st">&quot;sv2017_original.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>sv2017<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sv2017<span class="sc">$</span>Group)</span></code></pre></div>
-<p>With any plot using <code>ggplot</code>, we add layers or properties
-to the plot with successive functions; each layer needs the preceding
-line to finish with <code>+</code>. The data to plot is controlled by
-options in the initial <code>ggplot()</code> function, particularly
-<code>data=</code> and <code>aes()</code>. The type of plot is
-controlled by different <code>geom_...</code> functions, as in the
-example below (Figure 1).</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>pH, <span class="at">y=</span>Ca, <span class="at">col=</span>Type, <span class="at">shape=</span>Type)) <span class="sc">+</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="fl">2.2</span>) <span class="sc">+</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span> </span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">end=</span><span class="fl">0.55</span>, </span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>                      <span class="at">option=</span><span class="st">&quot;inferno&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, <span class="at">se=</span>F, <span class="at">linewidth=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/ggplot-scatter-reglines-1.png" alt="Figure 1: X-Y (scatter) plot of calcium (Ca) vs. pH for different sample types from Smith's Lake and Charles Veryards Reserves in 2017 (`sv2017`), showing regression lines by Type." width="480" />
+<div id="adding-a-regression-best-fit-line" class="section level3">
+<h3>7. Adding a regression (“best fit”) line</h3>
+<p>Sometimes adding a regression line is useful to confirm trends (in a
+later session we'll cover linear regression in more detail). We use the
+function <code>geom_smooth(method="lm")</code> in <code>ggplot</code> to
+add a regression line (Figure 8):</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="fu">aes</span>(<span class="at">x=</span> Fe, <span class="at">y =</span> Zn)) <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Fe (mg/kg)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Zn (mg/kg)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/gg-regline-1.png" alt="Figure 8: Plot of Zn vs. Fe, with no grouping and an added regression line." width="384" />
 <p class="caption">
-Figure 1: X-Y (scatter) plot of calcium (Ca) vs. pH for different sample
-types from Smith's Lake and Charles Veryards Reserves in 2017
-(<code>sv2017</code>), showing regression lines by Type.
+Figure 8: Plot of Zn vs. Fe, with no grouping and an added regression
+line.
 </p>
 </div>
 <p> </p>
-<p>In Figure 1, we use the <code>ggplot2</code> package to:</p>
-<ul>
-<li>specify the data to be plotted in the <code>ggplot()</code>
-function, including a data frame with the <code>data=</code> option, and
-which variables control the location and appearance of points with the
-options in <code>mapping=aes(...)</code> (<code>aes</code> is short for
-“aesthetic”)</li>
-<li>make an <em>xy</em>-plot layer using the <code>geom_point()</code>
-function</li>
-<li>log<sub>10</sub>-transform the y-axis scale using
-<code>scale_y_log10()</code></li>
-<li>use a custom palette by including
-<code>scale_color_viridis_d()</code></li>
-<li>add a layer of regression “best fit” lines using
-<code>geom_smooth(method="lm")</code> with options</li>
-<li>style the plot using the non-default <code>theme_bw()</code></li>
-</ul>
-<p>We will cover these concepts in the examples to follow.</p>
-<div id="plot-symbols" class="section level3"
-style="border: 2px solid #039; padding: 8px;">
-<h3>Plot symbols</h3>
-<p><strong>R</strong> has a set of 26 built-in plotting symbols which
-can be specified using the <code>shape =</code> argument in many
-<code>ggplot2</code> functions.<br /> In <code>base-R</code>, the
-outline colour is set for symbols 0-20 using the argument
-<code>col =</code>. For symbols 21-25 <code>col =</code> sets the border
-colour, and the fill colour is set with <code>bg =</code>.</p>
-<img src="plots-GG_files/figure-html/pch-map-png-1.png" width="1843.2" />
-<center>
-For all symbols above, <code>col="navy"</code> and for pch 21-25
-<code>bg="gold"</code>.
-</center>
+<p>The grey shaded area around the regression line in Figure 8 is the
+95% confidence interval, which is included by default.</p>
+<p>We can also include trend lines for <strong>grouped</strong>
+scatterplots (Figure 9):</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="fu">aes</span>(<span class="at">x=</span>Fe, <span class="at">y=</span>Zn, <span class="at">colour=</span>Type, <span class="at">shape=</span>Type)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Fe (mg/kg)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Zn (mg/kg)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/gg-reglines-grouped-1.png" alt="Figure 9: Plot of Zn vs. Fe, with added regression lines for data grouped by a sample Type." width="528" />
+<p class="caption">
+Figure 9: Plot of Zn vs. Fe, with added regression lines for data
+grouped by a sample Type.
+</p>
 </div>
 <p> </p>
+</div>
+<div id="multiple-frame-plots-in-ggplot2" class="section level3">
+<h3>8. Multiple-frame plots in <code>ggplot2</code></h3>
+<p>
+If we want to plot multiple plots on a page, we can't do this in
+<code>ggplot2</code> using the <code>mfrow</code> argument in
+<code>par()</code>.
+</p>
+<p>
+<p>Instead, we would need to use another <strong>R</strong> package in
+the <code>gg</code> family called <code>ggpubr</code>, which has the
+<code>ggarrange</code> function allowing multiple ggplots on the same
+page. An example is shown in Figure 10.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>scatter <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>Al, <span class="at">y=</span>Fe)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>boxes <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>Type, <span class="at">y=</span>Fe)) <span class="sc">+</span>   <span class="fu">geom_boxplot</span>()</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>histo <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>Al)) <span class="sc">+</span> <span class="fu">geom_histogram</span>()</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">ggarrange</span>(scatter, boxes, histo, <span class="at">nrow=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/ggplot-3x1-1.png" alt="Figure 10: Example of multiple `ggplot2` plots per frame using `ggarrange()` from the `ggpubr` package." width="864" />
+<p class="caption">
+Figure 10: Example of multiple <code>ggplot2</code> plots per frame
+using <code>ggarrange()</code> from the <code>ggpubr</code> package.
+</p>
+</div>
+<p> </p>
+</div>
 <div id="histogram-with-density-line" class="section level3">
 <h3>Histogram with density line</h3>
-<p>Adding a density line to a histogram like the one in Figure 2 can
+<p>Adding a density line to a histogram like the one in Figure 11 can
 help us identify <em>bimodal distributions</em>, or see more easily if
 the distribution is symmetrical or not.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>ggh <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log10</span>(EC))) <span class="sc">+</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill=</span><span class="st">&quot;lightgray&quot;</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">linewidth=</span><span class="fl">0.3</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                 <span class="at">binwidth =</span> <span class="fl">0.1</span>, <span class="at">boundary=</span><span class="dv">0</span>) <span class="sc">+</span> </span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>ggh <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">col=</span><span class="st">&quot;blue3&quot;</span>)</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/gg-hist-density-1.png" alt="Figure 2: Histogram of EC from the sv2017 data with density line plot added." width="672" />
+<p>We use <code>geom_histogram()</code>, including the option
+<code>mapping = aes(y=after_stat(density))</code> so that the y-axis
+scale is changed from frequency to density (~ relative frequency).</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>ggh <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> sv2017, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log10</span>(EC))) <span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), </span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">&quot;lightgray&quot;</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">linewidth=</span><span class="fl">0.3</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>                 <span class="at">binwidth =</span> <span class="fl">0.1</span>, <span class="at">boundary=</span><span class="dv">0</span>) <span class="sc">+</span> </span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>ggh <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">col=</span><span class="st">&quot;blue3&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/gg-hist-density-1.png" alt="Figure 11: Histogram of EC from the sv2017 data with density line plot added." width="672" />
 <p class="caption">
-Figure 2: Histogram of EC from the sv2017 data with density line plot
+Figure 11: Histogram of EC from the sv2017 data with density line plot
 added.
 </p>
 </div>
@@ -792,55 +1015,59 @@ added.
 </div>
 <div id="boxplot-by-groups" class="section level3">
 <h3>Boxplot by groups</h3>
-<p>We also made a grouped box plot like the one in Figure 3 in a
+<p>We also made a grouped box plot like the one in Figure 12 in a
 previous session.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># make an object containing a table of means</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>Cu_means <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">meanCu=</span><span class="fu">tapply</span>(<span class="fu">log10</span>(sv2017<span class="sc">$</span>Cu), sv2017<span class="sc">$</span>Type, mean, <span class="at">na.rm=</span>T))</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co"># plot the boxplot with nice axis titles etc.</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>ggbx <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>Type, <span class="at">y=</span><span class="fu">log10</span>(Cu))) <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">&quot;seashell&quot;</span>,<span class="at">staplewidth =</span> <span class="fl">0.2</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>ggbx <span class="ot">&lt;-</span> ggbx <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">data=</span>Cu_means, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(Cu_means)),</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>                  <span class="at">y=</span>meanCu), <span class="at">shape=</span><span class="dv">3</span>, <span class="at">size=</span><span class="fl">2.5</span>, <span class="at">col=</span><span class="st">&quot;royalblue&quot;</span>, <span class="at">stroke=</span><span class="fl">1.5</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>ggbx <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">log10</span>(<span class="dv">65</span>), <span class="at">col=</span><span class="st">&quot;red3&quot;</span>,<span class="at">size=</span><span class="fl">0.3</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>                  <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&quot;log&quot;</span>[<span class="dv">10</span>],<span class="st">&quot;(Cu)&quot;</span>))) <span class="sc">+</span> </span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="fl">2.9</span>, <span class="at">y =</span> <span class="fu">log10</span>(<span class="dv">65</span>), <span class="at">label =</span> <span class="st">&quot;Sediment DGV Cu 65 mg/kg&quot;</span>, </span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>           <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">col=</span><span class="st">&quot;red3&quot;</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span> </span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="fl">2.2</span>, <span class="at">y=</span><span class="fl">0.4</span>, <span class="at">label =</span> <span class="st">&quot;+&quot;</span>, </span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">col=</span><span class="st">&quot;royalblue&quot;</span>, <span class="at">size=</span><span class="fl">6.5</span>) <span class="sc">+</span> </span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="fl">2.2</span>, <span class="at">y=</span><span class="fl">0.4</span>, <span class="at">label =</span> <span class="st">&quot; \u00a0 \u00a0 Mean Cu concentrations&quot;</span>, </span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">col=</span><span class="st">&quot;royalblue&quot;</span>, <span class="at">size=</span><span class="fl">3.5</span>) <span class="sc">+</span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/boxplot-by-groups-1.png" alt="Figure 3: Boxplot of Cu by Type created using `ggplot2`, showing mean values as blue plus (+)  This version is drawn to resemble a `base-R` plot." width="480" />
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># make an object containing a table of means</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>Cu_means <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">meanCu=</span><span class="fu">tapply</span>(<span class="fu">log10</span>(sv2017<span class="sc">$</span>Cu), sv2017<span class="sc">$</span>Type, mean, <span class="at">na.rm=</span>T))</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co"># plot the boxplot with nice axis titles etc.</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>ggbx <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>Type, <span class="at">y=</span><span class="fu">log10</span>(Cu))) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">&quot;seashell&quot;</span>,<span class="at">staplewidth =</span> <span class="fl">0.2</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>ggbx <span class="ot">&lt;-</span> ggbx <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">data=</span>Cu_means, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(Cu_means)),</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>                  <span class="at">y=</span>meanCu), <span class="at">shape=</span><span class="dv">3</span>, <span class="at">size=</span><span class="fl">2.5</span>, <span class="at">col=</span><span class="st">&quot;royalblue&quot;</span>, <span class="at">stroke=</span><span class="fl">1.5</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>ggbx <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">log10</span>(<span class="dv">65</span>), <span class="at">col=</span><span class="st">&quot;red3&quot;</span>,<span class="at">size=</span><span class="fl">0.3</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>                  <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&quot;log&quot;</span>[<span class="dv">10</span>],<span class="st">&quot;(Cu)&quot;</span>))) <span class="sc">+</span> </span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="fl">2.9</span>, <span class="at">y =</span> <span class="fu">log10</span>(<span class="dv">65</span>), <span class="at">label =</span> <span class="st">&quot;Sediment DGV Cu 65 mg/kg&quot;</span>, </span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>           <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">col=</span><span class="st">&quot;red3&quot;</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="fl">2.2</span>, <span class="at">y=</span><span class="fl">0.4</span>, <span class="at">label =</span> <span class="st">&quot;+&quot;</span>, </span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">col=</span><span class="st">&quot;royalblue&quot;</span>, <span class="at">size=</span><span class="fl">6.5</span>) <span class="sc">+</span> </span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="fl">2.2</span>, <span class="at">y=</span><span class="fl">0.4</span>, <span class="at">label =</span> <span class="st">&quot; \u00a0 \u00a0 Mean Cu concentrations&quot;</span>, </span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">col=</span><span class="st">&quot;royalblue&quot;</span>, <span class="at">size=</span><span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/boxplot-by-groups-1.png" alt="Figure 12: Boxplot of Cu by Type created using `ggplot2`, showing mean values as blue plus (+)  This version is drawn to resemble a `base-R` plot." width="480" />
 <p class="caption">
-Figure 3: Boxplot of Cu by Type created using <code>ggplot2</code>,
+Figure 12: Boxplot of Cu by Type created using <code>ggplot2</code>,
 showing mean values as blue plus (+) This version is drawn to resemble a
 <code>base-R</code> plot.
 </p>
 </div>
-<hr style="height: 1px; background-color: #5560A4;" />
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># make an object containing a table of means</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>Cu_means <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">meanCu=</span><span class="fu">tapply</span>(<span class="fu">log10</span>(sv2017<span class="sc">$</span>Cu), sv2017<span class="sc">$</span>Type, mean, <span class="at">na.rm=</span>T))</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># plot the boxplot with nice axis titles etc.</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Mean&quot;</span><span class="ot">=</span><span class="st">&quot;royalblue&quot;</span>, <span class="st">&quot;DGV&quot;</span><span class="ot">=</span><span class="st">&quot;red3&quot;</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>lineTypes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;DGV&quot;</span><span class="ot">=</span><span class="dv">2</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>Type, <span class="at">y=</span><span class="fu">log10</span>(Cu))) <span class="sc">+</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">&quot;seashell&quot;</span>, <span class="at">shape=</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="fu">expression</span>(<span class="fu">paste</span>(log[<span class="dv">10</span>],<span class="st">&quot;[Cu]&quot;</span>))) <span class="sc">+</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>Cu_means, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(Cu_means)),</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>                  <span class="at">y=</span>meanCu, <span class="at">col=</span><span class="st">&quot;Mean&quot;</span>), <span class="at">shape=</span><span class="dv">3</span>, <span class="at">size=</span><span class="fl">2.5</span>, <span class="at">stroke=</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">log10</span>(<span class="dv">65</span>), <span class="at">col=</span><span class="st">&quot;red3&quot;</span>, <span class="at">size=</span><span class="fl">0.3</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>                  <span class="at">linetype=</span><span class="dv">2</span>) <span class="sc">+</span> </span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name=</span><span class="st">&quot;&quot;</span>, <span class="at">values=</span>cols, </span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>                     <span class="at">guide=</span><span class="fu">guide_legend</span>()) <span class="sc">+</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="fl">2.9</span>, <span class="at">y =</span> <span class="fu">log10</span>(<span class="dv">65</span>), <span class="at">label =</span> <span class="st">&quot;Sediment DGV</span><span class="sc">\n</span><span class="st">Cu 65 mg/kg&quot;</span>, </span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>           <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">col=</span><span class="st">&quot;red3&quot;</span>, <span class="at">size=</span><span class="fl">3.5</span>) <span class="sc">+</span> </span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/boxplot-groups-gg2-1.png" alt="Figure 4: Boxplot of Cu by Type created using `ggplot2`, showing mean values as blue plus (+)  This version is drawn in a style more closely resembling a `ggplot2` style." width="480" />
+<p> </p>
+<p>The default box plots made with 'geom_boxplot()' in
+<code>ggplot</code> (<em>e.g</em>. Figure 13) don't have caps
+(“staples”) on the lines above and below the interquartile range
+box.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># make an object containing a table of means</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>Cu_means <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">meanCu=</span><span class="fu">tapply</span>(<span class="fu">log10</span>(sv2017<span class="sc">$</span>Cu), sv2017<span class="sc">$</span>Type, mean, <span class="at">na.rm=</span>T))</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="co"># plot the boxplot with nice axis titles etc.</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Mean&quot;</span><span class="ot">=</span><span class="st">&quot;royalblue&quot;</span>, <span class="st">&quot;DGV&quot;</span><span class="ot">=</span><span class="st">&quot;red3&quot;</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>lineTypes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;DGV&quot;</span><span class="ot">=</span><span class="dv">2</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>Type, <span class="at">y=</span><span class="fu">log10</span>(Cu))) <span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">&quot;seashell&quot;</span>, <span class="at">shape=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="fu">expression</span>(<span class="fu">paste</span>(log[<span class="dv">10</span>],<span class="st">&quot;[Cu]&quot;</span>))) <span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>Cu_means, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(Cu_means)),</span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>                  <span class="at">y=</span>meanCu, <span class="at">col=</span><span class="st">&quot;Mean&quot;</span>), <span class="at">shape=</span><span class="dv">3</span>, <span class="at">size=</span><span class="fl">2.5</span>, <span class="at">stroke=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">log10</span>(<span class="dv">65</span>), <span class="at">col=</span><span class="st">&quot;red3&quot;</span>, <span class="at">size=</span><span class="fl">0.3</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a>                  <span class="at">linetype=</span><span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name=</span><span class="st">&quot;&quot;</span>, <span class="at">values=</span>cols, </span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a>                     <span class="at">guide=</span><span class="fu">guide_legend</span>()) <span class="sc">+</span></span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="fl">2.9</span>, <span class="at">y =</span> <span class="fu">log10</span>(<span class="dv">65</span>), <span class="at">label =</span> <span class="st">&quot;Sediment DGV</span><span class="sc">\n</span><span class="st">Cu 65 mg/kg&quot;</span>, </span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a>           <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">col=</span><span class="st">&quot;red3&quot;</span>, <span class="at">size=</span><span class="fl">3.5</span>) <span class="sc">+</span> </span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/boxplot-groups-gg2-1.png" alt="Figure 13: Boxplot of Cu by Type created using `ggplot2`, showing mean values as blue plus (+)  This version is drawn in a style more closely resembling a `ggplot2` style." width="480" />
 <p class="caption">
-Figure 4: Boxplot of Cu by Type created using <code>ggplot2</code>,
+Figure 13: Boxplot of Cu by Type created using <code>ggplot2</code>,
 showing mean values as blue plus (+) This version is drawn in a style
 more closely resembling a <code>ggplot2</code> style.
 </p>
@@ -854,14 +1081,14 @@ class="section level3">
 2018). We convert to a spatial object to use the <code>geom_sf()</code>
 function in <code>ggplot2</code>, as this makes the most sense for these
 data (we need to load the <code>sf</code> package first).</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>SL_water <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git, <span class="st">&quot;SL18.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>SL_water<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(SL_water<span class="sc">$</span>Group)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>SL_water_sf <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_as_sf</span>(SL_water, <span class="at">coords=</span><span class="fu">c</span>(<span class="st">&quot;Easting&quot;</span>,<span class="st">&quot;Northing&quot;</span>), </span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>                            <span class="at">remove=</span><span class="cn">FALSE</span>, <span class="at">crs=</span>sf<span class="sc">::</span><span class="fu">st_crs</span>(<span class="dv">32750</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>SL_water <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file=</span><span class="fu">paste0</span>(git, <span class="st">&quot;SL18.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>SL_water<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(SL_water<span class="sc">$</span>Group)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>SL_water_sf <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_as_sf</span>(SL_water, <span class="at">coords=</span><span class="fu">c</span>(<span class="st">&quot;Easting&quot;</span>,<span class="st">&quot;Northing&quot;</span>), </span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>                            <span class="at">remove=</span><span class="cn">FALSE</span>, <span class="at">crs=</span>sf<span class="sc">::</span><span class="fu">st_crs</span>(<span class="dv">32750</span>))</span></code></pre></div>
 <p>We can then use <code>geom_sf()</code> from the <code>ggplot2</code>
 package to plot the points. Other important statements in the
-<code>ggplot2</code> code in this example (Figure 5) are:</p>
+<code>ggplot2</code> code in this example (Figure 14) are:</p>
 <ul>
 <li>use <code>fill=Group</code> instead of <code>color=Group</code>
 since we are using fillable symbols (numbers 21-25, see <strong>Plot
@@ -880,25 +1107,25 @@ palette</li>
 <li><code>theme_bw()</code> to use a plot theme other than the
 <code>ggplot2</code> default</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>SL_water_sf, </span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>       <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>Easting, <span class="at">y=</span>Northing, <span class="at">fill=</span>Group, <span class="at">shape=</span>Group)) <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">size=</span><span class="fl">2.5</span>) <span class="sc">+</span> <span class="co"># set symbol size and outline width </span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">datum=</span><span class="fu">st_crs</span>(<span class="dv">32750</span>)) <span class="sc">+</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">21</span><span class="sc">:</span><span class="dv">24</span>)) <span class="sc">+</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">391325</span>,<span class="dv">391450</span>,<span class="dv">25</span>)) <span class="sc">+</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="fu">c</span>(<span class="dv">391385</span>,<span class="dv">391390</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">6466515</span>,<span class="dv">6466403</span>), </span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">c</span>(<span class="st">&quot;Inlet&quot;</span>,<span class="st">&quot;Outlet&quot;</span>), </span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>           <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">col=</span><span class="st">&quot;steelblue4&quot;</span>, <span class="at">size=</span><span class="fl">3.5</span>) <span class="sc">+</span> </span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">alpha=</span><span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/gg-SL-water-1.png" alt="Figure 5: Map-style plot of water sampling points in Smith's Lake in 2018." width="480" />
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>SL_water_sf, </span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>       <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>Easting, <span class="at">y=</span>Northing, <span class="at">fill=</span>Group, <span class="at">shape=</span>Group)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">size=</span><span class="fl">2.5</span>) <span class="sc">+</span> <span class="co"># set symbol size and outline width </span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">datum=</span><span class="fu">st_crs</span>(<span class="dv">32750</span>)) <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">21</span><span class="sc">:</span><span class="dv">24</span>)) <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">391325</span>,<span class="dv">391450</span>,<span class="dv">25</span>)) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="fu">c</span>(<span class="dv">391385</span>,<span class="dv">391390</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">6466515</span>,<span class="dv">6466403</span>), </span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">c</span>(<span class="st">&quot;Inlet&quot;</span>,<span class="st">&quot;Outlet&quot;</span>), </span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>           <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">col=</span><span class="st">&quot;steelblue4&quot;</span>, <span class="at">size=</span><span class="fl">3.5</span>) <span class="sc">+</span> </span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">alpha=</span><span class="fl">0.8</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/gg-SL-water-1.png" alt="Figure 14: Map-style plot of water sampling points in Smith's Lake in 2018." width="480" />
 <p class="caption">
-Figure 5: Map-style plot of water sampling points in Smith's Lake in
+Figure 14: Map-style plot of water sampling points in Smith's Lake in
 2018.
 </p>
 </div>
 <p> </p>
-<hr />
+<hr style="height: 3px; background-color: #e8e8e8;" />
 <blockquote>
 <p>"...when we look at the <strong>graphs of rising ocean
 temperatures</strong>, rising carbon dioxide in the atmosphere and so
@@ -909,285 +1136,66 @@ care about our grandchildren then we have to do something, and we have
 to demand that our governments do something."</p>
 <p>— David Attenborough</p>
 </blockquote>
-<hr />
-</div>
-</div>
-<div id="customising-ggplot2-features" class="section level2">
-<h2>Customising <code>ggplot2</code> features</h2>
-<p>In contrast with <code>base-R</code> plotting, we don't use the
-<code>par()</code> function to control any plotting features. One of the
-ideas of <code>ggplot2</code> is to produce plots which look good
-without customisation – but we still often need to “tweak” the output.
-Actually, we have done this with some of the examples above already:
-<em>e.g</em>. Figures 1, 4, and 5.</p>
-<p>First we read some more data to illustrate some ideas:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>sv18 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git, <span class="st">&quot;sv18.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>sv18<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sv18<span class="sc">$</span>Group)</span></code></pre></div>
-<p>In the plots that follow, our "default setting" will be to use the
-<code>theme_bw()</code> theme to set the plot appearance. Otherwise we
-will build on the usual <code>ggplot2</code> default settings.</p>
-<div
-id="using-xy-plot-geom_point-to-explore-ways-of-changing-plot-features"
-class="section level3">
-<h3>1. Using <em>xy</em>-plot (<code>geom_point</code>) to explore ways
-of changing plot features</h3>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>pH, <span class="at">y=</span>Ca)) <span class="sc">+</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>    <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/Ca-pH-gg-basic-1.png" alt="Figure 6: Default ggplot of Ca *vs*. pH." width="480" />
-<p class="caption">
-Figure 6: Default ggplot of Ca <em>vs</em>. pH.
-</p>
-</div>
-<p> </p>
-</div>
-<div id="resizing-axis-labels-in-ggplot2" class="section level3">
-<h3>2. Resizing axis labels in <code>ggplot2</code></h3>
-<p>For many plot features in <code>ggplot2</code> we need to customise
-the plot <code>theme</code>. An axis label is referred to as an
-<strong><code>axis.title</code></strong> in <code>ggplot2</code>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>pH, <span class="at">y=</span>Ca)) <span class="sc">+</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">18</span>, <span class="at">colour=</span><span class="st">&quot;red2&quot;</span>)) <span class="co"># text size in points</span></span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/Ca-pH-gg-big-labels-1.png" alt="Figure 7: Plot of Ca *vs*. pH using `ggplot2`, showing how to resize axis labels (we've also made them a different colour to be really obvious)." width="480" />
-<p class="caption">
-Figure 7: Plot of Ca <em>vs</em>. pH using <code>ggplot2</code>, showing
-how to resize axis labels (we've also made them a different colour to be
-really obvious).
-</p>
-</div>
-<p> </p>
-</div>
-<div id="resizing-axis-labels-tick-labels-and-symbol-sizes-in-ggplot2"
-class="section level3">
-<h3>3. Resizing axis labels, tick labels, and symbol sizes in
-<code>ggplot2</code></h3>
-<p>For many plot features in <code>ggplot2</code> we need to customise
-the plot <code>theme</code>. An axis label is referred to as an
-<strong><code>axis.title</code></strong> in <code>ggplot2</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>pH, <span class="at">y=</span>Ca)) <span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="fl">2.5</span>) <span class="sc">+</span> <span class="co"># default size = 1.5 </span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">18</span>), <span class="co"># axis.title is axis label</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">16</span>)) <span class="co"># axis.text is the tick labels</span></span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/Ca-pH-gg-resizing-1.png" alt="Figure 8: Plot of Ca *vs*. pH using `ggplot2`, showing how to resize axis labels (and symbol sizes)." width="480" />
-<p class="caption">
-Figure 8: Plot of Ca <em>vs</em>. pH using <code>ggplot2</code>, showing
-how to resize axis labels (and symbol sizes).
-</p>
-</div>
-<p> </p>
-</div>
-<div id="transforming-plot-axes-in-ggplot2" class="section level3">
-<h3>4. Transforming plot axes in <code>ggplot2</code></h3>
-<p>To log<sub>10</sub>-transform axis scales in <code>ggplot2</code> we
-add a statement using the <code>scale_x_log10()</code> and/or the
-<code>scale_y_log10()</code> functions. There are several different
-types of scaling function available, <em>e.g</em>.,
-<code>scale_x_sqrt()</code>, <code>scale_y_reverse()</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>pH, <span class="at">y=</span>Ca)) <span class="sc">+</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour=</span><span class="st">&quot;dodgerblue&quot;</span>) <span class="sc">+</span> <span class="co"># changing the default symbol colour too! </span></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>)) <span class="co"># # axis.title is axis label</span></span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/Ca-pH-gg-logy-1.png" alt="Figure 9: Plot of Ca *vs*. pH using `ggplot2`, showing how to log10-transform an axis scale." width="384" />
-<p class="caption">
-Figure 9: Plot of Ca <em>vs</em>. pH using <code>ggplot2</code>, showing
-how to log10-transform an axis scale.
-</p>
-</div>
-<p> </p>
-</div>
-<div id="plots-in-ggplot2-which-show-grouping-by-factor-levels"
-class="section level3">
-<h3>5. Plots in <code>ggplot2</code> which show grouping by factor
-levels</h3>
-<p>To group points or other plot features by a factor, we need to
-associate that factor with the property we want to change (<em>e.g</em>.
-<code>colour</code>, <code>shape</code>, <code>size</code>) in the
-<code>aes()</code> statement. In Figure 10 below, we plot zinc (Zn)
-<em>vs</em>. iron (Fe), showing points in different sample types by
-including <code>colour=Type, shape=Type</code> in the <code>aes()</code>
-statement.</p>
-<p>If we associate a variable with <code>size</code>, we can create a
-bubble plot – this is useful for <a
-href="https://lms.uwa.edu.au/bbcswebdav/xid-45554160_1"
-target="_blank">making distribution maps of variables</a>. Try it!</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>Fe, <span class="at">y=</span>Zn, <span class="at">colour=</span>Type, <span class="at">shape=</span>Type)) <span class="sc">+</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/Zn-Fe-gg-by-groups-1.png" alt="Figure 10: Plot of Zn *vs*. Fe using `ggplot2`, showing how to separate points into different groups based on factor levels." width="432" />
-<p class="caption">
-Figure 10: Plot of Zn <em>vs</em>. Fe using <code>ggplot2</code>,
-showing how to separate points into different groups based on factor
-levels.
-</p>
-</div>
-<p> </p>
-</div>
-<div id="using-custom-colours-in-ggplot2" class="section level3">
-<h3>6. Using custom colours in <code>ggplot2</code></h3>
-<p>If we're not happy with the default colours, there are many different
-ways to customise plot colours in <code>ggplot2</code>. The statements
-needed are all of the type <code>scale_color_xxxxx()</code>, depending
-on what type of colour scale or palette is needed.</p>
-<p>The code for the plot in Figure 11 uses
-<code>scale_color_manual</code> to specify custom colours for the
-points. If we didn't include enough colours for the levels in the factor
-(<em>i.e</em>. 3 levels in <code>Type</code>), we would get an error
-message.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>Fe, <span class="at">y=</span>Zn, <span class="at">colour=</span>Type, <span class="at">shape=</span>Type)) <span class="sc">+</span></span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span> </span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;darkred&quot;</span>,<span class="st">&quot;gold3&quot;</span>,<span class="st">&quot;royalblue&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/Zn-Fe-gg-groups-recol-1.png" alt="Figure 11: Plot of Zn *vs*. Fe using `ggplot2`, showing how to separate points into different groups based on factor levels and define custom colours." width="432" />
-<p class="caption">
-Figure 11: Plot of Zn <em>vs</em>. Fe using <code>ggplot2</code>,
-showing how to separate points into different groups based on factor
-levels and define custom colours.
-</p>
-</div>
-<p> </p>
-</div>
-<div id="adding-a-regression-best-fit-line" class="section level3">
-<h3>7. Adding a regression (“best fit”) line</h3>
-<p>Sometimes adding a regression line is useful to confirm trends (in a
-later session we'll cover linear regression in more detail). We use the
-function <code>geom_smooth(method="lm")</code> in <code>ggplot</code> to
-add a regression line:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="fu">aes</span>(<span class="at">x=</span> Fe, <span class="at">y =</span> Zn)) <span class="sc">+</span></span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>) <span class="sc">+</span></span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Fe (mg/kg)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Zn (mg/kg)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/gg-regline-1.png" alt="Plot of Zn vs. Fe, with no grouping and an added regression line." width="384" />
-<p class="caption">
-Plot of Zn vs. Fe, with no grouping and an added regression line.
-</p>
-</div>
-<p> </p>
-<p>The grey shaded area around the regression line in Figure
-@ref(fig:gg-regline) is the 95% confidence interval, which is included
-by default.</p>
-<p>We can also include trend lines for grouped scatterplots (Figure
-@ref(fig:gg-reglines-grouped)):</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="fu">aes</span>(<span class="at">x=</span>Fe, <span class="at">y=</span>Zn, <span class="at">colour=</span>Type, <span class="at">shape=</span>Type)) <span class="sc">+</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="fl">2.5</span>) <span class="sc">+</span></span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>) <span class="sc">+</span></span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Fe (mg/kg)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Zn (mg/kg)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/gg-reglines-grouped-1.png" alt="Plot of Zn vs. Fe, with added regression lines for data grouped by a sample Type." width="528" />
-<p class="caption">
-Plot of Zn vs. Fe, with added regression lines for data grouped by a
-sample Type.
-</p>
-</div>
-<p> </p>
-</div>
-<div id="multiple-frame-plots-in-ggplot2" class="section level3">
-<h3>8. Multiple-frame plots in <code>ggplot2</code></h3>
-<p>
-If we want to plot multiple plots on a page, we can't do this in
-<code>ggplot2</code> using the <code>mfrow</code> argument in
-<code>par()</code>.
-</p>
-<p>
-<p>Instead, we would need to use another <strong>R</strong> package in
-the <code>gg</code> family called <code>ggpubr</code>, which has the
-<code>ggarrange</code> function allowing multiple ggplots on the same
-page. An example is shown in Figure 12.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>scatter <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>Al, <span class="at">y=</span>Fe)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>boxes <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>Type, <span class="at">y=</span>Fe)) <span class="sc">+</span>   <span class="fu">geom_boxplot</span>()</span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>histo <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>Al)) <span class="sc">+</span> <span class="fu">geom_histogram</span>()</span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="fu">ggarrange</span>(scatter, boxes, histo, <span class="at">nrow=</span><span class="dv">1</span>)</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/ggplot-3x1-1.png" alt="Figure 12: Example of multiple `ggplot2` plots per frame using `ggarrange()` from the `ggpubr` package." width="864" />
-<p class="caption">
-Figure 12: Example of multiple <code>ggplot2</code> plots per frame
-using <code>ggarrange()</code> from the <code>ggpubr</code> package.
-</p>
-</div>
-<p> </p>
+<hr style="height: 3px; background-color: #e8e8e8;" />
 </div>
 <div id="plots-of-variable-distributions" class="section level3">
 <h3>Plots of variable distributions</h3>
 <p>Cumulative Distribution Function using <code>plot.ecdf()</code>. The
-custom <em>y</em>-axis label explains the plot! <br> (note use of
-<code>\u</code> to insert a Unicode character by its 4-digit code
+custom <em>y</em>-axis label explains the plot in Figure 15! <br> (note
+use of <code>\u</code> to insert a Unicode character by its 4-digit code
 [Unicode character 2264 is 'less than or equal to' (≤)] )</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">ggplot</span>(sv18, <span class="fu">aes</span>(pH)) <span class="sc">+</span> <span class="fu">stat_ecdf</span>(<span class="at">geom=</span><span class="st">&quot;step&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Proportion of samples with pH \u2264 x&quot;</span>)</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/ecdfPlot-pH-1.png" alt="Figure 13: Cumulative distribution of pH in the sv18 dataset." width="384" />
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">ggplot</span>(sv2017, <span class="fu">aes</span>(pH)) <span class="sc">+</span> <span class="fu">stat_ecdf</span>(<span class="at">geom=</span><span class="st">&quot;step&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Proportion of samples with pH \u2264 x&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/ecdfPlot-pH-1.png" alt="Figure 15: Cumulative distribution of pH in the sv2017 dataset." width="384" />
 <p class="caption">
-Figure 13: Cumulative distribution of pH in the sv18 dataset.
+Figure 15: Cumulative distribution of pH in the sv2017 dataset.
 </p>
 </div>
 <p> </p>
-<p>A better cumulative plot is the normal quantile or 'q-q' plot
-specially transformed axes mean that a normally distributed variable
-will plot as a straight line. We use <code>geom_qq()</code> too add the
-points and <code>geom_qq_line()</code> to show the theoretical line for
-a normal distribution.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="fu">aes</span>(<span class="at">sample=</span>pH)) <span class="sc">+</span> <span class="fu">geom_qq</span>() <span class="sc">+</span> <span class="fu">geom_qq_line</span>() <span class="sc">+</span> </span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Theoretical normal distribution quantiles&quot;</span>, <span class="at">y=</span><span class="st">&quot;pH&quot;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/qqplot-pH-1.png" alt="Figure 14: Normal quantile (QQ) plot of soil pH in the sv18 dataset." width="384" />
+<p>A better cumulative plot is the normal quantile or 'q-q' plot (Figure
+16). Specially transformed axes mean that a normally distributed
+variable will plot as a straight line. We use <code>geom_qq()</code> to
+add the points and <code>geom_qq_line()</code> to show the theoretical
+line for a normal distribution.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="fu">aes</span>(<span class="at">sample=</span>pH)) <span class="sc">+</span> <span class="fu">geom_qq</span>() <span class="sc">+</span> <span class="fu">geom_qq_line</span>() <span class="sc">+</span> </span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Theoretical normal distribution quantiles&quot;</span>, <span class="at">y=</span><span class="st">&quot;pH&quot;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/qqplot-pH-1.png" alt="Figure 16: Normal quantile (QQ) plot of soil pH in the sv2017 dataset." width="384" />
 <p class="caption">
-Figure 14: Normal quantile (QQ) plot of soil pH in the sv18 dataset.
+Figure 16: Normal quantile (QQ) plot of soil pH in the sv2017 dataset.
 </p>
 </div>
 <p> </p>
 <p>We can group q-q–plots by a factor:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="fu">aes</span>(<span class="at">sample=</span>Fe, <span class="at">col=</span>Type)) <span class="sc">+</span> <span class="fu">geom_qq</span>() <span class="sc">+</span> <span class="fu">geom_qq_line</span>() <span class="sc">+</span> </span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Theoretical normal distribution quantiles&quot;</span>, </span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>       <span class="at">y=</span><span class="st">&quot;pH&quot;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/qq-byfactor-1.png" alt="Figure 15: Normal quantile (QQ) plots of soil pH for different sample types in the sv18 dataset." width="432" />
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="fu">aes</span>(<span class="at">sample=</span>pH, <span class="at">col=</span>Type)) <span class="sc">+</span> <span class="fu">geom_qq</span>() <span class="sc">+</span> <span class="fu">geom_qq_line</span>() <span class="sc">+</span> </span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Theoretical normal distribution quantiles&quot;</span>, </span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>       <span class="at">y=</span><span class="st">&quot;pH&quot;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/qq-byfactor-1.png" alt="Figure 17: Normal quantile (QQ) plots of soil pH for different sample types in the sv2017 dataset." width="432" />
 <p class="caption">
-Figure 15: Normal quantile (QQ) plots of soil pH for different sample
-types in the sv18 dataset.
+Figure 17: Normal quantile (QQ) plots of soil pH for different sample
+types in the sv2017 dataset.
 </p>
 </div>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># with(sv18, qqPlot(Na ~ Type, </span></span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="co">#        xlab=&quot;Theoretical normal distribution quantiles&quot;,</span></span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="co">#        ylab=&quot;Soil pH&quot;))</span></span></code></pre></div>
 <p> </p>
 <p>Here's another customization of <strong>histograms</strong> – we've
-seen these in a previous Workshop. Adding a reference concentration
-shows what proportion of samples have concentrations exceeding this
-value (or not).</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log10</span>(Zn))) <span class="sc">+</span> </span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill=</span><span class="st">&quot;lightgray&quot;</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">linewidth=</span><span class="fl">0.3</span>,</span>
-<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>                 <span class="at">binwidth =</span> <span class="fl">0.2</span>, <span class="at">boundary=</span><span class="dv">0</span>) <span class="sc">+</span> </span>
-<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(log[<span class="dv">10</span>],<span class="st">&quot;Zn&quot;</span>)), <span class="at">y =</span> <span class="st">&quot;Frequency&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">log10</span>(<span class="dv">410</span>), <span class="at">col=</span><span class="st">&quot;red3&quot;</span>, <span class="at">size=</span><span class="fl">0.3</span>,</span>
-<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>                  <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="fu">log10</span>(<span class="dv">450</span>), <span class="at">y =</span> <span class="dv">10</span>, <span class="at">label =</span> <span class="st">&quot;Sediment DGV</span><span class="sc">\n</span><span class="st">Zn 410 mg/kg&quot;</span>, </span>
-<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">col=</span><span class="st">&quot;red3&quot;</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/hist-abline-1.png" alt="Figure 16: Histogram of Zn in the sv18 data with a vertical line representing an environmental threshold." width="384" />
+seen these in a previous Workshop. Adding a reference concentration like
+that we see in Figure 18 shows what proportion of samples have
+concentrations exceeding this value (or not).</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv2017, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log10</span>(Zn))) <span class="sc">+</span> </span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill=</span><span class="st">&quot;lightgray&quot;</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">linewidth=</span><span class="fl">0.3</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>                 <span class="at">binwidth =</span> <span class="fl">0.2</span>, <span class="at">boundary=</span><span class="dv">0</span>) <span class="sc">+</span> </span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(log[<span class="dv">10</span>],<span class="st">&quot;Zn&quot;</span>)), <span class="at">y =</span> <span class="st">&quot;Frequency&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">log10</span>(<span class="dv">410</span>), <span class="at">col=</span><span class="st">&quot;red3&quot;</span>, <span class="at">size=</span><span class="fl">0.3</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>                  <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="fu">log10</span>(<span class="dv">400</span>), <span class="at">y =</span> <span class="dv">15</span>, <span class="at">label =</span> <span class="st">&quot;Sediment DGV</span><span class="sc">\n</span><span class="st">Zn 410 mg/kg&quot;</span>, </span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">col=</span><span class="st">&quot;red3&quot;</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/hist-abline-1.png" alt="Figure 18: Histogram of Zn in the sv2017 data with a vertical line representing an environmental threshold." width="384" />
 <p class="caption">
-Figure 16: Histogram of Zn in the sv18 data with a vertical line
+Figure 18: Histogram of Zn in the sv2017 data with a vertical line
 representing an environmental threshold.
 </p>
 </div>
@@ -1195,36 +1203,41 @@ representing an environmental threshold.
 </div>
 <div id="depth-profile-scatter-plots-in-ggplot2" class="section level3">
 <h3>Depth profile scatter plots in <code>ggplot2</code></h3>
-<p>In this plot we show one way to informatively plot a concentration
-<em>vs</em>. sediment/soil depth, with depth displayed vertically, and
-increasing downwards, as we would expect in the real world. Note:</p>
+<p>First we read some more data which includes depth as a variable:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>sv18 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git, <span class="st">&quot;sv18.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>sv18<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(sv18<span class="sc">$</span>Group)</span></code></pre></div>
+<p>In the plot in Figure 19, we show one way to informatively plot a
+concentration <em>vs</em>. sediment/soil depth, with depth displayed
+vertically, and increasing downwards, as we would expect in the real
+world. Note:</p>
 <ul>
 <li><code>x=Fe, y=Depth.mean</code> to have our dependent variable (Fe)
 on the <em>x</em>-axis</li>
-<li><code>col=Group, shape=Group</code> to have colours and symbols
+<li><code>col=Group, fill=Group</code> to have colours and symbols
 differ by group</li>
 <li>use of the <code>scico 'lajolla'</code> palette for nice soil-y
 colours!</li>
-<li><code>scale_shape_manual(values=seq(0:12))</code> so we have enough
-plot symbols available</li>
+<li><code>scale_shape_manual(values=c(21:25,21:24))</code> filled plot
+symbols are 21-25</li>
 <li><code>scale_y_reverse()</code> so depth increases
 <strong>downwards</strong></li>
 <li><code>scale_x_continuous(position="top")</code> gets the
 <em>x</em>-axis on the top</li>
 </ul>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>sv18<span class="sc">$</span>Depth.mean <span class="ot">&lt;-</span> (sv18<span class="sc">$</span>Depth_upper<span class="sc">+</span>sv18<span class="sc">$</span>Depth_lower)<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>Fe, <span class="at">y=</span>Depth.mean, <span class="at">col=</span>Group, <span class="at">shape=</span>Group)) <span class="sc">+</span> </span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Fe (mg/kg)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Mean sample depth (cm)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stroke=</span><span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>  <span class="fu">scale_color_scico_d</span>(<span class="at">palette=</span><span class="st">&quot;lajolla&quot;</span>, <span class="at">direction=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">begin=</span><span class="fl">0.2</span>, <span class="at">end=</span><span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">seq</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">12</span>)) <span class="sc">+</span></span>
-<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">position=</span><span class="st">&quot;top&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/gg-depth-profile-1.png" alt="Figure 17: ‘Depth profile’ plots of Fe concentration vs. depth measurements in the sv18 data." width="345.6" />
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">lend=</span><span class="st">&quot;square&quot;</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>sv18<span class="sc">$</span>Depth.mean <span class="ot">&lt;-</span> (sv18<span class="sc">$</span>Depth_upper<span class="sc">+</span>sv18<span class="sc">$</span>Depth_lower)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>sv18, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>Fe, <span class="at">y=</span>Depth.mean)) <span class="sc">+</span> </span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Fe (mg/kg)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Mean sample depth (cm)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Group, <span class="at">shape=</span>Group), <span class="at">size=</span><span class="fl">2.5</span>, <span class="at">stroke=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>,<span class="dv">21</span><span class="sc">:</span><span class="dv">24</span>)) <span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>  <span class="fu">scale_fill_scico_d</span>(<span class="at">palette =</span> <span class="st">&quot;lajolla&quot;</span>, <span class="at">direction=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">begin=</span><span class="fl">0.2</span>, <span class="at">end=</span><span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>  <span class="fu">scale_y_reverse</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">position=</span><span class="st">&quot;top&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/gg-depth-profile-1.png" alt="Figure 19: ‘Depth profile’ plots of Fe concentration vs. depth measurements in the sv18 data." width="345.6" />
 <p class="caption">
-Figure 17: ‘Depth profile’ plots of Fe concentration vs. depth
+Figure 19: ‘Depth profile’ plots of Fe concentration vs. depth
 measurements in the sv18 data.
 </p>
 </div>
@@ -1248,21 +1261,21 @@ specified (<em>i.e</em>. including a vector of columns, in this example
 column names or column indices/numbers).</p>
 <p>A very useful feature of scatter plot matrices is the display of each
 variable's <em>distribution along the diagonal</em> of the plot matrix.
-In the example in Figure 18, we can see from the diagonal of density
+In the example in Figure 20, we can see from the diagonal of density
 plots that all variables have approximately symmetrical distributions
 when log<sub>10</sub>-transformed). The scatter plot matrix drawn by
 <code>GGally::ggpairs()</code> also includes another useful feature –
 the correlation coefficients for each pair of variables in the upper
 triangle of the matrix.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
-<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="fu">ggpairs</span>(sv18, <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">&quot;Al&quot;</span>,<span class="st">&quot;Ca&quot;</span>,<span class="st">&quot;Fe&quot;</span>,<span class="st">&quot;S&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/spm-ungrouped-1.png" alt="Figure 18: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in sediment + soil + street dust samples from Smith's Lake and Charles Veryard Reserves, North Perth, WA, sampled in 2018. Note the log10-transformed axes." width="720" />
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="fu">ggpairs</span>(sv2017, <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">&quot;Al&quot;</span>,<span class="st">&quot;Ca&quot;</span>,<span class="st">&quot;Fe&quot;</span>,<span class="st">&quot;S&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/spm-ungrouped-1.png" alt="Figure 20: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in sediment + soil + street dust samples from Smith's Lake and Charles Veryard Reserves, North Perth, WA, sampled in 2017. Note the log10-transformed axes." width="720" />
 <p class="caption">
-Figure 18: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in
+Figure 20: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in
 sediment + soil + street dust samples from Smith's Lake and Charles
-Veryard Reserves, North Perth, WA, sampled in 2018. Note the
+Veryard Reserves, North Perth, WA, sampled in 2017. Note the
 log10-transformed axes.
 </p>
 </div>
@@ -1270,7 +1283,7 @@ log10-transformed axes.
 <p>To distinguish the points according to the categories in a Factor
 variable, we (as usual) associate the factor with plot properties within
 <code>aes(...)</code>. We also see the distributions separated by group
-along the diagonal, but this looks a bit weird (Figure 19),
+along the diagonal, but this looks a bit weird (Figure 21),
 unfortunately (probably because we used <code>scale_?_log10()</code> for
 both <em>x</em> and <em>y</em> axes).</p>
 <p>Separating the plots by a factor allows us to see if trends are
@@ -1279,15 +1292,15 @@ don't want to bother with the <code>viridis</code> package to use the
 <code>plasma</code> palette, use<br />
 <code>scale_color_manual(values = c("#6A00A8", "#BF3984", "#F1844B"))</code>
 for the same result.]</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">ggpairs</span>(sv18, <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">&quot;Al&quot;</span>,<span class="st">&quot;Ca&quot;</span>,<span class="st">&quot;Fe&quot;</span>,<span class="st">&quot;S&quot;</span>), <span class="fu">aes</span>(<span class="at">color=</span>Type, <span class="at">shape=</span>Type)) <span class="sc">+</span></span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option=</span><span class="st">&quot;plasma&quot;</span>, <span class="at">begin=</span><span class="fl">0.2</span>, <span class="at">end=</span><span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
-<div class="figure">
-<img src="plots-GG_files/figure-html/spm-by-group-1.png" alt="Figure 19: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in samples from Smith's Lake and Charles Veryard Reserves, North Perth, WA, sampled in 2018 and grouped by sample type (sediment, soil, or street dust). Note the log10-transformed axes." width="576" />
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">ggpairs</span>(sv2017, <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">&quot;Al&quot;</span>,<span class="st">&quot;Ca&quot;</span>,<span class="st">&quot;Fe&quot;</span>,<span class="st">&quot;S&quot;</span>), <span class="fu">aes</span>(<span class="at">color=</span>Type, <span class="at">shape=</span>Type)) <span class="sc">+</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option=</span><span class="st">&quot;magma&quot;</span>, <span class="at">begin=</span><span class="fl">0.2</span>, <span class="at">end=</span><span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">scale_y_log10</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="plots-GG_files/figure-html/spm-by-group-1.png" alt="Figure 21: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in samples from Smith's Lake and Charles Veryard Reserves, North Perth, WA, sampled in 2017 and grouped by sample type (sediment, soil, or street dust). Note the log10-transformed axes." width="576" />
 <p class="caption">
-Figure 19: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in
+Figure 21: Scatter plot matrix of Al, Ca, Fe, and Na concentrations in
 samples from Smith's Lake and Charles Veryard Reserves, North Perth, WA,
-sampled in 2018 and grouped by sample type (sediment, soil, or street
+sampled in 2017 and grouped by sample type (sediment, soil, or street
 dust). Note the log10-transformed axes.
 </p>
 </div>
@@ -1313,7 +1326,6 @@ has a lot in common with <code>ggplot2</code> including use of
 <p>Go to the <a href="plots.html">base-R graphics page here</a>.</p>
 </blockquote>
 <p> </p>
-</div>
 </div>
 <div id="references-and-r-packages" class="section level2">
 <h2>References and R Packages</h2>
@@ -1350,28 +1362,28 @@ Data Analysis</em>. Springer-Verlag New York. <a
 href="https://ggplot2.tidyverse.org"
 target="_blank">https://ggplot2.tidyverse.org</a>.</p>
 <p> </p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># first load and run code to make UWAcolgrad() function</span></span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="co"># for help download the UWAcolgrad.R file itself and look inside!</span></span>
-<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R/raw/main/UWAcolgrad.R&quot;</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="dv">32</span></span>
-<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">rep</span>(<span class="fl">0.5</span>,<span class="dv">4</span>), <span class="at">xpd=</span><span class="cn">TRUE</span>)</span>
-<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">ann=</span>F, <span class="at">axes =</span> F, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.1</span>,<span class="dv">1</span>))</span>
-<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="dv">1</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">viridis</span>(np),<span class="at">cex=</span><span class="dv">4</span>)</span>
-<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.98</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;viridis::viridis(&quot;</span>,np,<span class="st">&quot;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
-<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.85</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">plasma</span>(np),<span class="at">cex=</span><span class="dv">4</span>)</span>
-<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.83</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;viridis::plasma(&quot;</span>,np,<span class="st">&quot;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
-<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.7</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">cividis</span>(np),<span class="at">cex=</span><span class="dv">4</span>)</span>
-<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.68</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;viridis::cividis(&quot;</span>,np,<span class="st">&quot;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
-<span id="cb26-13"><a href="#cb26-13" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.55</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">scico</span>(np, <span class="at">palette =</span> <span class="st">&quot;hawaii&quot;</span>),<span class="at">cex=</span><span class="dv">4</span>)</span>
-<span id="cb26-14"><a href="#cb26-14" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.53</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;scico(&quot;</span>,np,<span class="st">&quot;, palette=&#39;hawaii&#39;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
-<span id="cb26-15"><a href="#cb26-15" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.4</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">scico</span>(np, <span class="at">palette =</span> <span class="st">&quot;lajolla&quot;</span>),<span class="at">cex=</span><span class="dv">4</span>)</span>
-<span id="cb26-16"><a href="#cb26-16" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.38</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;scico(&quot;</span>,np,<span class="st">&quot;, palette=&#39;lajolla&#39;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
-<span id="cb26-17"><a href="#cb26-17" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.25</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">scico</span>(np, <span class="at">palette =</span> <span class="st">&quot;batlow&quot;</span>),<span class="at">cex=</span><span class="dv">4</span>)</span>
-<span id="cb26-18"><a href="#cb26-18" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.23</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;scico(&quot;</span>,np,<span class="st">&quot;, palette=&#39;batlow&#39;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
-<span id="cb26-19"><a href="#cb26-19" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.1</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">UWAcolgrad</span>(np),<span class="at">cex=</span><span class="dv">4</span>)</span>
-<span id="cb26-20"><a href="#cb26-20" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.08</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;UWAcolgrad(&quot;</span>,np,<span class="st">&quot;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
-<span id="cb26-21"><a href="#cb26-21" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="sc">-</span><span class="fl">0.05</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">UWAcolgrad</span>(np, <span class="at">saturated =</span> <span class="cn">TRUE</span>),<span class="at">cex=</span><span class="dv">4</span>)</span>
-<span id="cb26-22"><a href="#cb26-22" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="sc">-</span><span class="fl">0.07</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;UWAcolgrad(&quot;</span>,np,<span class="st">&quot;, saturated=TRUE)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co"># first load and run code to make UWAcolgrad() function</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="co"># for help download the UWAcolgrad.R file itself and look inside!</span></span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R/raw/main/UWAcolgrad.R&quot;</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>np <span class="ot">&lt;-</span> <span class="dv">32</span></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">rep</span>(<span class="fl">0.5</span>,<span class="dv">4</span>), <span class="at">xpd=</span><span class="cn">TRUE</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">ann=</span>F, <span class="at">axes =</span> F, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.1</span>,<span class="dv">1</span>))</span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="dv">1</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">viridis</span>(np),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.98</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;viridis::viridis(&quot;</span>,np,<span class="st">&quot;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.85</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">plasma</span>(np),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.83</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;viridis::plasma(&quot;</span>,np,<span class="st">&quot;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.7</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">cividis</span>(np),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.68</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;viridis::cividis(&quot;</span>,np,<span class="st">&quot;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.55</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">scico</span>(np, <span class="at">palette =</span> <span class="st">&quot;hawaii&quot;</span>),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.53</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;scico(&quot;</span>,np,<span class="st">&quot;, palette=&#39;hawaii&#39;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.4</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">scico</span>(np, <span class="at">palette =</span> <span class="st">&quot;lajolla&quot;</span>),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb25-16"><a href="#cb25-16" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.38</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;scico(&quot;</span>,np,<span class="st">&quot;, palette=&#39;lajolla&#39;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb25-17"><a href="#cb25-17" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.25</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">scico</span>(np, <span class="at">palette =</span> <span class="st">&quot;batlow&quot;</span>),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb25-18"><a href="#cb25-18" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.23</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;scico(&quot;</span>,np,<span class="st">&quot;, palette=&#39;batlow&#39;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb25-19"><a href="#cb25-19" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="fl">0.1</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">UWAcolgrad</span>(np),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb25-20"><a href="#cb25-20" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="fl">0.08</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;UWAcolgrad(&quot;</span>,np,<span class="st">&quot;)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb25-21"><a href="#cb25-21" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">l=</span>np),<span class="fu">rep</span>(<span class="sc">-</span><span class="fl">0.05</span>,np),<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="fu">UWAcolgrad</span>(np, <span class="at">saturated =</span> <span class="cn">TRUE</span>),<span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb25-22"><a href="#cb25-22" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.5</span>,<span class="sc">-</span><span class="fl">0.07</span>,<span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;UWAcolgrad(&quot;</span>,np,<span class="st">&quot;, saturated=TRUE)&quot;</span>),<span class="at">pos=</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span></code></pre></div>
 <p> </p>
 </div>
 </div>
