@@ -25,6 +25,8 @@ output:
 
 &nbsp;
 
+<p id="part1">&nbsp;</p>
+
 ## Set up the R environment for time series analysis
 
 We will need the additional functions in several **R** packages for
@@ -40,22 +42,25 @@ library(forecast) # for time series forecasting with ARIMA and exponential smoot
 library(tseries)  # for assessing stationarity using Augmented Dickey-Fuller test
 library(lmtest)   # for Breusch-Pagan heteroscedasticity test etc.
 library(car)      # for various commonly-used functions
+library(viridis)  # accessible colour palettes
 library(ggplot2)  # alternative to base R plots
 
-# (optional) make a better colour palette than the R default!
-# still not ideal for colourblindness (consider using viridis package)
-palette(c("black","purple4","#0041B2","darkslategray4",
-          "gold3","orangered","darkred","dimgray"))
+# (optional) make a better colour palette than the R default! 
+# (using viridis package for accessibility e.g. colourblindness)
+palette(c("black", plasma(4, end=0.5),plasma(4, alpha=0.5, begin=0.5),"white",
+          "darkgray"))
 par(mfrow=c(3,1), mar=c(4,4,1,1), mgp=c(1.7,0.3,0), tcl=0.25, font.lab=2)
 ```
-
-<p id="part1">&nbsp;</p>
 
 # 1. How R reads and stores time series data
 
 We first read the data into a `data frame` &ndash; this is how R often
 stores data &ndash; it's not the format we need, but we'll use it for
 comparison.
+
+The data used are derived from autumn 2014 soil meteorological observations at
+the Murrumbidgee M2 (Canberra Airport) site, available in the 
+<a href="https://www.oznet.org.au/mdbdata/mdbdata.html?perPage=20&queries[site]=MURRUMBIDGEE&queries[station]=M2&queries[search]=2014" target="_blank">OzNet data archive</a>, and described by Smith *et al*. (2012).
 
 ## Non-time series object for comparison
 
@@ -83,7 +88,7 @@ the `Date` column is not a date or time, or even numeric.
 
 ```{r plot-df, fig.align='center', fig.cap="Figure 1: Plot of soil temperature time series data which is not (yet) formatted as a time series.", fig.height=3.5, fig.width=7, message=FALSE, warning=FALSE, out.width="65%", results='hold'}
 par(mfrow = c(1,1), mar = c(3,3,1,1), mgp=c(1.6,0.3,0), tcl=0.25, oma = c(0,0,0,0), font.lab=2)
-with(soiltemp, plot(temp, type = "l", col = 7))
+with(soiltemp, plot(temp, type = "l", col = 11))
 ```
 
 &nbsp;
@@ -193,24 +198,24 @@ plot(soiltemp_T15_zoo, ylab = "Temperature (\u00B0C)",
 mtext("Untransformed", side=3, line=-1.5, col=2, adj=0.98, font=2)
 plot(log10(soiltemp_T15_zoo), 
      ylab = expression(bold(paste(log[10],"(Temperature, \u00B0C)"))),
-     xlab = "Date", col = 3, lwd = 2, cex.lab = 1.4)
-mtext("log-transformed", side=3, line=-1.5, col=3, adj=0.98, font=2)
+     xlab = "Date", col = 4, lwd = 2, cex.lab = 1.4)
+mtext("log-transformed", side=3, line=-1.5, col=4, adj=0.98, font=2)
 pt0 <- powerTransform(coredata(soiltemp_T15_zoo))
 if(pt0$lambda<0) {
   plot(
     -1 * (soiltemp_T15_zoo ^ pt0$roundlam), # use rounded power term
     ylab = "power-transf. (Temp., \u00B0C)",
     xlab = "Date",
-    col = 7, lwd = 2, cex.lab = 1.4
+    col = 5, lwd = 2, cex.lab = 1.4
   )
 } else {
   plot((soiltemp_T15_zoo ^ pt0$roundlam), # use rounded power term
        ylab = "power-transf. (Temp., \u00B0C)",
        xlab = "Date",
-       col = 7, lwd = 2, cex.lab = 1.4
+       col = 5, lwd = 2, cex.lab = 1.4
   )
 }
-mtext("power-transformed", side=3, line=-1.5, col=7, adj=0.98, font=2)
+mtext("power-transformed", side=3, line=-1.5, col=5, adj=0.98, font=2)
 ```
 
 ```{r remove-pt0, include=FALSE}
@@ -284,17 +289,17 @@ to support this.
 par(mfrow = c(3,1), mar = c(0,4,0,1), oma = c(4,0,1,0), cex.lab = 1.4,
     mgp = c(2.5,0.7,0), font.lab = 2)
 plot(soiltemp_T15_zoo, ylab = "Raw data, no differencing",
-     xlab="", xaxt="n", col = 8)
+     xlab="", xaxt="n", col = 11)
 lines(loess.smooth(index(soiltemp_T15_zoo),coredata(soiltemp_T15_zoo)), 
       col = 5, lwd = 3)
 abline(lm(coredata(soiltemp_T15_zoo) ~ index(soiltemp_T15_zoo)), col = 3)
 legend("topright", legend = c("soiltemp_T15_Data", "Loess smoothing","Linear model"),
-       cex = 1.8, col = c(8,5,3), lwd = c(1,3,1), bty = "n")
+       cex = 1.8, col = c(11,5,3), lwd = c(1,3,1), bty = "n")
 mtext(paste("adf.test p value =",signif(d0$p.value,3)), 
       side = 1, line = -1.2, adj = 0.05)
 plot(diff(soiltemp_T15_zoo,1),
      ylab = "First differencing",
-     xlab="", xaxt="n", col = 8)
+     xlab="", xaxt="n", col = 11)
 abline(h = 0, col = "grey", lty = 2)
 lines(loess.smooth(index(diff(soiltemp_T15_zoo,1)),coredata(diff(soiltemp_T15_zoo,1))), 
       col = 5, lwd = 3)
@@ -304,7 +309,7 @@ mtext(paste("adf.test p value =",signif(d1$p.value,3)),
       side = 1, line = -1.2, adj = 0.05)
 plot(diff(diff(soiltemp_T15_zoo,1),1),
      ylab = "Second differencing",
-     xlab="Date", col = 8)
+     xlab="Date", col = 11)
 mtext("Date",side = 1, line = 2.2, font = 2)
 abline(h = 0, col = "grey", lty = 2)
 lines(loess.smooth(index(diff(diff(soiltemp_T15_zoo,1),1)),
@@ -353,7 +358,7 @@ cat("Estimated frequency is",ff,"\n")
 ```{r plot-movAv, echo=-1, fig.height=3.5, fig.width=7, fig.align='center', fig.cap="Figure 6: Plots of soil temperature time series data and the 24-hour moving average (ƒ = frequency).", out.width="65%", results='hold'}
 par(mfrow = c(1,1), mar = c(3,3,1,1), mgp=c(1.6,0.3,0), tcl=0.25, oma = c(0,0,0,0))
 soiltemp_T15_movAv <- rollmean(soiltemp_T15_zoo, 24)
-plot(soiltemp_T15_zoo, col=8, type="l") # original data
+plot(soiltemp_T15_zoo, col=11, type="l") # original data
 # add the moving average
 lines(soiltemp_T15_movAv, lwd = 2, col=2)
 legend("topright", bty="n", legend = c("Data","Moving average, \u0192 = 24"), col = c(8,2), lwd = c(1,2))
@@ -380,7 +385,7 @@ relationship.
 ```{r linear-trend, echo=-1, fig.height=3.5, fig.width=7, out.width="65%", fig.align='center', fig.cap="Figure 7: Plots of soil temperature time series data and the overall trend shown by a linear model.", results='hold'}
 par(mar = c(3,3,1,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab = 2)
 soiltemp_T15_lmfit <- zoo(lm0$fitted.values, index(soiltemp_T15_zoo))
-plot(soiltemp_T15_zoo, col = 8, type = "l")
+plot(soiltemp_T15_zoo, col = 11, type = "l")
 lines(soiltemp_T15_lmfit, col = 2, lty = 2, lwd=2)
 legend("topright", bty="n", legend = c("Data","Linear trend"), col = c(8,2), lty = c(1,2), lwd=c(1,2), seg.len=3)
 ```
@@ -414,13 +419,13 @@ par(mar = c(3,3,1,1), mgp = c(1.7,0.3,0), tcl = 0.3, font.lab = 2)
 y_trend <- loess.smooth(index(soiltemp_T15_zoo), 
                            coredata(soiltemp_T15_zoo), 
                            span = 0.15, evaluation = length(soiltemp_T15_zoo))
-plot(soiltemp_T15_zoo, col = 8, type = "l")
+plot(soiltemp_T15_zoo, col = 11, type = "l")
 soiltemp_T15_trend <- zoo(y_trend$y, index(soiltemp_T15_zoo))
 lines(soiltemp_T15_lmfit, col = 2, lty = 2)
-lines(soiltemp_T15_trend, col = 3, lwd = 3)
+lines(soiltemp_T15_trend, col = 4, lwd = 3)
 legend("topright", bty = "n", inset = 0.02, cex = 1.25, 
        legend = c("actual data","linear model","loess smoothed"), 
-       col = c(8,2,3), lty=c(1,2,1), lwd = c(1,1,3))
+       col = c(11,2,4), lty=c(1,2,1), lwd = c(1,1,3))
 ```
 
 &nbsp;
@@ -573,14 +578,14 @@ soiltemp_T15_periodic2 <- soiltemp_T15_LOESS2 - soiltemp_T15_trend
 plot(cbind(soiltemp_T15_zoo,soiltemp_T15_periodic2,
      soiltemp_T15_trend, soiltemp_T15_err), main = "", 
      xlab = "Date in 2014", 
-     cex.main = 1.5, yax.flip = TRUE, col = c(8,3,4,2), 
+     cex.main = 1.5, yax.flip = TRUE, col = c(2,3,4,5), 
      ylim = c(floor(min(soiltemp_T15_periodic2)),
               ceiling(max(soiltemp_T15_zoo))))
 x1 <- (0.5*(par("usr")[2]-par("usr")[1]))+par("usr")[1]
 y <- (c(0.18, 0.3, 0.6, 0.82)*(par("usr")[4]-par("usr")[3]))+par("usr")[3]
 text(rep(x1,4), y, 
      labels = c("Unaccounted variation","Trend","Apparent periodicity","Data"), 
-     col = c(2,4,3,8))
+     col = c(5,4,3,2))
 ```
 
 &nbsp;
@@ -674,8 +679,11 @@ analysis of time series:
 
 All of these properties are possible components of **ARIMA** models!
 
-&nbsp;<br />[**We recommend using the `xts` format of a time series in
-ARIMA model functions and forecasting**.]{style="color: #6000c0;"}
+<div style="border-radius: 15px; background-color: #ADF; padding: 15px; text-align: center;">
+
+**We recommend using the** `xts` **format of a time series in ARIMA model functions and forecasting**.
+
+</div>
 
 &nbsp;
 
@@ -807,6 +815,47 @@ ARIMA model is the most appropriate.
 
 &nbsp;
 
+### Looking at how well (or not) the (S)ARIMA models fit the actual data
+
+In Figure 16 (below) we can see how well the ARIMA and seasonal ARIMA models fit
+the data (for clarity, only one week of hourly observations are plotted,
+otherwise there is a lot of overlap). The ARIMA objects `am0` and `am1` don't
+contain the fitted values, but they do contain model residuals so we calculate
+`fitted = observed - residual` in each case.
+
+Note that a non-seasonal ARIMA model can still capture periodicity by making
+predictions based just on autocorrelation and moving averages. The fit of both
+the ARIMA and SARIMA models to the actual data seems similar based on these
+plots; we see how the models differ below, when we try to use the models for
+**forecasting**.
+
+```{r fitted-arima-lines, fig.height=8, fig.width=12, fig.cap="Figure 16: Soil temperature data for the first week of May 2014, showing (a) the fitted ARIMA model and (b) the fitted SARIMA (seasonal) model. The thickness of the fitted lines in both (a) and (b) is arbitrary and does not represent model uncertainty.", message=FALSE, warning=FALSE}
+rz <- c(721:888) # vector of row numbers to represent 1 week (168 hours)
+par(mar=c(3,3.5,0.5,0.5), mgp=c(1.6,0.3,0), tcl=0.2, font.lab=2, cex.lab=1.4,
+    cex.axis=1.2, lend="square", mfrow=c(2,1))
+palette(c("black", plasma(4, end=0.5),plasma(4, alpha=0.5, begin=0.5),"white"))
+
+plot(soiltemp_T15_zoo[rz,], type="n", lwd=1, xlab="Date", ylab="Soil temperature (\u00b0C)")
+lines(index(soiltemp_T15_zoo[rz,]), coredata(soiltemp_T15_zoo[rz,])-am0$residuals[rz], 
+      col=6, lwd=5)
+points(soiltemp_T15_zoo[rz,], type="p", col=2, pch=3)
+mtext("(a)",3,-1.5, adj=0.98, cex=1.4)
+legend("bottomleft", box.col="grey", legend=c("Observed data","ARIMA model"),
+       pch=c(3,NA), lwd=c(NA,3), lty=c(NA,1), 
+       col=c(2,6), inset=0.02, cex=1.4)
+
+plot(soiltemp_T15_zoo[rz,], type="n", lwd=1, xlab="Date", 
+     ylab="Soil temperature (\u00b0C)")
+lines(index(soiltemp_T15_zoo[rz,]), coredata(soiltemp_T15_zoo[rz,])-am1$residuals[rz], 
+      col=7, lwd=5)
+points(soiltemp_T15_zoo[rz,], type="p", col=2, pch=3)
+legend("bottomleft", box.col="grey", legend=c("Observed data", "Seasonal ARIMA model"),
+       pch=c(3,NA), lwd=c(NA,3), lty=c(NA,1), col=c(2,7), inset=0.02, cex=1.4)
+mtext("(b)",3,-1.5, adj=0.98, cex=1.4)
+```
+
+&nbsp;
+
 ## Use the ARIMA model to produce a forecast using both models
 
 **The whole point of generating ARIMA models** is so that we can 
@@ -843,7 +892,7 @@ fc1 <- forecast(am1, h = 168)
 
 ### Then, look at forecasts with plots
 
-```{r forecast-plots, fig.height=6, fig.width=7, out.width="65%", fig.align='center', fig.cap="Figure 16: Time series forecasts for soil temperature, based on (a) a non-seasonal ARIMA model and (b) a seasonal ARIMA model.", results='hold'}
+```{r forecast-plots, fig.height=6, fig.width=7, out.width="65%", fig.align='center', fig.cap="Figure 17: Time series forecasts for soil temperature, based on (a) a non-seasonal ARIMA model and (b) a seasonal ARIMA model.", results='hold'}
 par(mfrow = c(2, 1), cex.main = 0.9, mar = c(0,3,0,1), oma = c(3,0,1,0),
     mgp=c(1.6,0.3,0), tcl=0.2, font.lab=2)
 plot(fc0,ylab = "Temperature (\u00B0C)",
@@ -865,21 +914,21 @@ mtext("(b)", 3, -1.2, cex = 1.2, font = 2, adj = 0.95)
 
 &nbsp;
 
-From the two plots in Figure 16, we observe that the seasonal ARIMA
+From the two plots in Figure 17, we observe that the seasonal ARIMA
 model seems to reflect the form of the original data much better, by
 simulating the diurnal fluctuations in soil temperature. Although the
-forecasting uncertainty shown by the shaded area in Figure 16 is large
+forecasting uncertainty shown by the shaded area in Figure 17 is large
 for both types of ARIMA model, the interval seems smaller for the
-seasonal ARIMA model (Figure 16(b)).
+seasonal ARIMA model (Figure 17(b)).
 
 ```{r reset mfrow 2, message=FALSE, warning=FALSE, include=FALSE}
 par(mfrow = c(1, 1))
 ```
 
 We can also make a slightly 'prettier' time series forecast plot using the 
-`autoplot()` function from the `ggplot2` package (Figure 17):
+`autoplot()` function from the `ggplot2` package (Figure 18):
 
-```{r forecast-ggplot, fig.height=4, fig.width=6, out.width='65%', fig.align='center', fig.cap="Figure 17: Time series forecast for soil temperature, based on  a seasonal ARIMA model, plotted using the ggplot2 `autoplot()` function.", results='hold'}
+```{r forecast-ggplot, fig.height=4, fig.width=6, out.width='65%', fig.align='center', fig.cap="Figure 18: Time series forecast for soil temperature, based on  a seasonal ARIMA model, plotted using the ggplot2 `autoplot()` function.", results='hold'}
 require(ggplot2) # gives best results using autoplot(...)
 autoplot(fc1)+
   ylab("Temperature (\u00B0C)") +
@@ -917,14 +966,14 @@ don't do it here, but we could manually select a model with
 seasonality included.
 
 The default plot function in R can plot forecasts from exponential 
-smoothing models too (Figure 18).
+smoothing models too (Figure 19).
 
-```{r ets-forecast, echo=-1, out.width="65%", fig.align='center', fig.cap="Figure 18: Forecast of soil temperature based on an automatically selected exponential smoothing model without a seasonal component."}
+```{r ets-forecast, echo=-1, out.width="65%", fig.align='center', fig.cap="Figure 19: Forecast of soil temperature based on an automatically selected exponential smoothing model without a seasonal component."}
 par(mfrow = c(1,1), mar = c(3,3,1,1), mgp=c(1.6,0.3,0), tcl=0.25, oma = c(0,0,0,0), font.lab=2)
-plot(forecast(soiltemp_T15_ets, h=168), col=8, fcol=6, 
+plot(forecast(soiltemp_T15_ets, h=168), col=2, fcol=5, 
      xlab = "Time since start (s)", ylab = "Temperature (\u00B0C)", main="")
-mtext(names(soiltemp_T15_ets$par),3,seq(-1,-5,-1), adj = 0.7, col = 6, font = 3)
-mtext(signif(soiltemp_T15_ets$par,3),3,seq(-1,-5,-1), adj = 0.8, col = 6, font = 3)
+mtext(names(soiltemp_T15_ets$par),3,seq(-1,-5,-1), adj = 0.7, col = 5, font = 3)
+mtext(signif(soiltemp_T15_ets$par,3),3,seq(-1,-5,-1), adj = 0.8, col = 5, font = 3)
 ```
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
@@ -934,11 +983,11 @@ par(mfrow = c(1,1), mar = c(4,4,1,1), oma = c(0,0,0,0))
 &nbsp;
 
 Exponential smoothing also [decomposes]{.underline} time series in a 
-different way, into *level* and *slope* components (Figure 19).
+different way, into *level* and *slope* components (Figure 20).
 
-```{r ets-decomposition, echo=-1, fig.height=6, fig.width=6, out.width='65%', fig.align='center', fig.cap="Figure 19: Exponential smoothing time series decomposition plots for soil temperature data."}
+```{r ets-decomposition, echo=-1, fig.height=6, fig.width=6, out.width='65%', fig.align='center', fig.cap="Figure 20: Exponential smoothing time series decomposition plots for soil temperature data."}
 par(mfrow = c(1,1), mar = c(3,3,1,1), mgp=c(1.6,0.3,0), tcl=0.25, oma = c(0,0,0,0), font.lab=2)
-plot(soiltemp_T15_ets, col=5, xlab="Time since start (s)") # ETS decomposition plots
+plot(soiltemp_T15_ets, col=4, xlab="Time since start (s)") # ETS decomposition plots
 ```
 
 &nbsp;
@@ -969,6 +1018,12 @@ R Core Team (2022). `R`: *A language and environment for statistical computing*.
 Ryan, J.A. and Ulrich, J.M. (2020). `xts`: *eXtensible Time Series*. 
 R package version 0.12.1.
 [https://CRAN.R-project.org/package=xts](https://CRAN.R-project.org/package=xts){target="_blank"}
+
+Smith, A. B., Walker, J. P., Western, A. W., Young, R. I., Ellett, K. M.,
+Pipunic, R. C., Grayson, R. B., Siriwidena, L., Chiew, F. H. S. and Richter, H.
+(2012) The Murrumbidgee Soil Moisture Monitoring Network Data Set. _Water
+Resources Research_, **48**:W07701
+[doi:10.1029/2012WR011976](https://doi.org/10.1029/2012WR011976){target="_blank"}
 
 Zeileis, A. and Grothendieck, G. (2005). `zoo`: S3 Infrastructure for 
 Regular and Irregular Time Series. *Journal of Statistical Software*, 

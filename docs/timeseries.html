@@ -11,11 +11,11 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-06-19" />
+<meta name="date" content="2025-09-12" />
 
 <title>Time Series Analysis</title>
 
-<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -629,7 +629,7 @@ div.tocify {
 <h1 class="title toc-ignore">Time Series Analysis</h1>
 <h3 class="subtitle">Concepts using soil temperature data</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-06-19</h4>
+<h4 class="date">2025-09-12</h4>
 
 </div>
 
@@ -657,6 +657,9 @@ using basic trend analysis and more complex ARIMA (and other) models</a>
 </ol>
 </div>
 <p> </p>
+<p id="part1">
+ 
+</p>
 <div id="set-up-the-r-environment-for-time-series-analysis"
 class="section level2">
 <h2>Set up the R environment for time series analysis</h2>
@@ -671,16 +674,14 @@ packages for specialized time series and other functions in R...</p>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="fu">library</span>(tseries)  <span class="co"># for assessing stationarity using Augmented Dickey-Fuller test</span></span>
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="fu">library</span>(lmtest)   <span class="co"># for Breusch-Pagan heteroscedasticity test etc.</span></span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="fu">library</span>(car)      <span class="co"># for various commonly-used functions</span></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="fu">library</span>(ggplot2)  <span class="co"># alternative to base R plots</span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co"># (optional) make a better colour palette than the R default!</span></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co"># still not ideal for colourblindness (consider using viridis package)</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;purple4&quot;</span>,<span class="st">&quot;#0041B2&quot;</span>,<span class="st">&quot;darkslategray4&quot;</span>,</span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>          <span class="st">&quot;gold3&quot;</span>,<span class="st">&quot;orangered&quot;</span>,<span class="st">&quot;darkred&quot;</span>,<span class="st">&quot;dimgray&quot;</span>))</span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">1</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span></code></pre></div>
-<p id="part1">
- 
-</p>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="fu">library</span>(viridis)  <span class="co"># accessible colour palettes</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="fu">library</span>(ggplot2)  <span class="co"># alternative to base R plots</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co"># (optional) make a better colour palette than the R default! </span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co"># (using viridis package for accessibility e.g. colourblindness)</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="fu">plasma</span>(<span class="dv">4</span>, <span class="at">end=</span><span class="fl">0.5</span>),<span class="fu">plasma</span>(<span class="dv">4</span>, <span class="at">alpha=</span><span class="fl">0.5</span>, <span class="at">begin=</span><span class="fl">0.5</span>),<span class="st">&quot;white&quot;</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>          <span class="st">&quot;darkgray&quot;</span>))</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">1</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span></code></pre></div>
 </div>
 <div id="how-r-reads-and-stores-time-series-data"
 class="section level1">
@@ -688,6 +689,11 @@ class="section level1">
 <p>We first read the data into a <code>data frame</code> – this is how R
 often stores data – it's not the format we need, but we'll use it for
 comparison.</p>
+<p>The data used are derived from autumn 2014 soil meteorological
+observations at the Murrumbidgee M2 (Canberra Airport) site, available
+in the
+<a href="https://www.oznet.org.au/mdbdata/mdbdata.html?perPage=20&queries[site]=MURRUMBIDGEE&queries[station]=M2&queries[search]=2014" target="_blank">OzNet
+data archive</a>, and described by Smith <em>et al</em>. (2012).</p>
 <div id="non-time-series-object-for-comparison" class="section level2">
 <h2>Non-time series object for comparison</h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R-web/main/&quot;</span></span>
@@ -716,7 +722,7 @@ class="section level3">
 that the <code>Date</code> column is not a date or time, or even
 numeric.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, <span class="at">oma =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">font.lab=</span><span class="dv">2</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">with</span>(soiltemp, <span class="fu">plot</span>(temp, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="dv">7</span>))</span></code></pre></div>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">with</span>(soiltemp, <span class="fu">plot</span>(temp, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="dv">11</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="timeseries_files/figure-html/plot-df-1.png" alt="Figure 1: Plot of soil temperature time series data which is not (yet) formatted as a time series." width="65%" />
 <p class="caption">
@@ -760,7 +766,7 @@ format win the actual <code>.csv</code> file.</p>
 ## 
 ## &#39;zoo&#39; series from 2014-04-01 to 2014-05-31 23:00:00
 ##   Data: num [1:1464] 20.1 19.8 19.6 19.2 19 ...
-##   Index:  POSIXct[1:1464], format: &quot;2014-04-01 00:00:00&quot; &quot;2014-04-01 01:00:00&quot; &quot;2014-04-01 02:00:00&quot; ...</code></pre>
+##   Index:  POSIXct[1:1464], format: &quot;2014-04-01 00:00:00&quot; &quot;2014-04-01 01:00:00&quot; &quot;2014-04-01 02:00:00&quot; &quot;2014-04-01 03:00:00&quot; ...</code></pre>
 <p>We can see that the column <code>Date</code> has now become
 <code>Index</code>, and it's correctly stored as date/time information,
 in a format called <code>POSIXct</code> (for more information, run
@@ -851,24 +857,24 @@ versions (with custom axis labels).</p>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Untransformed&quot;</span>, <span class="at">side=</span><span class="dv">3</span>, <span class="at">line=</span><span class="sc">-</span><span class="fl">1.5</span>, <span class="at">col=</span><span class="dv">2</span>, <span class="at">adj=</span><span class="fl">0.98</span>, <span class="at">font=</span><span class="dv">2</span>)</span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log10</span>(soiltemp_T15_zoo), </span>
 <span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="fu">bold</span>(<span class="fu">paste</span>(log[<span class="dv">10</span>],<span class="st">&quot;(Temperature, \u00B0C)&quot;</span>))),</span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Date&quot;</span>, <span class="at">col =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">cex.lab =</span> <span class="fl">1.4</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;log-transformed&quot;</span>, <span class="at">side=</span><span class="dv">3</span>, <span class="at">line=</span><span class="sc">-</span><span class="fl">1.5</span>, <span class="at">col=</span><span class="dv">3</span>, <span class="at">adj=</span><span class="fl">0.98</span>, <span class="at">font=</span><span class="dv">2</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Date&quot;</span>, <span class="at">col =</span> <span class="dv">4</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">cex.lab =</span> <span class="fl">1.4</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;log-transformed&quot;</span>, <span class="at">side=</span><span class="dv">3</span>, <span class="at">line=</span><span class="sc">-</span><span class="fl">1.5</span>, <span class="at">col=</span><span class="dv">4</span>, <span class="at">adj=</span><span class="fl">0.98</span>, <span class="at">font=</span><span class="dv">2</span>)</span>
 <span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>pt0 <span class="ot">&lt;-</span> <span class="fu">powerTransform</span>(<span class="fu">coredata</span>(soiltemp_T15_zoo))</span>
 <span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="cf">if</span>(pt0<span class="sc">$</span>lambda<span class="sc">&lt;</span><span class="dv">0</span>) {</span>
 <span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>  <span class="fu">plot</span>(</span>
 <span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>    <span class="sc">-</span><span class="dv">1</span> <span class="sc">*</span> (soiltemp_T15_zoo <span class="sc">^</span> pt0<span class="sc">$</span>roundlam), <span class="co"># use rounded power term</span></span>
 <span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">&quot;power-transf. (Temp., \u00B0C)&quot;</span>,</span>
 <span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">&quot;Date&quot;</span>,</span>
-<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>    <span class="at">col =</span> <span class="dv">7</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">cex.lab =</span> <span class="fl">1.4</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>    <span class="at">col =</span> <span class="dv">5</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">cex.lab =</span> <span class="fl">1.4</span></span>
 <span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a>  )</span>
 <span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a>} <span class="cf">else</span> {</span>
 <span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a>  <span class="fu">plot</span>((soiltemp_T15_zoo <span class="sc">^</span> pt0<span class="sc">$</span>roundlam), <span class="co"># use rounded power term</span></span>
 <span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>       <span class="at">ylab =</span> <span class="st">&quot;power-transf. (Temp., \u00B0C)&quot;</span>,</span>
 <span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">&quot;Date&quot;</span>,</span>
-<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">7</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">cex.lab =</span> <span class="fl">1.4</span></span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">5</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">cex.lab =</span> <span class="fl">1.4</span></span>
 <span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a>  )</span>
 <span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a>}</span>
-<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;power-transformed&quot;</span>, <span class="at">side=</span><span class="dv">3</span>, <span class="at">line=</span><span class="sc">-</span><span class="fl">1.5</span>, <span class="at">col=</span><span class="dv">7</span>, <span class="at">adj=</span><span class="fl">0.98</span>, <span class="at">font=</span><span class="dv">2</span>)</span></code></pre></div>
+<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;power-transformed&quot;</span>, <span class="at">side=</span><span class="dv">3</span>, <span class="at">line=</span><span class="sc">-</span><span class="fl">1.5</span>, <span class="at">col=</span><span class="dv">5</span>, <span class="at">adj=</span><span class="fl">0.98</span>, <span class="at">font=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="timeseries_files/figure-html/plot-transf-1.png" alt="Figure 4: Plots of soil temperature time series data as untransformed, log₁₀-transformed, and power transformed values." width="65%" />
 <p class="caption">
@@ -948,17 +954,17 @@ Figure 5 does not seem to support this.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">oma =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">cex.lab =</span> <span class="fl">1.4</span>,</span>
 <span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>    <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">2.5</span>,<span class="fl">0.7</span>,<span class="dv">0</span>), <span class="at">font.lab =</span> <span class="dv">2</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_T15_zoo, <span class="at">ylab =</span> <span class="st">&quot;Raw data, no differencing&quot;</span>,</span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="at">col =</span> <span class="dv">8</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="at">col =</span> <span class="dv">11</span>)</span>
 <span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">loess.smooth</span>(<span class="fu">index</span>(soiltemp_T15_zoo),<span class="fu">coredata</span>(soiltemp_T15_zoo)), </span>
 <span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>      <span class="at">col =</span> <span class="dv">5</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
 <span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(<span class="fu">coredata</span>(soiltemp_T15_zoo) <span class="sc">~</span> <span class="fu">index</span>(soiltemp_T15_zoo)), <span class="at">col =</span> <span class="dv">3</span>)</span>
 <span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;soiltemp_T15_Data&quot;</span>, <span class="st">&quot;Loess smoothing&quot;</span>,<span class="st">&quot;Linear model&quot;</span>),</span>
-<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">1.8</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">5</span>,<span class="dv">3</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">1.8</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">11</span>,<span class="dv">5</span>,<span class="dv">3</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span>
 <span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste</span>(<span class="st">&quot;adf.test p value =&quot;</span>,<span class="fu">signif</span>(d0<span class="sc">$</span>p.value,<span class="dv">3</span>)), </span>
 <span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a>      <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="sc">-</span><span class="fl">1.2</span>, <span class="at">adj =</span> <span class="fl">0.05</span>)</span>
 <span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">diff</span>(soiltemp_T15_zoo,<span class="dv">1</span>),</span>
 <span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;First differencing&quot;</span>,</span>
-<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="at">col =</span> <span class="dv">8</span>)</span>
+<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="at">col =</span> <span class="dv">11</span>)</span>
 <span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
 <span id="cb20-16"><a href="#cb20-16" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">loess.smooth</span>(<span class="fu">index</span>(<span class="fu">diff</span>(soiltemp_T15_zoo,<span class="dv">1</span>)),<span class="fu">coredata</span>(<span class="fu">diff</span>(soiltemp_T15_zoo,<span class="dv">1</span>))), </span>
 <span id="cb20-17"><a href="#cb20-17" tabindex="-1"></a>      <span class="at">col =</span> <span class="dv">5</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
@@ -968,7 +974,7 @@ Figure 5 does not seem to support this.</p>
 <span id="cb20-21"><a href="#cb20-21" tabindex="-1"></a>      <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="sc">-</span><span class="fl">1.2</span>, <span class="at">adj =</span> <span class="fl">0.05</span>)</span>
 <span id="cb20-22"><a href="#cb20-22" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">diff</span>(<span class="fu">diff</span>(soiltemp_T15_zoo,<span class="dv">1</span>),<span class="dv">1</span>),</span>
 <span id="cb20-23"><a href="#cb20-23" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Second differencing&quot;</span>,</span>
-<span id="cb20-24"><a href="#cb20-24" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Date&quot;</span>, <span class="at">col =</span> <span class="dv">8</span>)</span>
+<span id="cb20-24"><a href="#cb20-24" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Date&quot;</span>, <span class="at">col =</span> <span class="dv">11</span>)</span>
 <span id="cb20-25"><a href="#cb20-25" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Date&quot;</span>,<span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="fl">2.2</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
 <span id="cb20-26"><a href="#cb20-26" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
 <span id="cb20-27"><a href="#cb20-27" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">loess.smooth</span>(<span class="fu">index</span>(<span class="fu">diff</span>(<span class="fu">diff</span>(soiltemp_T15_zoo,<span class="dv">1</span>),<span class="dv">1</span>)),</span>
@@ -1017,7 +1023,7 @@ our time series data... see below.</p>
 <span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Estimated frequency is&quot;</span>,ff,<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## Estimated frequency is 24</code></pre>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>soiltemp_T15_movAv <span class="ot">&lt;-</span> <span class="fu">rollmean</span>(soiltemp_T15_zoo, <span class="dv">24</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_T15_zoo, <span class="at">col=</span><span class="dv">8</span>, <span class="at">type=</span><span class="st">&quot;l&quot;</span>) <span class="co"># original data</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_T15_zoo, <span class="at">col=</span><span class="dv">11</span>, <span class="at">type=</span><span class="st">&quot;l&quot;</span>) <span class="co"># original data</span></span>
 <span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="co"># add the moving average</span></span>
 <span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="fu">lines</span>(soiltemp_T15_movAv, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col=</span><span class="dv">2</span>)</span>
 <span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Data&quot;</span>,<span class="st">&quot;Moving average, \u0192 = 24&quot;</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">2</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
@@ -1059,7 +1065,7 @@ test as described <a href="#part3">later</a>.</p>
 ## F-statistic:  4253 on 1 and 1462 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>...then use a plot (Figure 7) to look at the linear relationship.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>soiltemp_T15_lmfit <span class="ot">&lt;-</span> <span class="fu">zoo</span>(lm0<span class="sc">$</span>fitted.values, <span class="fu">index</span>(soiltemp_T15_zoo))</span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_T15_zoo, <span class="at">col =</span> <span class="dv">8</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_T15_zoo, <span class="at">col =</span> <span class="dv">11</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span>
 <span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a><span class="fu">lines</span>(soiltemp_T15_lmfit, <span class="at">col =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
 <span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Data&quot;</span>,<span class="st">&quot;Linear trend&quot;</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">2</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">lwd=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">seg.len=</span><span class="dv">3</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
@@ -1095,13 +1101,13 @@ from random error in time series decomposition.
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>y_trend <span class="ot">&lt;-</span> <span class="fu">loess.smooth</span>(<span class="fu">index</span>(soiltemp_T15_zoo), </span>
 <span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>                           <span class="fu">coredata</span>(soiltemp_T15_zoo), </span>
 <span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>                           <span class="at">span =</span> <span class="fl">0.15</span>, <span class="at">evaluation =</span> <span class="fu">length</span>(soiltemp_T15_zoo))</span>
-<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_T15_zoo, <span class="at">col =</span> <span class="dv">8</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_T15_zoo, <span class="at">col =</span> <span class="dv">11</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span>
 <span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>soiltemp_T15_trend <span class="ot">&lt;-</span> <span class="fu">zoo</span>(y_trend<span class="sc">$</span>y, <span class="fu">index</span>(soiltemp_T15_zoo))</span>
 <span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a><span class="fu">lines</span>(soiltemp_T15_lmfit, <span class="at">col =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a><span class="fu">lines</span>(soiltemp_T15_trend, <span class="at">col =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a><span class="fu">lines</span>(soiltemp_T15_trend, <span class="at">col =</span> <span class="dv">4</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
 <span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">inset =</span> <span class="fl">0.02</span>, <span class="at">cex =</span> <span class="fl">1.25</span>, </span>
 <span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;actual data&quot;</span>,<span class="st">&quot;linear model&quot;</span>,<span class="st">&quot;loess smoothed&quot;</span>), </span>
-<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">3</span>))</span></code></pre></div>
+<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">11</span>,<span class="dv">2</span>,<span class="dv">4</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">3</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="timeseries_files/figure-html/loess-trend-1.png" alt="Figure 8: Plots of soil temperature time series data and the overall trend shown by a loess smoothing model." width="65%" />
 <p class="caption">
@@ -1267,14 +1273,14 @@ class="section level2">
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">cbind</span>(soiltemp_T15_zoo,soiltemp_T15_periodic2,</span>
 <span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a>     soiltemp_T15_trend, soiltemp_T15_err), <span class="at">main =</span> <span class="st">&quot;&quot;</span>, </span>
 <span id="cb44-3"><a href="#cb44-3" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Date in 2014&quot;</span>, </span>
-<span id="cb44-4"><a href="#cb44-4" tabindex="-1"></a>     <span class="at">cex.main =</span> <span class="fl">1.5</span>, <span class="at">yax.flip =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">2</span>), </span>
+<span id="cb44-4"><a href="#cb44-4" tabindex="-1"></a>     <span class="at">cex.main =</span> <span class="fl">1.5</span>, <span class="at">yax.flip =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>), </span>
 <span id="cb44-5"><a href="#cb44-5" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fu">floor</span>(<span class="fu">min</span>(soiltemp_T15_periodic2)),</span>
 <span id="cb44-6"><a href="#cb44-6" tabindex="-1"></a>              <span class="fu">ceiling</span>(<span class="fu">max</span>(soiltemp_T15_zoo))))</span>
 <span id="cb44-7"><a href="#cb44-7" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> (<span class="fl">0.5</span><span class="sc">*</span>(<span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">2</span>]<span class="sc">-</span><span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">1</span>]))<span class="sc">+</span><span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">1</span>]</span>
 <span id="cb44-8"><a href="#cb44-8" tabindex="-1"></a>y <span class="ot">&lt;-</span> (<span class="fu">c</span>(<span class="fl">0.18</span>, <span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.82</span>)<span class="sc">*</span>(<span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">4</span>]<span class="sc">-</span><span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">3</span>]))<span class="sc">+</span><span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">3</span>]</span>
 <span id="cb44-9"><a href="#cb44-9" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">rep</span>(x1,<span class="dv">4</span>), y, </span>
 <span id="cb44-10"><a href="#cb44-10" tabindex="-1"></a>     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Unaccounted variation&quot;</span>,<span class="st">&quot;Trend&quot;</span>,<span class="st">&quot;Apparent periodicity&quot;</span>,<span class="st">&quot;Data&quot;</span>), </span>
-<span id="cb44-11"><a href="#cb44-11" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">8</span>))</span></code></pre></div>
+<span id="cb44-11"><a href="#cb44-11" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="timeseries_files/figure-html/decomp-plots-1.png" alt="Figure 13: Time series decomposition into the three main components (periodicity, trend, and error; the raw data are at the top) for soil temperature (°C) at 15 cm depth." width="768" />
 <p class="caption">
@@ -1394,9 +1400,12 @@ analysis of time series:</p>
 </ul>
 <p>All of these properties are possible components of
 <strong>ARIMA</strong> models!</p>
-<p> <br /><span style="color: #6000c0;"><strong>We recommend using the
-<code>xts</code> format of a time series in ARIMA model functions and
-forecasting</strong>.</span></p>
+<div
+style="border-radius: 15px; background-color: #ADF; padding: 15px; text-align: center;">
+<p><strong>We recommend using the</strong> <code>xts</code>
+<strong>format of a time series in ARIMA model functions and
+forecasting</strong>.</p>
+</div>
 <p> </p>
 </div>
 <div id="use-the-forecast-r-package-to-create-an-arima-model"
@@ -1434,7 +1443,7 @@ provide a starting point for examining ARIMA models. The output of the
 model the algorithm found, shown as <code>ARIMA(p,d,q)</code>. The
 <code>p</code>,<code>d</code>,<code>q</code> are defined in Table 1
 below:</p>
-<div class="tabwid"><style>.cl-4bafa564{}.cl-4ba61440{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4ba61454{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4ba9b4c4{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-4ba9cc98{width:0.787in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccac{width:2.756in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccad{width:2.756in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccb6{width:0.787in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccc0{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccc1{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccca{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9cccb{width:2.756in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccd4{width:2.756in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9ccde{width:0.787in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9cce8{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ba9cce9{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-4bafa564'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Definition of p, d, and q parameters in ARIMA time series forecasting models.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-4ba9cc98"><p class="cl-4ba9b4c4"><span class="cl-4ba61440">Parameter</span></p></th><th class="cl-4ba9ccac"><p class="cl-4ba9b4c4"><span class="cl-4ba61440">Meaning</span></p></th><th class="cl-4ba9ccad"><p class="cl-4ba9b4c4"><span class="cl-4ba61440">Informed by</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-4ba9ccb6"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">p</span></p></td><td class="cl-4ba9ccc0"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">The number of autoregressive predictors</span></p></td><td class="cl-4ba9ccc1"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">Partial autocorrelation</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4ba9ccca"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">d</span></p></td><td class="cl-4ba9cccb"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">The number of differencing steps</span></p></td><td class="cl-4ba9ccd4"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">Stationarity tests ± differencing</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4ba9ccde"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">q</span></p></td><td class="cl-4ba9cce8"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">The number of moving average predictors</span></p></td><td class="cl-4ba9cce9"><p class="cl-4ba9b4c4"><span class="cl-4ba61454">Stationarity tests ± moving averages</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-04134dce{}.cl-0402a87a{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-0402a8b6{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-0406cc52{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-0406e228{width:0.787in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e232{width:2.756in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e23c{width:2.756in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e23d{width:0.787in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e23e{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e23f{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e246{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e250{width:2.756in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e251{width:2.756in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e25a{width:0.787in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e264{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e265{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-04134dce'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Definition of p, d, and q parameters in ARIMA time series forecasting models.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-0406e228"><p class="cl-0406cc52"><span class="cl-0402a87a">Parameter</span></p></th><th class="cl-0406e232"><p class="cl-0406cc52"><span class="cl-0402a87a">Meaning</span></p></th><th class="cl-0406e23c"><p class="cl-0406cc52"><span class="cl-0402a87a">Informed by</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-0406e23d"><p class="cl-0406cc52"><span class="cl-0402a8b6">p</span></p></td><td class="cl-0406e23e"><p class="cl-0406cc52"><span class="cl-0402a8b6">The number of autoregressive predictors</span></p></td><td class="cl-0406e23f"><p class="cl-0406cc52"><span class="cl-0402a8b6">Partial autocorrelation</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0406e246"><p class="cl-0406cc52"><span class="cl-0402a8b6">d</span></p></td><td class="cl-0406e250"><p class="cl-0406cc52"><span class="cl-0402a8b6">The number of differencing steps</span></p></td><td class="cl-0406e251"><p class="cl-0406cc52"><span class="cl-0402a8b6">Stationarity tests ± differencing</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0406e25a"><p class="cl-0406cc52"><span class="cl-0402a8b6">q</span></p></td><td class="cl-0406e264"><p class="cl-0406cc52"><span class="cl-0402a8b6">The number of moving average predictors</span></p></td><td class="cl-0406e265"><p class="cl-0406cc52"><span class="cl-0402a8b6">Stationarity tests ± moving averages</span></p></td></tr></tbody></table></div>
 <p> </p>
 <p>A periodic or <em>seasonal</em> ARIMA model (often called SARIMA) has
 a more complex specification: <br> <code>ARIMA(p,d,q)(P,D,Q)(n)</code> ,
@@ -1461,10 +1470,8 @@ period/season.</p>
 ## sigma^2 estimated as 0.1184:  log likelihood = -517.87,  aic = 1047.73
 ## 
 ## Training set error measures:
-##                        ME      RMSE       MAE         MPE     MAPE     MASE
-## Training set -0.005215705 0.3441525 0.2467179 -0.08670514 1.716531 0.980305
-##                       ACF1
-## Training set -0.0001019764
+##                        ME      RMSE       MAE         MPE     MAPE     MASE          ACF1
+## Training set -0.005215705 0.3441525 0.2467179 -0.08670514 1.716531 0.980305 -0.0001019764
 ##                 2.5 %     97.5 %
 ## ar1        0.98017359  0.9963265
 ## ma1        0.04074353  0.1438382
@@ -1505,10 +1512,8 @@ parameter is useful or not).</p>
 ## sigma^2 estimated as 0.09073:  log likelihood = -355.68,  aic = 725.35
 ## 
 ## Training set error measures:
-##                       ME    RMSE       MAE        MPE     MAPE      MASE
-## Training set -0.01572894 0.30122 0.2169846 -0.1427709 1.504911 0.8621632
-##                      ACF1
-## Training set 0.0006582706
+##                       ME    RMSE       MAE        MPE     MAPE      MASE         ACF1
+## Training set -0.01572894 0.30122 0.2169846 -0.1427709 1.504911 0.8621632 0.0006582706
 ##                2.5 %      97.5 %
 ## ar1        0.9928401  1.00080710
 ## ma1       -0.1990623 -0.09412079
@@ -1571,6 +1576,55 @@ reinforcing the conclusion from the AIC value that the
 <strong>seasonal</strong> ARIMA model is the most appropriate.</p>
 <p> </p>
 </div>
+<div
+id="looking-at-how-well-or-not-the-sarima-models-fit-the-actual-data"
+class="section level3">
+<h3>Looking at how well (or not) the (S)ARIMA models fit the actual
+data</h3>
+<p>In Figure 16 (below) we can see how well the ARIMA and seasonal ARIMA
+models fit the data (for clarity, only one week of hourly observations
+are plotted, otherwise there is a lot of overlap). The ARIMA objects
+<code>am0</code> and <code>am1</code> don't contain the fitted values,
+but they do contain model residuals so we calculate
+<code>fitted = observed - residual</code> in each case.</p>
+<p>Note that a non-seasonal ARIMA model can still capture periodicity by
+making predictions based just on autocorrelation and moving averages.
+The fit of both the ARIMA and SARIMA models to the actual data seems
+similar based on these plots; we see how the models differ below, when
+we try to use the models for <strong>forecasting</strong>.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a>rz <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">721</span><span class="sc">:</span><span class="dv">888</span>) <span class="co"># vector of row numbers to represent 1 week (168 hours)</span></span>
+<span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="fl">3.5</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex.lab=</span><span class="fl">1.4</span>,</span>
+<span id="cb60-3"><a href="#cb60-3" tabindex="-1"></a>    <span class="at">cex.axis=</span><span class="fl">1.2</span>, <span class="at">lend=</span><span class="st">&quot;square&quot;</span>, <span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span>
+<span id="cb60-4"><a href="#cb60-4" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="fu">plasma</span>(<span class="dv">4</span>, <span class="at">end=</span><span class="fl">0.5</span>),<span class="fu">plasma</span>(<span class="dv">4</span>, <span class="at">alpha=</span><span class="fl">0.5</span>, <span class="at">begin=</span><span class="fl">0.5</span>),<span class="st">&quot;white&quot;</span>))</span>
+<span id="cb60-5"><a href="#cb60-5" tabindex="-1"></a></span>
+<span id="cb60-6"><a href="#cb60-6" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_T15_zoo[rz,], <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">xlab=</span><span class="st">&quot;Date&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Soil temperature (\u00b0C)&quot;</span>)</span>
+<span id="cb60-7"><a href="#cb60-7" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">index</span>(soiltemp_T15_zoo[rz,]), <span class="fu">coredata</span>(soiltemp_T15_zoo[rz,])<span class="sc">-</span>am0<span class="sc">$</span>residuals[rz], </span>
+<span id="cb60-8"><a href="#cb60-8" tabindex="-1"></a>      <span class="at">col=</span><span class="dv">6</span>, <span class="at">lwd=</span><span class="dv">5</span>)</span>
+<span id="cb60-9"><a href="#cb60-9" tabindex="-1"></a><span class="fu">points</span>(soiltemp_T15_zoo[rz,], <span class="at">type=</span><span class="st">&quot;p&quot;</span>, <span class="at">col=</span><span class="dv">2</span>, <span class="at">pch=</span><span class="dv">3</span>)</span>
+<span id="cb60-10"><a href="#cb60-10" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(a)&quot;</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="fl">1.5</span>, <span class="at">adj=</span><span class="fl">0.98</span>, <span class="at">cex=</span><span class="fl">1.4</span>)</span>
+<span id="cb60-11"><a href="#cb60-11" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">box.col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Observed data&quot;</span>,<span class="st">&quot;ARIMA model&quot;</span>),</span>
+<span id="cb60-12"><a href="#cb60-12" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="cn">NA</span>), <span class="at">lwd=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">3</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">1</span>), </span>
+<span id="cb60-13"><a href="#cb60-13" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">6</span>), <span class="at">inset=</span><span class="fl">0.02</span>, <span class="at">cex=</span><span class="fl">1.4</span>)</span>
+<span id="cb60-14"><a href="#cb60-14" tabindex="-1"></a></span>
+<span id="cb60-15"><a href="#cb60-15" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_T15_zoo[rz,], <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">xlab=</span><span class="st">&quot;Date&quot;</span>, </span>
+<span id="cb60-16"><a href="#cb60-16" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Soil temperature (\u00b0C)&quot;</span>)</span>
+<span id="cb60-17"><a href="#cb60-17" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">index</span>(soiltemp_T15_zoo[rz,]), <span class="fu">coredata</span>(soiltemp_T15_zoo[rz,])<span class="sc">-</span>am1<span class="sc">$</span>residuals[rz], </span>
+<span id="cb60-18"><a href="#cb60-18" tabindex="-1"></a>      <span class="at">col=</span><span class="dv">7</span>, <span class="at">lwd=</span><span class="dv">5</span>)</span>
+<span id="cb60-19"><a href="#cb60-19" tabindex="-1"></a><span class="fu">points</span>(soiltemp_T15_zoo[rz,], <span class="at">type=</span><span class="st">&quot;p&quot;</span>, <span class="at">col=</span><span class="dv">2</span>, <span class="at">pch=</span><span class="dv">3</span>)</span>
+<span id="cb60-20"><a href="#cb60-20" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">box.col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Observed data&quot;</span>, <span class="st">&quot;Seasonal ARIMA model&quot;</span>),</span>
+<span id="cb60-21"><a href="#cb60-21" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="cn">NA</span>), <span class="at">lwd=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">3</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">1</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">7</span>), <span class="at">inset=</span><span class="fl">0.02</span>, <span class="at">cex=</span><span class="fl">1.4</span>)</span>
+<span id="cb60-22"><a href="#cb60-22" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(b)&quot;</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="fl">1.5</span>, <span class="at">adj=</span><span class="fl">0.98</span>, <span class="at">cex=</span><span class="fl">1.4</span>)</span></code></pre></div>
+<div class="figure">
+<img src="timeseries_files/figure-html/fitted-arima-lines-1.png" alt="Figure 16: Soil temperature data for the first week of May 2014, showing (a) the fitted ARIMA model and (b) the fitted SARIMA (seasonal) model. The thickness of the fitted lines in both (a) and (b) is arbitrary and does not represent model uncertainty." width="1152" />
+<p class="caption">
+Figure 16: Soil temperature data for the first week of May 2014, showing
+(a) the fitted ARIMA model and (b) the fitted SARIMA (seasonal) model.
+The thickness of the fitted lines in both (a) and (b) is arbitrary and
+does not represent model uncertainty.
+</p>
+</div>
+<p> </p>
+</div>
 </div>
 <div id="use-the-arima-model-to-produce-a-forecast-using-both-models"
 class="section level2">
@@ -1596,55 +1650,55 @@ regularly spaced in time, using interpolation or numerical filtering
 methods. We won't be covering these methods here, though.</p>
 </div>
 <p> </p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a>fc0 <span class="ot">&lt;-</span> <span class="fu">forecast</span>(am0, <span class="at">h =</span> <span class="dv">168</span>)</span>
-<span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a>fc1 <span class="ot">&lt;-</span> <span class="fu">forecast</span>(am1, <span class="at">h =</span> <span class="dv">168</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" tabindex="-1"></a>fc0 <span class="ot">&lt;-</span> <span class="fu">forecast</span>(am0, <span class="at">h =</span> <span class="dv">168</span>)</span>
+<span id="cb61-2"><a href="#cb61-2" tabindex="-1"></a>fc1 <span class="ot">&lt;-</span> <span class="fu">forecast</span>(am1, <span class="at">h =</span> <span class="dv">168</span>)</span></code></pre></div>
 <p> </p>
 <div id="then-look-at-forecasts-with-plots" class="section level3">
 <h3>Then, look at forecasts with plots</h3>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>), <span class="at">cex.main =</span> <span class="fl">0.9</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">oma =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>),</span>
-<span id="cb61-2"><a href="#cb61-2" tabindex="-1"></a>    <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
-<span id="cb61-3"><a href="#cb61-3" tabindex="-1"></a><span class="fu">plot</span>(fc0,<span class="at">ylab =</span> <span class="st">&quot;Temperature (\u00B0C)&quot;</span>,</span>
-<span id="cb61-4"><a href="#cb61-4" tabindex="-1"></a>     <span class="at">fcol =</span> <span class="dv">7</span>, <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xaxt=</span><span class="st">&quot;n&quot;</span>)</span>
-<span id="cb61-5"><a href="#cb61-5" tabindex="-1"></a><span class="fu">lines</span>(soiltemp_T15_zoo, <span class="at">col =</span> <span class="st">&quot;grey70&quot;</span>)</span>
-<span id="cb61-6"><a href="#cb61-6" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;ARIMA with no seasonality&quot;</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="fl">2.2</span>, <span class="at">adj =</span> <span class="fl">0.1</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
-<span id="cb61-7"><a href="#cb61-7" tabindex="-1"></a><span class="fu">mtext</span>(am0<span class="sc">$</span>call, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="at">adj =</span> <span class="fl">0.1</span>, <span class="at">col =</span> <span class="dv">7</span>, <span class="at">cex =</span> <span class="fl">0.9</span>, </span>
-<span id="cb61-8"><a href="#cb61-8" tabindex="-1"></a>      <span class="at">family=</span><span class="st">&quot;mono&quot;</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
-<span id="cb61-9"><a href="#cb61-9" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(a)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.2</span>, <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">adj =</span> <span class="fl">0.95</span>)</span>
-<span id="cb61-10"><a href="#cb61-10" tabindex="-1"></a></span>
-<span id="cb61-11"><a href="#cb61-11" tabindex="-1"></a><span class="fu">plot</span>(fc1,<span class="at">ylab =</span> <span class="st">&quot;Temperature (\u00B0C)&quot;</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">fcol =</span> <span class="dv">3</span>)</span>
-<span id="cb61-12"><a href="#cb61-12" tabindex="-1"></a><span class="fu">lines</span>(soiltemp<span class="sc">$</span>conc, <span class="at">col =</span> <span class="st">&quot;grey70&quot;</span>)</span>
-<span id="cb61-13"><a href="#cb61-13" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Time since start (seconds)&quot;</span>, <span class="dv">1</span>, <span class="fl">1.7</span>, <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
-<span id="cb61-14"><a href="#cb61-14" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste</span>(<span class="st">&quot;ARIMA with&quot;</span>,am1<span class="sc">$</span>arma[<span class="dv">5</span>],<span class="st">&quot;h periodicity&quot;</span>),</span>
-<span id="cb61-15"><a href="#cb61-15" tabindex="-1"></a>      <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="sc">-</span><span class="fl">2.2</span>, <span class="at">adj =</span> <span class="fl">0.1</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
-<span id="cb61-16"><a href="#cb61-16" tabindex="-1"></a><span class="fu">mtext</span>(am1<span class="sc">$</span>call, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="at">adj =</span> <span class="fl">0.1</span>, <span class="at">col =</span> <span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
-<span id="cb61-17"><a href="#cb61-17" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(b)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.2</span>, <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">adj =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>), <span class="at">cex.main =</span> <span class="fl">0.9</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">oma =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>),</span>
+<span id="cb62-2"><a href="#cb62-2" tabindex="-1"></a>    <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb62-3"><a href="#cb62-3" tabindex="-1"></a><span class="fu">plot</span>(fc0,<span class="at">ylab =</span> <span class="st">&quot;Temperature (\u00B0C)&quot;</span>,</span>
+<span id="cb62-4"><a href="#cb62-4" tabindex="-1"></a>     <span class="at">fcol =</span> <span class="dv">7</span>, <span class="at">xlab=</span><span class="st">&quot;&quot;</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xaxt=</span><span class="st">&quot;n&quot;</span>)</span>
+<span id="cb62-5"><a href="#cb62-5" tabindex="-1"></a><span class="fu">lines</span>(soiltemp_T15_zoo, <span class="at">col =</span> <span class="st">&quot;grey70&quot;</span>)</span>
+<span id="cb62-6"><a href="#cb62-6" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;ARIMA with no seasonality&quot;</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="fl">2.2</span>, <span class="at">adj =</span> <span class="fl">0.1</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb62-7"><a href="#cb62-7" tabindex="-1"></a><span class="fu">mtext</span>(am0<span class="sc">$</span>call, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="at">adj =</span> <span class="fl">0.1</span>, <span class="at">col =</span> <span class="dv">7</span>, <span class="at">cex =</span> <span class="fl">0.9</span>, </span>
+<span id="cb62-8"><a href="#cb62-8" tabindex="-1"></a>      <span class="at">family=</span><span class="st">&quot;mono&quot;</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb62-9"><a href="#cb62-9" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(a)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.2</span>, <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">adj =</span> <span class="fl">0.95</span>)</span>
+<span id="cb62-10"><a href="#cb62-10" tabindex="-1"></a></span>
+<span id="cb62-11"><a href="#cb62-11" tabindex="-1"></a><span class="fu">plot</span>(fc1,<span class="at">ylab =</span> <span class="st">&quot;Temperature (\u00B0C)&quot;</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">fcol =</span> <span class="dv">3</span>)</span>
+<span id="cb62-12"><a href="#cb62-12" tabindex="-1"></a><span class="fu">lines</span>(soiltemp<span class="sc">$</span>conc, <span class="at">col =</span> <span class="st">&quot;grey70&quot;</span>)</span>
+<span id="cb62-13"><a href="#cb62-13" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Time since start (seconds)&quot;</span>, <span class="dv">1</span>, <span class="fl">1.7</span>, <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb62-14"><a href="#cb62-14" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste</span>(<span class="st">&quot;ARIMA with&quot;</span>,am1<span class="sc">$</span>arma[<span class="dv">5</span>],<span class="st">&quot;h periodicity&quot;</span>),</span>
+<span id="cb62-15"><a href="#cb62-15" tabindex="-1"></a>      <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="sc">-</span><span class="fl">2.2</span>, <span class="at">adj =</span> <span class="fl">0.1</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb62-16"><a href="#cb62-16" tabindex="-1"></a><span class="fu">mtext</span>(am1<span class="sc">$</span>call, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="at">adj =</span> <span class="fl">0.1</span>, <span class="at">col =</span> <span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb62-17"><a href="#cb62-17" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(b)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.2</span>, <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">adj =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/forecast-plots-1.png" alt="Figure 16: Time series forecasts for soil temperature, based on (a) a non-seasonal ARIMA model and (b) a seasonal ARIMA model." width="65%" />
+<img src="timeseries_files/figure-html/forecast-plots-1.png" alt="Figure 17: Time series forecasts for soil temperature, based on (a) a non-seasonal ARIMA model and (b) a seasonal ARIMA model." width="65%" />
 <p class="caption">
-Figure 16: Time series forecasts for soil temperature, based on (a) a
+Figure 17: Time series forecasts for soil temperature, based on (a) a
 non-seasonal ARIMA model and (b) a seasonal ARIMA model.
 </p>
 </div>
 <p> </p>
-<p>From the two plots in Figure 16, we observe that the seasonal ARIMA
+<p>From the two plots in Figure 17, we observe that the seasonal ARIMA
 model seems to reflect the form of the original data much better, by
 simulating the diurnal fluctuations in soil temperature. Although the
-forecasting uncertainty shown by the shaded area in Figure 16 is large
+forecasting uncertainty shown by the shaded area in Figure 17 is large
 for both types of ARIMA model, the interval seems smaller for the
-seasonal ARIMA model (Figure 16(b)).</p>
+seasonal ARIMA model (Figure 17(b)).</p>
 <p>We can also make a slightly 'prettier' time series forecast plot
 using the <code>autoplot()</code> function from the <code>ggplot2</code>
-package (Figure 17):</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a><span class="fu">require</span>(ggplot2) <span class="co"># gives best results using autoplot(...)</span></span>
-<span id="cb62-2"><a href="#cb62-2" tabindex="-1"></a><span class="fu">autoplot</span>(fc1)<span class="sc">+</span></span>
-<span id="cb62-3"><a href="#cb62-3" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Temperature (\u00B0C)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb62-4"><a href="#cb62-4" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">paste</span>(<span class="st">&quot;Time since&quot;</span>,<span class="fu">index</span>(soiltemp_T15_zoo)[<span class="dv">1</span>],<span class="st">&quot;(s)&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb62-5"><a href="#cb62-5" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
-<span id="cb62-6"><a href="#cb62-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+package (Figure 18):</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" tabindex="-1"></a><span class="fu">require</span>(ggplot2) <span class="co"># gives best results using autoplot(...)</span></span>
+<span id="cb63-2"><a href="#cb63-2" tabindex="-1"></a><span class="fu">autoplot</span>(fc1)<span class="sc">+</span></span>
+<span id="cb63-3"><a href="#cb63-3" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Temperature (\u00B0C)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb63-4"><a href="#cb63-4" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">paste</span>(<span class="st">&quot;Time since&quot;</span>,<span class="fu">index</span>(soiltemp_T15_zoo)[<span class="dv">1</span>],<span class="st">&quot;(s)&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb63-5"><a href="#cb63-5" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb63-6"><a href="#cb63-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/forecast-ggplot-1.png" alt="Figure 17: Time series forecast for soil temperature, based on  a seasonal ARIMA model, plotted using the ggplot2 `autoplot()` function." width="65%" />
+<img src="timeseries_files/figure-html/forecast-ggplot-1.png" alt="Figure 18: Time series forecast for soil temperature, based on  a seasonal ARIMA model, plotted using the ggplot2 `autoplot()` function." width="65%" />
 <p class="caption">
-Figure 17: Time series forecast for soil temperature, based on a
+Figure 18: Time series forecast for soil temperature, based on a
 seasonal ARIMA model, plotted using the ggplot2 <code>autoplot()</code>
 function.
 </p>
@@ -1668,8 +1722,8 @@ type using the <code>model =</code> option!</p>
 <p>The easiest option (and the one used here) is to specify
 <code>model = "ZZZ"</code>, which chooses the type of model
 automatically.</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" tabindex="-1"></a>soiltemp_T15_ets <span class="ot">&lt;-</span> <span class="fu">ets</span>(soiltemp_T15_xts, <span class="at">model =</span><span class="st">&quot;ZZZ&quot;</span>)</span>
-<span id="cb63-2"><a href="#cb63-2" tabindex="-1"></a><span class="fu">summary</span>(soiltemp_T15_ets)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a>soiltemp_T15_ets <span class="ot">&lt;-</span> <span class="fu">ets</span>(soiltemp_T15_xts, <span class="at">model =</span><span class="st">&quot;ZZZ&quot;</span>)</span>
+<span id="cb64-2"><a href="#cb64-2" tabindex="-1"></a><span class="fu">summary</span>(soiltemp_T15_ets)</span></code></pre></div>
 <pre><code>## ETS(A,Ad,N) 
 ## 
 ## Call:
@@ -1690,36 +1744,34 @@ automatically.</p>
 ## 7588.660 7588.718 7620.394 
 ## 
 ## Training set error measures:
-##                        ME      RMSE       MAE         MPE     MAPE       MASE
-## Training set -0.003041526 0.3475639 0.2472475 -0.03856289 1.719534 0.01664266
-##                   ACF1
-## Training set 0.0146761</code></pre>
+##                        ME      RMSE       MAE         MPE     MAPE       MASE      ACF1
+## Training set -0.003041526 0.3475639 0.2472475 -0.03856289 1.719534 0.01664266 0.0146761</code></pre>
 <p>In this case the <code>ets()</code> function has automatically
 selected a model (<code>ETS(A,Ad,N)</code>) with additive trend and
 errors, but no seasonality. We don't do it here, but we could manually
 select a model with seasonality included.</p>
 <p>The default plot function in R can plot forecasts from exponential
-smoothing models too (Figure 18).</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">forecast</span>(soiltemp_T15_ets, <span class="at">h=</span><span class="dv">168</span>), <span class="at">col=</span><span class="dv">8</span>, <span class="at">fcol=</span><span class="dv">6</span>, </span>
-<span id="cb65-2"><a href="#cb65-2" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Time since start (s)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Temperature (\u00B0C)&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb65-3"><a href="#cb65-3" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">names</span>(soiltemp_T15_ets<span class="sc">$</span>par),<span class="dv">3</span>,<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">1</span>), <span class="at">adj =</span> <span class="fl">0.7</span>, <span class="at">col =</span> <span class="dv">6</span>, <span class="at">font =</span> <span class="dv">3</span>)</span>
-<span id="cb65-4"><a href="#cb65-4" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">signif</span>(soiltemp_T15_ets<span class="sc">$</span>par,<span class="dv">3</span>),<span class="dv">3</span>,<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">1</span>), <span class="at">adj =</span> <span class="fl">0.8</span>, <span class="at">col =</span> <span class="dv">6</span>, <span class="at">font =</span> <span class="dv">3</span>)</span></code></pre></div>
+smoothing models too (Figure 19).</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">forecast</span>(soiltemp_T15_ets, <span class="at">h=</span><span class="dv">168</span>), <span class="at">col=</span><span class="dv">2</span>, <span class="at">fcol=</span><span class="dv">5</span>, </span>
+<span id="cb66-2"><a href="#cb66-2" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Time since start (s)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Temperature (\u00B0C)&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb66-3"><a href="#cb66-3" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">names</span>(soiltemp_T15_ets<span class="sc">$</span>par),<span class="dv">3</span>,<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">1</span>), <span class="at">adj =</span> <span class="fl">0.7</span>, <span class="at">col =</span> <span class="dv">5</span>, <span class="at">font =</span> <span class="dv">3</span>)</span>
+<span id="cb66-4"><a href="#cb66-4" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">signif</span>(soiltemp_T15_ets<span class="sc">$</span>par,<span class="dv">3</span>),<span class="dv">3</span>,<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">1</span>), <span class="at">adj =</span> <span class="fl">0.8</span>, <span class="at">col =</span> <span class="dv">5</span>, <span class="at">font =</span> <span class="dv">3</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/ets-forecast-1.png" alt="Figure 18: Forecast of soil temperature based on an automatically selected exponential smoothing model without a seasonal component." width="65%" />
+<img src="timeseries_files/figure-html/ets-forecast-1.png" alt="Figure 19: Forecast of soil temperature based on an automatically selected exponential smoothing model without a seasonal component." width="65%" />
 <p class="caption">
-Figure 18: Forecast of soil temperature based on an automatically
+Figure 19: Forecast of soil temperature based on an automatically
 selected exponential smoothing model without a seasonal component.
 </p>
 </div>
 <p> </p>
 <p>Exponential smoothing also <u>decomposes</u> time series in a
 different way, into <em>level</em> and <em>slope</em> components (Figure
-19).</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_T15_ets, <span class="at">col=</span><span class="dv">5</span>, <span class="at">xlab=</span><span class="st">&quot;Time since start (s)&quot;</span>) <span class="co"># ETS decomposition plots</span></span></code></pre></div>
+20).</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_T15_ets, <span class="at">col=</span><span class="dv">4</span>, <span class="at">xlab=</span><span class="st">&quot;Time since start (s)&quot;</span>) <span class="co"># ETS decomposition plots</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/ets-decomposition-1.png" alt="Figure 19: Exponential smoothing time series decomposition plots for soil temperature data." width="65%" />
+<img src="timeseries_files/figure-html/ets-decomposition-1.png" alt="Figure 20: Exponential smoothing time series decomposition plots for soil temperature data." width="65%" />
 <p class="caption">
-Figure 19: Exponential smoothing time series decomposition plots for
+Figure 20: Exponential smoothing time series decomposition plots for
 soil temperature data.
 </p>
 </div>
@@ -1766,6 +1818,12 @@ target="_blank">https://www.R-project.org/</a>.</p>
 Time Series</em>. R package version 0.12.1. <a
 href="https://CRAN.R-project.org/package=xts"
 target="_blank">https://CRAN.R-project.org/package=xts</a></p>
+<p>Smith, A. B., Walker, J. P., Western, A. W., Young, R. I., Ellett, K.
+M., Pipunic, R. C., Grayson, R. B., Siriwidena, L., Chiew, F. H. S. and
+Richter, H. (2012) The Murrumbidgee Soil Moisture Monitoring Network
+Data Set. <em>Water Resources Research</em>, <strong>48</strong>:W07701
+<a href="https://doi.org/10.1029/2012WR011976"
+target="_blank">doi:10.1029/2012WR011976</a></p>
 <p>Zeileis, A. and Grothendieck, G. (2005). <code>zoo</code>: S3
 Infrastructure for Regular and Irregular Time Series. <em>Journal of
 Statistical Software</em>, <strong>14</strong>(6), 1-27. <a
