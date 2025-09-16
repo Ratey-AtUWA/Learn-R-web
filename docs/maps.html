@@ -1090,8 +1090,8 @@ which allow us to work with spatial data within <code>sf</code> objects.
 Additional functions are available in the package <code>ggspatial</code>
 (Dunnington, 2023), including the ability to annotate plots with rasters
 obtained with the <code>maptiles</code> package.</p>
-<p>The plot below illustrates how we can do this, using the University
-of Western Australia campus as an example.</p>
+<p>The plot below (Figure 10) illustrates how we can do this, using the
+University of Western Australia campus as an example.</p>
 <ul>
 <li>we make a <code>sf</code> object to define the map extent, as we did
 above for base-R maps, then download a map tile raster based on this
@@ -1139,7 +1139,16 @@ of it</li>
 <span id="cb19-27"><a href="#cb19-27" tabindex="-1"></a>      <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
 <span id="cb19-28"><a href="#cb19-28" tabindex="-1"></a>      <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>)</span>
 <span id="cb19-29"><a href="#cb19-29" tabindex="-1"></a>    )</span></code></pre></div>
-<p><img src="maps_files/figure-html/ggmap2-1.png" width="576" /></p>
+<div class="figure">
+<img src="maps_files/figure-html/ggmap2-1.png" alt="Figure 10: Map of the University of Western Australia campus at Crawley, showing the location of libraries and cafés, plotted using the `R` packages `ggplot2` and `ggspatial` over CartoDB map tiles acquired using the `R` package `maptiles`." width="576" />
+<p class="caption">
+Figure 10: Map of the University of Western Australia campus at Crawley,
+showing the location of libraries and cafés, plotted using the
+<code>R</code> packages <code>ggplot2</code> and <code>ggspatial</code>
+over CartoDB map tiles acquired using the <code>R</code> package
+<code>maptiles</code>.
+</p>
+</div>
 <p> </p>
 <p>The <code>ggmap</code> package (Kahle and Wickham 2013) is an
 extension of <code>ggplot</code>, so it's easier to use if you are
@@ -1217,16 +1226,16 @@ style="border: 2px solid #039; background-color:#e8e8e8; padding: 5px; margin-le
 would still need an API key for the Stadia Stamen maps API.
 💡 Try it!</p>
 </div>
-<p><span style="size: 14pt"><strong>The next example</strong></span>
-(Figure 12) uses the simple features information in one of the data
-frames we made at the beginning. The <code>sf</code> package introduces
-a new 'geom', <code>geom_sf()</code> for plotting in <code>ggmap.</code>
-We need to use the option <code>inherit.aes = FALSE</code> in
-<code>geom_sf()</code>, to override the default aesthetics from the
-<code>ggmap</code> object. We also add <code>coord_sf</code> to ensure
-that all layers use a common CRS (<u>C</u>oordinate <u>R</u>eference
-<u>S</u>ystem). <br> Run <code>help(geom_sf)</code> for more
-information.</p>
+<p> <br><span style="size: 14pt"><strong>The next
+example</strong></span> (Figure 12) uses the simple features information
+in one of the data frames we made at the beginning. The <code>sf</code>
+package introduces a new 'geom', <code>geom_sf()</code> for plotting in
+<code>ggmap.</code> We need to use the option
+<code>inherit.aes = FALSE</code> in <code>geom_sf()</code>, to override
+the default aesthetics from the <code>ggmap</code> object. We also add
+<code>coord_sf</code> to ensure that all layers use a common CRS
+(<u>C</u>oordinate <u>R</u>eference <u>S</u>ystem). <br> Run
+<code>help(geom_sf)</code> for more information.</p>
 <p>Plotting using <code>geom_sf()</code> when the CRS is in degrees
 adds, by default, a °S/°W/°N/°E suffix to the axis values. In the code
 below we suppress this using <code>scale_x_continuous(label = I)</code>
