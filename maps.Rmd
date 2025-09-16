@@ -42,7 +42,7 @@ addImg <- function(obj, x = NULL, y = NULL, width = NULL, interpolate = TRUE){
 
 &nbsp;
 
-# ![](./images/whangarei.png){align="right" width=203 height=234}Introduction
+# Introduction ![](./images/whangarei.png){align="right" width=203 height=234}
 
 This guide shows some of the more common and/or easy ways to make maps in **R**
 using map-tile-based backgrounds with data plotted over the base maps. We
@@ -84,7 +84,9 @@ library(maptiles)      # get open-source map tiles for background maps
 library(prettymapr)    # add scale bar and north arrows to maps
 library(viridis)       # colourblind-friendly colour palettes
 library(scico)         # more colourblind-friendly colour palettes
-library(ggmap)         # plotting spatial data with ggplot syntax
+library(ggplot2)       # plotting spatial data with ggplot syntax
+library(ggspatial)     # utilities for plotting spatial data
+library(ggmap)         # download and plot spatial rasters
 ```
 
 ```{r load packages and data invisibly, error=FALSE, warning=FALSE, include=FALSE, results='hide'}
@@ -94,6 +96,8 @@ library(maptiles)
 library(prettymapr)
 library(viridis)
 library(scico)
+library(ggplot2)
+library(ggspatial)
 library(ggmap)}
 )
 ```
@@ -635,11 +639,68 @@ colours, save as `.png` or `.tiff`, or copy as a bitmap.</span>
 
 &nbsp;
 
-## Alternative 2 &ndash; Maps in R using the ggmap package
+## Alternative 2 – Maps in R with ggplot2, ggspatial, &amp; ggmap packages
+
+The `ggplot2` package (Wickham, 2016; we may just call it `ggplot`) includes
+functions such as `geom_sf()` which allow us to work with spatial data within
+`sf` objects. Additional functions are available in the package `ggspatial`
+(Dunnington, 2023), including the ability to annotate plots with rasters
+obtained with the `maptiles` package.
+
+The plot below illustrates how we can do this, using the University of Western 
+Australia campus as an example.
+
+* we make a `sf` object to define the map extent, as we did above for base-R
+  maps, then download a map tile raster based on this extent
+* we make a `sf` object from our `places` data frame, so we can add it to the
+map using `geom_sf()`
+* we make a `maptiles` raster image as we've done previously, first making a `sf`
+object to define the extent, then using the `get_tiles()` function
+* we plot the raster extent object (`UWAext` in this example) as a transparent
+layer, since the final map extent will be set by `geom_sf()` functions, **not**
+the size of the raster (`UWArast`)
+* we plot the raster **first** in the code using `annotation_spatial()`, so the
+subsequent layers plot on top of it
+* see the comments in the code for additional hints
+
+```{r ggmap2, fig.height=5, fig.width=6, message=FALSE, warning=FALSE}
+UWAext <- st_as_sf(data.frame(X=c(115.812,115.825), Y=c(-31.987, -31.975)),
+                   coords=c("X","Y"), crs=4326)
+UWArast <- get_tiles(UWAext, zoom=16, provider="CartoDB.Positron", 
+                     forceDownload = T, crop=T)
+places_sf <- st_as_sf(places, coords=c("Longitude","Latitude"), crs=4326, 
+                      remove=F)
+ggplot() +
+  # a) set the dimensions by plotting the extent object transparently
+    geom_sf(data=UWAext, col="transparent") +
+  # b) Plot the raster
+    annotation_spatial(UWArast) +
+  # c) ensure plot axes exactly fit the extent
+    scale_x_continuous(expand = c(0,0)) +
+    scale_y_continuous(expand = c(0,0)) +
+  # d) Plot points, shape and colour by the column places_sf$Type
+    geom_sf(data=places_sf, aes(shape=Type, fill=Type), size = 3) +
+    scale_shape_manual(values = c(21,22)) +
+  # e) Axis labels
+    labs(x = "Longitude", y = "Latitude") +
+  # f) North arrow + scale bar from ggspatial::
+    annotation_north_arrow(location = "tr", style=north_arrow_nautical) +
+    annotation_scale(location = "bl", width_hint = 0.25) +
+  # g) custom theme
+    theme(
+      panel.border = element_rect(colour="black", fill="transparent"),
+      legend.title = element_text(face="bold"),
+      axis.text = element_text(size = 8),
+      axis.title = element_text(size = 11, face="bold")
+    )
+```
+
+&nbsp;
 
 The `ggmap` package (Kahle and Wickham 2013) is an extension of `ggplot`, so
 it's easier to use if you are familiar with `ggplot` and the associated family
-of packages. [*You will need a Google maps API key which you can get by registering at [https://developers.google.com/maps](https://developers.google.com/maps){target="_blank"}*]{style="color: #A00000;"}
+of packages. It has functions to download map tiles from Google and other
+providers [*You will need a Google maps API key which you can get by registering at [https://developers.google.com/maps](https://developers.google.com/maps){target="_blank"}*]{style="color: #A00000;"}
 
 ```{r get-api-key, include=FALSE}
 secret <- read.csv("../gmapskey.csv")[1,1]
@@ -656,7 +717,7 @@ udubua.gg <- get_googlemap(center=c(115.8213,-31.98165),
 rm(secret)
 ```
 
-This always gives a **square** map (Figure 10) &ndash; which we might not always
+This always gives a **square** map (Figure 11) &ndash; which we might not always
 want. In theory, the map aspect ratio can be changed using the `size` argument
 in the `get_googlemap` function, but this does not work reliably. We recommend
 leaving the map dimensions and aspect ratio at their default values.
@@ -672,7 +733,7 @@ with different shapes and colours, with the categories defined by the factor
 scale bar and north arrow to ggmaps, but it seems buggy and we currently don't
 recommend it - the north arrow seems OK though.
 
-```{r ggmap1, fig.height=4.5, fig.width=6, fig.align='center', fig.cap="Figure 10: Map of the University of Western Australia campus at Crawley, showing the location of libraries and cafés, plotted over Google maps tiles acquired using the `R` package `ggmap`.", out.width='75%', message=FALSE, warning=FALSE, results='hold'}
+```{r ggmap1, fig.height=4.5, fig.width=6, fig.align='center', fig.cap="Figure 11: Map of the University of Western Australia campus at Crawley, showing the location of libraries and cafés, plotted over Google maps tiles acquired using the `R` package `ggmap`.", out.width='75%', message=FALSE, warning=FALSE, results='hold'}
 ggmap(udubua.gg) + 
   labs(y="Latitude (\u00B0S)", x = "Longitude (\u00B0E)") + 
   geom_text(aes(x = 115.825, y = -31.98, label = "Swan\nRiver",
@@ -680,6 +741,7 @@ ggmap(udubua.gg) +
             size = 4, vjust = 0, hjust = 0, color="gray40") + 
   geom_point(aes(x = Longitude, y = Latitude, col=Type, shape=Type), 
              data = places, size=3) +
+  theme_bw() +
   theme(axis.text=element_text(size=9, color="black"),
         axis.title=element_text(size=11,face="bold"))
 ```
@@ -700,7 +762,13 @@ Other options available in `ggmap` are some of the *Stamen* map tiles from
 maps, you need to first register for a free API key at
 [stadiamaps.com/stamen](https://stadiamaps.com/stamen){target="_blank"}.
 
-[**The next example**]{style="size: 14pt"} (Figure 11) uses the simple features
+<div style="border: 2px solid #039; background-color:#e8e8e8; padding: 5px; margin-left: 32px; margin-right: 32px;">
+You could also make a map based on Stamen tiles by using `maptiles` to make a 
+spatial raster, and plotting with `ggplot2` and `ggspatial` as we did above. You 
+would still need an API key for the Stadia Stamen maps API. 💡&nbsp;Try&nbsp;it!
+</div>
+
+[**The next example**]{style="size: 14pt"} (Figure 12) uses the simple features
 information in one of the data frames we made at the beginning. The `sf` package
 introduces a new 'geom', `geom_sf()` for plotting in `ggmap.` We need to use the
 option `inherit.aes = FALSE` in `geom_sf()`, to override the default aesthetics
@@ -723,7 +791,7 @@ don't like this, change the code to `option="D"`, the standard viridis palette.]
 secret2 <- read.csv("../StadiaMaps-API.csv")[1,1]
 ```
 
-```{r ggAF, fig.height=4.5, fig.width=8, fig.align='center', fig.cap="Figure 11: Zinc concentration (mg/kg) in sediment sampled in Semester 1, 2021 at Ashfield Flats, Western Australia, plotted over `stamen_terrain` map tiles acquired using the `R` package `ggmap`, with data in a simple features data frame, and with manually added wetland pond locations.", out.width='85%', message=FALSE, warning=FALSE, results='hold'}
+```{r ggAF, fig.height=4.5, fig.width=8, fig.align='center', fig.cap="Figure 12: Zinc concentration (mg/kg) in sediment sampled in Semester 1, 2021 at Ashfield Flats, Western Australia, plotted over `stamen_terrain` map tiles acquired using the `R` package `ggmap`, with data in a simple features data frame, and with manually added wetland pond locations.", out.width='85%', message=FALSE, warning=FALSE, results='hold'}
 register_stadiamaps(key=secret2)
 afr.gg <- 
   get_stadiamap(bbox=c(left=115.9393, bottom=-31.9203, 
@@ -741,13 +809,13 @@ ggmap(afr.gg) +
             color = "steelblue", size = 1.25) +
   geom_polygon(aes(x=wetland_lon, y=wetland_lat), data = afr_map,
                color = "steelblue", fill="#4682B480") + 
-  geom_sf(data = afs21ll, aes(bg=Zn, size=Zn), shape=21, inherit.aes=FALSE) +
+  geom_sf(data = afs21ll, aes(fill=Zn, size=Zn), shape=21, inherit.aes=FALSE) +
   scale_x_continuous(labels = I, limits=c(bb[2],bb[4]), 
                      expand = expansion(mult=c(0,0))) +
   scale_y_continuous(labels = I, limits=c(bb[1],bb[3]), 
                      expand = expansion(mult=c(0,0))) +
-  scale_fill_viridis_c(alpha = 0.7,option=sample(LETTERS[1:8],1)) + 
-  scale_size_area(breaks = c(30,100,300,1000,3000,5000), max_size = 9) +
+  scale_fill_viridis_c(name="Zn", alpha = 0.7,option=sample(LETTERS[1:8],1)) + 
+  scale_size_area(name="Zn", breaks=c(30,100,300,1000,3000,5000), max_size = 9) +
   theme_bw() +
   theme(axis.text=element_text(size=9, color="black"),
         axis.title = element_text(size = 12, face = "bold")) +
@@ -856,6 +924,8 @@ Dunnington D (2022). *rosm: Plot Raster Map Tiles from Open Street Map
 and* *Other Sources*. R package version 0.2.6,
 [https://CRAN.R-project.org/package=rosm](https://CRAN.R-project.org/package=rosm){target="_blank"}.
 
+Dunnington D (2023). `ggspatial`: _Spatial Data Framework for ggplot2_, R package version 1.1.9. [doi:10.32614/CRAN.package.ggspatial](https://doi.org/10.32614/CRAN.package.ggspatial){target="_blank"}
+
 Fellows, Ian and using the JMapViewer library by Jan Peter Stotz (2019).
 *OpenStreetMap: Access to Open Street Map Raster Images*. R package
 version 0.3.4. [https://CRAN.R-project.org/package=OpenStreetMap](https://CRAN.R-project.org/package=OpenStreetMap){target="_blank"}.
@@ -874,6 +944,10 @@ Spatial VectorData. *The R Journal* **10** (1), 439-446,
 Pebesma, E.J., R.S. Bivand, 2005. Classes and methods for spatial data
 in R. *R News* **5** (2), [https://cran.r-project.org/doc/Rnews/](https://cran.r-project.org/doc/Rnews/){target="_blank"}.
 (package `sp`)
+
+Wickham, H. (2016) `ggplot2`: *Elegant Graphics for Data Analysis*. Springer-Verlag New York, 2016. [https://ggplot2.tidyverse.org](https://ggplot2.tidyverse.org){target="_blank"}.
+
+A BibTeX entry for LaTeX users is
 
 <hr style="height: 2px; background-color: #5560A4;" />
 
