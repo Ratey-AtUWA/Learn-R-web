@@ -537,6 +537,15 @@ $(document).ready(function () {
 </div>
 
 
+<pre><code>knit: litedown:::knit
+output: 
+  html_document:
+    fig_caption: yes
+    self_contained: no
+    number_sections: no
+    toc: FALSE
+    theme: cyborg
+    highlight: kate</code></pre>
 <div
 style="border-radius: 15px; background-color: #FFF6CC; padding: 15px;">
 <p>This brief guide follows on from a previous page on this site, the <a
@@ -556,10 +565,15 @@ style="border: 2px solid #cccccc; padding: 5px; font-family: &#39;Courier New&#3
 style="background-color: #FF8;">include=FALSE</span>}</span><br> <em>#
 the R markdown chunk option include = FALSE is used when it's
 not</em><br> <em># helpful to see the code and output, for example
-loading packages</em><br> <span
-style="color: #644A9B;">library</span>(car)<br> <span
-style="color: #644A9B;">library</span>(lmtest)<br> <span
-style="color: #644A9B;">library</span>(robustbase)<br> <span
+setting options</em><br> <span
+style="color: #AA5500;">knitr</span>::opts_chunk<span
+style="color: #644A9B;">$set</span>(echo = <span
+style="color:#B08000;">FALSE</span>, warning = <span
+style="color:#B08000;">FALSE</span>, message = <span
+style="color:#B08000;">FALSE</span>)<br> <span
+style="color: #644A9B;">set_flextable_defaults</span>(theme_fun = <span
+style="color: #BF0303;">"theme_zebra"</span>, font.size = 10,
+fonts_ignore = <span style="color:#B08000;">TRUE</span>)<br> <span
 style="color: #644A9B;">```</span>
 </div>
 <p> </p>
@@ -586,30 +600,32 @@ reports, we normally don't want to display the code or any warnings or
 messages, so we could include all these options in each chunk:</p>
 <div
 style="border: 2px solid #cccccc; padding: 5px; font-family: &#39;Courier New&#39;, monospace;">
-<span style="color: #644A9B;">```{r co2-plot-hide-code, <span
+<span style="color: #644A9B;">```{r penguins-boxplot-hide-code, <span
 style="background-color: #FF8;">echo=FALSE</span>, warning=FALSE,
 message=FALSE}</span><br> <span
 style="color: #644A9B;">par</span>(mar=c(<span
 style="color: #B08000;">3,3,1,1</span>), mgp=c(<span
 style="color: #B08000;">1.7,0.3,0</span>), tcl=0.2)<br> <span
-style="color: #888888;"># co2 is a built-in R dataset</span><br> <span
-style="color: #644A9B;">plot</span>(co2, <span
-style="color: #0057AE;">col</span>="<span
-style="color: silver; background-color: #0000CD;">blue3</span>", <span
-style="color: #0057AE;">type</span>=<span
-style="color: #BF0303;">"l"</span>, <span
+style="color: #888888;"># penguins is a built-in R dataset</span><br>
+<span style="color: #644A9B;">with</span>(penguins, <span
+style="color: #644A9B;">boxplot</span>(body_mass ~ species*sex, <span
+style="color: #0057AE;">col</span>=<span
+style="color: #644A9B;">rep</span>(<span style="color: #B08000;">2:4,
+2</span>), horizontal = <span style="color: #0057AE;">TRUE</span>, <br>
+     las = <span style="color: #B08000;">1</span>, <span
 style="color: #0057AE;">xlab</span>=<span
-style="color: #BF0303;">"Date"</span>,<br>      <span
+style="color: #BF0303;">"Penguin body mass (g)"</span>, <span
 style="color: #0057AE;">ylab</span>=<span
-style="color: #644A9B;">expression</span>(<span
-style="color: #644A9B;">paste</span>(<span
-style="color: #BF0303;">"Atmospheric "</span>,CO[<span
-style="color: blue;">2</span>],<span style="color: #BF0303;">"
-concentration at Mauna Loa"</span>)))<br> <span
+style="color: #BF0303;">""</span>))<br> <span
+style="color: #644A9B;">mtext</span>(<span
+style="color: #BF0303;">"Penguin species and sex"</span>, side=<span
+style="color: #B08000;">2</span>, line=<span
+style="color: #B08000;">7</span>, font=<span
+style="color: #B08000;">2</span>)<br> <span
 style="color: #644A9B;">```</span>
 </div>
 <p> </p>
-<p><img src="chunk-options_files/figure-html/co2-plot-hide-code-1.png" width="672" /></p>
+<p><img src="chunk-options_files/figure-html/penguins-plot-hide-code-1.png" width="768" /></p>
 <p> </p>
 A more efficient way to do this, however, would be to modify the chunk
 at the beginning of our markdown when we create a new R markdown file in
@@ -643,7 +659,7 @@ To hide just the output, but display the code (text-based output, plots,
 <em>etc</em>.), we include the option <code>results='hide'</code>.</p>
 <div
 style="border: 2px solid #cccccc; padding: 5px; font-family: &#39;Courier New&#39;, monospace;">
-<span style="color: #644A9B;">```{r co2-plot-hide-code, <span
+<span style="color: #644A9B;">```{r penguins-plot-hide-code, <span
 style="background-color: #FF8;">results='hide'</span>, warning=FALSE,
 message=FALSE}</span><br> <span style="color: #888888;"># penguins is a
 built-in R dataset (really!)</span><br> <span style="color: #888888;">#
@@ -659,82 +675,70 @@ style="color: #644A9B;">```</span>
 plots appear, such as <code>fig.width</code>, <code>fig.height</code>,
 <code>fig.align</code>, and so on. For example, we could use
 <code>fig.width</code> and <code>fig.height</code> make the previous
-plot squarer:</p>
+plot taller:</p>
 <div
 style="border: 2px solid #cccccc; padding: 5px; font-family: &#39;Courier New&#39;, monospace;">
-<span style="color: #644A9B;">```{r co2-plot-squarer, echo=FALSE,
+<span style="color: #644A9B;">```{r penguins-plot-taller, echo=FALSE,
 warning=FALSE, message=FALSE, <span
-style="background-color: #FF8;">fig.width=5,
-fig.height=5</span>}</span><br> ⋮<br> <span
+style="background-color: #FF8;">fig.width=6,
+fig.height=6</span>}</span><br> ⋮<br> <span
 style="color: #644A9B;">```</span>
 </div>
-<p><img src="chunk-options_files/figure-html/co2-plot-squarer-1.png" width="480" /></p>
+<p><img src="chunk-options_files/figure-html/penguins-plot-taller-1.png" width="576" /></p>
 <p> </p>
 <p>Setting <code>fig.width</code> and <code>fig.height</code> is for the
 whole plot area so, if we have a multiple-frame plot (<em>i.e</em>.
 using <code>mfrow=</code> or <code>mfcol=</code> in the
 <code>par()</code> function), we would need to adjust the dimensions to
-match. For example:</p>
+match. For example, the plots below show penguin body mass on three
+islands (left), and penguin flipper length as a function of body mass
+(right):</p>
 <div
 style="border: 2px solid #cccccc; padding: 5px; font-family: &#39;Courier New&#39;, monospace;">
-<span style="color: #644a9b;">```{r co2-and sunspot-plots, echo=FALSE,
+<span style="color: #644a9b;">```{r penguins-two-plots, echo=FALSE,
 warning=FALSE, message=FALSE, <span
-style="background-color: #ff8;">fig.width=10, fig.height=5,
-fig.cap="Plots of two time series: atmospheric CO₂ concentrations
-(left), and sunspot numbers (right)."</span>}</span><br /><span
+style="background-color: #ff8;">fig.width=12,
+fig.height=5</span>}</span><br /><span
 style="color: #644a9b;">par</span>(<span
 style="color: #0057ae;">mfrow</span>=c(<span
 style="color: #b08000;">1,2</span>), <span
 style="color: #0057ae;">mar</span>=c(<span
-style="color: #b08000;">3,3,1,1</span>), <span
+style="color: #b08000;">3,5,1,1</span>), <span
 style="color: #0057ae;">mgp</span>=c(<span
 style="color: #b08000;">1.7,0.3,0</span>), <span
 style="color: #0057ae;">tcl</span>=<span
 style="color: #b08000;">0.2</span>, <span
 style="color: #0057ae;">font.lab</span>=<span
-style="color: #b08000;">2</span>)<br /><span style="color: #888888;">#
-co2 and sunspots are built-in R datasets</span><br /><span
-style="color: #644a9b;">plot</span>(co2, <span
-style="color: #0057ae;">col</span>="<span
-style="color: silver; background-color: #0000cd;">blue3</span>", <span
-style="color: #0057ae;">type</span>=<span
-style="color: #bf0303;">"l"</span>, <span
-style="color: #0057ae;">xlab</span>=<span
-style="color: #bf0303;">"Date"</span>,<br />     <span
-style="color: #0057ae;">ylab</span>=<span
-style="color: #644a9b;">expression</span>(<span
-style="color: #644a9b;">bold</span>(<span
-style="color: #644a9b;">paste</span>(<span
-style="color: #bf0303;">"Atmospheric "</span>,CO[<span
-style="color: blue;">2</span>],<span style="color: #bf0303;">"
-concentration at Mauna Loa"</span>))), <br />     <span
-style="color: #0057ae;">main</span>=<span
-style="color: #644a9b;">expression</span>(<span
-style="color: #644a9b;">paste</span>(<span
-style="color: #bf0303;">"Atmospheric "</span>,CO[<span
-style="color: blue;">2</span>],<span style="color: #bf0303;">"
-concentration at Mauna Loa"</span>)))<br /><span
-style="color: #644a9b;">plot</span>(sunspots, <span
-style="color: #0057ae;">col</span>="<span
-style="background-color: #b22222; color: #d3d3d3;">firebrick</span>",
-<span style="color: #0057ae;">type</span>=<span
-style="color: #bf0303;">"l"</span>, <span
-style="color: #0057ae;">xlab</span>=<span
-style="color: #bf0303;">"Date"</span>,<br />     <span
-style="color: #0057ae;">ylab</span>=<span
-style="color: #bf0303;">"Relative number of sunspots"</span>, <span
-style="color: #0057ae;">main</span>=<span
-style="color: #bf0303;">"Monthly Sunspot Numbers,
-1749–1983"</span>)<br /><span style="color: #644a9b;">```</span>
+style="color: #b08000;">2</span>)<br /> <span style="color: #888888;">#
+penguins is a built-in R dataset</span><br /> <span
+style="color: #644A9B;">with</span>(penguins, <span
+style="color: #644A9B;">boxplot</span>(body_mass ~ species*sex, <span
+style="color: #0057AE;">col</span>=<span
+style="color: #644A9B;">rep</span>(<span style="color: #B08000;">2:4,
+2</span>), horizontal = <span style="color: #0057AE;">TRUE</span>, <br>
+     las = <span style="color: #B08000;">1</span>, <span
+style="color: #0057AE;">xlab</span>=<span
+style="color: #BF0303;">"Penguin body mass (g)"</span>, <span
+style="color: #0057AE;">ylab</span>=<span
+style="color: #BF0303;">""</span>))<br> <span
+style="color: #644A9B;">mtext</span>(<span
+style="color: #BF0303;">"Penguin species and sex"</span>, side=<span
+style="color: #B08000;">2</span>, line=<span
+style="color: #B08000;">7</span>, font=<span
+style="color: #B08000;">2</span>)<br> <span
+style="color: #644A9B;">with</span>(penguins, <span
+style="color: #644A9B;">plot</span>(flipper_len ~ body_mass, <span
+style="color: #0057AE;">pch</span> = <span
+style="color: #B08000;">19</span>, <br>      las = <span
+style="color: #B08000;">0</span>, <span
+style="color: #0057AE;">xlab</span> = <span
+style="color: #BF0303;">"Penguin body mass (g)"</span>, <span
+style="color: #0057AE;">ylab</span>=<span
+style="color: #BF0303;">"Penguin flipper length (mm)"</span>))<br> <span
+style="color: #644a9b;">```</span>
 </div>
 <p> </p>
-<div class="figure">
-<img src="chunk-options_files/figure-html/co2-and%20sunspot-plots-1.png" alt="Plots of two time series: atmospheric CO₂ concentrations (left), and sunspot numbers (right)." width="1152" />
-<p class="caption">
-Plots of two time series: atmospheric CO₂ concentrations (left), and
-sunspot numbers (right).
-</p>
-</div>
+<p><img src="chunk-options_files/figure-html/penguins-two-plots-1.png" width="1152" /></p>
 <p> </p>
 </div>
 <div id="adding-figure-captions-to-plots" class="section level2">
@@ -745,25 +749,26 @@ option for reporting than including a title above plots using the
 <code>main=</code> option</p>
 <div
 style="border: 2px solid #cccccc; padding: 5px; font-family: &#39;Courier New&#39;, monospace;">
-<span style="color: #644A9B;">```{r co2-plot-caption, echo=FALSE,
-warning=FALSE, message=FALSE, fig.width=5, fig.height=5, <span
+<span style="color: #644A9B;">```{r penguins-plot-caption, echo=FALSE,
+warning=FALSE, message=FALSE, fig.width=6, fig.height=4, <span
 style="background-color: #FF8;">fig.align='center', fig.cap="Figure 1:
-Time series of atmospheric CO₂ concentrations from 1959 to 1998,
-measured at the Mauna Loa observatory in Hawaii."</span>}</span><br>
-⋮<br> <span style="color: #644A9B;">```</span>
+Penguin bill length by sex for three different penguin
+species."</span>}</span><br> ⋮<br> <span
+style="color: #644A9B;">```</span>
 </div>
 <div class="figure" style="text-align: center">
-<img src="chunk-options_files/figure-html/co2-plot-caption-1.png" alt="Figure 1: Time series of atmospheric CO₂ concentrations from 1959 to 1998, measured at the Mauna Loa observatory in Hawaii." width="480" />
+<img src="chunk-options_files/figure-html/penguins-plot-caption-1.png" alt="Figure 1: Penguin bill length by sex for three different penguin species." width="576" />
 <p class="caption">
-Figure 1: Time series of atmospheric CO₂ concentrations from 1959 to
-1998, measured at the Mauna Loa observatory in Hawaii.
+Figure 1: Penguin bill length by sex for three different penguin
+species.
 </p>
 </div>
 <p> </p>
 <p>We could just use normal markdown text to insert a caption, but using
 <code>fig.caption</code> can allow automatic cross-referencing of
 figures and tables to their captions using the <code>bookdown</code> R
-package.</p>
+package. <img src="images/adelie.png" align="right" alt="" width="153"
+height="200" /></p>
 <p>At this stage it's useful to note that with a long chunk header
 (within <code>{}</code>), such as that shown above, we should not insert
 any line breaks. The chunk will return an error and not work unless
@@ -777,7 +782,7 @@ only use it for its ability to provide automatic Figure and Table
 numbering, and cross-referencing.</p>
 <p>You would need to run the following R code if you don't have
 <code>bookdown</code> installed:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(bookdown)) <span class="fu">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(bookdown)) <span class="fu">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>)</span></code></pre></div>
 <p>You would also need to include the following in the <code>yaml</code>
 header at the top of your R markdown document:</p>
 <pre><code>---
@@ -793,17 +798,18 @@ to prepare our formatted document.</p>
 For example, for the chunk above plotting two figures...</p>
 <div
 style="border: 2px solid #cccccc; padding: 5px; font-family: &#39;Courier New&#39;, monospace;">
-<span style="color: #644a9b;">```{r co2-and sunspot-plots, echo=FALSE,
-warning=FALSE, message=FALSE, fig.width=10, fig.height=5, <span
-style="background-color: #ff8;">fig.cap="Plots of two time series:
+<span style="color: #644a9b;">```{r penguins-and sunspot-plots,
+echo=FALSE, warning=FALSE, message=FALSE, fig.width=10, fig.height=5,
+<span style="background-color: #ff8;">fig.cap="Plots of two time series:
 atmospheric CO₂ concentrations (left), and sunspot numbers
 (right)."</span>}</span><br /> ⋮<br> <span
 style="color: #644A9B;">```</span>
 </div>
 <p><br>...we would cross-reference this by including
-<code>Figure \@ref(fig:co2-and sunspot-plots)</code> at the appropriate
-place in our text.</p>
-<p><strong>Notes</strong></p>
+<code>Figure \@ref(fig:penguins-and sunspot-plots)</code> at the
+appropriate place in our text.</p>
+<p><strong>Notes</strong> <img src="images/chinstrap.png" align="right"
+alt="" width="148" height="200" /></p>
 <ol style="list-style-type: decimal">
 <li>chunk names can not contain spaces, periods, underscores, or
 slashes; words should just be separated by hyphens (<code>-</code>), and
@@ -822,11 +828,12 @@ caption options from those packages.</p>
 </div>
 <div id="other-chunk-options" class="section level2">
 <h2>Other chunk options</h2>
-<div class="tabwid"><style>.cl-fe49b684{}.cl-fcf50f9a{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-fcf50fb8{font-family:'Courier New';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(100, 74, 155, 1.00);background-color:transparent;}.cl-fcf50fb9{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-fe404658{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-fe404676{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-fe407628{width:2in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fe407632{width:6in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fe40763c{width:2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fe40763d{width:6in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fe407650{width:2in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fe40765a{width:6in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fe407664{width:2in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-fe407665{width:6in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-fe49b684'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Some useful options for controlling the output from code chunks in R markdown.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-fe407628"><p class="cl-fe404658"><span class="cl-fcf50f9a">Option</span></p></th><th class="cl-fe407632"><p class="cl-fe404658"><span class="cl-fcf50f9a">Purpose</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-fe40763c"><p class="cl-fe404676"><span class="cl-fcf50fb8">out.width=</span></p></td><td class="cl-fe40763d"><p class="cl-fe404676"><span class="cl-fcf50fb9">Sets the width of a figure as a proportion of the output page width,</span><br><span class="cl-fcf50fb9">e.g. out.width='50%'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-fe407650"><p class="cl-fe404676"><span class="cl-fcf50fb8">fig.align=</span></p></td><td class="cl-fe40765a"><p class="cl-fe404676"><span class="cl-fcf50fb9">Aligns the figure on the output page</span><br><span class="cl-fcf50fb9">e.g. fig.align='center'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-fe40763c"><p class="cl-fe404676"><span class="cl-fcf50fb8">results='hold'</span></p></td><td class="cl-fe40763d"><p class="cl-fe404676"><span class="cl-fcf50fb9">Waits until all the code in a chunk has run before printing any text output</span><br><span class="cl-fcf50fb9">(other choices are 'markup', 'hide', 'asis')</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-fe407664"><p class="cl-fe404676"><span class="cl-fcf50fb8">paged.print=</span></p></td><td class="cl-fe407665"><p class="cl-fe404676"><span class="cl-fcf50fb9">If TRUE (the default) adds html format to printed data frames;</span><br><span class="cl-fcf50fb9">if FALSE output is just text</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-3f5cc036{}.cl-3f51edbe{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3f51edd2{font-family:'Courier New';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(100, 74, 155, 1.00);background-color:transparent;}.cl-3f51eddc{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3f558faa{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3f558fb4{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3f55a508{width:2in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f55a512{width:6in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f55a513{width:2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f55a526{width:6in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f55a527{width:2in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f55a530{width:6in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f55a53a{width:2in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f55a544{width:6in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-3f5cc036'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Some useful options for controlling the output from code chunks in R markdown.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-3f55a508"><p class="cl-3f558faa"><span class="cl-3f51edbe">Option</span></p></th><th class="cl-3f55a512"><p class="cl-3f558faa"><span class="cl-3f51edbe">Purpose</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-3f55a513"><p class="cl-3f558fb4"><span class="cl-3f51edd2">out.width=</span></p></td><td class="cl-3f55a526"><p class="cl-3f558fb4"><span class="cl-3f51eddc">Sets the width of a figure as a proportion of the output page width,</span><br><span class="cl-3f51eddc">e.g. out.width='50%'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3f55a527"><p class="cl-3f558fb4"><span class="cl-3f51edd2">fig.align=</span></p></td><td class="cl-3f55a530"><p class="cl-3f558fb4"><span class="cl-3f51eddc">Aligns the figure on the output page</span><br><span class="cl-3f51eddc">e.g. fig.align='center'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3f55a513"><p class="cl-3f558fb4"><span class="cl-3f51edd2">results='hold'</span></p></td><td class="cl-3f55a526"><p class="cl-3f558fb4"><span class="cl-3f51eddc">Waits until all the code in a chunk has run before printing any text output</span><br><span class="cl-3f51eddc">(other choices are 'markup', 'hide', 'asis')</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3f55a53a"><p class="cl-3f558fb4"><span class="cl-3f51edd2">paged.print=</span></p></td><td class="cl-3f55a544"><p class="cl-3f558fb4"><span class="cl-3f51eddc">If TRUE (the default) adds html format to printed data frames;</span><br><span class="cl-3f51eddc">if FALSE output is just text</span></p></td></tr></tbody></table></div>
 <p>You can see a more complete table in the <a
 href="https://rstudio.github.io/cheatsheets/html/rmarkdown.html#chunk-options"
 target="_blank">R Markdown Cheatsheet</a>.</p>
-<p> </p>
+<p>  <img src="images/gentoo.png" align="right" alt="" width="161"
+height="200" /></p>
 </div>
 <div id="other-r-markdown-resources" class="section level2">
 <h2>Other R Markdown Resources</h2>
