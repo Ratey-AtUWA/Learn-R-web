@@ -345,7 +345,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -360,7 +360,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -381,7 +381,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -396,7 +396,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -420,7 +420,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -447,7 +447,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -468,7 +468,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -486,7 +486,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Reporting
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -536,16 +536,6 @@ $(document).ready(function () {
 
 </div>
 
-
-<pre><code>knit: litedown:::knit
-output: 
-  html_document:
-    fig_caption: yes
-    self_contained: no
-    number_sections: no
-    toc: FALSE
-    theme: cyborg
-    highlight: kate</code></pre>
 <div
 style="border-radius: 15px; background-color: #FFF6CC; padding: 15px;">
 <p>This brief guide follows on from a previous page on this site, the <a
@@ -553,12 +543,13 @@ href="One-page_R-Markdown.html">Brief Essentials of R Markdown</a></p>
 </div>
 <div id="hiding-both-code-and-output" class="section level2">
 <h2>Hiding both code and output</h2>
-<p>If we want R code to run, but not show either the code nor any
-output, we include the option <code>include=FALSE</code>. We might do
-this if it's not important for readers to see the code, for example
-setting overall document options. For UWA assignments, it's usually
-essential to show which R packages you used, so don't hide the code
-which loads these!</p>
+<p><img src="images/chinstrap.png" align="right" alt="" width="74"
+height="100" /> If we want R code to run, but not show either the code
+nor any output, we include the option <code>include=FALSE</code>. We
+might do this if it's not important for readers to see the code, for
+example setting overall document options. For UWA assignments, it's
+usually essential to show which R packages you used, so don't hide the
+code which loads these!</p>
 <div
 style="border: 2px solid #cccccc; padding: 5px; font-family: &#39;Courier New&#39;, monospace;">
 <span style="color: #644A9B;">```{r hide-code-and-output, <span
@@ -576,6 +567,8 @@ style="color: #BF0303;">"theme_zebra"</span>, font.size = 10,
 fonts_ignore = <span style="color:#B08000;">TRUE</span>)<br> <span
 style="color: #644A9B;">```</span>
 </div>
+<p>☝ this code would not appear in the knitted document since
+<code>include=FALSE</code> ☝</p>
 <p> </p>
 <p><strong>Chunk Names</strong>: You'll notice that after
 <code>{r</code> we include a name like
@@ -624,6 +617,8 @@ style="color: #B08000;">7</span>, font=<span
 style="color: #B08000;">2</span>)<br> <span
 style="color: #644A9B;">```</span>
 </div>
+<p>☝ this code would not appear in the knitted document since
+<code>echo=FALSE</code> ☝</p>
 <p> </p>
 <p><img src="chunk-options_files/figure-html/penguins-plot-hide-code-1.png" width="768" /></p>
 <p> </p>
@@ -737,6 +732,8 @@ style="color: #0057AE;">ylab</span>=<span
 style="color: #BF0303;">"Penguin flipper length (mm)"</span>))<br> <span
 style="color: #644a9b;">```</span>
 </div>
+<p>☝ this code would not appear in the knitted document since
+<code>echo=FALSE</code> ☝</p>
 <p> </p>
 <p><img src="chunk-options_files/figure-html/penguins-two-plots-1.png" width="1152" /></p>
 <p> </p>
@@ -753,9 +750,16 @@ style="border: 2px solid #cccccc; padding: 5px; font-family: &#39;Courier New&#3
 warning=FALSE, message=FALSE, fig.width=6, fig.height=4, <span
 style="background-color: #FF8;">fig.align='center', fig.cap="Figure 1:
 Penguin bill length by sex for three different penguin
-species."</span>}</span><br> ⋮<br> <span
-style="color: #644A9B;">```</span>
+species."</span>}</span><br>
+ggplot(penguins[-which(is.na(penguins$sex)),]) +<br>
+geom_boxplot(aes(x=sex,y=bill_len, fill=sex)) +<br>
+scale_fill_manual(values=c("coral", "skyblue")) +<br> labs(x="Penguin
+sex", y="Bill length (mm)") +<br> facet_wrap(vars(species)) +<br>
+theme_bw()<br> <span style="color: #644A9B;">```</span>
 </div>
+<p>☝ this code would not appear in the knitted document since
+<code>echo=FALSE</code> ☝</p>
+<p> </p>
 <div class="figure" style="text-align: center">
 <img src="chunk-options_files/figure-html/penguins-plot-caption-1.png" alt="Figure 1: Penguin bill length by sex for three different penguin species." width="576" />
 <p class="caption">
@@ -787,7 +791,7 @@ numbering, and cross-referencing.</p>
 header at the top of your R markdown document:</p>
 <pre><code>---
 ⋮
-output: 
+output:
   bookdown::html_document2:
 ⋮
 ---</code></pre>
@@ -798,18 +802,16 @@ to prepare our formatted document.</p>
 For example, for the chunk above plotting two figures...</p>
 <div
 style="border: 2px solid #cccccc; padding: 5px; font-family: &#39;Courier New&#39;, monospace;">
-<span style="color: #644a9b;">```{r penguins-and sunspot-plots,
-echo=FALSE, warning=FALSE, message=FALSE, fig.width=10, fig.height=5,
-<span style="background-color: #ff8;">fig.cap="Plots of two time series:
-atmospheric CO₂ concentrations (left), and sunspot numbers
-(right)."</span>}</span><br /> ⋮<br> <span
-style="color: #644A9B;">```</span>
+<span style="color: #644a9b;">```{r <span
+style="background-color: #afa;">penguins-two-plots</span>, echo=FALSE,
+warning=FALSE, message=FALSE, fig.width=12, fig.height=5}</span><br>
+⁝<br> <span style="color: #644a9b;">```</span>
 </div>
-<p><br>...we would cross-reference this by including
-<code>Figure \@ref(fig:penguins-and sunspot-plots)</code> at the
-appropriate place in our text.</p>
-<p><strong>Notes</strong> <img src="images/chinstrap.png" align="right"
-alt="" width="148" height="200" /></p>
+<p> <br>...we would <span
+style="background-color: #afa;">cross-reference</span> this by including
+<code>Figure \@ref(fig:penguins-two-plots)</code> at the appropriate
+place in our text.</p>
+<p><strong>Notes</strong></p>
 <ol style="list-style-type: decimal">
 <li>chunk names can not contain spaces, periods, underscores, or
 slashes; words should just be separated by hyphens (<code>-</code>), and
@@ -828,7 +830,7 @@ caption options from those packages.</p>
 </div>
 <div id="other-chunk-options" class="section level2">
 <h2>Other chunk options</h2>
-<div class="tabwid"><style>.cl-3f5cc036{}.cl-3f51edbe{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3f51edd2{font-family:'Courier New';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(100, 74, 155, 1.00);background-color:transparent;}.cl-3f51eddc{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-3f558faa{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3f558fb4{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-3f55a508{width:2in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f55a512{width:6in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f55a513{width:2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f55a526{width:6in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f55a527{width:2in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f55a530{width:6in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f55a53a{width:2in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3f55a544{width:6in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-3f5cc036'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Some useful options for controlling the output from code chunks in R markdown.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-3f55a508"><p class="cl-3f558faa"><span class="cl-3f51edbe">Option</span></p></th><th class="cl-3f55a512"><p class="cl-3f558faa"><span class="cl-3f51edbe">Purpose</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-3f55a513"><p class="cl-3f558fb4"><span class="cl-3f51edd2">out.width=</span></p></td><td class="cl-3f55a526"><p class="cl-3f558fb4"><span class="cl-3f51eddc">Sets the width of a figure as a proportion of the output page width,</span><br><span class="cl-3f51eddc">e.g. out.width='50%'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3f55a527"><p class="cl-3f558fb4"><span class="cl-3f51edd2">fig.align=</span></p></td><td class="cl-3f55a530"><p class="cl-3f558fb4"><span class="cl-3f51eddc">Aligns the figure on the output page</span><br><span class="cl-3f51eddc">e.g. fig.align='center'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3f55a513"><p class="cl-3f558fb4"><span class="cl-3f51edd2">results='hold'</span></p></td><td class="cl-3f55a526"><p class="cl-3f558fb4"><span class="cl-3f51eddc">Waits until all the code in a chunk has run before printing any text output</span><br><span class="cl-3f51eddc">(other choices are 'markup', 'hide', 'asis')</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3f55a53a"><p class="cl-3f558fb4"><span class="cl-3f51edd2">paged.print=</span></p></td><td class="cl-3f55a544"><p class="cl-3f558fb4"><span class="cl-3f51eddc">If TRUE (the default) adds html format to printed data frames;</span><br><span class="cl-3f51eddc">if FALSE output is just text</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-97c25b9c{}.cl-97b7c420{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-97b7c434{font-family:'Courier New';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(100, 74, 155, 1.00);background-color:transparent;}.cl-97b7c448{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-97bbaa22{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-97bbaa2c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-97bbc2c8{width:2in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-97bbc2d2{width:6in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-97bbc2e6{width:2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-97bbc2f0{width:6in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-97bbc2f1{width:2in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-97bbc304{width:6in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-97bbc305{width:2in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-97bbc30e{width:6in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-97c25b9c'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Some useful options for controlling the output from code chunks in R markdown.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-97bbc2c8"><p class="cl-97bbaa22"><span class="cl-97b7c420">Option</span></p></th><th class="cl-97bbc2d2"><p class="cl-97bbaa22"><span class="cl-97b7c420">Purpose</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-97bbc2e6"><p class="cl-97bbaa2c"><span class="cl-97b7c434">out.width=</span></p></td><td class="cl-97bbc2f0"><p class="cl-97bbaa2c"><span class="cl-97b7c448">Sets the width of a figure as a proportion of the output page width,</span><br><span class="cl-97b7c448">e.g. out.width='50%'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-97bbc2f1"><p class="cl-97bbaa2c"><span class="cl-97b7c434">fig.align=</span></p></td><td class="cl-97bbc304"><p class="cl-97bbaa2c"><span class="cl-97b7c448">Aligns the figure on the output page</span><br><span class="cl-97b7c448">e.g. fig.align='center'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-97bbc2e6"><p class="cl-97bbaa2c"><span class="cl-97b7c434">results='hold'</span></p></td><td class="cl-97bbc2f0"><p class="cl-97bbaa2c"><span class="cl-97b7c448">Waits until all the code in a chunk has run before printing any text output</span><br><span class="cl-97b7c448">(other choices are 'markup', 'hide', 'asis')</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-97bbc305"><p class="cl-97bbaa2c"><span class="cl-97b7c434">paged.print=</span></p></td><td class="cl-97bbc30e"><p class="cl-97bbaa2c"><span class="cl-97b7c448">If TRUE (the default) adds html format to printed data frames;</span><br><span class="cl-97b7c448">if FALSE output is just text</span></p></td></tr></tbody></table></div>
 <p>You can see a more complete table in the <a
 href="https://rstudio.github.io/cheatsheets/html/rmarkdown.html#chunk-options"
 target="_blank">R Markdown Cheatsheet</a>.</p>
@@ -859,6 +861,7 @@ target="_blank">Chunk Options – Chapter 11 in R markdown cookbook by Xie
 reimagine R Markdown with one primary goal — do HTML, and do it well,
 with the minimalism principle.”</p></li>
 </ul>
+<p>&nbsp;</p>
 <div id="references" class="section level3">
 <h3>References</h3>
 <p>Ismay, Chester (2016) <em>Getting used to R, RStudio, and R
