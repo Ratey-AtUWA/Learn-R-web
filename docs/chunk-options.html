@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-09-24" />
+<meta name="date" content="2025-09-25" />
 
 <title>R markdown chunk options</title>
 
@@ -532,9 +532,10 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">R markdown chunk options</h1>
 <h3 class="subtitle">More control over reports</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-09-24</h4>
+<h4 class="date">2025-09-25</h4>
 
 </div>
+
 
 <div
 style="border-radius: 15px; background-color: #FFF6CC; padding: 15px;">
@@ -779,6 +780,74 @@ any line breaks. The chunk will return an error and not work unless
 there are <em>no line breaks</em> in the chunk header.</p>
 <p> </p>
 </div>
+<div id="using-the-litedown-package" class="section level2">
+<h2>Using the <code>litedown</code> package</h2>
+<p>I use the <code>litedown</code> package (Xie, 2025) as it's faster to
+knit documents than <code>rmarkdown</code> with <code>knitr</code>, the
+knitted files work well with my University's online Learning Management
+System, and cross-referencing is simpler than when using the
+<code>bookdown</code> package (see below).</p>
+<p><code>litedown</code> is designed to knit just to html, but this need
+not be a limitation since apps like Microsoft Word can read html files
+and (if desired) covert to pdf.</p>
+<div id="setting-up-r-markdown-to-knit-with-litedown"
+class="section level3">
+<h3>Setting up R markdown to knit with <code>litedown</code></h3>
+<p>To make <code>litedown</code> the default knitting package, we need
+to insert a line of <code>yaml</code> code into the R markdown file
+<code>yaml</code> header:</p>
+<pre><code>⁝
+knit: litedown:::knit
+⁝</code></pre>
+<p>&nbsp;</p>
+</div>
+<div id="cross-referencing-with-litedown" class="section level3">
+<h3>Cross-referencing with <code>litedown</code></h3>
+<p>If we include a caption in the chunk options using
+<code>fig.cap =</code>, this will automatically produce a numbered
+caption if we knit our R markdown file with <code>litedown</code>. We
+can then cross-reference using the chunk name prefixed with
+<code>@fig:</code> for figures, <code>@tab:</code> for tables,
+<em>etc</em>.</p>
+<p>For this chunk:</p>
+<div
+style="border: 2px solid #cccccc; padding: 5px; font-family: &#39;Courier New&#39;, monospace;">
+<span style="color: #644A9B;">```{r penguins-plot-caption, echo=FALSE,
+warning=FALSE, message=FALSE, fig.width=6, fig.height=4, <span
+style="background-color: #FF8;">fig.align='center', fig.cap="Figure 1:
+Penguin bill length by sex for three different penguin
+species."</span>}</span><br> ⁝<br> <span
+style="color: #644A9B;">```</span>
+</div>
+<p>...we would cross-reference the figure something like this:</p>
+<pre><code>Variations in penguin bill length are presented in @fig:penguins-plot-caption.</code></pre>
+<p>For the best detail see <a
+href="https://yihui.org/litedown/#sec:cross-references"
+target="_blank">https://yihui.org/litedown/#sec:cross-references</a><br>&nbsp;</p>
+</div>
+<div id="automatic-date-when-knitting-with-litedown"
+class="section level3">
+<h3>Automatic date when knitting with <code>litedown</code></h3>
+<p>It could be just me, but I couldn't get an automatic date to work
+using <code>litedown</code> if I included
+<code>date: "՝r Sys.Date()՝"</code> in the <code>yaml</code> header. As
+a workaround, I included an R code chunk like this:</p>
+<div
+style="border: 2px solid #cccccc; padding: 5px; font-family: &#39;Courier New&#39;, monospace;">
+<span style="color: #644A9B;">```{r author-date, echo=FALSE, comment="",
+results='asis'}</span><br> <span
+style="color: #644A9B;">cat</span>(<span style="color: #BF0303;">"Andrew
+Rate, School of Agriculture and Environment, "</span>,
+as.character(Sys.Date()))<br> <span style="color: #644A9B;">```</span>
+</div>
+<p>Andrew Rate, School of Agriculture and Environment, 2025-09-25</p>
+<p>Including the chunk option <code>results='asis'</code> means the
+output will be treated as html when knitting, and the leading
+<code>#</code> characters which usually precede text output are removed
+with the <code>comment=""</code> option.</p>
+<p> </p>
+</div>
+</div>
 <div id="using-the-bookdown-package" class="section level2">
 <h2>Using the <code>bookdown</code> package</h2>
 <p>The R package <code>bookdown</code> is very powerful, but so far I
@@ -786,7 +855,7 @@ only use it for its ability to provide automatic Figure and Table
 numbering, and cross-referencing.</p>
 <p>You would need to run the following R code if you don't have
 <code>bookdown</code> installed:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(bookdown)) <span class="fu">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(bookdown)) <span class="fu">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>)</span></code></pre></div>
 <p>You would also need to include the following in the <code>yaml</code>
 header at the top of your R markdown document:</p>
 <pre><code>---
@@ -830,7 +899,7 @@ caption options from those packages.</p>
 </div>
 <div id="other-chunk-options" class="section level2">
 <h2>Other chunk options</h2>
-<div class="tabwid"><style>.cl-97c25b9c{}.cl-97b7c420{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-97b7c434{font-family:'Courier New';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(100, 74, 155, 1.00);background-color:transparent;}.cl-97b7c448{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-97bbaa22{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-97bbaa2c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-97bbc2c8{width:2in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-97bbc2d2{width:6in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-97bbc2e6{width:2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-97bbc2f0{width:6in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-97bbc2f1{width:2in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-97bbc304{width:6in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-97bbc305{width:2in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-97bbc30e{width:6in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-97c25b9c'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Some useful options for controlling the output from code chunks in R markdown.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-97bbc2c8"><p class="cl-97bbaa22"><span class="cl-97b7c420">Option</span></p></th><th class="cl-97bbc2d2"><p class="cl-97bbaa22"><span class="cl-97b7c420">Purpose</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-97bbc2e6"><p class="cl-97bbaa2c"><span class="cl-97b7c434">out.width=</span></p></td><td class="cl-97bbc2f0"><p class="cl-97bbaa2c"><span class="cl-97b7c448">Sets the width of a figure as a proportion of the output page width,</span><br><span class="cl-97b7c448">e.g. out.width='50%'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-97bbc2f1"><p class="cl-97bbaa2c"><span class="cl-97b7c434">fig.align=</span></p></td><td class="cl-97bbc304"><p class="cl-97bbaa2c"><span class="cl-97b7c448">Aligns the figure on the output page</span><br><span class="cl-97b7c448">e.g. fig.align='center'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-97bbc2e6"><p class="cl-97bbaa2c"><span class="cl-97b7c434">results='hold'</span></p></td><td class="cl-97bbc2f0"><p class="cl-97bbaa2c"><span class="cl-97b7c448">Waits until all the code in a chunk has run before printing any text output</span><br><span class="cl-97b7c448">(other choices are 'markup', 'hide', 'asis')</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-97bbc305"><p class="cl-97bbaa2c"><span class="cl-97b7c434">paged.print=</span></p></td><td class="cl-97bbc30e"><p class="cl-97bbaa2c"><span class="cl-97b7c448">If TRUE (the default) adds html format to printed data frames;</span><br><span class="cl-97b7c448">if FALSE output is just text</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-2715dd9e{}.cl-26c84ebc{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-26c84ed0{font-family:'Courier New';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(100, 74, 155, 1.00);background-color:transparent;}.cl-26c84f16{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-26d070ec{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-26d0710a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-26d0acc4{width:2in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-26d0acce{width:6in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-26d0acd8{width:2in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-26d0ace2{width:6in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-26d0acec{width:2in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-26d0ad0a{width:6in;background-color:transparent;vertical-align: top;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-26d0ad0b{width:2in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-26d0ad1e{width:6in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-2715dd9e'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Some useful options for controlling the output from code chunks in R markdown.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-26d0acc4"><p class="cl-26d070ec"><span class="cl-26c84ebc">Option</span></p></th><th class="cl-26d0acce"><p class="cl-26d070ec"><span class="cl-26c84ebc">Purpose</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-26d0acd8"><p class="cl-26d0710a"><span class="cl-26c84ed0">out.width=</span></p></td><td class="cl-26d0ace2"><p class="cl-26d0710a"><span class="cl-26c84f16">Sets the width of a figure as a proportion of the output page width,</span><br><span class="cl-26c84f16">e.g. out.width='50%'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-26d0acec"><p class="cl-26d0710a"><span class="cl-26c84ed0">fig.align=</span></p></td><td class="cl-26d0ad0a"><p class="cl-26d0710a"><span class="cl-26c84f16">Aligns the figure on the output page</span><br><span class="cl-26c84f16">e.g. fig.align='center'</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-26d0acd8"><p class="cl-26d0710a"><span class="cl-26c84ed0">results='hold'</span></p></td><td class="cl-26d0ace2"><p class="cl-26d0710a"><span class="cl-26c84f16">Waits until all the code in a chunk has run before printing any text output</span><br><span class="cl-26c84f16">(other choices are 'markup', 'hide', 'asis')</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-26d0ad0b"><p class="cl-26d0710a"><span class="cl-26c84ed0">paged.print=</span></p></td><td class="cl-26d0ad1e"><p class="cl-26d0710a"><span class="cl-26c84f16">If TRUE (the default) adds html format to printed data frames;</span><br><span class="cl-26c84f16">if FALSE output is just text</span></p></td></tr></tbody></table></div>
 <p>You can see a more complete table in the <a
 href="https://rstudio.github.io/cheatsheets/html/rmarkdown.html#chunk-options"
 target="_blank">R Markdown Cheatsheet</a>.</p>
@@ -861,14 +930,14 @@ target="_blank">Chunk Options – Chapter 11 in R markdown cookbook by Xie
 reimagine R Markdown with one primary goal — do HTML, and do it well,
 with the minimalism principle.”</p></li>
 </ul>
-<p>&nbsp;</p>
+<p> </p>
 <div id="references" class="section level3">
 <h3>References</h3>
 <p>Ismay, Chester (2016) <em>Getting used to R, RStudio, and R
 Markdown</em>. <a href="https://bookdown.org/chesterismay/rbasics/"
 target="_blank">https://bookdown.org/chesterismay/rbasics/</a> (accessed
 2025-06-17)</p>
-<p>Posit Software (2024) <code>rmarkdown::</code>CHEATSHEET. <a
+<p>Posit Software (2024) <code>rmarkdown::</code><em>CHEATSHEET</em>. <a
 href="https://rstudio.github.io/cheatsheets/rmarkdown.pdf"
 target="_blank">https://rstudio.github.io/cheatsheets/rmarkdown.pdf</a>
 (accessed 2025-06-17)</p>
@@ -876,6 +945,15 @@ target="_blank">https://rstudio.github.io/cheatsheets/rmarkdown.pdf</a>
 href="https://yihui.org/knitr/options/"
 target="_blank">https://yihui.org/knitr/options/</a> (accessed
 2025-06-17)</p>
+<p>Xie Y (2025). <code>knitr</code>: <em>A General-Purpose Package for
+Dynamic Report Generation in R</em>. R package version 1.50, <a
+href="https://yihui.org/knitr/"
+target="_blank">https://yihui.org/knitr/</a>.</p>
+<p>Xie Y (2025). <code>litedown</code>: <em>A Lightweight Version of R
+Markdown</em>. <a href="https://doi.org/10.32614/CRAN.package.litedown"
+target="_blank">doi:10.32614/CRAN.package.litedown</a>, R package
+version 0.7, <a href="https://CRAN.R-project.org/package=litedown"
+target="_blank">https://CRAN.R-project.org/package=litedown</a>.</p>
 <p>Xie Y, Dervieux C, Riederer E (2025) <em>R Markdown Cookbook</em>. <a
 href="https://bookdown.org/yihui/rmarkdown-cookbook/"
 target="_blank">https://bookdown.org/yihui/rmarkdown-cookbook/</a>
