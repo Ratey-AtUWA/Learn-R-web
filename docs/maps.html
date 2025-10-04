@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-09-16" />
+<meta name="date" content="2025-10-04" />
 
 <title>Basic maps in R</title>
 
@@ -530,7 +530,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Basic maps in R</h1>
 <h3 class="subtitle">Data plotted over tile backgrounds</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-09-16</h4>
+<h4 class="date">2025-10-04</h4>
 
 </div>
 
@@ -1305,10 +1305,12 @@ recommending the</strong> <code>OpenStreetMap</code> package either.</p>
 </div>
 <div id="final-words" class="section level2">
 <h2>Final Words</h2>
-<p>We recommend using either the <code>maptiles</code> package with base-R, or
-the <code>ggplot2</code> + <code>ggspatial</code> packages to draw maps with tiled backgrounds (also using <code>maptiles</code> to generate tiles), as they
-allow use of (and rely on) the state-of-the-art <em>simple features</em> system
-<em>via</em> the <code>sf</code> package.</p>
+<p>We recommend using either the <code>maptiles</code> package with
+base-R, or the <code>ggplot2</code> + <code>ggspatial</code> packages to
+draw maps with tiled backgrounds (also using <code>maptiles</code> to
+generate tiles), as they allow use of (and rely on) the state-of-the-art
+<em>simple features</em> system <em>via</em> the <code>sf</code>
+package.</p>
 <p> </p>
 <center>
 <img src="./images/RubberDucks.png" /><br> <a
@@ -1467,9 +1469,6 @@ height="32" />&gt;Ashfield Flats sediment soil data 2019</a></p>
 </div>
 <div id="bonus-material" class="section level3">
 <h3>Bonus material</h3>
-<p><span
-style="font-family: cambria, serif; background-color:cyan; text-align: center;"> (Currently
-on another Github site) </span></p>
 <p>
 <a href="https://raw.githubusercontent.com/Ratey-AtUWA/spatial/main/easy%20peasy%20afr%20map.R" target="_blank" rel="noopener"><img
 src="./images/rcode.png" alt="R code file icon" width="32"
@@ -1477,27 +1476,24 @@ height="32" /> eezi-peazi Ashfield map (<strong>R</strong>
 code)</a><br /> 
 </p>
 <p>
-<a href="https://ratey-atuwa.github.io/cybloRg/georef_jpeg_map.html" target="_blank" rel="noopener"><img
+<a href="https://ratey-atuwa.github.io/Learn-R-web/georef-images.html" target="_blank" rel="noopener"><img
 src="./images/rcode.png" alt="R code file icon" width="32"
-height="32" /></a> <a href="https://ratey-atuwa.github.io/cybloRg/georef_jpeg_map.html" target="_blank" rel="noopener"><strong>R</strong>
+height="32" /></a> <a href="https://ratey-atuwa.github.io/Learn-R-web/georef-images.html" target="_blank" rel="noopener"><strong>R</strong>
 code to use georeferenced images <em>(e.g</em>. from NearMap) as map
 backgrounds</a><br /> 
 </p>
 <p>
-<a href="https://ratey-atuwa.github.io/cybloRg/Google-kml-R.html" target="_blank" rel="noopener"><img
+<a href="https://ratey-atuwa.github.io/Learn-R-web/google-kml.html" target="_blank" rel="noopener"><img
 src="./images/rcode.png" alt="R code file icon" width="32"
-height="32" /></a> <a href="https://ratey-atuwa.github.io/cybloRg/Google-kml-R.html" target="_blank" rel="noopener">Digitising
+height="32" /></a> <a href="https://ratey-atuwa.github.io/Learn-R-web/google-kml.html" target="_blank" rel="noopener">Digitising
 map features from Google Earth, and R code for a function to convert
 Google Earth .kml files for use in <strong>R</strong></a>
 </p>
-<p>
-<a href="https://ratey-atuwa.github.io/cybloRg/geostats.html" target="_blank" rel="noopener">Advanced
-Spatial Analysis</a> (spatial autocorrelation, variograms, and kriging
-interpolations)<br /> 
+<p>🌏 Advanced Spatial Analysis (1️⃣<a href="https://ratey-atuwa.github.io/Learn-R-web/spatial.html" target="_blank" rel="noopener">spatial autocorrelation</a>, plus 2️⃣<a href=
+href="https://ratey-atuwa.github.io/Learn-R-web/spat-interp.html"
+class="uri">variograms and kriging interpolations</a>)<br /> 
 </p>
-<p><span
-style="font-family: cambria, serif; background-color:#ffa; text-align: center;"> (Currently
-on UWA LMS, so you will need to be logged in) </span></p>
+
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="fl">1.3</span>,<span class="fl">1.2</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="sc">-</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">lend=</span><span class="st">&quot;square&quot;</span>)</span>
 <span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_coordinates</span>(extent), <span class="at">asp=</span><span class="dv">1</span>, <span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">xaxs=</span><span class="st">&quot;i&quot;</span>, <span class="at">yaxs=</span><span class="st">&quot;i&quot;</span>, <span class="at">cex.axis=</span><span class="fl">0.8</span>,</span>
 <span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Easting (UTM Zone 50, m)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Northing (UTM Zone 50, m)&quot;</span>)</span>
