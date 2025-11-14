@@ -1,6 +1,6 @@
 name: "Learn-R-web"
 output_dir: docs
-exclude: ["*.txt", "*.csv", "*.tsv", "*.kml", "*.docx"]
+exclude: ["*.txt","*.csv","*.tsv","*.kml","*.docx","*.jpg","*.jgw","*.out"]
 navbar:
   title: "Sessions"
   left:
