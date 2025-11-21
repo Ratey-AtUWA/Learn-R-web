@@ -40,6 +40,8 @@ navbar:
           href: reg-multi.html
         - text: "Time series analysis"
           href: timeseries.html
+        - text: "Non-linear regression example"
+          href: nonlinear.html
     - text: "Maps"
       menu:
         - text: "Map data with tile backgrounds"

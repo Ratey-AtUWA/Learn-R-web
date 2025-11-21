@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Andrew Rate" />
+
+<meta name="date" content="2025-11-21" />
+
+<title>A Story About Non-linear Regression</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Sessions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">For beginners</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Intro</a>
+    </li>
+    <li>
+      <a href="intro-GG.html">Intro+ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Plots
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plots.html">Plots-baseR</a>
+    </li>
+    <li>
+      <a href="plots-GG.html">Plots-ggplot</a>
+    </li>
+    <li>
+      <a href="boxplots-plus.html">Enhanced boxplots</a>
+    </li>
+    <li>
+      <a href="depth-profiles.html">Depth profiles</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Compare
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="means.html">Compare means (parametric)</a>
+    </li>
+    <li>
+      <a href="nonparam.html">Non-parametric comparisons</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relate
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="correl.html">Correlation</a>
+    </li>
+    <li>
+      <a href="regression.html">Simple linear regression</a>
+    </li>
+    <li>
+      <a href="reg-group.html">Grouped linear regression</a>
+    </li>
+    <li>
+      <a href="reg-multi.html">Multiple linear regression</a>
+    </li>
+    <li>
+      <a href="timeseries.html">Time series analysis</a>
+    </li>
+    <li>
+      <a href="nonlinear.html">Non-linear regression example</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Maps
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="maps.html">Map data with tile backgrounds</a>
+    </li>
+    <li>
+      <a href="spatial.html">Spatial statistics</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">Spatial interpolation</a>
+    </li>
+    <li>
+      <a href="google-kml.html">Using Google Earth objects</a>
+    </li>
+    <li>
+      <a href="georef-images.html">Using georeferenced images</a>
+    </li>
+    <li>
+      <a href="shapefiles.html">Using shapefiles</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Multi
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pca.html">Principal components analysis</a>
+    </li>
+    <li>
+      <a href="vegan.html">Analysis of species presence-absence data</a>
+    </li>
+    <li>
+      <a href="lda.html">Linear discriminant analysis</a>
+    </li>
+    <li>
+      <a href="cluster.html">Cluster analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Util
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="distributions.html">Distribution checking</a>
+    </li>
+    <li>
+      <a href="residuals.html">Regression residuals to identify contamination</a>
+    </li>
+    <li>
+      <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Reporting
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="report-resources.html">Resources for reporting</a>
+    </li>
+    <li>
+      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="maps-location-siteplan.html">Locality and Site Plan maps</a>
+    </li>
+    <li>
+      <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
+    </li>
+    <li>
+      <a href="chunk-options.html">Custom output with R markdown chunk options</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!DOCTYPE html>
+
+<html>
+<body>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
+</body>
+</html>
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">A Story About Non-linear Regression</h1>
+<h3 class="subtitle">Fitting site-binding models to humic-metal
+complexation data</h3>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2025-11-21</h4>
+
+</div>
+
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+<p><em>Andrew Rate, School of Agriculture and Environment, The
+University of Western Australia, 2025-11-21 </em></p>
+<p> </p>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<div id="the-back-story" class="section level3">
+<h3>The Back Story</h3>
+<p>The problem is to write R code that replicates the output of some
+Fortran-77 code I wrote and used in my PhD thesis (Rate, 1990). The
+original Fortran code was to fit models to data on complex-formation of
+copper and cadmium ions to humic acids (stable organic macromolecular
+substances present in soils; see Figure 1). Optimisation was originally
+done with the <code>amoeba</code> Nelder-Mead simplex algorithm from
+Press <em>et al</em>. (1986). The same multidimensional simplex
+algorithm is implemented in R in the <code>optim()</code> function. I
+originally used a hybrid Newton-Raphson/bisection method to solve cubic
+equations (subroutine <code>newton</code> from Press <em>et al</em>.,
+1986). To simplify the code and remove the need to specify the
+differential function, I used the R <code>uniroot()</code> function
+which worked fine with my code and uses Brent's method for finding
+univariate roots using an adaptive hybrid of bisection, the secant
+method, and inverse quadratic interpolation. These functions allow all
+the hard number-crunching to be done in base-R (R Core Team, 2025), and
+I used the <code>stringr</code> package (Wickham, 2025) to manipulate
+object and file name strings.</p>
+<pre><code>## |---------|---------|---------|---------|=========================================                                          </code></pre>
+<div class="figure" style="text-align: center">
+<img src="nonlinear_files/figure-html/banks-map-1.png" alt="Figure 1: Map of areas in Waitaha/Canterbury, Aotearoa New Zealand where soil was collected for extraction of humic acids." width="70%" />
+<p class="caption">
+Figure 1: Map of areas in Waitaha/Canterbury, Aotearoa New Zealand where
+soil was collected for extraction of humic acids.
+</p>
+</div>
+<p> </p>
+</div>
+<div id="the-setting" class="section level3">
+<h3>The Setting</h3>
+<p>It's very common in disciplines like environmental and soil sciences
+to present adsorption data (such as metal adsorption on humic acids) as
+the amount of substance adsorbed (<em>q</em>) <em>vs</em>. the
+concentration of that substance in solution (<em>c</em>). This is the
+classical “adsorption isotherm” (Figure 2), and the data are commonly
+fitted to empirical equations such as the Langmuir or Freundlich
+equations.</p>
+<p><img src="nonlinear_files/figure-html/langmuir-equation-1.png" alt="Equation which reads qM =  (C1*K1*cM/(1+K1*cM))" width="960" /></p>
+<div class="figure" style="text-align: center">
+<img src="nonlinear_files/figure-html/isotherm-langmuir-1.png" alt="Figure 2: Classical isotherm representation of adsorption, for the reaction of copper ions with solid-phase calcium humate derived from humic acid extracted from Waimari Peat, Waitaha/Canterbury, Aotearoa New Zealand. Circle symbols show experimental observations, and the smooth curve represents a single site-binding model (the most simple, a.k.a. the ‘Langmuir’ equation)." width="576" />
+<p class="caption">
+Figure 2: Classical isotherm representation of adsorption, for the
+reaction of copper ions with solid-phase calcium humate derived from
+humic acid extracted from Waimari Peat, Waitaha/Canterbury, Aotearoa New
+Zealand. Circle symbols show experimental observations, and the smooth
+curve represents a single site-binding model (the most simple, a.k.a.
+the ‘Langmuir’ equation).
+</p>
+</div>
+<p> </p>
+<p>There are many issues which make this “traditional” isotherm approach
+problematic. There is a whole universe in the rabbit hole of whether a
+model can be realistic if it describes such reaction only in terms of
+the concentrations of adsorbed and non-adsorbed species (<em>e.g</em>.
+ignoring electrostatic effects). Similar diversions can be indulged in
+the discussion of whether a large complex molecule like a humic acid
+would ever have only one type of binding site defined by a concentration
+<span class="math inline">\(C_{1}\)</span> and a conditional stability
+“equilibrium” constant <span class="math inline">\(log(K_{1})\)</span>
+as assumed by the Langmuir equation (the “heterogeneity” rabbit-hole).
+These arguments are scientifically valid, but incessant. For practical
+purposes, therefore, many researchers pragmatically implement a model
+with 2 or more Langmuir-type sites having additive behaviour. This
+approach simplifies (or even ignores) the real physicochemical issues,
+but provides enough adjustable fitting parameters to describe the
+data.</p>
+<p>Those are the “chemistry” issues, but fitting equations/models is
+also a mathematical/statistical undertaking, and there are some problems
+with the traditional isotherm approach there, too.</p>
+<p>Typically isotherms are generated by adding (<em>e.g</em>. titrating)
+metal ion solutions to a suspension or solution of adsorbent (forms of
+humic acid, in this case). The experimental conditions (mass of
+adsorbent, amounts of metal ions added, volumes, temperatures,
+<em>etc</em>.) are very well-controlled, and statistically are the most
+appropriate independent variables. During the metal ion
+addition/titration experiment, the critical measurement is the
+concentration of metal ion <strong>not</strong> adsorbed to the
+adsorbent. For my PhD experiments, I measured unadsorbed (dissolved)
+metal ion concentration (<span class="math inline">\(cM\)</span>) using
+ion-selective electrodes, which have a linear calibration between
+log-concentration and electrode potential, with well-established theory
+from the Nernst Equation. <em>My point here</em> is that the
+<em>dependent variable for model fitting should reflect the actual
+experimental measurement</em> (Figure 3). We could use the original
+electrode potentials, but since potentials are collinear with
+log<sub>10</sub>-metal concentrations, it makes sense to use
+concentrations.</p>
+<div class="figure" style="text-align: center">
+<img src="nonlinear_files/figure-html/isotherm-cq-1.png" alt="Figure 3: Adsorption isotherm for Cu²⁺-calcium humate shown as cM (note log-scale) as a function of qM. Circle symbols show experimental observations, and the smooth curve again epresents the best-fit Langmuir equation." width="576" />
+<p class="caption">
+Figure 3: Adsorption isotherm for Cu²⁺-calcium humate shown as cM (note
+log-scale) as a function of qM. Circle symbols show experimental
+observations, and the smooth curve again epresents the best-fit Langmuir
+equation.
+</p>
+</div>
+<p> </p>
+<p>So far, so good... the <span
+class="math inline">\(log_{10}(cM)\)</span> <em>vs</em>. <span
+class="math inline">\(qM\)</span> plot still looks like an adsorption
+curve... but we also end up with a maths problem. The usual adsorption
+isotherm equations are written in terms of adsorbed metal (<span
+class="math inline">\(qM\)</span>) being a function of dissolved metal,
+<span class="math inline">\(cM\)</span> (so dissolved metal
+concentration is the independent variable, which we don't want).</p>
+<p><img src="nonlinear_files/figure-html/qM-3-site-model-1.png" alt="Equation which reads qM = the summation from i=1 to 3 of (Ci*Ki*cM/(1+Ki*cM))" width="960" /></p>
+<p>Conveniently, algebraic rearrangement of these equations to solve for
+<span class="math inline">\(cM\)</span> gives polynomials, where the
+polynomial order is equal to the number of sites. This makes life easy
+with a two-site model; with three sites, however, the equation is cubic.
+To predict <span class="math inline">\(cM\)</span>, we need to find the
+root(s) of the cubic equation, which can't be done algebraically, and
+requires a numerical solution – an algorithm, <em>i.e</em>. some
+<code>code</code>.</p>
+<p>The cubic equation . . . <span class="math inline">\(cM = A + B(qM) +
+C(qM)^{2} + D(qM)^{3}\)</span></p>
+<p>where the parameters <span class="math inline">\(A, B, C\)</span>,
+and <span class="math inline">\(D\)</span> for a 3-site model are:</p>
+<p><span class="math inline">\(A = qM;\)</span></p>
+<p><span class="math inline">\(B = qM(K_{1}+K_{2}+K_{3}) -
+(C_{1}K_{1}+C_{2}K_{2}+C_{3}K_{3});\)</span></p>
+<p><span class="math inline">\(C = K_{1}K_{2}(qM-(C_{1}+C_{2}) +
+K_{1}K_{3}(qM-(C_{1}+C_{3}) + K_{2}K_{3}(qM-(C_{2}+C_{3});\)</span></p>
+<p><span class="math inline">\(D =
+K_{1}K_{2}K_{3}(qM-(C_{1}+C_{2}+C_{3})\)</span></p>
+<div class="figure" style="text-align: center">
+<img src="nonlinear_files/figure-html/cubic-art-1.png" alt="Figure 4: Curve plots for cubic functions for which roots need to be found. Each root is the predicted Cu²⁺ concentration (cM) for each amount of Cu²⁺ adsorbed to calcium humate (qM)." width="672" />
+<p class="caption">
+Figure 4: Curve plots for cubic functions for which roots need to be
+found. Each root is the predicted Cu²⁺ concentration (cM) for each
+amount of Cu²⁺ adsorbed to calcium humate (qM).
+</p>
+</div>
+<p> </p>
+</div>
+</div>
+<div id="coding-it" class="section level2">
+<h2>Coding it</h2>
+<p>First we need to define some user functions:</p>
+<ol style="list-style-type: decimal">
+<li>one to set up our cubic equation for feeding into the
+<code>uniroot()</code> function, and</li>
+<li>a second which calculates a residual sum-of-squares to be minimised
+by the <code>optim()</code> function.</li>
+</ol>
+<p><em>Some things to note</em>:</p>
+<ul>
+<li>we need to choose a sufficient interval for the
+<code>uniroot()</code> function that exceeds the range of data, to allow
+for more extreme values that might be generated during simplex
+transformations</li>
+<li>we also lower the default tolerance for the <code>uniroot()</code>
+function, to allow for sometimes very small changes in function values
+close to the roots (Figure 4).</li>
+<li>For the same reason we allow <code>uniroot</code> to extend the
+search interval using the option <code>extendInt = "yes"</code>.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># 1. Basic form of cubic equation to pass to uniroot() function</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>fcubic <span class="ot">&lt;-</span> <span class="cf">function</span>(x, a, b, c, d) {</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  a <span class="sc">+</span> b<span class="sc">*</span>x <span class="sc">+</span> c<span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> d<span class="sc">*</span>x<span class="sc">^</span><span class="dv">3</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>}</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># 2. Calculate residual (error) sum-of-squares at each iteration of optim()</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>calcSSE <span class="ot">&lt;-</span> <span class="cf">function</span>(par, data, <span class="at">justSSE=</span><span class="cn">TRUE</span>){</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  <span class="co"># convert log10-parameters</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  C1 <span class="ot">&lt;-</span> <span class="fu">unname</span>(<span class="dv">10</span><span class="sc">^</span>par[<span class="dv">1</span>])</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  K1 <span class="ot">&lt;-</span> <span class="fu">unname</span>(<span class="dv">10</span><span class="sc">^</span>par[<span class="dv">2</span>])</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>  C2 <span class="ot">&lt;-</span> <span class="fu">unname</span>(<span class="dv">10</span><span class="sc">^</span>par[<span class="dv">3</span>])</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>  K2 <span class="ot">&lt;-</span> <span class="fu">unname</span>(<span class="dv">10</span><span class="sc">^</span>par[<span class="dv">4</span>])</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>  C3 <span class="ot">&lt;-</span> <span class="fu">unname</span>(<span class="dv">10</span><span class="sc">^</span>par[<span class="dv">5</span>])</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>  K3 <span class="ot">&lt;-</span> <span class="fu">unname</span>(<span class="dv">10</span><span class="sc">^</span>par[<span class="dv">6</span>])</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>  </span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>  <span class="co"># calculate cubic coefficients</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>  A <span class="ot">=</span> data[,<span class="dv">2</span>]</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>  B <span class="ot">=</span>(data[,<span class="dv">2</span>]<span class="sc">*</span>(K1<span class="sc">+</span>K2<span class="sc">+</span>K3)) <span class="sc">-</span> (C1<span class="sc">*</span>K1 <span class="sc">+</span> C2<span class="sc">*</span>K2 <span class="sc">+</span> C3<span class="sc">*</span>K3)</span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>  C <span class="ot">=</span> K1<span class="sc">*</span>K2<span class="sc">*</span>(data[,<span class="dv">2</span>]<span class="sc">-</span>(C1<span class="sc">+</span>C2)) <span class="sc">+</span> K1<span class="sc">*</span>K3<span class="sc">*</span>(data[,<span class="dv">2</span>]<span class="sc">-</span>(C1<span class="sc">+</span>C3)) <span class="sc">+</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>      K2<span class="sc">*</span>K3<span class="sc">*</span>(data[,<span class="dv">2</span>]<span class="sc">-</span>(C2<span class="sc">+</span>C3))</span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>  D <span class="ot">=</span> K1<span class="sc">*</span>K2<span class="sc">*</span>K3<span class="sc">*</span>(data[,<span class="dv">2</span>]<span class="sc">-</span>(C1<span class="sc">+</span>C2<span class="sc">+</span>C3))</span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>  <span class="co"># calculate roots:</span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a>  <span class="co"># - first pre-allocate memory in data frame...</span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a>  cMpred <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">cMpred=</span><span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(obs)), <span class="at">f.root=</span><span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(obs)))</span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a>  <span class="co">#   ... then loop to find roots for cubic equations for each data point</span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(obs)){</span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a>    result0 <span class="ot">&lt;-</span> <span class="fu">uniroot</span>(fcubic, <span class="at">interval=</span><span class="fu">c</span>(<span class="fl">1e-15</span>, <span class="dv">10</span><span class="sc">*</span><span class="fu">max</span>(data<span class="sc">$</span>cM,<span class="at">na.rm=</span>T)),</span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a>                       <span class="at">a=</span>A[i], <span class="at">b=</span>B[i], <span class="at">c=</span>C[i], <span class="at">d=</span>D[i],</span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a>                       <span class="at">tol=</span><span class="fl">1e-12</span>, <span class="at">extendInt =</span> <span class="st">&quot;yes&quot;</span>)</span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a>    <span class="co"># write root and f(root) to data frame row i</span></span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a>    cMpred[i,] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">unname</span>(<span class="fu">log10</span>(result0<span class="sc">$</span>root)),<span class="fu">unname</span>(result0<span class="sc">$</span>f.root))</span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a>  }</span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a>  pred <span class="ot">&lt;-</span></span>
+<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">qMobs =</span> data<span class="sc">$</span>qM, <span class="at">cMobs.log =</span> <span class="fu">log10</span>(data<span class="sc">$</span>cM),</span>
+<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a>               <span class="at">cMfit.log =</span> cMpred[,<span class="dv">1</span>], <span class="at">y.at.root =</span> cMpred[,<span class="dv">2</span>])</span>
+<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a>  <span class="co"># calculate residuals</span></span>
+<span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a>  pred<span class="sc">$</span>cMres <span class="ot">&lt;-</span> pred<span class="sc">$</span>cMobs.log <span class="sc">-</span> pred<span class="sc">$</span>cMfit.log</span>
+<span id="cb2-41"><a href="#cb2-41" tabindex="-1"></a>  <span class="co"># calculate squared difference for total sum-of-squares</span></span>
+<span id="cb2-42"><a href="#cb2-42" tabindex="-1"></a>  pred<span class="sc">$</span>diffsq <span class="ot">&lt;-</span> (pred<span class="sc">$</span>cMobs.log <span class="sc">-</span> <span class="fu">mean</span>(pred<span class="sc">$</span>cMobs.log, <span class="at">na.rm=</span>T))<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb2-43"><a href="#cb2-43" tabindex="-1"></a>  <span class="co"># calculate residuals squared for error sum-of-squares</span></span>
+<span id="cb2-44"><a href="#cb2-44" tabindex="-1"></a>  pred<span class="sc">$</span>cMres2 <span class="ot">&lt;-</span> pred<span class="sc">$</span>cMres<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb2-45"><a href="#cb2-45" tabindex="-1"></a>  ssq <span class="ot">&lt;-</span> <span class="fu">colSums</span>(pred[ ,<span class="fu">c</span>(<span class="fu">ncol</span>(pred)<span class="sc">-</span><span class="dv">1</span>,<span class="fu">ncol</span>(pred))]) <span class="co"># just last 2 columns</span></span>
+<span id="cb2-46"><a href="#cb2-46" tabindex="-1"></a>  <span class="fu">names</span>(ssq) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;SST&quot;</span>,<span class="st">&quot;SSE&quot;</span>)</span>
+<span id="cb2-47"><a href="#cb2-47" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" tabindex="-1"></a>  <span class="cf">if</span>(justSSE<span class="sc">==</span><span class="cn">TRUE</span>){</span>
+<span id="cb2-49"><a href="#cb2-49" tabindex="-1"></a>    SSE <span class="ot">&lt;-</span> ssq[<span class="st">&quot;SSE&quot;</span>]</span>
+<span id="cb2-50"><a href="#cb2-50" tabindex="-1"></a>    <span class="fu">return</span>(SSE)</span>
+<span id="cb2-51"><a href="#cb2-51" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb2-52"><a href="#cb2-52" tabindex="-1"></a>    r.squared <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span>(ssq[<span class="st">&quot;SSE&quot;</span>]<span class="sc">/</span>ssq[<span class="st">&quot;SST&quot;</span>])</span>
+<span id="cb2-53"><a href="#cb2-53" tabindex="-1"></a>    <span class="co"># define and format output object</span></span>
+<span id="cb2-54"><a href="#cb2-54" tabindex="-1"></a>    <span class="co">#       if(is.matrix(par)) par &lt;- par[1,]</span></span>
+<span id="cb2-55"><a href="#cb2-55" tabindex="-1"></a>    result <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">parameters=</span>par,</span>
+<span id="cb2-56"><a href="#cb2-56" tabindex="-1"></a>                   <span class="at">data.table=</span>pred,</span>
+<span id="cb2-57"><a href="#cb2-57" tabindex="-1"></a>                   <span class="at">sums.of.squares=</span>ssq,</span>
+<span id="cb2-58"><a href="#cb2-58" tabindex="-1"></a>                   <span class="at">stats=</span>r.squared)</span>
+<span id="cb2-59"><a href="#cb2-59" tabindex="-1"></a>    <span class="co"># names(result[[3]]) &lt;- c(&quot;SST&quot;,&quot;SSE&quot;)</span></span>
+<span id="cb2-60"><a href="#cb2-60" tabindex="-1"></a>    <span class="fu">names</span>(result[[<span class="dv">4</span>]]) <span class="ot">&lt;-</span> <span class="st">&quot;r.squared&quot;</span></span>
+<span id="cb2-61"><a href="#cb2-61" tabindex="-1"></a>    <span class="fu">return</span>(result)</span>
+<span id="cb2-62"><a href="#cb2-62" tabindex="-1"></a>  }</span>
+<span id="cb2-63"><a href="#cb2-63" tabindex="-1"></a>}</span></code></pre></div>
+<p>Check our functions!</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;The object &#39;fcubic&#39; is a&quot;</span>, <span class="fu">class</span>(fcubic), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>);<span class="fu">cat</span>(<span class="st">&quot;The object &#39;calcSSE&#39; is a&quot;</span>, <span class="fu">class</span>(calcSSE))</span></code></pre></div>
+<pre><code>## The object &#39;fcubic&#39; is a function
+## The object &#39;calcSSE&#39; is a function</code></pre>
+<p>Now we need some inputs:</p>
+<ul>
+<li>Our data (at a minimum, two variables representing experimental
+observations; qM and cM)</li>
+<li>Initial estimates for the model parameters. From the equations and
+code above, we need guesses at values for C1, K1, C2, K2, C3, and
+K3.<br> I recommend using log-transformed values, so the simplex does
+not warp into negative numbers for adsorption site densities
+(C<sub>i</sub>) or conditional stability constants (K<sub>i</sub>),
+which would make no sense.</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># our dataset</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>infile <span class="ot">&lt;-</span> <span class="st">&quot;wpcu05b.csv&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>obs <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(infile, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">str</span>(obs) <span class="co"># to check it</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co"># named vector of log-transformed parameters</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="fu">log10</span>(<span class="fu">c</span>(<span class="fl">2.</span>, <span class="dv">7</span>.e4, <span class="fl">30.</span>, <span class="dv">4</span>.e3, <span class="fl">400.</span>, <span class="dv">2</span>.e2))</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">names</span>(P) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;logC1&quot;</span>,<span class="st">&quot;logK1&quot;</span>,<span class="st">&quot;logC2&quot;</span>,<span class="st">&quot;logK2&quot;</span>,<span class="st">&quot;logC3&quot;</span>,<span class="st">&quot;logK3&quot;</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>P</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    18 obs. of  5 variables:
+##  $ cM    : num  4.89e-09 5.44e-09 1.07e-08 1.56e-08 1.96e-08 ...
+##  $ qM    : num  0.00315 0.00315 0.00629 0.00629 0.00943 ...
+##  $ M.add : num  3.15e-07 3.15e-07 6.29e-07 6.29e-07 9.43e-07 ...
+##  $ VT    : num  0.02 0.02 0.02 0.02 0.02 0.02 0.02 0.02 0.02 0.02 ...
+##  $ massHA: num  1e-04 1e-04 1e-04 1e-04 1e-04 1e-04 1e-04 1e-04 1e-04 1e-04 ...
+##    logC1    logK1    logC2    logK2    logC3    logK3
+## 0.301030 4.845098 1.477121 3.602060 2.602060 2.301030</code></pre>
+</div>
+<p>&nbsp;</p>
+<div id="do-the-optimisation-for-model-fitting" class="section level2">
+<h2>Do the optimisation for model fitting</h2>
+<p>We now have what we need to try optimisation, which will adjust the
+parameters of our model to best fit the data, by minimising the residual
+sum-of-squares in log<sub>10</sub>(cM). Note that the arguments for the
+function to be minimised (<code>calcSSE</code>, that we made above) are
+included as arguments for the <code>optim()</code> function. We also
+increase the maximum iterations from the default value of 500.</p>
+<p>Apparently the inverse of the Hessian matrix can allow us to
+calculate standard errors for the optimised parameters. We haven't done
+that here, but it may be a future improvement. (For simplex
+optimisation, the hessian matrix is calculated numerically, since we
+don't supply derivative (gradient) function(s).)</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>predOut <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="at">par=</span>P,</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                 <span class="at">fn =</span> calcSSE,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                 <span class="at">data =</span> obs,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>                 <span class="at">justSSE=</span><span class="cn">TRUE</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">&quot;Nelder-Mead&quot;</span>,     <span class="co"># this is the Simplex algorithm</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>                 <span class="at">hessian =</span> <span class="cn">FALSE</span>,            <span class="co"># we can do hessian=TRUE if we want</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>                 <span class="at">control =</span> <span class="fu">list</span>(<span class="at">maxit=</span><span class="dv">2000</span>)) <span class="co"># max. 2000 iterations</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">-------- OPTIMISATION by Nelder-Mead SIMPLEX method for&quot;</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>            <span class="fu">substr</span>(infile,<span class="dv">1</span>,<span class="fu">str_locate</span>(infile,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>)<span class="sc">-</span><span class="dv">1</span>),<span class="st">&quot;--------</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="fu">print</span>(predOut)}</span></code></pre></div>
+<pre><code>##
+## -------- OPTIMISATION by Nelder-Mead SIMPLEX method for wpcu05b --------
+## $par
+##      logC1      logK1      logC2      logK2      logC3      logK3
+## -1.6107206  7.3839742 -0.2935944  5.1015828  5.3156356 -2.8998928
+##
+## $value
+## [1] 0.06035422
+##
+## $counts
+## function gradient
+##      555       NA
+##
+## $convergence
+## [1] 0
+##
+## $message
+## NULL</code></pre>
+<p>The output of <code>optim()</code> above shows us the best-fit values
+of the model parameters <code>logC1</code>...<code>logK3</code>, with
+the minimised residual sum-of-squares (<code>$value</code>) ≃ 0.06.
+Under <code>$counts</code>, the output shows the number of calls to the
+<code>function</code> <code>calcSSE</code> (it was evaluated 555
+times!), as the simplex made its multidimensional contortions (we didn't
+need a <code>gradient</code> function). A <code>$convergence</code>
+value of zero means the optimisation converged successfully.</p>
+</div>
+<div id="more-detail-about-the-model-output" class="section level2">
+<h2>More detail about the model output</h2>
+<p>It can be useful to inspect the output in full, not just the
+optimised parameters (especially if the results look weird or
+wrong).</p>
+<p>The long output of our <code>calcSSE</code> function, obtained with
+the option <code>justSSE = FALSE</code>, includes</p>
+<ul>
+<li>the optimised model <code>$parameters</code></li>
+<li>a <code>$data.table</code> with columns for
+<ul>
+<li>experimental observations <code>qMobs</code> and
+<code>cMobs.log</code></li>
+<li>fitted values <code>cMfit.log</code></li>
+<li>values of the cubic function at the roots (solutions) - these should
+be ≃ zero</li>
+<li>the residuals <code>cMres</code>, squared residuals
+<code>cMres2</code>, and squared differences from the mean
+<code>diffsq</code></li>
+</ul></li>
+<li>the total (<code>SST</code>) and residual (<code>SSE</code>)
+sums-of-squares</li>
+<li>the <code>r.squared</code> goodness of fit value</li>
+</ul>
+<p>The code below also outputs the optimised parameters as
+non-log<sub>10</sub>-transformed values for convenience.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># first retrieve optimised parameters from optim() results object</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>P <span class="ot">&lt;-</span> predOut<span class="sc">$</span>par</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co"># then use the calcSSE() function without restricting output to just SSE</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>calcOut <span class="ot">&lt;-</span> <span class="fu">calcSSE</span>(<span class="at">par=</span>P, <span class="at">data=</span>obs, <span class="at">justSSE =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">---- Output for dataset&quot;</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>          <span class="fu">substr</span>(infile,<span class="dv">1</span>,<span class="fu">str_locate</span>(infile,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>)<span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>          <span class="st">&quot;based in OPTIMISED parameter estimates ----</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="fu">print</span>(calcOut)</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co"># output non-log-transformed parameters as well</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>{rawpars <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span>calcOut<span class="sc">$</span>parameters</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>  <span class="fu">names</span>(rawpars) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;C1&quot;</span>,<span class="st">&quot;K1&quot;</span>,<span class="st">&quot;C2&quot;</span>,<span class="st">&quot;K2&quot;</span>,<span class="st">&quot;C3&quot;</span>,<span class="st">&quot;K3&quot;</span>); <span class="fu">print</span>(rawpars, <span class="at">digits=</span><span class="dv">4</span>)}</span></code></pre></div>
+<pre><code>##
+## ---- Output for dataset wpcu05b based in OPTIMISED parameter estimates ----
+## $parameters
+##      logC1      logK1      logC2      logK2      logC3      logK3
+## -1.6107206  7.3839742 -0.2935944  5.1015828  5.3156356 -2.8998928
+##
+## $data.table
+##      qMobs cMobs.log cMfit.log     y.at.root        cMres       diffsq       cMres2
+## 1  0.00315 -8.310514 -8.272440  1.496226e-07 -0.038073398 1.1545100381 1.449584e-03
+## 2  0.00315 -8.264321 -8.272440  1.496226e-07  0.008118880 1.0573782888 6.591621e-05
+## 3  0.00629 -7.971836 -7.920802  2.008326e-09 -0.051033666 0.5414065211 2.604435e-03
+## 4  0.00629 -7.806041 -7.920802  2.008326e-09  0.114760893 0.3249099845 1.317006e-02
+## 5  0.00943 -7.706859 -7.689381  1.829176e-08 -0.017477930 0.2216773603 3.054780e-04
+## 6  0.00943 -7.564633 -7.689381  1.829176e-08  0.124747094 0.1079787681 1.556184e-02
+## 7  0.01398 -7.554863 -7.430552  4.537565e-11 -0.124310989 0.1016530583 1.545322e-02
+## 8  0.01397 -7.497983 -7.431064  4.498171e-11 -0.066918580 0.0686180757 4.478096e-03
+## 9  0.01886 -7.222863 -7.199548  1.824740e-09 -0.023315083 0.0001734219 5.435931e-04
+## 10 0.01886 -7.186619 -7.199548  1.824740e-09  0.012929011 0.0024416515 1.671593e-04
+## 11 0.02513 -6.929593 -6.947124  2.482648e-08  0.017531526 0.0939052195 3.073544e-04
+## 12 0.02513 -6.927750 -6.947124  2.482648e-08  0.019374102 0.0950378910 3.753558e-04
+## 13 0.03140 -6.728391 -6.741511  9.540941e-09  0.013120089 0.2576999586 1.721367e-04
+## 14 0.03139 -6.682773 -6.741803  9.589225e-09  0.059029896 0.3060961993 3.484529e-03
+## 15 0.03766 -6.615288 -6.578819 -7.398722e-08 -0.036469498 0.3853231218 1.330024e-03
+## 16 0.03765 -6.563519 -6.579050 -7.466198e-08  0.015530352 0.4522736797 2.411918e-04
+## 17 0.05018 -6.346787 -6.342870 -1.548380e-12 -0.003917566 0.7907562743 1.534733e-05
+## 18 0.05018 -6.367948 -6.342870 -1.548380e-12 -0.025077913 0.7535705784 6.289017e-04
+##
+## $sums.of.squares
+##        SST        SSE
+## 6.71541009 0.06035422
+##
+## $stats
+## r.squared
+## 0.9910126
+##
+##        C1        K1        C2        K2        C3        K3
+## 2.451e-02 2.421e+07 5.086e-01 1.264e+05 2.068e+05 1.259e-03</code></pre>
+<p>The optimised parameters are interesting here; C1 = 0.0245 and C2 =
+0.509 mol/kg make sense given the range of qM values. Values for logK1 =
+7.38 and logK2 = 5.1 also make sense as they suggest strong adsorption
+of Cu<sup>2+</sup> to humic acid, something that is widely observed in
+the literature. In contrast, C3 = 206800 mol/kg which is impossibly
+high, but this is partially explained by logK3 = -2.9, representing very
+weak adsorption which actually wouldn't contribute to adsorbed
+Cu<sup>2+</sup> in the experimental range of metal ion additions. We
+might conclude that only two sites are needed to describe the data,
+which seems OK.</p>
+</div>
+<div id="plot-it" class="section level2">
+<h2>Plot it!</h2>
+<p>The final thing we would probably like to do is visualise the fit of
+the model to our data with a plot (Figure 5).</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">with</span>(calcOut<span class="sc">$</span>data.table, <span class="fu">plot</span>(qMobs, cMobs.log, </span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>             <span class="at">xlab=</span><span class="fu">expression</span>(<span class="fu">bold</span>(<span class="fu">paste</span>(<span class="st">&quot;Cu&quot;</span><span class="sc">^</span><span class="st">&quot;2+&quot;</span>,<span class="st">&quot; adsorbed (mol/kg)&quot;</span>))),</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>             <span class="at">ylab=</span><span class="fu">expression</span>(<span class="fu">bold</span>(<span class="fu">paste</span>(<span class="st">&quot;[Cu&quot;</span><span class="sc">^</span><span class="st">&quot;2+&quot;</span>,<span class="st">&quot;] (mol/L)&quot;</span>)))))</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">grid</span>();<span class="fu">with</span>(calcOut<span class="sc">$</span>data.table, <span class="fu">points</span>(qMobs, cMobs.log, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">bg=</span><span class="st">&quot;gold&quot;</span>))</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">with</span>(calcOut<span class="sc">$</span>data.table, <span class="fu">lines</span>(qMobs, cMfit.log, <span class="at">col=</span><span class="st">&quot;#300080b0&quot;</span>, <span class="at">lwd=</span><span class="dv">3</span>))</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="fu">rect</span>(<span class="fl">0.0375</span>,<span class="sc">-</span><span class="fl">8.35</span>,<span class="fl">0.0505</span>,<span class="sc">-</span><span class="fl">7.3</span>, <span class="at">col=</span><span class="st">&quot;#ffffffa0&quot;</span>, <span class="at">border=</span><span class="st">&quot;transparent&quot;</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste0</span>(<span class="st">&quot;R² = &quot;</span>, <span class="fu">signif</span>(calcOut<span class="sc">$</span>stats[[<span class="dv">1</span>]],<span class="dv">4</span>)<span class="sc">*</span><span class="dv">100</span>,<span class="st">&quot;%&quot;</span>), <span class="at">adj=</span><span class="fl">0.95</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>      <span class="at">side=</span><span class="dv">1</span>, <span class="at">line=</span><span class="sc">-</span><span class="fl">1.5</span>, <span class="at">font=</span><span class="dv">2</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>parz <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;C1&quot;</span>,<span class="st">&quot;logK1&quot;</span>,<span class="st">&quot;C2&quot;</span>,<span class="st">&quot;logK2&quot;</span>,<span class="st">&quot;C3&quot;</span>,<span class="st">&quot;logK3&quot;</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">2</span>,<span class="fu">length</span>(predOut<span class="sc">$</span>par),<span class="dv">2</span>)){</span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="fu">rev</span>(parz)[i], <span class="at">side=</span><span class="dv">1</span>, <span class="at">line=</span>(<span class="fl">0.5</span><span class="sc">-</span>i)<span class="sc">-</span><span class="fl">2.2</span>, <span class="at">adj=</span><span class="fl">0.8</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="fu">signif</span>(<span class="dv">10</span><span class="sc">^</span>(predOut<span class="sc">$</span>par[(<span class="fu">length</span>(predOut<span class="sc">$</span>par)<span class="sc">+</span><span class="dv">1</span>)<span class="sc">-</span>i]),<span class="dv">4</span>),</span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>        <span class="at">side=</span><span class="dv">1</span>, <span class="at">line=</span>(<span class="fl">0.5</span><span class="sc">-</span>i)<span class="sc">-</span><span class="fl">2.2</span>, <span class="at">adj=</span><span class="fl">0.95</span>)}</span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">length</span>(predOut<span class="sc">$</span>par),<span class="dv">2</span>)){</span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="fu">rev</span>(parz)[i], <span class="at">side=</span><span class="dv">1</span>, <span class="at">line=</span>(<span class="fl">0.5</span><span class="sc">-</span>i)<span class="sc">-</span><span class="fl">2.2</span>, <span class="at">adj=</span><span class="fl">0.8</span>)</span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="fu">signif</span>(predOut<span class="sc">$</span>par[(<span class="fu">length</span>(predOut<span class="sc">$</span>par)<span class="sc">+</span><span class="dv">1</span>)<span class="sc">-</span>i],<span class="dv">4</span>),</span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a>        <span class="at">side=</span><span class="dv">1</span>, <span class="at">line=</span>(<span class="fl">0.5</span><span class="sc">-</span>i)<span class="sc">-</span><span class="fl">2.2</span>, <span class="at">adj=</span><span class="fl">0.95</span>)}</span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#ffffffa0&quot;</span>, <span class="at">box.col=</span><span class="st">&quot;transparent&quot;</span>, <span class="at">inset=</span><span class="fl">0.02</span>, </span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Experimental observations&quot;</span>,<span class="st">&quot;Model predictions&quot;</span>),</span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">21</span>,<span class="cn">NA</span>), <span class="at">pt.bg=</span><span class="fu">c</span>(<span class="st">&quot;gold&quot;</span>,<span class="cn">NA</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="st">&quot;#300080b0&quot;</span>), <span class="at">pt.cex=</span><span class="fu">c</span>(<span class="fl">1.4</span>,<span class="cn">NA</span>),</span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a>       <span class="at">lwd=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">3</span>))</span></code></pre></div>
+<div class="figure">
+<img src="nonlinear_files/figure-html/plot-obs-fit-1.png" alt="Figure 5: Plot of log(cM) vs. qM for adsorption of Cu²⁺ onto Waimari Peat calcium humate from Waitaha/Canterbury, Aotearoa New Zealand. Points show observations, with the line showing predictions from a 3-site adsorption model fitted by minimising a residual sum-of-squares in log(cM)." width="576" />
+<p class="caption">
+Figure 5: Plot of log(cM) vs. qM for adsorption of Cu²⁺ onto Waimari
+Peat calcium humate from Waitaha/Canterbury, Aotearoa New Zealand.
+Points show observations, with the line showing predictions from a
+3-site adsorption model fitted by minimising a residual sum-of-squares
+in log(cM).
+</p>
+</div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># clunky base-R code used as I don&#39;t know how to do the same in ggplot 🙄</span></span></code></pre></div>
+<p> </p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>Press, W. H., Flannery, B. P., Teukolsky, S. A., &amp; Vetterling, W.
+T. (1986). <em>Numerical Recipes – the art of Scientific Computing</em>.
+Cambridge University Press.</p>
+<p>R Core Team. (2025). R: A language and environment for statistical
+computing. In (Version 4.5.1) R Foundation for Statistical Computing. <a
+href="https://www.R-project.org"
+target="_blank">https://www.R-project.org</a></p>
+<p>Rate, A. W. (1990). <em>Humic Acid Protonation, Metal Ion Binding,
+and Metal Complex Dissociation Kinetics</em> [Ph.D. Thesis, Lincoln
+University]. Lincoln, New Zealand. |<a
+href="https://researcharchive.lincoln.ac.nz/entities/publication/fb7e27b5-8641-4592-a01a-62a6929f7a19"
+target="_blank">thesis link</a>|</p>
+<p>Wickham H (2025). <code>stringr</code>: <em>Simple, Consistent
+Wrappers for Common String Operations</em>. <a
+href="https://doi.org/10.32614/CRAN.package.stringr"
+target="_blank">doi:10.32614/CRAN.package.stringr</a>, R package version
+1.5.2, <a href="https://CRAN.R-project.org/package=stringr"
+target="_blank">https://CRAN.R-project.org/package=stringr</a>.</p>
+<p> </p>
+</div>
+
+<!DOCTYPE html>
+
+<html>
+<body>
+<hr style="height: 2px; background-color: #003087;" />
+<p><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>. Currently using the free <a href="https://bootswatch.com/yeti/" target="_blank"><span style="font-family: monospace;">yeti</span> theme from Bootswatch</a>.</span></p>
+</body>
+</html>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
