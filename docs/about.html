@@ -11,11 +11,11 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-06-19" />
+<meta name="date" content="2025-11-27" />
 
 <title>RStudio for absolute beginners</title>
 
-<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -53,8 +53,9 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +66,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -413,6 +414,9 @@ $(document).ready(function () {
     <li>
       <a href="timeseries.html">Time series analysis</a>
     </li>
+    <li>
+      <a href="nonlinear.html">Non-linear regression examples</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -479,6 +483,16 @@ $(document).ready(function () {
     <li>
       <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
     </li>
+    <li class="dropdown-header">---- SHINY WEB APPS ----</li>
+    <li>
+      <a href="https://rateyatuwa.shinyapps.io/ENVT4461/">Simple calibration curve ↗</a>
+    </li>
+    <li>
+      <a href="https://rateyatuwa.shinyapps.io/FTIRlib/">FLOPP and FLOPP-e ATR-FTIR Libraries ↗</a>
+    </li>
+    <li>
+      <a href="https://rateyatuwa.shinyapps.io/RamanPlastLib/">SLOPP and SLOPP-e Raman Libraries ↗</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -530,7 +544,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">RStudio for absolute beginners</h1>
 <h3 class="subtitle">...or maybe just as a reminder</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-06-19</h4>
+<h4 class="date">2025-11-27</h4>
 
 </div>
 
@@ -540,6 +554,7 @@ $(document).ready(function () {
   font-size: 12pt;
 }
 </style>
+<p> </p>
 <div id="what-is-r" class="section level1">
 <h1>What is R?</h1>
 <p><strong>R</strong> is called a "<strong>statistical computing
@@ -595,6 +610,7 @@ Figure 1: The RStudio window with a very brief explanation of some
 different sub-panes.
 </p>
 </div>
+<p> </p>
 </div>
 <div id="three-things-we-really-need-to-know-about-using-r"
 class="section level2">
@@ -634,11 +650,12 @@ appears;</li>
 everything. A small error in our code will mean we get wrong, or no,
 results. For example, all <strong>R</strong> code is case-sensitive.
 Also, if we don't tell R where to look for things, it won't try anywhere
-else just in case we might have intended another location!<br /><a
+else just in case we might have intended another location!<br> <a
 href="https://statsandr.com/blog/top-10-errors-in-r/" target="_blank">Go
 here for a great page on common errors in <strong>R</strong> and how to
 fix them</a></li>
 </ol>
+<p> </p>
 </div>
 <div id="types-of-data-we-commonly-use-in-r" class="section level2">
 <h2>Types of data we commonly use in <strong>R</strong></h2>
@@ -662,19 +679,18 @@ Figure 2: Understanding simple R functions and output.
 </div>
 <p>We don't usually use R like this, but it's handy to know that we have
 a calculator handy if we need in in the <strong>R</strong> Console!</p>
-<table border=2 width="100%" cellpadding="5" style="border-collapse: collapse; width: 100%; border-color: #3F57B8;">
-<tr>
-<td>
+<div style="border: 3px solid #039; border-radius: 10px; 
+ background-color: #FFF6CC; padding: 15px;">
 <p><strong>R functions</strong></p>
 <p>This is also the place to introduce Functions in <strong>R</strong>.
-We just used a function -- to calculate a square root:
+We just used a function – to calculate a square root:
 <code>sqrt(731)</code>.</p>
 <p>An R function is identified by a <strong>name</strong> such as
 <code>sqrt</code>, <code>t.test</code> or <code>plot</code>, followed by
 <strong>arguments</strong> in parentheses <code>( )</code> (the
-parentheses can be empty, for example <code>help.start()</code> -- try
+parentheses can be empty, for example <code>help.start()</code> – try
 it!). We used the argument <code>731</code> in the <code>sqrt()</code>
-function -- some functions require several arguments, as you will see.
+function – some functions require several arguments, as you will see.
 Some arguments have default 'built-in' values.</p>
 <p>There are huge numbers of built-in functions in <strong>R</strong>
 which we can use after first installing <strong>R</strong>, "straight
@@ -692,11 +708,9 @@ commonly used package is <code>car</code>, the <u>c</u>ompanion to
 device. To use the functions in the <code>car</code> package we would
 load the library into our <strong>R</strong> session by running
 <code>library(car)</code>.</p>
-We can also write our own functions in <strong>R</strong> and we may
-show you examples of these as you progress through this course.
-</td>
-</tr>
-<table>
+<p>We can also write our own functions in <strong>R</strong> and we may
+show you examples of these as you progress through this course.</p>
+</div>
 <p>
  
 </p>
@@ -742,11 +756,11 @@ time.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># make a vector with a sequence of numbers from 2 to 80 in steps of 2</span></span>
 <span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">2</span>,<span class="dv">80</span>,<span class="dv">2</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>b</span></code></pre></div>
-<pre><code>##  [1]  2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58
-## [30] 60 62 64 66 68 70 72 74 76 78 80</code></pre>
+<pre><code>##  [1]  2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64
+## [33] 66 68 70 72 74 76 78 80</code></pre>
 <p>Notice that if we have a long vector, the number in square brackets
-at the beginning of each line tells us which item the line starts
-with.</p>
+at the beginning of each line tells us which item the line starts with
+(<em>i.e</em>. its index).</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co"># make a vector of the number 12 repeated 20 times</span></span>
 <span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">12</span>,<span class="dv">20</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>d</span></code></pre></div>
@@ -768,11 +782,7 @@ columns we want:</p>
 ## [4,]    8   18   28   38   48   58   68   78
 ## [5,]   10   20   30   40   50   60   70   80</code></pre>
 <p>By default we fill each column in order, but we can change this by
-using the <span
-style="font-family: monospace; background-color:#e8e8e8;">byrow
-= </span><span
-style="font-family: monospace; color:#600080; background-color:#e8e8e8;">TRUE</span>
-option.</p>
+using the <code>byrow = TRUE</code> option.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(b, <span class="at">ncol =</span> <span class="dv">8</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>m</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
@@ -803,7 +813,7 @@ that we <em>always</em> need the comma):</p>
 <strong>R</strong>. They are two-dimensional like matrices, with rows
 and columns, but the columns can contain different types of data such as
 numbers (integer or numeric), text (character), or categories (factor),
-<em>etc</em>..</p>
+<em>etc</em>.</p>
 <p>Data frame are one of the best ways to store "real" data which can
 contain information such as sample IDs, treatments, replicates,
 coordinates, categories, measurements, dates/times, <em>etc</em>. Let's
@@ -839,7 +849,7 @@ information) with two <code>levels</code> or categories,
 <p><strong>Data frames</strong> are a very common way of storing our
 data in the <strong>R</strong> environment. The rows of our data frame
 represent our <strong>observations</strong> or 'samples'. The columns of
-a data frame are the <strong>variables</strong> -- information about the
+a data frame are the <strong>variables</strong> – information about the
 samples which may be identifying information (character or categorical
 information), or measurements (usually numeric information such as
 counts or concentrations).</p>
@@ -851,6 +861,7 @@ data frame:</p>
 <pre><code>## [1] 2.34 4.56 3.45 5.67 6.54</code></pre>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>df[,<span class="dv">3</span>]</span></code></pre></div>
 <pre><code>## [1] 2.34 4.56 3.45 5.67 6.54</code></pre>
+<p> </p>
 </div>
 <div id="other-types-of-object-in-r" class="section level3">
 <h3>Other types of object in R</h3>
@@ -858,8 +869,9 @@ data frame:</p>
 Many of these are specialised to handle specific types of data, such as
 time series, spatial data, or raster images. One of the more common
 <strong>R</strong> objects is the <strong>list</strong>, which is a
-collection of different object types -- often if we save the output of a
+collection of different object types – often if we save the output of a
 function, it will be as an object of class <code>list</code>.</p>
+<p> </p>
 </div>
 </div>
 <div id="working-with-files" class="section level2">
@@ -884,8 +896,8 @@ button.</p></li>
 <li><p>With the RStudio <span
 style="background-color:#808080; color:white"> Files </span> pane
 already showing the files you are working with, click <span
-style="background-color:#808080; color:white;"> More </span>, then <span
-style="background-color:#808080; color:white;"> Set As Working
+style="background-color:#808080; color:white;"> More </span>,<br>then
+<span style="background-color:#808080; color:#FFF;"> Set As Working
 Directory </span>.</p></li>
 </ol>
 </div>
@@ -922,14 +934,9 @@ widely-used way to store tabular data such as found in an
 software.</p>
 <p><strong>R</strong> has a specific function for reading .csv files,
 <code>read.csv()</code>. If we know that our file contains categorical
-information present as text, we should also include the option <span
-style="font-family: monospace; background-color:#e8e8e8;">stringsAsFactors
-= </span><span
-style="font-family: monospace; color:#6000A0; background-color:#e8e8e8;">TRUE</span>
-(we can shorten <span
-style="font-family: monospace; color:#6000A0; background-color:#e8e8e8;">TRUE</span>
-to <span
-style="font-family: monospace; color:#6000A0; background-color:#e8e8e8;">T</span>).</p>
+information present as text, we should also include the option
+<code>stringsAsFactors = TRUE]</code> (we can shorten <code>TRUE</code>
+to <code>T</code>).</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&quot;df.csv&quot;</span>, <span class="at">stringsAsFactors =</span> T)</span>
 <span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a>df</span></code></pre></div>
 <pre><code>##       Name Group Value Count
@@ -948,6 +955,11 @@ the whole path. We can also read directly from an internet address:</p>
 second example above. We can do this because <code>file = </code> is the
 option <strong>R</strong> expects first in the <code>read.csv()</code>
 function.</p>
+<p>In general we can omit the option names in a function if we include
+the option values in the order that the function expects. It will help
+you remember what the code does, though, if you include the option
+names.</p>
+<p> </p>
 </div>
 <div id="saving-and-running-code-in-files" class="section level3">
 <h3>Saving and running code in files</h3>
@@ -1126,9 +1138,7 @@ papers</a>
 </tr>
 </tbody>
 </table>
-<p>
- 
-</p>
+<p> </p>
 </div>
 </div>
 
