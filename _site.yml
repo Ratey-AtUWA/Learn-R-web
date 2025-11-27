@@ -40,7 +40,7 @@ navbar:
           href: reg-multi.html
         - text: "Time series analysis"
           href: timeseries.html
-        - text: "Non-linear regression example"
+        - text: "Non-linear regression examples"
           href: nonlinear.html
     - text: "Maps"
       menu:
@@ -74,6 +74,13 @@ navbar:
           href: residuals.html
         - text: "Hydrus-1D cheatsheet"
           href: hydrus1d.html
+        - text: "---- SHINY WEB APPS ----"
+        - text: "Simple calibration curve ↗"
+          href: https://rateyatuwa.shinyapps.io/ENVT4461/
+        - text: "FLOPP and FLOPP-e ATR-FTIR Libraries ↗"
+          href: https://rateyatuwa.shinyapps.io/FTIRlib/
+        - text: "SLOPP and SLOPP-e Raman Libraries ↗"
+          href: https://rateyatuwa.shinyapps.io/RamanPlastLib/
     - text: "Reporting"
       menu:
         - text: "Resources for reporting"
