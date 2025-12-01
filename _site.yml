@@ -76,11 +76,11 @@ navbar:
           href: hydrus1d.html
         - text: "---- SHINY WEB APPS ----"
         - text: "Simple calibration curve ↗"
-          href: https://rateyatuwa.shinyapps.io/ENVT4461/
+          href: calib-redirect.html
         - text: "FLOPP and FLOPP-e ATR-FTIR Libraries ↗"
-          href: https://rateyatuwa.shinyapps.io/FTIRlib/
+          href: ftir-redirect.html
         - text: "SLOPP and SLOPP-e Raman Libraries ↗"
-          href: https://rateyatuwa.shinyapps.io/RamanPlastLib/
+          href: raman-redirect.html
     - text: "Reporting"
       menu:
         - text: "Resources for reporting"
@@ -96,7 +96,7 @@ navbar:
 
   right:
     - text: "School of Agriculture and Environment"
-      href: https://www.uwa.edu.au/schools/agriculture-and-environment
+      href: sage-redirect.html
 output:
   html_document:
     theme: yeti
