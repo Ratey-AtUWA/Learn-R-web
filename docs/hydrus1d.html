@@ -11,11 +11,11 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-06-30" />
+<meta name="date" content="2025-12-05" />
 
 <title>ENVT5503 Hydrus-1D Beginners` Guide</title>
 
-<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -58,8 +58,9 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -70,7 +71,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -491,6 +492,9 @@ div.tocify {
     <li>
       <a href="timeseries.html">Time series analysis</a>
     </li>
+    <li>
+      <a href="nonlinear.html">Non-linear regression examples</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -557,6 +561,16 @@ div.tocify {
     <li>
       <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
     </li>
+    <li class="dropdown-header">---- SHINY WEB APPS ----</li>
+    <li>
+      <a href="calib-redirect.html">Simple calibration curve ↗</a>
+    </li>
+    <li>
+      <a href="ftir-redirect.html">FLOPP and FLOPP-e ATR-FTIR Libraries ↗</a>
+    </li>
+    <li>
+      <a href="raman-redirect.html">SLOPP and SLOPP-e Raman Libraries ↗</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -586,7 +600,7 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
+  <a href="sage-redirect.html">School of Agriculture and Environment</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -608,7 +622,7 @@ div.tocify {
 <h1 class="title toc-ignore">ENVT5503 Hydrus-1D Beginners` Guide</h1>
 <h3 class="subtitle">Remediation of Soil and Groundwater</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-06-30</h4>
+<h4 class="date">2025-12-05</h4>
 
 </div>
 
@@ -970,7 +984,7 @@ dialog</a> - scroll to the right; <code>alpha</code> is at the end)</li>
 <p> </p>
 <div id="output-files" class="section level3">
 <h3>Output files</h3>
-<div class="tabwid"><style>.cl-e90dedaa{}.cl-e904fd12{font-family:'Consolas';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e904fd26{font-family:'Consolas';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e9088144{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-e908814e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-e9089ff8{width:2.362in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e908a002{width:5.512in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e908a003{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e908a00c{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e908a00d{width:2.362in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e908a00e{width:5.512in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e908a016{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e908a017{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-e90dedaa'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: The following HYDRUS-1D output files contain useful data.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-e9089ff8"><p class="cl-e9088144"><span class="cl-e904fd12">File name</span></p></th><th class="cl-e908a002"><p class="cl-e9088144"><span class="cl-e904fd12">Contents</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-e908a003"><p class="cl-e908814e"><span class="cl-e904fd26">Nod_Inf.out</span></p></td><td class="cl-e908a00c"><p class="cl-e908814e"><span class="cl-e904fd26">Separate data matrices  at selected `Print times` during simulation.</span><br><span class="cl-e904fd26">Useful columns: Depth, Conc(1..NS), Sorb(1..NS)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e908a00d"><p class="cl-e908814e"><span class="cl-e904fd26">Obs_Node.out</span></p></td><td class="cl-e908a00e"><p class="cl-e908814e"><span class="cl-e904fd26">Side-by side data matrices for each node depth.</span><br><span class="cl-e904fd26">Useful columns: time, theta, conc</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e908a016"><p class="cl-e908814e"><span class="cl-e904fd26">Solute1.out</span><br><span class="cl-e904fd26">(&amp; Solute2.out,...)</span></p></td><td class="cl-e908a017"><p class="cl-e908814e"><span class="cl-e904fd26">Single data matrix for each solute. Contains columns for time, fluxes and concentrations (including cumulative values) at start of flow path (Top), Root zone, end of flow path (Bot).</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-10fb6238{}.cl-10f0dc5a{font-family:'Consolas';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-10f0dc64{font-family:'Consolas';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-10f4eee4{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-10f4eef8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-10f50e24{width:2.362in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-10f50e2e{width:5.512in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-10f50e38{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-10f50e39{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-10f50e42{width:2.362in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-10f50e43{width:5.512in;background-color:transparent;vertical-align: top;border-bottom: 1pt solid rgba(255, 255, 255, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-10f50e44{width:2.362in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-10f50e4c{width:5.512in;background-color:rgba(239, 239, 239, 1.00);vertical-align: top;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(255, 255, 255, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-10fb6238'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: The following HYDRUS-1D output files contain useful data.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-10f50e24"><p class="cl-10f4eee4"><span class="cl-10f0dc5a">File name</span></p></th><th class="cl-10f50e2e"><p class="cl-10f4eee4"><span class="cl-10f0dc5a">Contents</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-10f50e38"><p class="cl-10f4eef8"><span class="cl-10f0dc64">Nod_Inf.out</span></p></td><td class="cl-10f50e39"><p class="cl-10f4eef8"><span class="cl-10f0dc64">Separate data matrices  at selected `Print times` during simulation.</span><br><span class="cl-10f0dc64">Useful columns: Depth, Conc(1..NS), Sorb(1..NS)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-10f50e42"><p class="cl-10f4eef8"><span class="cl-10f0dc64">Obs_Node.out</span></p></td><td class="cl-10f50e43"><p class="cl-10f4eef8"><span class="cl-10f0dc64">Side-by side data matrices for each node depth.</span><br><span class="cl-10f0dc64">Useful columns: time, theta, conc</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-10f50e44"><p class="cl-10f4eef8"><span class="cl-10f0dc64">Solute1.out</span><br><span class="cl-10f0dc64">(&amp; Solute2.out,...)</span></p></td><td class="cl-10f50e4c"><p class="cl-10f4eef8"><span class="cl-10f0dc64">Single data matrix for each solute. Contains columns for time, fluxes and concentrations (including cumulative values) at start of flow path (Top), Root zone, end of flow path (Bot).</span></p></td></tr></tbody></table></div>
 <p> </p>
 <p>More detail is available in the Hydrus-1D manual. We recommend the <a
 href="https://www.pc-progress.com/Downloads/Public_Lib_H1D/HYDRUS-1D_Tutorial_V1.00_2018.pdf"

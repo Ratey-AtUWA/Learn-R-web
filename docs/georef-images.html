@@ -11,11 +11,11 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-06-19" />
+<meta name="date" content="2025-12-05" />
 
 <title>Use geotagged jpeg images as map backgrounds</title>
 
-<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -53,8 +53,9 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +66,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -343,7 +344,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -358,7 +359,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -379,7 +380,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -394,7 +395,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -413,12 +414,15 @@ $(document).ready(function () {
     <li>
       <a href="timeseries.html">Time series analysis</a>
     </li>
+    <li>
+      <a href="nonlinear.html">Non-linear regression examples</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -445,7 +449,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -466,7 +470,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -479,12 +483,22 @@ $(document).ready(function () {
     <li>
       <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
     </li>
+    <li class="dropdown-header">---- SHINY WEB APPS ----</li>
+    <li>
+      <a href="calib-redirect.html">Simple calibration curve ↗</a>
+    </li>
+    <li>
+      <a href="ftir-redirect.html">FLOPP and FLOPP-e ATR-FTIR Libraries ↗</a>
+    </li>
+    <li>
+      <a href="raman-redirect.html">SLOPP and SLOPP-e Raman Libraries ↗</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Reporting
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -508,7 +522,7 @@ $(document).ready(function () {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
+  <a href="sage-redirect.html">School of Agriculture and Environment</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -531,7 +545,7 @@ $(document).ready(function () {
 backgrounds</h1>
 <h3 class="subtitle">Maps with better aerial photographs</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-06-19</h4>
+<h4 class="date">2025-12-05</h4>
 
 </div>
 
@@ -585,7 +599,7 @@ class="section level1">
 image</h1>
 <p>We use the <code>stars</code> package, which plays nicely with the
 <code>sf</code> package, to do most of the work (the <code>sf</code>
-package was introduced on <a href="maps.html">another page on maps in
+package was introduced on <a href="fmaps.html">another page on maps in
 <strong>R</strong></a>. The <code>read_stars()</code> function will find
 and use the information in the <code>.jpw</code> file without us
 specifying that file explicitly.</p>
@@ -622,10 +636,10 @@ function for this in the <code>stars</code> package:
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">print</span>(AF_rgb)</span></code></pre></div>
 <pre><code>## stars object with 2 dimensions and 1 attribute
 ## attribute(s), summary of first 1e+05 cells:
-##  EPSG32750_Date20230226_Lat-...
-##  Length:100000
-##  Class :character
-##  Mode  :character
+##  EPSG32750_Date20230226_Lat-... 
+##  Length:100000                  
+##  Class :character               
+##  Mode  :character               
 ## dimension(s):
 ##   from   to  offset   delta                refsys x/y
 ## x    1 1267  399868  0.5972 WGS 84 / UTM zone 50S [x]
