@@ -11,11 +11,11 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-06-19" />
+<meta name="date" content="2025-12-05" />
 
 <title>Statistical Relationships</title>
 
-<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -53,8 +53,9 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,7 +66,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -413,6 +414,9 @@ $(document).ready(function () {
     <li>
       <a href="timeseries.html">Time series analysis</a>
     </li>
+    <li>
+      <a href="nonlinear.html">Non-linear regression examples</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -479,6 +483,16 @@ $(document).ready(function () {
     <li>
       <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
     </li>
+    <li class="dropdown-header">---- SHINY WEB APPS ----</li>
+    <li>
+      <a href="calib-redirect.html">Simple calibration curve ↗</a>
+    </li>
+    <li>
+      <a href="ftir-redirect.html">FLOPP and FLOPP-e ATR-FTIR Libraries ↗</a>
+    </li>
+    <li>
+      <a href="raman-redirect.html">SLOPP and SLOPP-e Raman Libraries ↗</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -508,7 +522,7 @@ $(document).ready(function () {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
+  <a href="sage-redirect.html">School of Agriculture and Environment</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -530,7 +544,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Statistical Relationships</h1>
 <h3 class="subtitle">Multiple linear regression</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-06-19</h4>
+<h4 class="date">2025-12-05</h4>
 
 </div>
 
@@ -551,6 +565,18 @@ regression</a>
 </p>
 </div>
 <p> </p>
+<div
+style="border: 3px solid #08D; border-radius: 15px; background-color: #FFF6CC; padding: 15px;">
+<p><img src="images/HazDemon2.png" align="left"
+alt="demon hazard icon" /> <strong>NOTE:</strong> Many statisticians
+believe that stepwise regression (as described on this page) is
+<strong>not a valid statistical method</strong> – there are some good
+reasons for this, explained in this post: <a
+href="https://freerangestats.info/blog/2024/09/14/stepwise"
+target="_blank">Stepwise selection of variables in regression is
+Evil</a> (Ellis, 2024). So, <span style="color:red;"><strong>ENTER AT
+YOUR OWN RISK! </strong></span></p>
+</div>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>Another way we can improve the ability of a linear regression model,
@@ -1143,6 +1169,16 @@ minerals).</p></li>
 <p>Cohen, J. 1988. <em>Statistical Power Analysis for the Behavioral
 Sciences</em>, Second Edition. Erlbaum Associates, Hillsdale, NJ,
 USA.</p>
+<p>Ellis, P. (2024). <em>Stepwise selection of variables in regression
+is Evil.</em> In: Free Range Statistics, <a
+href="https://freerangestats.info/blog/2024/09/14/stepwise"
+target="_blank">https://freerangestats.info/blog/2024/09/14/stepwise</a>,
+accessed 2025-11-28.</p>
+<p>Hebbali, A. (2018). Collinearity Diagnostics, Model Fit and Variable
+Contribution. Vignette for R Package 'olsrr'. Retrieved 2018.04.05, from
+<a
+href="https://cran.r-project.org/web/packages/olsrr/vignettes/regression_diagnostics.html"
+target="_blank">https://cran.r-project.org/web/packages/olsrr/vignettes/regression_diagnostics.html</a>.</p>
 <p>Marmolejo-Rodríguez, A. J., Prego, R., Meyer-Willerer, A., Shumilin,
 E., &amp; Sapozhnikov, D. (2007). Rare earth elements in iron
 oxy-hydroxide rich sediments from the Marabasco River-Estuary System
@@ -1156,15 +1192,11 @@ eutrophic estuarine sediments receiving acid sulfate soil drainage.
 <em>Chemical Geology</em>, <strong>308-309</strong>, 60-73. <a
 href="https://doi.org/10.1016/j.chemgeo.2012.03.012"
 target="_blank">https://doi.org/10.1016/j.chemgeo.2012.03.012</a></p>
-<p>Hebbali, A. (2018). Collinearity Diagnostics, Model Fit and Variable
-Contribution. Vignette for R Package 'olsrr'. Retrieved 2018.04.05, from
-<a
-href="https://cran.r-project.org/web/packages/olsrr/vignettes/regression_diagnostics.html"
-target="_blank">https://cran.r-project.org/web/packages/olsrr/vignettes/regression_diagnostics.html</a>.</p>
 <p>Reimann, C., Filzmoser, P., Garrett, R.G., Dutter, R., (2008).
 <em>Statistical Data Analysis Explained: Applied Environmental
 Statistics with R</em>. John Wiley &amp; Sons, Chichester, England (see
 Chapter 16).</p>
+<p> </p>
 </div>
 
 <!DOCTYPE html>
