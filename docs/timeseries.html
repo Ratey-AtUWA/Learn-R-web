@@ -11,11 +11,11 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2025-09-12" />
+<meta name="date" content="2025-12-09" />
 
 <title>Time Series Analysis</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -59,8 +59,9 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -71,7 +72,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -504,6 +505,9 @@ div.tocify {
     <li>
       <a href="timeseries.html">Time series analysis</a>
     </li>
+    <li>
+      <a href="nonlinear.html">Non-linear regression examples</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -570,6 +574,16 @@ div.tocify {
     <li>
       <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
     </li>
+    <li class="dropdown-header">---- SHINY WEB APPS ----</li>
+    <li>
+      <a href="calib-redirect.html">Simple calibration curve ↗</a>
+    </li>
+    <li>
+      <a href="ftir-redirect.html">FLOPP and FLOPP-e ATR-FTIR Libraries ↗</a>
+    </li>
+    <li>
+      <a href="raman-redirect.html">SLOPP and SLOPP-e Raman Libraries ↗</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -599,7 +613,7 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://www.uwa.edu.au/schools/agriculture-and-environment">School of Agriculture and Environment</a>
+  <a href="sage-redirect.html">School of Agriculture and Environment</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -629,7 +643,7 @@ div.tocify {
 <h1 class="title toc-ignore">Time Series Analysis</h1>
 <h3 class="subtitle">Concepts using soil temperature data</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2025-09-12</h4>
+<h4 class="date">2025-12-09</h4>
 
 </div>
 
@@ -766,7 +780,7 @@ format win the actual <code>.csv</code> file.</p>
 ## 
 ## &#39;zoo&#39; series from 2014-04-01 to 2014-05-31 23:00:00
 ##   Data: num [1:1464] 20.1 19.8 19.6 19.2 19 ...
-##   Index:  POSIXct[1:1464], format: &quot;2014-04-01 00:00:00&quot; &quot;2014-04-01 01:00:00&quot; &quot;2014-04-01 02:00:00&quot; &quot;2014-04-01 03:00:00&quot; ...</code></pre>
+##   Index:  POSIXct[1:1464], format: &quot;2014-04-01 00:00:00&quot; &quot;2014-04-01 01:00:00&quot; &quot;2014-04-01 02:00:00&quot; ...</code></pre>
 <p>We can see that the column <code>Date</code> has now become
 <code>Index</code>, and it's correctly stored as date/time information,
 in a format called <code>POSIXct</code> (for more information, run
@@ -1443,7 +1457,7 @@ provide a starting point for examining ARIMA models. The output of the
 model the algorithm found, shown as <code>ARIMA(p,d,q)</code>. The
 <code>p</code>,<code>d</code>,<code>q</code> are defined in Table 1
 below:</p>
-<div class="tabwid"><style>.cl-04134dce{}.cl-0402a87a{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-0402a8b6{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-0406cc52{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-0406e228{width:0.787in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e232{width:2.756in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e23c{width:2.756in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e23d{width:0.787in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e23e{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e23f{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e246{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e250{width:2.756in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e251{width:2.756in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e25a{width:0.787in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e264{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0406e265{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-04134dce'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Definition of p, d, and q parameters in ARIMA time series forecasting models.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-0406e228"><p class="cl-0406cc52"><span class="cl-0402a87a">Parameter</span></p></th><th class="cl-0406e232"><p class="cl-0406cc52"><span class="cl-0402a87a">Meaning</span></p></th><th class="cl-0406e23c"><p class="cl-0406cc52"><span class="cl-0402a87a">Informed by</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-0406e23d"><p class="cl-0406cc52"><span class="cl-0402a8b6">p</span></p></td><td class="cl-0406e23e"><p class="cl-0406cc52"><span class="cl-0402a8b6">The number of autoregressive predictors</span></p></td><td class="cl-0406e23f"><p class="cl-0406cc52"><span class="cl-0402a8b6">Partial autocorrelation</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0406e246"><p class="cl-0406cc52"><span class="cl-0402a8b6">d</span></p></td><td class="cl-0406e250"><p class="cl-0406cc52"><span class="cl-0402a8b6">The number of differencing steps</span></p></td><td class="cl-0406e251"><p class="cl-0406cc52"><span class="cl-0402a8b6">Stationarity tests ± differencing</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0406e25a"><p class="cl-0406cc52"><span class="cl-0402a8b6">q</span></p></td><td class="cl-0406e264"><p class="cl-0406cc52"><span class="cl-0402a8b6">The number of moving average predictors</span></p></td><td class="cl-0406e265"><p class="cl-0406cc52"><span class="cl-0402a8b6">Stationarity tests ± moving averages</span></p></td></tr></tbody></table></div>
+<div class="tabwid"><style>.cl-6d3e5d46{}.cl-6d3106a0{font-family:'Arial';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-6d3106be{font-family:'Arial';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-6d36f448{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:2pt;padding-right:2pt;line-height: 1;background-color:transparent;}.cl-6d371f22{width:0.787in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6d371f2c{width:2.756in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6d371f36{width:2.756in;background-color:rgba(207, 207, 207, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 1pt solid rgba(181, 195, 223, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6d371f37{width:0.787in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6d371f40{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6d371f41{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6d371f4a{width:0.787in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6d371f4b{width:2.756in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6d371f4c{width:2.756in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6d371f54{width:0.787in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(181, 195, 223, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6d371f55{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(255, 255, 255, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-6d371f5e{width:2.756in;background-color:rgba(239, 239, 239, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(181, 195, 223, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1pt solid rgba(255, 255, 255, 1.00);border-right: 1pt solid rgba(181, 195, 223, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-6d3e5d46'><caption style="display:table-caption;margin:0pt;text-align:left;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:0pt;padding-bottom:6pt;padding-left:0pt;padding-right:0pt;line-height: 1;background-color:transparent;"><span>Table 1: Definition of p, d, and q parameters in ARIMA time series forecasting models.</span></caption><thead><tr style="overflow-wrap:break-word;"><th class="cl-6d371f22"><p class="cl-6d36f448"><span class="cl-6d3106a0">Parameter</span></p></th><th class="cl-6d371f2c"><p class="cl-6d36f448"><span class="cl-6d3106a0">Meaning</span></p></th><th class="cl-6d371f36"><p class="cl-6d36f448"><span class="cl-6d3106a0">Informed by</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-6d371f37"><p class="cl-6d36f448"><span class="cl-6d3106be">p</span></p></td><td class="cl-6d371f40"><p class="cl-6d36f448"><span class="cl-6d3106be">The number of autoregressive predictors</span></p></td><td class="cl-6d371f41"><p class="cl-6d36f448"><span class="cl-6d3106be">Partial autocorrelation</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-6d371f4a"><p class="cl-6d36f448"><span class="cl-6d3106be">d</span></p></td><td class="cl-6d371f4b"><p class="cl-6d36f448"><span class="cl-6d3106be">The number of differencing steps</span></p></td><td class="cl-6d371f4c"><p class="cl-6d36f448"><span class="cl-6d3106be">Stationarity tests ± differencing</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-6d371f54"><p class="cl-6d36f448"><span class="cl-6d3106be">q</span></p></td><td class="cl-6d371f55"><p class="cl-6d36f448"><span class="cl-6d3106be">The number of moving average predictors</span></p></td><td class="cl-6d371f5e"><p class="cl-6d36f448"><span class="cl-6d3106be">Stationarity tests ± moving averages</span></p></td></tr></tbody></table></div>
 <p> </p>
 <p>A periodic or <em>seasonal</em> ARIMA model (often called SARIMA) has
 a more complex specification: <br> <code>ARIMA(p,d,q)(P,D,Q)(n)</code> ,
@@ -1470,8 +1484,10 @@ period/season.</p>
 ## sigma^2 estimated as 0.1184:  log likelihood = -517.87,  aic = 1047.73
 ## 
 ## Training set error measures:
-##                        ME      RMSE       MAE         MPE     MAPE     MASE          ACF1
-## Training set -0.005215705 0.3441525 0.2467179 -0.08670514 1.716531 0.980305 -0.0001019764
+##                        ME      RMSE       MAE         MPE     MAPE     MASE
+## Training set -0.005215705 0.3441525 0.2467179 -0.08670514 1.716531 0.980305
+##                       ACF1
+## Training set -0.0001019764
 ##                 2.5 %     97.5 %
 ## ar1        0.98017359  0.9963265
 ## ma1        0.04074353  0.1438382
@@ -1512,8 +1528,10 @@ parameter is useful or not).</p>
 ## sigma^2 estimated as 0.09073:  log likelihood = -355.68,  aic = 725.35
 ## 
 ## Training set error measures:
-##                       ME    RMSE       MAE        MPE     MAPE      MASE         ACF1
-## Training set -0.01572894 0.30122 0.2169846 -0.1427709 1.504911 0.8621632 0.0006582706
+##                       ME    RMSE       MAE        MPE     MAPE      MASE
+## Training set -0.01572894 0.30122 0.2169846 -0.1427709 1.504911 0.8621632
+##                      ACF1
+## Training set 0.0006582706
 ##                2.5 %      97.5 %
 ## ar1        0.9928401  1.00080710
 ## ma1       -0.1990623 -0.09412079
@@ -1722,8 +1740,10 @@ type using the <code>model =</code> option!</p>
 <p>The easiest option (and the one used here) is to specify
 <code>model = "ZZZ"</code>, which chooses the type of model
 automatically.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a>soiltemp_T15_ets <span class="ot">&lt;-</span> <span class="fu">ets</span>(soiltemp_T15_xts, <span class="at">model =</span><span class="st">&quot;ZZZ&quot;</span>)</span>
-<span id="cb64-2"><a href="#cb64-2" tabindex="-1"></a><span class="fu">summary</span>(soiltemp_T15_ets)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a>soiltemp_T15_ets <span class="ot">&lt;-</span> <span class="fu">ets</span>(soiltemp_T15_xts, <span class="at">model =</span><span class="st">&quot;ZZZ&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in ets(soiltemp_T15_xts, model = &quot;ZZZ&quot;): Non-integer seasonal period.
+## Only non-seasonal models will be considered.</code></pre>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a><span class="fu">summary</span>(soiltemp_T15_ets)</span></code></pre></div>
 <pre><code>## ETS(A,Ad,N) 
 ## 
 ## Call:
@@ -1744,18 +1764,20 @@ automatically.</p>
 ## 7588.660 7588.718 7620.394 
 ## 
 ## Training set error measures:
-##                        ME      RMSE       MAE         MPE     MAPE       MASE      ACF1
-## Training set -0.003041526 0.3475639 0.2472475 -0.03856289 1.719534 0.01664266 0.0146761</code></pre>
+##                        ME      RMSE       MAE         MPE     MAPE       MASE
+## Training set -0.003041526 0.3475639 0.2472475 -0.03856289 1.719534 0.01664266
+##                   ACF1
+## Training set 0.0146761</code></pre>
 <p>In this case the <code>ets()</code> function has automatically
 selected a model (<code>ETS(A,Ad,N)</code>) with additive trend and
 errors, but no seasonality. We don't do it here, but we could manually
 select a model with seasonality included.</p>
 <p>The default plot function in R can plot forecasts from exponential
 smoothing models too (Figure 19).</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">forecast</span>(soiltemp_T15_ets, <span class="at">h=</span><span class="dv">168</span>), <span class="at">col=</span><span class="dv">2</span>, <span class="at">fcol=</span><span class="dv">5</span>, </span>
-<span id="cb66-2"><a href="#cb66-2" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Time since start (s)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Temperature (\u00B0C)&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb66-3"><a href="#cb66-3" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">names</span>(soiltemp_T15_ets<span class="sc">$</span>par),<span class="dv">3</span>,<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">1</span>), <span class="at">adj =</span> <span class="fl">0.7</span>, <span class="at">col =</span> <span class="dv">5</span>, <span class="at">font =</span> <span class="dv">3</span>)</span>
-<span id="cb66-4"><a href="#cb66-4" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">signif</span>(soiltemp_T15_ets<span class="sc">$</span>par,<span class="dv">3</span>),<span class="dv">3</span>,<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">1</span>), <span class="at">adj =</span> <span class="fl">0.8</span>, <span class="at">col =</span> <span class="dv">5</span>, <span class="at">font =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">forecast</span>(soiltemp_T15_ets, <span class="at">h=</span><span class="dv">168</span>), <span class="at">col=</span><span class="dv">2</span>, <span class="at">fcol=</span><span class="dv">5</span>, </span>
+<span id="cb68-2"><a href="#cb68-2" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Time since start (s)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Temperature (\u00B0C)&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb68-3"><a href="#cb68-3" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">names</span>(soiltemp_T15_ets<span class="sc">$</span>par),<span class="dv">3</span>,<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">1</span>), <span class="at">adj =</span> <span class="fl">0.7</span>, <span class="at">col =</span> <span class="dv">5</span>, <span class="at">font =</span> <span class="dv">3</span>)</span>
+<span id="cb68-4"><a href="#cb68-4" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">signif</span>(soiltemp_T15_ets<span class="sc">$</span>par,<span class="dv">3</span>),<span class="dv">3</span>,<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">1</span>), <span class="at">adj =</span> <span class="fl">0.8</span>, <span class="at">col =</span> <span class="dv">5</span>, <span class="at">font =</span> <span class="dv">3</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="timeseries_files/figure-html/ets-forecast-1.png" alt="Figure 19: Forecast of soil temperature based on an automatically selected exponential smoothing model without a seasonal component." width="65%" />
 <p class="caption">
@@ -1767,7 +1789,7 @@ selected exponential smoothing model without a seasonal component.
 <p>Exponential smoothing also <u>decomposes</u> time series in a
 different way, into <em>level</em> and <em>slope</em> components (Figure
 20).</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_T15_ets, <span class="at">col=</span><span class="dv">4</span>, <span class="at">xlab=</span><span class="st">&quot;Time since start (s)&quot;</span>) <span class="co"># ETS decomposition plots</span></span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_T15_ets, <span class="at">col=</span><span class="dv">4</span>, <span class="at">xlab=</span><span class="st">&quot;Time since start (s)&quot;</span>) <span class="co"># ETS decomposition plots</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="timeseries_files/figure-html/ets-decomposition-1.png" alt="Figure 20: Exponential smoothing time series decomposition plots for soil temperature data." width="65%" />
 <p class="caption">
