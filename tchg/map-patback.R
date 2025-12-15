@@ -1,1 +1,1 @@
-praise("Well done! The map you just ${created} is ${adjective}!")
+praise::praise("Well done! The map you just ${created} is ${adjective}!")
