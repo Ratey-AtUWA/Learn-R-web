@@ -778,7 +778,7 @@ true.</p>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>corr_table <span class="ot">&lt;-</span> <span class="fu">corTest</span>(sv2017[, <span class="fu">c</span>(<span class="st">&quot;pH&quot;</span>,<span class="st">&quot;Al&quot;</span>,<span class="st">&quot;Ca&quot;</span>,<span class="st">&quot;Fe&quot;</span>,<span class="st">&quot;Cd&quot;</span>,<span class="st">&quot;Pb&quot;</span>,<span class="st">&quot;Zn&quot;</span>)], </span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>                    <span class="at">method=</span><span class="st">&quot;spearman&quot;</span>)</span>
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">print</span>(corr_table)</span></code></pre></div>
-<pre><code>## Call:corTest(x = sv2017[c(&quot;pH&quot;, &quot;Al&quot;, &quot;Ca&quot;, &quot;Fe&quot;, &quot;Cd&quot;, &quot;Pb&quot;, &quot;Zn&quot;)],
+<pre><code>## Call:corTest(x = sv2017[, c(&quot;pH&quot;, &quot;Al&quot;, &quot;Ca&quot;, &quot;Fe&quot;, &quot;Cd&quot;, &quot;Pb&quot;, &quot;Zn&quot;)],
 ##     method = &quot;spearman&quot;)
 ## Correlation matrix
 ##      pH   Al   Ca   Fe   Cd   Pb   Zn
