@@ -346,7 +346,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -361,7 +361,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -382,7 +382,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -397,7 +397,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -424,7 +424,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -451,7 +451,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -472,7 +472,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -500,7 +500,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Reporting
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -598,7 +598,7 @@ significant spatial clustering of similar values (of the variable
 considered) around each observation. We will look at both Global and
 Local Moran's I.</p>
 <p>This Chapter will make simple maps with added data (see <a
-href="mapData.html">mapData.html</a> if you haven't already), and help
+href="maps.html">maps.html</a> if you haven't already), and help
 you to understand and analyse <strong>spatial autocorrelation</strong>
 using <strong>R</strong>.</p>
 <p>We will use a subset of the National Geochemical Survey of Australia
@@ -624,7 +624,7 @@ shown in Table 1.</p>
 </div>
 <div id="making-a-base-map" class="section level2">
 <h2>Making a base map</h2>
-<p>We saw how to do this in <a href="mapData.html">mapData.html</a>. The
+<p>We saw how to do this in <a href="maps.html">maps.html</a>. The
 comments in the code below should help to remind us what the purpose of
 the code is.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># define coordinate reference systems</span></span>
@@ -884,16 +884,16 @@ random with no spatial correlation.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>ngsaWA_nbwt <span class="ot">&lt;-</span> <span class="fu">knearneigh</span>(<span class="at">x=</span>ngsaWAsf, <span class="at">k=</span><span class="dv">8</span>) <span class="sc">|&gt;</span> <span class="fu">knn2nb</span>() <span class="sc">|&gt;</span> <span class="fu">nb2listw</span>()</span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>ngsaWAsf<span class="sc">$</span>As.log <span class="ot">&lt;-</span> <span class="fu">log10</span>(ngsaWAsf<span class="sc">$</span>As.AR)</span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>(mI <span class="ot">&lt;-</span> <span class="fu">moran.test</span>(ngsaWAsf<span class="sc">$</span>As.log, ngsaWA_nbwt)) <span class="co"># ; str(mI) # if needed</span></span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  Moran I test under randomisation
-## 
-## data:  ngsaWAsf$As.log  
-## weights: ngsaWA_nbwt    
-## 
+##
+## data:  ngsaWAsf$As.log
+## weights: ngsaWA_nbwt
+##
 ## Moran I statistic standard deviate = 17.055, p-value &lt; 2.2e-16
 ## alternative hypothesis: greater
 ## sample estimates:
-## Moran I statistic       Expectation          Variance 
+## Moran I statistic       Expectation          Variance
 ##      0.4604199496     -0.0032894737      0.0007392565</code></pre>
 <p>The <code>Expectation</code> in the output is the estimated value of
 Moran's I if the null hypothesis is correct. We can try running the test
