@@ -351,7 +351,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -366,7 +366,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -387,7 +387,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -402,7 +402,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -429,7 +429,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -456,7 +456,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -477,7 +477,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -505,7 +505,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Reporting
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -790,7 +790,7 @@ search interval using the option <code>extendInt = "yes"</code>.</li>
 <span id="cb1-63"><a href="#cb1-63" tabindex="-1"></a>}</span></code></pre></div>
 <p>Check our functions!</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;The object &#39;fcubic&#39; is a&quot;</span>, <span class="fu">class</span>(fcubic), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>);<span class="fu">cat</span>(<span class="st">&quot;The object &#39;calcSSE&#39; is a&quot;</span>, <span class="fu">class</span>(calcSSE))</span></code></pre></div>
-<pre><code>## The object &#39;fcubic&#39; is a function 
+<pre><code>## The object &#39;fcubic&#39; is a function
 ## The object &#39;calcSSE&#39; is a function</code></pre>
 <p>Now we need some inputs:</p>
 <ul>
@@ -818,7 +818,7 @@ which would make no sense.</li>
 ##  $ M.add : num  3.15e-07 3.15e-07 6.29e-07 6.29e-07 9.43e-07 ...
 ##  $ VT    : num  0.02 0.02 0.02 0.02 0.02 0.02 0.02 0.02 0.02 0.02 ...
 ##  $ massHA: num  1e-04 1e-04 1e-04 1e-04 1e-04 1e-04 1e-04 1e-04 1e-04 1e-04 ...
-##    logC1    logK1    logC2    logK2    logC3    logK3 
+##    logC1    logK1    logC2    logK2    logC3    logK3
 ## 0.301030 4.845098 1.477121 3.602060 2.602060 2.301030</code></pre>
 <p> </p>
 </div>
@@ -845,22 +845,22 @@ don't supply derivative (gradient) function(s).)</p>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">-------- OPTIMISATION by Nelder-Mead SIMPLEX method for&quot;</span>,</span>
 <span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>            <span class="fu">substr</span>(infile,<span class="dv">1</span>,<span class="fu">str_locate</span>(infile,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>)<span class="sc">-</span><span class="dv">1</span>),<span class="st">&quot;--------</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
 <span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="fu">print</span>(predOut)}</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## -------- OPTIMISATION by Nelder-Mead SIMPLEX method for wpcu05b --------
 ## $par
-##      logC1      logK1      logC2      logK2      logC3      logK3 
-## -1.6107206  7.3839742 -0.2935944  5.1015828  5.3156356 -2.8998928 
-## 
+##      logC1      logK1      logC2      logK2      logC3      logK3
+## -1.6107206  7.3839742 -0.2935944  5.1015828  5.3156356 -2.8998928
+##
 ## $value
 ## [1] 0.06035422
-## 
+##
 ## $counts
-## function gradient 
-##      555       NA 
-## 
+## function gradient
+##      555       NA
+##
 ## $convergence
 ## [1] 0
-## 
+##
 ## $message
 ## NULL</code></pre>
 <p>The output of <code>optim()</code> above shows us the best-fit values
@@ -909,12 +909,12 @@ non-log<sub>10</sub>-transformed values for convenience.</p>
 <span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co"># output non-log-transformed parameters as well</span></span>
 <span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>{rawpars <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span>calcOut<span class="sc">$</span>parameters</span>
 <span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  <span class="fu">names</span>(rawpars) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;C1&quot;</span>,<span class="st">&quot;K1&quot;</span>,<span class="st">&quot;C2&quot;</span>,<span class="st">&quot;K2&quot;</span>,<span class="st">&quot;C3&quot;</span>,<span class="st">&quot;K3&quot;</span>); <span class="fu">print</span>(rawpars, <span class="at">digits=</span><span class="dv">4</span>)}</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## ---- Output for dataset wpcu05b based in OPTIMISED parameter estimates ----
 ## $parameters
-##      logC1      logK1      logC2      logK2      logC3      logK3 
-## -1.6107206  7.3839742 -0.2935944  5.1015828  5.3156356 -2.8998928 
-## 
+##      logC1      logK1      logC2      logK2      logC3      logK3
+## -1.6107206  7.3839742 -0.2935944  5.1015828  5.3156356 -2.8998928
+##
 ## $data.table
 ##      qMobs cMobs.log cMfit.log     y.at.root        cMres       diffsq       cMres2
 ## 1  0.00315 -8.310514 -8.272440  1.496226e-07 -0.038073398 1.1545100381 1.449584e-03
@@ -935,16 +935,16 @@ non-log<sub>10</sub>-transformed values for convenience.</p>
 ## 16 0.03765 -6.563519 -6.579050 -7.466198e-08  0.015530352 0.4522736797 2.411918e-04
 ## 17 0.05018 -6.346787 -6.342870 -1.548380e-12 -0.003917566 0.7907562743 1.534733e-05
 ## 18 0.05018 -6.367948 -6.342870 -1.548380e-12 -0.025077913 0.7535705784 6.289017e-04
-## 
+##
 ## $sums.of.squares
-##        SST        SSE 
-## 6.71541009 0.06035422 
-## 
+##        SST        SSE
+## 6.71541009 0.06035422
+##
 ## $stats
-## r.squared 
-## 0.9910126 
-## 
-##        C1        K1        C2        K2        C3        K3 
+## r.squared
+## 0.9910126
+##
+##        C1        K1        C2        K2        C3        K3
 ## 2.451e-02 2.421e+07 5.086e-01 1.264e+05 2.068e+05 1.259e-03</code></pre>
 <p>The optimised parameters are interesting here; C1 = 0.0245 and C2 =
 0.509 mol/kg make sense given the range of qM values. Values for logK1 =
@@ -1151,28 +1151,28 @@ added.</p>
 <span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>{<span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">-------- OPTIMISATION by Nelder-Mead SIMPLEX method for&quot;</span>,</span>
 <span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>          <span class="fu">substr</span>(infile,<span class="dv">1</span>,<span class="fu">str_locate</span>(infile,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>)<span class="sc">-</span><span class="dv">1</span>),<span class="st">&quot;--------</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
 <span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="fu">print</span>(predOut2)}</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## -------- OPTIMISATION by Nelder-Mead SIMPLEX method for ktestdata --------
 ## $par
-##        kmu       ksig       Cmax 
-## -3.3354455  1.0385708  0.4670109 
-## 
+##        kmu       ksig       Cmax
+## -3.3354455  1.0385708  0.4670109
+##
 ## $value
 ## [1] 0.001215944
-## 
+##
 ## $counts
-## function gradient 
-##      260       NA 
-## 
+## function gradient
+##      260       NA
+##
 ## $convergence
 ## [1] 0
-## 
+##
 ## $message
 ## NULL</code></pre>
 <p>The optimisation converged (code <span
 style="background-color:#f5f5f5;
 font-family:monospace">0</span>), with <span
-style="background-color:#f5f5f5; font-family:monospace"> 555</span>
+style="background-color:#f5f5f5; font-family:monospace"> 260</span>
 calls to the <code>flogk()</code> function which codes the model
 equation.</p>
 <div id="more-detailed-lognormal-model-output" class="section level2">
@@ -1183,15 +1183,15 @@ equation.</p>
 <span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>calcOut2<span class="sc">$</span>data.table[,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>] <span class="ot">&lt;-</span> calcOut2<span class="sc">$</span>data.table[,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>] <span class="sc">+</span> Czero</span>
 <span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">-------- RESULTS for&quot;</span>,</span>
 <span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>          <span class="fu">substr</span>(infile,<span class="dv">1</span>,<span class="fu">str_locate</span>(infile,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>)<span class="sc">-</span><span class="dv">1</span>),<span class="st">&quot;from OPTIMISED parameter estimates --------</span><span class="sc">\n</span><span class="st">&quot;</span>))</span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ## -------- RESULTS for ktestdata from OPTIMISED parameter estimates --------</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># output condensed! there must be a more efficient way to do this 8^)</span></span>
 <span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>{<span class="fu">print</span>(calcOut2[[<span class="fu">c</span>(<span class="dv">1</span>)]]);<span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>);<span class="fu">print</span>(<span class="fu">head</span>(calcOut2[[<span class="dv">2</span>]]));<span class="fu">cat</span>(<span class="st">&quot;.</span><span class="sc">\n</span><span class="st">.</span><span class="sc">\n</span><span class="st">.</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">tail</span>(calcOut2[[<span class="dv">2</span>]]));<span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>);<span class="fu">print</span>(calcOut2[[<span class="fu">c</span>(<span class="dv">3</span>)]]);<span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="fu">print</span>(calcOut2[[<span class="fu">c</span>(<span class="dv">4</span>)]])}</span></code></pre></div>
-<pre><code>##        kmu       ksig       Cmax 
-## -3.3354455  1.0385708  0.4670109 
-## 
+<pre><code>##        kmu       ksig       Cmax
+## -3.3354455  1.0385708  0.4670109
+##
 ##        t     Ct      Cfit         Cerr          Cres     diffsq        Cres2
 ## 1 0.1353 0.4318 0.4337114 1.908196e-17 -0.0019114067 0.03510789 3.653476e-06
 ## 2 0.1467 0.4344 0.4340285 1.908196e-17  0.0003715336 0.03414032 1.380372e-07
@@ -1209,11 +1209,11 @@ equation.</p>
 ## 98  343.2 0.8912 0.8886433 0.000000e+00  0.0025566748 0.07399978 6.536586e-06
 ## 99  372.1 0.8992 0.8898305 0.000000e+00  0.0093695348 0.07841624 8.778818e-05
 ## 100 403.4 0.8899 0.8908701 0.000000e+00 -0.0009700801 0.07329419 9.410554e-07
-## 
-##         SST         SSE 
-## 2.830983026 0.001215944 
-## 
-## r.squared 
+##
+##         SST         SSE
+## 2.830983026 0.001215944
+##
+## r.squared
 ## 0.9995705</code></pre>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a> <span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.7</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  <span class="fu">with</span>(calcOut2<span class="sc">$</span>data.table, <span class="fu">plot</span>(t, Ct, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">cex=</span><span class="fl">1.4</span>, <span class="at">bg=</span><span class="st">&quot;#FFD700A0&quot;</span>, <span class="at">log=</span><span class="st">&quot;x&quot;</span>))</span>
