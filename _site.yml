@@ -42,6 +42,8 @@ navbar:
           href: timeseries.html
         - text: "Non-linear regression examples"
           href: nonlinear.html
+        - text: "Calibration curves and prediction intervals"
+          href: prediction-intervals.html
     - text: "Maps"
       menu:
         - text: "Map data with tile backgrounds"
