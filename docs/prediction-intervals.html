@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2026-06-02" />
+<meta name="date" content="2026-10-03" />
 
 <title>Prediction intervals in regression</title>
 
@@ -344,7 +344,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -359,7 +359,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -380,7 +380,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -395,7 +395,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -425,7 +425,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -452,7 +452,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -473,7 +473,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -501,7 +501,7 @@ $(document).ready(function () {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Reporting
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -548,7 +548,7 @@ $(document).ready(function () {
 <h3 class="subtitle">The importance of R² in linear measurement
 calibration</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2026-06-02</h4>
+<h4 class="date">2026-10-03</h4>
 
 </div>
 
@@ -566,13 +566,15 @@ calibration should theoretically be a linear function of UV-vis
 absorbance dependent on analyte concentration, based on the
 <a href="https://chem.libretexts.org/Bookshelves/Physical_and_Theoretical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Spectroscopy/Electronic_Spectroscopy/Electronic_Spectroscopy_Basics/The_Beer-Lambert_Law" target="_blank">Beer-Lambert
 Law</a> (Clark, n.d.). The specific method this example relates to is
-the determination of phosphate in water by the ascorbic acid-antimonyl-molybdate
-(&ldquo;molybdenum blue&rdquo;) colour reaction, first described by
+the determination of phosphate in water by the ascorbic
+acid-antimonyl-molybdate (“molybdenum blue”) colour reaction, first
+described by
 <a href="https://doi.org/10.1016/S0003-2670(00)88444-5" target="_blank">Murphy
 and Riley (1962)</a>. The molybdate reagent reacts with free phosphate
-ions in water in the presence of a reducing agent (ascorbic acid plus antimonyl
-compound) to produce a blue-coloured complex, the absorbance of which is
-measured at about 880nm and which is linearly related to phosphate concentration.</p>
+ions in water in the presence of a reducing agent (ascorbic acid plus
+antimonyl compound) to produce a blue-coloured complex, the absorbance
+of which is measured at about 882 nm and which is linearly related to
+phosphate concentration.</p>
 <p>We argue that only r-squared &gt; 0.999 is likely to give acceptable
 prediction intervals when the calibration line ("curve") is interpolated
 to calculate phosphate concentration in unknown water samples. Let's see
@@ -597,10 +599,11 @@ confidence intervals, and 95% prediction intervals. The Beer-Lambert Law
 has absorbance dependent on concentration but, to show the prediction
 intervals, it makes sense to plot concentration as a function of
 absorbance.</p>
-
 <details>
-<summary><span style="background-color:#cef;">The plotting code is quite long! - Click here to show / hide...</span></summary>
-
+<summary>
+<span style="background-color:#cef;">The plotting code is quite long! -
+Click here to show / hide...</span>
+</summary>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>namz <span class="ot">&lt;-</span> <span class="fu">colnames</span>(clines)[<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>]</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># make a data frame containing a sequence of concentrations to plot intervals</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>newAbs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Abs.99=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.1</span>,<span class="fl">0.66</span>,<span class="fl">0.01</span>),<span class="at">Abs.9990=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.1</span>,<span class="fl">0.66</span>,<span class="fl">0.01</span>),</span>
@@ -699,7 +702,6 @@ absorbance.</p>
 <span id="cb3-96"><a href="#cb3-96" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">1</span>],newAbs[<span class="dv">40</span>,<span class="dv">1</span>]), <span class="fu">rep</span>(pred0[<span class="dv">40</span>,<span class="dv">3</span>],<span class="dv">2</span>), <span class="at">lty=</span><span class="dv">3</span>, <span class="at">col=</span><span class="st">&quot;dimgrey&quot;</span>)</span>
 <span id="cb3-97"><a href="#cb3-97" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">1</span>],newAbs[<span class="dv">40</span>,<span class="dv">1</span>]), <span class="fu">rep</span>(pred0[<span class="dv">40</span>,<span class="dv">2</span>],<span class="dv">2</span>), <span class="at">lty=</span><span class="dv">3</span>, <span class="at">col=</span><span class="st">&quot;dimgrey&quot;</span>)</span>
 <span id="cb3-98"><a href="#cb3-98" tabindex="-1"></a><span class="fu">arrows</span>(<span class="dv">0</span>,pred0[<span class="dv">40</span>,<span class="dv">2</span>],<span class="dv">0</span>,pred0[<span class="dv">40</span>,<span class="dv">3</span>], <span class="at">col=</span><span class="st">&quot;dimgrey&quot;</span>, <span class="at">length=</span><span class="fl">0.02</span>, <span class="at">angle=</span><span class="dv">20</span>, <span class="at">code=</span><span class="dv">3</span>)</span></code></pre></div>
-</details>
 <div class="figure">
 <img src="prediction-intervals_files/figure-html/unnamed-chunk-1-1.png" alt="Figure 1: Calibration curves for spectrophotometric determination of phosphate with R-squared values of 0.99, 0.999, 0.9995, and 0.9999. Curves are plotted 'reversed', i.e. concentration vs. Absorbance, since this represents the situation for interpolation to find unknown concentrations." width="672" />
 <p class="caption">
@@ -710,6 +712,7 @@ this represents the situation for interpolation to find unknown
 concentrations.
 </p>
 </div>
+</details>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>newAbs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Abs.99=</span><span class="fl">0.29</span>,<span class="at">Abs.9990=</span><span class="fl">0.29</span>,</span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>                     <span class="at">Abs.9995=</span><span class="fl">0.29</span>,<span class="at">Abs.9999=</span><span class="fl">0.29</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
@@ -736,10 +739,10 @@ concentrations.
 <div class="figure">
 <img src="prediction-intervals_files/figure-html/unnamed-chunk-2-1.png" alt="Figure 2: Phosphate concentrations predicted from an absorbance value of 0.29 (circle symbols) and their prediction intervals (error bars), based on cabration curves with R-squared values of 0.99, 0.999, 0.9995, and 0.9999." width="480" />
 <p class="caption">
-Figure 2: Phosphate concentrations predicted from an absorbance value
-of 0.29 (circle symbols) and their prediction intervals (error bars),
-based on cabration curves with R-squared values of 0.99, 0.999, 0.9995,
-and 0.9999.
+Figure 2: Phosphate concentrations predicted from an absorbance value of
+0.29 (circle symbols) and their prediction intervals (error bars), based
+on cabration curves with R-squared values of 0.99, 0.999, 0.9995, and
+0.9999.
 </p>
 </div>
 </div>
