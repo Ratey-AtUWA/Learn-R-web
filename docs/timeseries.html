@@ -839,12 +839,8 @@ href="regTS.html">here</a>). Let's check:</p>
 <pre><code>## Time difference of 1 hours</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Number of unique differences between observations =&quot;</span>, <span class="fu">length</span>(<span class="fu">unique</span>(soiltemp_diffs)))</span></code></pre></div>
 <pre><code>## Number of unique differences between observations = 1</code></pre>
-<p>There
-<code>{r} if(length(unique(soiltemp_diffs))==1) "is" else "are"</code>
-<code>{r} length(unique(soiltemp_diffs))</code> unique
-<code>{r} if(length(unique(soiltemp_diffs))==1) "difference" else "differences"</code>
-between observations, so our time series is
-<code>{r} if(length(unique(soiltemp_diffs))==1) "regular." else "irregular."</code></p>
+<p>There is 1 unique difference between observations, so our time series
+is regular.</p>
 <p>With a regular series, we can even use the base-R time series format
 instead of the more flexible <code>zoo</code> format (bearing in mind
 that we will lose the exact time information, since the base-R time
@@ -1410,10 +1406,8 @@ output block). Again, the <code>p-value</code> is &lt; 0.05, so we can
 reject the null hypothesis of zero slope. The
 <code>95 percent confidence interval</code> does not include zero, also
 showing that the Sen's slope is significantly negative in this example,
-<em>i.e</em>., a monotonic decrease of about
-<code>{r} signif(sens.slope(coredata(soilT.ts))$est,2)</code> ° C per
-time step (<em>i.e</em>. per
-<code>{r} xts::periodicity(soiltemp_zoo)$label</code>).</p>
+<em>i.e</em>., a monotonic decrease of about -0.0058 ° C per time step
+(<em>i.e</em>. per hour).</p>
 <div class="figure">
 <img src="timeseries_files/figure-html/visualise-sens-slope-1.png" alt="Visualisation of Sen's Slope for the Murrumbidgee 15 cm soil temperature time series. The shaded area around the slope line shows the range of slopes calculated from the 95% confidence interval for the Sen's Slope parameter, rather than being a true regression confidence interval." width="672" />
 <p class="caption">
