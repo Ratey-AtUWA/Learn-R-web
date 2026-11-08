@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Andrew Rate" />
+
+<meta name="date" content="2026-11-08" />
+
+<title>Time Series Regularization</title>
+
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Sessions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">For beginners</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Intro</a>
+    </li>
+    <li>
+      <a href="intro-GG.html">Intro+ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Plots
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plots.html">Plots-baseR</a>
+    </li>
+    <li>
+      <a href="plots-GG.html">Plots-ggplot</a>
+    </li>
+    <li>
+      <a href="boxplots-plus.html">Enhanced boxplots</a>
+    </li>
+    <li>
+      <a href="depth-profiles.html">Depth profiles</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Compare
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="means.html">Compare means (parametric)</a>
+    </li>
+    <li>
+      <a href="nonparam.html">Non-parametric comparisons</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relate
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="correl.html">Correlation</a>
+    </li>
+    <li>
+      <a href="regression.html">Simple linear regression</a>
+    </li>
+    <li>
+      <a href="reg-group.html">Grouped linear regression</a>
+    </li>
+    <li>
+      <a href="reg-multi.html">Multiple linear regression</a>
+    </li>
+    <li>
+      <a href="timeseries.html">Time series analysis</a>
+    </li>
+    <li>
+      <a href="regTS.html">Time series regularisation</a>
+    </li>
+    <li>
+      <a href="nonlinear.html">Non-linear regression examples</a>
+    </li>
+    <li>
+      <a href="prediction-intervals.html">Calibration curves and prediction intervals</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Maps
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="maps.html">Map data with tile backgrounds</a>
+    </li>
+    <li>
+      <a href="spatial.html">Spatial statistics</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">Spatial interpolation</a>
+    </li>
+    <li>
+      <a href="google-kml.html">Using Google Earth objects</a>
+    </li>
+    <li>
+      <a href="georef-images.html">Using georeferenced images</a>
+    </li>
+    <li>
+      <a href="shapefiles.html">Using shapefiles</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Multi
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pca.html">Principal components analysis</a>
+    </li>
+    <li>
+      <a href="vegan.html">Analysis of species presence-absence data</a>
+    </li>
+    <li>
+      <a href="lda.html">Linear discriminant analysis</a>
+    </li>
+    <li>
+      <a href="cluster.html">Cluster analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Util
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="distributions.html">Distribution checking</a>
+    </li>
+    <li>
+      <a href="residuals.html">Regression residuals to identify contamination</a>
+    </li>
+    <li>
+      <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
+    </li>
+    <li class="dropdown-header">---- SHINY WEB APPS ----</li>
+    <li>
+      <a href="calib-redirect.html">Simple calibration curve ↗</a>
+    </li>
+    <li>
+      <a href="ftir-redirect.html">FLOPP and FLOPP-e ATR-FTIR Libraries ↗</a>
+    </li>
+    <li>
+      <a href="raman-redirect.html">SLOPP and SLOPP-e Raman Libraries ↗</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Reporting
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="report-resources.html">Resources for reporting</a>
+    </li>
+    <li>
+      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="maps-location-siteplan.html">Locality and Site Plan maps</a>
+    </li>
+    <li>
+      <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
+    </li>
+    <li>
+      <a href="chunk-options.html">Custom output with R markdown chunk options</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="sage-redirect.html">School of Agriculture and Environment</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!DOCTYPE html>
+
+<html>
+<body>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
+</body>
+</html>
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Time Series Regularization</h1>
+<h3 class="subtitle">Including imputation of missing observations</h3>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2026-11-08</h4>
+
+</div>
+
+
+<p style="text-align: right;">
+<a href="timeseries.html#regTSlink">Return to main time series page</a>
+</p>
+<div id="appendix-1-regularising-time-series" class="section level1">
+<h1>Appendix 1: Regularising Time Series</h1>
+<p>Many of the R functions we need for time series regularisation are in
+base-R, but we will also need</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Load the packages we need </span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(zoo)      <span class="co"># for basic irregular time series functions</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(Kendall)  <span class="co"># for trend analysis with Mann-Kendall test</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(trend)    <span class="co"># for trend analysis using the Sen slope</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(viridis)  <span class="co"># accessible colour palettes</span></span></code></pre></div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Sometimes it's necessary to regularise a time series, for
+instance:</p>
+<ul>
+<li>to describe and use autocorrelation (which is necessary for ARIMA
+modelling), so that all the autocorrelation lags have the same
+meaning;</li>
+<li>when we want to reliably extract seasonal / periodic effects.</li>
+</ul>
+<p>Regularisation means that the dates/times in the time series have the
+same spacing, but with an irregular time series the spacing can be
+uneven, with any choice of evenly spaced dates resulting in missing
+observations on a regular time scale. We therefore also need to
+<strong>impute</strong> or interpolate the missing values. Many of the
+more powerful imputation methods such as Kalman filtering are not really
+valid for irregular time series, so interpolation methods such as linear
+or spline interpolation need to be used.</p>
+<p>I think the requirements for successful time series regularisation
+are:</p>
+<ol style="list-style-type: decimal">
+<li>the original dates/times are retained;</li>
+<li>any trend in the time series is preserved;</li>
+<li>as far as possible, major temporal patterns and seasonal structure
+should be retained;</li>
+<li>as far as possible, the regularised time series matches the original
+irregular time series.</li>
+</ol>
+<p>The procedures coded below are deigned to fulfil these requirements.
+We're using an irregular time series of groundwater sulfate data from
+Niwot Ridge in Colorado, USA (Williams, 2019) to illustrate.</p>
+<p>To get started we need to read the sulfate data:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/Ratey-AtUWA/Learn-R-web/main/&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>SO4 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;Niwot-Saddle-SO4.csv&quot;</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">head</span>(SO4)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co"># Colorado USA is in the Mountain Standard Time (MST) time zone</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>SO4.zoo <span class="ot">&lt;-</span> <span class="fu">read.zoo</span>(SO4, <span class="at">format =</span> <span class="st">&quot;%Y-%m-%d %H:%M&quot;</span>, <span class="at">tz =</span> <span class="st">&quot;MST&quot;</span>)</span></code></pre></div>
+<pre><code>##               Date      SO4
+## 1 2006-05-22 12:00 53.61143
+## 2  2006-06-01 9:35 64.89586
+## 3 2006-06-08 12:25 66.76966
+## 4  2006-06-15 8:45 29.46026
+## 5  2006-06-22 8:40 23.19345
+## 6  2006-06-28 8:08 22.00671</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>)<span class="sc">-</span><span class="fl">0.5</span>, <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>SO4diffs <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(<span class="fu">diff</span>(<span class="fu">index</span>(SO4.zoo)))</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">stripchart</span>(SO4diffs, <span class="at">method=</span><span class="st">&quot;jitter&quot;</span>, <span class="at">pch=</span><span class="dv">15</span>, <span class="at">col=</span><span class="st">&quot;#00309080&quot;</span>, <span class="at">log=</span><span class="st">&quot;x&quot;</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>           <span class="at">xlab=</span><span class="st">&quot;Time differences between observations (hours)&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="regTS_files/figure-html/show-diffs-1.png" alt="Figure 1: Time differences between observations for the Niwot Ridge groundwater sulfate dataset." width="960" />
+<p class="caption">
+Figure 1: Time differences between observations for the Niwot Ridge
+groundwater sulfate dataset.
+</p>
+</div>
+<p> </p>
+<p>It's clear from Figure 1 that the original data have a very wide
+range of time differences between observations, from about
+<code>{r} round(min(SO4diffs))</code> hours
+(<code>{r} round(min(SO4diffs)/24,1)</code> days) to
+<code>{r} round(max(SO4diffs))</code> hours
+(<code>{r} round(max(SO4diffs)/24,1)</code> days), with a median time
+difference of about <code>{r} round(median(SO4diffs)/24)</code>
+days.</p>
+<p>For simplicity we'll try to regularise to monthly dates.</p>
+<p>Also, since we have time differences of &lt; 24 hours, we are likely
+to have at least one duplicate date (likely with a different time), so
+we'll combine any duplicates by taking the mean value with the
+<code>aggregate()</code> function first:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>l1 <span class="ot">&lt;-</span> <span class="fu">length</span>(SO4.zoo)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># note use of as.Date() to round date-time to just the day with no h:m:s</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>SO4.zoo <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(SO4.zoo,<span class="fu">as.Date</span>(<span class="fu">index</span>(SO4.zoo)),mean)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>l2 <span class="ot">&lt;-</span> <span class="fu">length</span>(SO4.zoo)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Before aggregation we had&quot;</span>,l1,<span class="st">&quot;observations; after aggregation we have&quot;</span>,l2,<span class="st">&quot;observations.&quot;</span>)</span></code></pre></div>
+<pre><code>## Before aggregation we had 231 observations; after aggregation we have 230 observations.</code></pre>
+<div id="make-a-series-of-regularly-spaced-target-dates"
+class="section level3">
+<h3>1. Make a series of regularly spaced target dates</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># make regular date series</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>newdates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2006-06-01&quot;</span>), <span class="fu">as.Date</span>(<span class="st">&quot;2018-11-01&quot;</span>), <span class="at">by=</span><span class="st">&quot;month&quot;</span>)</span></code></pre></div>
+</div>
+<div id="combine-the-regular-series-with-dates-having-observations"
+class="section level3">
+<h3>2. Combine the regular series with dates having observations</h3>
+<p>We use <code>unique(...)</code> to ensure there are not duplicate
+dates.</p>
+<p>We will allow actual observations to be within a threshold (e.g. 1
+day) of the regular series dates. This means we an maximise the use of
+real data, and limit the number of imputed values.</p>
+<p>Allowing a difference of 3 days seems reasonable, as we want monthly
+intervals, and 3 days is about 10% of a month. So any actual
+observations will always be from a date within 10% of the desired
+(regularised) date.</p>
+<blockquote>
+<p>Some code for finding closest dates:</p>
+</blockquote>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Define reference vector and target vector</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>rv <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(newdates)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>tv <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.Date</span>(<span class="fu">index</span>(SO4.zoo)))</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co"># function to find closest values</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>closest <span class="ot">&lt;-</span> <span class="fu">sapply</span>(rv, <span class="cf">function</span>(x) <span class="fu">which.min</span>(<span class="fu">abs</span>(x<span class="sc">-</span>tv)))</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co"># assign to an object and display them</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>maxGap <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>matches <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">regDates=</span><span class="fu">as.Date</span>(rv), </span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>                      closest, </span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>                      <span class="at">actualDates=</span><span class="fu">as.Date</span>(tv[closest]))</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>matches<span class="sc">$</span>Gap. <span class="ot">&lt;-</span> <span class="fu">abs</span>(matches<span class="sc">$</span>regDates<span class="sc">-</span>matches<span class="sc">$</span>actualDates)</span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>matches<span class="sc">$</span><span class="st">`</span><span class="at">repl?</span><span class="st">`</span> <span class="ot">&lt;-</span> matches<span class="sc">$</span>Gap. <span class="sc">&lt;=</span> maxGap</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="fu">head</span>(matches, <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##      regDates closest actualDates   Gap. repl?
+## 1  2006-06-01       2  2006-06-01 0 days  TRUE
+## 2  2006-07-01       6  2006-06-28 3 days  TRUE
+## 3  2006-08-01      11  2006-08-02 1 days  TRUE
+## 4  2006-09-01      15  2006-08-31 1 days  TRUE
+## 5  2006-10-01      18  2006-09-28 3 days  TRUE
+## 6  2006-11-01      20  2006-10-30 2 days  TRUE
+## 7  2006-12-01      21  2006-12-07 6 days FALSE
+## 8  2007-01-01      22  2006-12-27 5 days FALSE
+## 9  2007-02-01      23  2007-01-26 6 days FALSE
+## 10 2007-03-01      24  2007-02-23 6 days FALSE</code></pre>
+<p>If the largest allowed gap is 3 days, there are 42 of 150 regularised
+dates which can be replaced using the 230 actual dates.</p>
+<p>In contrast, if the dates are only allowed to match exactly, there
+are only 6 of 150 regularised dates which can be replaced using the
+actual dates.</p>
+<div id="doing-the-combination" class="section level4">
+<h4>Doing the combination:</h4>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>SO4.df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Date=</span><span class="fu">as.Date</span>(<span class="fu">index</span>(SO4.zoo)), <span class="at">SO4=</span><span class="fu">coredata</span>(SO4.zoo))</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="cf">if</span>(maxGap<span class="sc">==</span><span class="dv">0</span>){</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  monthday1 <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">c</span>(<span class="fu">as.Date</span>(<span class="fu">index</span>(SO4.zoo)),newdates))</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  forinterp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Date=</span>monthday1,</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>                          <span class="at">SO4=</span><span class="fu">as.numeric</span>(<span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(monthday1)))</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>                          )[<span class="fu">order</span>(monthday1),]</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  forinterp<span class="sc">$</span>SO4[forinterp<span class="sc">$</span>Date <span class="sc">%in%</span> SO4.df<span class="sc">$</span>Date] <span class="ot">&lt;-</span> SO4.df<span class="sc">$</span>SO4</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>  <span class="co"># define which dates are &quot;close enough&quot;</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>  keeporig <span class="ot">&lt;-</span> matches[matches<span class="sc">$</span><span class="st">`</span><span class="at">repl?</span><span class="st">`</span><span class="sc">==</span><span class="st">&quot;TRUE&quot;</span>,<span class="st">&quot;actualDates&quot;</span>]</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>  </span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>  <span class="co"># add sulfate concentrations to `matches` data frame</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>  matches<span class="sc">$</span>SO4 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(matches))</span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a>  matches<span class="sc">$</span>SO4[matches<span class="sc">$</span><span class="st">`</span><span class="at">repl?</span><span class="st">`</span>] <span class="ot">&lt;-</span> </span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>    SO4.df[SO4.df<span class="sc">$</span>Date <span class="sc">%in%</span> matches<span class="sc">$</span>actualDates[matches<span class="sc">$</span><span class="st">`</span><span class="at">repl?</span><span class="st">`</span>],<span class="st">&quot;SO4&quot;</span>]</span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a>  </span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a>  <span class="co"># define kept dates, so we can also define non-kept e.g. SO4.df[-kept,]</span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>  kept <span class="ot">&lt;-</span> <span class="fu">which</span>(SO4.df<span class="sc">$</span>Date <span class="sc">%in%</span> keeporig)</span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a>  <span class="co"># then combine them</span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a>  matchreg <span class="ot">&lt;-</span> matches[,<span class="fu">c</span>(<span class="st">&quot;regDates&quot;</span>,<span class="st">&quot;SO4&quot;</span>)]; <span class="fu">colnames</span>(matchreg) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(SO4.df)</span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a>  forinterp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(matchreg, SO4.df[<span class="sc">-</span>kept,])</span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a>  forinterp <span class="ot">&lt;-</span> forinterp[<span class="fu">order</span>(forinterp<span class="sc">$</span>Date),]</span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a>  <span class="fu">str</span>(forinterp)</span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+</div>
+<div id="put-everything-in-date-order-and-reset-jumbled-row-names"
+class="section level3">
+<h3>3. Put everything in date order and reset jumbled row names</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>forinterp <span class="ot">&lt;-</span> forinterp[<span class="fu">order</span>(forinterp<span class="sc">$</span>Date),]</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">row.names</span>(forinterp) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code></pre></div>
+</div>
+<div id="convert-the-data-frame-to-a-zoo-time-series-object"
+class="section level3">
+<h3>4. Convert the data frame to a <code>zoo</code> time series
+object</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>monthZoo <span class="ot">&lt;-</span> <span class="fu">read.zoo</span>(forinterp, <span class="at">format=</span><span class="st">&quot;%Y-%m-%d&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="do-the-imputation" class="section level2">
+<h2>Do the imputation</h2>
+<div id="fill-in-the-na-values" class="section level3">
+<h3>5. Fill in the NA values</h3>
+<p>We use the <code>na.approx()</code> function from the
+<code>zoo</code> package (the related <code>na.spline()</code> function
+gives similar results, but is prone to "overshooting", <em>i.e</em>.
+giving values which are unrealistically high or low where there are
+large gaps between observations. <strong>It's not ideal to try
+interpolation where we don't have much real data!</strong>).</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>monthImpute <span class="ot">&lt;-</span> <span class="fu">na.approx</span>(monthZoo)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>monthSpline <span class="ot">&lt;-</span> <span class="fu">na.spline</span>(monthZoo)</span></code></pre></div>
+</div>
+<div
+id="reduce-the-imputed-time-series-to-just-the-regularly-spaced-dates"
+class="section level3">
+<h3>6. Reduce the imputed time series to just the regularly-spaced
+dates</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>SO4.reg.zoo <span class="ot">&lt;-</span> monthImpute[<span class="fu">which</span>(<span class="fu">index</span>(monthImpute) <span class="sc">%in%</span> newdates)]</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>SO4.spline.zoo <span class="ot">&lt;-</span> monthSpline[<span class="fu">which</span>(<span class="fu">index</span>(monthSpline) <span class="sc">%in%</span> newdates)]</span></code></pre></div>
+<p>Finally we have a regularised time series which is as close as we can
+get it to the original irregular time series. We can compare the
+datasets in a plot:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>yearmarkers <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2007-01-01&quot;</span>), <span class="fu">as.Date</span>(<span class="st">&quot;2018-01-01&quot;</span>), <span class="at">by=</span><span class="st">&quot;year&quot;</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">1</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="sc">-</span><span class="fl">0.25</span>, <span class="at">font.lab=</span><span class="dv">2</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>    <span class="at">cex.lab=</span><span class="fl">1.75</span>, <span class="at">cex.axis=</span><span class="fl">1.4</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;#a00&quot;</span>,<span class="st">&quot;#60a&quot;</span>,<span class="st">&quot;#bbb&quot;</span>))</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="fu">plot</span>(SO4.reg.zoo, <span class="at">type=</span><span class="st">&quot;o&quot;</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">col=</span><span class="dv">2</span>, <span class="at">xlab=</span><span class="st">&quot;Date&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Sulfate (µeq/L)&quot;</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">20</span>,<span class="dv">140</span>))</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span>yearmarkers, <span class="at">col=</span><span class="dv">5</span>, <span class="at">lty=</span><span class="dv">3</span>) ; <span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">col=</span><span class="dv">5</span>, <span class="at">lty=</span><span class="dv">3</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="fu">rug</span>(<span class="fu">index</span>(SO4.reg.zoo), <span class="fl">0.02</span>, <span class="at">col=</span><span class="dv">2</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(a) Imputed by na.approx() and regularised&quot;</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="fl">1.5</span>, <span class="at">adj=</span><span class="fl">0.05</span>, <span class="at">col=</span><span class="dv">2</span>, <span class="at">font=</span><span class="dv">11</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="fu">plot</span>(SO4.zoo, <span class="at">type=</span><span class="st">&quot;o&quot;</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">col=</span><span class="dv">4</span>, </span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Date&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Sulfate (µeq/L)&quot;</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">20</span>,<span class="dv">140</span>))</span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span>yearmarkers, <span class="at">col=</span><span class="dv">5</span>, <span class="at">lty=</span><span class="dv">3</span>) ; <span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">col=</span><span class="dv">5</span>, <span class="at">lty=</span><span class="dv">3</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="fu">rug</span>(<span class="fu">index</span>(SO4.zoo), <span class="fl">0.02</span>, <span class="at">col=</span><span class="dv">4</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(b) Original irregular time series&quot;</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="fl">1.5</span>, <span class="at">adj=</span><span class="fl">0.05</span>, <span class="at">col=</span><span class="dv">4</span>, <span class="at">font=</span><span class="dv">11</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a><span class="fu">plot</span>(SO4.spline.zoo, <span class="at">type=</span><span class="st">&quot;o&quot;</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">col=</span><span class="dv">3</span>, <span class="at">xlab=</span><span class="st">&quot;Date&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Sulfate (µeq/L)&quot;</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">20</span>,<span class="dv">140</span>))</span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span>yearmarkers, <span class="at">col=</span><span class="dv">5</span>, <span class="at">lty=</span><span class="dv">3</span>) ; <span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">col=</span><span class="dv">5</span>, <span class="at">lty=</span><span class="dv">3</span>)</span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a><span class="fu">rug</span>(<span class="fu">index</span>(SO4.spline.zoo), <span class="fl">0.02</span>, <span class="at">col=</span><span class="dv">3</span>)</span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(c) Imputed by na.spline()</span><span class="sc">\n</span><span class="st">and regularised&quot;</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="dv">3</span>, <span class="at">adj=</span><span class="fl">0.05</span>, <span class="at">col=</span><span class="dv">3</span>, <span class="at">font=</span><span class="dv">11</span>)</span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">as.Date</span>(<span class="fu">c</span>(<span class="st">&quot;2011-06-01&quot;</span>,<span class="st">&quot;2014-05-01&quot;</span>)),<span class="fu">c</span>(<span class="dv">130</span>,<span class="sc">-</span><span class="dv">10</span>), <span class="at">labels=</span><span class="fu">rep</span>(<span class="st">&quot;overshoot&quot;</span>,<span class="dv">2</span>),</span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a>     <span class="at">col=</span><span class="dv">3</span>, <span class="at">cex=</span><span class="fl">1.5</span>, <span class="at">pos=</span><span class="dv">4</span>, <span class="at">font=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="regTS_files/figure-html/plot-reg-irreg-1.png" alt="Figure 2: Comparison of regularised time series (a) with original irregular time series (b) for ground water sulfate monitoring data from Niwot Ridge. A time series regularised with the help of spline interpolation is also shown in sub-plot (c). Year markers (vertical lines) have been added to ease comparisons; inward x-axis ticks show dates of observations." width="960" />
+<p class="caption">
+Figure 2: Comparison of regularised time series (a) with original
+irregular time series (b) for ground water sulfate monitoring data from
+Niwot Ridge. A time series regularised with the help of spline
+interpolation is also shown in sub-plot (c). Year markers (vertical
+lines) have been added to ease comparisons; inward x-axis ticks show
+dates of observations.
+</p>
+</div>
+<p> </p>
+<p>The results of our regularisation look acceptable where we have
+imputed values using linear interpolation (<code>na.approx()</code>).
+With spline interpolation (<code>na.spline()</code>), the imputed
+negative sulfate concentration
+(<code>{r} round(min(SO4.spline.zoo),1)</code> mg/L) in Sep-Oct 2014,
+and probably the large imputed spike in sulfate concentration
+(<code>{r} round(max(SO4.spline.zoo),1)</code> mg/L) in Sep-Oct 2011
+(Figure 2(c)), do not really look reasonable. We could avoid negative
+concentrations by log-transforming concentrations before imputing the
+<code>NA</code> values, but the large positive spike is harder to
+avoid.</p>
+<p>Any interpolation method is trying to simulate what happened during
+these large gaps between observations; in the absence of enough data, it
+can't do that, but just constructs a line or curve that joins the
+endpoints. Since a spline uses a series of cubic functions, its
+behaviour can be much more extreme than a linear interpolation.</p>
+<div
+style="text-align:center; background-color: #FED; padding:2pt; border-radius:8pt;">
+<p><strong><span style="font-size:13pt;">How did we go against our
+requirements for successful time series
+regularisation?</span></strong></p>
+</div>
+</div>
+<div id="the-original-datestimes-are-retained" class="section level3">
+<h3>1. The original dates/times are retained</h3>
+<p>Yes... we made a compromise by allowing dates within 3 days to
+substitute for the regularised dates, but this seems worth it as it
+allowed us to retain more actual data.</p>
+</div>
+<div id="any-trend-in-the-time-series-is-preserved"
+class="section level3">
+<h3>2. Any trend in the time series is preserved</h3>
+<p>We can assess the trend quantitatively with statistical tests like
+the Mann-Kendall test and Sen's slope. Let's try:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">mk.test</span>(<span class="fu">coredata</span>(SO4.zoo)) <span class="co"># Mann-Kendall test, Original</span></span></code></pre></div>
+<pre><code>##
+##  Mann-Kendall trend test
+##
+## data:  coredata(SO4.zoo)
+## z = -4.5857, n = 230, p-value = 4.525e-06
+## alternative hypothesis: true S is not equal to 0
+## sample estimates:
+##             S          varS           tau
+## -5.350000e+03  1.360623e+06 -2.032250e-01</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">mk.test</span>(<span class="fu">coredata</span>(SO4.reg.zoo)) <span class="co"># Mann-Kendall test, Regularised</span></span></code></pre></div>
+<pre><code>##
+##  Mann-Kendall trend test
+##
+## data:  coredata(SO4.reg.zoo)
+## z = -4.1697, n = 150, p-value = 3.05e-05
+## alternative hypothesis: true S is not equal to 0
+## sample estimates:
+##             S          varS           tau
+## -2.567000e+03  3.787083e+05 -2.297092e-01</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">sens.slope</span>(<span class="fu">coredata</span>(SO4.zoo)) <span class="co"># Sen&#39;s Slope test, Original</span></span></code></pre></div>
+<pre><code>##
+##  Sen&#39;s slope
+##
+## data:  coredata(SO4.zoo)
+## z = -4.5857, n = 230, p-value = 4.525e-06
+## alternative hypothesis: true z is not equal to 0
+## 95 percent confidence interval:
+##  -0.04708517 -0.01902515
+## sample estimates:
+## Sen&#39;s slope
+##  -0.0327171</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">sens.slope</span>(<span class="fu">coredata</span>(SO4.reg.zoo)) <span class="co"># Sen&#39;s Slope test, Regularised</span></span></code></pre></div>
+<pre><code>##
+##  Sen&#39;s slope
+##
+## data:  coredata(SO4.reg.zoo)
+## z = -4.1697, n = 150, p-value = 3.05e-05
+## alternative hypothesis: true z is not equal to 0
+## 95 percent confidence interval:
+##  -0.08370479 -0.03072832
+## sample estimates:
+## Sen&#39;s slope
+## -0.05735351</code></pre>
+<p>So, with the Niwot Ridge sulfate data, regularisation has preserved a
+significant decreasing trend in groundwater sulfate concentrations.</p>
+</div>
+<div
+id="as-far-as-possible-major-temporal-patterns-and-seasonal-structure-should-be-retained"
+class="section level3">
+<h3>3. As far as possible, major temporal patterns and seasonal
+structure should be retained;</h3>
+<p>and</p>
+</div>
+<div
+id="as-far-as-possible-the-regularised-time-series-matches-the-original-irregular-time-series."
+class="section level3">
+<h3>4. As far as possible, the regularised time series matches the
+original irregular time series.</h3>
+<p>Visual comparison of sub-plots (a) and (b) in Figure 2 suggests that
+this is the case.</p>
+<p>Direct comparisons are problematic, since the dates are
+different.</p>
+<p>An alternative approach would just be to compare the
+distributions:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">log10</span>(SO4.zoo)), <span class="at">col =</span> <span class="st">&quot;#039&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>, </span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Sulfate (µeq/L)&quot;</span>, <span class="at">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">4</span>))</span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(<span class="fu">log10</span>(SO4.reg.zoo)), <span class="at">col =</span> <span class="st">&quot;#a80&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;Original&quot;</span>, <span class="st">&quot;Regularised&quot;</span>), </span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#039&quot;</span>,<span class="st">&quot;#a80&quot;</span>), <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at=</span><span class="fu">log10</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">50</span>)), <span class="at">labels=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">50</span>))</span>
+<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a>bxpdata <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">data.frame</span>(<span class="at">ID=</span><span class="fu">rep</span>(<span class="st">&quot;Original&quot;</span>,<span class="fu">length</span>(SO4.zoo)), </span>
+<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a>                            <span class="at">SO4=</span><span class="fu">coredata</span>(SO4.zoo)),</span>
+<span id="cb24-11"><a href="#cb24-11" tabindex="-1"></a>                 <span class="fu">data.frame</span>(<span class="at">ID=</span><span class="fu">rep</span>(<span class="st">&quot;Regularised&quot;</span>,<span class="fu">length</span>(SO4.reg.zoo)), </span>
+<span id="cb24-12"><a href="#cb24-12" tabindex="-1"></a>                            <span class="at">SO4=</span><span class="fu">coredata</span>(SO4.reg.zoo)))</span>
+<span id="cb24-13"><a href="#cb24-13" tabindex="-1"></a>bxpdata<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(bxpdata<span class="sc">$</span>ID)</span>
+<span id="cb24-14"><a href="#cb24-14" tabindex="-1"></a><span class="fu">with</span>(bxpdata, <span class="fu">boxplot</span>(<span class="fu">log10</span>(SO4) <span class="sc">~</span> ID, <span class="at">yaxt=</span><span class="st">&quot;n&quot;</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#abf&quot;</span>,<span class="st">&quot;#fec&quot;</span>),</span>
+<span id="cb24-15"><a href="#cb24-15" tabindex="-1"></a>                      <span class="at">xlab=</span><span class="st">&quot;Time series type&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Sulfate (µeq/L)&quot;</span>))</span>
+<span id="cb24-16"><a href="#cb24-16" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at=</span><span class="fu">log10</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">50</span>)), <span class="at">labels=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">50</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="regTS_files/figure-html/compare-ts-distributions-1.png" alt="Figure 3: Comparisons of the distributions of sulfate concentrations in the original and regularised/imputed time series, using density curves (left) and box plots (right)." width="960" />
+<p class="caption">
+Figure 3: Comparisons of the distributions of sulfate concentrations in
+the original and regularised/imputed time series, using density curves
+(left) and box plots (right).
+</p>
+</div>
+<p> </p>
+<p>Based on Figure 3, the time series are not identical; we can not
+expect that, given that there are numerous interpolated sulfate
+concentrations in the regularised series.</p>
+<p>The regularisation reduces the incidence of potential outliers in
+sulfate concentration, which could be beneficial.</p>
+<blockquote>
+<p>💡 Do you think the differences are large enough to change any
+scientific conclusions we might make?</p>
+</blockquote>
+<p> </p>
+<hr style="height: 2px; background-color: #039;" />
+<p>We could now also make a regular time series object (class is
+<code>ts</code>, not <code>zoo</code>; <span
+class="citation">@fig:plot-ts</span>):</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>SO4.TS <span class="ot">&lt;-</span> <span class="fu">ts</span>(SO4.reg.zoo, <span class="at">freq=</span><span class="dv">12</span>, <span class="at">start=</span><span class="fu">c</span>(<span class="dv">2006</span>,<span class="dv">5</span>))</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">print</span>(SO4.TS, <span class="at">digits=</span><span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##        Jan   Feb   Mar   Apr   May   Jun   Jul   Aug   Sep   Oct   Nov   Dec
+## 2006                         64.90 23.65 24.13 27.31 27.59 31.70 31.85 39.42
+## 2007 35.08 34.68 38.07 37.90 43.22 38.96 23.37 23.48 25.21 27.10 29.05 31.38
+## 2008 32.64 32.01 33.68 36.38 39.80 55.38 22.06 24.55 24.93 26.86 29.12 31.13
+## 2009 33.52 33.28 35.84 39.05 43.74 43.91 25.49 27.32 29.55 30.40 31.58 34.96
+## 2010 37.40 36.22 39.81 40.72 34.58 22.23 24.90 22.86 26.31 27.65 28.75 29.90
+## 2011 31.04 32.21 38.65 50.75 63.26 18.22 20.59 20.49 21.13 27.41 29.62 30.42
+## 2012 31.23 34.80 44.59 42.23 39.80 27.19 20.81 21.28 21.60 22.40 23.17 25.74
+## 2013 28.66 31.89 36.84 42.38 48.10 33.96 22.47 22.16 24.75 23.65 25.68 26.90
+## 2014 28.27 33.91 40.16 46.21 52.46 42.38 19.35 21.39 22.66 25.68 25.82 25.59
+## 2015 25.67 25.92 43.47 40.19 37.21 25.23 21.69 23.48 41.74 27.45 26.85 29.79
+## 2016 30.63 31.08 28.38 24.30 20.09 14.69 19.31 21.95 24.72 27.46 27.08 27.30
+## 2017 28.94 29.73 30.66 26.65 20.49 16.08 35.79 19.39 20.58 22.66 24.39 24.73
+## 2018 26.26 27.02 27.27 29.15 22.85 15.11 21.62 21.13 23.68 25.04</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="fu">plot</span>(SO4.TS, <span class="at">col=</span><span class="st">&quot;#039&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="regTS_files/figure-html/plot-ts-1.png" alt="Regularised time series of ground water sulfate monitoring data from Niwot Ridge plotted as an R (i.e. regular) time series object." width="960" />
+<p class="caption">
+Regularised time series of ground water sulfate monitoring data from
+Niwot Ridge plotted as an R (i.e. regular) time series object.
+</p>
+</div>
+<p style="text-align: center;">
+<a href="timeseries.html#regTSlink">Return to main time series page</a>
+</p>
+</div>
+</div>
+<div id="option-b.-aggregate-by-month-first" class="section level2">
+<h2>Option B. Aggregate by month first</h2>
+<div id="do-the-aggregation" class="section level3">
+<h3>Do the aggregation</h3>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>SO4month <span class="ot">&lt;-</span> SO4</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="co"># make any date in a month the 15th of that month</span></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>SO4month<span class="sc">$</span>Month <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">paste0</span>(<span class="fu">substr</span>(SO4month<span class="sc">$</span>Date,<span class="dv">1</span>,<span class="dv">7</span>),<span class="st">&quot;-15&quot;</span>))</span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="co"># reduce to the mean value each month</span></span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>aggBymonth <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(SO4month, <span class="fu">list</span>(<span class="at">Month=</span>SO4month[,<span class="dv">3</span>]), <span class="at">FUN=</span>mean)[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)]</span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a><span class="co"># say what happened</span></span>
+<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Aggregation by month gives&quot;</span>, <span class="fu">nrow</span>(aggBymonth), </span>
+<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a>    <span class="st">&quot;monthly observations, from an original irregular time series with&quot;</span>, </span>
+<span id="cb28-9"><a href="#cb28-9" tabindex="-1"></a>    <span class="fu">nrow</span>(SO4), <span class="st">&quot;unevenly-spaced observations.&quot;</span>)</span></code></pre></div>
+<p>Aggregation by month gives 121 monthly observations, from an original
+irregular time series with 231 unevenly-spaced observations.</p>
+</div>
+<div id="find-absent-and-present-months" class="section level3">
+<h3>Find absent and present months</h3>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co"># make complete monthly series</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>allMonths <span class="ot">&lt;-</span> <span class="fu">seq</span>(aggBymonth<span class="sc">$</span>Month[<span class="dv">1</span>],aggBymonth<span class="sc">$</span>Month[<span class="fu">nrow</span>(aggBymonth)],</span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>                  <span class="at">by=</span><span class="st">&quot;month&quot;</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a><span class="co"># take the roll call</span></span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>missed <span class="ot">&lt;-</span> <span class="fu">which</span>(allMonths <span class="sc">%in%</span> aggBymonth<span class="sc">$</span>Month <span class="sc">==</span> <span class="cn">FALSE</span>)</span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>present <span class="ot">&lt;-</span> <span class="fu">which</span>(allMonths <span class="sc">%in%</span> aggBymonth<span class="sc">$</span>Month <span class="sc">==</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a><span class="co"># make data frame to hold monthly data (including NAs)</span></span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>withGaps <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Month=</span>allMonths,</span>
+<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>                       <span class="at">SO4=</span><span class="fu">rep</span>(<span class="cn">NA</span>,<span class="fu">length</span>(allMonths)))</span>
+<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a><span class="co"># fill in the aggregated monthly data</span></span>
+<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a>withGaps<span class="sc">$</span>SO4[present] <span class="ot">&lt;-</span> aggBymonth<span class="sc">$</span>SO4</span>
+<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a></span>
+<span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a><span class="co"># convert to zoo object</span></span>
+<span id="cb29-17"><a href="#cb29-17" tabindex="-1"></a>withGaps <span class="ot">&lt;-</span> <span class="fu">read.zoo</span>(withGaps, <span class="at">index.column=</span><span class="dv">1</span>, <span class="at">format=</span><span class="st">&quot;%Y-%m-%d&quot;</span>, <span class="at">tz=</span><span class="st">&quot;MST&quot;</span>)</span>
+<span id="cb29-18"><a href="#cb29-18" tabindex="-1"></a></span>
+<span id="cb29-19"><a href="#cb29-19" tabindex="-1"></a><span class="co"># talk about it</span></span>
+<span id="cb29-20"><a href="#cb29-20" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Aggregation by month gives&quot;</span>, <span class="fu">length</span>(present), <span class="st">&quot;of&quot;</span>, <span class="fu">length</span>(allMonths),</span>
+<span id="cb29-21"><a href="#cb29-21" tabindex="-1"></a>    <span class="st">&quot;possible monthly observations. This leaves&quot;</span>,<span class="fu">length</span>(missed),</span>
+<span id="cb29-22"><a href="#cb29-22" tabindex="-1"></a>    <span class="st">&quot;months to be imputed. Aggregation is itself a form of imputation!&quot;</span>)</span></code></pre></div>
+<p>Aggregation by month gives 121 of 151 possible monthly observations.
+This leaves 30 months to be imputed. Aggregation is itself a form of
+imputation!</p>
+</div>
+<div id="do-the-imputation-1" class="section level3">
+<h3>Do the imputation</h3>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="co"># do the imputation with linear interpolation</span></span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>SO4imputed <span class="ot">&lt;-</span> <span class="fu">na.approx</span>(withGaps)</span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a><span class="co"># make imputed data into a base-R time series object</span></span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>SO4.TS2 <span class="ot">&lt;-</span> <span class="fu">ts</span>(SO4imputed, <span class="at">freq=</span><span class="dv">12</span>, <span class="at">start=</span><span class="fu">c</span>(<span class="dv">2006</span>,<span class="dv">5</span>))</span>
+<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a><span class="fu">summary</span>(SO4.TS2); <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">The monthly data now have&quot;</span>,<span class="fu">sum</span>(<span class="fu">is.na</span>(SO4imputed)),</span>
+<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>                      <span class="st">&quot;missing values&quot;</span>)</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
+##   8.953  23.990  28.107  29.599  33.535  54.888</code></pre>
+<pre><code>##
+## The monthly data now have 0 missing values</code></pre>
+</div>
+<div id="compare-imputation-strategies" class="section level3">
+<h3>Compare imputation strategies</h3>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co"># compare the two imputation strategies with a plot</span></span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="co"># first plot the original irrgular time series</span></span>
+<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a><span class="co"># we need to match the way monthly dates are stored in base-R time series objects</span></span>
+<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.numeric</span>(<span class="fu">substr</span>(SO4<span class="sc">$</span>Date,<span class="dv">1</span>,<span class="dv">4</span>))<span class="sc">+</span>((<span class="fu">as.numeric</span>(<span class="fu">substr</span>(SO4<span class="sc">$</span>Date,<span class="dv">6</span>,<span class="dv">7</span>))<span class="sc">-</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">12</span>), </span>
+<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a>     SO4<span class="sc">$</span>SO4, <span class="at">col=</span><span class="st">&quot;#aaa&quot;</span>, <span class="at">pch=</span><span class="dv">0</span>, <span class="at">cex=</span><span class="fl">0.7</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">9</span>,<span class="dv">90</span>), </span>
+<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Date&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;SO4 (µeq/L)&quot;</span>)</span>
+<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a><span class="co"># add the first imputed time series</span></span>
+<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a><span class="fu">lines</span>(SO4.TS, <span class="at">type=</span><span class="st">&quot;l&quot;</span>, <span class="at">col=</span><span class="st">&quot;#a80&quot;</span>, <span class="at">lwd=</span><span class="dv">1</span>)</span>
+<span id="cb33-12"><a href="#cb33-12" tabindex="-1"></a></span>
+<span id="cb33-13"><a href="#cb33-13" tabindex="-1"></a><span class="co"># add the second imputed time series</span></span>
+<span id="cb33-14"><a href="#cb33-14" tabindex="-1"></a><span class="fu">lines</span>(SO4.TS2, <span class="at">col=</span><span class="st">&quot;#DA70D6b0&quot;</span>, <span class="at">lwd=</span><span class="dv">3</span>)</span>
+<span id="cb33-15"><a href="#cb33-15" tabindex="-1"></a><span class="fu">rug</span>(<span class="fu">as.Date</span>(<span class="fu">index</span>(SO4.TS2)),<span class="fl">0.015</span>) <span class="co"># show regular dates on x-axis</span></span>
+<span id="cb33-16"><a href="#cb33-16" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">inset=</span><span class="fu">c</span>(<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">pch=</span><span class="dv">0</span>, <span class="at">col=</span><span class="st">&quot;#aaa&quot;</span>, <span class="at">pt.cex=</span><span class="fl">0.7</span>, </span>
+<span id="cb33-17"><a href="#cb33-17" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Original data&quot;</span>), <span class="at">title=</span><span class="st">&quot;Observations&quot;</span>, <span class="at">title.font=</span><span class="dv">2</span>)</span>
+<span id="cb33-18"><a href="#cb33-18" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">title=</span><span class="st">&quot;Pre-imputation method&quot;</span>, <span class="at">title.font=</span><span class="dv">2</span>, </span>
+<span id="cb33-19"><a href="#cb33-19" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Date matching ± 3 days&quot;</span>, <span class="st">&quot;Aggregate to monthly mean&quot;</span>),</span>
+<span id="cb33-20"><a href="#cb33-20" tabindex="-1"></a>       <span class="at">lwd=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#a80&quot;</span>,<span class="st">&quot;#DA70D6b0&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="regTS_files/figure-html/compare-imputations-with-plot-1.png" alt="Figure 4: Comparison of regularised time series using different strategies for imputation of values which are not on regular dates or missing. Inward x-axis ticks show dates of observations." width="672" />
+<p class="caption">
+Figure 4: Comparison of regularised time series using different
+strategies for imputation of values which are not on regular dates or
+missing. Inward x-axis ticks show dates of observations.
+</p>
+</div>
+<p> </p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, <span class="at">font.lab=</span><span class="dv">2</span>,<span class="at">cex=</span><span class="fl">1.2</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">log10</span>(SO4.reg.zoo)), <span class="at">col =</span> <span class="st">&quot;#a80&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>, </span>
+<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Sulfate (µeq/L)&quot;</span>, <span class="at">xaxt=</span><span class="st">&quot;n&quot;</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">4</span>))</span>
+<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(<span class="fu">log10</span>(SO4imputed)), <span class="at">col =</span> <span class="st">&quot;orchid&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;Match ± 3 days&quot;</span>, <span class="st">&quot;Monthly mean&quot;</span>), </span>
+<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#a80&quot;</span>,<span class="st">&quot;orchid&quot;</span>), <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at=</span><span class="fu">log10</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">50</span>)), <span class="at">labels=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">50</span>))</span>
+<span id="cb34-8"><a href="#cb34-8" tabindex="-1"></a></span>
+<span id="cb34-9"><a href="#cb34-9" tabindex="-1"></a>bxpdata <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">data.frame</span>(<span class="at">ID=</span><span class="fu">rep</span>(<span class="st">&quot;Match ± 3 days&quot;</span>,<span class="fu">length</span>(SO4.reg.zoo)), </span>
+<span id="cb34-10"><a href="#cb34-10" tabindex="-1"></a>                            <span class="at">SO4=</span><span class="fu">coredata</span>(SO4.reg.zoo), <span class="at">check.names=</span>F),</span>
+<span id="cb34-11"><a href="#cb34-11" tabindex="-1"></a>                 <span class="fu">data.frame</span>(<span class="at">ID=</span><span class="fu">rep</span>(<span class="st">&quot;Monthly mean&quot;</span>,<span class="fu">length</span>(SO4imputed)), </span>
+<span id="cb34-12"><a href="#cb34-12" tabindex="-1"></a>                            <span class="at">SO4=</span><span class="fu">coredata</span>(SO4imputed), <span class="at">check.names=</span>F))</span>
+<span id="cb34-13"><a href="#cb34-13" tabindex="-1"></a>bxpdata<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(bxpdata<span class="sc">$</span>ID)</span>
+<span id="cb34-14"><a href="#cb34-14" tabindex="-1"></a><span class="fu">with</span>(bxpdata, <span class="fu">boxplot</span>(<span class="fu">log10</span>(SO4) <span class="sc">~</span> ID, <span class="at">yaxt=</span><span class="st">&quot;n&quot;</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#fd8&quot;</span>,<span class="st">&quot;#fcf&quot;</span>),</span>
+<span id="cb34-15"><a href="#cb34-15" tabindex="-1"></a>                      <span class="at">xlab=</span><span class="st">&quot;Imputation strategy&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Sulfate (µeq/L)&quot;</span>))</span>
+<span id="cb34-16"><a href="#cb34-16" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at=</span><span class="fu">log10</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">50</span>)), <span class="at">labels=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">50</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="regTS_files/figure-html/compare-ts-distributions-again-1.png" alt="Figure 5: Comparisons of the distributions of sulfate concentrations in the two variants of regularised/imputed time series, using density curves (left) and box plots (right)." width="960" />
+<p class="caption">
+Figure 5: Comparisons of the distributions of sulfate concentrations in
+the two variants of regularised/imputed time series, using density
+curves (left) and box plots (right).
+</p>
+</div>
+<p> </p>
+<blockquote>
+<p>💡 Which imputation do you think is best? Why?</p>
+</blockquote>
+<p> </p>
+<blockquote>
+<p>💡 Would you predict that imputation strategy would make a difference
+to time series trends or forecasts?</p>
+</blockquote>
+<p> </p>
+<p style="text-align: center;">
+<a href="timeseries.html#regTSlink">Return to main time series page</a>
+</p>
+<h2>AI Statement</h2>
+
+<p>The original code for Appendix 1 was used to start a discussion with MS Copilot.
+Some improvements to the code and text were made as a result of that discussion,
+but all the code and text was written by the author who identifies as a human.</p>
+
+<p id="References">
+ 
+</p>
+</div>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>R Core Team (2026). <code>R</code>: <em>A language and environment
+for statistical computing</em>. R Foundation for Statistical Computing,
+Vienna, Austria. URL <a href="https://www.R-project.org/"
+target="_blank">https://www.R-project.org/</a>.</p>
+<p>Williams, Mark (2019). <em>Groundwater well chemistry data for Niwot
+Saddle, C1,</em> <em>and Martinelli, 2005 – ongoing.</em> ver 2.
+Environmental Data Initiative. <a
+href="https://doi.org/10.6073/pasta/00dddc061dd0b97d28f3c375b5f6ada2"
+target="_blank">https://doi.org/10.6073/pasta/00dddc061dd0b97d28f3c375b5f6ada2</a>
+(Accessed 2026-09-30).</p>
+<p>Zeileis A, Grothendieck G (2005). <code>zoo</code>: S3 Infrastructure
+for Regular and Irregular Time Series. <em>Journal of Statistical
+Software</em>, <strong>14</strong>(6), 1-27. <a
+href="https://doi.org/10.18637/jss.v014.i06"
+target="_blank">doi:10.18637/jss.v014.i06</a> (Accessed 2026-09-30).</p>
+<p>🔚</p>
+</div>
+</div>
+
+<!DOCTYPE html>
+
+<html>
+<body>
+<hr style="height: 2px; background-color: #003087;" />
+<p><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>. Currently using the free <a href="https://bootswatch.com/yeti/" target="_blank"><span style="font-family: monospace;">yeti</span> theme from Bootswatch</a>.</span></p>
+</body>
+</html>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
