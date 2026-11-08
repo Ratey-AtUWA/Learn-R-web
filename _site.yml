@@ -40,6 +40,8 @@ navbar:
           href: reg-multi.html
         - text: "Time series analysis"
           href: timeseries.html
+        - text: "Time series regularisation"
+          href: regTS.html
         - text: "Non-linear regression examples"
           href: nonlinear.html
         - text: "Calibration curves and prediction intervals"
