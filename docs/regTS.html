@@ -433,7 +433,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Intro
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -448,7 +448,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plots
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -469,7 +469,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Compare
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -484,7 +484,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Relate
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -517,7 +517,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Maps
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -544,7 +544,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Multi
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -565,7 +565,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Util
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -593,7 +593,7 @@ div.tocify {
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Reporting
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -653,7 +653,7 @@ div.tocify {
 
 
 <p style="text-align: right;">
-<a href="timeseries.html#regTSlink">Return to main time series page</a>
+<a href="timeseries.html#part3">Return to main time series page</a>
 </p>
 <div id="appendix-1-regularising-time-series" class="section level1">
 <h1>Appendix 1: Regularising Time Series</h1>
@@ -917,48 +917,48 @@ class="section level3">
 <p>We can assess the trend quantitatively with statistical tests like
 the Mann-Kendall test and Sen's slope. Let's try:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">mk.test</span>(<span class="fu">coredata</span>(SO4.zoo)) <span class="co"># Mann-Kendall test, Original</span></span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  Mann-Kendall trend test
-## 
+##
 ## data:  coredata(SO4.zoo)
 ## z = -4.5857, n = 230, p-value = 4.525e-06
 ## alternative hypothesis: true S is not equal to 0
 ## sample estimates:
-##             S          varS           tau 
+##             S          varS           tau
 ## -5.350000e+03  1.360623e+06 -2.032250e-01</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">mk.test</span>(<span class="fu">coredata</span>(SO4.reg.zoo)) <span class="co"># Mann-Kendall test, Regularised</span></span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  Mann-Kendall trend test
-## 
+##
 ## data:  coredata(SO4.reg.zoo)
 ## z = -4.1697, n = 150, p-value = 3.05e-05
 ## alternative hypothesis: true S is not equal to 0
 ## sample estimates:
-##             S          varS           tau 
+##             S          varS           tau
 ## -2.567000e+03  3.787083e+05 -2.297092e-01</code></pre>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">sens.slope</span>(<span class="fu">coredata</span>(SO4.zoo)) <span class="co"># Sen&#39;s Slope test, Original</span></span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  Sen&#39;s slope
-## 
+##
 ## data:  coredata(SO4.zoo)
 ## z = -4.5857, n = 230, p-value = 4.525e-06
 ## alternative hypothesis: true z is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.04708517 -0.01902515
 ## sample estimates:
-## Sen&#39;s slope 
+## Sen&#39;s slope
 ##  -0.0327171</code></pre>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">sens.slope</span>(<span class="fu">coredata</span>(SO4.reg.zoo)) <span class="co"># Sen&#39;s Slope test, Regularised</span></span></code></pre></div>
-<pre><code>## 
+<pre><code>##
 ##  Sen&#39;s slope
-## 
+##
 ## data:  coredata(SO4.reg.zoo)
 ## z = -4.1697, n = 150, p-value = 3.05e-05
 ## alternative hypothesis: true z is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.08370479 -0.03072832
 ## sample estimates:
-## Sen&#39;s slope 
+## Sen&#39;s slope
 ## -0.05735351</code></pre>
 <p>So, with the Niwot Ridge sulfate data, regularisation has preserved a
 significant decreasing trend in groundwater sulfate concentrations.</p>
@@ -1045,7 +1045,7 @@ data from Niwot Ridge plotted as an R (i.e. regular) time series object.
 </p>
 </div>
 <p style="text-align: center;">
-<a href="timeseries.html#regTSlink">Return to main time series page</a>
+<a href="timeseries.html#part3">Return to main time series page</a>
 </p>
 </div>
 </div>
@@ -1102,9 +1102,9 @@ imputation!</p>
 <span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>SO4.TS2 <span class="ot">&lt;-</span> <span class="fu">ts</span>(SO4imputed, <span class="at">freq=</span><span class="dv">12</span>, <span class="at">start=</span><span class="fu">c</span>(<span class="dv">2006</span>,<span class="dv">5</span>))</span>
 <span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a><span class="fu">summary</span>(SO4.TS2); <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">The monthly data now have&quot;</span>,<span class="fu">sum</span>(<span class="fu">is.na</span>(SO4imputed)),</span>
 <span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>                      <span class="st">&quot;missing values&quot;</span>)</span></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
 ##   8.953  23.990  28.107  29.599  33.535  54.888</code></pre>
-<pre><code>## 
+<pre><code>##
 ## The monthly data now have 0 missing values</code></pre>
 </div>
 <div id="compare-imputation-strategies" class="section level3">
@@ -1173,7 +1173,7 @@ to time series trends or forecasts?</p>
 </blockquote>
 <p> </p>
 <p style="text-align: center;">
-<a href="timeseries.html#regTSlink">Return to main time series page</a>
+<a href="timeseries.html#part3">Return to main time series page</a>
 </p>
 </div>
 </div>
