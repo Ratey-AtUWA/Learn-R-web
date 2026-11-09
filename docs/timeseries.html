@@ -759,17 +759,17 @@ class="section level3">
 ##  $ Date: chr  &quot;2014-04-01 00:00:00&quot; &quot;2014-04-01 01:00:00&quot; &quot;2014-04-01 02:00:00&quot; &quot;2014-04-01 03:00:00&quot; ...
 ##  $ temp: num  20.1 19.8 19.6 19.2 19 ...</code></pre>
 <p> </p>
-<p>We can also check the general form of the data with a plot (<span
-class="citation">@fig:plot-df</span>). From this plot and from the text
-summary output above, we can see that the <code>Date</code> column is
-not a date or time, or even really numeric.</p>
+<p>We can also check the general form of the data with a plot (Figure
+1). From this plot and from the text summary output above, we can see
+that the <code>Date</code> column is not a date or time, or even really
+numeric.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">with</span>(soiltemp, <span class="fu">plot</span>(temp, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col =</span> <span class="dv">2</span>, <span class="at">xlab=</span><span class="st">&quot;Index (= row number)&quot;</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/plot-df-1.png" alt="Plot of soil temperature time series data which is not (yet) formatted as a time series." width="50%" />
+<img src="timeseries_files/figure-html/plot-df-1.png" alt="Figure 1: Plot of soil temperature time series data which is not (yet) formatted as a time series." width="50%" />
 <p class="caption">
-Plot of soil temperature time series data which is not (yet) formatted
-as a time series.
+Figure 1: Plot of soil temperature time series data which is not (yet)
+formatted as a time series.
 </p>
 </div>
 <p> </p>
@@ -814,14 +814,13 @@ example).</p>
 <code>Index</code>, and it's correctly stored as date/time information,
 in a format called <code>POSIXct</code> (for more information, run
 <code>?DateTimeClasses</code> in the Console. Again, it's usually useful
-to check our data with a plot (<span
-class="citation">@fig:plot-zoo</span>).</p>
+to check our data with a plot (Figure 2).</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_zoo, <span class="at">col =</span> <span class="dv">3</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/plot-zoo-1.png" alt="Plot of soil temperature time series data which is formatted as a zoo time series object." width="50%" />
+<img src="timeseries_files/figure-html/plot-zoo-1.png" alt="Figure 2: Plot of soil temperature time series data which is formatted as a zoo time series object." width="50%" />
 <p class="caption">
-Plot of soil temperature time series data which is formatted as a zoo
-time series object.
+Figure 2: Plot of soil temperature time series data which is formatted
+as a zoo time series object.
 </p>
 </div>
 <p> </p>
@@ -881,16 +880,15 @@ that we may be able to use past observations to predict
 <strong>future</strong> observations – <em>i.e</em>.,
 <strong>forecasting</strong>.</p>
 <p>We first examine a plot of the data in our time series object (which
-we made above in <span class="citation">@fig:plot-zoo</span>).</p>
+we made above in Figure 2).</p>
 <p>Plotting the time series variable (with time as the independent
 variable!) can give us some initial clues about the overall trend in the
-data (in <span class="citation">@fig:plot-zoo</span>, a negative overall
-slope) and if there is any periodicity (there do seem to be regular
-increases and decreases in soil temperature).</p>
+data (in Figure 2, a negative overall slope) and if there is any
+periodicity (there do seem to be regular increases and decreases in soil
+temperature).</p>
 <p>We often want to inspect plots of both the raw data and using common
-transformations (<span class="citation">@fig:plot-transf</span>). We
-compare with transformed time series data – we may need to do this to
-meet later modelling assumptions.</p>
+transformations (Figure 3). We compare with transformed time series data
+– we may need to do this to meet later modelling assumptions.</p>
 <p>First we change the default plotting parameters using
 <code>par(...)</code>, then plot the object and some transformed
 versions (with custom axis labels).</p>
@@ -917,9 +915,9 @@ versions (with custom axis labels).</p>
 <span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a>  )</span>
 <span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a>}</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/plot-transf-1.png" alt="Plots of soil temperature time series data as untransformed, log10-transformed, and power transformed values." width="65%" />
+<img src="timeseries_files/figure-html/plot-transf-1.png" alt="Figure 3: Plots of soil temperature time series data as untransformed, log10-transformed, and power transformed values." width="65%" />
 <p class="caption">
-Plots of soil temperature time series data as untransformed,
+Figure 3: Plots of soil temperature time series data as untransformed,
 log10-transformed, and power transformed values.
 </p>
 </div>
@@ -985,13 +983,11 @@ made stationary with transformations or differencing.</p>
 </div>
 <div id="plot-differencing-for-stationarity" class="section level3">
 <h3>Plot differencing for stationarity</h3>
-<p>The plots in <span class="citation">@fig:plot-diff</span> below show
-that constant mean and variance (<em>i.e</em>. stationarity) is achieved
-after a single differencing step. The <code>adf.test</code> p-value
-suggests that the non-differenced series is already stationary, but the
-shape of the first sub-plot in <span
-class="citation">@fig:plot-diff</span> does not seem to support
-this.</p>
+<p>The plots in Figure 4 below show that constant mean and variance
+(<em>i.e</em>. stationarity) is achieved after a single differencing
+step. The <code>adf.test</code> p-value suggests that the
+non-differenced series is already stationary, but the shape of the first
+sub-plot in Figure 4 does not seem to support this.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">oma =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">cex.lab =</span> <span class="fl">1.4</span>,</span>
 <span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>    <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">2.5</span>,<span class="fl">0.7</span>,<span class="dv">0</span>), <span class="at">font.lab =</span> <span class="dv">2</span>)</span>
 <span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_zoo, <span class="at">ylab =</span> <span class="st">&quot;Raw data, no differencing&quot;</span>,</span>
@@ -1026,11 +1022,11 @@ this.</p>
 <span id="cb23-32"><a href="#cb23-32" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste</span>(<span class="st">&quot;adf.test p value =&quot;</span>,<span class="fu">signif</span>(d2<span class="sc">$</span>p.value,<span class="dv">3</span>)), </span>
 <span id="cb23-33"><a href="#cb23-33" tabindex="-1"></a>      <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="sc">-</span><span class="fl">1.2</span>, <span class="at">adj =</span> <span class="fl">0.05</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/plot-diff-1.png" alt="Plots of soil temperature time series data and its first and second differences, with each sub-plot showing the smoothed (Loess) and linear trends." width="65%" />
+<img src="timeseries_files/figure-html/plot-diff-1.png" alt="Figure 4: Plots of soil temperature time series data and its first and second differences, with each sub-plot showing the smoothed (Loess) and linear trends." width="65%" />
 <p class="caption">
-Plots of soil temperature time series data and its first and second
-differences, with each sub-plot showing the smoothed (Loess) and linear
-trends.
+Figure 4: Plots of soil temperature time series data and its first and
+second differences, with each sub-plot showing the smoothed (Loess) and
+linear trends.
 </p>
 </div>
 <p> </p>
@@ -1045,8 +1041,7 @@ class="section level3">
 remove daily periodicity using the <code>rollmean()</code> function from
 the <code>zoo</code> package. We know these are hourly data with diurnal
 fluctuation, so a rolling mean for chunks of length 24 should be OK, and
-this seems to be true based on <span
-class="citation">@fig:plot-movAv</span>. For regular time series the
+this seems to be true based on Figure 5. For regular time series the
 <code>frequency()</code> function can detect the periodic frequency for
 us. A moving average will always smooth our data, so a smooth curve
 doesn't necessarily mean that we have periodicity (seasonality).</p>
@@ -1077,17 +1072,17 @@ series object. Can you work out what has happened?</p>
 <span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Data&quot;</span>,<span class="fu">paste</span>(<span class="st">&quot;Moving average, \u0192 =&quot;</span>, ff)), </span>
 <span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">9</span>,<span class="dv">2</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/plot-movAv-1.png" alt="Plots of soil temperature time series data and the 24-hour moving average (ƒ = frequency)." width="55%" />
+<img src="timeseries_files/figure-html/plot-movAv-1.png" alt="Figure 5: Plots of soil temperature time series data and the 24-hour moving average (ƒ = frequency)." width="55%" />
 <p class="caption">
-Plots of soil temperature time series data and the 24-hour moving
-average (ƒ = frequency).
+Figure 5: Plots of soil temperature time series data and the 24-hour
+moving average (ƒ = frequency).
 </p>
 </div>
 <p> </p>
 <p>We can use the moving average idea to decompose our time series.
 Since the soil temperature time series is regular, we can use the
 <code>ts</code> object class from base R (and make a nice plot using
-<code>ggplot2</code>):</p>
+<code>ggplot2</code> - Figure 6):</p>
 </div>
 <div id="make-a-regular-time-series-object" class="section level3">
 <h3>make a regular time series object</h3>
@@ -1112,11 +1107,11 @@ Since the soil temperature time series is regular, we can use the
 <span id="cb27-19"><a href="#cb27-19" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background=</span><span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">&quot;#e0f8ff&quot;</span>),</span>
 <span id="cb27-20"><a href="#cb27-20" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <div class="figure">
-<img src="timeseries_files/figure-html/ma-decomposition-1.png" alt="Components of the soil temperature time series obtained by moving average (classical) decomposition. Note the different vertical scales which overemphasise the seasonal and error components." width="672" />
+<img src="timeseries_files/figure-html/ma-decomposition-1.png" alt="Figure 6: Components of the soil temperature time series obtained by moving average (classical) decomposition. Note the different vertical scales which overemphasise the seasonal and error components." width="672" />
 <p class="caption">
-Components of the soil temperature time series obtained by moving
-average (classical) decomposition. Note the different vertical scales
-which overemphasise the seasonal and error components.
+Figure 6: Components of the soil temperature time series obtained by
+moving average (classical) decomposition. Note the different vertical
+scales which overemphasise the seasonal and error components.
 </p>
 </div>
 </div>
@@ -1148,26 +1143,24 @@ is not valid for time series!</strong></p>
 ## Residual standard error: 1.402 on 1462 degrees of freedom
 ## Multiple R-squared:  0.7442, Adjusted R-squared:  0.744 
 ## F-statistic:  4253 on 1 and 1462 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>...then use a plot (<span class="citation">@fig:linear-trend</span>)
-to look at the linear relationship.</p>
+<p>...then use a plot (Figure 7) to look at the linear relationship.</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>soiltemp_lmfit <span class="ot">&lt;-</span> <span class="fu">zoo</span>(lm0<span class="sc">$</span>fitted.values, <span class="fu">index</span>(soiltemp_zoo))</span>
 <span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_zoo, <span class="at">col =</span> <span class="dv">9</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Date&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Temp. (\u00B0C)&quot;</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a><span class="fu">lines</span>(soiltemp_lmfit, <span class="at">col =</span> <span class="dv">4</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
 <span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Data&quot;</span>,<span class="st">&quot;Linear trend&quot;</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">9</span>,<span class="dv">4</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/linear-trend-1.png" alt="Plots of soil temperature time series data and the overall trend shown by a linear model." width="55%" />
+<img src="timeseries_files/figure-html/linear-trend-1.png" alt="Figure 7: Plots of soil temperature time series data and the overall trend shown by a linear model." width="55%" />
 <p class="caption">
-Plots of soil temperature time series data and the overall trend shown
-by a linear model.
+Figure 7: Plots of soil temperature time series data and the overall
+trend shown by a linear model.
 </p>
 </div>
 <p> </p>
-<p><span class="citation">@fig:linear-trend</span> shows that a linear
-model does not really capture the trend (even without considering the
-periodicity) very convincingly. Moving averages (or LOESS models, shown
-below) represent the trend more accurately and, since time series are
-nearly always autocorrelated, linear models are not statistically
-valid.</p>
+<p>Figure 7 shows that a linear model does not really capture the trend
+(even without considering the periodicity) very convincingly. Moving
+averages (or LOESS models, shown below) represent the trend more
+accurately and, since time series are nearly always autocorrelated,
+linear models are not statistically valid.</p>
 <p> </p>
 </div>
 </div>
@@ -1180,35 +1173,33 @@ SERIES DON'T ALWAYS HAVE PERIODICITY !</strong></span></p>
 <p> <br />To model the periodicity it is useful to understand the
 autocorrelation structure of the time series. We can do this
 graphically, first by running the autocorrelation function
-<code>acf()</code> which outputs a plot by default (<span
-class="citation">@fig:acf-plot</span>):</p>
+<code>acf()</code> which outputs a plot by default (Figure 8):</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="fu">acf</span>(soiltemp_zoo, <span class="at">main =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/acf-plot-1.png" alt="The autocorrelation function plot for soil temperature time series data (the horizontal axis is in units of seconds)." width="65%" />
+<img src="timeseries_files/figure-html/acf-plot-1.png" alt="Figure 8: The autocorrelation function plot for soil temperature time series data (the horizontal axis is in units of seconds)." width="65%" />
 <p class="caption">
-The autocorrelation function plot for soil temperature time series data
-(the horizontal axis is in units of seconds).
+Figure 8: The autocorrelation function plot for soil temperature time
+series data (the horizontal axis is in units of seconds).
 </p>
 </div>
 <p> </p>
 <blockquote>
-<p>💡 What does <span class="citation">@fig:acf-plot</span> tell you
-about autocorrelation in this time series?</p>
+<p>💡 What does Figure 8 tell you about autocorrelation in this time
+series?</p>
 </blockquote>
 <p>Then inspect the partial autocorrelation function
 (<code>pacf()</code>)</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">pacf</span>(soiltemp_zoo, <span class="at">main =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/pacf-plot-1.png" alt="The partial autocorrelation function plot for soil temperature time series data (horizontal axis units are seconds)." width="65%" />
+<img src="timeseries_files/figure-html/pacf-plot-1.png" alt="Figure 9: The partial autocorrelation function plot for soil temperature time series data (horizontal axis units are seconds)." width="65%" />
 <p class="caption">
-The partial autocorrelation function plot for soil temperature time
-series data (horizontal axis units are seconds).
+Figure 9: The partial autocorrelation function plot for soil temperature
+time series data (horizontal axis units are seconds).
 </p>
 </div>
 <p> </p>
-<p>Interpreting partial autocorrelations (<span
-class="citation">@fig:pacf-plot</span>) is more complicated – refer to
-<a href="https://rc2e.com/timeseriesanalysis#recipe-id083"
+<p>Interpreting partial autocorrelations (Figure 9) is more complicated
+– refer to <a href="https://rc2e.com/timeseriesanalysis#recipe-id083"
 target="_blank">Long &amp; Teetor (2019, <em>Section 14.15</em>)</a>. A
 good explanation I've found is from <a
 href="https://statisticsbyjim.com/time-series/autocorrelation-partial-autocorrelation/"
@@ -1258,8 +1249,8 @@ sections of <span style="font-family: serif;"><em>x-y</em></span> data
 are, defined by a <code>bandwidth</code> parameter.]</p>
 <p>We can visualise the STL decomposition simply using
 <code>plot(stl_soilT)</code>, but here we'll also make a prettier
-decomposition plot using <code>ggplot</code> after wrangling the data
-into a long-form data frame:</p>
+decomposition plot (Figure 10) using <code>ggplot</code> after wrangling
+the data into a long-form data frame:</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="co"># Seasonal Decomposition of Time Series by Loess</span></span>
 <span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a>stl_soilT <span class="ot">&lt;-</span> <span class="fu">stl</span>(soilT.ts, <span class="st">&quot;periodic&quot;</span>)</span>
 <span id="cb39-3"><a href="#cb39-3" tabindex="-1"></a></span>
@@ -1282,21 +1273,19 @@ into a long-form data frame:</p>
 <span id="cb39-20"><a href="#cb39-20" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background=</span><span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">&quot;#e0f8ff&quot;</span>),</span>
 <span id="cb39-21"><a href="#cb39-21" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <div class="figure">
-<img src="timeseries_files/figure-html/stl-decomposition-1.png" alt="The components of the soil temperature time series obtained by STL (seasonal decomposition of time series by loess)." width="672" />
+<img src="timeseries_files/figure-html/stl-decomposition-1.png" alt="Figure 10: The components of the soil temperature time series obtained by STL (seasonal decomposition of time series by loess)." width="672" />
 <p class="caption">
-The components of the soil temperature time series obtained by STL
-(seasonal decomposition of time series by loess).
+Figure 10: The components of the soil temperature time series obtained
+by STL (seasonal decomposition of time series by loess).
 </p>
 </div>
 <p> </p>
-<p>You might want to compare <span
-class="citation">@fig:stl-decomposition</span> with the
-moving-average-based decomposition in <span
-class="citation">@fig:ma-decomposition</span>. Sometimes we can't use
-<code>stl()</code> decomposition, for example if we have an irregular
-time series. It's possible, with a bit of trial-and-error, to use a
-manual loess-based approach to end up with the decomposition we want...
-but that's not for here</p>
+<p>You might want to compare Figure 10 with the moving-average-based
+decomposition in Figure 6. Sometimes we can't use <code>stl()</code>
+decomposition, for example if we have an irregular time series. It's
+possible, with a bit of trial-and-error, to use a manual loess-based
+approach to end up with the decomposition we want... but that's not for
+here</p>
 <p>With the traditional or LTS decomposition results, we're now in a
 position to estimate homoscedasticity of our time series. It's not a
 formal method and a bit ‘hacky’ 😎, but we can predict the raw time
@@ -1409,12 +1398,13 @@ showing that the Sen's slope is significantly negative in this example,
 <em>i.e</em>., a monotonic decrease of about -0.0058 ° C per time step
 (<em>i.e</em>. per hour).</p>
 <div class="figure">
-<img src="timeseries_files/figure-html/visualise-sens-slope-1.png" alt="Visualisation of Sen's Slope for the Murrumbidgee 15 cm soil temperature time series. The shaded area around the slope line shows the range of slopes calculated from the 95% confidence interval for the Sen's Slope parameter, rather than being a true regression confidence interval." width="672" />
+<img src="timeseries_files/figure-html/visualise-sens-slope-1.png" alt="Figure 11: Visualisation of Sen's Slope for the Murrumbidgee 15 cm soil temperature time series. The shaded area around the slope line shows the range of slopes calculated from the 95% confidence interval for the Sen's Slope parameter, rather than being a true regression confidence interval." width="672" />
 <p class="caption">
-Visualisation of Sen's Slope for the Murrumbidgee 15 cm soil temperature
-time series. The shaded area around the slope line shows the range of
-slopes calculated from the 95% confidence interval for the Sen's Slope
-parameter, rather than being a true regression confidence interval.
+Figure 11: Visualisation of Sen's Slope for the Murrumbidgee 15 cm soil
+temperature time series. The shaded area around the slope line shows the
+range of slopes calculated from the 95% confidence interval for the
+Sen's Slope parameter, rather than being a true regression confidence
+interval.
 </p>
 </div>
 <p> </p>
@@ -1582,9 +1572,9 @@ moving average coefficients.</p>
 probably a good idea to use the output of <code>auto.arima</code> as a
 starting point to adjust <code>p,d,q</code> and <code>P,D,Q</code> one
 by one, being informed by our exploratory data analysis. For example,
-our analysis in <span class="citation">@fig:plot-diff</span> showed that
-the time series was stationary without differencing, so <code>d</code>
-and <code>D</code> were set to zero.</p>
+our analysis in Figure 4 showed that the time series was stationary
+without differencing, so <code>d</code> and <code>D</code> were set to
+zero.</p>
 <p>The model which includes periodicity has the lowest AIC value (which
 is not surprising, since the soil temperature data have clear
 periodicity). Note that the <code>drift</code> or slope parameter is
@@ -1602,10 +1592,10 @@ Ljung-Box test should be &gt; 0.05 (text output) - the residuals should
 be normally distributed (bottom right plot)</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="fu">checkresiduals</span>(am0)</span></code></pre></div>
 <div class="figure">
-<img src="timeseries_files/figure-html/diagnostic-arima-1.png" alt="Residual diagnostic plots for a non-seasonal ARIMA model of the  soil temperature time series." width="70%" />
+<img src="timeseries_files/figure-html/diagnostic-arima-1.png" alt="Figure 12: Residual diagnostic plots for a non-seasonal ARIMA model of the  soil temperature time series." width="70%" />
 <p class="caption">
-Residual diagnostic plots for a non-seasonal ARIMA model of the soil
-temperature time series.
+Figure 12: Residual diagnostic plots for a non-seasonal ARIMA model of
+the soil temperature time series.
 </p>
 </div>
 <pre><code>## 
@@ -1618,10 +1608,10 @@ temperature time series.
 <p> </p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="fu">checkresiduals</span>(am1)</span></code></pre></div>
 <div class="figure">
-<img src="timeseries_files/figure-html/diagnostic-sarima-1.png" alt="Residual diagnostic plots for a seasonal ARIMA (SARIMA) model of the  soil temperature time series." width="70%" />
+<img src="timeseries_files/figure-html/diagnostic-sarima-1.png" alt="Figure 13: Residual diagnostic plots for a seasonal ARIMA (SARIMA) model of the  soil temperature time series." width="70%" />
 <p class="caption">
-Residual diagnostic plots for a seasonal ARIMA (SARIMA) model of the
-soil temperature time series.
+Figure 13: Residual diagnostic plots for a seasonal ARIMA (SARIMA) model
+of the soil temperature time series.
 </p>
 </div>
 <pre><code>## 
@@ -1632,25 +1622,22 @@ soil temperature time series.
 ## 
 ## Model df: 5.   Total lags used: 48</code></pre>
 <p> </p>
-<p>In both the diagnostic plots (<span
-class="citation">@fig:diagnostic-arima</span> and <span
-class="citation">@fig:diagnostic-sarima</span>) the residuals appear to
-be random and normally distributed. There seems to be a more obvious
-autocorrelation of residuals for the non-seasonal model, reinforcing the
-conclusion from the AIC value that the <strong>seasonal</strong> ARIMA
-model is the most appropriate.</p>
+<p>In both the diagnostic plots (Figure 12 and Figure 13) the residuals
+appear to be random and normally distributed. There seems to be a more
+obvious autocorrelation of residuals for the non-seasonal model,
+reinforcing the conclusion from the AIC value that the
+<strong>seasonal</strong> ARIMA model is the most appropriate.</p>
 </div>
 <div
 id="looking-at-how-well-or-not-the-sarima-models-fit-the-actual-data"
 class="section level3">
 <h3>Looking at how well (or not) the (S)ARIMA models fit the actual
 data</h3>
-<p>In <span class="citation">@fig:fitted-arima-lines</span> (below) we
-can see how well the ARIMA and seasonal ARIMA models fit the data (for
-clarity, only one week of hourly observations are plotted, otherwise
-there is a lot of overlap). The ARIMA objects <code>am0</code> and
-<code>am1</code> don't contain the fitted values, but they do contain
-model residuals so we calculate
+<p>In Figure 14 (below) we can see how well the ARIMA and seasonal ARIMA
+models fit the data (for clarity, only one week of hourly observations
+are plotted, otherwise there is a lot of overlap). The ARIMA objects
+<code>am0</code> and <code>am1</code> don't contain the fitted values,
+but they do contain model residuals so we calculate
 <code>fitted = observed - residual</code> in each case.</p>
 <p>Note that a non-seasonal ARIMA model can still capture periodicity by
 making predictions based just on autocorrelation and moving averages.
@@ -1681,12 +1668,12 @@ we try to use the models for <strong>forecasting</strong>.</p>
 <span id="cb56-22"><a href="#cb56-22" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="cn">NA</span>), <span class="at">lwd=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">3</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">1</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">7</span>), <span class="at">inset=</span><span class="fl">0.02</span>, <span class="at">cex=</span><span class="fl">1.4</span>)</span>
 <span id="cb56-23"><a href="#cb56-23" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(b)&quot;</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="fl">1.5</span>, <span class="at">adj=</span><span class="fl">0.98</span>, <span class="at">cex=</span><span class="fl">1.4</span>)</span></code></pre></div>
 <div class="figure">
-<img src="timeseries_files/figure-html/fitted-arima-lines-1.png" alt="Soil temperature data for the first week of May 2014, showing (a) the fitted ARIMA model and (b) the fitted SARIMA (seasonal) model. The thickness of the fitted lines in both (a) and (b) is arbitrary and does not represent model uncertainty." width="1152" />
+<img src="timeseries_files/figure-html/fitted-arima-lines-1.png" alt="Figure 14: Soil temperature data for the first week of May 2014, showing (a) the fitted ARIMA model and (b) the fitted SARIMA (seasonal) model. The thickness of the fitted lines in both (a) and (b) is arbitrary and does not represent model uncertainty." width="1152" />
 <p class="caption">
-Soil temperature data for the first week of May 2014, showing (a) the
-fitted ARIMA model and (b) the fitted SARIMA (seasonal) model. The
-thickness of the fitted lines in both (a) and (b) is arbitrary and does
-not represent model uncertainty.
+Figure 14: Soil temperature data for the first week of May 2014, showing
+(a) the fitted ARIMA model and (b) the fitted SARIMA (seasonal) model.
+The thickness of the fitted lines in both (a) and (b) is arbitrary and
+does not represent model uncertainty.
 </p>
 </div>
 <p> </p>
@@ -1740,21 +1727,19 @@ here</a>.</p>
 <span id="cb58-16"><a href="#cb58-16" tabindex="-1"></a><span class="fu">mtext</span>(am1<span class="sc">$</span>call, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="at">adj =</span> <span class="fl">0.1</span>, <span class="at">col =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">family=</span><span class="st">&quot;mono&quot;</span>)</span>
 <span id="cb58-17"><a href="#cb58-17" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(b)&quot;</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="fl">1.2</span>, <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">adj =</span> <span class="fl">0.98</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/forecast-plots-1.png" alt="Time series forecasts for soil temperature, based on (a) a non-seasonal ARIMA model and (b) a seasonal ARIMA model." width="70%" />
+<img src="timeseries_files/figure-html/forecast-plots-1.png" alt="Figure 15: Time series forecasts for soil temperature, based on (a) a non-seasonal ARIMA model and (b) a seasonal ARIMA model." width="70%" />
 <p class="caption">
-Time series forecasts for soil temperature, based on (a) a non-seasonal
-ARIMA model and (b) a seasonal ARIMA model.
+Figure 15: Time series forecasts for soil temperature, based on (a) a
+non-seasonal ARIMA model and (b) a seasonal ARIMA model.
 </p>
 </div>
 <p> </p>
-<p>From the two plots in <span
-class="citation">@fig:forecast-plots</span>, we observe that the
-seasonal ARIMA model seems to reflect the form of the original data much
-better, by simulating the diurnal fluctuations in soil temperature.
-Although the forecasting uncertainty shown by the shaded area in <span
-class="citation">@fig:forecast-plots</span> is large for both types of
-ARIMA model, the interval seems smaller for the seasonal ARIMA model
-(<span class="citation">@fig:forecast-plots</span>(b)).</p>
+<p>From the two plots in Figure 15, we observe that the seasonal ARIMA
+model seems to reflect the form of the original data much better, by
+simulating the diurnal fluctuations in soil temperature. Although the
+forecasting uncertainty shown by the shaded area in Figure 15 is large
+for both types of ARIMA model, the interval seems smaller for the
+seasonal ARIMA model (Figure 15(b)).</p>
 <p>The actual forecasted values are in the <code>forecast</code> objects
 (<code>fc0</code> and <code>fc1</code>) which we can see the layout of
 by running <code>str(fc0)</code> or <code>str(fc1)</code>:</p>
@@ -1793,19 +1778,19 @@ by running <code>str(fc0)</code> or <code>str(fc1)</code>:</p>
 ## [10,] 12.89722 13.66526</code></pre>
 <p>We can also make a slightly 'prettier' time series forecast plot
 using the <code>autoplot()</code> function from the <code>ggplot2</code>
-package (<span class="citation">@fig:forecast-ggplot</span>):</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" tabindex="-1"></a><span class="fu">require</span>(ggplot2) <span class="co"># gives best results using autoplot(...)</span></span>
+package (Figure 16):</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" tabindex="-1"></a><span class="fu">require</span>(ggplot2) <span class="co"># gives nice results using autoplot(...)</span></span>
 <span id="cb67-2"><a href="#cb67-2" tabindex="-1"></a><span class="fu">autoplot</span>(fc1)<span class="sc">+</span></span>
 <span id="cb67-3"><a href="#cb67-3" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Temperature (\u00B0C)&quot;</span>) <span class="sc">+</span></span>
 <span id="cb67-4"><a href="#cb67-4" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">paste</span>(<span class="st">&quot;Time since&quot;</span>,<span class="fu">index</span>(soiltemp_zoo)[<span class="dv">1</span>],<span class="st">&quot;(days)&quot;</span>)) <span class="sc">+</span></span>
 <span id="cb67-5"><a href="#cb67-5" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
 <span id="cb67-6"><a href="#cb67-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/forecast-ggplot-1.png" alt="Time series forecast for soil temperature, based on  a seasonal ARIMA model, plotted using the `ggplot2` `autoplot()` function." width="70%" />
+<img src="timeseries_files/figure-html/forecast-ggplot-1.png" alt="Figure 16: Time series forecast for soil temperature, based on  a seasonal ARIMA model, plotted using the `ggplot2` `autoplot()` function." width="70%" />
 <p class="caption">
-Time series forecast for soil temperature, based on a seasonal ARIMA
-model, plotted using the <code>ggplot2</code> <code>autoplot()</code>
-function.
+Figure 16: Time series forecast for soil temperature, based on a
+seasonal ARIMA model, plotted using the <code>ggplot2</code>
+<code>autoplot()</code> function.
 </p>
 </div>
 <p> </p>
@@ -1870,8 +1855,7 @@ errors, but no seasonality. We don't do it here (it generates an
 error!), but we could manually select a model with seasonality
 included.</p>
 <p>The default plot function in R can plot forecasts from exponential
-smoothing models too (<span
-class="citation">@fig:ets-forecast</span>).</p>
+smoothing models too (Figure 17).</p>
 <div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">0.3</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.25</span>, <span class="at">oma =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">font.lab=</span><span class="dv">2</span>)</span>
 <span id="cb70-2"><a href="#cb70-2" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">forecast</span>(soiltemp_ets, <span class="at">h=</span><span class="dv">168</span>), <span class="at">col=</span><span class="dv">2</span>, <span class="at">fcol=</span><span class="dv">4</span>, </span>
 <span id="cb70-3"><a href="#cb70-3" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Time since start (days)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Temperature (\u00B0C)&quot;</span>, <span class="at">main=</span><span class="st">&quot;&quot;</span>)</span>
@@ -1880,22 +1864,22 @@ class="citation">@fig:ets-forecast</span>).</p>
 <span id="cb70-6"><a href="#cb70-6" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">rep</span>(<span class="dv">62</span>,<span class="dv">6</span>),<span class="fu">seq</span>(<span class="fl">21.5</span>,<span class="dv">16</span>,<span class="at">l=</span><span class="dv">6</span>),<span class="fu">signif</span>(soiltemp_ets<span class="sc">$</span>par[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>],<span class="dv">3</span>),</span>
 <span id="cb70-7"><a href="#cb70-7" tabindex="-1"></a>     <span class="at">pos=</span><span class="dv">2</span>,<span class="at">col =</span> <span class="dv">3</span>, <span class="at">font =</span> <span class="dv">8</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/ets-forecast-1.png" alt="Forecast of soil temperature based on an automatically selected exponential smoothing model without a seasonal component." width="70%" />
+<img src="timeseries_files/figure-html/ets-forecast-1.png" alt="Figure 17: Forecast of soil temperature based on an automatically selected exponential smoothing model without a seasonal component." width="70%" />
 <p class="caption">
-Forecast of soil temperature based on an automatically selected
-exponential smoothing model without a seasonal component.
+Figure 17: Forecast of soil temperature based on an automatically
+selected exponential smoothing model without a seasonal component.
 </p>
 </div>
 <p> </p>
 <p>Exponential smoothing also <strong>decomposes</strong> time series in
 a different way, into <em>level</em> and <em>slope</em> components
-(<span class="citation">@fig:ets-decomposition</span>).</p>
+(Figure 18).</p>
 <div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" tabindex="-1"></a><span class="fu">plot</span>(soiltemp_ets, <span class="at">col=</span><span class="dv">5</span>, <span class="at">xlab=</span><span class="st">&quot;Time since start (days)&quot;</span>) <span class="co"># ETS decomposition plots</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="timeseries_files/figure-html/ets-decomposition-1.png" alt="Exponential smoothing time series decomposition plots for soil temperature data." width="75%" />
+<img src="timeseries_files/figure-html/ets-decomposition-1.png" alt="Figure 18: Exponential smoothing time series decomposition plots for soil temperature data." width="75%" />
 <p class="caption">
-Exponential smoothing time series decomposition plots for soil
-temperature data.
+Figure 18: Exponential smoothing time series decomposition plots for
+soil temperature data.
 </p>
 </div>
 <p> </p>
