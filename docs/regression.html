@@ -597,7 +597,7 @@ style="font-size: 12pt;">💾 The afs1923 dataset in csv (comma-separated)
 format</span></a>
 </p>
 <p>
-<a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/Learn-R-CODE-corr-regr-PARTS-1-2.R"><span
+<a href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/Learn-R-CODE-corr-regr-PARTS-1-2.R"><span
 style="font-size: 12pt;">🔣 R code file for this workshop
 session</span></a>
 </p>
@@ -614,7 +614,7 @@ the dependent variable is a linear function of the predictor
 variable(s).</p>
 <p>Our usual first step is to read the data, and change anything we need
 to:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/&quot;</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/&quot;</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>afs1923 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;afs1923.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>afs1923<span class="sc">$</span>Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(afs1923<span class="sc">$</span>Type, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Drain_Sed&quot;</span>,<span class="st">&quot;Lake_Sed&quot;</span>,<span class="st">&quot;Saltmarsh&quot;</span>,<span class="st">&quot;Other&quot;</span>))</span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>afs1923<span class="sc">$</span>Type2 <span class="ot">&lt;-</span> </span>
