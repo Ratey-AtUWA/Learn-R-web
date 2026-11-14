@@ -674,7 +674,7 @@ of major elements such as Al, Fe, or Mn (Hamon <em>et al</em>.,
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(prettymapr)    <span class="co"># add scale bar and north arrows to maps</span></span></code></pre></div>
 <p>For this session we're going to use the Ashfield Flats compiled data
 from 2019-2023.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/&quot;</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/&quot;</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>afs1923 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(git,<span class="st">&quot;afs1923.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co"># re-order the factor levels</span></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>afs1923<span class="sc">$</span>Type <span class="ot">&lt;-</span> <span class="fu">factor</span>(afs1923<span class="sc">$</span>Type, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Drain_Sed&quot;</span>,<span class="st">&quot;Lake_Sed&quot;</span>,<span class="st">&quot;Saltmarsh&quot;</span>,<span class="st">&quot;Other&quot;</span>))</span>
