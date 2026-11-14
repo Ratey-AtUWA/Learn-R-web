@@ -572,7 +572,7 @@ absolute beginners</a>. </span>
 data to you as <code>.csv</code> files. Sometimes you need to download
 these into your working directory to use them, and sometimes you can
 read them directly from a web URL (<em>e.g</em>. <a
-href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/afs19.csv"
+href="https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/afs19.csv"
 target="_blank"><code>https://github.com/.../afs19.csv</code></a>).</p>
 <p>With the type of dataset we usually use, there are columns containing
 categorical information, which <strong>R</strong> calls
@@ -599,7 +599,7 @@ which we can then load in later <strong>R</strong> sessions using the
 <code>load()</code> function, or clicking the 📁 icon in the <span
 style="background-color:#404040; color:white;"> Environment </span> tab
 in RStudio.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/main/&quot;</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>git <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/&quot;</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>hubbard <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="fu">paste0</span>(git,<span class="st">&quot;hubbard.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># ... and do a quick check</span></span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">is.data.frame</span>(hubbard) <span class="co"># check that it worked; if so, the result should be TRUE</span></span></code></pre></div>
