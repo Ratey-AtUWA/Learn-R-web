@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Andrew Rate" />
+
+<meta name="date" content="2026-11-24" />
+
+<title>Exploring compositional data</title>
+
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Sessions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="about.html">For beginners</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Intro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Intro</a>
+    </li>
+    <li>
+      <a href="intro-GG.html">Intro+ggplot</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plots.html">Plots-baseR</a>
+    </li>
+    <li>
+      <a href="plots-GG.html">Plots-ggplot</a>
+    </li>
+    <li>
+      <a href="boxplots-plus.html">Enhanced boxplots</a>
+    </li>
+    <li>
+      <a href="depth-profiles.html">Depth profiles</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Compare
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="means.html">Compare means (parametric)</a>
+    </li>
+    <li>
+      <a href="nonparam.html">Non-parametric comparisons</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Relate
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="correl.html">Correlation</a>
+    </li>
+    <li>
+      <a href="regression.html">Simple linear regression</a>
+    </li>
+    <li>
+      <a href="reg-group.html">Grouped linear regression</a>
+    </li>
+    <li>
+      <a href="reg-multi.html">Multiple linear regression</a>
+    </li>
+    <li>
+      <a href="timeseries.html">Time series analysis</a>
+    </li>
+    <li>
+      <a href="regTS.html">Time series regularisation</a>
+    </li>
+    <li>
+      <a href="nonlinear.html">Non-linear regression examples</a>
+    </li>
+    <li>
+      <a href="prediction-intervals.html">Calibration curves and prediction intervals</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Maps
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="maps.html">Map data with tile backgrounds</a>
+    </li>
+    <li>
+      <a href="spatial.html">Spatial statistics</a>
+    </li>
+    <li>
+      <a href="spat-interp.html">Spatial interpolation</a>
+    </li>
+    <li>
+      <a href="google-kml.html">Using Google Earth objects</a>
+    </li>
+    <li>
+      <a href="georef-images.html">Using georeferenced images</a>
+    </li>
+    <li>
+      <a href="shapefiles.html">Using shapefiles</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Multi
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pca.html">Principal components analysis</a>
+    </li>
+    <li>
+      <a href="ExploreCompositions.html">Imputation and similarity in compositional data</a>
+    </li>
+    <li>
+      <a href="vegan.html">Analysis of species presence-absence data</a>
+    </li>
+    <li>
+      <a href="lda.html">Linear discriminant analysis</a>
+    </li>
+    <li>
+      <a href="cluster.html">Cluster analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Util
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="distributions.html">Distribution checking</a>
+    </li>
+    <li>
+      <a href="residuals.html">Regression residuals to identify contamination</a>
+    </li>
+    <li>
+      <a href="hydrus1d.html">Hydrus-1D cheatsheet</a>
+    </li>
+    <li class="dropdown-header">---- SHINY WEB APPS ----</li>
+    <li>
+      <a href="calib-redirect.html">Simple calibration curve ↗</a>
+    </li>
+    <li>
+      <a href="ftir-redirect.html">FLOPP and FLOPP-e ATR-FTIR Libraries ↗</a>
+    </li>
+    <li>
+      <a href="raman-redirect.html">SLOPP and SLOPP-e Raman Libraries ↗</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Reporting
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="report-resources.html">Resources for reporting</a>
+    </li>
+    <li>
+      <a href="tablesPlus.html">Tables &amp; trigger value counts</a>
+    </li>
+    <li>
+      <a href="maps-location-siteplan.html">Locality and Site Plan maps</a>
+    </li>
+    <li>
+      <a href="One-page_R-Markdown.html">Brief essentials of R markdown</a>
+    </li>
+    <li>
+      <a href="chunk-options.html">Custom output with R markdown chunk options</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="sage-redirect.html">School of Agriculture and Environment</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<!DOCTYPE html>
+
+<html>
+<body>
+<h3><img src="./images/2015-UWA-Full-Hor-CMYK.png" alt="UWA logo" align="right"><span style="color:#003087;">Material to support teaching in Environmental Science at The University of Western Australia</span></h3>
+<h4><span style="color:#93721A;">Units ENVT3361, ENVT4461, and ENVT5503</span></h4></p>
+</body>
+</html>
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Exploring compositional data</h1>
+<h3 class="subtitle">Imputation and multivariate similarity</h3>
+<h4 class="author">Andrew Rate</h4>
+<h4 class="date">2026-11-24</h4>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>As we've <a href="pca.html">already seen</a>, compositional data,
+defined as any measurements which are proportions of some whole, are
+encountered in environmental science and many other disciplines. Much of
+this website examines chemical compositions which, depending on the
+units of measurement, may sum to a fixed value of 1,000,000 mg/kg, or
+100%, and so on. This <em>fixed-sum closure</em> means that individual
+concentrations are not independent, and so we may get incorrect or
+invalid results from statistical procedures applied to the raw data,
+particularly those which assess relationships between variables, such as
+correlations and numerous multivariate methods.</p>
+<p>Fortunately for us, this issue has been recognised since the work of
+Aitchison in the 1980s (Reimann <em>et al</em>., 2008). Specialised
+transformations which remove the fixed-sum closure are available, which
+yield a dataset that can be analysed with confidence that the
+relationships we observe reflect real phenomena such as the element
+ratios expected in minerals.</p>
+<p>Another issue that is common with environmental data is that of
+<em>missing values</em>. Numbers in our data are missing for
+frustrating, but perfectly valid reasons, especially when multiple
+measurements are involved:</p>
+<ul>
+<li>the concentration of a substance was below the limit of detection
+for our analysis;</li>
+<li>a mistake was made in sample tracking (<em>e.g</em>. a sample was
+mislabelled);</li>
+<li>we lost the sample;</li>
+<li>the equipment didn't work properly (all too common in the
+field);</li>
+<li>and so on.</li>
+</ul>
+<p>We could simply accept that we don't have all the information that we
+would like, but that can cause other undesirable issues. For example, in
+some multivariate data analyses, a single missing value for a sample can
+result in <em>none</em> of the measurements for that sample being used,
+which seems a waste of otherwise good data. We could (a) live with this;
+(b) replace the missing value with a logical but arbitrary value
+(<em>e.g</em>. half the detection limit), or (c) use compositional
+relationships or similarity to calculate an estimate of what the missing
+value (probably) was (see Reimann <em>et al</em>. 2008 for more
+details). We'll look at option (c) in the material that follows.</p>
+<p>These concepts are embedded in a couple of R packages that we will
+use in this session: <code>compositions</code> (van den Boogaart and
+Tolosana-Delgado, 2025) and <code>robCompositions</code> (Templ <em>et
+al</em>., 2011):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(compositions)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(robCompositions)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(knitr)  <span class="co"># prettier Tables using the kable function</span></span></code></pre></div>
+<p>We'll also need some data to illustrate the procedures. We'll use an
+urban soil/sediment geochemistry dataset from Smith's Lake and Charles
+Veryard Reserves in North Perth, Western Australia (see Rate, 2021 for
+details).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>giturl <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>sv18 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(giturl, <span class="st">&quot;sv18orig.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>The first thing we'll check is how many missing values the dataset
+variables have. To do this we use the <code>sapply</code> function to
+apply the function <code>sum(is.na(x))</code> to each column in the
+<code>sv18</code> data frame:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>nMiss <span class="ot">&lt;-</span> <span class="fu">sapply</span>(sv18, <span class="at">FUN=</span><span class="cf">function</span>(x){<span class="fu">sum</span>(<span class="fu">is.na</span>(x))})</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>nMiss[nMiss<span class="sc">&gt;</span><span class="dv">0</span>]</span></code></pre></div>
+<pre><code>##       range Depth_upper Depth_lower          pH          EC          As          Cd          Cu          Gd 
+##          12          12          12          12          13           2           6          18          28 
+##          Mo          Nd          Ni          Pb           S          Sr          Th          Zn 
+##           7           7          10           1           2           5           3           1</code></pre>
+<p>We can use <code>sum(is.na(...))</code> since <code>is.na</code>
+outputs a vector of <code>TRUE</code> or <code>FALSE</code> values, and
+since <code>TRUE</code> has a value of 1 and <code>FALSE</code> = 0, the
+sum of that vector counts the <code>TRUE</code>, that is <code>NA</code>
+or missing, values.</p>
+<p>The output above shows a dataset with many missing values. Ignoring
+<code>range</code> and the two depth columns (which have 12 missing
+values corresponding to 12 road dust samples), we have missing values
+for pH, EC, As, Cd, Cu, Gd, Mo, Nd, Ni, Pb, S, Sr, Th and Zn. I suspect
+we had a faulty pH/EC meter in the field, and the concentrations of
+several elements were censored to <code>NA</code> as they were below the
+detection limit for the <em>aqua regia</em> digestion / ICP-OES method
+used for elemental analysis.</p>
+<p>There's not so much we can do about the missing EC and pH values (for
+now), since they are not part of our fixed-sum closed composition. But
+we'll have a go at imputing concentrations for the missing elemental
+data. For the prediction of missing values, we need to apply a
+transformation that removes fixed-sum closure. This is done using one of
+the <em>log-ratio</em> transformations; the imputation method we'll
+implement uses the <em>centered log-ratio</em> (CLR) transformation (<a
+href="pca.html" target="_blank">see here</a> for a definition). Since
+taking logarithms is involved, it's worth checking if we have any
+negative or zero values in our elemental concentrations (columns
+<code>12:37</code> in the <code>sv18</code> data frame):</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">sapply</span>(sv18[,<span class="dv">12</span><span class="sc">:</span><span class="dv">37</span>], <span class="at">FUN=</span><span class="cf">function</span>(x){<span class="fu">min</span>(x, <span class="at">na.rm=</span>T)<span class="sc">&lt;=</span><span class="dv">0</span>})</span></code></pre></div>
+<pre><code>##    Al    As    Ba    Ca    Cd    Ce    Cr    Cu    Fe    Gd     K    La    Mg    Mn    Mo    Na    Nd    Ni 
+## FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE 
+##     P    Pb     S    Sr    Th     V     Y    Zn 
+## FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+<p>The check returns all <code>FALSE</code> values, so we have no
+negative or zero concentrations. We can proceed...</p>
+<blockquote>
+<p>💡 What other ways could we check, using R function(s), whether we
+have any negative or zero concentrations?<a href="#foot1">¹</a></p>
+</blockquote>
+<p>We now use one of the imputation functions from the
+<code>robCompositions</code> R package to calculate estimates for our
+missing values. There are a couple of sensible choices:
+<code>impCoda</code> which is the most flexible and is specifically
+designed for compositional data, and <code>impKNNa</code> which uses a
+K-nearest neighbour method in CLR space. The name <code>impCoda</code>
+is an abbreviation for ‘impute Compositional data’, and although it is
+probably best-suited to compositional data, my testing shows that it
+sometimes produced estimates several orders of magnitude below
+analytical detection limits, or occasionally negative values after
+back-transformation. As we usually want to do both compositional and
+conventional statistical analyses, we're going to use the
+<code>impKNNa</code> function.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>imputed <span class="ot">&lt;-</span> <span class="fu">impKNNa</span>(sv18[, <span class="dv">12</span><span class="sc">:</span><span class="dv">37</span>])</span></code></pre></div>
+<p>Before applying K-nearest neighbour estimation, the
+<code>impKNNa</code> function transforms the data using centred
+log-ratios.</p>
+<p>Before we do more analysis with the imputed data we should check how
+well it worked! The simplest way to do this is with the
+<code>stripchart</code> function to produce 1-dimensional scatter
+plots:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>data0 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(imputed<span class="sc">$</span>xOrig)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(imputed<span class="sc">$</span>xImp) </span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>elemz <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Cd&quot;</span>,<span class="st">&quot;Cu&quot;</span>,<span class="st">&quot;Gd&quot;</span>,<span class="st">&quot;Nd&quot;</span>,<span class="st">&quot;Ni&quot;</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,.<span class="dv">5</span>,.<span class="dv">5</span>,.<span class="dv">5</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex.lab=</span><span class="fl">1.5</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">each=</span><span class="dv">2</span>),<span class="dv">6</span>),<span class="at">ncol=</span><span class="dv">1</span>))</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(elemz)){</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  <span class="fu">stripchart</span>(data0[,elemz[i]], <span class="at">method=</span><span class="st">&quot;jitter&quot;</span>, <span class="at">pch=</span><span class="dv">15</span>, <span class="at">cex=</span><span class="fl">1.5</span>, <span class="at">col=</span><span class="st">&quot;#80808060&quot;</span>, <span class="at">log=</span><span class="st">&quot;x&quot;</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>             <span class="at">xlim=</span><span class="fu">range</span>(data1[,elemz[i]]), <span class="at">ylim=</span><span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">1.2</span>))</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  <span class="fu">stripchart</span>(data1[,elemz[i]][<span class="fu">which</span>(<span class="fu">is.na</span>(data0[,elemz[i]]))], <span class="at">add=</span><span class="cn">TRUE</span>, </span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>             <span class="at">method=</span><span class="st">&quot;jitter&quot;</span>, <span class="at">bg=</span><span class="st">&quot;#f0c00080&quot;</span>, <span class="at">pch=</span><span class="dv">23</span>, <span class="at">cex=</span><span class="fl">1.5</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>  <span class="fu">mtext</span>(elemz[i], <span class="at">side=</span><span class="dv">3</span>, <span class="at">adj=</span><span class="fl">0.02</span>, <span class="at">line=</span><span class="sc">-</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">1.5</span>, <span class="at">font=</span><span class="dv">2</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>}</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>,<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">axes=</span>F, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, ,<span class="at">type=</span><span class="st">&quot;n&quot;</span>, <span class="at">ann=</span>F)</span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;center&quot;</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Actual observations&quot;</span>,<span class="st">&quot;Imputed concentrations&quot;</span>),</span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">23</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#80808060&quot;</span>,<span class="st">&quot;#000&quot;</span>), <span class="at">pt.bg=</span><span class="st">&quot;#f0c00080&quot;</span>,</span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>       <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">cex=</span><span class="fl">1.5</span>, <span class="at">pt.cex=</span><span class="fl">1.5</span>)</span></code></pre></div>
+<div class="figure">
+<img src="ExploreCompositions_files/figure-html/check-imputed-values-1-1.png" alt="Figure 1: One-dimensional scatter plots showing imputed values for Cd, Cu, Gd, Nd, and Ni concentrations superimposed on the original concentrations. Imputation was performed on the clr-transformed compositional data using K-nearest-neighbour estimation." width="768" />
+<p class="caption">
+Figure 1: One-dimensional scatter plots showing imputed values for Cd,
+Cu, Gd, Nd, and Ni concentrations superimposed on the original
+concentrations. Imputation was performed on the clr-transformed
+compositional data using K-nearest-neighbour estimation.
+</p>
+</div>
+<p>Mostly this looks ok; the imputed concentrations for most elements
+(of those presented in Figure 1) are at the lower end of concentrations
+for that element, which we might expect for missing values caused by
+below-detection censoring. However, Cu has imputed concentrations up to
+about 30 mg/kg, which would not be below the detection limit, so we'll
+look at Cu another way.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,.<span class="dv">5</span>,.<span class="dv">5</span>),<span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">0.2</span>,<span class="dv">0</span>), <span class="at">tcl=</span><span class="fl">0.2</span>, <span class="at">font.lab=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="fl">1.2</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">with</span>(data0, <span class="fu">plot</span>(Cu <span class="sc">~</span> Fe, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="st">&quot;#80808080&quot;</span>, <span class="at">log=</span><span class="st">&quot;xy&quot;</span>, <span class="at">ylim=</span><span class="fu">range</span>(data1[,<span class="st">&quot;Cu&quot;</span>]),</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>                 <span class="at">xlab=</span><span class="st">&quot;Fe (mg/kg)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Cu (mg/kg)&quot;</span>))</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">with</span>(data1[<span class="fu">which</span>(<span class="fu">is.na</span>(data0[,<span class="st">&quot;Cu&quot;</span>])),], <span class="fu">points</span>(Cu <span class="sc">~</span> Fe, <span class="at">pch=</span><span class="dv">23</span>, <span class="at">bg=</span><span class="st">&quot;deepskyblue&quot;</span>))</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Original data&quot;</span>,<span class="st">&quot;Imputed by KNNa&quot;</span>),</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">16</span>,<span class="dv">23</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#80808080&quot;</span>,<span class="dv">1</span>), <span class="at">pt.bg=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="st">&quot;deepskyblue&quot;</span>))</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(a)&quot;</span>, <span class="at">line=</span><span class="sc">-</span><span class="fl">1.2</span>, <span class="at">adj=</span><span class="fl">0.98</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="fu">with</span>(data0, <span class="fu">plot</span>(Cu <span class="sc">~</span> Al, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span><span class="st">&quot;#80808080&quot;</span>, <span class="at">log=</span><span class="st">&quot;xy&quot;</span>, <span class="at">ylim=</span><span class="fu">range</span>(data1[,<span class="st">&quot;Cu&quot;</span>]),</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>                 <span class="at">xlab=</span><span class="st">&quot;Al (mg/kg)&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Cu (mg/kg)&quot;</span>))</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="fu">with</span>(data1[<span class="fu">which</span>(<span class="fu">is.na</span>(data0[,<span class="st">&quot;Cu&quot;</span>])),<span class="fu">c</span>(<span class="st">&quot;Al&quot;</span>,<span class="st">&quot;Cu&quot;</span>)], <span class="fu">points</span>(Cu <span class="sc">~</span> Al, <span class="at">pch=</span><span class="dv">23</span>, <span class="at">bg=</span><span class="st">&quot;gold&quot;</span>))</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Original data&quot;</span>,<span class="st">&quot;Imputed by KNNa&quot;</span>),</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>       <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">16</span>,<span class="dv">23</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;#80808080&quot;</span>,<span class="dv">1</span>), <span class="at">pt.bg=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="st">&quot;gold&quot;</span>))</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;(b)&quot;</span>, <span class="at">line=</span><span class="sc">-</span><span class="fl">1.2</span>, <span class="at">adj=</span><span class="fl">0.98</span>)</span></code></pre></div>
+<div class="figure">
+<img src="ExploreCompositions_files/figure-html/check-Cu-bivariates-1.png" alt="Figure 2: Relationship of Cu with (a) Fe and (b) Al, showing imputed Cu concentrations superimposed on the original data. Imputation was performed on the clr-transformed compositional data using K-nearest-neighbour estimation." width="576" />
+<p class="caption">
+Figure 2: Relationship of Cu with (a) Fe and (b) Al, showing imputed Cu
+concentrations superimposed on the original data. Imputation was
+performed on the clr-transformed compositional data using
+K-nearest-neighbour estimation.
+</p>
+</div>
+<p>In Figure 2, it seems like the greatest imputed Cu concentrations
+(14-27 mg/kg) plot outside the general Cu~Fe or Cu~Al trends. Given this
+evidence, I would be concerned that the imputation has estimated
+unrealistic concentrations that don't match major compositional trends.
+The simplest solution would be to remove Cu from further analyses, but
+that may unnecessarily discard the valid, measured Cu concentrations. We
+can compare retaining Cu with deleting the entire column in the analyses
+to follow.</p>
+</div>
+<div id="removing-compositional-closure" class="section level1">
+<h1>Removing compositional closure</h1>
+<p>The <code>compositions</code> package has functions that will
+implement various log-ratio transformations to remove fixed-sum closure,
+such as centred log-ratios or isometric log-ratios (ILR; Egozcue <em>et
+al</em>., 2024)<a href="#foot2">²</a>. We'll use the centred log-ratio
+transformation for now, as that lets us do some other useful things.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># do the transformation on the imputed data...</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>clrcomp <span class="ot">&lt;-</span> <span class="fu">clr</span>(imputed<span class="sc">$</span>xImp)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co"># ...then add the transformed composition to the data</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>sv18clr <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(sv18[,<span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>], <span class="fu">as.data.frame</span>(clrcomp))</span></code></pre></div>
+<p>You should inspect the new data frame using <code>str()</code>,
+<code>summary()</code>, or even <code>print()</code> to confirm that you
+have what you think you made! Another good way we can check is to
+calculate sums of compositions across rows. For clr-transformed
+compositions, these row sums should all be zero:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowSums</span>(sv18clr[,<span class="dv">12</span><span class="sc">:</span><span class="dv">37</span>]),<span class="dv">9</span>)</span></code></pre></div>
+<pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+## [53] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</code></pre>
+<p>We can see that the row sums are all zero (to 9 decimal places,
+anyway!), so the clr-transformation seems to have worked.<br />
+💡 You can check for yourself what the output is without
+<code>round</code>ing...</p>
+<p>We're now ready for some compositional data analysis; often this is a
+multivariate endeavour. One of the simplest but nevertheless useful
+things we can do is generate a <em>distance matrix</em> (or
+‘dissimilarity matrix’, as we do <a href="vegan.html"
+target="_blank">somewhat differently for ecological data</a>). With
+clr-compositions, Euclidean distance gives us <em>Aitchison
+distances</em>. At the very least, Aitchison distances can show us which
+samples are most similar across the multivariate composition, with no
+artefacts caused by fixed-sum closure. We can also use the Aitchison
+distance matrix as the input for multivariate methods like <a
+href="cluster.html" target="_blank">hierarchical cluster
+analysis</a>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># method = &quot;euclidean&quot; is actually the default, but we show it explicitly here</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>Adists <span class="ot">&lt;-</span> <span class="fu">dist</span>(sv18clr[,<span class="dv">12</span><span class="sc">:</span><span class="dv">37</span>], <span class="at">method =</span> <span class="st">&quot;euclidean&quot;</span>, <span class="at">upper =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>We can now do something with these distances. Let's have a look at
+sample (dis)similarity. First we'll make a new <code>TypeID</code>
+column to more clearly identify each sample:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>sv18clr<span class="sc">$</span>TypeID <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">as.character</span>(sv18clr<span class="sc">$</span>Type),<span class="st">&quot;_&quot;</span>,sv18clr<span class="sc">$</span>Sample)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">row.names</span>(Adists) <span class="ot">&lt;-</span> sv18clr<span class="sc">$</span>TypeID</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="fu">colnames</span>(Adists) <span class="ot">&lt;-</span> sv18clr<span class="sc">$</span>TypeID</span></code></pre></div>
+<p>Let's pick a few samples (not all; we have 85) at random and see
+which other samples they are similar to compositionally:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>(pick5 <span class="ot">&lt;-</span> <span class="fu">sample</span>(sv18clr<span class="sc">$</span>TypeID, <span class="dv">5</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;Soil_07.2&quot;       &quot;Sediment_08.5.1&quot; &quot;Soil_04.2.1&quot;     &quot;Road dust_10.01&quot; &quot;Soil_03.8&quot;</code></pre>
+<p>We have a subset of samples covering all sample types. Let's check
+which other samples they are similar to. and see if the similarities
+make sense:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>nsim <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>distList <span class="ot">&lt;-</span> <span class="fu">setNames</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="fu">list</span>(<span class="fu">rep</span>(<span class="cn">NA</span>,nsim), <span class="fu">rep</span>(<span class="cn">NA</span>,nsim), <span class="fu">rep</span>(<span class="cn">NA</span>,nsim), <span class="fu">rep</span>(<span class="cn">NA</span>,nsim), <span class="fu">rep</span>(<span class="cn">NA</span>,nsim)), </span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  pick5)</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(pick5)){</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>  distList[[i]] <span class="ot">&lt;-</span> <span class="fu">row.names</span>(Adists)[<span class="fu">order</span>(Adists[,pick5[i]])][<span class="dv">1</span><span class="sc">:</span>nsim]</span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>}</span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">as.data.frame</span>(distList), </span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>      <span class="at">caption=</span><span class="fu">paste</span>(<span class="st">&quot;1. The&quot;</span>,nsim,</span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>       <span class="st">&quot;most similar samples to a random subset, based on Aitchison distances.&quot;</span>))</span></code></pre></div>
+<table>
+<caption>1. The 6 most similar samples to a random subset, based on
+Aitchison distances.</caption>
+<colgroup>
+<col width="14%" />
+<col width="25%" />
+<col width="17%" />
+<col width="25%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Soil_07.2</th>
+<th align="left">Sediment_08.5.1</th>
+<th align="left">Soil_04.2.1</th>
+<th align="left">Road.dust_10.01</th>
+<th align="left">Soil_03.8</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Soil_07.2</td>
+<td align="left">Sediment_08.5.1</td>
+<td align="left">Soil_04.2.1</td>
+<td align="left">Road dust_10.01</td>
+<td align="left">Soil_03.8</td>
+</tr>
+<tr class="even">
+<td align="left">Soil_07.4</td>
+<td align="left">Sediment_08.5.12</td>
+<td align="left">Soil_07.1</td>
+<td align="left">Road dust_10.071</td>
+<td align="left">Soil_04.1.6</td>
+</tr>
+<tr class="odd">
+<td align="left">Soil_07.6</td>
+<td align="left">Sediment_09.02</td>
+<td align="left">Soil_04.2.2</td>
+<td align="left">Road dust_10.072</td>
+<td align="left">Soil_06.05A</td>
+</tr>
+<tr class="even">
+<td align="left">Soil_03.6</td>
+<td align="left">Sediment_09.06</td>
+<td align="left">Soil_04.2.5</td>
+<td align="left">Road dust_10.02</td>
+<td align="left">Soil_06.07A</td>
+</tr>
+<tr class="odd">
+<td align="left">Soil_03.5</td>
+<td align="left">Sediment_09.03</td>
+<td align="left">Soil_04.2.6</td>
+<td align="left">Soil_05.6</td>
+<td align="left">Soil_02.1.6</td>
+</tr>
+<tr class="even">
+<td align="left">Soil_03.7</td>
+<td align="left">Sediment_09.01</td>
+<td align="left">Soil_04.1.6</td>
+<td align="left">Soil_05.7</td>
+<td align="left">Soil_06.06A</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>The results in Table 1 make sense: firstly, each sample is most
+similar to itself (<em>i.e</em>. distance = 0). Second, in all but one
+case, the most similar samples are of the same <code>Type</code>. Third,
+in many cases the samples are from the same soil core, or sediment
+sampled from the same part of Smith's Lake.</p>
+<p>You can imagine how an analysis of similarity like this might be
+useful. For example, we might suspect that the sediment in Smith's Lake
+was composed of material eroded from surrounding soil, or that surface
+soils near the reserve boundary was affected by transported road dust.
+The Aitchison distances could provide some evidence to support such
+hypotheses (or not).</p>
+<div id="revisiting-the-cu-issue-in-this-dataset"
+class="section level2">
+<h2>Revisiting the Cu issue in this dataset</h2>
+<p>Remember that we were suspicious that the imputed Cu concentrations
+didn't appear to be correct? Let's try the clr-transformation and
+(dis)similarity analysis again, but removing Cu altogether.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># edit, collate, transform imputed data</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>noCu <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">colnames</span>(imputed<span class="sc">$</span>xImp)<span class="sc">==</span><span class="st">&quot;Cu&quot;</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co"># do the clr-transform</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>sv18clrNoCu <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(sv18[,<span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>], <span class="fu">clr</span>(imputed<span class="sc">$</span>xImp[,<span class="sc">-</span>noCu]))</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co"># make a new Aitchison distance matrix</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>AdistNoCu <span class="ot">&lt;-</span> <span class="fu">dist</span>(sv18clrNoCu[,<span class="dv">12</span><span class="sc">:</span><span class="dv">36</span>], <span class="at">method =</span> <span class="st">&quot;euclidean&quot;</span>, <span class="at">upper =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="fu">row.names</span>(AdistNoCu) <span class="ot">&lt;-</span> sv18clr<span class="sc">$</span>TypeID</span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="fu">colnames</span>(AdistNoCu) <span class="ot">&lt;-</span> sv18clr<span class="sc">$</span>TypeID</span></code></pre></div>
+<p>Now we find the most similar samples to our subset, using the Cu-free
+Aitchison distances:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>nsim <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>distListNoCu <span class="ot">&lt;-</span> <span class="fu">setNames</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="fu">list</span>(<span class="fu">rep</span>(<span class="cn">NA</span>,nsim), <span class="fu">rep</span>(<span class="cn">NA</span>,nsim), <span class="fu">rep</span>(<span class="cn">NA</span>,nsim),  <span class="fu">rep</span>(<span class="cn">NA</span>,nsim), <span class="fu">rep</span>(<span class="cn">NA</span>,nsim)), </span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  pick5)</span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(pick5)){</span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>  distListNoCu[[i]] <span class="ot">&lt;-</span> <span class="fu">row.names</span>(AdistNoCu)[<span class="fu">order</span>(AdistNoCu[,pick5[i]])][<span class="dv">1</span><span class="sc">:</span>nsim]</span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>}</span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">as.data.frame</span>(distListNoCu), </span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>      <span class="at">caption=</span><span class="fu">paste</span>(<span class="st">&quot;2. The&quot;</span>,nsim,</span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>       <span class="st">&quot;most similar samples to a random subset, based on Aitchison distances when Cu is removed.&quot;</span>))</span></code></pre></div>
+<table>
+<caption>2. The 6 most similar samples to a random subset, based on
+Aitchison distances when Cu is removed.</caption>
+<colgroup>
+<col width="14%" />
+<col width="25%" />
+<col width="17%" />
+<col width="25%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Soil_07.2</th>
+<th align="left">Sediment_08.5.1</th>
+<th align="left">Soil_04.2.1</th>
+<th align="left">Road.dust_10.01</th>
+<th align="left">Soil_03.8</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Soil_07.2</td>
+<td align="left">Sediment_08.5.1</td>
+<td align="left">Soil_04.2.1</td>
+<td align="left">Road dust_10.01</td>
+<td align="left">Soil_03.8</td>
+</tr>
+<tr class="even">
+<td align="left">Soil_07.4</td>
+<td align="left">Sediment_08.5.12</td>
+<td align="left">Soil_07.1</td>
+<td align="left">Road dust_10.02</td>
+<td align="left">Soil_06.05A</td>
+</tr>
+<tr class="odd">
+<td align="left">Soil_07.6</td>
+<td align="left">Sediment_09.02</td>
+<td align="left">Soil_04.2.5</td>
+<td align="left">Road dust_10.072</td>
+<td align="left">Soil_06.06A</td>
+</tr>
+<tr class="even">
+<td align="left">Soil_03.6</td>
+<td align="left">Sediment_09.06</td>
+<td align="left">Soil_04.2.6</td>
+<td align="left">Road dust_10.08</td>
+<td align="left">Soil_04.1.6</td>
+</tr>
+<tr class="odd">
+<td align="left">Soil_03.5</td>
+<td align="left">Sediment_09.03</td>
+<td align="left">Soil_04.2.2</td>
+<td align="left">Road dust_10.071</td>
+<td align="left">Soil_06.04A</td>
+</tr>
+<tr class="even">
+<td align="left">Soil_07.3</td>
+<td align="left">Sediment_09.05</td>
+<td align="left">Soil_04.1.6</td>
+<td align="left">Soil_07.7</td>
+<td align="left">Soil_06.07A</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>The similar samples identified in Table 2 resemble those in Table 1;
+the tables are not identical, but most of the differences are changing
+the ranking of the top-5 similar samples (excluding self-similarity).
+This suggests that, despite the potentially unrealistic imputed Cu
+concentrations, the overall compositional structure remained broadly
+similar, with some alterations in the exact ranking of nearest
+neighbours.</p>
+<p>So what is the solution here? I don't think there is a “right”
+answer. My approach would be to accept the imputed Cu concentrations; in
+this case, I think the advantages of removing missing values outweigh
+the minor changes in interpretation we see with the Aitchison similarity
+analysis. We could do more checking; for example, comparing other
+multivariate measures such as the weightings of variables and grouping
+of observations in a <a href="pca.html" target="_blank">principal
+component analysis</a>.</p>
+<p>Alternatively, it may be worth trying to improve the estimation of Cu
+concentrations by imputation; there are options in the
+<code>impKNNa()</code> function such as the number of nearest
+neighbours, <code>k</code> (the default is <code>k=3</code>), or
+specifying an enhanced search for nearest neighbour points in
+compositional space (<code>primitive = TRUE</code>).<br> 💡 We won't try
+that now, but feel free to tweak the imputation yourself!<br> Of course,
+deducing whether or not the imputation worked is somewhat subjective.
+Checking the concentration ranges using <code>stripchart</code> seems
+worthwhile, however, and looking at the relationship(s) of imputed
+elements with Al, Fe or other capacity-controlling proxies is
+scientifically reasonable (<em>e.g</em>. Hamon <em>et al</em>.,
+2004).</p>
+<div id="a-third-option-removing-the-samples-rows-where-cu-is-missing"
+class="section level3">
+<h3>A third option: removing the samples (rows) where Cu is missing</h3>
+<p>This seems an extreme option, since Cu is censored in 18 out of 85
+samples.<br> 💡 We'll leave this as another exercise for you to try.
+Obviously, if some samples are removed, we can't calculate similarity
+for them...</p>
+<p> </p>
+</div>
+</div>
+<div id="references-and-r-packages" class="section level2">
+<h2>References and R Packages</h2>
+<p>Egozcue, J. J., Gozzi, C., Buccianti, A., &amp; Pawlowsky-Glahn, V.
+(2024). Exploring geochemical data using compositional techniques: A
+practical guide. <em>Journal of Geochemical Exploration</em>,
+<strong>258</strong>, 107385. <a
+href="https://doi.org/10.1016/j.gexplo.2024.107385"
+target="_blank">doi:10.1016/j.gexplo.2024.107385</a></p>
+<p>Hamon, R. E., McLaughlin, M. J., Gilkes, R. J., Rate, A. W.,
+Zarcinas, B., Robertson, A., Cozens, G., Radford, N., &amp; Bettenay, L.
+(2004). Geochemical indices allow estimation of heavy metal background
+concentrations in soils. <em>Global Biogeochemical Cycles</em>,
+<strong>18</strong>(GB1014). <a
+href="https://doi.org/10.1029/2003GB002063"
+target="_blank">doi:10.1029/2003GB002063</a></p>
+<p>Rate, A. W. (2021). Spatial analysis of soil trace element
+contaminants in urban public open space, Perth, Western Australia.
+<em>Soil Systems</em>, <strong>5</strong>(3), 46. <a
+href="https://doi.org/10.3390/soilsystems5030046"
+target="_blank">doi:10.3390/soilsystems5030046</a></p>
+<p>Reimann, C., Filzmoser, P., Garrett, R. G., &amp; Dutter, R. (2008).
+<em>Statistical Data Analysis Explained: Applied Environmental
+Statistics with R</em> (First ed.). John Wiley &amp; Sons, Chichester,
+UK.</p>
+<p>Templ M, Hron K, Filzmoser P (2011). <code>robCompositions</code>: an
+R-package for robust statistical analysis of compositional data.
+<strong>In</strong> V. Pawlowsky-Glahn and A. Buccianti, editors,
+<em>Compositional Data Analysis. Theory and Applications</em>, pp.
+341-355, John Wiley &amp; Sons, Chichester (UK). <a
+href="https://cran.r-project.org/web/packages/robCompositions/index.html"
+target="_blank">https://cran.r-project.org/web/packages/robCompositions/index.html</a></p>
+<p>van den Boogaart KG, Tolosana-Delgado R, Bren M (2025).
+<code>compositions</code>: <em>Compositional Data Analysis</em>. <a
+href="https://doi.org/10.32614/CRAN.package.compositions"
+target="_blank">doi:10.32614/CRAN.package.compositions</a>. R package
+version 2.0-9.</p>
+<p> </p>
+<hr style="border: none; height: 2px; background-color: #039; margin-left: 0; width: 50%;">
+<p id="foot1">
+¹ 💡 Try <code>summary(sv18[,12:37])</code> or <code>apply(sv18[,12:37],
+2, min, na.rm=T)</code>. There are other ways too!
+</p>
+<p id="foot2">
+² Additive (alr) and Pairwise (pwlr) log-ratio transformations are also
+available but are less commonly used.
+</p>
+</div>
+</div>
+
+<!DOCTYPE html>
+
+<html>
+<body>
+<hr style="height: 2px; background-color: #003087;" />
+<p><span style="font-size:10pt"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><strong>CC-BY-SA</strong></a> • All content by <a href="https://github.com/Ratey-AtUWA" target="_blank">Ratey-AtUWA</a>. My <a href="https://www.uwa.edu.au/schools/agriculture-and-environment" target="_blank">employer</a> does not necessarily know about or endorse the content of this website.</span><br>
+<span style="font-size:9pt">Created with <a href="https://bookdown.org/yihui/rmarkdown/" target="_blank"><span style="font-family: monospace;">rmarkdown</span></a> in <a href="https://posit.co/download/rstudio-desktop/" target="_blank"><span class="fa fa-registered"></span> RStudio</a>. Currently using the free <a href="https://bootswatch.com/yeti/" target="_blank"><span style="font-family: monospace;">yeti</span> theme from Bootswatch</a>.</span></p>
+</body>
+</html>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
