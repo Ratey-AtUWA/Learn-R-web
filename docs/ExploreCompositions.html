@@ -11,7 +11,7 @@
 
 <meta name="author" content="Andrew Rate" />
 
-<meta name="date" content="2026-11-24" />
+<meta name="date" content="2026-11-25" />
 
 <title>Exploring compositional data</title>
 
@@ -31,7 +31,11 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -121,6 +125,15 @@ code span.va { color: #0057ae; } /* Variable */
 code span.vs { color: #bf0303; } /* VerbatimString */
 code span.wa { color: #bf0303; } /* Warning */
 
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -312,7 +325,73 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
 
 
 
@@ -322,6 +401,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -548,12 +637,20 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Exploring compositional data</h1>
 <h3 class="subtitle">Imputation and multivariate similarity</h3>
 <h4 class="author">Andrew Rate</h4>
-<h4 class="date">2026-11-24</h4>
+<h4 class="date">2026-11-25</h4>
 
 </div>
 
@@ -619,10 +716,12 @@ apply the function <code>sum(is.na(x))</code> to each column in the
 <code>sv18</code> data frame:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>nMiss <span class="ot">&lt;-</span> <span class="fu">sapply</span>(sv18, <span class="at">FUN=</span><span class="cf">function</span>(x){<span class="fu">sum</span>(<span class="fu">is.na</span>(x))})</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>nMiss[nMiss<span class="sc">&gt;</span><span class="dv">0</span>]</span></code></pre></div>
-<pre><code>##       range Depth_upper Depth_lower          pH          EC          As          Cd          Cu          Gd 
-##          12          12          12          12          13           2           6          18          28 
-##          Mo          Nd          Ni          Pb           S          Sr          Th          Zn 
-##           7           7          10           1           2           5           3           1</code></pre>
+<pre><code>##       range Depth_upper Depth_lower          pH          EC          As          Cd 
+##          12          12          12          12          13           2           6 
+##          Cu          Gd          Mo          Nd          Ni          Pb           S 
+##          18          28           7           7          10           1           2 
+##          Sr          Th          Zn 
+##           5           3           1</code></pre>
 <p>We can use <code>sum(is.na(...))</code> since <code>is.na</code>
 outputs a vector of <code>TRUE</code> or <code>FALSE</code> values, and
 since <code>TRUE</code> has a value of 1 and <code>FALSE</code> = 0, the
@@ -648,10 +747,10 @@ taking logarithms is involved, it's worth checking if we have any
 negative or zero values in our elemental concentrations (columns
 <code>12:37</code> in the <code>sv18</code> data frame):</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">sapply</span>(sv18[,<span class="dv">12</span><span class="sc">:</span><span class="dv">37</span>], <span class="at">FUN=</span><span class="cf">function</span>(x){<span class="fu">min</span>(x, <span class="at">na.rm=</span>T)<span class="sc">&lt;=</span><span class="dv">0</span>})</span></code></pre></div>
-<pre><code>##    Al    As    Ba    Ca    Cd    Ce    Cr    Cu    Fe    Gd     K    La    Mg    Mn    Mo    Na    Nd    Ni 
-## FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE 
-##     P    Pb     S    Sr    Th     V     Y    Zn 
-## FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+<pre><code>##    Al    As    Ba    Ca    Cd    Ce    Cr    Cu    Fe    Gd     K    La    Mg    Mn    Mo 
+## FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE 
+##    Na    Nd    Ni     P    Pb     S    Sr    Th     V     Y    Zn 
+## FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
 <p>The check returns all <code>FALSE</code> values, so we have no
 negative or zero concentrations. We can proceed...</p>
 <blockquote>
@@ -706,6 +805,7 @@ concentrations. Imputation was performed on the clr-transformed
 compositional data using K-nearest-neighbour estimation.
 </p>
 </div>
+<p> </p>
 <p>Mostly this looks ok; the imputed concentrations for most elements
 (of those presented in Figure 1) are at the lower end of concentrations
 for that element, which we might expect for missing values caused by
@@ -734,6 +834,7 @@ performed on the clr-transformed compositional data using
 K-nearest-neighbour estimation.
 </p>
 </div>
+<p> </p>
 <p>In Figure 2, it seems like the greatest imputed Cu concentrations
 (14-27 mg/kg) plot outside the general Cu~Fe or Cu~Al trends. Given this
 evidence, I would be concerned that the imputation has estimated
@@ -742,6 +843,7 @@ The simplest solution would be to remove Cu from further analyses, but
 that may unnecessarily discard the valid, measured Cu concentrations. We
 can compare retaining Cu with deleting the entire column in the analyses
 to follow.</p>
+<p> </p>
 </div>
 <div id="removing-compositional-closure" class="section level1">
 <h1>Removing compositional closure</h1>
@@ -760,8 +862,8 @@ have what you think you made! Another good way we can check is to
 calculate sums of compositions across rows. For clr-transformed
 compositions, these row sums should all be zero:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowSums</span>(sv18clr[,<span class="dv">12</span><span class="sc">:</span><span class="dv">37</span>]),<span class="dv">9</span>)</span></code></pre></div>
-<pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-## [53] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</code></pre>
+<pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+## [46] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</code></pre>
 <p>We can see that the row sums are all zero (to 9 decimal places,
 anyway!), so the clr-transformation seems to have worked.<br />
 💡 You can check for yourself what the output is without
@@ -803,11 +905,11 @@ make sense:</p>
 <span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>  distList[[i]] <span class="ot">&lt;-</span> <span class="fu">row.names</span>(Adists)[<span class="fu">order</span>(Adists[,pick5[i]])][<span class="dv">1</span><span class="sc">:</span>nsim]</span>
 <span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>}</span>
 <span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">as.data.frame</span>(distList), </span>
-<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>      <span class="at">caption=</span><span class="fu">paste</span>(<span class="st">&quot;1. The&quot;</span>,nsim,</span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>      <span class="at">caption=</span><span class="fu">paste</span>(<span class="st">&quot;Table 1. The&quot;</span>,nsim,</span>
 <span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>       <span class="st">&quot;most similar samples to a random subset, based on Aitchison distances.&quot;</span>))</span></code></pre></div>
 <table>
-<caption>1. The 6 most similar samples to a random subset, based on
-Aitchison distances.</caption>
+<caption>Table 1. The 6 most similar samples to a random subset, based
+on Aitchison distances.</caption>
 <colgroup>
 <col width="14%" />
 <col width="25%" />
@@ -881,6 +983,7 @@ was composed of material eroded from surrounding soil, or that surface
 soils near the reserve boundary was affected by transported road dust.
 The Aitchison distances could provide some evidence to support such
 hypotheses (or not).</p>
+<p> </p>
 <div id="revisiting-the-cu-issue-in-this-dataset"
 class="section level2">
 <h2>Revisiting the Cu issue in this dataset</h2>
@@ -908,11 +1011,11 @@ Aitchison distances:</p>
 <span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>  distListNoCu[[i]] <span class="ot">&lt;-</span> <span class="fu">row.names</span>(AdistNoCu)[<span class="fu">order</span>(AdistNoCu[,pick5[i]])][<span class="dv">1</span><span class="sc">:</span>nsim]</span>
 <span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>}</span>
 <span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">as.data.frame</span>(distListNoCu), </span>
-<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>      <span class="at">caption=</span><span class="fu">paste</span>(<span class="st">&quot;2. The&quot;</span>,nsim,</span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>      <span class="at">caption=</span><span class="fu">paste</span>(<span class="st">&quot;Table 2. The&quot;</span>,nsim,</span>
 <span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>       <span class="st">&quot;most similar samples to a random subset, based on Aitchison distances when Cu is removed.&quot;</span>))</span></code></pre></div>
 <table>
-<caption>2. The 6 most similar samples to a random subset, based on
-Aitchison distances when Cu is removed.</caption>
+<caption>Table 2. The 6 most similar samples to a random subset, based
+on Aitchison distances when Cu is removed.</caption>
 <colgroup>
 <col width="14%" />
 <col width="25%" />
@@ -1007,7 +1110,7 @@ scientifically reasonable (<em>e.g</em>. Hamon <em>et al</em>.,
 class="section level3">
 <h3>A third option: removing the samples (rows) where Cu is missing</h3>
 <p>This seems an extreme option, since Cu is censored in 18 out of 85
-samples.<br> 💡 We'll leave this as another exercise for you to try.
+samples.<br> 💡 We'll leave this as another exercise for you to try.<br>
 Obviously, if some samples are removed, we can't calculate similarity
 for them...</p>
 <p> </p>
@@ -1073,6 +1176,8 @@ available but are less commonly used.
 </html>
 
 
+</div>
+</div>
 
 </div>
 
@@ -1104,7 +1209,41 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
