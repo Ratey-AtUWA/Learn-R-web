@@ -64,6 +64,8 @@ navbar:
       menu:
         - text: "Principal components analysis"
           href: pca.html
+        - text: "Imputation and similarity in compositional data"
+          href: ExploreCompositions.html
         - text: "Analysis of species presence-absence data"
           href: vegan.html
         - text: "Linear discriminant analysis"
