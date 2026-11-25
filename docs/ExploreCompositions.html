@@ -655,8 +655,8 @@ div.tocify {
 </div>
 
 
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
+<div id="compositional-data" class="section level1">
+<h1>Compositional data</h1>
 <p>As we've <a href="pca.html">already seen</a>, compositional data,
 defined as any measurements which are proportions of some whole, are
 encountered in environmental science and many other disciplines. Much of
@@ -710,23 +710,25 @@ Veryard Reserves in North Perth, Western Australia (see Rate, 2021 for
 details).</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>giturl <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/Ratey-AtUWA/Learn-R-web/raw/refs/heads/main/&quot;</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>sv18 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(giturl, <span class="st">&quot;sv18orig.csv&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div id="checking-and-managing-the-data" class="section level2">
+<h2>Checking and managing the data</h2>
 <p>The first thing we'll check is how many missing values the dataset
 variables have. To do this we use the <code>sapply</code> function to
 apply the function <code>sum(is.na(x))</code> to each column in the
 <code>sv18</code> data frame:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>nMiss <span class="ot">&lt;-</span> <span class="fu">sapply</span>(sv18, <span class="at">FUN=</span><span class="cf">function</span>(x){<span class="fu">sum</span>(<span class="fu">is.na</span>(x))})</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>nMiss[nMiss<span class="sc">&gt;</span><span class="dv">0</span>]</span></code></pre></div>
-<pre><code>##       range Depth_upper Depth_lower          pH          EC          As          Cd 
-##          12          12          12          12          13           2           6 
-##          Cu          Gd          Mo          Nd          Ni          Pb           S 
-##          18          28           7           7          10           1           2 
-##          Sr          Th          Zn 
-##           5           3           1</code></pre>
+<pre><code>##       range Depth_upper Depth_lower          pH          EC          As          Cd          Cu 
+##          12          12          12          12          13           2           6          18 
+##          Gd          Mo          Nd          Ni          Pb           S          Sr          Th 
+##          28           7           7          10           1           2           5           3 
+##          Zn 
+##           1</code></pre>
 <p>We can use <code>sum(is.na(...))</code> since <code>is.na</code>
 outputs a vector of <code>TRUE</code> or <code>FALSE</code> values, and
-since <code>TRUE</code> has a value of 1 and <code>FALSE</code> = 0, the
-sum of that vector counts the <code>TRUE</code>, that is <code>NA</code>
-or missing, values.</p>
+since in R <code>TRUE</code> has a value of 1 and
+<code>FALSE</code> = 0, the sum of that vector counts the
+<code>TRUE</code>, that is <code>NA</code> or missing, values.</p>
 <p>The output above shows a dataset with many missing values. Ignoring
 <code>range</code> and the two depth columns (which have 12 missing
 values corresponding to 12 road dust samples), we have missing values
@@ -747,16 +749,21 @@ taking logarithms is involved, it's worth checking if we have any
 negative or zero values in our elemental concentrations (columns
 <code>12:37</code> in the <code>sv18</code> data frame):</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">sapply</span>(sv18[,<span class="dv">12</span><span class="sc">:</span><span class="dv">37</span>], <span class="at">FUN=</span><span class="cf">function</span>(x){<span class="fu">min</span>(x, <span class="at">na.rm=</span>T)<span class="sc">&lt;=</span><span class="dv">0</span>})</span></code></pre></div>
-<pre><code>##    Al    As    Ba    Ca    Cd    Ce    Cr    Cu    Fe    Gd     K    La    Mg    Mn    Mo 
-## FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE 
-##    Na    Nd    Ni     P    Pb     S    Sr    Th     V     Y    Zn 
-## FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+<pre><code>##    Al    As    Ba    Ca    Cd    Ce    Cr    Cu    Fe    Gd     K    La    Mg    Mn    Mo    Na    Nd 
+## FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE 
+##    Ni     P    Pb     S    Sr    Th     V     Y    Zn 
+## FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
 <p>The check returns all <code>FALSE</code> values, so we have no
 negative or zero concentrations. We can proceed...</p>
 <blockquote>
 <p>💡 What other ways could we check, using R function(s), whether we
 have any negative or zero concentrations?<a href="#foot1">¹</a></p>
 </blockquote>
+<p> </p>
+</div>
+</div>
+<div id="imputing-missing-concentrations" class="section level1">
+<h1>Imputing missing concentrations</h1>
 <p>We now use one of the imputation functions from the
 <code>robCompositions</code> R package to calculate estimates for our
 missing values. There are a couple of sensible choices:
@@ -862,12 +869,16 @@ have what you think you made! Another good way we can check is to
 calculate sums of compositions across rows. For clr-transformed
 compositions, these row sums should all be zero:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowSums</span>(sv18clr[,<span class="dv">12</span><span class="sc">:</span><span class="dv">37</span>]),<span class="dv">9</span>)</span></code></pre></div>
-<pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-## [46] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</code></pre>
+<pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+## [50] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</code></pre>
 <p>We can see that the row sums are all zero (to 9 decimal places,
 anyway!), so the clr-transformation seems to have worked.<br />
 💡 You can check for yourself what the output is without
 <code>round</code>ing...</p>
+<p> </p>
+</div>
+<div id="evaluating-compositional-dissimilarity" class="section level1">
+<h1>Evaluating compositional (dis)similarity</h1>
 <p>We're now ready for some compositional data analysis; often this is a
 multivariate endeavour. One of the simplest but nevertheless useful
 things we can do is generate a <em>distance matrix</em> (or
@@ -984,11 +995,11 @@ soils near the reserve boundary was affected by transported road dust.
 The Aitchison distances could provide some evidence to support such
 hypotheses (or not).</p>
 <p> </p>
-<div id="revisiting-the-cu-issue-in-this-dataset"
+<div id="revisiting-the-cu-imputation-issue-in-this-dataset"
 class="section level2">
-<h2>Revisiting the Cu issue in this dataset</h2>
+<h2>Revisiting the Cu imputation issue in this dataset</h2>
 <p>Remember that we were suspicious that the imputed Cu concentrations
-didn't appear to be correct? Let's try the clr-transformation and
+didn't appear to be realistic? Let's try the clr-transformation and
 (dis)similarity analysis again, but removing Cu altogether.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># edit, collate, transform imputed data</span></span>
 <span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>noCu <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">colnames</span>(imputed<span class="sc">$</span>xImp)<span class="sc">==</span><span class="st">&quot;Cu&quot;</span>)</span>
@@ -1116,8 +1127,9 @@ for them...</p>
 <p> </p>
 </div>
 </div>
-<div id="references-and-r-packages" class="section level2">
-<h2>References and R Packages</h2>
+</div>
+<div id="references-and-r-packages" class="section level1">
+<h1>References and R Packages</h1>
 <p>Egozcue, J. J., Gozzi, C., Buccianti, A., &amp; Pawlowsky-Glahn, V.
 (2024). Exploring geochemical data using compositional techniques: A
 practical guide. <em>Journal of Geochemical Exploration</em>,
@@ -1154,6 +1166,8 @@ target="_blank">doi:10.32614/CRAN.package.compositions</a>. R package
 version 2.0-9.</p>
 <p> </p>
 <hr style="border: none; height: 2px; background-color: #039; margin-left: 0; width: 50%;">
+<div id="footnotes" class="section level2">
+<h2>Footnotes</h2>
 <p id="foot1">
 ¹ 💡 Try <code>summary(sv18[,12:37])</code> or <code>apply(sv18[,12:37],
 2, min, na.rm=T)</code>. There are other ways too!
@@ -1228,7 +1242,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2,h3",
+      selectors: "h1,h2",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
